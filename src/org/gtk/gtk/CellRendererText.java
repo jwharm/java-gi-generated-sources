@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  * style information provided by its properties. The text will be ellipsized if it is
  * too long and the <code>GtkCellRendererText:ellipsize</code> property allows it.
  * <p>
- * If the <code>GtkCellRenderer:mode</code> is <code>GTK_CELL_RENDERER_MODE_EDITABLE,
- * the</code> <code>GtkCellRendererText</code> allows to edit its text using an entry.
+ * If the <code>GtkCellRenderer:mode</code> is {@link org.gtk.gtk.CellRendererMode<code>#EDITABLE</code>  
+ * the <code>GtkCellRendererText</code> allows to edit its text using an entry.
  */
 public class CellRendererText extends CellRenderer {
 
@@ -38,7 +38,7 @@ public class CellRendererText extends CellRenderer {
      * object properties. Object properties can be
      * set globally (with g_object_set()). Also, with <code>GtkTreeViewColumn</code>,
      * you can bind a property to a value in a <code>GtkTreeModel</code>. For example,
-     * you can bind the &#8220;text&#8221; property on the cell renderer to a string
+     * you can bind the &<code>#8220</code> text&<code>#8221</code>  property on the cell renderer to a string
      * value in the model, thus rendering a different string in each row
      * of the <code>GtkTreeView</code>.
      */
@@ -47,8 +47,8 @@ public class CellRendererText extends CellRenderer {
     }
     
     /**
-     * Sets the height of a renderer to explicitly be determined by the &#8220;font&#8221; and
-     * &#8220;y_pad&#8221; property set on it.  Further changes in these properties do not
+     * Sets the height of a renderer to explicitly be determined by the &<code>#8220</code> font&<code>#8221</code>  and
+     * &<code>#8220</code> y_pad&<code>#8221</code>  property set on it.  Further changes in these properties do not
      * affect the height, so they must be accompanied by a subsequent call to this
      * function.  Using this function is inflexible, and should really only be used
      * if calculating the size of a cell is too slow (ie, a massive number of cells

@@ -36,8 +36,8 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * {@link [PWG 5101.1-2002]}(ftp://ftp.pwg.org/pub/pwg/candidates/cs-pwgmsn10-20020226-5101.1.pdf)
      * paper name.
      * 
-     * If @name is <code>NULL,</code> the default paper size is returned,
-     * see {@link Gtk#PaperSize}.
+     * If @name is <code>null</code>  the default paper size is returned,
+     * see {@link Gtk<code>#PaperSize</code> .
      */
     public PaperSize(java.lang.String name) {
         super(constructNew(name));
@@ -65,7 +65,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * Deserialize a paper size from a <code>GVariant</code>.
      * <p>
      * The <code>GVariant must be in the format produced by
-     * {@link org.gtk.gtk.PaperSize#toGvariant}.
+     * {@link org.gtk.gtk.PaperSize<code>#toGvariant</code> .
      */
     public static PaperSize newFromGvariant(org.gtk.glib.Variant variant) {
         return new PaperSize(constructNewFromGvariant(variant));
@@ -196,14 +196,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the PPD name of the <code>GtkPaperSize</code>, which
-     * may be 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Gets the PPD name of the <code>GtkPaperSize</code>, which
-     * may be %NULL.
+     * may be <code>null</code>
      */
     public java.lang.String getPpdName() {
         var RESULT = gtk_h.gtk_paper_size_get_ppd_name(handle());

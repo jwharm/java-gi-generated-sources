@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * <p>
  * <h2>Forcing entry to uppercase.</h2>
  * <p><pre>c
- * <h1>clude &#60;ctype.h&#62;</h1>
+ * <code>#include</code> &<code>#60</code> ctype.h&<code>#62</code> 
  * <p>
  * void
  * insert_text_handler (GtkEditable *editable,
@@ -39,7 +39,7 @@ import java.lang.invoke.*;
  *   g_signal_handlers_unblock_by_func (editable,
  *                                      (gpointer) insert_text_handler, data);
  * <p>
- *   g_signal_stop_emission_by_name (editable, &#34;insert_text&#34;);
+ *   g_signal_stop_emission_by_name (editable, &<code>#34</code> insert_text&<code>#34</code> );
  * <p>
  *   g_free (result);
  * }
@@ -52,7 +52,7 @@ import java.lang.invoke.*;
  * delegate the editable functionality to that text widget. <code>GtkEditable</code>
  * provides some utility functions to make this easy.
  * <p>
- * In your class_init function, call {@link Gtk#Editable},
+ * In your class_init function, call {@link Gtk<code>#Editable</code> ,
  * passing the first available property ID:
  * <p><pre>c
  * static void
@@ -71,34 +71,34 @@ import java.lang.invoke.*;
  * GtkEditable *
  * get_editable_delegate (GtkEditable *editable)
  * {
- *   return GTK_EDITABLE (MY_WIDGET (editable)-&#62;text_widget);
+ *   return GTK_EDITABLE (MY_WIDGET (editable)-&<code>#62</code> text_widget);
  * }
  * <p>
  * static void
  * my_editable_init (GtkEditableInterface *iface)
  * {
- *   iface-&#62;get_delegate = get_editable_delegate;
+ *   iface-&<code>#62</code> get_delegate = get_editable_delegate;
  * }
  * </pre>
  * <p>
- * You don&#39;t need to provide any other vfuncs. The default implementations
+ * You don&<code>#39</code> t need to provide any other vfuncs. The default implementations
  * work by forwarding to the delegate that the GtkEditableInterface.get_delegate()
  * vfunc returns.
  * <p>
  * In your instance_init function, create your text widget, and then call
- * {@link org.gtk.gtk.Editable#initDelegate}:
+ * {@link org.gtk.gtk.Editable<code>#initDelegate</code> :
  * <p><pre>c
  * static void
  * my_widget_init (MyWidget *self)
  * {
  *   ...
- *   self-&#62;text_widget = gtk_text_new ();
+ *   self-&<code>#62</code> text_widget = gtk_text_new ();
  *   gtk_editable_init_delegate (GTK_EDITABLE (self));
  *   ...
  * }
  * </pre>
  * <p>
- * In your dispose function, call {@link org.gtk.gtk.Editable#finishDelegate} before
+ * In your dispose function, call {@link org.gtk.gtk.Editable<code>#finishDelegate</code>  before
  * destroying your text widget:
  * <p><pre>c
  * static void
@@ -106,12 +106,12 @@ import java.lang.invoke.*;
  * {
  *   ...
  *   gtk_editable_finish_delegate (GTK_EDITABLE (self));
- *   g_clear_pointer (&#38;self-&#62;text_widget, gtk_widget_unparent);
+ *   g_clear_pointer (&<code>#38</code> self-&<code>#62</code> text_widget, gtk_widget_unparent);
  *   ...
  * }
  * </pre>
  * <p>
- * Finally, use {@link Gtk#Editable} in your <code>set_property</code>
+ * Finally, use {@link Gtk<code>#Editable</code>  in your <code>set_property</code>
  * function (and similar for <code>get_property</code>), to set the editable properties:
  * <p><pre>c
  *   ...
@@ -125,18 +125,18 @@ import java.lang.invoke.*;
  * It is important to note that if you create a <code>GtkEditable</code> that uses
  * a delegate, the low level {@link [signal@Gtk.Editable::insert-text] (ref=signal)} and
  * {@link [signal@Gtk.Editable::delete-text] (ref=signal)} signals will be propagated from the
- * &#34;wrapper&#34; editable to the delegate, but they will not be propagated from
- * the delegate to the &#34;wrapper&#34; editable, as they would cause an infinite
+ * &<code>#34</code> wrapper&<code>#34</code>  editable to the delegate, but they will not be propagated from
+ * the delegate to the &<code>#34</code> wrapper&<code>#34</code>  editable, as they would cause an infinite
  * recursion. If you wish to connect to the {@link [signal@Gtk.Editable::insert-text] (ref=signal)}
  * and {@link [signal@Gtk.Editable::delete-text] (ref=signal)} signals, you will need to connect
- * to them on the delegate obtained via {@link org.gtk.gtk.Editable#getDelegate}.
+ * to them on the delegate obtained via {@link org.gtk.gtk.Editable<code>#getDelegate</code> .
  */
 public interface Editable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Deletes the currently selected text of the editable.
      * 
-     * This call doesn&#8217;t do anything if there is no selected text.
+     * This call doesn&<code>#8217</code> t do anything if there is no selected text.
      */
     public default void deleteSelection() {
         gtk_h.gtk_editable_delete_selection(handle());
@@ -157,7 +157,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Undoes the setup done by {@link org.gtk.gtk.Editable#initDelegate}.
+     * Undoes the setup done by {@link org.gtk.gtk.Editable<code>#initDelegate</code> .
      * 
      * This is a helper function that should be called from dispose,
      * before removing the delegate object.
@@ -258,7 +258,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      * Sets up a delegate for <code>GtkEditable</code>.
      * <p>
      * This is assuming that the get_delegate vfunc in the <code>GtkEditable</code>
-     * interface has been set up for the @editable&#39;s type.
+     * interface has been set up for the @editable&<code>#39</code> s type.
      * 
      * This is a helper function that should be called in instance init,
      * after creating the delegate object.
@@ -304,19 +304,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      * 
      * This results in an additional copy of text changes and are not
      * stored in secure memory. As such, undo is forcefully disabled
-     * when {@link [property@Gtk.Text:visibility] (ref=property)} is set to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         If enabled, changes to @editable will be saved for undo/redo
-     * actions.
-     * 
-     * This results in an additional copy of text changes and are not
-     * stored in secure memory. As such, undo is forcefully disabled
-     * when {@link [property@Gtk.Text:visibility] (ref=property)} is set to %FALSE.
+     * when {@link [property@Gtk.Text:visibility] (ref=property)} is set to <code>false</code>
      */
     public default void setEnableUndo(boolean enableUndo) {
         gtk_h.gtk_editable_set_enable_undo(handle(), enableUndo ? 1 : 0);
@@ -393,13 +381,13 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      * This is a helper function that should be called in class_init,
      * after installing your own properties.
      * 
-     * Note that your class must have &#34;text&#34;, &#34;cursor-position&#34;,
-     * &#34;selection-bound&#34;, &#34;editable&#34;, &#34;width-chars&#34;, &#34;max-width-chars&#34;,
-     * &#34;xalign&#34; and &#34;enable-undo&#34; properties for this function to work.
+     * Note that your class must have &<code>#34</code> text&<code>#34</code> , &<code>#34</code> cursor-position&<code>#34</code> ,
+     * &<code>#34</code> selection-bound&<code>#34</code> , &<code>#34</code> editable&<code>#34</code> , &<code>#34</code> width-chars&<code>#34</code> , &<code>#34</code> max-width-chars&<code>#34</code> ,
+     * &<code>#34</code> xalign&<code>#34</code>  and &<code>#34</code> enable-undo&<code>#34</code>  properties for this function to work.
      * 
      * To handle the properties in your set_property and get_property
-     * functions, you can either use {@link Gtk#Editable}
-     * and {@link Gtk#Editable} (if you are using
+     * functions, you can either use {@link Gtk<code>#Editable</code> 
+     * and {@link Gtk<code>#Editable</code>  (if you are using
      * a delegate), or remember the @first_prop offset and add it to the
      * values in the {@link [enum@Gtk.EditableProperties] (ref=enum)} enumeration to get the
      * property IDs for these properties.
@@ -453,7 +441,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      * range of deleted text, or prevent it from being deleted entirely.
      * 
      * The @start_pos and @end_pos parameters are interpreted as for
-     * {@link org.gtk.gtk.Editable#deleteText}.
+     * {@link org.gtk.gtk.Editable<code>#deleteText</code> .
      */
     public default SignalHandle onDeleteText(DeleteTextHandler handler) {
         try {

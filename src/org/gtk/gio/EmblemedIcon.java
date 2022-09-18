@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GEmblemedIcon is an implementation of #GIcon that supports
+ * {@link org.gtk.gio.EmblemedIcon} is an implementation of {@link org.gtk.gio.Icon} that supports
  * adding an emblem to an icon. Adding multiple emblems to an
  * icon is ensured via g_emblemed_icon_add_emblem().
  * 
- * Note that #GEmblemedIcon allows no control over the position
- * of the emblems. See also #GEmblem for more information.
+ * Note that {@link org.gtk.gio.EmblemedIcon} allows no control over the position
+ * of the emblems. See also {@link org.gtk.gio.Emblem} for more information.
  */
 public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
 
@@ -39,7 +39,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Adds @emblem to the #GList of #GEmblems.
+     * Adds @emblem to the {@link org.gtk.glib.List} of <code>#GEmblems</code>
      */
     public void addEmblem(Emblem emblem) {
         gtk_h.g_emblemed_icon_add_emblem(handle(), emblem.handle());

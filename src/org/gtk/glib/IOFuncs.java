@@ -8,8 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A table of functions used to handle different types of #GIOChannel
- * in a generic way.
+ * A table of functions used to handle different types of {@link org.gtk.glib.IOChannel} in a generic way.
  */
 public class IOFuncs extends io.github.jwharm.javagi.ResourceBase {
 

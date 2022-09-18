@@ -8,19 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GSocketAddressEnumerator is an enumerator type for #GSocketAddress
- * instances. It is returned by enumeration functions such as
- * g_socket_connectable_enumerate(), which returns a #GSocketAddressEnumerator
- * to list each #GSocketAddress which could be used to connect to that
- * #GSocketConnectable.
+ * {@link org.gtk.gio.SocketAddressEnumerator} is an enumerator type for {@link org.gtk.gio.SocketAddress} instances. It is returned by enumeration functions such as
+ * g_socket_connectable_enumerate(), which returns a {@link org.gtk.gio.SocketAddressEnumerator} to list each {@link org.gtk.gio.SocketAddress} which could be used to connect to that
+ * {@link org.gtk.gio.SocketConnectable} 
  * 
  * Enumeration is typically a blocking operation, so the asynchronous methods
  * g_socket_address_enumerator_next_async() and
  * g_socket_address_enumerator_next_finish() should be used where possible.
  * 
- * Each #GSocketAddressEnumerator can only be enumerated once. Once
- * g_socket_address_enumerator_next() has returned <code>NULL,</code> further
- * enumeration with that #GSocketAddressEnumerator is not possible, and it can
+ * Each {@link org.gtk.gio.SocketAddressEnumerator} can only be enumerated once. Once
+ * g_socket_address_enumerator_next() has returned <code>null</code>  further
+ * enumeration with that {@link org.gtk.gio.SocketAddressEnumerator} is not possible, and it can
  * be unreffed.
  */
 public class SocketAddressEnumerator extends org.gtk.gobject.Object {
@@ -35,8 +33,8 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the next #GSocketAddress from @enumerator. Note that this
-     * may block for some amount of time. (Eg, a #GNetworkAddress may need
+     * Retrieves the next {@link org.gtk.gio.SocketAddress} from @enumerator. Note that this
+     * may block for some amount of time. (Eg, a {@link org.gtk.gio.NetworkAddress} may need
      * to do a DNS lookup before it can return an address.) Use
      * g_socket_address_enumerator_next_async() if you need to avoid
      * blocking.
@@ -59,7 +57,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
-     * Asynchronously retrieves the next #GSocketAddress from @enumerator
+     * Asynchronously retrieves the next {@link org.gtk.gio.SocketAddress} from @enumerator
      * and then calls @callback, which must call
      * g_socket_address_enumerator_next_finish() to get the result.
      * 

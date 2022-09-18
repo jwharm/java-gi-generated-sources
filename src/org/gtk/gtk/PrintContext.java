@@ -55,8 +55,8 @@ import java.lang.invoke.*;
  * 
  *   // Draw some text
  *   layout = gtk_print_context_create_pango_layout (context);
- *   pango_layout_set_text (layout, &#34;Hello World! Printing is easy&#34;, -1);
- *   desc = pango_font_description_from_string (&#34;sans 28&#34;);
+ *   pango_layout_set_text (layout, &<code>#34</code> Hello World! Printing is easy&<code>#34</code> , -1);
+ *   desc = pango_font_description_from_string (&<code>#34</code> sans 28&<code>#34</code> );
  *   pango_layout_set_font_description (layout, desc);
  *   pango_font_description_free (desc);
  * 

@@ -2,7 +2,7 @@ package org.gtk.gio;
 
 /**
  * GEmblemOrigin is used to add information about the origin of the emblem
- * to #GEmblem.
+ * to {@link org.gtk.gio.Emblem}
  */
 public enum EmblemOrigin {
 
@@ -17,7 +17,7 @@ public enum EmblemOrigin {
     DEVICE,
     
     /**
-     * Emblem depicts live metadata, such as &#34;readonly&#34;
+     * Emblem depicts live metadata, such as &<code>#34</code> readonly&<code>#34</code>
      */
     LIVEMETADATA,
     

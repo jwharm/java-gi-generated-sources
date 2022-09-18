@@ -16,7 +16,7 @@ package org.gtk.glib;
 public enum TraverseType {
 
     /**
-     * vists a node&#39;s left child first, then the node itself,
+     * vists a node&<code>#39</code> s left child first, then the node itself,
      *              then its right child. This is the one to use if you
      *              want the output sorted according to the compare
      *              function.
@@ -29,7 +29,7 @@ public enum TraverseType {
     PRE_ORDER,
     
     /**
-     * visits the node&#39;s children, then the node itself.
+     * visits the node&<code>#39</code> s children, then the node itself.
      */
     POST_ORDER,
     

@@ -8,25 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GSocketService is an object that represents a service that
+ * A {@link org.gtk.gio.SocketService} is an object that represents a service that
  * is provided to the network or over local sockets.  When a new
- * connection is made to the service the #GSocketService::incoming
+ * connection is made to the service the {@link org.gtk.gio.SocketService} :incoming
  * signal is emitted.
  * 
- * A #GSocketService is a subclass of #GSocketListener and you need
+ * A {@link org.gtk.gio.SocketService} is a subclass of {@link org.gtk.gio.SocketListener} and you need
  * to add the addresses you want to accept connections on with the
- * #GSocketListener APIs.
+ * {@link org.gtk.gio.SocketListener} APIs.
  * 
  * There are two options for implementing a network service based on
- * #GSocketService. The first is to create the service using
- * g_socket_service_new() and to connect to the #GSocketService::incoming
- * signal. The second is to subclass #GSocketService and override the
+ * {@link org.gtk.gio.SocketService}  The first is to create the service using
+ * g_socket_service_new() and to connect to the {@link org.gtk.gio.SocketService} :incoming
+ * signal. The second is to subclass {@link org.gtk.gio.SocketService} and override the
  * default signal handler implementation.
  * 
  * In either case, the handler must immediately return, or else it
  * will block additional incoming connections from being serviced.
  * If you are interested in writing connection handlers that contain
- * blocking code then see #GThreadedSocketService.
+ * blocking code then see {@link org.gtk.gio.ThreadedSocketService} 
  * 
  * The socket service runs on the main loop of the
  * {@link [thread-default context]}{@link [g-main-context-push-thread-default-context]}
@@ -52,7 +52,7 @@ public class SocketService extends SocketListener {
     }
     
     /**
-     * Creates a new #GSocketService with no sockets to listen for.
+     * Creates a new {@link org.gtk.gio.SocketService} with no sockets to listen for.
      * New listeners can be added with e.g. g_socket_listener_add_address()
      * or g_socket_listener_add_inet_port().
      * 
@@ -99,7 +99,7 @@ public class SocketService extends SocketListener {
      * close the listening sockets, and you can call
      * g_socket_service_start() again later to begin listening again. To
      * close the listening sockets, call g_socket_listener_close(). (This
-     * will happen automatically when the #GSocketService is finalized.)
+     * will happen automatically when the {@link org.gtk.gio.SocketService} is finalized.)
      * 
      * This must be called before calling g_socket_listener_close() as
      * the socket service will start accepting connections immediately

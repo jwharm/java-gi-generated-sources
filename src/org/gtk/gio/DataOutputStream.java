@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Data output stream implements #GOutputStream and includes functions for
+ * Data output stream implements {@link org.gtk.gio.OutputStream} and includes functions for
  * writing data directly to an output stream.
  */
 public class DataOutputStream extends FilterOutputStream implements Seekable {

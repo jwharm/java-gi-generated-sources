@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * The frame can respect the aspect ratio of the child widget,
  * or use its own aspect ratio.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkAspectFrame</code> uses a CSS node with name <code>frame</code>.
  */
 public class AspectFrame extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -48,7 +48,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Returns whether the child&#39;s size request should override
+     * Returns whether the child&<code>#39</code> s size request should override
      * the set aspect ratio of the <code>GtkAspectFrame</code>.
      */
     public boolean getObeyChild() {
@@ -90,7 +90,7 @@ public class AspectFrame extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Sets whether the aspect ratio of the child&#39;s size
+     * Sets whether the aspect ratio of the child&<code>#39</code> s size
      * request should override the set aspect ratio of
      * the <code>GtkAspectFrame</code>.
      */

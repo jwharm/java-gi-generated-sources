@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GCharsetConverter is an implementation of #GConverter based on
+ * {@link org.gtk.gio.CharsetConverter} is an implementation of {@link org.gtk.gio.Converter} based on
  * GIConv.
  */
 public class CharsetConverter extends org.gtk.gobject.Object implements Converter, Initable {
@@ -32,7 +32,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
     }
     
     /**
-     * Creates a new #GCharsetConverter.
+     * Creates a new {@link org.gtk.gio.CharsetConverter}
      */
     public CharsetConverter(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
         super(constructNew(toCharset, fromCharset));
@@ -47,7 +47,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
     }
     
     /**
-     * Gets the #GCharsetConverter:use-fallback property.
+     * Gets the {@link org.gtk.gio.CharsetConverter} use-fallback property.
      */
     public boolean getUseFallback() {
         var RESULT = gtk_h.g_charset_converter_get_use_fallback(handle());
@@ -55,7 +55,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
     }
     
     /**
-     * Sets the #GCharsetConverter:use-fallback property.
+     * Sets the {@link org.gtk.gio.CharsetConverter} use-fallback property.
      */
     public void setUseFallback(boolean useFallback) {
         gtk_h.g_charset_converter_set_use_fallback(handle(), useFallback ? 1 : 0);

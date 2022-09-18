@@ -13,8 +13,8 @@ import java.lang.invoke.*;
  * <p>
  * The transformation is given by
  * <p><pre>
- * x_device = x_user * matrix-&#62;xx + y_user * matrix-&#62;xy + matrix-&#62;x0;
- * y_device = x_user * matrix-&#62;yx + y_user * matrix-&#62;yy + matrix-&#62;y0;
+ * x_device = x_user * matrix-&<code>#62</code> xx + y_user * matrix-&<code>#62</code> xy + matrix-&<code>#62</code> x0;
+ * y_device = x_user * matrix-&<code>#62</code> yx + y_user * matrix-&<code>#62</code> yy + matrix-&<code>#62</code> y0;
  * </pre>
  */
 public class Matrix extends io.github.jwharm.javagi.ResourceBase {
@@ -52,7 +52,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * 
      * That is, the scale factor in the direction perpendicular to the
      * vector that the X coordinate is mapped to.  If the scale in the X
-     * coordinate is needed as well, use {@link org.pango.Matrix#getFontScaleFactors}.
+     * coordinate is needed as well, use {@link org.pango.Matrix<code>#getFontScaleFactors</code> .
      */
     public double getFontScaleFactor() {
         var RESULT = gtk_h.pango_matrix_get_font_scale_factor(handle());
@@ -64,10 +64,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * 
      * For a simple shear matrix in the form:
      * 
-     *     1 &#955;
+     *     1 &<code>#955</code> 
      *     0 1
      * 
-     * this is simply &#955;.
+     * this is simply &<code>#955</code> .
      */
     public double getSlantRatio() {
         var RESULT = gtk_h.pango_matrix_get_slant_ratio(handle());
@@ -101,9 +101,9 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * @PangoLayout to an image buffer, and want to know how large the image
      * should be and how much you should shift the layout when rendering.
      * 
-     * For better accuracy, you should use {@link org.pango.Matrix#transformRectangle}
+     * For better accuracy, you should use {@link org.pango.Matrix<code>#transformRectangle</code> 
      * on original rectangle in Pango units and convert to pixels afterward
-     * using {@link [func@extents_to_pixels]}&#39;s first argument.
+     * using {@link [func@extents_to_pixels]}&<code>#39</code> s first argument.
      */
     public void transformPixelRectangle(Rectangle rect) {
         gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.handle());
@@ -118,7 +118,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * should be and how much you should shift the layout when rendering.
      * 
      * If you have a rectangle in device units (pixels), use
-     * {@link org.pango.Matrix#transformPixelRectangle}.
+     * {@link org.pango.Matrix<code>#transformPixelRectangle</code> .
      * 
      * If you have the rectangle in Pango units and want to convert to
      * transformed pixel bounding box, it is more accurate to transform it first

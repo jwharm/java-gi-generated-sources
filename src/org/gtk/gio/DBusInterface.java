@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GDBusInterface type is the base type for D-Bus interfaces both
- * on the service side (see #GDBusInterfaceSkeleton) and client side
- * (see #GDBusProxy).
+ * The {@link org.gtk.gio.DBusInterface} type is the base type for D-Bus interfaces both
+ * on the service side (see {@link org.gtk.gio.DBusInterfaceSkeleton}  and client side
+ * (see {@link org.gtk.gio.DBusProxy} .
  */
 public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets the #GDBusObject that @interface_ belongs to, if any.
+     * Gets the {@link org.gtk.gio.DBusObject} that @interface_ belongs to, if any.
      */
     public default DBusObject dupObject() {
         var RESULT = gtk_h.g_dbus_interface_dup_object(handle());
@@ -32,7 +32,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the #GDBusObject that @interface_ belongs to, if any.
+     * Gets the {@link org.gtk.gio.DBusObject} that @interface_ belongs to, if any.
      * 
      * It is not safe to use the returned object if @interface_ or
      * the returned object is being used from other threads. See
@@ -44,7 +44,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets the #GDBusObject for @interface_ to @object.
+     * Sets the {@link org.gtk.gio.DBusObject} for @interface_ to @object.
      * 
      * Note that @interface_ will hold a weak reference to @object.
      */

@@ -30,7 +30,7 @@ public class DrawContext extends org.gtk.gobject.Object {
     
     /**
      * Indicates that you are beginning the process of redrawing @region
-     * on the @context&#39;s surface.
+     * on the @context&<code>#39</code> s surface.
      * 
      * Calling this function begins a drawing operation using @context on the
      * surface that @context was created from. The actual requirements and
@@ -39,14 +39,14 @@ public class DrawContext extends org.gtk.gobject.Object {
      * need to be treated differently.
      * 
      * A call to this function is a requirement for drawing and must be
-     * followed by a call to {@link org.gtk.gdk.DrawContext#endFrame}, which will
+     * followed by a call to {@link org.gtk.gdk.DrawContext<code>#endFrame</code> , which will
      * complete the drawing operation and ensure the contents become visible
      * on screen.
      * 
      * Note that the @region passed to this function is the minimum region that
      * needs to be drawn and depending on implementation, windowing system and
      * hardware in use, it might be necessary to draw a larger region. Drawing
-     * implementation must use {@link org.gtk.gdk.DrawContext#getFrameRegion} to
+     * implementation must use {@link org.gtk.gdk.DrawContext<code>#getFrameRegion</code>  to
      * query the region that must be drawn.
      * 
      * When using GTK, the widget system automatically places calls to
@@ -62,7 +62,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * Ends a drawing operation started with gdk_draw_context_begin_frame().
      * <p>
      * This makes the drawing available on screen.
-     * See {@link org.gtk.gdk.DrawContext#beginFrame} for more details about drawing.
+     * See {@link org.gtk.gdk.DrawContext<code>#beginFrame</code>  for more details about drawing.
      * <p>
      * When using a {@link org.gtk.gdk.GLContext}, this function may call <code>glFlush()</code>
      * implicitly before returning; it is not recommended to call <code>glFlush()</code>
@@ -83,12 +83,12 @@ public class DrawContext extends org.gtk.gobject.Object {
     /**
      * Retrieves the region that is currently being repainted.
      * 
-     * After a call to {@link org.gtk.gdk.DrawContext#beginFrame} this function will
+     * After a call to {@link org.gtk.gdk.DrawContext<code>#beginFrame</code>  this function will
      * return a union of the region passed to that function and the area of the
      * surface that the @context determined needs to be repainted.
      * 
-     * If @context is not in between calls to {@link org.gtk.gdk.DrawContext#beginFrame}
-     * and {@link org.gtk.gdk.DrawContext#endFrame}, <code>null</code> will be returned.
+     * If @context is not in between calls to {@link org.gtk.gdk.DrawContext<code>#beginFrame</code> 
+     * and {@link org.gtk.gdk.DrawContext<code>#endFrame</code> , <code>null</code> will be returned.
      */
     public org.cairographics.Region getFrameRegion() {
         var RESULT = gtk_h.gdk_draw_context_get_frame_region(handle());
@@ -106,9 +106,9 @@ public class DrawContext extends org.gtk.gobject.Object {
     /**
      * Returns <code>true</code> if @context is in the process of drawing to its surface.
      * 
-     * This is the case between calls to {@link org.gtk.gdk.DrawContext#beginFrame}
-     * and {@link org.gtk.gdk.DrawContext#endFrame}. In this situation, drawing commands
-     * may be effecting the contents of the @context&#39;s surface.
+     * This is the case between calls to {@link org.gtk.gdk.DrawContext<code>#beginFrame</code> 
+     * and {@link org.gtk.gdk.DrawContext<code>#endFrame</code> . In this situation, drawing commands
+     * may be effecting the contents of the @context&<code>#39</code> s surface.
      */
     public boolean isInFrame() {
         var RESULT = gtk_h.gdk_draw_context_is_in_frame(handle());

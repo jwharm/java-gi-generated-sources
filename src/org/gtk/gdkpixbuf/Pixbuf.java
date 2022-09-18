@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A pixel buffer.
- * <p><code>GdkPixbuf</code> contains information about an image&#39;s pixel data,
+ * <p><code>GdkPixbuf</code> contains information about an image&<code>#39</code> s pixel data,
  * its color space, bits per sample, width and height, and the
  * rowstride (the number of bytes between the start of one row
  * and the start of the next).
@@ -62,13 +62,13 @@ import java.lang.invoke.*;
  * <p>
  * There may be padding at the end of a row.
  * <p>
- * The &#34;rowstride&#34; value of a pixbuf, as returned by {@link [<code>method@GdkPixbuf.Pixbuf.get_rowstride</code>] (ref=<code>method)},
+ * The &<code>#34</code> rowstride&<code>#34</code>  value of a pixbuf, as returned by {@link [<code>method@GdkPixbuf.Pixbuf.get_rowstride</code>] (ref=<code>method)},
  * indicates the number of bytes between rows.
  * <p>
  * **NOTE**: If you are copying raw pixbuf data with <code>memcpy()</code> note that the
  * last row in the pixbuf may not be as wide as the full rowstride, but rather
  * just as wide as the pixel data needs to be; that is: it is unsafe to do<code>memcpy (dest, pixels, rowstride * height)</code> to copy a whole pixbuf. Use
- * {@link org.gtk.gdkpixbuf.Pixbuf#copy} instead, or compute the width in bytes of the
+ * {@link org.gtk.gdkpixbuf.Pixbuf<code>#copy</code>  instead, or compute the width in bytes of the
  * last row as:
  * <p><pre>c
  * last_row = width * ((n_channels * bits_per_sample + 7) / 8);
@@ -102,8 +102,8 @@ import java.lang.invoke.*;
  *   int height = gdk_pixbuf_get_height (pixbuf);
  * <p>
  *   // Ensure that the coordinates are in a valid range
- *   g_assert (x &#62;= 0 &#38;&#38; x &#60; width);
- *   g_assert (y &#62;= 0 &#38;&#38; y &#60; height);
+ *   g_assert (x &<code>#62</code> = 0 &<code>#38</code> &<code>#38</code>  x &<code>#60</code>  width);
+ *   g_assert (y &<code>#62</code> = 0 &<code>#38</code> &<code>#38</code>  y &<code>#60</code>  height);
  * <p>
  *   int rowstride = gdk_pixbuf_get_rowstride (pixbuf);
  * <p>
@@ -130,7 +130,7 @@ import java.lang.invoke.*;
  * Additionally, <code>GdkPixbuf</code> provides the {@link org.gtk.gdkpixbuf.PixbufLoader<code>}
  * API for progressive image loading.
  * 
- * ## Saving images
+ * <code>#</code>  Saving images
  * 
  * The </code>GdkPixbuf<code> class provides methods for saving image data in
  * a number of file formats. The formatted data can be written to a
@@ -172,7 +172,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
-     * Creates a new #GdkPixbuf out of in-memory readonly image data.
+     * Creates a new {@link org.gtk.gdkpixbuf.Pixbuf} out of in-memory readonly image data.
      * <p>
      * Currently only RGB images with 8 bits per sample are supported.
      * <p>
@@ -199,7 +199,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
-     * Creates a new #GdkPixbuf out of in-memory image data.
+     * Creates a new {@link org.gtk.gdkpixbuf.Pixbuf} out of in-memory image data.
      * <p>
      * Currently only RGB images with 8 bits per sample are supported.
      * <p>
@@ -232,7 +232,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * If <code>NULL</code> is returned, then @error will be set. Possible errors are:
      * <p>
      *  - the file could not be opened
-     *  - there is no loader for the file&#39;s format
+     *  - there is no loader for the file&<code>#39</code> s format
      *  - there is not enough memory to allocate the image buffer
      *  - the image buffer contains invalid data
      * <p>
@@ -259,14 +259,14 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * If <code>NULL</code> is returned, then @error will be set. Possible errors are:
      * <p>
      *  - the file could not be opened
-     *  - there is no loader for the file&#39;s format
+     *  - there is no loader for the file&<code>#39</code> s format
      *  - there is not enough memory to allocate the image buffer
      *  - the image buffer contains invalid data
      * <p>
      * The error domains are <code>GDK_PIXBUF_ERROR</code> and <code>G_FILE_ERROR</code>.
      * <p>
      * The image will be scaled to fit in the requested size, optionally preserving
-     * the image&#39;s aspect ratio.
+     * the image&<code>#39</code> s aspect ratio.
      * <p>
      * When preserving the aspect ratio, a <code>width</code> of -1 will cause the image
      * to be scaled to the exact given height, and a <code>height</code> of -1 will cause
@@ -296,14 +296,14 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * If <code>NULL</code> is returned, then @error will be set. Possible errors are:
      * <p>
      *  - the file could not be opened
-     *  - there is no loader for the file&#39;s format
+     *  - there is no loader for the file&<code>#39</code> s format
      *  - there is not enough memory to allocate the image buffer
      *  - the image buffer contains invalid data
      * <p>
      * The error domains are <code>GDK_PIXBUF_ERROR</code> and <code>G_FILE_ERROR</code>.
      * <p>
      * The image will be scaled to fit in the requested size, preserving
-     * the image&#39;s aspect ratio. Note that the returned pixbuf may be smaller
+     * the image&<code>#39</code> s aspect ratio. Note that the returned pixbuf may be smaller
      * than <code>width</code> x <code>height</code>, if the aspect ratio requires it. To load
      * and image at the requested size, regardless of aspect ratio, use
      * {@link [ctor@GdkPixbuf.Pixbuf.new_from_file_at_scale] (ref=ctor)}.
@@ -325,7 +325,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Creates a <code>GdkPixbuf</code> from a flat representation that is suitable for
      * storing as inline data in a program.
      * <p>
-     * This is useful if you want to ship a program with images, but don&#39;t want
+     * This is useful if you want to ship a program with images, but don&<code>#39</code> t want
      * to depend on any external files.
      * <p>
      * GdkPixbuf ships with a program called <code>gdk-pixbuf-csource</code>, which allows
@@ -337,12 +337,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * </pre>
      * <p>
      * For the typical case where the inline pixbuf is read-only static data,
-     * you don&#39;t need to copy the pixel data unless you intend to write to
+     * you don&<code>#39</code> t need to copy the pixel data unless you intend to write to
      * it, so you can pass <code>FALSE</code> for <code>copy_pixels</code>. If you pass <code>--rle</code> to<code>gdk-pixbuf-csource</code>, a copy will be made even if <code>copy_pixels</code> is <code>FALSE</code>,
      * so using this option is generally a bad idea.
      * <p>
      * If you create a pixbuf from const inline data compiled into your
-     * program, it&#39;s probably safe to ignore errors and disable length checks,
+     * program, it&<code>#39</code> s probably safe to ignore errors and disable length checks,
      * since things will always succeed:
      * <p><pre>c
      * pixbuf = gdk_pixbuf_new_from_inline (-1, myimage_inline, FALSE, NULL);
@@ -391,7 +391,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * @error will be set.
      * 
      * The image will be scaled to fit in the requested size, optionally
-     * preserving the image&#39;s aspect ratio. When preserving the aspect ratio,
+     * preserving the image&<code>#39</code> s aspect ratio. When preserving the aspect ratio,
      * a @width of -1 will cause the image to be scaled to the exact given
      * height, and a @height of -1 will cause the image to be scaled to the
      * exact given width. When not preserving aspect ratio, a @width or
@@ -447,7 +447,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * the <code>GDK_PIXBUF_ERROR</code> and <code>G_IO_ERROR</code> domains.
      * <p>
      * The image will be scaled to fit in the requested size, optionally
-     * preserving the image&#39;s aspect ratio.
+     * preserving the image&<code>#39</code> s aspect ratio.
      * <p>
      * When preserving the aspect ratio, a <code>width</code> of -1 will cause the image to be
      * scaled to the exact given height, and a <code>height</code> of -1 will cause the image
@@ -490,7 +490,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Creates a new pixbuf by parsing XPM data in memory.
      * 
      * This data is commonly the result of including an XPM file into a
-     * program&#39;s C source.
+     * program&<code>#39</code> s C source.
      */
     public static Pixbuf newFromXpmData(java.lang.String[] data) {
         return new Pixbuf(constructNewFromXpmData(data));
@@ -518,7 +518,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     /**
      * Takes an existing pixbuf and checks for the presence of an
-     * associated &#34;orientation&#34; option.
+     * associated &<code>#34</code> orientation&<code>#34</code>  option.
      * 
      * The orientation option may be provided by the JPEG loader (which
      * reads the exif orientation tag) or the TIFF loader (which reads
@@ -608,8 +608,8 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * Copies the key/value pair options attached to a <code>GdkPixbuf</code> to another<code>GdkPixbuf</code>.
      * 
      * This is useful to keep original metadata after having manipulated
-     * a file. However be careful to remove metadata which you&#39;ve already
-     * applied, such as the &#34;orientation&#34; option after rotating the image.
+     * a file. However be careful to remove metadata which you&<code>#39</code> ve already
+     * applied, such as the &<code>#34</code> orientation&<code>#34</code>  option after rotating the image.
      */
     public boolean copyOptions(Pixbuf destPixbuf) {
         var RESULT = gtk_h.gdk_pixbuf_copy_options(handle(), destPixbuf.handle());
@@ -618,9 +618,9 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     
     /**
      * Clears a pixbuf to the given RGBA value, converting the RGBA value into
-     * the pixbuf&#39;s pixel format.
+     * the pixbuf&<code>#39</code> s pixel format.
      * 
-     * The alpha component will be ignored if the pixbuf doesn&#39;t have an alpha
+     * The alpha component will be ignored if the pixbuf doesn&<code>#39</code> t have an alpha
      * channel.
      */
     public void fill(int pixel) {
@@ -689,16 +689,16 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * @pixbuf when it was loaded, or that may have been attached by another
      * function using gdk_pixbuf_set_option().
      * 
-     * For instance, the ANI loader provides &#34;Title&#34; and &#34;Artist&#34; options.
-     * The ICO, XBM, and XPM loaders provide &#34;x_hot&#34; and &#34;y_hot&#34; hot-spot
+     * For instance, the ANI loader provides &<code>#34</code> Title&<code>#34</code>  and &<code>#34</code> Artist&<code>#34</code>  options.
+     * The ICO, XBM, and XPM loaders provide &<code>#34</code> x_hot&<code>#34</code>  and &<code>#34</code> y_hot&<code>#34</code>  hot-spot
      * options for cursor definitions. The PNG loader provides the tEXt ancillary
      * chunk key/value pairs as options. Since 2.12, the TIFF and JPEG loaders
-     * return an &#34;orientation&#34; option string that corresponds to the embedded
+     * return an &<code>#34</code> orientation&<code>#34</code>  option string that corresponds to the embedded
      * TIFF/Exif orientation tag (if present). Since 2.32, the TIFF loader sets
-     * the &#34;multipage&#34; option string to &#34;yes&#34; when a multi-page TIFF is loaded.
-     * Since 2.32 the JPEG and PNG loaders set &#34;x-dpi&#34; and &#34;y-dpi&#34; if the file
+     * the &<code>#34</code> multipage&<code>#34</code>  option string to &<code>#34</code> yes&<code>#34</code>  when a multi-page TIFF is loaded.
+     * Since 2.32 the JPEG and PNG loaders set &<code>#34</code> x-dpi&<code>#34</code>  and &<code>#34</code> y-dpi&<code>#34</code>  if the file
      * contains image density information in dots per inch.
-     * Since 2.36.6, the JPEG loader sets the &#34;comment&#34; option with the comment
+     * Since 2.36.6, the JPEG loader sets the &<code>#34</code> comment&<code>#34</code>  option with the comment
      * EXIF tag.
      */
     public java.lang.String getOption(java.lang.String key) {
@@ -709,7 +709,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     /**
      * Returns a <code>GHashTable</code> with a list of all the options that may have been
      * attached to the <code>pixbuf</code> when it was loaded, or that may have been
-     * attached by another function using {@link org.gtk.gdkpixbuf.Pixbuf#setOption}.
+     * attached by another function using {@link org.gtk.gdkpixbuf.Pixbuf<code>#setOption</code> .
      */
     public org.gtk.glib.HashTable getOptions() {
         var RESULT = gtk_h.gdk_pixbuf_get_options(handle());
@@ -749,7 +749,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
-     * Provides a #GBytes buffer containing the raw pixel data; the data
+     * Provides a {@link org.gtk.glib.Bytes} buffer containing the raw pixel data; the data
      * must not be modified.
      * 
      * This function allows skipping the implicit copy that must be made
@@ -787,7 +787,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * <p>
      * The <code>src</code> and <code>dest</code> arguments may be the same pixbuf with no ill effects.
      * <p>
-     * If <code>saturation</code> is 1.0 then saturation is not changed. If it&#39;s less than 1.0,
+     * If <code>saturation</code> is 1.0 then saturation is not changed. If it&<code>#39</code> s less than 1.0,
      * saturation is reduced (the image turns toward grayscale); if greater than
      * 1.0, saturation is increased (the image gets more vivid colors).
      * <p>
@@ -801,12 +801,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     /**
      * Vector version of <code>gdk_pixbuf_save_to_callback()</code>.
      * <p>
-     * Saves pixbuf to a callback in format @type, which is currently &#34;jpeg&#34;,
-     * &#34;png&#34;, &#34;tiff&#34;, &#34;ico&#34; or &#34;bmp&#34;.
+     * Saves pixbuf to a callback in format @type, which is currently &<code>#34</code> jpeg&<code>#34</code> ,
+     * &<code>#34</code> png&<code>#34</code> , &<code>#34</code> tiff&<code>#34</code> , &<code>#34</code> ico&<code>#34</code>  or &<code>#34</code> bmp&<code>#34</code> .
      * <p>
      * If @error is set, <code>FALSE</code> will be returned.
      * 
-     * See {@link org.gtk.gdkpixbuf.Pixbuf#saveToCallback} for more details.
+     * See {@link org.gtk.gdkpixbuf.Pixbuf<code>#saveToCallback</code>  for more details.
      */
     public boolean saveToCallbackv(PixbufSaveFunc saveFunc, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -830,10 +830,10 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     /**
      * Saves <code>pixbuf</code> to an output stream.
      * 
-     * Supported file formats are currently &#34;jpeg&#34;, &#34;tiff&#34;, &#34;png&#34;, &#34;ico&#34; or
-     * &#34;bmp&#34;.
+     * Supported file formats are currently &<code>#34</code> jpeg&<code>#34</code> , &<code>#34</code> tiff&<code>#34</code> , &<code>#34</code> png&<code>#34</code> , &<code>#34</code> ico&<code>#34</code>  or
+     * &<code>#34</code> bmp&<code>#34</code> .
      * 
-     * See {@link org.gtk.gdkpixbuf.Pixbuf#saveToStream} for more details.
+     * See {@link org.gtk.gdkpixbuf.Pixbuf<code>#saveToStream</code>  for more details.
      */
     public boolean saveToStreamv(org.gtk.gio.OutputStream stream, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues, org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -872,11 +872,11 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     /**
      * Vector version of <code>gdk_pixbuf_save()</code>.
      * <p>
-     * Saves pixbuf to a file in <code>type</code>, which is currently &#34;jpeg&#34;, &#34;png&#34;, &#34;tiff&#34;, &#34;ico&#34; or &#34;bmp&#34;.
+     * Saves pixbuf to a file in <code>type</code>, which is currently &<code>#34</code> jpeg&<code>#34</code> , &<code>#34</code> png&<code>#34</code> , &<code>#34</code> tiff&<code>#34</code> , &<code>#34</code> ico&<code>#34</code>  or &<code>#34</code> bmp&<code>#34</code> .
      * <p>
      * If @error is set, <code>FALSE</code> will be returned.
      * 
-     * See {@link org.gtk.gdkpixbuf.Pixbuf#save} for more details.
+     * See {@link org.gtk.gdkpixbuf.Pixbuf<code>#save</code>  for more details.
      */
     public boolean savev(java.lang.String filename, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -896,7 +896,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * 
      * Try to use gdk_pixbuf_scale_simple() first; this function is
      * the industrial-strength power tool you can fall back to, if
-     * gdk_pixbuf_scale_simple() isn&#39;t powerful enough.
+     * gdk_pixbuf_scale_simple() isn&<code>#39</code> t powerful enough.
      * 
      * If the source rectangle overlaps the destination rectangle on the
      * same pixbuf, it will be overwritten during the scaling which
@@ -917,12 +917,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      * offers reasonable quality and speed.
      * <p>
      * You can scale a sub-portion of <code>src</code> by creating a sub-pixbuf
-     * pointing into <code>src</code>; see {@link org.gtk.gdkpixbuf.Pixbuf#newSubpixbuf}.
+     * pointing into <code>src</code>; see {@link org.gtk.gdkpixbuf.Pixbuf<code>#newSubpixbuf</code> .
      * <p>
      * If <code>dest_width</code> and <code>dest_height</code> are equal to the width and height of<code>src</code>, this function will return an unscaled copy of <code>src</code>.
      * 
-     * For more complicated scaling/alpha blending see {@link org.gtk.gdkpixbuf.Pixbuf#scale}
-     * and {@link org.gtk.gdkpixbuf.Pixbuf#composite}.
+     * For more complicated scaling/alpha blending see {@link org.gtk.gdkpixbuf.Pixbuf<code>#scale</code> 
+     * and {@link org.gtk.gdkpixbuf.Pixbuf<code>#composite</code> .
      */
     public Pixbuf scaleSimple(int destWidth, int destHeight, InterpType interpType) {
         var RESULT = gtk_h.gdk_pixbuf_scale_simple(handle(), destWidth, destHeight, interpType.getValue());

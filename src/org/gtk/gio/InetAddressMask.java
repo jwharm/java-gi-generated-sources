@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GInetAddressMask represents a range of IPv4 or IPv6 addresses
+ * {@link org.gtk.gio.InetAddressMask} represents a range of IPv4 or IPv6 addresses
  * described by a base address and a length indicating how many bits
  * of the base address are relevant for matching purposes. These are
- * often given in string form. Eg, &#34;10.0.0.0/8&#34;, or &#34;fe80::/10&#34;.
+ * often given in string form. Eg, &<code>#34</code> 10.0.0.0/8&<code>#34</code> , or &<code>#34</code> fe80::/10&<code>#34</code> .
  */
 public class InetAddressMask extends org.gtk.gobject.Object implements Initable {
 
@@ -34,7 +34,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Creates a new #GInetAddressMask representing all addresses whose
+     * Creates a new {@link org.gtk.gio.InetAddressMask} representing all addresses whose
      * first @length bits match @addr.
      */
     public InetAddressMask(InetAddress addr, int length) throws GErrorException {
@@ -52,8 +52,8 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     
     /**
      * Parses @mask_string as an IP address and (optional) length, and
-     * creates a new #GInetAddressMask. The length, if present, is
-     * delimited by a &#34;/&#34;. If it is not present, then the length is
+     * creates a new {@link org.gtk.gio.InetAddressMask}  The length, if present, is
+     * delimited by a &<code>#34</code> /&<code>#34</code> . If it is not present, then the length is
      * assumed to be the full length of the address.
      */
     public static InetAddressMask newFromString(java.lang.String maskString) throws GErrorException {
@@ -69,7 +69,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets @mask&#39;s base address
+     * Gets @mask&<code>#39</code> s base address
      */
     public InetAddress getAddress() {
         var RESULT = gtk_h.g_inet_address_mask_get_address(handle());
@@ -77,7 +77,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets the #GSocketFamily of @mask&#39;s address
+     * Gets the {@link org.gtk.gio.SocketFamily} of @mask&<code>#39</code> s address
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_mask_get_family(handle());
@@ -85,7 +85,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets @mask&#39;s length
+     * Gets @mask&<code>#39</code> s length
      */
     public int getLength() {
         var RESULT = gtk_h.g_inet_address_mask_get_length(handle());

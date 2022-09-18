@@ -17,22 +17,22 @@ import java.lang.invoke.*;
  * {@link [drag and drop]}{@link [gtk3-GtkTreeView-drag-and-drop]}
  * interfaces.
  * <p>
- * <h1>tkTreeStore as GtkBuildable</h1>
+ * <h1>GtkTreeStore as GtkBuildable</h1>
  * <p>
  * The GtkTreeStore implementation of the <code>GtkBuildable</code> interface allows
- * to specify the model columns with a &#60;columns&#62; element that may contain
- * multiple &#60;column&#62; elements, each specifying one model column. The &#8220;type&#8221;
+ * to specify the model columns with a &<code>#60</code> columns&<code>#62</code>  element that may contain
+ * multiple &<code>#60</code> column&<code>#62</code>  elements, each specifying one model column. The &<code>#8220</code> type&<code>#8221</code> 
  * attribute specifies the data type for the column.
  * 
  * An example of a UI Definition fragment for a tree store:
  * |{@link [
- * &#60;object class=&#34;GtkTreeStore&#34;&#62;
- *   &#60;columns&#62;
- *     &#60;column type=&#34;gchararray&#34;/&#62;
- *     &#60;column type=&#34;gchararray&#34;/&#62;
- *     &#60;column type=&#34;gint&#34;/&#62;
- *   &#60;/columns&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkTreeStore&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> columns&<code>#62</code> 
+ *     &<code>#60</code> column type=&<code>#34</code> gchararray&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> column type=&<code>#34</code> gchararray&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> column type=&<code>#34</code> gint&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /columns&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * ]}|
  */
 public class TreeStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
@@ -59,7 +59,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Appends a new row to @tree_store.  If @parent is non-<code>NULL,</code> then it will append the
+     * Appends a new row to @tree_store.  If @parent is non-<code>null</code>  then it will append the
      * new row after the last child of @parent, otherwise it will append a row to
      * the top level.  @iter will be changed to point to this new row.  The row will
      * be empty after this function is called.  To fill in values, you need to call
@@ -77,7 +77,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Creates a new row at @position.  If parent is non-<code>NULL,</code> then the row will be
+     * Creates a new row at @position.  If parent is non-<code>null</code>  then the row will be
      * made a child of @parent.  Otherwise, the row will be created at the toplevel.
      * If @position is -1 or is larger than the number of rows at that level, then
      * the new row will be inserted to the end of the list.  @iter will be changed
@@ -90,8 +90,8 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row after @sibling.  If @sibling is <code>NULL,</code> then the row will be
-     * prepended to @parent &#8217;s children.  If @parent and @sibling are <code>NULL,</code> then
+     * Inserts a new row after @sibling.  If @sibling is <code>null</code>  then the row will be
+     * prepended to @parent &<code>#8217</code> s children.  If @parent and @sibling are <code>null</code>  then
      * the row will be prepended to the toplevel.  If both @sibling and @parent are
      * set, then @parent must be the parent of @sibling.  When @sibling is set,
      * @parent is optional.
@@ -105,8 +105,8 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row before @sibling.  If @sibling is <code>NULL,</code> then the row will
-     * be appended to @parent &#8217;s children.  If @parent and @sibling are <code>NULL,</code> then
+     * Inserts a new row before @sibling.  If @sibling is <code>null</code>  then the row will
+     * be appended to @parent &<code>#8217</code> s children.  If @parent and @sibling are <code>null</code>  then
      * the row will be appended to the toplevel.  If both @sibling and @parent are
      * set, then @parent must be the parent of @sibling.  When @sibling is set,
      * @parent is optional.
@@ -160,7 +160,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     /**
      * Moves @iter in @tree_store to the position after @position. @iter and
      * @position should be in the same level. Note that this function only
-     * works with unsorted stores. If @position is <code>NULL,</code> @iter will be moved
+     * works with unsorted stores. If @position is <code>null</code>  @iter will be moved
      * to the start of the level.
      */
     public void moveAfter(TreeIter iter, TreeIter position) {
@@ -170,7 +170,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     /**
      * Moves @iter in @tree_store to the position before @position. @iter and
      * @position should be in the same level. Note that this function only
-     * works with unsorted stores. If @position is <code>NULL,</code> @iter will be
+     * works with unsorted stores. If @position is <code>null</code>  @iter will be
      * moved to the end of the level.
      */
     public void moveBefore(TreeIter iter, TreeIter position) {
@@ -178,7 +178,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Prepends a new row to @tree_store.  If @parent is non-<code>NULL,</code> then it will prepend
+     * Prepends a new row to @tree_store.  If @parent is non-<code>null</code>  then it will prepend
      * the new row before the first child of @parent, otherwise it will prepend a row
      * to the top level.  @iter will be changed to point to this new row.  The row
      * will be empty after this function is called.  To fill in values, you need to

@@ -1,14 +1,14 @@
 package org.gtk.gio;
 
 /**
- * The TLS or DTLS protocol version used by a #GTlsConnection or
- * #GDtlsConnection. The integer values of these versions are sequential
+ * The TLS or DTLS protocol version used by a {@link org.gtk.gio.TlsConnection} or
+ * {@link org.gtk.gio.DtlsConnection}  The integer values of these versions are sequential
  * to ensure newer known protocol versions compare greater than older
  * known versions. Any known DTLS protocol version will compare greater
  * than any SSL or TLS protocol version. The protocol version may be
- * {@link org.gtk.gio.TlsProtocolVersion#UNKNOWN} if the TLS backend supports a newer
+ * {@link org.gtk.gio.TlsProtocolVersion<code>#UNKNOWN</code>  if the TLS backend supports a newer
  * protocol version that GLib does not yet know about. This means that
- * it&#39;s possible for an unknown DTLS protocol version to compare less
+ * it&<code>#39</code> s possible for an unknown DTLS protocol version to compare less
  * than the TLS protocol versions.
  */
 public enum TlsProtocolVersion {

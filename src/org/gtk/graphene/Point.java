@@ -22,14 +22,14 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_point_t structure.
+     * Allocates a new {@link org.gtk.graphene.Point} structure.
      * 
      * The coordinates of the returned point are (0, 0).
      * 
-     * It&#39;s possible to chain this function with graphene_point_init()
+     * It&<code>#39</code> s possible to chain this function with graphene_point_init()
      * or graphene_point_init_from_point(), e.g.:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      *   graphene_point_t *
      *   point_new (float x, float y)
      *   {
@@ -70,7 +70,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes @p to the given @x and @y coordinates.
      * 
-     * It&#39;s safe to call this function multiple times.
+     * It&<code>#39</code> s safe to call this function multiple times.
      */
     public Point init(float x, float y) {
         var RESULT = gtk_h.graphene_point_init(handle(), x, y);
@@ -86,7 +86,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @p with the coordinates inside the given #graphene_vec2_t.
+     * Initializes @p with the coordinates inside the given {@link org.gtk.graphene.Vec2}
      */
     public Point initFromVec2(Vec2 src) {
         var RESULT = gtk_h.graphene_point_init_from_vec2(handle(), src.handle());
@@ -111,8 +111,8 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Stores the coordinates of the given #graphene_point_t into a
-     * #graphene_vec2_t.
+     * Stores the coordinates of the given {@link org.gtk.graphene.Point} into a
+     * {@link org.gtk.graphene.Vec2}
      */
     public void toVec2(Vec2 v) {
         gtk_h.graphene_point_to_vec2(handle(), v.handle());

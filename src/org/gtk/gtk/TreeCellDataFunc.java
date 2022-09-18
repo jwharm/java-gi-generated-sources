@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * 
  * This function is useful for customizing the cell renderer. For example,
  * a function might get an* integer from the @tree_model, and render it to
- * the &#8220;text&#8221; attribute of &#8220;cell&#8221; by converting it to its written equivalent.
+ * the &<code>#8220</code> text&<code>#8221</code>  attribute of &<code>#8220</code> cell&<code>#8221</code>  by converting it to its written equivalent.
  * 
  * See also: gtk_tree_view_column_set_cell_data_func()
  */

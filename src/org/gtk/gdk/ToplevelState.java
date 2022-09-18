@@ -4,7 +4,7 @@ package org.gtk.gdk;
  * Specifies the state of a toplevel surface.
  * 
  * On platforms that support information about individual edges, the
- * {@link org.gtk.gdk.ToplevelState#TILED} state will be set whenever any of the individual
+ * {@link org.gtk.gdk.ToplevelState<code>#TILED</code>  state will be set whenever any of the individual
  * tiled states is set. On platforms that lack that support, the tiled state
  * will give an indication of tiledness without any of the per-edge states
  * being set.

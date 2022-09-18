@@ -37,7 +37,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new <code>GtkTreePath</code>.
      * 
-     * The string representation of this path is &#8220;0&#8221;.
+     * The string representation of this path is &<code>#8220</code> 0&<code>#8221</code> .
      */
     public static TreePath newFirst() {
         return new TreePath(constructNewFirst());
@@ -64,7 +64,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new <code>GtkTreePath</code> initialized to @path.
      * 
      * @path is expected to be a colon separated list of numbers.
-     * For example, the string &#8220;10:4:0&#8221; would create a path of depth
+     * For example, the string &<code>#8220</code> 10:4:0&<code>#8221</code>  would create a path of depth
      * 3 pointing to the 11th child of the root node, the 5th
      * child of that 11th child, and the 1st child of that 5th child.
      * If an invalid path string is passed in, <code>null</code> is returned.
@@ -110,7 +110,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees @path. If @path is <code>NULL,</code> it simply returns.
+     * Frees @path. If @path is <code>null</code>  it simply returns.
      */
     public void free() {
         gtk_h.gtk_tree_path_free(handle());
@@ -168,8 +168,8 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Generates a string representation of the path.
      * 
-     * This string is a &#8220;:&#8221; separated list of numbers.
-     * For example, &#8220;4:10:0:3&#8221; would be an acceptable
+     * This string is a &<code>#8220</code> :&<code>#8221</code>  separated list of numbers.
+     * For example, &<code>#8220</code> 4:10:0:3&<code>#8221</code>  would be an acceptable
      * return value for this string. If the path has
      * depth 0, <code>null</code> is returned.
      */

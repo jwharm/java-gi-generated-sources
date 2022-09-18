@@ -36,7 +36,7 @@ public enum SpawnError {
     TOO_BIG,
     
     /**
-     * deprecated alias for {@link org.gtk.glib.SpawnError#TOO_BIG} (deprecated since GLib 2.32)
+     * deprecated alias for {@link org.gtk.glib.SpawnError<code>#TOO_BIG</code>  (deprecated since GLib 2.32)
      */
     _2BIG,
     
@@ -107,7 +107,7 @@ public enum SpawnError {
     
     /**
      * Some other fatal failure,
-     *   <code>error-&#62;message</code> should explain.
+     *   <code>error-&<code>#62</code> message</code> should explain.
      */
     FAILED;
     

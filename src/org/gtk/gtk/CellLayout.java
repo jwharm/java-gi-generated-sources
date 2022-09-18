@@ -22,48 +22,48 @@ import java.lang.invoke.*;
  * gtk_cell_layout_set_cell_data_func() that is called to determine the
  * value of the attribute for each cell that is rendered.
  * <p>
- * <h1>tkCellLayouts as GtkBuildable</h1>
+ * <h1>GtkCellLayouts as GtkBuildable</h1>
  * <p>
  * Implementations of GtkCellLayout which also implement the GtkBuildable
  * interface (<code>GtkCellView</code>, <code>GtkIconView</code>, <code>GtkComboBox</code>,<code>GtkEntryCompletion</code>, <code>GtkTreeViewColumn</code>) accept <code>GtkCellRenderer</code> objects
- * as <code>&#60;child&#62;</code> elements in UI definitions. They support a custom <code>&#60;attributes&#62;</code>
- * element for their children, which can contain multiple <code>&#60;attribute&#62;</code>
- * elements. Each <code>&#60;attribute&#62;</code> element has a name attribute which specifies
+ * as <code>&<code>#60</code> child&<code>#62</code> </code> elements in UI definitions. They support a custom <code>&<code>#60</code> attributes&<code>#62</code> </code>
+ * element for their children, which can contain multiple <code>&<code>#60</code> attribute&<code>#62</code> </code>
+ * elements. Each <code>&<code>#60</code> attribute&<code>#62</code> </code> element has a name attribute which specifies
  * a property of the cell renderer; the content of the element is the
  * attribute value.
  * <p>
  * This is an example of a UI definition fragment specifying attributes:
  * <p><pre>xml
- * &#60;object class=&#34;GtkCellView&#34;&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkCellRendererText&#34;/&#62;
- *     &#60;attributes&#62;
- *       &#60;attribute name=&#34;text&#34;&#62;0&#60;/attribute&#62;
- *     &#60;/attributes&#62;
- *   &#60;/child&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkCellView&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkCellRendererText&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> attributes&<code>#62</code> 
+ *       &<code>#60</code> attribute name=&<code>#34</code> text&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> /attributes&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
  * Furthermore for implementations of <code>GtkCellLayout</code> that use a <code>GtkCellArea</code>
  * to lay out cells (all <code>GtkCellLayout</code>s in GTK use a <code>GtkCellArea</code>)
- * {@link [cell properties]}(class.CellArea.html#cell-properties) can also be defined
- * in the format by specifying the custom <code>&#60;cell-packing&#62;</code> attribute which can
- * contain multiple <code>&#60;property&#62;</code> elements.
+ * {@link [cell properties]}(class.CellArea.html<code>#cell</code> properties) can also be defined
+ * in the format by specifying the custom <code>&<code>#60</code> cell-packing&<code>#62</code> </code> attribute which can
+ * contain multiple <code>&<code>#60</code> property&<code>#62</code> </code> elements.
  * <p>
  * Here is a UI definition fragment specifying cell properties:
  * <p><pre>xml
- * &#60;object class=&#34;GtkTreeViewColumn&#34;&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkCellRendererText&#34;/&#62;
- *     &#60;cell-packing&#62;
- *       &#60;property name=&#34;align&#34;&#62;True&#60;/property&#62;
- *       &#60;property name=&#34;expand&#34;&#62;False&#60;/property&#62;
- *     &#60;/cell-packing&#62;
- *   &#60;/child&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkTreeViewColumn&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkCellRendererText&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> cell-packing&<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> align&<code>#34</code> &<code>#62</code> True&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> expand&<code>#34</code> &<code>#62</code> False&<code>#60</code> /property&<code>#62</code> 
+ *     &<code>#60</code> /cell-packing&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
- * <h1>ubclassing GtkCellLayout implementations</h1>
+ * <h1>Subclassing GtkCellLayout implementations</h1>
  * <p>
  * When subclassing a widget that implements <code>GtkCellLayout</code> like<code>GtkIconView</code> or <code>GtkComboBox</code>, there are some considerations related
  * to the fact that these widgets internally use a <code>GtkCellArea</code>.
@@ -71,7 +71,7 @@ import java.lang.invoke.*;
  * widgets. This means that it is possible to e.g. do
  * <p><pre>c
  * GtkWIdget *combo =
- *   g_object_new (GTK_TYPE_COMBO_BOX, &#34;cell-area&#34;, my_cell_area, NULL);
+ *   g_object_new (GTK_TYPE_COMBO_BOX, &<code>#34</code> cell-area&<code>#34</code> , my_cell_area, NULL);
  * </pre>
  * <p>
  * to use a custom cell area with a combo box. But construct properties
@@ -99,7 +99,7 @@ import java.lang.invoke.*;
  * my_combo_box_new (GtkCellArea *area)
  * {
  *   // This call is going to cause a warning about area being ignored
- *   return g_object_new (MY_TYPE_COMBO_BOX, &#34;cell-area&#34;, area, NULL);
+ *   return g_object_new (MY_TYPE_COMBO_BOX, &<code>#34</code> cell-area&<code>#34</code> , area, NULL);
  * }
  * </pre>
  * <p>
@@ -117,8 +117,8 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
      * The @column is the column of the model to get a value from, and the
      * @attribute is the property on @cell to be set from that value. So for
      * example if column 2 of the model contains strings, you could have the
-     * &#8220;text&#8221; attribute of a <code>GtkCellRendererText</code> get its values from column 2.
-     * In this context &#34;attribute&#34; and &#34;property&#34; are used interchangeably.
+     * &<code>#8220</code> text&<code>#8221</code>  attribute of a <code>GtkCellRendererText</code> get its values from column 2.
+     * In this context &<code>#34</code> attribute&<code>#34</code>  and &<code>#34</code> property&<code>#34</code>  are used interchangeably.
      */
     public default void addAttribute(CellRenderer cell, java.lang.String attribute, int column) {
         gtk_h.gtk_cell_layout_add_attribute(handle(), cell.handle(), Interop.allocateNativeString(attribute).handle(), column);
@@ -159,22 +159,22 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Adds the @cell to the end of @cell_layout. If @expand is <code>FALSE,</code> then the
+     * Adds the @cell to the end of @cell_layout. If @expand is <code>false</code>  then the
      * @cell is allocated no more space than it needs. Any unused space is
-     * divided evenly between cells for which @expand is <code>TRUE.
+     * divided evenly between cells for which @expand is <code>true</code> 
      * 
-     * Note</code> that reusing the same cell renderer is not supported.
+     * Note that reusing the same cell renderer is not supported.
      */
     public default void packEnd(CellRenderer cell, boolean expand) {
         gtk_h.gtk_cell_layout_pack_end(handle(), cell.handle(), expand ? 1 : 0);
     }
     
     /**
-     * Packs the @cell into the beginning of @cell_layout. If @expand is <code>FALSE,
-     * then</code> the @cell is allocated no more space than it needs. Any unused space
-     * is divided evenly between cells for which @expand is <code>TRUE.
+     * Packs the @cell into the beginning of @cell_layout. If @expand is <code>false</code> 
+     * then the @cell is allocated no more space than it needs. Any unused space
+     * is divided evenly between cells for which @expand is <code>true</code> 
      * 
-     * Note</code> that reusing the same cell renderer is not supported.
+     * Note that reusing the same cell renderer is not supported.
      */
     public default void packStart(CellRenderer cell, boolean expand) {
         gtk_h.gtk_cell_layout_pack_start(handle(), cell.handle(), expand ? 1 : 0);
@@ -194,7 +194,7 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
      * Sets the <code>GtkCellLayout</code>DataFunc to use for @cell_layout.
      * 
      * This function is used instead of the standard attributes mapping
-     * for setting the column value, and should set the value of @cell_layout&#8217;s
+     * for setting the column value, and should set the value of @cell_layout&<code>#8217</code> s
      * cell renderer(s) as appropriate.
      * 
      * @func may be <code>null</code> to remove a previously set function.

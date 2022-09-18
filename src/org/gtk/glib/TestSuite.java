@@ -31,7 +31,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free the @suite and all nested #GTestSuites.
+     * Free the @suite and all nested <code>#GTestSuites</code>
      */
     public void free() {
         gtk_h.g_test_suite_free(handle());

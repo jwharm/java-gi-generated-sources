@@ -14,7 +14,7 @@ public class StyleContextPrintFlags {
     
     /**
      * Print the entire tree of
-     *   CSS nodes starting at the style context&#39;s node
+     *   CSS nodes starting at the style context&<code>#39</code> s node
      */
     public static final int RECURSE = 1;
     

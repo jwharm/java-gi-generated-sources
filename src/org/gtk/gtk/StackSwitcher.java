@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * It is possible to associate multiple <code>GtkStackSwitcher</code> widgets
  * with the same <code>GtkStack</code> widget.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkStackSwitcher</code> has a single CSS node named stackswitcher and
  * style class .stack-switcher.
  * <p>
@@ -30,11 +30,11 @@ import java.lang.invoke.*;
  * .needs-attention style class to the widgets representing the
  * stack pages.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkStackSwitcher</code> uses the {@link org.gtk.gtk.AccessibleRole#TAB_LIST} role
- * and uses the {@link org.gtk.gtk.AccessibleRole#TAB} for its buttons.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkStackSwitcher</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#TAB_LIST</code>  role
+ * and uses the {@link org.gtk.gtk.AccessibleRole<code>#TAB</code>  for its buttons.
  * <p>
- * <h1>rientable</h1>
+ * <h1>Orientable</h1>
  * <p>
  * Since GTK 4.4, <code>GtkStackSwitcher</code> implements <code>GtkOrientable</code> allowing
  * the stack switcher to be made vertical with<code>gtk_orientable_set_orientation()</code>.

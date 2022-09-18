@@ -28,13 +28,13 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the default comparison function used when sorting to be @sort_func.
      * If the current sort column id of @sortable is
-     * <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,</code> then the model will sort using
+     * <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID</code>  then the model will sort using
      * this function.
      * 
-     * If @sort_func is <code>NULL,</code> then there will be no default comparison function.
-     * This means that once the model  has been sorted, it can&#8217;t go back to the
+     * If @sort_func is <code>null</code>  then there will be no default comparison function.
+     * This means that once the model  has been sorted, it can&<code>#8217</code> t go back to the
      * default state. In this case, when the current sort column id of @sortable
-     * is <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,</code> the model will be unsorted.
+     * is <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID</code>  the model will be unsorted.
      */
     public default void setDefaultSortFunc(TreeIterCompareFunc sortFunc) {
         try {
@@ -56,10 +56,10 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
      * resort itself to reflect this change, after emitting a<code>GtkTreeSortable::sort-column-changed</code> signal. @sort_column_id may either be
      * a regular column id, or one of the following special values:
      * 
-     * - <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID:</code> the default sort function
+     * - <code>GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID</code>  the default sort function
      *   will be used, if it is set
      * 
-     * - <code>GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID:</code> no sorting will occur
+     * - <code>GTK_TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID</code>  no sorting will occur
      */
     public default void setSortColumnId(int sortColumnId, SortType order) {
         gtk_h.gtk_tree_sortable_set_sort_column_id(handle(), sortColumnId, order.getValue());

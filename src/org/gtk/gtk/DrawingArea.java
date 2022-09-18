@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [An example GtkDrawingArea]}(drawingarea.png)
  * <p>
- * It&#8217;s essentially a blank widget; you can draw on it. After
+ * It&<code>#8217</code> s essentially a blank widget; you can draw on it. After
  * creating a drawing area, the application may want to connect to:
  * <p>
  * <li>The {@link [signal@Gtk.Widget::realize] (ref=signal)} signal to take any necessary actions
@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * <li>The {@link [signal@Gtk.DrawingArea::resize] (ref=signal)} signal to take any necessary
  *   actions when the widget changes size.
  * <p>
- * <li>Call {@link org.gtk.gtk.DrawingArea#setDrawFunc} to handle redrawing the
+ * <li>Call {@link org.gtk.gtk.DrawingArea<code>#setDrawFunc</code>  to handle redrawing the
  *   contents of the widget.
  * <p>
  * The following code portion demonstrates using a drawing
@@ -49,8 +49,8 @@ import java.lang.invoke.*;
  *              0, 2 * G_PI);
  * <p>
  *   gtk_style_context_get_color (context,
- *                                &#38;color);
- *   gdk_cairo_set_source_rgba (cr, &#38;color);
+ *                                &<code>#38</code> color);
+ *   gdk_cairo_set_source_rgba (cr, &<code>#38</code> color);
  * <p>
  *   cairo_fill (cr);
  * }
@@ -71,19 +71,19 @@ import java.lang.invoke.*;
  * </pre>
  * <p>
  * The draw function is normally called when a drawing area first comes
- * onscreen, or when it&#8217;s covered by another window and then uncovered.
- * You can also force a redraw by adding to the &#8220;damage region&#8221; of the
- * drawing area&#8217;s window using {@link org.gtk.gtk.Widget#queueDraw}.
+ * onscreen, or when it&<code>#8217</code> s covered by another window and then uncovered.
+ * You can also force a redraw by adding to the &<code>#8220</code> damage region&<code>#8221</code>  of the
+ * drawing area&<code>#8217</code> s window using {@link org.gtk.gtk.Widget<code>#queueDraw</code> .
  * This will cause the drawing area to call the draw function again.
  * <p>
  * The available routines for drawing are documented in the
  * {@link [Cairo documentation]}(https://www.cairographics.org/manual/); GDK
- * offers additional API to integrate with Cairo, like {@link Gdk#cairoSetSourceRgba}
- * or {@link Gdk#cairoSetSourcePixbuf}.
+ * offers additional API to integrate with Cairo, like {@link Gdk<code>#cairoSetSourceRgba</code> 
+ * or {@link Gdk<code>#cairoSetSourcePixbuf</code> .
  * <p>
  * To receive mouse events on a drawing area, you will need to use
  * event controllers. To receive keyboard events, you will need to set
- * the &#8220;can-focus&#8221; property on the drawing area, and you should probably
+ * the &<code>#8220</code> can-focus&<code>#8221</code>  property on the drawing area, and you should probably
  * draw some user-visible indication that the drawing area is focused.
  * <p>
  * If you need more complex control over your widget, you should consider
@@ -134,7 +134,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * Note that because widgets may be allocated larger sizes than they
      * requested, it is possible that the actual height passed to your draw
      * function is larger than the height set here. You can use
-     * {@link org.gtk.gtk.Widget#setValign} to avoid that.
+     * {@link org.gtk.gtk.Widget<code>#setValign</code>  to avoid that.
      * 
      * If the height is set to 0 (the default), the drawing area may disappear.
      */
@@ -148,7 +148,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * Note that because widgets may be allocated larger sizes than they
      * requested, it is possible that the actual width passed to your draw
      * function is larger than the width set here. You can use
-     * {@link org.gtk.gtk.Widget#setHalign} to avoid that.
+     * {@link org.gtk.gtk.Widget<code>#setHalign</code>  to avoid that.
      * 
      * If the width is set to 0 (the default), the drawing area may disappear.
      */
@@ -169,7 +169,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * to be changed. You should restrict yourself exclusively to drawing
      * your contents in the draw function.
      * 
-     * If what you are drawing does change, call {@link org.gtk.gtk.Widget#queueDraw}
+     * If what you are drawing does change, call {@link org.gtk.gtk.Widget<code>#queueDraw</code> 
      * on the drawing area. This will cause a redraw and will call @draw_func again.
      */
     public void setDrawFunc(DrawingAreaDrawFunc drawFunc) {

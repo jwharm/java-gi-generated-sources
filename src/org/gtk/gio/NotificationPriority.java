@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Priority levels for #GNotifications.
+ * Priority levels for <code>#GNotifications</code>
  */
 public enum NotificationPriority {
 

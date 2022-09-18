@@ -1,21 +1,20 @@
 package org.gtk.glib;
 
 /**
- * Specifies properties of a #GIOChannel. Some of the flags can only be
+ * Specifies properties of a {@link org.gtk.glib.IOChannel}  Some of the flags can only be
  * read with g_io_channel_get_flags(), but not changed with
  * g_io_channel_set_flags().
  */
 public class IOFlags {
 
     /**
-     * turns on append mode, corresponds to <code>O_APPEND
-     * </code>    (see the documentation of the UNIX open() syscall)
+     * turns on append mode, corresponds to <code>O_APPEND</code>     (see the documentation of the UNIX open() syscall)
      */
     public static final int APPEND = 1;
     
     /**
      * turns on nonblocking mode, corresponds to
-     *     <code>O_NONBLOCK/%O_NDELAY</code> (see the documentation of the UNIX open()
+     *     <code>O_NONBLOCK</code> <code>O_NDELAY</code> (see the documentation of the UNIX open()
      *     syscall)
      */
     public static final int NONBLOCK = 2;

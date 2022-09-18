@@ -15,65 +15,65 @@ import java.lang.invoke.*;
  * <p>
  * It supports arbitrary positions and horizontal/vertical spans.
  * <p>
- * Children are added using {@link org.gtk.gtk.Grid#attach}. They can span multiple
+ * Children are added using {@link org.gtk.gtk.Grid<code>#attach</code> . They can span multiple
  * rows or columns. It is also possible to add a child next to an existing
- * child, using {@link org.gtk.gtk.Grid#attachNextTo}. To remove a child from the
- * grid, use {@link org.gtk.gtk.Grid#remove}.
+ * child, using {@link org.gtk.gtk.Grid<code>#attachNextTo</code> . To remove a child from the
+ * grid, use {@link org.gtk.gtk.Grid<code>#remove</code> .
  * <p>
  * The behaviour of <code>GtkGrid</code> when several children occupy the same grid
  * cell is undefined.
  * <p>
- * <h1>tkGrid as GtkBuildable</h1>
+ * <h1>GtkGrid as GtkBuildable</h1>
  * <p>
  * Every child in a <code>GtkGrid</code> has access to a custom {@link [iface@Gtk.Buildable] (ref=iface)}
- * element, called <code>&#60;layout&#62;</code>. It can by used to specify a position in the
- * grid and optionally spans. All properties that can be used in the <code>&#60;layout&#62;</code>
+ * element, called <code>&<code>#60</code> layout&<code>#62</code> </code>. It can by used to specify a position in the
+ * grid and optionally spans. All properties that can be used in the <code>&<code>#60</code> layout&<code>#62</code> </code>
  * element are implemented by {@link org.gtk.gtk.GridLayoutChild}.
  * <p>
  * It is implemented by <code>GtkWidget</code> using {@link org.gtk.gtk.LayoutManager}.
  * <p>
  * To showcase it, here is a simple example:
  * <p><pre>xml
- * &#60;object class=&#34;GtkGrid&#34; id=&#34;my_grid&#34;&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkButton&#34; id=&#34;button1&#34;&#62;
- *       &#60;property name=&#34;label&#34;&#62;Button 1&#60;/property&#62;
- *       &#60;layout&#62;
- *         &#60;property name=&#34;column&#34;&#62;0&#60;/property&#62;
- *         &#60;property name=&#34;row&#34;&#62;0&#60;/property&#62;
- *       &#60;/layout&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkButton&#34; id=&#34;button2&#34;&#62;
- *       &#60;property name=&#34;label&#34;&#62;Button 2&#60;/property&#62;
- *       &#60;layout&#62;
- *         &#60;property name=&#34;column&#34;&#62;1&#60;/property&#62;
- *         &#60;property name=&#34;row&#34;&#62;0&#60;/property&#62;
- *       &#60;/layout&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkButton&#34; id=&#34;button3&#34;&#62;
- *       &#60;property name=&#34;label&#34;&#62;Button 3&#60;/property&#62;
- *       &#60;layout&#62;
- *         &#60;property name=&#34;column&#34;&#62;2&#60;/property&#62;
- *         &#60;property name=&#34;row&#34;&#62;0&#60;/property&#62;
- *         &#60;property name=&#34;row-span&#34;&#62;2&#60;/property&#62;
- *       &#60;/layout&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkButton&#34; id=&#34;button4&#34;&#62;
- *       &#60;property name=&#34;label&#34;&#62;Button 4&#60;/property&#62;
- *       &#60;layout&#62;
- *         &#60;property name=&#34;column&#34;&#62;0&#60;/property&#62;
- *         &#60;property name=&#34;row&#34;&#62;1&#60;/property&#62;
- *         &#60;property name=&#34;column-span&#34;&#62;2&#60;/property&#62;
- *       &#60;/layout&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkGrid&<code>#34</code>  id=&<code>#34</code> my_grid&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button1&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Button 1&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> layout&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /layout&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button2&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Button 2&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> layout&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column&<code>#34</code> &<code>#62</code> 1&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /layout&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button3&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Button 3&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> layout&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column&<code>#34</code> &<code>#62</code> 2&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row-span&<code>#34</code> &<code>#62</code> 2&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /layout&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button4&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Button 4&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> layout&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row&<code>#34</code> &<code>#62</code> 1&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column-span&<code>#34</code> &<code>#62</code> 2&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /layout&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
  * It organizes the first two buttons side-by-side in one cell each.
@@ -82,11 +82,11 @@ import java.lang.invoke.*;
  * located in the second row and spans across two columns, which is
  * defined by the <code>column-span</code> property.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkGrid</code> uses a single CSS node with name <code>grid</code>.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkGrid</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkGrid</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
  */
 public class Grid extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -115,7 +115,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Adds a widget to the grid.
      * 
      * The position of @child is determined by @column and @row.
-     * The number of &#8220;cells&#8221; that @child will occupy is determined
+     * The number of &<code>#8220</code> cells&<code>#8221</code>  that @child will occupy is determined
      * by @width and @height.
      */
     public void attach(Widget child, int column, int row, int width, int height) {
@@ -126,11 +126,11 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Adds a widget to the grid.
      * <p>
      * The widget is placed next to @sibling, on the side determined by
-     * @side. When @sibling is <code>NULL,</code> the widget is placed in row (for
+     * @side. When @sibling is <code>null</code>  the widget is placed in row (for
      * left or right placement) or column 0 (for top or bottom placement),
      * at the end indicated by @side.
      * <p>
-     * Attaching widgets labeled <code>{@link [1]}</code>, <code>{@link [2]}</code>, <code>{@link [3]}</code> with <code>@sibling == <code>NULL</code></code> and<code>@side == <code>GTK_POS_LEFT</code></code> yields a layout of <code>{@link [3]}{@link [2]}{@link [1]}</code>.
+     * Attaching widgets labeled <code>{@link [1]}</code>, <code>{@link [2]}</code>, <code>{@link [3]}</code> with <code>@sibling == <code>null</code> /code> and<code>@side == {@link org.gtk.gtk.PositionType<code>#LEFT</code>  /code> yields a layout of <code>{@link [3]}{@link [2]}{@link [1]}</code>.
      */
     public void attachNextTo(Widget child, Widget sibling, PositionType side, int width, int height) {
         gtk_h.gtk_grid_attach_next_to(handle(), child.handle(), sibling.handle(), side.getValue(), width, height);
@@ -172,7 +172,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
     /**
      * Returns the baseline position of @row.
      * 
-     * See {@link org.gtk.gtk.Grid#setRowBaselinePosition}.
+     * See {@link org.gtk.gtk.Grid<code>#setRowBaselinePosition</code> .
      */
     public BaselinePosition getRowBaselinePosition(int row) {
         var RESULT = gtk_h.gtk_grid_get_row_baseline_position(handle(), row);
@@ -210,9 +210,9 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Inserts a row or column at the specified position.
      * 
      * The new row or column is placed next to @sibling, on the side
-     * determined by @side. If @side is {@link org.gtk.gtk.PositionType#TOP} or <code>GTK_POS_BOTTOM,
-     * a</code> row is inserted. If @side is {@link org.gtk.gtk.PositionType#LEFT} of <code>GTK_POS_RIGHT,
-     * a</code> column is inserted.
+     * determined by @side. If @side is {@link org.gtk.gtk.PositionType<code>#TOP</code>  or {@link org.gtk.gtk.PositionType<code>#BOTTOM</code>  
+     * a row is inserted. If @side is {@link org.gtk.gtk.PositionType<code>#LEFT</code>  of {@link org.gtk.gtk.PositionType<code>#RIGHT</code>  
+     * a column is inserted.
      */
     public void insertNextTo(Widget sibling, PositionType side) {
         gtk_h.gtk_grid_insert_next_to(handle(), sibling.handle(), side.getValue());
@@ -233,7 +233,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Removes a child from @grid.
      * 
      * The child must have been added with
-     * {@link org.gtk.gtk.Grid#attach} or {@link org.gtk.gtk.Grid#attachNextTo}.
+     * {@link org.gtk.gtk.Grid<code>#attach</code>  or {@link org.gtk.gtk.Grid<code>#attachNextTo</code> .
      */
     public void remove(Widget child) {
         gtk_h.gtk_grid_remove(handle(), child.handle());
@@ -292,16 +292,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Sets how the baseline should be positioned on @row of the
      * grid, in case that row is assigned more space than is requested.
      * 
-     * The default baseline position is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets how the baseline should be positioned on @row of the
-     * grid, in case that row is assigned more space than is requested.
-     * 
-     * The default baseline position is %GTK_BASELINE_POSITION_CENTER.
+     * The default baseline position is {@link org.gtk.gtk.BaselinePosition<code>#CENTER</code>
      */
     public void setRowBaselinePosition(int row, BaselinePosition pos) {
         gtk_h.gtk_grid_set_row_baseline_position(handle(), row, pos.getValue());

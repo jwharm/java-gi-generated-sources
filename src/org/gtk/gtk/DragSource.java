@@ -15,15 +15,15 @@ import java.lang.invoke.*;
  * of a {@link org.gtk.gdk.ContentProvider}, the desired action, and the icon to
  * use during the drag operation. After setting it up, the drag
  * source must be added to a widget as an event controller, using
- * {@link org.gtk.gtk.Widget#addController}.
+ * {@link org.gtk.gtk.Widget<code>#addController</code> .
  * <p><pre>c
  * static void
  * my_widget_init (MyWidget *self)
  * {
  *   GtkDragSource *drag_source = gtk_drag_source_new ();
  * <p>
- *   g_signal_connect (drag_source, &#34;prepare&#34;, G_CALLBACK (on_drag_prepare), self);
- *   g_signal_connect (drag_source, &#34;drag-begin&#34;, G_CALLBACK (on_drag_begin), self);
+ *   g_signal_connect (drag_source, &<code>#34</code> prepare&<code>#34</code> , G_CALLBACK (on_drag_prepare), self);
+ *   g_signal_connect (drag_source, &<code>#34</code> drag-begin&<code>#34</code> , G_CALLBACK (on_drag_begin), self);
  * <p>
  *   gtk_widget_add_controller (GTK_WIDGET (self), GTK_EVENT_CONTROLLER (drag_source));
  * }
@@ -77,7 +77,7 @@ import java.lang.invoke.*;
  * can be used to obtain updates about the status of the operation,
  * but it is not normally necessary to connect to any signals,
  * except for one case: when the supported actions include
- * <code>GDK_ACTION_MOVE,</code> you need to listen for the
+ * {@link org.gtk.gdk.DragAction<code>#MOVE</code>   you need to listen for the
  * {@link [signal@Gtk.DragSource::drag-end] (ref=signal)} signal and delete the
  * data after it has been transferred.
  */
@@ -139,11 +139,11 @@ public class DragSource extends GestureSingle {
      * Sets the actions on the <code>GtkDragSource</code>.
      * 
      * During a DND operation, the actions are offered to potential
-     * drop targets. If @actions include <code>GDK_ACTION_MOVE,</code> you need
+     * drop targets. If @actions include {@link org.gtk.gdk.DragAction<code>#MOVE</code>   you need
      * to listen to the {@link [signal@Gtk.DragSource::drag-end] (ref=signal)} signal and
-     * handle @delete_data being <code>TRUE.
+     * handle @delete_data being <code>true</code> 
      * 
-     * This</code> function can be called before a drag is started,
+     * This function can be called before a drag is started,
      * or in a handler for the {@link [signal@Gtk.DragSource::prepare] (ref=signal)} signal.
      */
     public void setActions(int actions) {
@@ -172,7 +172,7 @@ public class DragSource extends GestureSingle {
      * The hotspot coordinates determine the point on the icon
      * that gets aligned with the hotspot of the cursor.
      * 
-     * If @paintable is <code>NULL,</code> a default icon is used.
+     * If @paintable is <code>null</code>  a default icon is used.
      * 
      * This function can be called before a drag is started, or in
      * a {@link [signal@Gtk.DragSource::prepare] (ref=signal)} or
@@ -191,7 +191,7 @@ public class DragSource extends GestureSingle {
      * Emitted on the drag source when a drag is started.
      * 
      * It can be used to e.g. set a custom drag icon with
-     * {@link org.gtk.gtk.DragSource#setIcon}.
+     * {@link org.gtk.gtk.DragSource<code>#setIcon</code> .
      */
     public SignalHandle onDragBegin(DragBeginHandler handler) {
         try {
@@ -218,7 +218,7 @@ public class DragSource extends GestureSingle {
      * 
      * The signal handler may handle a failed drag operation based on
      * the type of error. It should return <code>true</code> if the failure has been handled
-     * and the default &#34;drag operation failed&#34; animation should not be shown.
+     * and the default &<code>#34</code> drag operation failed&<code>#34</code>  animation should not be shown.
      */
     public SignalHandle onDragCancel(DragCancelHandler handler) {
         try {
@@ -273,7 +273,7 @@ public class DragSource extends GestureSingle {
      * It returns the <code>GdkContentProvider</code> to use for the drag that is about
      * to start. The default handler for this signal returns the value of
      * the {@link [property@Gtk.DragSource:content] (ref=property)} property, so if you set up that
-     * property ahead of time, you don&#39;t need to connect to this signal.
+     * property ahead of time, you don&<code>#39</code> t need to connect to this signal.
      */
     public SignalHandle onPrepare(PrepareHandler handler) {
         try {

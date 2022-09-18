@@ -1,8 +1,8 @@
 package org.harfbuzz;
 
 /**
- * The &#39;MATH&#39; table constants, refer to
- * {@link [OpenType documentation]}(https://docs.microsoft.com/en-us/typography/opentype/spec/math#mathconstants-table)
+ * The &<code>#39</code> MATH&<code>#39</code>  table constants, refer to
+ * {@link [OpenType documentation]}(https://docs.microsoft.com/en-us/typography/opentype/spec/math<code>#mathconstants</code> table)
  * For more explanations.
  */
 public enum OtMathConstantT {

@@ -86,7 +86,7 @@ public enum RenderNodeType {
     COLOR_MATRIX_NODE,
     
     /**
-     * A node that repeats the child&#39;s contents
+     * A node that repeats the child&<code>#39</code> s contents
      */
     REPEAT_NODE,
     

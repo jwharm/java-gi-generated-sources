@@ -79,7 +79,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     /**
      * Sets the @attributes to be enumerated and starts the enumeration.
      * <p>
-     * If @attributes is <code>NULL,</code> no attributes will be queried, but a list
+     * If @attributes is <code>null</code>  no attributes will be queried, but a list
      * of <code>GFileInfo</code>s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
@@ -89,16 +89,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     /**
      * Sets the IO priority to use while loading files.
      * 
-     * The default IO priority is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets the IO priority to use while loading files.
-     * 
-     * The default IO priority is %G_PRIORITY_DEFAULT.
+     * The default IO priority is <code>G_PRIORITY_DEFAULT</code>
      */
     public void setIoPriority(int ioPriority) {
         gtk_h.gtk_bookmark_list_set_io_priority(handle(), ioPriority);

@@ -14,12 +14,12 @@ import java.lang.invoke.*;
  * <p>
  * Note that <code>GtkAppChooserDialog</code> does not have any interesting methods
  * of its own. Instead, you should get the embedded <code>GtkAppChooserWidget</code>
- * using {@link org.gtk.gtk.AppChooserDialog#getWidget} and call its methods if
+ * using {@link org.gtk.gtk.AppChooserDialog<code>#getWidget</code>  and call its methods if
  * the generic {@link [iface@Gtk.AppChooser] (ref=iface)} interface is not sufficient for
  * your needs.
  * <p>
  * To set the heading that is shown above the <code>GtkAppChooserWidget</code>,
- * use {@link org.gtk.gtk.AppChooserDialog#setHeading}.
+ * use {@link org.gtk.gtk.AppChooserDialog<code>#setHeading</code> .
  */
 public class AppChooserDialog extends Dialog implements Accessible, AppChooser, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 

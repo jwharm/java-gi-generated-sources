@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  * 
  * The minimum, default, and maximum values are in un-normalized, user scales.
  * 
- * &#60;note&#62;Note: at present, the only flag defined for @flags is
- * #HB_OT_VAR_AXIS_FLAG_HIDDEN.&#60;/note&#62;
+ * &<code>#60</code> note&<code>#62</code> Note: at present, the only flag defined for @flags is
+ * <code>#HB_OT_VAR_AXIS_FLAG_HIDDEN</code> &<code>#60</code> /note&<code>#62</code>
  */
 public class OtVarAxisInfoT extends io.github.jwharm.javagi.ResourceBase {
 

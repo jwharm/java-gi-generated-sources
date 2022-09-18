@@ -4,7 +4,7 @@ package org.gtk.gsk;
  * The categories of matrices relevant for GSK and GTK.
  * <p>
  * Note that any category includes matrices of all later categories.
- * So if you want to for example check if a matrix is a 2D matrix,<code>category &#62;= GSK_TRANSFORM_CATEGORY_2D</code> is the way to do this.
+ * So if you want to for example check if a matrix is a 2D matrix,<code>category &<code>#62</code> = GSK_TRANSFORM_CATEGORY_2D</code> is the way to do this.
  * <p>
  * Also keep in mind that rounding errors may cause matrices to not
  * conform to their categories. Otherwise, matrix operations done via
@@ -33,7 +33,7 @@ public enum TransformCategory {
     
     /**
      * The matrix is a 2D matrix. This is equivalent
-     *   to graphene_matrix_is_2d() returning <code>TRUE.</code> In particular, this
+     *   to graphene_matrix_is_2d() returning <code>true</code>  In particular, this
      *   means that Cairo can deal with the matrix.
      */
     _2D,

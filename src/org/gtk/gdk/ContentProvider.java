@@ -91,7 +91,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * <p>
      * The @value will have been initialized to the <code>GType</code> the value should be
      * provided in. This given <code>GType</code> does not need to be listed in the formats
-     * returned by {@link org.gtk.gdk.ContentProvider#refFormats}. However, if the
+     * returned by {@link org.gtk.gdk.ContentProvider<code>#refFormats</code> . However, if the
      * given <code>GType</code> is not supported, this operation can fail and<code>G_IO_ERROR_NOT_SUPPORTED</code> will be reported.
      */
     public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
@@ -117,7 +117,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * 
      * An example of such an application would be a clipboard manager.
      * 
-     * This can be assumed to be a subset of {@link org.gtk.gdk.ContentProvider#refFormats}.
+     * This can be assumed to be a subset of {@link org.gtk.gdk.ContentProvider<code>#refFormats</code> .
      */
     public ContentFormats refStorableFormats() {
         var RESULT = gtk_h.gdk_content_provider_ref_storable_formats(handle());
@@ -129,11 +129,11 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @mime_type.
      * <p>
      * When the operation is finished @callback will be called. You must then call
-     * {@link org.gtk.gdk.ContentProvider#writeMimeTypeFinish} to get the result
+     * {@link org.gtk.gdk.ContentProvider<code>#writeMimeTypeFinish</code>  to get the result
      * of the operation.
      * <p>
      * The given mime type does not need to be listed in the formats returned by
-     * {@link org.gtk.gdk.ContentProvider#refFormats}. However, if the given <code>GType</code> is
+     * {@link org.gtk.gdk.ContentProvider<code>#refFormats</code> . However, if the given <code>GType</code> is
      * not supported, <code>G_IO_ERROR_NOT_SUPPORTED</code> will be reported.
      * 
      * The given @stream will not be closed.
@@ -155,7 +155,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous write operation.
      * 
-     * See {@link org.gtk.gdk.ContentProvider#writeMimeTypeAsync}.
+     * See {@link org.gtk.gdk.ContentProvider<code>#writeMimeTypeAsync</code> .
      */
     public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

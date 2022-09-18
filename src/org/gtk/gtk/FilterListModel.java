@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  * criteria given by a <code>GtkFilter</code>.
  * 
  * The model can be set up to do incremental searching, so that
- * filtering long lists doesn&#39;t block the UI. See
- * {@link org.gtk.gtk.FilterListModel#setIncremental} for details.
+ * filtering long lists doesn&<code>#39</code> t block the UI. See
+ * {@link org.gtk.gtk.FilterListModel<code>#setIncremental</code>  for details.
  */
 public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
@@ -53,7 +53,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Returns whether incremental filtering is enabled.
      * 
-     * See {@link org.gtk.gtk.FilterListModel#setIncremental}.
+     * See {@link org.gtk.gtk.FilterListModel<code>#setIncremental</code> .
      */
     public boolean getIncremental() {
         var RESULT = gtk_h.gtk_filter_list_model_get_incremental(handle());
@@ -112,7 +112,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * 
      * By default, incremental filtering is disabled.
      * 
-     * See {@link org.gtk.gtk.FilterListModel#getPending} for progress information
+     * See {@link org.gtk.gtk.FilterListModel<code>#getPending</code>  for progress information
      * about an ongoing incremental filtering operation.
      */
     public void setIncremental(boolean incremental) {

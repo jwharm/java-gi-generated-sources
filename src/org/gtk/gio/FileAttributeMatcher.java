@@ -23,23 +23,23 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new file attribute matcher, which matches attributes
-     * against a given string. #GFileAttributeMatchers are reference
+     * against a given string. <code>#GFileAttributeMatchers</code> are reference
      * counted structures, and are created with a reference count of 1. If
-     * the number of references falls to 0, the #GFileAttributeMatcher is
+     * the number of references falls to 0, the {@link org.gtk.gio.FileAttributeMatcher} is
      * automatically destroyed.
      * <p>
      * The @attributes string should be formatted with specific keys separated
-     * from namespaces with a double colon. Several &#34;namespace::key&#34; strings may be
-     * concatenated with a single comma (e.g. &#34;standard::type,standard::is-hidden&#34;).
-     * The wildcard &#34;*&#34; may be used to match all keys and namespaces, or
-     * &#34;namespace::*&#34; will match all keys in a given namespace.
+     * from namespaces with a double colon. Several &<code>#34</code> namespace::key&<code>#34</code>  strings may be
+     * concatenated with a single comma (e.g. &<code>#34</code> standard::type,standard::is-hidden&<code>#34</code> ).
+     * The wildcard &<code>#34</code> *&<code>#34</code>  may be used to match all keys and namespaces, or
+     * &<code>#34</code> namespace::*&<code>#34</code>  will match all keys in a given namespace.
      * <p>
      * <h2>Examples of file attribute matcher strings and results</h2>
      * <p>
-     * <li><code>&#34;*&#34;</code>: matches all attributes.
-     * <li><code>&#34;standard::is-hidden&#34;</code>: matches only the key is-hidden in the
+     * <li><code>&<code>#34</code> *&<code>#34</code> </code>: matches all attributes.
+     * <li><code>&<code>#34</code> standard::is-hidden&<code>#34</code> </code>: matches only the key is-hidden in the
      *   standard namespace.
-     * <li><code>&#34;standard::type,unix::*&#34;</code>: matches the type key in the standard
+     * <li><code>&<code>#34</code> standard::type,unix::*&<code>#34</code> </code>: matches the type key in the standard
      *   namespace and all keys in the unix namespace.
      */
     public FileAttributeMatcher(java.lang.String attributes) {
@@ -49,8 +49,8 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if the matcher will match all of the keys in a given namespace.
      * This will always return <code>true</code> if a wildcard character is in use (e.g. if
-     * matcher was created with &#34;standard::*&#34; and @ns is &#34;standard&#34;, or if matcher was created
-     * using &#34;*&#34; and namespace is anything.)
+     * matcher was created with &<code>#34</code> standard::*&<code>#34</code>  and @ns is &<code>#34</code> standard&<code>#34</code> , or if matcher was created
+     * using &<code>#34</code> *&<code>#34</code>  and namespace is anything.)
      * 
      * TODO: this is awkwardly worded.
      */
@@ -60,7 +60,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the next matched attribute from a #GFileAttributeMatcher.
+     * Gets the next matched attribute from a {@link org.gtk.gio.FileAttributeMatcher}
      */
     public java.lang.String enumerateNext() {
         var RESULT = gtk_h.g_file_attribute_matcher_enumerate_next(handle());
@@ -69,16 +69,8 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks if an attribute will be matched by an attribute matcher. If
-     * the matcher was created with the &#34;*&#34; matching string, this function
-     * will always return 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Checks if an attribute will be matched by an attribute matcher. If
-     * the matcher was created with the &#34;*&#34; matching string, this function
-     * will always return %TRUE.
+     * the matcher was created with the &<code>#34</code> *&<code>#34</code>  matching string, this function
+     * will always return <code>true</code>
      */
     public boolean matches(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_attribute_matcher_matches(handle(), Interop.allocateNativeString(attribute).handle());
@@ -87,7 +79,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks if a attribute matcher only matches a given attribute. Always
-     * returns <code>false</code> if &#34;*&#34; was used when creating the matcher.
+     * returns <code>false</code> if &<code>#34</code> *&<code>#34</code>  was used when creating the matcher.
      */
     public boolean matchesOnly(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_attribute_matcher_matches_only(handle(), Interop.allocateNativeString(attribute).handle());

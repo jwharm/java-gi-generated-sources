@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * The type of #hb_buffer_t contents.
+ * The type of {@link org.harfbuzz.buffer_t} contents.
  */
 public enum BufferContentTypeT {
 

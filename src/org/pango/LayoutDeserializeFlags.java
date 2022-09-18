@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * Flags that influence the behavior of {@link Pango#Layout}.
+ * Flags that influence the behavior of {@link Pango<code>#Layout</code> .
  * 
  * New members may be added to this enumeration over time.
  */

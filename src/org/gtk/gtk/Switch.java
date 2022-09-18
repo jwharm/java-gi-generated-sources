@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkSwitch</code> is a &#34;light switch&#34; that has two states: on or off.
+ * <code>GtkSwitch</code> is a &<code>#34</code> light switch&<code>#34</code>  that has two states: on or off.
  * <p>
  * !{@link [An example GtkSwitch]}(switch.png)
  * <p>
@@ -17,19 +17,19 @@ import java.lang.invoke.*;
  * <p><code>GtkSwitch</code> can also handle situations where the underlying state
  * changes with a delay. See {@link [signal@GtkSwitch::state-set] (ref=signal)} for details.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * switch
- * &#9500;&#9472;&#9472; label
- * &#9500;&#9472;&#9472; label
- * &#9584;&#9472;&#9472; slider
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  label
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  label
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  slider
  * </pre>
  * <p><code>GtkSwitch</code> has four css nodes, the main node with the name switch and
  * subnodes for the slider and the on and off labels. Neither of them is
  * using any style classes.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkSwitch</code> uses the {@link org.gtk.gtk.AccessibleRole#SWITCH} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkSwitch</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SWITCH</code>  role.
  */
 public class Switch extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -55,7 +55,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Gets whether the <code>GtkSwitch</code> is in its &#8220;on&#8221; or &#8220;off&#8221; state.
+     * Gets whether the <code>GtkSwitch</code> is in its &<code>#8220</code> on&<code>#8221</code>  or &<code>#8220</code> off&<code>#8221</code>  state.
      */
     public boolean getActive() {
         var RESULT = gtk_h.gtk_switch_get_active(handle());
@@ -130,7 +130,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * 
      * To implement delayed state change, applications can connect to this
      * signal, initiate the change of the underlying state, and call
-     * {@link org.gtk.gtk.Switch#setState} when the underlying state change is
+     * {@link org.gtk.gtk.Switch<code>#setState</code>  when the underlying state change is
      * complete. The signal handler should return <code>true</code> to prevent the
      * default handler from running.
      * 

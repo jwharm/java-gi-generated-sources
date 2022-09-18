@@ -22,7 +22,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_sphere_t.
+     * Allocates a new {@link org.gtk.graphene.Sphere} 
      * 
      * The contents of the newly allocated structure are undefined.
      */
@@ -32,7 +32,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks whether the given @point is contained in the volume
-     * of a #graphene_sphere_t.
+     * of a {@link org.gtk.graphene.Sphere}
      */
     public boolean containsPoint(Point3D point) {
         var RESULT = gtk_h.graphene_sphere_contains_point(handle(), point.handle());
@@ -41,7 +41,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the distance of the given @point from the surface of
-     * a #graphene_sphere_t.
+     * a {@link org.gtk.graphene.Sphere}
      */
     public float distance(Point3D point) {
         var RESULT = gtk_h.graphene_sphere_distance(handle(), point.handle());
@@ -49,7 +49,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether two #graphene_sphere_t are equal.
+     * Checks whether two {@link org.gtk.graphene.Sphere} are equal.
      */
     public boolean equal(Sphere b) {
         var RESULT = gtk_h.graphene_sphere_equal(handle(), b.handle());
@@ -65,21 +65,21 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the bounding box capable of containing the
-     * given #graphene_sphere_t.
+     * given {@link org.gtk.graphene.Sphere}
      */
     public void getBoundingBox(Box box) {
         gtk_h.graphene_sphere_get_bounding_box(handle(), box.handle());
     }
     
     /**
-     * Retrieves the coordinates of the center of a #graphene_sphere_t.
+     * Retrieves the coordinates of the center of a {@link org.gtk.graphene.Sphere}
      */
     public void getCenter(Point3D center) {
         gtk_h.graphene_sphere_get_center(handle(), center.handle());
     }
     
     /**
-     * Retrieves the radius of a #graphene_sphere_t.
+     * Retrieves the radius of a {@link org.gtk.graphene.Sphere}
      */
     public float getRadius() {
         var RESULT = gtk_h.graphene_sphere_get_radius(handle());
@@ -87,7 +87,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given #graphene_sphere_t with the given @center and @radius.
+     * Initializes the given {@link org.gtk.graphene.Sphere} with the given @center and @radius.
      */
     public Sphere init(Point3D center, float radius) {
         var RESULT = gtk_h.graphene_sphere_init(handle(), center.handle(), radius);
@@ -95,7 +95,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given #graphene_sphere_t using the given array
+     * Initializes the given {@link org.gtk.graphene.Sphere} using the given array
      * of 3D coordinates so that the sphere includes them.
      * 
      * The center of the sphere can either be specified, or will be center
@@ -107,7 +107,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given #graphene_sphere_t using the given array
+     * Initializes the given {@link org.gtk.graphene.Sphere} using the given array
      * of 3D coordinates so that the sphere includes them.
      * 
      * The center of the sphere can either be specified, or will be center
@@ -127,7 +127,7 @@ public class Sphere extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Translates the center of the given #graphene_sphere_t using the @point
+     * Translates the center of the given {@link org.gtk.graphene.Sphere} using the @point
      * coordinates as the delta of the translation.
      */
     public void translate(Point3D point, Sphere res) {

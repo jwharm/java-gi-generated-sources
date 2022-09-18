@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * Data type for holding a single coordinate value.
  * Contour points and other multi-dimensional data are
- * stored as tuples of #hb_position_t&#39;s.
+ * stored as tuples of {@link org.harfbuzz.position_t} <code>#39</code> s.
  */
 public class PositionT {
 

@@ -23,7 +23,7 @@ public enum FileChooserError {
     
     /**
      * Indicates an incomplete hostname
-     *  (e.g. &#34;http://foo&#34; without a slash after that).
+     *  (e.g. &<code>#34</code> http://foo&<code>#34</code>  without a slash after that).
      */
     INCOMPLETE_HOSTNAME;
     

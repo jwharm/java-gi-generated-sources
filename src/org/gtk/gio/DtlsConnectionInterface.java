@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Virtual method table for a #GDtlsConnection implementation.
+ * Virtual method table for a {@link org.gtk.gio.DtlsConnection} implementation.
  */
 public class DtlsConnectionInterface extends io.github.jwharm.javagi.ResourceBase {
 

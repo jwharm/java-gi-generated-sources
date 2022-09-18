@@ -20,19 +20,19 @@ import java.lang.invoke.*;
  * the full width of the box, even if the children at either side take
  * up different amounts of space.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * actionbar
- * &#9584;&#9472;&#9472; revealer
- *     &#9584;&#9472;&#9472; box
- *         &#9500;&#9472;&#9472; box.start
- *         &#9474;   &#9584;&#9472;&#9472; {@link [start children]}
- *         &#9500;&#9472;&#9472; {@link [center widget]}
- *         &#9584;&#9472;&#9472; box.end
- *             &#9584;&#9472;&#9472; {@link [end children]}
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  revealer
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box
+ *         &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  box.start
+ *         &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [start children]}
+ *         &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [center widget]}
+ *         &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box.end
+ *             &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [end children]}
  * </pre>
  * <p>
- * A <code>GtkActionBar</code>&#39;s CSS node is called <code>actionbar</code>. It contains a <code>revealer</code>
+ * A <code>GtkActionBar</code>&<code>#39</code> s CSS node is called <code>actionbar</code>. It contains a <code>revealer</code>
  * subnode, which contains a <code>box</code> subnode, which contains two <code>box</code> subnodes at
  * the start and end of the action bar, with <code>start</code> and <code>end style classes
  * respectively, as well as a center node that represents the center child.

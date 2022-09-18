@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * All options in a group share the same translation function. Libraries which
  * need to parse commandline options are expected to provide a function for
  * getting a <code>GOptionGroup</code> holding their options, which
- * the application can then add to its #GOptionContext.
+ * the application can then add to its {@link org.gtk.glib.OptionContext}
  */
 public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
 
@@ -29,7 +29,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GOptionGroup.
+     * Creates a new {@link org.gtk.glib.OptionGroup}
      */
     public OptionGroup(java.lang.String name, java.lang.String description, java.lang.String helpDescription, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify destroy) {
         super(constructNew(name, description, helpDescription, userData, destroy));
@@ -53,7 +53,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the function which is used to translate user-visible strings,
      * for <code>--help</code> output. Different groups can use different
-     * #GTranslateFuncs. If @func is <code>NULL,</code> strings are not translated.
+     * <code>#GTranslateFuncs</code>  If @func is <code>null</code>  strings are not translated.
      * 
      * If you are using gettext(), you only need to set the translation
      * domain, see g_option_group_set_translation_domain().

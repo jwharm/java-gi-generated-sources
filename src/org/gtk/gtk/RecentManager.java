@@ -34,17 +34,17 @@ import java.lang.invoke.*;
  * from the file itself through GIO.
  * <p>
  * Looking up the meta-data associated with a recently used file
- * given its URI requires calling {@link org.gtk.gtk.RecentManager#lookupItem}:
+ * given its URI requires calling {@link org.gtk.gtk.RecentManager<code>#lookupItem</code> :
  * <p><pre>c
  * GtkRecentManager *manager;
  * GtkRecentInfo *info;
  * GError *error = NULL;
  * 
  * manager = gtk_recent_manager_get_default ();
- * info = gtk_recent_manager_lookup_item (manager, file_uri, &#38;error);
+ * info = gtk_recent_manager_lookup_item (manager, file_uri, &<code>#38</code> error);
  * if (error)
  *   {
- *     g_warning (&#34;Could not find the file: <code>s&#34;,</code> error-&#62;message);
+ *     g_warning (&<code>#34</code> Could not find the file: <code>s</code> <code>#34</code> , error-&<code>#62</code> message);
  *     g_error_free (error);
  *   }
  * else
@@ -55,7 +55,7 @@ import java.lang.invoke.*;
  * </pre>
  * 
  * In order to retrieve the list of recently used files, you can use
- * {@link org.gtk.gtk.RecentManager#getItems}, which returns a list of
+ * {@link org.gtk.gtk.RecentManager<code>#getItems</code> , which returns a list of
  * {@link [struct@Gtk.RecentInfo] (ref=struct)}.
  * 
  * Note that the maximum age of the recently used files list is
@@ -86,7 +86,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * resources list, and emits the {@link [signal@Gtk.RecentManager::changed] (ref=signal)}
      * signal each time something inside the list changes.
      * <p><code>GtkRecentManager</code> objects are expensive: be sure to create them
-     * only when needed. You should use {@link Gtk#RecentManager}
+     * only when needed. You should use {@link Gtk<code>#RecentManager</code> 
      * instead.
      */
     public RecentManager() {
@@ -124,9 +124,9 @@ public class RecentManager extends org.gtk.gobject.Object {
      * 
      * This function automatically retrieves some of the needed
      * metadata and setting other metadata to common default values;
-     * it then feeds the data to {@link org.gtk.gtk.RecentManager#addFull}.
+     * it then feeds the data to {@link org.gtk.gtk.RecentManager<code>#addFull</code> .
      * 
-     * See {@link org.gtk.gtk.RecentManager#addFull} if you want to explicitly
+     * See {@link org.gtk.gtk.RecentManager<code>#addFull</code>  if you want to explicitly
      * define the metadata for the resource pointed by @uri.
      */
     public boolean addItem(java.lang.String uri) {
@@ -223,7 +223,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * Emitted when the current recently used resources manager changes
      * its contents.
      * 
-     * This can happen either by calling {@link org.gtk.gtk.RecentManager#addItem}
+     * This can happen either by calling {@link org.gtk.gtk.RecentManager<code>#addItem</code> 
      * or by another application.
      */
     public SignalHandle onChanged(ChangedHandler handler) {

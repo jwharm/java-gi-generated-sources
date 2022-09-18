@@ -7,7 +7,7 @@ package org.pango;
  * Not every value in this enumeration makes sense for every usage of<code>PangoDirection</code>; for example, the return value of {@link [func@unichar_direction]}
  * and {@link [func@find_base_dir]} cannot be <code>PANGO_DIRECTION_WEAK_LTR</code> or<code>PANGO_DIRECTION_WEAK_RTL</code>, since every character is either neutral
  * or has a strong direction; on the other hand <code>PANGO_DIRECTION_NEUTRAL</code>
- * doesn&#39;t make sense to pass to {@link [func@itemize_with_base_dir]}.
+ * doesn&<code>#39</code> t make sense to pass to {@link [func@itemize_with_base_dir]}.
  * <p>
  * The <code>PANGO_DIRECTION_TTB_LTR</code>, <code>PANGO_DIRECTION_TTB_RTL</code> values come from
  * an earlier interpretation of this enumeration as the writing direction

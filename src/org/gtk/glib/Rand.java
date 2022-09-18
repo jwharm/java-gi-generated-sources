@@ -18,7 +18,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a #GRand into a new one with the same exact state as before.
+     * Copies a {@link org.gtk.glib.Rand} into a new one with the same exact state as before.
      * This way you can take a snapshot of the random number generator for
      * replaying later.
      */
@@ -28,14 +28,14 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the next random #gdouble from @rand_ equally distributed over
+     * Returns the next random <code>#gdouble</code> from @rand_ equally distributed over
      * the range 
      *             
      *           
      *         
      *       
      *       
-     *         Returns the next random #gdouble from @rand_ equally distributed over
+     *         Returns the next random <code>#gdouble</code> from @rand_ equally distributed over
      * the range [0..1).
      */
     public double double_() {
@@ -44,14 +44,14 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the next random #gdouble from @rand_ equally distributed over
+     * Returns the next random <code>#gdouble</code> from @rand_ equally distributed over
      * the range 
      *             
      *           
      *         
      *       
      *       
-     *         Returns the next random #gdouble from @rand_ equally distributed over
+     *         Returns the next random <code>#gdouble</code> from @rand_ equally distributed over
      * the range [@begin..@end).
      */
     public double doubleRange(double begin, double end) {
@@ -60,14 +60,14 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the memory allocated for the #GRand.
+     * Frees the memory allocated for the {@link org.gtk.glib.Rand}
      */
     public void free() {
         gtk_h.g_rand_free(handle());
     }
     
     /**
-     * Returns the next random #guint32 from @rand_ equally distributed over
+     * Returns the next random <code>#guint32</code> from @rand_ equally distributed over
      * the range {@link [0..2^32-1]}.
      */
     public int int_() {
@@ -76,7 +76,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the next random #gint32 from @rand_ equally distributed over
+     * Returns the next random <code>#gint32</code> from @rand_ equally distributed over
      * the range {@link [@begin..@end-1] (ref=)}.
      */
     public int intRange(int begin, int end) {
@@ -85,7 +85,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the seed for the random number generator #GRand to @seed.
+     * Sets the seed for the random number generator {@link org.gtk.glib.Rand} to @seed.
      */
     public void setSeed(int seed) {
         gtk_h.g_rand_set_seed(handle(), seed);

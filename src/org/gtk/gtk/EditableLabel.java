@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A <code>GtkEditableLabel</code> is a label that allows users to
- * edit the text by switching to an &#8220;edit mode&#8221;.
+ * edit the text by switching to an &<code>#8220</code> edit mode&<code>#8221</code> .
  * <p>
  * !{@link [An example GtkEditableLabel]}(editable-label.png)
  * <p><code>GtkEditableLabel</code> does not have API of its own, but it
@@ -20,12 +20,12 @@ import java.lang.invoke.*;
  * for leaving the edit mode are the Enter key (to save
  * the results) or the Escape key (to cancel the editing).
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * editablelabel{@link [.editing]}
- * &#9584;&#9472;&#9472; stack
- *     &#9500;&#9472;&#9472; label
- *     &#9584;&#9472;&#9472; text
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  stack
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  label
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  text
  * </pre>
  * <p><code>GtkEditableLabel</code> has a main node with the name editablelabel.
  * When the entry is in editing mode, it gets the .editing style
@@ -58,7 +58,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Returns whether the label is currently in &#8220;editing mode&#8221;.
+     * Returns whether the label is currently in &<code>#8220</code> editing mode&<code>#8221</code> .
      */
     public boolean getEditing() {
         var RESULT = gtk_h.gtk_editable_label_get_editing(handle());
@@ -66,16 +66,16 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Switches the label into &#8220;editing mode&#8221;.
+     * Switches the label into &<code>#8220</code> editing mode&<code>#8221</code> .
      */
     public void startEditing() {
         gtk_h.gtk_editable_label_start_editing(handle());
     }
     
     /**
-     * Switches the label out of &#8220;editing mode&#8221;.
+     * Switches the label out of &<code>#8220</code> editing mode&<code>#8221</code> .
      * 
-     * If @commit is <code>TRUE,</code> the resulting text is kept as the
+     * If @commit is <code>true</code>  the resulting text is kept as the
      * {@link [property@Gtk.Editable:text] (ref=property)} property value, otherwise the
      * resulting text is discarded and the label will keep its
      * previous {@link [property@Gtk.Editable:text] (ref=property)} property value.

@@ -4,9 +4,9 @@ package org.harfbuzz;
  * Data type for the Canonical_Combining_Class (ccc) property
  * from the Unicode Character Database.
  * 
- * &#60;note&#62;Note: newer versions of Unicode may add new values.
+ * &<code>#60</code> note&<code>#62</code> Note: newer versions of Unicode may add new values.
  * Client programs should be ready to handle any value in the 0..254 range
- * being returned from hb_unicode_combining_class().&#60;/note&#62;
+ * being returned from hb_unicode_combining_class().&<code>#60</code> /note&<code>#62</code>
  */
 public enum UnicodeCombiningClassT {
 

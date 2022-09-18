@@ -55,17 +55,7 @@ public class BoolFilter extends Filter {
      * Sets the expression that the filter uses to check if items
      * should be filtered.
      * 
-     * The expression must have a value type of 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets the expression that the filter uses to check if items
-     * should be filtered.
-     * 
-     * The expression must have a value type of %G_TYPE_BOOLEAN.
+     * The expression must have a value type of <code>G_TYPE_BOOLEAN</code>
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_bool_filter_set_expression(handle(), expression.handle());

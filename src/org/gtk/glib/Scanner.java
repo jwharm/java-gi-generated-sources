@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * 
  * If you want to use your own message handler you can set the
  * @msg_handler field. The type of the message handler function
- * is declared by #GScannerMsgFunc.
+ * is declared by {@link org.gtk.glib.ScannerMsgFunc}
  */
 public class Scanner extends io.github.jwharm.javagi.ResourceBase {
 
@@ -51,7 +51,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the current token type. This is simply the @token
-     * field in the #GScanner structure.
+     * field in the {@link org.gtk.glib.Scanner} structure.
      */
     public TokenType curToken() {
         var RESULT = gtk_h.g_scanner_cur_token(handle());
@@ -59,7 +59,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees all memory used by the #GScanner.
+     * Frees all memory used by the {@link org.gtk.glib.Scanner}
      */
     public void destroy() {
         gtk_h.g_scanner_destroy(handle());
@@ -78,7 +78,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * Parses the next token just like g_scanner_peek_next_token()
      * and also removes it from the input stream. The token data is
      * placed in the @token, @value, @line, and @position fields of
-     * the #GScanner structure.
+     * the {@link org.gtk.glib.Scanner} structure.
      */
     public TokenType getNextToken() {
         var RESULT = gtk_h.g_scanner_get_next_token(handle());
@@ -112,7 +112,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Parses the next token, without removing it from the input stream.
      * The token data is placed in the @next_token, @next_value, @next_line,
-     * and @next_position fields of the #GScanner structure.
+     * and @next_position fields of the {@link org.gtk.glib.Scanner} structure.
      * 
      * Note that, while the token is not removed from the input stream
      * (i.e. the next call to g_scanner_get_next_token() will return the
@@ -136,7 +136,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls the given function for each of the symbol/value pairs
-     * in the given scope of the #GScanner. The function is passed
+     * in the given scope of the {@link org.gtk.glib.Scanner}  The function is passed
      * the symbol and value of each pair, and the given @user_data
      * parameter.
      */
@@ -189,12 +189,12 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Outputs a message through the scanner&#39;s msg_handler,
+     * Outputs a message through the scanner&<code>#39</code> s msg_handler,
      * resulting from an unexpected token in the input stream.
      * Note that you should not call g_scanner_peek_next_token()
      * followed by g_scanner_unexp_token() without an intermediate
      * call to g_scanner_get_next_token(), as g_scanner_unexp_token()
-     * evaluates the scanner&#39;s current token (not the peeked token)
+     * evaluates the scanner&<code>#39</code> s current token (not the peeked token)
      * to construct part of the message.
      */
     public void unexpToken(TokenType expectedToken, java.lang.String identifierSpec, java.lang.String symbolSpec, java.lang.String symbolName, java.lang.String message, int isError) {
@@ -202,11 +202,10 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GScanner.
+     * Creates a new {@link org.gtk.glib.Scanner} 
      * 
      * The @config_templ structure specifies the initial settings
-     * of the scanner, which are copied into the #GScanner
-     * @config field. If you pass <code>null</code> then the default settings
+     * of the scanner, which are copied into the {@link org.gtk.glib.Scanner} @config field. If you pass <code>null</code> then the default settings
      * are used.
      */
     public static Scanner new_(ScannerConfig configTempl) {

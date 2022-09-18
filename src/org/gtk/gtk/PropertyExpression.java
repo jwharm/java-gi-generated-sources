@@ -32,7 +32,7 @@ public class PropertyExpression extends Expression {
      * The object to use is found by evaluating the <code>expression</code>,
      * or using the <code>this</code> argument when <code>expression</code> is <code>NULL</code>.
      * <p>
-     * If the resulting object conforms to <code>this_type</code>, its property named<code>property_name</code> will be queried. Otherwise, this expression&#39;s
+     * If the resulting object conforms to <code>this_type</code>, its property named<code>property_name</code> will be queried. Otherwise, this expression&<code>#39</code> s
      * evaluation will fail.
      * <p>
      * The given <code>this_type</code> must have a property with <code>property_name</code>.
@@ -54,7 +54,7 @@ public class PropertyExpression extends Expression {
      * <p>
      * If the resulting object conforms to <code>this_type</code>, its
      * property specified by <code>pspec</code> will be queried.
-     * Otherwise, this expression&#39;s evaluation will fail.
+     * Otherwise, this expression&<code>#39</code> s evaluation will fail.
      */
     public static PropertyExpression newForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
         return new PropertyExpression(constructNewForPspec(expression, pspec));

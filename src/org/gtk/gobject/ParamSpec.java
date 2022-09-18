@@ -8,19 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GParamSpec is an object structure that encapsulates the metadata
- * required to specify parameters, such as e.g. #GObject properties.
+ * {@link org.gtk.gobject.ParamSpec} is an object structure that encapsulates the metadata
+ * required to specify parameters, such as e.g. {@link org.gtk.gobject.Object} properties.
  * <p>
- * <h2>Parameter names # {#canonical-parameter-names}</h2>
+ * <h2>Parameter names <code>#</code> {<code>#canonical</code> parameter-names}</h2>
  * <p>
  * A property name consists of one or more segments consisting of ASCII letters
  * and digits, separated by either the <code>-</code> or <code>_</code> character. The first
  * character of a property name must be a letter. These are the same rules as
  * for signal naming (see g_signal_new()).
  * <p>
- * When creating and looking up a #GParamSpec, either separator can be
+ * When creating and looking up a {@link org.gtk.gobject.ParamSpec}  either separator can be
  * used, but they cannot be mixed. Using <code>-</code> is considerably more
- * efficient, and is the &#8216;canonical form&#8217;. Using <code>_</code> is discouraged.
+ * efficient, and is the &<code>#8216</code> canonical form&<code>#8217</code> . Using <code>_</code> is discouraged.
  */
 public class ParamSpec extends org.gtk.gobject.Object {
 
@@ -34,7 +34,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the short description of a #GParamSpec.
+     * Get the short description of a {@link org.gtk.gobject.ParamSpec}
      */
     public java.lang.String getBlurb() {
         var RESULT = gtk_h.g_param_spec_get_blurb(handle());
@@ -42,9 +42,9 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the default value of @pspec as a pointer to a #GValue.
+     * Gets the default value of @pspec as a pointer to a {@link org.gtk.gobject.Value} 
      * 
-     * The #GValue will remain valid for the life of @pspec.
+     * The {@link org.gtk.gobject.Value} will remain valid for the life of @pspec.
      */
     public Value getDefaultValue() {
         var RESULT = gtk_h.g_param_spec_get_default_value(handle());
@@ -52,9 +52,9 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the name of a #GParamSpec.
+     * Get the name of a {@link org.gtk.gobject.ParamSpec} 
      * 
-     * The name is always an &#34;interned&#34; string (as per g_intern_string()).
+     * The name is always an &<code>#34</code> interned&<code>#34</code>  string (as per g_intern_string()).
      * This allows for pointer-value comparisons.
      */
     public java.lang.String getName() {
@@ -71,7 +71,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the nickname of a #GParamSpec.
+     * Get the nickname of a {@link org.gtk.gobject.ParamSpec}
      */
     public java.lang.String getNick() {
         var RESULT = gtk_h.g_param_spec_get_nick(handle());
@@ -92,7 +92,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * providing a new implementation of a property in a derived
      * type while preserving all the properties from the parent
      * type. Redirection is established by creating a property
-     * of type #GParamSpecOverride. See g_object_class_override_property()
+     * of type {@link org.gtk.gobject.ParamSpecOverride}  See g_object_class_override_property()
      * for an example of the use of this capability.
      */
     public ParamSpec getRedirectTarget() {
@@ -109,7 +109,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience function to ref and sink a #GParamSpec.
+     * Convenience function to ref and sink a {@link org.gtk.gobject.ParamSpec}
      */
     public ParamSpec refSink() {
         var RESULT = gtk_h.g_param_spec_ref_sink(handle());
@@ -117,8 +117,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets an opaque, named pointer on a #GParamSpec. The name is
-     * specified through a #GQuark (retrieved e.g. via
+     * Sets an opaque, named pointer on a {@link org.gtk.gobject.ParamSpec}  The name is
+     * specified through a {@link org.gtk.glib.Quark} (retrieved e.g. via
      * g_quark_from_static_string()), and the pointer can be gotten back
      * from the @pspec with g_param_spec_get_qdata().  Setting a
      * previously set user data pointer, overrides (frees) the old pointer
@@ -141,13 +141,13 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * The initial reference count of a newly created #GParamSpec is 1,
+     * The initial reference count of a newly created {@link org.gtk.gobject.ParamSpec} is 1,
      * even though no one has explicitly called g_param_spec_ref() on it
-     * yet. So the initial reference count is flagged as &#34;floating&#34;, until
+     * yet. So the initial reference count is flagged as &<code>#34</code> floating&<code>#34</code> , until
      * someone calls <code>g_param_spec_ref (pspec); g_param_spec_sink
      * (pspec);</code> in sequence on it, taking over the initial
      * reference count (thus ending up with a @pspec that has a reference
-     * count of 1 still, but is not flagged &#34;floating&#34; anymore).
+     * count of 1 still, but is not flagged &<code>#34</code> floating&<code>#34</code>  anymore).
      */
     public void sink() {
         gtk_h.g_param_spec_sink(handle());
@@ -172,13 +172,13 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GParamSpec instance.
+     * Creates a new {@link org.gtk.gobject.ParamSpec} instance.
      * 
      * See {@link [canonical parameter names]}{@link [canonical-parameter-names]} for details of
      * the rules for @name. Names which violate these rules lead to undefined
      * behaviour.
      * 
-     * Beyond the name, #GParamSpecs have two more descriptive
+     * Beyond the name, <code>#GParamSpecs</code> have two more descriptive
      * strings associated with them, the @nick, which should be suitable
      * for use as a label for the property in a property editor, and the
      * @blurb, which should be a somewhat longer description, suitable for
@@ -190,7 +190,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     }
     
     /**
-     * Validate a property name for a #GParamSpec. This can be useful for
+     * Validate a property name for a {@link org.gtk.gobject.ParamSpec}  This can be useful for
      * dynamically-generated properties which need to be validated at run-time
      * before actually trying to create them.
      * 

@@ -52,7 +52,7 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the current popup rectangle anchor.
      * 
-     * The value returned may change after calling {@link org.gtk.gdk.Popup#present},
+     * The value returned may change after calling {@link org.gtk.gdk.Popup<code>#present</code> ,
      * or after the {@link [signal@Gdk.Surface::layout] (ref=signal)} signal is emitted.
      */
     public default Gravity getRectAnchor() {
@@ -63,7 +63,7 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the current popup surface anchor.
      * 
-     * The value returned may change after calling {@link org.gtk.gdk.Popup#present},
+     * The value returned may change after calling {@link org.gtk.gdk.Popup<code>#present</code> ,
      * or after the {@link [signal@Gdk.Surface::layout] (ref=signal)} signal is emitted.
      */
     public default Gravity getSurfaceAnchor() {
@@ -79,10 +79,10 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
      * 
      * After calling this function, the result should be handled in response
      * to the {@link [signal@GdkSurface::layout] (ref=signal)} signal being emitted. The resulting
-     * popup position can be queried using {@link org.gtk.gdk.Popup#getPositionX},
-     * {@link org.gtk.gdk.Popup#getPositionY}, and the resulting size will be sent as
-     * parameters in the layout signal. Use {@link org.gtk.gdk.Popup#getRectAnchor}
-     * and {@link org.gtk.gdk.Popup#getSurfaceAnchor} to get the resulting anchors.
+     * popup position can be queried using {@link org.gtk.gdk.Popup<code>#getPositionX</code> ,
+     * {@link org.gtk.gdk.Popup<code>#getPositionY</code> , and the resulting size will be sent as
+     * parameters in the layout signal. Use {@link org.gtk.gdk.Popup<code>#getRectAnchor</code> 
+     * and {@link org.gtk.gdk.Popup<code>#getSurfaceAnchor</code>  to get the resulting anchors.
      * 
      * Presenting may fail, for example if the @popup is set to autohide
      * and is immediately hidden upon being presented. If presenting failed,

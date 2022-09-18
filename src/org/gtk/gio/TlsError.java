@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * An error code used with <code>G_TLS_ERROR</code> in a #GError returned from a
+ * An error code used with <code>G_TLS_ERROR</code> in a {@link org.gtk.glib.Error} returned from a
  * TLS-related routine.
  */
 public enum TlsError {
@@ -30,7 +30,7 @@ public enum TlsError {
     
     /**
      * The TLS handshake failed because the
-     *   peer&#39;s certificate was not acceptable.
+     *   peer&<code>#39</code> s certificate was not acceptable.
      */
     HANDSHAKE,
     

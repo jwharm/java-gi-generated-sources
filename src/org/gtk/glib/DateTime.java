@@ -22,7 +22,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GDateTime corresponding to the given date and time in
+     * Creates a new {@link org.gtk.glib.DateTime} corresponding to the given date and time in
      * the time zone @tz.
      * 
      * The @year must be between 1 and 9999, @month between 1 and 12 and @day
@@ -46,9 +46,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * 
      * It not considered a programmer error for the values to this function
      * to be out of range, but in the case that they are, the function will
-     * return <code>NULL.
+     * return <code>null</code> 
      * 
-     * You</code> should release the return value by calling g_date_time_unref()
+     * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
      */
     public DateTime(TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
@@ -61,20 +61,20 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to the given
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to the given
      * {@link [ISO 8601 formatted string]}(https://en.wikipedia.org/wiki/ISO_8601)
-     * @text. ISO 8601 strings of the form &#60;date&#62;&#60;sep&#62;&#60;time&#62;&#60;tz&#62; are supported, with
+     * @text. ISO 8601 strings of the form &<code>#60</code> date&<code>#62</code> &<code>#60</code> sep&<code>#62</code> &<code>#60</code> time&<code>#62</code> &<code>#60</code> tz&<code>#62</code>  are supported, with
      * some extensions from {@link [RFC 3339]}(https://tools.ietf.org/html/rfc3339) as
      * mentioned below.
      * <p>
-     * Note that as #GDateTime &#34;is oblivious to leap seconds&#34;, leap seconds information
+     * Note that as {@link org.gtk.glib.DateTime} &<code>#34</code> is oblivious to leap seconds&<code>#34</code> , leap seconds information
      * in an ISO-8601 string will be ignored, so a <code>23:59:60</code> time would be parsed as<code>23:59:59</code>.
      * <p>
-     * &#60;sep&#62; is the separator and can be either &#39;T&#39;, &#39;t&#39; or &#39; &#39;. The latter two
+     * &<code>#60</code> sep&<code>#62</code>  is the separator and can be either &<code>#39</code> T&<code>#39</code> , &<code>#39</code> t&<code>#39</code>  or &<code>#39</code>  &<code>#39</code> . The latter two
      * separators are an extension from
-     * {@link [RFC 3339]}(https://tools.ietf.org/html/rfc3339#section-5.6).
+     * {@link [RFC 3339]}(https://tools.ietf.org/html/rfc3339<code>#section</code> 5.6).
      * <p>
-     * &#60;date&#62; is in the form:
+     * &<code>#60</code> date&<code>#62</code>  is in the form:
      * <p>
      * <li><code>YYYY-MM-DD</code> - Year/month/day, e.g. 2016-08-24.
      * <li><code>YYYYMMDD</code> - Same as above without dividers.
@@ -84,12 +84,12 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      *   e.g. 2016-W34-3.
      * <li><code>YYYYWwwD</code> - Same as above without dividers.
      * <p>
-     * &#60;time&#62; is in the form:
+     * &<code>#60</code> time&<code>#62</code>  is in the form:
      * <p>
      * <li><code>hh:mm:ss(.sss)</code> - Hours, minutes, seconds (subseconds), e.g. 22:10:42.123.
      * <li><code>hhmmss(.sss)</code> - Same as above without dividers.
      * <p>
-     * &#60;tz&#62; is an optional timezone suffix of the form:
+     * &<code>#60</code> tz&<code>#62</code>  is an optional timezone suffix of the form:
      * <p>
      * <li><code>Z</code> - UTC.
      * <li><code>+hh:mm</code> or <code>-hh:mm</code> - Offset from UTC in hours and minutes, e.g. +12:00.
@@ -98,7 +98,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * If the timezone is not provided in @text it must be provided in @default_tz
      * (this field is otherwise ignored).
      * 
-     * This call can fail (returning <code>NULL)</code> if @text is not a valid ISO 8601
+     * This call can fail (returning <code>null</code>  if @text is not a valid ISO 8601
      * formatted string.
      * 
      * You should release the return value by calling g_date_time_unref()
@@ -114,15 +114,15 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to the given #GTimeVal @tv in the
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to the given {@link org.gtk.glib.TimeVal} @tv in the
      * local time zone.
      * 
-     * The time contained in a #GTimeVal is always stored in the form of
+     * The time contained in a {@link org.gtk.glib.TimeVal} is always stored in the form of
      * seconds elapsed since 1970-01-01 00:00:00 UTC, regardless of the
      * local time offset.
      * 
-     * This call can fail (returning <code>NULL)</code> if @tv represents a time outside
-     * of the supported range of #GDateTime.
+     * This call can fail (returning <code>null</code>  if @tv represents a time outside
+     * of the supported range of {@link org.gtk.glib.DateTime} 
      * 
      * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
@@ -137,13 +137,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to the given #GTimeVal @tv in UTC.
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to the given {@link org.gtk.glib.TimeVal} @tv in UTC.
      * 
-     * The time contained in a #GTimeVal is always stored in the form of
+     * The time contained in a {@link org.gtk.glib.TimeVal} is always stored in the form of
      * seconds elapsed since 1970-01-01 00:00:00 UTC.
      * 
-     * This call can fail (returning <code>NULL)</code> if @tv represents a time outside
-     * of the supported range of #GDateTime.
+     * This call can fail (returning <code>null</code>  if @tv represents a time outside
+     * of the supported range of {@link org.gtk.glib.DateTime} 
      * 
      * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
@@ -158,14 +158,14 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to the given Unix time @t in the
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to the given Unix time @t in the
      * local time zone.
      * 
      * Unix time is the number of seconds that have elapsed since 1970-01-01
      * 00:00:00 UTC, regardless of the local time offset.
      * 
-     * This call can fail (returning <code>NULL)</code> if @t represents a time outside
-     * of the supported range of #GDateTime.
+     * This call can fail (returning <code>null</code>  if @t represents a time outside
+     * of the supported range of {@link org.gtk.glib.DateTime} 
      * 
      * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
@@ -180,13 +180,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to the given Unix time @t in UTC.
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to the given Unix time @t in UTC.
      * 
      * Unix time is the number of seconds that have elapsed since 1970-01-01
      * 00:00:00 UTC.
      * 
-     * This call can fail (returning <code>NULL)</code> if @t represents a time outside
-     * of the supported range of #GDateTime.
+     * This call can fail (returning <code>null</code>  if @t represents a time outside
+     * of the supported range of {@link org.gtk.glib.DateTime} 
      * 
      * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
@@ -201,7 +201,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GDateTime corresponding to the given date and time in
+     * Creates a new {@link org.gtk.glib.DateTime} corresponding to the given date and time in
      * the local time zone.
      * 
      * This call is equivalent to calling g_date_time_new() with the time
@@ -217,7 +217,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to this exact instant in the given
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to this exact instant in the given
      * time zone @tz.  The time is as accurate as the system allows, to a
      * maximum accuracy of 1 microsecond.
      * 
@@ -237,7 +237,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to this exact instant in the local
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to this exact instant in the local
      * time zone.
      * 
      * This is equivalent to calling g_date_time_new_now() with the time
@@ -253,7 +253,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a #GDateTime corresponding to this exact instant in UTC.
+     * Creates a {@link org.gtk.glib.DateTime} corresponding to this exact instant in UTC.
      * 
      * This is equivalent to calling g_date_time_new_now() with the time
      * zone returned by g_time_zone_new_utc().
@@ -268,7 +268,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GDateTime corresponding to the given date and time in
+     * Creates a new {@link org.gtk.glib.DateTime} corresponding to the given date and time in
      * UTC.
      * 
      * This call is equivalent to calling g_date_time_new() with the time
@@ -296,7 +296,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GDateTime adding the specified values to the current date and
+     * Creates a new {@link org.gtk.glib.DateTime} adding the specified values to the current date and
      * time in @datetime. Add negative values to subtract.
      */
     public DateTime addFull(int years, int months, int days, int hours, int minutes, double seconds) {
@@ -326,7 +326,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Creates a copy of @datetime and adds the specified number of months to the
      * copy. Add negative values to subtract months.
      * 
-     * The day of the month of the resulting #GDateTime is clamped to the number
+     * The day of the month of the resulting {@link org.gtk.glib.DateTime} is clamped to the number
      * of days in the updated calendar month. For example, if adding 1 month to
      * 31st January 2018, the result would be 28th February 2018. In 2020 (a leap
      * year), the result would be 29th February.
@@ -367,15 +367,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A comparison function for #GDateTimes that is suitable
-     * as a #GCompareFunc. Both #GDateTimes must be non-
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         A comparison function for #GDateTimes that is suitable
-     * as a #GCompareFunc. Both #GDateTimes must be non-%NULL.
+     * A comparison function for <code>#GDateTimes</code> that is suitable
+     * as a {@link org.gtk.glib.CompareFunc}  Both <code>#GDateTimes</code> must be non-<code>null</code>
      */
     public int compare(DateTime dt2) {
         var RESULT = gtk_h.g_date_time_compare(handle(), dt2.handle());
@@ -384,7 +377,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calculates the difference in time between @end and @begin.  The
-     * #GTimeSpan that is returned is effectively @end - @begin (ie:
+     * {@link org.gtk.glib.TimeSpan} that is returned is effectively @end - @begin (ie:
      * positive if the first parameter is larger).
      */
     public TimeSpan difference(DateTime begin) {
@@ -407,10 +400,9 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Creates a newly allocated string representing the requested @format.
      * <p>
      * The format strings understood by this function are a subset of the
-     * strftime() format language as specified by C99.  The \\<code>D,</code> \\<code>U</code> and \\<code>W
-     * conversions</code> are not supported, nor is the &#39;E&#39; modifier.  The GNU
-     * extensions \\<code>k,</code> \\<code>l,</code> \\<code>s</code> and \\<code>P</code> are supported, however, as are the
-     * &#39;0&#39;, &#39;_&#39; and &#39;-&#39; modifiers. The Python extension \\<code>f</code> is also supported.
+     * strftime() format language as specified by C99.  The \\<code>D</code>  \\<code>U</code> and \\<code>W</code> conversions are not supported, nor is the &<code>#39</code> E&<code>#39</code>  modifier.  The GNU
+     * extensions \\<code>k</code>  \\<code>l</code>  \\<code>s</code> and \\<code>P</code> are supported, however, as are the
+     * &<code>#39</code> 0&<code>#39</code> , &<code>#39</code> _&<code>#39</code>  and &<code>#39</code> -&<code>#39</code>  modifiers. The Python extension \\<code>f</code> is also supported.
      * <p>
      * In contrast to strftime(), this function always produces a UTF-8
      * string, regardless of the current locale.  Note that the rendering of
@@ -419,69 +411,67 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The following format specifiers are supported:
      * <p>
-     * <li>\\<code>a:</code> the abbreviated weekday name according to the current locale
-     * <li>\\<code>A:</code> the full weekday name according to the current locale
-     * <li>\\<code>b:</code> the abbreviated month name according to the current locale
-     * <li>\\<code>B:</code> the full month name according to the current locale
-     * <li>\\<code>c:</code> the preferred date and time representation for the current locale
-     * <li>\\<code>C:</code> the century number (year/100) as a 2-digit integer (00-99)
-     * <li>\\<code>d:</code> the day of the month as a decimal number (range 01 to 31)
-     * <li>\\<code>e:</code> the day of the month as a decimal number (range  1 to 31)
-     * <li>\\<code>F:</code> equivalent to <code><code>Y-%m-%d</code></code> (the ISO 8601 date format)
-     * - \\<code>g:</code> the last two digits of the ISO 8601 week-based year as a
-     *   decimal number (00-99). This works well with \\<code>V</code> and \\<code>u.
-     * -</code> \\<code>G:</code> the ISO 8601 week-based year as a decimal number. This works
-     *   well with \\<code>V</code> and \\<code>u.
-     * -</code> \\<code>h:</code> equivalent to \\<code>b
-     * -</code> \\<code>H:</code> the hour as a decimal number using a 24-hour clock (range 00 to 23)
-     * - \\<code>I:</code> the hour as a decimal number using a 12-hour clock (range 01 to 12)
-     * - \\<code>j:</code> the day of the year as a decimal number (range 001 to 366)
-     * - \\<code>k:</code> the hour (24-hour clock) as a decimal number (range 0 to 23);
+     * <li>\\<code>a</code>  the abbreviated weekday name according to the current locale
+     * <li>\\<code>A</code>  the full weekday name according to the current locale
+     * <li>\\<code>b</code>  the abbreviated month name according to the current locale
+     * <li>\\<code>B</code>  the full month name according to the current locale
+     * <li>\\<code>c</code>  the preferred date and time representation for the current locale
+     * <li>\\<code>C</code>  the century number (year/100) as a 2-digit integer (00-99)
+     * <li>\\<code>d</code>  the day of the month as a decimal number (range 01 to 31)
+     * <li>\\<code>e</code>  the day of the month as a decimal number (range  1 to 31)
+     * <li>\\<code>F</code>  equivalent to <code><code>Y</code> <code>m</code> <code>d</code> /code> (the ISO 8601 date format)
+     * - \\<code>g</code>  the last two digits of the ISO 8601 week-based year as a
+     *   decimal number (00-99). This works well with \\<code>V</code> and \\<code>u</code> 
+     * - \\<code>G</code>  the ISO 8601 week-based year as a decimal number. This works
+     *   well with \\<code>V</code> and \\<code>u</code> 
+     * - \\<code>h</code>  equivalent to \\<code>b</code> - \\<code>H</code>  the hour as a decimal number using a 24-hour clock (range 00 to 23)
+     * - \\<code>I</code>  the hour as a decimal number using a 12-hour clock (range 01 to 12)
+     * - \\<code>j</code>  the day of the year as a decimal number (range 001 to 366)
+     * - \\<code>k</code>  the hour (24-hour clock) as a decimal number (range 0 to 23);
      *   single digits are preceded by a blank
-     * - \\<code>l:</code> the hour (12-hour clock) as a decimal number (range 1 to 12);
+     * - \\<code>l</code>  the hour (12-hour clock) as a decimal number (range 1 to 12);
      *   single digits are preceded by a blank
-     * - \\<code>m:</code> the month as a decimal number (range 01 to 12)
-     * - \\<code>M:</code> the minute as a decimal number (range 00 to 59)
-     * - \\<code>f:</code> the microsecond as a decimal number (range 000000 to 999999)
-     * - \\<code>p:</code> either &#34;AM&#34; or &#34;PM&#34; according to the given time value, or the
+     * - \\<code>m</code>  the month as a decimal number (range 01 to 12)
+     * - \\<code>M</code>  the minute as a decimal number (range 00 to 59)
+     * - \\<code>f</code>  the microsecond as a decimal number (range 000000 to 999999)
+     * - \\<code>p</code>  either &<code>#34</code> AM&<code>#34</code>  or &<code>#34</code> PM&<code>#34</code>  according to the given time value, or the
      *   corresponding  strings for the current locale.  Noon is treated as
-     *   &#34;PM&#34; and midnight as &#34;AM&#34;. Use of this format specifier is discouraged, as
+     *   &<code>#34</code> PM&<code>#34</code>  and midnight as &<code>#34</code> AM&<code>#34</code> . Use of this format specifier is discouraged, as
      *   many locales have no concept of AM/PM formatting. Use \\<code>c</code> or \\<code>X</code> instead.
-     * - \\<code>P:</code> like \\<code>p</code> but lowercase: &#34;am&#34; or &#34;pm&#34; or a corresponding string for
+     * - \\<code>P</code>  like \\<code>p</code> but lowercase: &<code>#34</code> am&<code>#34</code>  or &<code>#34</code> pm&<code>#34</code>  or a corresponding string for
      *   the current locale. Use of this format specifier is discouraged, as
      *   many locales have no concept of AM/PM formatting. Use \\<code>c</code> or \\<code>X</code> instead.
-     * - \\<code>r:</code> the time in a.m. or p.m. notation. Use of this format specifier is
-     *   discouraged, as many locales have no concept of AM/PM formatting. Use \\<code>c
-     * </code>  or \\<code>X</code> instead.
-     * - \\<code>R:</code> the time in 24-hour notation (\\<code>H:\\%M)
-     * -</code> \\<code>s:</code> the number of seconds since the Epoch, that is, since 1970-01-01
+     * - \\<code>r</code>  the time in a.m. or p.m. notation. Use of this format specifier is
+     *   discouraged, as many locales have no concept of AM/PM formatting. Use \\<code>c</code>   or \\<code>X</code> instead.
+     * - \\<code>R</code>  the time in 24-hour notation (\\<code>H</code> \\<code>M</code> 
+     * - \\<code>s</code>  the number of seconds since the Epoch, that is, since 1970-01-01
      *   00:00:00 UTC
-     * - \\<code>S:</code> the second as a decimal number (range 00 to 60)
-     * - \\<code>t:</code> a tab character
-     * - \\<code>T:</code> the time in 24-hour notation with seconds (\\<code>H:\\%M:\\%S)
-     * -</code> \\<code>u:</code> the ISO 8601 standard day of the week as a decimal, range 1 to 7,
-     *    Monday being 1. This works well with \\<code>G</code> and \\<code>V.
-     * -</code> \\<code>V:</code> the ISO 8601 standard week number of the current year as a decimal
+     * - \\<code>S</code>  the second as a decimal number (range 00 to 60)
+     * - \\<code>t</code>  a tab character
+     * - \\<code>T</code>  the time in 24-hour notation with seconds (\\<code>H</code> \\<code>M</code> \\<code>S</code> 
+     * - \\<code>u</code>  the ISO 8601 standard day of the week as a decimal, range 1 to 7,
+     *    Monday being 1. This works well with \\<code>G</code> and \\<code>V</code> 
+     * - \\<code>V</code>  the ISO 8601 standard week number of the current year as a decimal
      *   number, range 01 to 53, where week 1 is the first week that has at
      *   least 4 days in the new year. See g_date_time_get_week_of_year().
-     *   This works well with \\<code>G</code> and \\<code>u.
-     * -</code> \\<code>w:</code> the day of the week as a decimal, range 0 to 6, Sunday being 0.
+     *   This works well with \\<code>G</code> and \\<code>u</code> 
+     * - \\<code>w</code>  the day of the week as a decimal, range 0 to 6, Sunday being 0.
      *   This is not the ISO 8601 standard format -- use \\<code>u</code> instead.
-     * - \\<code>x:</code> the preferred date representation for the current locale without
+     * - \\<code>x</code>  the preferred date representation for the current locale without
      *   the time
-     * - \\<code>X:</code> the preferred time representation for the current locale without
+     * - \\<code>X</code>  the preferred time representation for the current locale without
      *   the date
-     * - \\<code>y:</code> the year as a decimal number without the century
-     * - \\<code>Y:</code> the year as a decimal number including the century
-     * - \\<code>z:</code> the time zone as an offset from UTC (+hhmm)
-     * - \\<code>:z:</code> the time zone as an offset from UTC (+hh:mm).
+     * - \\<code>y</code>  the year as a decimal number without the century
+     * - \\<code>Y</code>  the year as a decimal number including the century
+     * - \\<code>z</code>  the time zone as an offset from UTC (+hhmm)
+     * - \\<code></code> z: the time zone as an offset from UTC (+hh:mm).
      *   This is a gnulib strftime() extension. Since: 2.38
-     * - \\<code>::z:</code> the time zone as an offset from UTC (+hh:mm:ss). This is a
+     * - \\<code></code> :z: the time zone as an offset from UTC (+hh:mm:ss). This is a
      *   gnulib strftime() extension. Since: 2.38
-     * - \\<code>:::z:</code> the time zone as an offset from UTC, with : to necessary
+     * - \\<code></code> ::z: the time zone as an offset from UTC, with : to necessary
      *   precision (e.g., -04, +05:30). This is a gnulib strftime() extension. Since: 2.38
-     * - \\<code>Z:</code> the time zone or name or abbreviation
-     * - \\<code>\\%:</code> a literal \\<code></code> character
+     * - \\<code>Z</code>  the time zone or name or abbreviation
+     * - \\<code></code> <code></code>  a literal \\<code></code> character
      * 
      * Some conversion specifications can be modified by preceding the
      * conversion specifier by one or more modifier characters. The
@@ -610,8 +600,8 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Determines the time zone abbreviation to be used at the time and in
      * the time zone of @datetime.
      * 
-     * For example, in Toronto this is currently &#34;EST&#34; during the winter
-     * months and &#34;EDT&#34; during the summer months when daylight savings
+     * For example, in Toronto this is currently &<code>#34</code> EST&<code>#34</code>  during the winter
+     * months and &<code>#34</code> EDT&<code>#34</code>  during the summer months when daylight savings
      * time is in effect.
      */
     public java.lang.String getTimezoneAbbreviation() {
@@ -703,7 +693,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Hashes @datetime into a #guint, suitable for use within #GHashTable.
+     * Hashes @datetime into a <code>#guint</code>  suitable for use within {@link org.gtk.glib.HashTable}
      */
     public int hash() {
         var RESULT = gtk_h.g_date_time_hash(handle());
@@ -728,7 +718,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GDateTime corresponding to the same instant in time as
+     * Creates a new {@link org.gtk.glib.DateTime} corresponding to the same instant in time as
      * @datetime, but in the local time zone.
      * 
      * This call is equivalent to calling g_date_time_to_timezone() with the
@@ -740,7 +730,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Create a new #GDateTime corresponding to the same instant in time as
+     * Create a new {@link org.gtk.glib.DateTime} corresponding to the same instant in time as
      * @datetime, but in the time zone @tz.
      * 
      * This call can fail in the case that the time goes out of bounds.  For
@@ -765,7 +755,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GDateTime corresponding to the same instant in time as
+     * Creates a new {@link org.gtk.glib.DateTime} corresponding to the same instant in time as
      * @datetime, but in UTC.
      * 
      * This call is equivalent to calling g_date_time_to_timezone() with the

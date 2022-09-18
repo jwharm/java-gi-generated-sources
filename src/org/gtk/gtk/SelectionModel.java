@@ -18,10 +18,10 @@ import java.lang.invoke.*;
  * interface if you want detailed control about how selections should be handled.
  * <p>
  * A <code>GtkSelectionModel</code> supports a single boolean per item indicating if an item is
- * selected or not. This can be queried via {@link org.gtk.gtk.SelectionModel#isSelected}.
+ * selected or not. This can be queried via {@link org.gtk.gtk.SelectionModel<code>#isSelected</code> .
  * When the selected state of one or more items changes, the model will emit the
  * {@link [signal@Gtk.SelectionModel::selection-changed] (ref=signal)} signal by calling the
- * {@link org.gtk.gtk.SelectionModel#selectionChanged} function. The positions given
+ * {@link org.gtk.gtk.SelectionModel<code>#selectionChanged</code>  function. The positions given
  * in that signal may have their selection state changed, though that is not a
  * requirement. If new items added to the model via the
  * {@link [signal@Gio.ListModel::items-changed] (ref=signal)} signal are selected or not is up to the
@@ -33,7 +33,7 @@ import java.lang.invoke.*;
  * listen to both signals.
  * <p>
  * Additionally, the interface can expose functionality to select and unselect
- * items. If these functions are implemented, GTK&#39;s list widgets will allow users
+ * items. If these functions are implemented, GTK&<code>#39</code> s list widgets will allow users
  * to select and unselect items. However, <code>GtkSelectionModel</code>s are free to only
  * implement them partially or not at all. In that case the widgets will not
  * support the unimplemented operations.
@@ -52,8 +52,8 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      * Gets the set containing all currently selected items in the model.
      * 
      * This function may be slow, so if you are only interested in single item,
-     * consider using {@link org.gtk.gtk.SelectionModel#isSelected} or if you are only
-     * interested in a few, consider {@link org.gtk.gtk.SelectionModel#getSelectionInRange}.
+     * consider using {@link org.gtk.gtk.SelectionModel<code>#isSelected</code>  or if you are only
+     * interested in a few, consider {@link org.gtk.gtk.SelectionModel<code>#getSelectionInRange</code> .
      */
     public default Bitset getSelection() {
         var RESULT = gtk_h.gtk_selection_model_get_selection(handle());
@@ -64,8 +64,8 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      * Gets the set of selected items in a range.
      * 
      * This function is an optimization for
-     * {@link org.gtk.gtk.SelectionModel#getSelection} when you are only
-     * interested in part of the model&#39;s selected state. A common use
+     * {@link org.gtk.gtk.SelectionModel<code>#getSelection</code>  when you are only
+     * interested in part of the model&<code>#39</code> s selected state. A common use
      * case is in response to the {@link [signal@Gtk.SelectionModel::selection-changed] (ref=signal)}
      * signal.
      */
@@ -129,9 +129,9 @@ public interface SelectionModel extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * In pseudocode, it would look something like this:
      * <p><pre>c
-     * for (i = 0; i &#60; n_items; i++)
+     * for (i = 0; i &<code>#60</code>  n_items; i++)
      *   {
-     *     // don&#39;t change values not in the mask
+     *     // don&<code>#39</code> t change values not in the mask
      *     if (!gtk_bitset_contains (mask, i))
      *       continue;
      * 

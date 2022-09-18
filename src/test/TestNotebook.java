@@ -131,7 +131,7 @@ public class TestNotebook {
     }
 
     public TestNotebook(String[] args) {
-        var app = new Application("org.gtk.example", ApplicationFlags.FLAGS_NONE);
+        Application app = new Application("org.gtk.example", ApplicationFlags.FLAGS_NONE);
         app.onActivate(this::activate);
         app.run(args.length, args);
     }

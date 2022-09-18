@@ -14,11 +14,11 @@ import java.lang.invoke.*;
  * Since 2.38, if you want to handle getting/setting D-Bus properties
  * asynchronously, give <code>null</code> as your get_property() or set_property()
  * function. The D-Bus call will be directed to your @method_call function,
- * with the provided @interface_name set to &#34;org.freedesktop.DBus.Properties&#34;.
+ * with the provided @interface_name set to &<code>#34</code> org.freedesktop.DBus.Properties&<code>#34</code> .
  * <p>
- * Ownership of the #GDBusMethodInvocation object passed to the
+ * Ownership of the {@link org.gtk.gio.DBusMethodInvocation} object passed to the
  * method_call() function is transferred to your handler; you must
- * call one of the methods of #GDBusMethodInvocation to return a reply
+ * call one of the methods of {@link org.gtk.gio.DBusMethodInvocation} to return a reply
  * (possibly empty), or an error. These functions also take ownership
  * of the passed-in invocation object, so unless the invocation
  * object has otherwise been referenced, it will be then be freed.
@@ -31,10 +31,9 @@ import java.lang.invoke.*;
  * performed for <code>Set</code> calls, and the provided value is also checked for
  * being the correct type.
  * <p>
- * For both <code>Get</code> and <code>Set</code> calls, the #GDBusMethodInvocation
- * passed to the @method_call handler can be queried with
+ * For both <code>Get</code> and <code>Set</code> calls, the {@link org.gtk.gio.DBusMethodInvocation} passed to the @method_call handler can be queried with
  * g_dbus_method_invocation_get_property_info() to get a pointer
- * to the #GDBusPropertyInfo of the property.
+ * to the {@link org.gtk.gio.DBusPropertyInfo} of the property.
  * <p>
  * If you have readable properties specified in your interface info,
  * you must ensure that you either provide a non-<code>null</code> @get_property()
@@ -46,9 +45,7 @@ import java.lang.invoke.*;
  * If you have writable properties specified in your interface info,
  * you must ensure that you either provide a non-<code>null</code> @set_property()
  * function or provide an implementation of the <code>Set</code> call. If implementing
- * the call, you must return the value of type @set_property()
- * function or provide an implementation of the <code>Set</code> call. If implementing
- * the call, you must return the value of type %G_VARIANT_TYPE_UNIT.
+ * the call, you must return the value of type <code>G_VARIANT_TYPE_UNIT</code>
  */
 public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
 

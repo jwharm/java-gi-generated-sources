@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GUnixFDList contains a list of file descriptors.  It owns the file
+ * A {@link org.gtk.gio.UnixFDList} contains a list of file descriptors.  It owns the file
  * descriptors that it contains, closing them when finalized.
  * <p>
- * It may be wrapped in a #GUnixFDMessage and sent over a #GSocket in
- * the {@link org.gtk.gio.SocketFamily#UNIX} family by using g_socket_send_message()
+ * It may be wrapped in a {@link org.gtk.gio.UnixFDMessage} and sent over a {@link org.gtk.gio.Socket} in
+ * the {@link org.gtk.gio.SocketFamily<code>#UNIX</code>  family by using g_socket_send_message()
  * and received using g_socket_receive_message().
  * <p>
- * Note that <code>&#60;gio/gunixfdlist.h&#62;</code> belongs to the UNIX-specific GIO
+ * Note that <code>&<code>#60</code> gio/gunixfdlist.h&<code>#62</code> </code> belongs to the UNIX-specific GIO
  * interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
  * file when using it.
  */
@@ -36,7 +36,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GUnixFDList containing no file descriptors.
+     * Creates a new {@link org.gtk.gio.UnixFDList} containing no file descriptors.
      */
     public UnixFDList() {
         super(constructNew());
@@ -48,7 +48,7 @@ public class UnixFDList extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GUnixFDList containing the file descriptors given in
+     * Creates a new {@link org.gtk.gio.UnixFDList} containing the file descriptors given in
      * @fds.  The file descriptors become the property of the new list and
      * may no longer be used by the caller.  The array itself is owned by
      * the caller.

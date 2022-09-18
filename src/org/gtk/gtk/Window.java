@@ -16,17 +16,17 @@ import java.lang.invoke.*;
  * of the windowing system and allow the user to manipulate the window
  * (resize it, move it, close it,...).
  * <p>
- * <h1>tkWindow as GtkBuildable</h1>
+ * <h1>GtkWindow as GtkBuildable</h1>
  * <p>
  * The <code>GtkWindow</code> implementation of the {@link [iface@Gtk.Buildable] (ref=iface)} interface supports
- * setting a child as the titlebar by specifying &#8220;titlebar&#8221; as the &#8220;type&#8221;
- * attribute of a &#60;child&#62; element.
+ * setting a child as the titlebar by specifying &<code>#8220</code> titlebar&<code>#8221</code>  as the &<code>#8220</code> type&<code>#8221</code> 
+ * attribute of a &<code>#60</code> child&<code>#62</code>  element.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * window.background {@link [.csd / .solid-csd / .ssd]} {@link [.maximized / .fullscreen / .tiled]}
- * &#9500;&#9472;&#9472; &#60;child&#62;
- * &#9584;&#9472;&#9472; &#60;titlebar child&#62;.titlebar {@link [.default-decoration]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> titlebar child&<code>#62</code> .titlebar {@link [.default-decoration]}
  * </pre>
  * <p><code>GtkWindow</code> has a main CSS node with name window and style class .background.
  * <p>
@@ -39,7 +39,7 @@ import java.lang.invoke.*;
  * <p><code>GtkWindow</code> subclasses often add their own discriminating style classes,
  * such as .dialog, .popup or .tooltip.
  * <p>
- * Generally, some CSS properties don&#39;t make sense on the toplevel window node,
+ * Generally, some CSS properties don&<code>#39</code> t make sense on the toplevel window node,
  * such as margins or padding. When client-side decorations without invisible
  * borders are in use (i.e. the .solid-csd style class is added to the
  * main window node), the CSS border of the toplevel window is used for
@@ -48,10 +48,10 @@ import java.lang.invoke.*;
  * <p><code>GtkWindow</code> adds the .titlebar and .default-decoration style classes to the
  * widget that is added as a titlebar child.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkWindow</code> uses the {@link org.gtk.gtk.AccessibleRole#WINDOW} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkWindow</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#WINDOW</code>  role.
  * <p>
- * <h1>ctions</h1>
+ * <h1>Actions</h1>
  * <p><code>GtkWindow</code> defines a set of built-in actions:
  * <li><code>default.activate</code>: Activate the default widget.
  * <li><code>window.minimize</code>: Minimize the window.
@@ -78,15 +78,15 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Creates a new <code>GtkWindow</code>.
      * <p>
      * To get an undecorated window (no window borders), use
-     * {@link org.gtk.gtk.Window#setDecorated}.
+     * {@link org.gtk.gtk.Window<code>#setDecorated</code> .
      * <p>
      * All top-level windows created by gtk_window_new() are stored
      * in an internal top-level window list. This list can be obtained
-     * from {@link Gtk#Window}. Due to GTK keeping a
+     * from {@link Gtk<code>#Window</code> . Due to GTK keeping a
      * reference to the window internally, gtk_window_new() does not
      * return a reference to the caller.
      * <p>
-     * To delete a <code>GtkWindow</code>, call {@link org.gtk.gtk.Window#destroy}.
+     * To delete a <code>GtkWindow</code>, call {@link org.gtk.gtk.Window<code>#destroy</code> .
      */
     public Window() {
         super(constructNew());
@@ -115,7 +115,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Asks to place @window in the fullscreen state.
      * 
-     * Note that you shouldn&#8217;t assume the window is definitely fullscreen
+     * Note that you shouldn&<code>#8217</code> t assume the window is definitely fullscreen
      * afterward, because other entities (e.g. the user or window manager
      * unfullscreen it again, and not all window managers honor requests
      * to fullscreen windows.
@@ -131,7 +131,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Asks to place @window in the fullscreen state on the given @monitor.
      * 
-     * Note that you shouldn&#39;t assume the window is definitely fullscreen
+     * Note that you shouldn&<code>#39</code> t assume the window is definitely fullscreen
      * afterward, or that the windowing system allows fullscreen windows on
      * any given monitor.
      * 
@@ -205,7 +205,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
-     * Gets whether &#8220;focus rectangles&#8221; are supposed to be visible.
+     * Gets whether &<code>#8220</code> focus rectangles&<code>#8221</code>  are supposed to be visible.
      */
     public boolean getFocusVisible() {
         var RESULT = gtk_h.gtk_window_get_focus_visible(handle());
@@ -323,11 +323,11 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * 
      * Note that since fullscreening is ultimately handled by the window
      * manager and happens asynchronously to an application request, you
-     * shouldn&#8217;t assume the return value of this function changing
+     * shouldn&<code>#8217</code> t assume the return value of this function changing
      * immediately (or at all), as an effect of calling
-     * {@link org.gtk.gtk.Window#fullscreen} or {@link org.gtk.gtk.Window#unfullscreen}.
+     * {@link org.gtk.gtk.Window<code>#fullscreen</code>  or {@link org.gtk.gtk.Window<code>#unfullscreen</code> .
      * 
-     * If the window isn&#39;t yet mapped, the value returned will whether the
+     * If the window isn&<code>#39</code> t yet mapped, the value returned will whether the
      * initial requested state is fullscreen.
      */
     public boolean isFullscreen() {
@@ -340,11 +340,11 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * 
      * Note that since maximization is ultimately handled by the window
      * manager and happens asynchronously to an application request, you
-     * shouldn&#8217;t assume the return value of this function changing
+     * shouldn&<code>#8217</code> t assume the return value of this function changing
      * immediately (or at all), as an effect of calling
-     * {@link org.gtk.gtk.Window#maximize} or {@link org.gtk.gtk.Window#unmaximize}.
+     * {@link org.gtk.gtk.Window<code>#maximize</code>  or {@link org.gtk.gtk.Window<code>#unmaximize</code> .
      * 
-     * If the window isn&#39;t yet mapped, the value returned will whether the
+     * If the window isn&<code>#39</code> t yet mapped, the value returned will whether the
      * initial requested state is maximized.
      */
     public boolean isMaximized() {
@@ -355,12 +355,12 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Asks to maximize @window, so that it fills the screen.
      * 
-     * Note that you shouldn&#8217;t assume the window is definitely maximized
+     * Note that you shouldn&<code>#8217</code> t assume the window is definitely maximized
      * afterward, because other entities (e.g. the user or window manager
      * could unmaximize it again, and not all window managers support
      * maximization.
      * 
-     * It&#8217;s permitted to call this function before showing a window,
+     * It&<code>#8217</code> s permitted to call this function before showing a window,
      * in which case the window will be maximized when it appears onscreen
      * initially.
      * 
@@ -376,13 +376,13 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Asks to minimize the specified @window.
      * 
-     * Note that you shouldn&#8217;t assume the window is definitely minimized
+     * Note that you shouldn&<code>#8217</code> t assume the window is definitely minimized
      * afterward, because the windowing system might not support this
      * functionality; other entities (e.g. the user or the window manager
      * could unminimize it again, or there may not be a window manager in
-     * which case minimization isn&#8217;t possible, etc.
+     * which case minimization isn&<code>#8217</code> t possible, etc.
      * 
-     * It&#8217;s permitted to call this function before showing a window,
+     * It&<code>#8217</code> s permitted to call this function before showing a window,
      * in which case the window will be minimized before it ever appears
      * onscreen.
      * 
@@ -409,16 +409,16 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * 
      * This may mean raising the window in the stacking order,
      * unminimizing it, moving it to the current desktop, and/or
-     * giving it the keyboard focus, possibly dependent on the user&#8217;s
+     * giving it the keyboard focus, possibly dependent on the user&<code>#8217</code> s
      * platform, window manager, and preferences.
      * 
-     * If @window is hidden, this function calls {@link org.gtk.gtk.Widget#show}
+     * If @window is hidden, this function calls {@link org.gtk.gtk.Widget<code>#show</code> 
      * as well.
      * 
      * This function should be used when the user tries to open a window
-     * that&#8217;s already open. Say for example the preferences dialog is
+     * that&<code>#8217</code> s already open. Say for example the preferences dialog is
      * currently open, and the user chooses Preferences from the menu
-     * a second time; use {@link org.gtk.gtk.Window#present} to move the
+     * a second time; use {@link org.gtk.gtk.Window<code>#present</code>  to move the
      * already-open dialog where the user can see it.
      * 
      * Presents a window to the user in response to a user interaction.
@@ -439,10 +439,10 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * 
      * Normally, the connection between the application and the window will
      * remain until the window is destroyed, but you can explicitly remove
-     * it by setting the @application to <code>NULL.
+     * it by setting the @application to <code>null</code> 
      * 
-     * This</code> is equivalent to calling {@link org.gtk.gtk.Application#removeWindow}
-     * and/or {@link org.gtk.gtk.Application#addWindow} on the old/new applications
+     * This is equivalent to calling {@link org.gtk.gtk.Application<code>#removeWindow</code> 
+     * and/or {@link org.gtk.gtk.Application<code>#addWindow</code>  on the old/new applications
      * as relevant.
      */
     public void setApplication(Application application) {
@@ -466,9 +466,9 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * convince the window manager not to decorate the window. Depending on
      * the system, this function may not have any effect when called on a
      * window that is already visible, so you should call it before calling
-     * {@link org.gtk.gtk.Widget#show}.
+     * {@link org.gtk.gtk.Widget<code>#show</code> .
      * 
-     * On Windows, this function always works, since there&#8217;s no window manager
+     * On Windows, this function always works, since there&<code>#8217</code> s no window manager
      * policy involved.
      */
     public void setDecorated(boolean setting) {
@@ -478,27 +478,27 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Sets the default size of a window.
      * 
-     * If the window&#8217;s &#8220;natural&#8221; size (its size request) is larger than
+     * If the window&<code>#8217</code> s &<code>#8220</code> natural&<code>#8221</code>  size (its size request) is larger than
      * the default, the default will be ignored.
      * 
-     * Unlike {@link org.gtk.gtk.Widget#setSizeRequest}, which sets a size
+     * Unlike {@link org.gtk.gtk.Widget<code>#setSizeRequest</code> , which sets a size
      * request for a widget and thus would keep users from shrinking
      * the window, this function only sets the initial size, just as
      * if the user had resized the window themselves. Users can still
      * shrink the window again as they normally would. Setting a default
-     * size of -1 means to use the &#8220;natural&#8221; default size (the size request
+     * size of -1 means to use the &<code>#8220</code> natural&<code>#8221</code>  default size (the size request
      * of the window).
      * 
      * The default size of a window only affects the first time a window is
      * shown; if a window is hidden and re-shown, it will remember the size
      * it had prior to hiding, rather than using the default size.
      * 
-     * Windows can&#8217;t actually be 0x0 in size, they must be at least 1x1, but
+     * Windows can&<code>#8217</code> t actually be 0x0 in size, they must be at least 1x1, but
      * passing 0 for @width and @height is OK, resulting in a 1x1 default size.
      * 
      * If you use this function to reestablish a previously saved window size,
      * note that the appropriate size to save is the one returned by
-     * {@link org.gtk.gtk.Window#getDefaultSize}. Using the window allocation
+     * {@link org.gtk.gtk.Window<code>#getDefaultSize</code> . Using the window allocation
      * directly will not work in all circumstances and can lead to growing
      * or shrinking windows.
      */
@@ -525,9 +525,9 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * will do its best to convince the window manager not to show a
      * close button. Depending on the system, this function may not
      * have any effect when called on a window that is already visible,
-     * so you should call it before calling {@link org.gtk.gtk.Widget#show}.
+     * so you should call it before calling {@link org.gtk.gtk.Widget<code>#show</code> .
      * 
-     * On Windows, this function always works, since there&#8217;s no window
+     * On Windows, this function always works, since there&<code>#8217</code> s no window
      * manager policy involved.
      */
     public void setDeletable(boolean setting) {
@@ -535,10 +535,10 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
-     * If @setting is <code>TRUE,</code> then destroying the transient parent of @window
+     * If @setting is <code>true</code>  then destroying the transient parent of @window
      * will also destroy @window itself.
      * 
-     * This is useful for dialogs that shouldn&#8217;t persist beyond the lifetime
+     * This is useful for dialogs that shouldn&<code>#8217</code> t persist beyond the lifetime
      * of the main window they are associated with, for example.
      */
     public void setDestroyWithParent(boolean setting) {
@@ -559,17 +559,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Sets the focus widget.
      * 
      * If @focus is not the current focus widget, and is focusable,
-     * sets it as the focus widget for the window. If @focus is <code>NULL,
-     * unsets</code> the focus widget for this window. To set the focus to a
+     * sets it as the focus widget for the window. If @focus is <code>null</code> 
+     * unsets the focus widget for this window. To set the focus to a
      * particular widget in the toplevel, it is usually more convenient
-     * to use {@link org.gtk.gtk.Widget#grabFocus} instead of this function.
+     * to use {@link org.gtk.gtk.Widget<code>#grabFocus</code>  instead of this function.
      */
     public void setFocus(Widget focus) {
         gtk_h.gtk_window_set_focus(handle(), focus.handle());
     }
     
     /**
-     * Sets whether &#8220;focus rectangles&#8221; are supposed to be visible.
+     * Sets whether &<code>#8220</code> focus rectangles&<code>#8221</code>  are supposed to be visible.
      */
     public void setFocusVisible(boolean setting) {
         gtk_h.gtk_window_set_focus_visible(handle(), setting ? 1 : 0);
@@ -584,7 +584,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
-     * If @setting is <code>TRUE,</code> then clicking the close button on the window
+     * If @setting is <code>true</code>  then clicking the close button on the window
      * will not destroy it, but only hide it.
      */
     public void setHideOnClose(boolean setting) {
@@ -616,7 +616,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * 
      * Modal windows prevent interaction with other windows in the same
      * application. To keep modal dialogs on top of main application windows,
-     * use {@link org.gtk.gtk.Window#setTransientFor} to make the dialog transient
+     * use {@link org.gtk.gtk.Window<code>#setTransientFor</code>  to make the dialog transient
      * for the parent; most window managers will then disallow lowering the
      * dialog below the parent.
      */
@@ -644,7 +644,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Normally, startup identifier is managed automatically and you should
      * only use this function in special cases like transferring focus from
      * other processes. You should use this function before calling
-     * {@link org.gtk.gtk.Window#present} or any equivalent function generating
+     * {@link org.gtk.gtk.Window<code>#present</code>  or any equivalent function generating
      * a window map event.
      * 
      * This function is only useful on X11, not with other GTK targets.
@@ -659,7 +659,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * The title of a window will be displayed in its title bar; on the
      * X Window System, the title bar is rendered by the window manager
      * so exactly how the title appears to users may vary according to a
-     * user&#8217;s exact configuration. The title should help a user distinguish
+     * user&<code>#8217</code> s exact configuration. The title should help a user distinguish
      * this window from other windows they may have open. A good title might
      * include the application name and current document filename, for example.
      * 
@@ -680,7 +680,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * the window manager not to put its own titlebar on the window.
      * Depending on the system, this function may not work for a window
      * that is already visible, so you set the titlebar before calling
-     * {@link org.gtk.gtk.Widget#show}.
+     * {@link org.gtk.gtk.Widget<code>#show</code> .
      */
     public void setTitlebar(Widget titlebar) {
         gtk_h.gtk_window_set_titlebar(handle(), titlebar.handle());
@@ -707,11 +707,11 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Asks to remove the fullscreen state for @window, and return to
      * its previous state.
      * 
-     * Note that you shouldn&#8217;t assume the window is definitely not
+     * Note that you shouldn&<code>#8217</code> t assume the window is definitely not
      * fullscreen afterward, because other entities (e.g. the user or
      * window manager could fullscreen it again, and not all window
      * managers honor requests to unfullscreen windows; normally the
-     * window will end up restored to its normal state. Just don&#8217;t
+     * window will end up restored to its normal state. Just don&<code>#8217</code> t
      * write code that crashes if not.
      * 
      * You can track the result of this operation via the
@@ -725,7 +725,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Asks to unmaximize @window.
      * 
-     * Note that you shouldn&#8217;t assume the window is definitely unmaximized
+     * Note that you shouldn&<code>#8217</code> t assume the window is definitely unmaximized
      * afterward, because other entities (e.g. the user or window manager
      * maximize it again, and not all window managers honor requests to
      * unmaximize.
@@ -741,11 +741,11 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Asks to unminimize the specified @window.
      * 
-     * Note that you shouldn&#8217;t assume the window is definitely unminimized
+     * Note that you shouldn&<code>#8217</code> t assume the window is definitely unminimized
      * afterward, because the windowing system might not support this
      * functionality; other entities (e.g. the user or the window manager
      * could minimize it again, or there may not be a window manager in
-     * which case minimization isn&#8217;t possible, etc.
+     * which case minimization isn&<code>#8217</code> t possible, etc.
      * 
      * You can track result of this operation via the
      * {@link [property@Gdk.Toplevel:state] (ref=property)} property.
@@ -759,7 +759,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * 
      * The returned string is owned by GTK and should not
      * be modified. It is only valid until the next call to
-     * {@link Gtk#Window}.
+     * {@link Gtk<code>#Window</code> .
      */
     public static java.lang.String getDefaultIconName() {
         var RESULT = gtk_h.gtk_window_get_default_icon_name();
@@ -771,7 +771,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * 
      * If you want to iterate through the list and perform actions involving
      * callbacks that might destroy the widgets or add new ones, be aware that
-     * the list of toplevels will change and emit the &#34;items-changed&#34; signal.
+     * the list of toplevels will change and emit the &<code>#34</code> items-changed&<code>#34</code>  signal.
      */
     public static org.gtk.gio.ListModel getToplevels() {
         var RESULT = gtk_h.gtk_window_get_toplevels();
@@ -796,7 +796,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Sets whether the window should request startup notification.
      * <p>
      * By default, after showing the first <code>GtkWindow</code>, GTK calls
-     * {@link org.gtk.gdk.Display#notifyStartupComplete}. Call this function
+     * {@link org.gtk.gdk.Display<code>#notifyStartupComplete</code> . Call this function
      * to disable the automatic startup notification. You might do this
      * if your first window is a splash screen, and you want to delay
      * notification until after your real main window has been shown,
@@ -814,7 +814,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Sets an icon to be used as fallback.
      * 
      * The fallback icon is used for windows that
-     * haven&#39;t had {@link org.gtk.gtk.Window#setIconName}
+     * haven&<code>#39</code> t had {@link org.gtk.gtk.Window<code>#setIconName</code> 
      * called on them.
      */
     public static void setDefaultIconName(java.lang.String name) {
@@ -822,7 +822,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
-     * Opens or closes the {@link [interactive debugger]}(running.html#interactive-debugging).
+     * Opens or closes the {@link [interactive debugger]}(running.html<code>#interactive</code> debugging).
      * 
      * The debugger offers access to the widget hierarchy of the application
      * and to useful debugging tools.
@@ -914,8 +914,8 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Emitted when the user enables or disables interactive debugging.
      * 
-     * When @toggle is <code>TRUE,</code> interactive debugging is toggled on or off,
-     * when it is <code>FALSE,</code> the debugger will be pointed at the widget
+     * When @toggle is <code>true</code>  interactive debugging is toggled on or off,
+     * when it is <code>false</code>  the debugger will be pointed at the widget
      * under the pointer.
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).

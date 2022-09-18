@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  * <code>GtkTooltip</code> is an object representing a widget tooltip.
  * <p>
  * Basic tooltips can be realized simply by using
- * {@link org.gtk.gtk.Widget#setTooltipText} or
- * {@link org.gtk.gtk.Widget#setTooltipMarkup} without
+ * {@link org.gtk.gtk.Widget<code>#setTooltipText</code>  or
+ * {@link org.gtk.gtk.Widget<code>#setTooltipMarkup</code>  without
  * any explicit tooltip object.
  * <p>
  * When you need a tooltip with a little more fancy contents,
@@ -20,8 +20,8 @@ import java.lang.invoke.*;
  * contents per <code>GtkTreeView</code> row or cell, you will have to do a
  * little more work:
  * <p>
- * <li>Set the {@link [property@Gtk.Widget:has-tooltip] (ref=property)} property to <code>TRUE.
- * </code>  This will make GTK monitor the widget for motion and related events
+ * <li>Set the {@link [property@Gtk.Widget:has-tooltip] (ref=property)} property to <code>true</code> 
+ *   This will make GTK monitor the widget for motion and related events
  *   which are needed to determine when and where to show a tooltip.
  * <p>
  * <li>Connect to the {@link [signal@Gtk.Widget::query-tooltip] (ref=signal)} signal.
@@ -29,12 +29,12 @@ import java.lang.invoke.*;
  *   One of the arguments passed to the signal handler is a <code>GtkTooltip</code>
  *   object. This is the object that we are about to display as a tooltip,
  *   and can be manipulated in your callback using functions like
- *   {@link org.gtk.gtk.Tooltip#setIcon}. There are functions for setting
- *   the tooltip&#8217;s markup, setting an image from a named icon, or even
+ *   {@link org.gtk.gtk.Tooltip<code>#setIcon</code> . There are functions for setting
+ *   the tooltip&<code>#8217</code> s markup, setting an image from a named icon, or even
  *   putting in a custom widget.
  * 
  * - Return <code>true</code> from your ::query-tooltip handler. This causes the tooltip
- *   to be show. If you return <code>FALSE,</code> it will not be shown.
+ *   to be show. If you return <code>false</code>  it will not be shown.
  */
 public class Tooltip extends org.gtk.gobject.Object {
 
@@ -61,7 +61,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
-     * @paintable.  If @paintable is <code>NULL,</code> the image will be hidden.
+     * @paintable.  If @paintable is <code>null</code>  the image will be hidden.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable) {
         gtk_h.gtk_tooltip_set_icon(handle(), paintable.handle());
@@ -70,7 +70,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     /**
      * Sets the icon of the tooltip (which is in front of the text)
      * to be the icon indicated by @gicon with the size indicated
-     * by @size. If @gicon is <code>NULL,</code> the image will be hidden.
+     * by @size. If @gicon is <code>null</code>  the image will be hidden.
      */
     public void setIconFromGicon(org.gtk.gio.Icon gicon) {
         gtk_h.gtk_tooltip_set_icon_from_gicon(handle(), gicon.handle());
@@ -79,7 +79,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
      * the icon indicated by @icon_name with the size indicated
-     * by @size.  If @icon_name is <code>NULL,</code> the image will be hidden.
+     * by @size.  If @icon_name is <code>null</code>  the image will be hidden.
      */
     public void setIconFromIconName(java.lang.String iconName) {
         gtk_h.gtk_tooltip_set_icon_from_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
@@ -89,7 +89,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * Sets the text of the tooltip to be @markup.
      * 
      * The string must be marked up with Pango markup.
-     * If @markup is <code>NULL,</code> the label will be hidden.
+     * If @markup is <code>null</code>  the label will be hidden.
      */
     public void setMarkup(java.lang.String markup) {
         gtk_h.gtk_tooltip_set_markup(handle(), Interop.allocateNativeString(markup).handle());
@@ -98,8 +98,8 @@ public class Tooltip extends org.gtk.gobject.Object {
     /**
      * Sets the text of the tooltip to be @text.
      * 
-     * If @text is <code>NULL,</code> the label will be hidden.
-     * See also {@link org.gtk.gtk.Tooltip#setMarkup}.
+     * If @text is <code>null</code>  the label will be hidden.
+     * See also {@link org.gtk.gtk.Tooltip<code>#setMarkup</code> .
      */
     public void setText(java.lang.String text) {
         gtk_h.gtk_tooltip_set_text(handle(), Interop.allocateNativeString(text).handle());

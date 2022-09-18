@@ -47,10 +47,10 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * for the first of the two changed rows, otherwise the resorting
      * of the rows will be wrong.
      * 
-     * This generally means that if you don&#8217;t fully control the data
+     * This generally means that if you don&<code>#8217</code> t fully control the data
      * model you have to duplicate the data that affects the listbox
      * row functions into the row widgets themselves. Another alternative
-     * is to call {@link org.gtk.gtk.ListBox#invalidateSort} on any model change,
+     * is to call {@link org.gtk.gtk.ListBox<code>#invalidateSort</code>  on any model change,
      * but that is more expensive.
      */
     public void changed() {
@@ -152,7 +152,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * This is a keybinding signal, which will cause this row to be activated.
      * <p>
      * If you want to be notified when the user activates a row (by key or not),
-     * use the {@link [signal@Gtk.ListBox::row-activated] (ref=signal)} signal on the row&#8217;s parent<code>GtkListBox</code>.
+     * use the {@link [signal@Gtk.ListBox::row-activated] (ref=signal)} signal on the row&<code>#8217</code> s parent<code>GtkListBox</code>.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {

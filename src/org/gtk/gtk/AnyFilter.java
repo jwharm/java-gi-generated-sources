@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * <code>GtkAnyFilter</code> matches an item when at least one of its filters matches.
  * <p>
- * To add filters to a <code>GtkAnyFilter</code>, use {@link org.gtk.gtk.MultiFilter#append}.
+ * To add filters to a <code>GtkAnyFilter</code>, use {@link org.gtk.gtk.MultiFilter<code>#append</code> .
  */
 public class AnyFilter extends MultiFilter implements org.gtk.gio.ListModel, Buildable {
 
@@ -29,9 +29,9 @@ public class AnyFilter extends MultiFilter implements org.gtk.gio.ListModel, Bui
     }
     
     /**
-     * Creates a new empty &#34;any&#34; filter.
+     * Creates a new empty &<code>#34</code> any&<code>#34</code>  filter.
      * 
-     * Use {@link org.gtk.gtk.MultiFilter#append} to add filters to it.
+     * Use {@link org.gtk.gtk.MultiFilter<code>#append</code>  to add filters to it.
      * 
      * This filter matches an item if any of the filters added to it
      * matches the item. In particular, this means that if no filter

@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Determines whether the spin button displays values outside the adjustment
  * bounds.
  * 
- * See {@link org.gtk.gtk.SpinButton#setUpdatePolicy}.
+ * See {@link org.gtk.gtk.SpinButton<code>#setUpdatePolicy</code> .
  */
 public enum SpinButtonUpdatePolicy {
 
@@ -16,7 +16,7 @@ public enum SpinButtonUpdatePolicy {
     
     /**
      * When refreshing your <code>GtkSpinButton</code>, the value is
-     *   only displayed if it is valid within the bounds of the spin button&#39;s
+     *   only displayed if it is valid within the bounds of the spin button&<code>#39</code> s
      *   adjustment
      */
     IF_VALID;

@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GTlsClientConnection is the client-side subclass of
- * #GTlsConnection, representing a client-side TLS connection.
+ * {@link org.gtk.gio.TlsClientConnection} is the client-side subclass of
+ * {@link org.gtk.gio.TlsConnection}  representing a client-side TLS connection.
  */
 public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddress {
 
@@ -26,7 +26,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * actually do anything. Because session resumption is normally used
      * only for performance benefit, the TLS backend might not implement
      * this function. Even if implemented, it may not actually succeed in
-     * allowing @conn to resume @source&#39;s TLS session, because the server
+     * allowing @conn to resume @source&<code>#39</code> s TLS session, because the server
      * may not have sent a session resumption token to @source, or it may
      * refuse to accept the token from @conn. There is no way to know
      * whether a call to this function is actually successful.
@@ -37,7 +37,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * without weakening the privacy guarantees normally provided by TLS,
      * without need to call this function. For example, with TLS 1.3,
      * a session ticket will be automatically copied from any
-     * #GTlsClientConnection that has previously received session tickets
+     * {@link org.gtk.gio.TlsClientConnection} that has previously received session tickets
      * from the server, provided a ticket is available that has not
      * previously been used for session resumption, since session ticket
      * reuse would be a privacy weakness. Using this function causes the
@@ -51,9 +51,9 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * Gets the list of distinguished names of the Certificate Authorities
      * that the server will accept certificates from. This will be set
      * during the TLS handshake if the server requests a certificate.
-     * Otherwise, it will be <code>NULL.
+     * Otherwise, it will be <code>null</code> 
      * 
-     * Each</code> item in the list is a #GByteArray which contains the complete
+     * Each item in the list is a {@link org.gtk.glib.ByteArray} which contains the complete
      * subject DN of the certificate authority.
      */
     public default org.gtk.glib.List getAcceptedCas() {
@@ -62,7 +62,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Gets @conn&#39;s expected server identity
+     * Gets @conn&<code>#39</code> s expected server identity
      */
     public default SocketConnectable getServerIdentity() {
         var RESULT = gtk_h.g_tls_client_connection_get_server_identity(handle());
@@ -70,21 +70,21 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Sets @conn&#39;s expected server identity, which is used both to tell
+     * Sets @conn&<code>#39</code> s expected server identity, which is used both to tell
      * servers on virtual hosts which certificate to present, and also
      * to let @conn know what name to look for in the certificate when
-     * performing {@link org.gtk.gio.TlsCertificateFlags#BAD_IDENTITY} validation, if enabled.
+     * performing {@link org.gtk.gio.TlsCertificateFlags<code>#BAD_IDENTITY</code>  validation, if enabled.
      */
     public default void setServerIdentity(SocketConnectable identity) {
         gtk_h.g_tls_client_connection_set_server_identity(handle(), identity.handle());
     }
     
     /**
-     * Creates a new #GTlsClientConnection wrapping @base_io_stream (which
+     * Creates a new {@link org.gtk.gio.TlsClientConnection} wrapping @base_io_stream (which
      * must have pollable input and output streams) which is assumed to
      * communicate with the server identified by @server_identity.
      * 
-     * See the documentation for #GTlsConnection:base-io-stream for restrictions
+     * See the documentation for {@link org.gtk.gio.TlsConnection} base-io-stream for restrictions
      * on when application code can run operations on the @base_io_stream after
      * this function has returned.
      */

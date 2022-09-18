@@ -9,12 +9,12 @@ import java.lang.invoke.*;
 
 /**
  * A <code>GdkFrameTimings</code> object holds timing information for a single frame
- * of the application&#8217;s displays.
+ * of the application&<code>#8217</code> s displays.
  * <p>
- * To retrieve <code>GdkFrameTimings</code> objects, use {@link org.gtk.gdk.FrameClock#getTimings}
- * or {@link org.gtk.gdk.FrameClock#getCurrentTimings}. The information in<code>GdkFrameTimings</code> is useful for precise synchronization of video with
+ * To retrieve <code>GdkFrameTimings</code> objects, use {@link org.gtk.gdk.FrameClock<code>#getTimings</code> 
+ * or {@link org.gtk.gdk.FrameClock<code>#getCurrentTimings</code> . The information in<code>GdkFrameTimings</code> is useful for precise synchronization of video with
  * the event or audio streams, and for measuring quality metrics for the
- * application&#8217;s display, such as latency and jitter.
+ * application&<code>#8217</code> s display, such as latency and jitter.
  */
 public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
 
@@ -30,7 +30,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * window system for processing and display to the user. The
      * accessor functions for <code>GdkFrameTimings</code> can return 0 to
      * indicate an unavailable value for two reasons: either because
-     * the information is not yet available, or because it isn&#39;t
+     * the information is not yet available, or because it isn&<code>#39</code> t
      * available at all.
      * <p>
      * Once this function returns <code>true</code> for a frame, you can be
@@ -55,7 +55,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * Returns the frame time for the frame.
      * 
      * This is the time value that is typically used to time
-     * animations for the frame. See {@link org.gtk.gdk.FrameClock#getFrameTime}.
+     * animations for the frame. See {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code> .
      */
     public long getFrameTime() {
         var RESULT = gtk_h.gdk_frame_timings_get_frame_time(handle());
@@ -67,11 +67,11 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * 
      * Although no predicted time may be available, if one is available,
      * it will be available while the frame is being generated, in contrast
-     * to {@link org.gtk.gdk.FrameTimings#getPresentationTime}, which is only
+     * to {@link org.gtk.gdk.FrameTimings<code>#getPresentationTime</code> , which is only
      * available after the frame has been presented.
      * 
      * In general, if you are simply animating, you should use
-     * {@link org.gtk.gdk.FrameClock#getFrameTime} rather than this function,
+     * {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code>  rather than this function,
      * but this function is useful for applications that want exact control
      * over latency. For example, a movie player may want this information
      * for Audio/Video synchronization.
@@ -95,8 +95,8 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * Gets the natural interval between presentation times for
      * the display that this frame was displayed on.
      * 
-     * Frame presentation usually happens during the &#8220;vertical
-     * blanking interval&#8221;.
+     * Frame presentation usually happens during the &<code>#8220</code> vertical
+     * blanking interval&<code>#8221</code> .
      */
     public long getRefreshInterval() {
         var RESULT = gtk_h.gdk_frame_timings_get_refresh_interval(handle());

@@ -1,21 +1,18 @@
 package org.gtk.gio;
 
 /**
- * The type of name used by a #GUnixSocketAddress.
- * {@link org.gtk.gio.UnixSocketAddressType#PATH} indicates a traditional unix domain
- * socket bound to a filesystem path. <code>G_UNIX_SOCKET_ADDRESS_ANONYMOUS
- * indicates</code> a socket not bound to any name (eg, a client-side socket,
+ * The type of name used by a {@link org.gtk.gio.UnixSocketAddress} 
+ * {@link org.gtk.gio.UnixSocketAddressType<code>#PATH</code>  indicates a traditional unix domain
+ * socket bound to a filesystem path. {@link org.gtk.gio.UnixSocketAddressType<code>#ANONYMOUS</code>  indicates a socket not bound to any name (eg, a client-side socket,
  * or a socket created with socketpair()).
  * <p>
  * For abstract sockets, there are two incompatible ways of naming
  * them; the man pages suggest using the entire <code>struct sockaddr_un</code>
  * as the name, padding the unused parts of the <code>sun_path</code> field with
- * zeroes; this corresponds to <code>G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED.
- * However,</code> many programs instead just use a portion of <code>sun_path,</code> and
+ * zeroes; this corresponds to {@link org.gtk.gio.UnixSocketAddressType<code>#ABSTRACT_PADDED</code>  
+ * However, many programs instead just use a portion of <code>sun_path</code>  and
  * pass an appropriate smaller length to bind() or connect(). This is
- * and
- * pass an appropriate smaller length to bind() or connect(). This is
- * %G_UNIX_SOCKET_ADDRESS_ABSTRACT.
+ * {@link org.gtk.gio.UnixSocketAddressType<code>#ABSTRACT</code>
  */
 public enum UnixSocketAddressType {
 

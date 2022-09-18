@@ -1,8 +1,8 @@
 package org.gtk.glib;
 
 /**
- * Enumeration representing a day of the week; <code>G_DATE_MONDAY,
- * %G_DATE_TUESDAY,</code> etc. {@link org.gtk.glib.DateWeekday#BAD_WEEKDAY} is an invalid weekday.
+ * Enumeration representing a day of the week; {@link org.gtk.glib.DateWeekday<code>#MONDAY</code>  
+ * {@link org.gtk.glib.DateWeekday<code>#TUESDAY</code>   etc. {@link org.gtk.glib.DateWeekday<code>#BAD_WEEKDAY</code>  is an invalid weekday.
  */
 public enum DateWeekday {
 

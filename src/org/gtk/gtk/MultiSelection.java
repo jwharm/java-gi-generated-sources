@@ -45,7 +45,7 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
     /**
      * Sets the model that @self should wrap.
      * 
-     * If @model is <code>NULL,</code> @self will be empty.
+     * If @model is <code>null</code>  @self will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_multi_selection_set_model(handle(), model.handle());

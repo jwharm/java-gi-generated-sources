@@ -21,26 +21,22 @@ public enum MarkupError {
     PARSE,
     
     /**
-     * error should be set by #GMarkupParser
-     *     functions; element wasn&#39;t known
+     * error should be set by {@link org.gtk.glib.MarkupParser}     functions; element wasn&<code>#39</code> t known
      */
     UNKNOWN_ELEMENT,
     
     /**
-     * error should be set by #GMarkupParser
-     *     functions; attribute wasn&#39;t known
+     * error should be set by {@link org.gtk.glib.MarkupParser}     functions; attribute wasn&<code>#39</code> t known
      */
     UNKNOWN_ATTRIBUTE,
     
     /**
-     * error should be set by #GMarkupParser
-     *     functions; content was invalid
+     * error should be set by {@link org.gtk.glib.MarkupParser}     functions; content was invalid
      */
     INVALID_CONTENT,
     
     /**
-     * error should be set by #GMarkupParser
-     *     functions; a required attribute was missing
+     * error should be set by {@link org.gtk.glib.MarkupParser}     functions; a required attribute was missing
      */
     MISSING_ATTRIBUTE;
     

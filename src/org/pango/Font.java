@@ -25,7 +25,7 @@ public class Font extends org.gtk.gobject.Object {
     /**
      * Returns a description of the font, with font size set in points.
      * 
-     * Use {@link org.pango.Font#describeWithAbsoluteSize} if you want
+     * Use {@link org.pango.Font<code>#describeWithAbsoluteSize</code>  if you want
      * the font size in device units.
      */
     public FontDescription describe() {
@@ -37,7 +37,7 @@ public class Font extends org.gtk.gobject.Object {
      * Returns a description of the font, with absolute font size set
      * in device units.
      * 
-     * Use {@link org.pango.Font#describe} if you want the font size in points.
+     * Use {@link org.pango.Font<code>#describe</code>  if you want the font size in points.
      */
     public FontDescription describeWithAbsoluteSize() {
         var RESULT = gtk_h.pango_font_describe_with_absolute_size(handle());
@@ -67,9 +67,9 @@ public class Font extends org.gtk.gobject.Object {
      * the font map, so if all references to font map are
      * dropped, the font map will be finalized even if there
      * are fonts created with the font map that are still alive.
-     * In that case this function will return <code>NULL.
+     * In that case this function will return <code>null</code> 
      * <p>
-     * It</code> is the responsibility of the user to ensure that the
+     * It is the responsibility of the user to ensure that the
      * font map is kept alive. In most uses this is not an issue
      * as a <code>PangoContext</code> holds a reference to the font map.
      */
@@ -88,7 +88,7 @@ public class Font extends org.gtk.gobject.Object {
      * from the extents rectangle to more traditional font metrics. The units
      * of the rectangles are in 1/PANGO_SCALE of a device unit.
      * 
-     * If @font is <code>NULL,</code> this function gracefully sets some sane values in the
+     * If @font is <code>null</code>  this function gracefully sets some sane values in the
      * output variables and returns.
      */
     public void getGlyphExtents(Glyph glyph, Rectangle inkRect, Rectangle logicalRect) {
@@ -100,7 +100,7 @@ public class Font extends org.gtk.gobject.Object {
      * <p>
      * Note that the objects returned by this function are cached
      * and immutable. If you need to make changes to the <code>hb_font_t</code>,
-     * use {@link [hb_font_create_sub_font()]}(https://harfbuzz.github.io/harfbuzz-hb-font.html#hb-font-create-sub-font).
+     * use {@link [hb_font_create_sub_font()]}(https://harfbuzz.github.io/harfbuzz-hb-font.html<code>#hb</code> font-create-sub-font).
      */
     public org.harfbuzz.FontT getHbFont() {
         var RESULT = gtk_h.pango_font_get_hb_font(handle());
@@ -114,7 +114,7 @@ public class Font extends org.gtk.gobject.Object {
      * a language tag can be provided to indicate that the metrics should be
      * retrieved that correspond to the script(s) used by that language.
      * 
-     * If @font is <code>NULL,</code> this function gracefully sets some sane values in the
+     * If @font is <code>null</code>  this function gracefully sets some sane values in the
      * output variables and returns.
      */
     public FontMetrics getMetrics(Language language) {
@@ -139,7 +139,7 @@ public class Font extends org.gtk.gobject.Object {
      * The intended use of this function is testing, benchmarking and debugging.
      * The format is not meant as a permanent storage format.
      * 
-     * To recreate a font from its serialized form, use {@link Pango#Font}.
+     * To recreate a font from its serialized form, use {@link Pango<code>#Font</code> .
      */
     public org.gtk.glib.Bytes serialize() {
         var RESULT = gtk_h.pango_font_serialize(handle());
@@ -154,7 +154,7 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
-     * Loads data previously created via {@link org.pango.Font#serialize}.
+     * Loads data previously created via {@link org.pango.Font<code>#serialize</code> .
      * 
      * For a discussion of the supported format, see that function.
      * 

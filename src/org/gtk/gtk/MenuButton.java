@@ -19,19 +19,19 @@ import java.lang.invoke.*;
  * {@link [property@Gtk.MenuButton:label] (ref=property)} property). If neither is explicitly set,
  * a {@link org.gtk.gtk.Image} is automatically created, using an arrow image oriented
  * according to {@link [property@Gtk.MenuButton:direction] (ref=property)} or the generic
- * &#8220;open-menu-symbolic&#8221; icon if the direction is not set.
+ * &<code>#8220</code> open-menu-symbolic&<code>#8221</code>  icon if the direction is not set.
  * <p>
  * The positioning of the popup is determined by the
  * {@link [property@Gtk.MenuButton:direction] (ref=property)} property of the menu button.
  * <p>
  * For menus, the {@link [property@Gtk.Widget:halign] (ref=property)} and {@link [property@Gtk.Widget:valign] (ref=property)}
  * properties of the menu are also taken into account. For example, when the
- * direction is {@link org.gtk.gtk.ArrowType#DOWN} and the horizontal alignment is <code>GTK_ALIGN_START,
- * the</code> menu will be positioned below the button, with the starting edge
+ * direction is {@link org.gtk.gtk.ArrowType<code>#DOWN</code>  and the horizontal alignment is {@link org.gtk.gtk.Align<code>#START</code>  
+ * the menu will be positioned below the button, with the starting edge
  * (depending on the text direction) of the menu aligned with the starting
  * edge of the button. If there is not enough space below the button, the
  * menu is popped up above the button instead. If the alignment would move
- * part of the menu offscreen, it is &#8220;pushed in&#8221;.
+ * part of the menu offscreen, it is &<code>#8220</code> pushed in&<code>#8221</code> .
  * <p>
  * |           | start                | center                | end                |
  * | -         | ---                  | ---                   | ---                |
@@ -40,12 +40,12 @@ import java.lang.invoke.*;
  * | **left**  | !{@link []}(left-start.png)  | !{@link []}(left-center.png)  | !{@link []}(left-end.png)  |
  * | **right** | !{@link []}(right-start.png) | !{@link []}(right-center.png) | !{@link []}(right-end.png) |
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * menubutton
- * &#9584;&#9472;&#9472; button.toggle
- *     &#9584;&#9472;&#9472; &#60;content&#62;
- *          &#9584;&#9472;&#9472; {@link [arrow]}
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.toggle
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> content&<code>#62</code> 
+ *          &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [arrow]}
  * </pre>
  * <p><code>GtkMenuButton</code> has a single CSS node with name <code>menubutton</code>
  * which contains a <code>button</code> node with a <code>.toggle</code> style class.
@@ -62,8 +62,8 @@ import java.lang.invoke.*;
  * Optionally, the <code>menubutton</code> node can carry the <code>.circular</code> style class
  * to request a round appearance.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkMenuButton</code> uses the {@link org.gtk.gtk.AccessibleRole#BUTTON} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkMenuButton</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#BUTTON</code>  role.
  */
 public class MenuButton extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -152,17 +152,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Returns the <code>GtkPopover</code> that pops out of the button.
      * <p>
      * If the button is not using a <code>GtkPopover</code>, this function
-     * returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Returns the <code>GtkPopover</code> that pops out of the button.
-     * <p>
-     * If the button is not using a <code>GtkPopover</code>, this function
-     * returns %NULL.
+     * returns <code>null</code>
      */
     public Popover getPopover() {
         var RESULT = gtk_h.gtk_menu_button_get_popover(handle());
@@ -227,11 +217,11 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * 
      * @func should use one of
      * 
-     *  - {@link org.gtk.gtk.MenuButton#setPopover}
-     *  - {@link org.gtk.gtk.MenuButton#setMenuModel}
+     *  - {@link org.gtk.gtk.MenuButton<code>#setPopover</code> 
+     *  - {@link org.gtk.gtk.MenuButton<code>#setMenuModel</code> 
      * 
      * to set a popup for @menu_button.
-     * If @func is non-<code>NULL,</code> @menu_button will always be sensitive.
+     * If @func is non-<code>null</code>  @menu_button will always be sensitive.
      * 
      * Using this function will not reset the menu widget attached to
      * @menu_button. Instead, this can be done manually in @func.
@@ -260,8 +250,8 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * If the does not fit in the available space in the given direction,
      * GTK will its best to keep it inside the screen and fully visible.
      * 
-     * If you pass {@link org.gtk.gtk.ArrowType#NONE} for a @direction, the popup will behave
-     * as if you passed {@link org.gtk.gtk.ArrowType#DOWN} (although you won&#8217;t see any arrows).
+     * If you pass {@link org.gtk.gtk.ArrowType<code>#NONE</code>  for a @direction, the popup will behave
+     * as if you passed {@link org.gtk.gtk.ArrowType<code>#DOWN</code>  (although you won&<code>#8217</code> t see any arrows).
      */
     public void setDirection(ArrowType direction) {
         gtk_h.gtk_menu_button_set_direction(handle(), direction.getValue());
@@ -304,21 +294,14 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets the <code>GMenuModel</code> from which the popup will be constructed.
      * 
-     * If @menu_model is <code>NULL,</code> the button is disabled.
+     * If @menu_model is <code>null</code>  the button is disabled.
      * 
      * A {@link org.gtk.gtk.Popover} will be created from the menu model with
      * {@link [ctor@Gtk.PopoverMenu.new_from_model] (ref=ctor)}. Actions will be connected
      * as documented for this function.
      * 
      * If {@link [property@Gtk.MenuButton:popover] (ref=property)} is already set, it will be
-     * dissociated from the @menu_button, and the property is set to the button is disabled.
-     * 
-     * A {@link org.gtk.gtk.Popover} will be created from the menu model with
-     * {@link [ctor@Gtk.PopoverMenu.new_from_model] (ref=ctor)}. Actions will be connected
-     * as documented for this function.
-     * 
-     * If {@link [property@Gtk.MenuButton:popover] (ref=property)} is already set, it will be
-     * dissociated from the @menu_button, and the property is set to %NULL.
+     * dissociated from the @menu_button, and the property is set to <code>null</code>
      */
     public void setMenuModel(org.gtk.gio.MenuModel menuModel) {
         gtk_h.gtk_menu_button_set_menu_model(handle(), menuModel.handle());
@@ -327,13 +310,10 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets the <code>GtkPopover</code> that will be popped up when the @menu_button is clicked.
      * 
-     * If @popover is <code>NULL,</code> the button is disabled.
+     * If @popover is <code>null</code>  the button is disabled.
      * 
      * If {@link [property@Gtk.MenuButton:menu-model] (ref=property)} is set, the menu model is dissociated
-     * from the @menu_button, and the property is set to the button is disabled.
-     * 
-     * If {@link [property@Gtk.MenuButton:menu-model] (ref=property)} is set, the menu model is dissociated
-     * from the @menu_button, and the property is set to %NULL.
+     * from the @menu_button, and the property is set to <code>null</code>
      */
     public void setPopover(Widget popover) {
         gtk_h.gtk_menu_button_set_popover(handle(), popover.handle());
@@ -342,7 +322,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets whether menu button acts as a primary menu.
      * 
-     * Primary menus can be opened with the &#60;kbd&#62;F10&#60;/kbd&#62; key.
+     * Primary menus can be opened with the &<code>#60</code> kbd&<code>#62</code> F10&<code>#60</code> /kbd&<code>#62</code>  key.
      */
     public void setPrimary(boolean primary) {
         gtk_h.gtk_menu_button_set_primary(handle(), primary ? 1 : 0);

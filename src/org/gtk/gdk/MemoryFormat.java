@@ -10,7 +10,7 @@ package org.gtk.gdk;
  * on architectures with different endiannesses.
  * 
  * Its naming is modelled after
- * {@link [VkFormat]}(https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html#VkFormat)
+ * {@link [VkFormat]}(https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html<code>#VkFormat</code> 
  * for details).
  */
 public enum MemoryFormat {

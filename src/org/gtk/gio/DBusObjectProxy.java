@@ -8,10 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GDBusObjectProxy is an object used to represent a remote object
- * with one or more D-Bus interfaces. Normally, you don&#39;t instantiate
- * a #GDBusObjectProxy yourself - typically #GDBusObjectManagerClient
- * is used to obtain it.
+ * A {@link org.gtk.gio.DBusObjectProxy} is an object used to represent a remote object
+ * with one or more D-Bus interfaces. Normally, you don&<code>#39</code> t instantiate
+ * a {@link org.gtk.gio.DBusObjectProxy} yourself - typically {@link org.gtk.gio.DBusObjectManagerClient} is used to obtain it.
  */
 public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObject {
 
@@ -30,7 +29,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
     }
     
     /**
-     * Creates a new #GDBusObjectProxy for the given connection and
+     * Creates a new {@link org.gtk.gio.DBusObjectProxy} for the given connection and
      * object path.
      */
     public DBusObjectProxy(DBusConnection connection, java.lang.String objectPath) {

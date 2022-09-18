@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * <p><code>GtkEntryBuffer</code> may be derived from. Such a derived class might allow
  * text to be stored in an alternate location, such as non-pageable memory,
  * useful in the case of important passwords. Or a derived class could
- * integrate with an application&#8217;s concept of undo/redo.
+ * integrate with an application&<code>#8217</code> s concept of undo/redo.
  */
 public class EntryBuffer extends org.gtk.gobject.Object {
 
@@ -78,7 +78,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     /**
      * Retrieves the length in bytes of the buffer.
      * 
-     * See {@link org.gtk.gtk.EntryBuffer#getLength}.
+     * See {@link org.gtk.gtk.EntryBuffer<code>#getLength</code> .
      */
     public long getBytes() {
         var RESULT = gtk_h.gtk_entry_buffer_get_bytes(handle());
@@ -142,8 +142,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Sets the text in the buffer.
      * 
      * This is roughly equivalent to calling
-     * {@link org.gtk.gtk.EntryBuffer#deleteText} and
-     * {@link org.gtk.gtk.EntryBuffer#insertText}.
+     * {@link org.gtk.gtk.EntryBuffer<code>#deleteText</code>  and
+     * {@link org.gtk.gtk.EntryBuffer<code>#insertText</code> .
      * 
      * Note that @n_chars is in characters, not in bytes.
      */
@@ -160,17 +160,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * The text is altered in the default handler for this signal.
      * 
      * If you want access to the text after the text has been modified,
-     * use 
-     *         
-     *       
-     *       
-     *         
-     *       
-     *       
-     *         The text is altered in the default handler for this signal.
-     * 
-     * If you want access to the text after the text has been modified,
-     * use %G_CONNECT_AFTER.
+     * use {@link org.gtk.gobject.ConnectFlags<code>#AFTER</code>
      */
     public SignalHandle onDeletedText(DeletedTextHandler handler) {
         try {

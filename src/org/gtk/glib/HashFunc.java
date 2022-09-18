@@ -2,12 +2,12 @@ package org.gtk.glib;
 
 /**
  * Specifies the type of the hash function which is passed to
- * g_hash_table_new() when a #GHashTable is created.
+ * g_hash_table_new() when a {@link org.gtk.glib.HashTable} is created.
  * <p>
- * The function is passed a key and should return a #guint hash value.
+ * The function is passed a key and should return a <code>#guint</code> hash value.
  * The functions g_direct_hash(), g_int_hash() and g_str_hash() provide
- * hash functions which can be used when the key is a #gpointer, #gint*,
- * and #gchar* respectively.
+ * hash functions which can be used when the key is a <code>#gpointer</code>  <code>#gint</code> ,
+ * and <code>#gchar</code>  respectively.
  * <p>
  * g_direct_hash() is also the appropriate hash function for keys
  * of the form <code>GINT_TO_POINTER (n)</code> (or similar macros).
@@ -15,7 +15,7 @@ package org.gtk.glib;
  * A good hash functions should produce
  * hash values that are evenly distributed over a fairly large range.
  * The modulus is taken with the hash table size (a prime number) to
- * find the &#39;bucket&#39; to place each key into. The function should also
+ * find the &<code>#39</code> bucket&<code>#39</code>  to place each key into. The function should also
  * be very fast, since it is called for each key lookup.
  * 
  * Note that the hash functions provided by GLib have these qualities,

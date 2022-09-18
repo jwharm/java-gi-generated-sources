@@ -17,16 +17,16 @@ import java.lang.invoke.*;
  * bottom, <code>GtkInfoBar</code> has an action area at the side.
  * <p>
  * The API of <code>GtkInfoBar</code> is very similar to <code>GtkDialog</code>, allowing you
- * to add buttons to the action area with {@link org.gtk.gtk.InfoBar#addButton}
+ * to add buttons to the action area with {@link org.gtk.gtk.InfoBar<code>#addButton</code> 
  * or {@link [ctor@Gtk.InfoBar.new_with_buttons] (ref=ctor)}. The sensitivity of action widgets
- * can be controlled with {@link org.gtk.gtk.InfoBar#setResponseSensitive}.
+ * can be controlled with {@link org.gtk.gtk.InfoBar<code>#setResponseSensitive</code> .
  * <p>
  * To add widgets to the main content area of a <code>GtkInfoBar</code>, use
- * {@link org.gtk.gtk.InfoBar#addChild}.
+ * {@link org.gtk.gtk.InfoBar<code>#addChild</code> .
  * <p>
  * Similar to {@link org.gtk.gtk.MessageDialog}, the contents of a <code>GtkInfoBar</code>
  * can by classified as error message, warning, informational message, etc,
- * by using {@link org.gtk.gtk.InfoBar#setMessageType}. GTK may use the message
+ * by using {@link org.gtk.gtk.InfoBar<code>#setMessageType</code> . GTK may use the message
  * type to determine how the message is displayed.
  * <p>
  * A simple example for using a <code>GtkInfoBar</code>:<pre>c
@@ -40,13 +40,13 @@ import java.lang.invoke.*;
  * bar = GTK_INFO_BAR (widget);
  * grid = gtk_grid_new ();
  * <p>
- * message_label = gtk_label_new (&#34;&#34;);
+ * message_label = gtk_label_new (&<code>#34</code> &<code>#34</code> );
  * gtk_info_bar_add_child (bar, message_label);
  * gtk_info_bar_add_button (bar,
- *                          _(&#34;_OK&#34;),
+ *                          _(&<code>#34</code> _OK&<code>#34</code> ),
  *                          GTK_RESPONSE_OK);
  * g_signal_connect (bar,
- *                   &#34;response&#34;,
+ *                   &<code>#34</code> response&<code>#34</code> ,
  *                   G_CALLBACK (gtk_widget_hide),
  *                   NULL);
  * gtk_grid_attach (GTK_GRID (grid),
@@ -56,22 +56,22 @@ import java.lang.invoke.*;
  * // ...
  * <p>
  * // show an error message
- * gtk_label_set_text (GTK_LABEL (message_label), &#34;An error occurred!&#34;);
+ * gtk_label_set_text (GTK_LABEL (message_label), &<code>#34</code> An error occurred!&<code>#34</code> );
  * gtk_info_bar_set_message_type (bar, GTK_MESSAGE_ERROR);
  * gtk_widget_show (bar);
  * </pre>
  * <p>
- * <h1>tkInfoBar as GtkBuildable</h1>
- * <p><code>GtkInfoBar</code> supports a custom <code>&#60;action-widgets&#62;</code> element, which can contain
- * multiple <code>&#60;action-widget&#62;</code> elements. The &#8220;response&#8221; attribute specifies a
+ * <h1>GtkInfoBar as GtkBuildable</h1>
+ * <p><code>GtkInfoBar</code> supports a custom <code>&<code>#60</code> action-widgets&<code>#62</code> </code> element, which can contain
+ * multiple <code>&<code>#60</code> action-widget&<code>#62</code> </code> elements. The &<code>#8220</code> response&<code>#8221</code>  attribute specifies a
  * numeric response, and the content of the element is the id of widget
  * (which should be a child of the dialogs @action_area).
- * <p><code>GtkInfoBar</code> supports adding action widgets by specifying &#8220;action&#8221; as
- * the &#8220;type&#8221; attribute of a <code>&#60;child&#62;</code> element. The widget will be added
+ * <p><code>GtkInfoBar</code> supports adding action widgets by specifying &<code>#8220</code> action&<code>#8221</code>  as
+ * the &<code>#8220</code> type&<code>#8221</code>  attribute of a <code>&<code>#60</code> child&<code>#62</code> </code> element. The widget will be added
  * either to the action area. The response id has to be associated
- * with the action widget using the <code>&#60;action-widgets&#62;</code> element.
+ * with the action widget using the <code>&<code>#60</code> action-widgets&<code>#62</code> </code> element.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkInfoBar</code> has a single CSS node with name infobar. The node may get
  * one of the style classes .info, .warning, .error or .question, depending
  * on the message type.
@@ -118,8 +118,8 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * 
      * Clicking the button will emit the {@link [signal@Gtk.InfoBar::response] (ref=signal)}
      * signal with the given response_id. The button is appended to the
-     * end of the info bars&#39;s action area. The button widget is returned,
-     * but usually you don&#39;t need it.
+     * end of the info bars&<code>#39</code> s action area. The button widget is returned,
+     * but usually you don&<code>#39</code> t need it.
      */
     public Button addButton(java.lang.String buttonText, int responseId) {
         var RESULT = gtk_h.gtk_info_bar_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
@@ -161,7 +161,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Removes a widget from the action area of @info_bar.
      * 
      * The widget must have been put there by a call to
-     * {@link org.gtk.gtk.InfoBar#addActionWidget} or {@link org.gtk.gtk.InfoBar#addButton}.
+     * {@link org.gtk.gtk.InfoBar<code>#addActionWidget</code>  or {@link org.gtk.gtk.InfoBar<code>#addButton</code> .
      */
     public void removeActionWidget(Widget widget) {
         gtk_h.gtk_info_bar_remove_action_widget(handle(), widget.handle());
@@ -175,17 +175,17 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Emits the &#8220;response&#8221; signal with the given @response_id.
+     * Emits the &<code>#8220</code> response&<code>#8221</code>  signal with the given @response_id.
      */
     public void response(int responseId) {
         gtk_h.gtk_info_bar_response(handle(), responseId);
     }
     
     /**
-     * Sets the last widget in the info bar&#8217;s action area with
+     * Sets the last widget in the info bar&<code>#8217</code> s action area with
      * the given response_id as the default widget for the dialog.
      * 
-     * Pressing &#8220;Enter&#8221; normally activates the default widget.
+     * Pressing &<code>#8220</code> Enter&<code>#8221</code>  normally activates the default widget.
      * 
      * Note that this function currently requires @info_bar to
      * be added to a widget hierarchy.
@@ -207,7 +207,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Sets the sensitivity of action widgets for @response_id.
      * <p>
      * Calls <code>gtk_widget_set_sensitive (widget, setting)</code> for each
-     * widget in the info bars&#8217;s action area with the given @response_id.
+     * widget in the info bars&<code>#8217</code> s action area with the given @response_id.
      * A convenient way to sensitize/desensitize buttons.
      */
     public void setResponseSensitive(int responseId, boolean setting) {
@@ -222,21 +222,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * 
      * Note: this does not show or hide @info_bar in the
      * {@link [property@Gtk.Widget:visible] (ref=property)} sense, so revealing has no effect
-     * if {@link [property@Gtk.Widget:visible] (ref=property)} is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets whether the <code>GtkInfoBar</code> is revealed.
-     * 
-     * Changing this will make @info_bar reveal or conceal
-     * itself via a sliding transition.
-     * 
-     * Note: this does not show or hide @info_bar in the
-     * {@link [property@Gtk.Widget:visible] (ref=property)} sense, so revealing has no effect
-     * if {@link [property@Gtk.Widget:visible] (ref=property)} is %FALSE.
+     * if {@link [property@Gtk.Widget:visible] (ref=property)} is <code>false</code>
      */
     public void setRevealed(boolean revealed) {
         gtk_h.gtk_info_bar_set_revealed(handle(), revealed ? 1 : 0);
@@ -245,16 +231,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
     /**
      * If true, a standard close button is shown.
      * 
-     * When clicked it emits the response 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         If true, a standard close button is shown.
-     * 
-     * When clicked it emits the response %GTK_RESPONSE_CLOSE.
+     * When clicked it emits the response {@link org.gtk.gtk.ResponseType<code>#CLOSE</code>
      */
     public void setShowCloseButton(boolean setting) {
         gtk_h.gtk_info_bar_set_show_close_button(handle(), setting ? 1 : 0);
@@ -296,7 +273,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * Emitted when an action widget is clicked.
      * 
      * The signal is also emitted when the application programmer
-     * calls {@link org.gtk.gtk.InfoBar#response}. The @response_id depends
+     * calls {@link org.gtk.gtk.InfoBar<code>#response</code> . The @response_id depends
      * on which action widget was clicked.
      */
     public SignalHandle onResponse(ResponseHandler handler) {

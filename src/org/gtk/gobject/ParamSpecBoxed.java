@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GParamSpec derived structure that contains the meta data for boxed properties.
+ * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for boxed properties.
  */
 public class ParamSpecBoxed extends ParamSpec {
 

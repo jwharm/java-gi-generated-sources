@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used to define the behaviour of a #GApplication.
+ * Flags used to define the behaviour of a {@link org.gtk.gio.Application}
  */
 public class ApplicationFlags {
 
@@ -19,7 +19,7 @@ public class ApplicationFlags {
     public static final int IS_SERVICE = 1;
     
     /**
-     * Don&#39;t try to become the primary instance.
+     * Don&<code>#39</code> t try to become the primary instance.
      */
     public static final int IS_LAUNCHER = 2;
     
@@ -27,7 +27,7 @@ public class ApplicationFlags {
      * This application handles opening files (in
      *     the primary instance). Note that this flag only affects the default
      *     implementation of local_command_line(), and has no effect if
-     *     {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} is given.
+     *     {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  is given.
      *     See g_application_run() for details.
      */
     public static final int HANDLES_OPEN = 4;
@@ -47,7 +47,7 @@ public class ApplicationFlags {
      *     environment variables. For instance, an editor might be expected
      *     to use the <code>GIT_COMMITTER_NAME</code> environment variable
      *     when editing a git commit message. The environment is available
-     *     to the #GApplication::command-line signal handler, via
+     *     to the {@link org.gtk.gio.Application} :command-line signal handler, via
      *     g_application_command_line_getenv().
      */
     public static final int SEND_ENVIRONMENT = 16;

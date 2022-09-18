@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GConverter is implemented by objects that convert
+ * {@link org.gtk.gio.Converter} is implemented by objects that convert
  * binary data in various ways. The conversion can be
  * stateful and may fail at any place.
  * 

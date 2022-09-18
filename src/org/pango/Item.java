@@ -34,9 +34,9 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Add attributes to a <code>PangoItem</code>.
      * 
-     * The idea is that you have attributes that don&#39;t affect itemization,
+     * The idea is that you have attributes that don&<code>#39</code> t affect itemization,
      * such as font features, so you filter them out using
-     * {@link org.pango.AttrList#filter}, itemize your text, then reapply the
+     * {@link org.pango.AttrList<code>#filter</code> , itemize your text, then reapply the
      * attributes to the resulting items using this function.
      * 
      * The @iter should be positioned before the range of the item,
@@ -71,10 +71,10 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * You can think of @split_index as the length of the returned item.
      * @split_index may not be 0, and it may not be greater than or equal
      * to the length of @orig (that is, there must be at least one byte
-     * assigned to each item, you can&#39;t create a zero-length item).
+     * assigned to each item, you can&<code>#39</code> t create a zero-length item).
      * @split_offset is the length of the first item in chars, and must be
-     * provided because the text used to generate the item isn&#39;t available,
-     * so <code>pango_item_split()</code> can&#39;t count the char length of the split items
+     * provided because the text used to generate the item isn&<code>#39</code> t available,
+     * so <code>pango_item_split()</code> can&<code>#39</code> t count the char length of the split items
      * itself.
      */
     public Item split(int splitIndex, int splitOffset) {

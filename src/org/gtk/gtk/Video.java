@@ -170,7 +170,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
      * want to manage a media stream yourself, consider using a
      * {@link org.gtk.gtk.Picture} for display.
      * 
-     * If you want to display a file, consider using {@link org.gtk.gtk.Video#setFile}
+     * If you want to display a file, consider using {@link org.gtk.gtk.Video<code>#setFile</code> 
      * instead.
      */
     public void setMediaStream(MediaStream stream) {
@@ -180,7 +180,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Makes @self play the resource at the given @resource_path.
      * 
-     * This is a utility function that calls {@link org.gtk.gtk.Video#setFile}.
+     * This is a utility function that calls {@link org.gtk.gtk.Video<code>#setFile</code> .
      */
     public void setResource(java.lang.String resourcePath) {
         gtk_h.gtk_video_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());

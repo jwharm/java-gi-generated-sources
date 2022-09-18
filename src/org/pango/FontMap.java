@@ -30,7 +30,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * using this fontmap to change.
      * 
      * This function is only useful when implementing a new backend
-     * for Pango, something applications won&#39;t do. Backends should
+     * for Pango, something applications won&<code>#39</code> t do. Backends should
      * call this function if they have attached extra data to the
      * context and such data is changed.
      */
@@ -42,10 +42,10 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * Creates a <code>PangoContext</code> connected to @fontmap.
      * <p>
      * This is equivalent to {@link [ctor@Pango.Context.new] (ref=ctor)} followed by
-     * {@link org.pango.Context#setFontMap}.
+     * {@link org.pango.Context<code>#setFontMap</code> .
      * <p>
      * If you are using Pango as part of a higher-level system,
-     * that system may have it&#39;s own way of create a <code>PangoContext</code>.
+     * that system may have it&<code>#39</code> s own way of create a <code>PangoContext</code>.
      * For instance, the GTK toolkit has, among others,
      * gtk_widget_get_pango_context(). Use those instead.
      */
@@ -68,7 +68,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * The serial number is initialized to an small number larger than zero
      * when a new fontmap is created and is increased whenever the fontmap
      * is changed. It may wrap, but will never have the value 0. Since it can
-     * wrap, never compare it with &#34;less than&#34;, always use &#34;not equals&#34;.
+     * wrap, never compare it with &<code>#34</code> less than&<code>#34</code> , always use &<code>#34</code> not equals&<code>#34</code> .
      * <p>
      * The fontmap can only be changed using backend-specific API, like changing
      * fontmap resolution.

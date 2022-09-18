@@ -25,7 +25,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_ray_t structure.
+     * Allocates a new {@link org.gtk.graphene.Ray} structure.
      * 
      * The contents of the returned structure are undefined.
      */
@@ -34,7 +34,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given #graphene_ray_t are equal.
+     * Checks whether the two given {@link org.gtk.graphene.Ray} are equal.
      */
     public boolean equal(Ray b) {
         var RESULT = gtk_h.graphene_ray_equal(handle(), b.handle());
@@ -49,7 +49,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the point on the given #graphene_ray_t that is closest to the
+     * Computes the point on the given {@link org.gtk.graphene.Ray} that is closest to the
      * given point @p.
      */
     public void getClosestPointToPoint(Point3D p, Point3D res) {
@@ -57,14 +57,14 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the direction of the given #graphene_ray_t.
+     * Retrieves the direction of the given {@link org.gtk.graphene.Ray}
      */
     public void getDirection(Vec3 direction) {
         gtk_h.graphene_ray_get_direction(handle(), direction.handle());
     }
     
     /**
-     * Computes the distance of the origin of the given #graphene_ray_t from the
+     * Computes the distance of the origin of the given {@link org.gtk.graphene.Ray} from the
      * given plane.
      * <p>
      * If the ray does not intersect the plane, this function returns <code>INFINITY</code>.
@@ -76,7 +76,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the distance of the closest approach between the
-     * given #graphene_ray_t @r and the point @p.
+     * given {@link org.gtk.graphene.Ray} @r and the point @p.
      * 
      * The closest approach to a ray from a point is the distance
      * between the point and the projection of the point on the
@@ -88,7 +88,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the origin of the given #graphene_ray_t.
+     * Retrieves the origin of the given {@link org.gtk.graphene.Ray}
      */
     public void getOrigin(Point3D origin) {
         gtk_h.graphene_ray_get_origin(handle(), origin.handle());
@@ -96,14 +96,14 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the coordinates of a point at the distance @t along the
-     * given #graphene_ray_t.
+     * given {@link org.gtk.graphene.Ray}
      */
     public void getPositionAt(float t, Point3D position) {
         gtk_h.graphene_ray_get_position_at(handle(), t, position.handle());
     }
     
     /**
-     * Initializes the given #graphene_ray_t using the given @origin
+     * Initializes the given {@link org.gtk.graphene.Ray} using the given @origin
      * and @direction values.
      */
     public Ray init(Point3D origin, Vec3 direction) {
@@ -112,8 +112,8 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given #graphene_ray_t using the origin and direction
-     * values of another #graphene_ray_t.
+     * Initializes the given {@link org.gtk.graphene.Ray} using the origin and direction
+     * values of another {@link org.gtk.graphene.Ray}
      */
     public Ray initFromRay(Ray src) {
         var RESULT = gtk_h.graphene_ray_init_from_ray(handle(), src.handle());
@@ -121,7 +121,7 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given #graphene_ray_t using the given vectors.
+     * Initializes the given {@link org.gtk.graphene.Ray} using the given vectors.
      */
     public Ray initFromVec3(Vec3 origin, Vec3 direction) {
         var RESULT = gtk_h.graphene_ray_init_from_vec3(handle(), origin.handle(), direction.handle());
@@ -129,8 +129,8 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the given #graphene_ray_t @r intersects the
-     * given #graphene_box_t @b.
+     * Checks whether the given {@link org.gtk.graphene.Ray} @r intersects the
+     * given {@link org.gtk.graphene.Box} @b.
      * 
      * See also: graphene_ray_intersect_box()
      */
@@ -140,8 +140,8 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if the given #graphene_ray_t @r intersects the
-     * given #graphene_sphere_t @s.
+     * Checks if the given {@link org.gtk.graphene.Ray} @r intersects the
+     * given {@link org.gtk.graphene.Sphere} @s.
      * 
      * See also: graphene_ray_intersect_sphere()
      */
@@ -151,8 +151,8 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the given #graphene_ray_t @r intersects the
-     * given #graphene_triangle_t @b.
+     * Checks whether the given {@link org.gtk.graphene.Ray} @r intersects the
+     * given {@link org.gtk.graphene.Triangle} @b.
      * 
      * See also: graphene_ray_intersect_triangle()
      */

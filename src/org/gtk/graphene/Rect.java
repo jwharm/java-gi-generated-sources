@@ -10,16 +10,16 @@ import java.lang.invoke.*;
 /**
  * The location and size of a rectangle region.
  * 
- * The width and height of a #graphene_rect_t can be negative; for instance,
- * a #graphene_rect_t with an origin of {@link [ 0, 0 ]} and a size of {@link [ 10, 10 ]} is
- * equivalent to a #graphene_rect_t with an origin of {@link [ 10, 10 ]} and a size
+ * The width and height of a {@link org.gtk.graphene.Rect} can be negative; for instance,
+ * a {@link org.gtk.graphene.Rect} with an origin of {@link [ 0, 0 ]} and a size of {@link [ 10, 10 ]} is
+ * equivalent to a {@link org.gtk.graphene.Rect} with an origin of {@link [ 10, 10 ]} and a size
  * of {@link [ -10, -10 ]}.
  * 
  * Application code can normalize rectangles using graphene_rect_normalize();
  * this function will ensure that the width and height of a rectangle are
- * positive values. All functions taking a #graphene_rect_t as an argument
+ * positive values. All functions taking a {@link org.gtk.graphene.Rect} as an argument
  * will internally operate on a normalized copy; all functions returning a
- * #graphene_rect_t will always return a normalized rectangle.
+ * {@link org.gtk.graphene.Rect} will always return a normalized rectangle.
  */
 public class Rect extends io.github.jwharm.javagi.ResourceBase {
 
@@ -28,7 +28,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether a #graphene_rect_t contains the given coordinates.
+     * Checks whether a {@link org.gtk.graphene.Rect} contains the given coordinates.
      */
     public boolean containsPoint(Point p) {
         var RESULT = gtk_h.graphene_rect_contains_point(handle(), p.handle());
@@ -36,7 +36,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether a #graphene_rect_t fully contains the given
+     * Checks whether a {@link org.gtk.graphene.Rect} fully contains the given
      * rectangle.
      */
     public boolean containsRect(Rect b) {
@@ -53,7 +53,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Expands a #graphene_rect_t to contain the given #graphene_point_t.
+     * Expands a {@link org.gtk.graphene.Rect} to contain the given {@link org.gtk.graphene.Point}
      */
     public void expand(Point p, Rect res) {
         gtk_h.graphene_rect_expand(handle(), p.handle(), res.handle());
@@ -118,7 +118,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the four vertices of a #graphene_rect_t.
+     * Computes the four vertices of a {@link org.gtk.graphene.Rect}
      */
     public void getVertices(Vec2[] vertices) {
         gtk_h.graphene_rect_get_vertices(handle(), Interop.allocateNativeArray(vertices).handle());
@@ -151,10 +151,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given #graphene_rect_t with the given values.
+     * Initializes the given {@link org.gtk.graphene.Rect} with the given values.
      * 
-     * This function will implicitly normalize the #graphene_rect_t
-     * before returning.
+     * This function will implicitly normalize the {@link org.gtk.graphene.Rect} before returning.
      */
     public Rect init(float x, float y, float width, float height) {
         var RESULT = gtk_h.graphene_rect_init(handle(), x, y, width, height);
@@ -164,8 +163,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes @r using the given @src rectangle.
      * 
-     * This function will implicitly normalize the #graphene_rect_t
-     * before returning.
+     * This function will implicitly normalize the {@link org.gtk.graphene.Rect} before returning.
      */
     public Rect initFromRect(Rect src) {
         var RESULT = gtk_h.graphene_rect_init_from_rect(handle(), src.handle());
@@ -290,8 +288,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If you want to be sure that the rounded rectangle
      * completely covers the area that was covered by the
-     * original rectangle &#8212; i.e. you want to cover the area
-     * including all its corners &#8212; this function will make sure
+     * original rectangle &<code>#8212</code>  i.e. you want to cover the area
+     * including all its corners &<code>#8212</code>  this function will make sure
      * that the size is recomputed taking into account the ceiling
      * of the coordinates of the bottom-right corner.
      * If the difference between the original coordinates and the
@@ -325,7 +323,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_rect_t.
+     * Allocates a new {@link org.gtk.graphene.Rect} 
      * 
      * The contents of the returned rectangle are undefined.
      */

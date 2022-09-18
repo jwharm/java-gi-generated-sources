@@ -14,15 +14,15 @@ import java.lang.invoke.*;
  * The obvious example of a <code>GtkNative</code> is <code>GtkWindow</code>.
  * <p>
  * Every widget that is not itself a <code>GtkNative</code> is contained in one,
- * and you can get it with {@link org.gtk.gtk.Widget#getNative}.
+ * and you can get it with {@link org.gtk.gtk.Widget<code>#getNative</code> .
  * <p>
- * To get the surface of a <code>GtkNative</code>, use {@link org.gtk.gtk.Native#getSurface}.
+ * To get the surface of a <code>GtkNative</code>, use {@link org.gtk.gtk.Native<code>#getSurface</code> .
  * It is also possible to find the <code>GtkNative</code> to which a surface
- * belongs, with {@link Gtk#Native_}.
+ * belongs, with {@link Gtk<code>#Native_</code> .
  * <p>
  * In addition to a {@link org.gtk.gdk.Surface}, a <code>GtkNative</code> also provides
  * a {@link org.gtk.gsk.Renderer} for rendering on that surface. To get the
- * renderer, use {@link org.gtk.gtk.Native#getRenderer}.
+ * renderer, use {@link org.gtk.gtk.Native<code>#getRenderer</code> .
  */
 public interface Native extends io.github.jwharm.javagi.NativeAddress {
 

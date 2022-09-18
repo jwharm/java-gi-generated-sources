@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * <code>GtkShortcutTrigger</code> tracks how a <code>GtkShortcut</code> should be activated.
  * <p>
  * To find out if a <code>GtkShortcutTrigger</code> triggers, you can call
- * {@link org.gtk.gtk.ShortcutTrigger#trigger} on a <code>GdkEvent</code>.
+ * {@link org.gtk.gtk.ShortcutTrigger<code>#trigger</code>  on a <code>GdkEvent</code>.
  * <p><code>GtkShortcutTriggers</code> contain functions that allow easy presentation
  * to end users as well as being printed for debugging.
  * <p>
@@ -44,13 +44,13 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * The accepted strings are:
      * <p>
      *   - <code>never</code>, for <code>GtkNeverTrigger</code>
-     *   - a string parsed by gtk_accelerator_parse(), for a <code>GtkKeyvalTrigger</code>, e.g. <code>&#60;Control&#62;C</code>
+     *   - a string parsed by gtk_accelerator_parse(), for a <code>GtkKeyvalTrigger</code>, e.g. <code>&<code>#60</code> Control&<code>#62</code> C</code>
      *   - underscore, followed by a single character, for <code>GtkMnemonicTrigger</code>, e.g. <code>_l</code>
      *   - two valid trigger strings, separated by a <code>|</code> character, for a
-     *     <code>GtkAlternativeTrigger</code>: <code>&#60;Control&#62;q|&#60;Control&#62;w</code>
+     *     <code>GtkAlternativeTrigger</code>: <code>&<code>#60</code> Control&<code>#62</code> q|&<code>#60</code> Control&<code>#62</code> w</code>
      * <p>
-     * Note that you will have to escape the <code>&#60;</code> and <code>&#62;</code> characters when specifying
-     * triggers in XML files, such as GtkBuilder ui files. Use <code>&#38;lt;</code> instead of<code>&#60;</code> and <code>&#38;gt;</code> instead of <code>&#62;</code>.
+     * Note that you will have to escape the <code>&<code>#60</code> </code> and <code>&<code>#62</code> </code> characters when specifying
+     * triggers in XML files, such as GtkBuilder ui files. Use <code>&<code>#38</code> lt;</code> instead of<code>&<code>#60</code> </code> and <code>&<code>#38</code> gt;</code> instead of <code>&<code>#62</code> </code>.
      */
     public static ShortcutTrigger parseString(java.lang.String string) {
         return new ShortcutTrigger(constructParseString(string));
@@ -145,7 +145,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     /**
      * Prints the given trigger into a human-readable string.
      * 
-     * This is a small wrapper around {@link org.gtk.gtk.ShortcutTrigger#print}
+     * This is a small wrapper around {@link org.gtk.gtk.ShortcutTrigger<code>#print</code> 
      * to help when debugging.
      */
     public java.lang.String toString() {

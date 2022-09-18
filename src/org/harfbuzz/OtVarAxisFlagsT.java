@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Flags for #hb_ot_var_axis_info_t.
+ * Flags for {@link org.harfbuzz.ot_var_axis_info_t}
  */
 public class OtVarAxisFlagsT {
 

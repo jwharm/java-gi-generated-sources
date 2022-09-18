@@ -20,15 +20,15 @@ import java.lang.invoke.*;
  * columned data. In other words, the model can be seen as a tree where
  * every node has different values depending on which column is being
  * queried. The type of data found in a column is determined by using
- * the GType system (ie. <code>G_TYPE_INT,</code> <code>GTK_TYPE_BUTTON,</code> <code>G_TYPE_POINTER,
- * etc).</code> The types are homogeneous per column across all nodes. It is
+ * the GType system (ie. <code>G_TYPE_INT</code>  <code>GTK_TYPE_BUTTON</code>  <code>G_TYPE_POINTER</code> 
+ * etc). The types are homogeneous per column across all nodes. It is
  * important to note that this interface only provides a way of examining
  * a model and observing changes. The implementation of each individual
  * model decides how and if changes are made.
  * <p>
  * In order to make life simpler for programmers who do not need to
  * write their own specialized model, two generic models are provided
- * &#8212; the <code>GtkTreeStore</code> and the <code>GtkListStore</code>. To use these, the
+ * &<code>#8212</code>  the <code>GtkTreeStore</code> and the <code>GtkListStore</code>. To use these, the
  * developer simply pushes data into these models as necessary. These
  * models provide the data structure as well as all appropriate tree
  * interfaces. As a result, implementing drag and drop, sorting, and
@@ -39,7 +39,7 @@ import java.lang.invoke.*;
  * query for the value of a model at a certain node and a certain
  * column on that node. There are two structures used to reference a
  * particular node in a model. They are the {@link [struct@Gtk.TreePath] (ref=struct)} and
- * the {@link [struct@Gtk.TreeIter] (ref=struct)} (&#8220;iter&#8221; is short for iterator). Most of the
+ * the {@link [struct@Gtk.TreeIter] (ref=struct)} (&<code>#8220</code> iter&<code>#8221</code>  is short for iterator). Most of the
  * interface consists of operations on a {@link [struct@Gtk.TreeIter] (ref=struct)}.
  * <p>
  * A path is essentially a potential node. It is a location on a model
@@ -69,15 +69,15 @@ import java.lang.invoke.*;
  * <p>
  * The lifecycle of an iterator can be a little confusing at first.
  * Iterators are expected to always be valid for as long as the model
- * is unchanged (and doesn&#8217;t emit a signal). The model is considered
+ * is unchanged (and doesn&<code>#8217</code> t emit a signal). The model is considered
  * to own all outstanding iterators and nothing needs to be done to
- * free them from the user&#8217;s point of view. Additionally, some models
+ * free them from the user&<code>#8217</code> s point of view. Additionally, some models
  * guarantee that an iterator is valid for as long as the node it refers
  * to is valid (most notably the <code>GtkTreeStore</code> and <code>GtkListStore</code>).
  * Although generally uninteresting, as one always has to allow for
  * the case where iterators do not persist beyond a signal, some very
  * important performance enhancements were made in the sort model.
- * As a result, the {@link org.gtk.gtk.TreeModelFlags#ITERS_PERSIST} flag was added to
+ * As a result, the {@link org.gtk.gtk.TreeModelFlags<code>#ITERS_PERSIST</code>  flag was added to
  * indicate this behavior.
  * <p>
  * To help show some common operation of a model, some examples are
@@ -95,23 +95,23 @@ import java.lang.invoke.*;
  * <p>
  * // get the iterator from a string
  * gtk_tree_model_get_iter_from_string (model,
- *                                      &#38;iter,
- *                                      &#34;3:2:5&#34;);
+ *                                      &<code>#38</code> iter,
+ *                                      &<code>#34</code> 3:2:5&<code>#34</code> );
  * <p>
  * // get the iterator from a path
- * path = gtk_tree_path_new_from_string (&#34;3:2:5&#34;);
- * gtk_tree_model_get_iter (model, &#38;iter, path);
+ * path = gtk_tree_path_new_from_string (&<code>#34</code> 3:2:5&<code>#34</code> );
+ * gtk_tree_model_get_iter (model, &<code>#38</code> iter, path);
  * gtk_tree_path_free (path);
  * <p>
  * // walk the tree to find the iterator
- * gtk_tree_model_iter_nth_child (model, &#38;iter,
+ * gtk_tree_model_iter_nth_child (model, &<code>#38</code> iter,
  *                                NULL, 3);
  * parent_iter = iter;
- * gtk_tree_model_iter_nth_child (model, &#38;iter,
- *                                &#38;parent_iter, 2);
+ * gtk_tree_model_iter_nth_child (model, &<code>#38</code> iter,
+ *                                &<code>#38</code> parent_iter, 2);
  * parent_iter = iter;
- * gtk_tree_model_iter_nth_child (model, &#38;iter,
- *                                &#38;parent_iter, 5);
+ * gtk_tree_model_iter_nth_child (model, &<code>#38</code> iter,
+ *                                &<code>#38</code> parent_iter, 5);
  * </pre>
  * <p>
  * This second example shows a quick way of iterating through a list
@@ -148,25 +148,25 @@ import java.lang.invoke.*;
  * // through the list, reading each row.
  * <p>
  * valid = gtk_tree_model_get_iter_first (list_store,
- *                                        &#38;iter);
+ *                                        &<code>#38</code> iter);
  * while (valid)
  *  {
  *    char *str_data;
  *    int    int_data;
  * <p>
- *    // Make sure you terminate calls to gtk_tree_model_get() with a &#8220;-1&#8221; value
- *    gtk_tree_model_get (list_store, &#38;iter,
- *                        STRING_COLUMN, &#38;str_data,
- *                        INT_COLUMN, &#38;int_data,
+ *    // Make sure you terminate calls to gtk_tree_model_get() with a &<code>#8220</code> -1&<code>#8221</code>  value
+ *    gtk_tree_model_get (list_store, &<code>#38</code> iter,
+ *                        STRING_COLUMN, &<code>#38</code> str_data,
+ *                        INT_COLUMN, &<code>#38</code> int_data,
  *                        -1);
  * <p>
  *    // Do something with the data
- *    g_print (&#34;Row <code>d:</code> (<code>s,%d)\\n&#34;,
- * </code>            row_count, str_data, int_data);
+ *    g_print (&<code>#34</code> Row <code>d</code>  (<code>s</code> <code>d</code> \\n&<code>#34</code> ,
+ *             row_count, str_data, int_data);
  *    g_free (str_data);
  * <p>
  *    valid = gtk_tree_model_iter_next (list_store,
- *                                      &#38;iter);
+ *                                      &<code>#38</code> iter);
  *    row_count++;
  *  }
  * </pre>
@@ -215,7 +215,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Calls @func on each node in model in a depth-first fashion.
      * 
-     * If @func returns <code>TRUE,</code> then the tree ceases to be walked,
+     * If @func returns <code>true</code>  then the tree ceases to be walked,
      * and gtk_tree_model_foreach() returns.
      */
     public default void foreach(TreeModelForeachFunc func) {
@@ -265,7 +265,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Initializes @iter with the first iterator in the tree
-     * (the one at the path &#34;0&#34;).
+     * (the one at the path &<code>#34</code> 0&<code>#34</code> ).
      * 
      * Returns <code>false</code> if the tree is empty, <code>true</code> otherwise.
      */
@@ -306,8 +306,8 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Generates a string representation of the iter.
      * 
-     * This string is a &#8220;:&#8221; separated list of numbers.
-     * For example, &#8220;4:10:0:3&#8221; would be an acceptable
+     * This string is a &<code>#8220</code> :&<code>#8221</code>  separated list of numbers.
+     * For example, &<code>#8220</code> 4:10:0:3&<code>#8221</code>  would be an acceptable
      * return value for this string.
      */
     public default java.lang.String getStringFromIter(TreeIter iter) {
@@ -318,7 +318,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the value of one or more cells in the row referenced by @iter.
      * 
-     * See {@link org.gtk.gtk.TreeModel#get}, this version takes a va_list
+     * See {@link org.gtk.gtk.TreeModel<code>#get</code> , this version takes a va_list
      * for language bindings to use.
      */
     public default void getValist(TreeIter iter, VaList varArgs) {
@@ -360,7 +360,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Returns the number of children that @iter has.
      * 
-     * As a special case, if @iter is <code>NULL,</code> then the number
+     * As a special case, if @iter is <code>null</code>  then the number
      * of toplevel nodes is returned.
      */
     public default int iterNChildren(TreeIter iter) {
@@ -385,7 +385,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * The first index is 0. If @n is too big, or @parent has no children,
      * @iter is set to an invalid iterator and <code>false</code> is returned. @parent
      * will remain a valid node after this function has been called. As a
-     * special case, if @parent is <code>NULL,</code> then the @n-th root node
+     * special case, if @parent is <code>null</code>  then the @n-th root node
      * is set.
      */
     public default boolean iterNthChild(TreeIter iter, TreeIter parent, int n) {
@@ -396,7 +396,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets @iter to be the parent of @child.
      * 
-     * If @child is at the toplevel, and doesn&#8217;t have a parent, then
+     * If @child is at the toplevel, and doesn&<code>#8217</code> t have a parent, then
      * @iter is set to an invalid iterator and <code>false</code> is returned.
      * @child will remain a valid node after this function has been
      * called.

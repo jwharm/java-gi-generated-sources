@@ -10,8 +10,8 @@ import java.lang.invoke.*;
 /**
  * <code>GtkStyleProvider</code> is an interface for style information used by<code>GtkStyleContext</code>.
  * <p>
- * See {@link org.gtk.gtk.StyleContext#addProvider} and
- * {@link Gtk#StyleContext} for
+ * See {@link org.gtk.gtk.StyleContext<code>#addProvider</code>  and
+ * {@link Gtk<code>#StyleContext</code>  for
  * adding <code>GtkStyleProviders</code>.
  * <p>
  * GTK uses the <code>GtkStyleProvider</code> implementation for CSS in

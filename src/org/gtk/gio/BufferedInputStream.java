@@ -8,19 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Buffered input stream implements #GFilterInputStream and provides
+ * Buffered input stream implements {@link org.gtk.gio.FilterInputStream} and provides
  * for buffered reads.
  * 
- * By default, #GBufferedInputStream&#39;s buffer size is set at 4 kilobytes.
+ * By default, {@link org.gtk.gio.BufferedInputStream} <code>#39</code> s buffer size is set at 4 kilobytes.
  * 
  * To create a buffered input stream, use g_buffered_input_stream_new(),
- * or g_buffered_input_stream_new_sized() to specify the buffer&#39;s size at
+ * or g_buffered_input_stream_new_sized() to specify the buffer&<code>#39</code> s size at
  * construction.
  * 
  * To get the size of a buffer within a buffered input stream, use
  * g_buffered_input_stream_get_buffer_size(). To change the size of a
- * buffered input stream&#39;s buffer, use
- * g_buffered_input_stream_set_buffer_size(). Note that the buffer&#39;s size
+ * buffered input stream&<code>#39</code> s buffer, use
+ * g_buffered_input_stream_set_buffer_size(). Note that the buffer&<code>#39</code> s size
  * cannot be reduced below the size of the data within the buffer.
  */
 public class BufferedInputStream extends FilterInputStream implements Seekable {
@@ -40,7 +40,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
     }
     
     /**
-     * Creates a new #GInputStream from the given @base_stream, with
+     * Creates a new {@link org.gtk.gio.InputStream} from the given @base_stream, with
      * a buffer set to the default size (4 kilobytes).
      */
     public BufferedInputStream(InputStream baseStream) {
@@ -53,7 +53,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
     }
     
     /**
-     * Creates a new #GBufferedInputStream from the given @base_stream,
+     * Creates a new {@link org.gtk.gio.BufferedInputStream} from the given @base_stream,
      * with a buffer set to @size.
      */
     public static BufferedInputStream newSized(InputStream baseStream, long size) {
@@ -65,7 +65,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Will block during this read.
      * 
      * If @count is zero, returns zero and does nothing. A value of @count
-     * larger than <code>G_MAXSSIZE</code> will cause a {@link org.gtk.gio.IOErrorEnum#INVALID_ARGUMENT} error.
+     * larger than <code>G_MAXSSIZE</code> will cause a {@link org.gtk.gio.IOErrorEnum<code>#INVALID_ARGUMENT</code>  error.
      * 
      * On success, the number of bytes read into the buffer is returned.
      * It is not an error if this is not the same as the requested size, as it
@@ -75,9 +75,9 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * If @count is -1 then the attempted read size is equal to the number of
      * bytes that are required to fill the buffer.
      * 
-     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
+     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned. If an
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
      * 
@@ -96,7 +96,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
     }
     
     /**
-     * Reads data into @stream&#39;s buffer asynchronously, up to @count size.
+     * Reads data into @stream&<code>#39</code> s buffer asynchronously, up to @count size.
      * @io_priority can be used to prioritize reads. For the synchronous
      * version of this function, see g_buffered_input_stream_fill().
      * 
@@ -159,11 +159,11 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * during this read.
      * 
      * On success, the byte read from the stream is returned. On end of stream
-     * -1 is returned but it&#39;s not an exceptional error and @error is not set.
+     * -1 is returned but it&<code>#39</code> s not an exceptional error and @error is not set.
      * 
-     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
+     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned. If an
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
      * 

@@ -13,11 +13,11 @@ import java.lang.invoke.*;
  * When added into a window, it can be dragged to move the window, and handles
  * right click, double click and middle click as expected of a titlebar.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkWindowHandle</code> has a single CSS node with the name <code>windowhandle</code>.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkWindowHandle</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkWindowHandle</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
  */
 public class WindowHandle extends Widget implements Accessible, Buildable, ConstraintTarget {
 

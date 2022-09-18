@@ -15,13 +15,13 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [An example GtkLabel]}(label.png)
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * label
- * &#9500;&#9472;&#9472; {@link [selection]}
- * &#9500;&#9472;&#9472; {@link [link]}
- * &#9482;
- * &#9584;&#9472;&#9472; {@link [link]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [selection]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [link]}
+ * &<code>#9482</code> 
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [link]}
  * </pre>
  * <p><code>GtkLabel</code> has a single CSS node with the name label. A wide variety
  * of style classes may be applied to labels, such as .title, .subtitle,
@@ -34,21 +34,21 @@ import java.lang.invoke.*;
  * carry the link or visited state depending on whether they have been
  * visited. In this case, label node also gets a .link style class.
  * <p>
- * <h1>tkLabel as GtkBuildable</h1>
+ * <h1>GtkLabel as GtkBuildable</h1>
  * <p>
  * The GtkLabel implementation of the GtkBuildable interface supports a
- * custom &#60;attributes&#62; element, which supports any number of &#60;attribute&#62;
- * elements. The &#60;attribute&#62; element has attributes named &#8220;name&#8220;, &#8220;value&#8220;,
- * &#8220;start&#8220; and &#8220;end&#8220; and allows you to specify {@link [struct@Pango.Attribute] (ref=struct)}
+ * custom &<code>#60</code> attributes&<code>#62</code>  element, which supports any number of &<code>#60</code> attribute&<code>#62</code> 
+ * elements. The &<code>#60</code> attribute&<code>#62</code>  element has attributes named &<code>#8220</code> name&<code>#8220</code> , &<code>#8220</code> value&<code>#8220</code> ,
+ * &<code>#8220</code> start&<code>#8220</code>  and &<code>#8220</code> end&<code>#8220</code>  and allows you to specify {@link [struct@Pango.Attribute] (ref=struct)}
  * values for this label.
  * <p>
  * An example of a UI definition fragment specifying Pango attributes:<pre>xml
- * &#60;object class=&#34;GtkLabel&#34;&#62;
- *   &#60;attributes&#62;
- *     &#60;attribute name=&#34;weight&#34; value=&#34;PANGO_WEIGHT_BOLD&#34;/&#62;
- *     &#60;attribute name=&#34;background&#34; value=&#34;red&#34; start=&#34;5&#34; end=&#34;10&#34;/&#62;
- *   &#60;/attributes&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> attributes&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> weight&<code>#34</code>  value=&<code>#34</code> PANGO_WEIGHT_BOLD&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> background&<code>#34</code>  value=&<code>#34</code> red&<code>#34</code>  start=&<code>#34</code> 5&<code>#34</code>  end=&<code>#34</code> 10&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /attributes&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
  * The start and end attributes specify the range of characters to which the
@@ -57,93 +57,93 @@ import java.lang.invoke.*;
  * sense with translatable attributes. Use markup embedded in the translatable
  * content instead.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkLabel</code> uses the {@link org.gtk.gtk.AccessibleRole#LABEL} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkLabel</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#LABEL</code>  role.
  * <p>
- * <h1>nemonics</h1>
+ * <h1>Mnemonics</h1>
  * <p>
- * Labels may contain &#8220;mnemonics&#8221;. Mnemonics are underlined characters in the
+ * Labels may contain &<code>#8220</code> mnemonics&<code>#8221</code> . Mnemonics are underlined characters in the
  * label, used for keyboard navigation. Mnemonics are created by providing a
- * string with an underscore before the mnemonic character, such as <code>&#34;_File&#34;</code>,
+ * string with an underscore before the mnemonic character, such as <code>&<code>#34</code> _File&<code>#34</code> </code>,
  * to the functions {@link [ctor@Gtk.Label.new_with_mnemonic] (ref=ctor)} or
- * {@link org.gtk.gtk.Label#setTextWithMnemonic}.
+ * {@link org.gtk.gtk.Label<code>#setTextWithMnemonic</code> .
  * <p>
  * Mnemonics automatically activate any activatable widget the label is
  * inside, such as a {@link org.gtk.gtk.Button}; if the label is not inside the
- * mnemonic&#8217;s target widget, you have to tell the label about the target
- * using {@link org.gtk.gtk.Label}. Here&#8217;s a simple example where
+ * mnemonic&<code>#8217</code> s target widget, you have to tell the label about the target
+ * using {@link org.gtk.gtk.Label}. Here&<code>#8217</code> s a simple example where
  * the label is inside a button:
  * <p><pre>c
  * // Pressing Alt+H will activate this button
  * GtkWidget *button = gtk_button_new ();
- * GtkWidget *label = gtk_label_new_with_mnemonic (&#34;_Hello&#34;);
+ * GtkWidget *label = gtk_label_new_with_mnemonic (&<code>#34</code> _Hello&<code>#34</code> );
  * gtk_button_set_child (GTK_BUTTON (button), label);
  * </pre>
  * <p>
- * There&#8217;s a convenience function to create buttons with a mnemonic label
+ * There&<code>#8217</code> s a convenience function to create buttons with a mnemonic label
  * already inside:
  * <p><pre>c
  * // Pressing Alt+H will activate this button
- * GtkWidget *button = gtk_button_new_with_mnemonic (&#34;_Hello&#34;);
+ * GtkWidget *button = gtk_button_new_with_mnemonic (&<code>#34</code> _Hello&<code>#34</code> );
  * </pre>
  * <p>
  * To create a mnemonic for a widget alongside the label, such as a
  * {@link org.gtk.gtk.Entry}, you have to point the label at the entry with
- * {@link org.gtk.gtk.Label#setMnemonicWidget}:
+ * {@link org.gtk.gtk.Label<code>#setMnemonicWidget</code> :
  * <p><pre>c
  * // Pressing Alt+H will focus the entry
  * GtkWidget *entry = gtk_entry_new ();
- * GtkWidget *label = gtk_label_new_with_mnemonic (&#34;_Hello&#34;);
+ * GtkWidget *label = gtk_label_new_with_mnemonic (&<code>#34</code> _Hello&<code>#34</code> );
  * gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
  * </pre>
  * <p>
- * <h1>arkup (styled text)</h1>
+ * <h1>Markup (styled text)</h1>
  * <p>
  * To make it easy to format text in a label (changing colors,
  * fonts, etc.), label text can be provided in a simple
  * markup format:
  * <p>
- * Here&#8217;s how to create a label with a small font:<pre>c
+ * Here&<code>#8217</code> s how to create a label with a small font:<pre>c
  * GtkWidget *label = gtk_label_new (NULL);
- * gtk_label_set_markup (GTK_LABEL (label), &#34;&#60;small&#62;Small text&#60;/small&#62;&#34;);
+ * gtk_label_set_markup (GTK_LABEL (label), &<code>#34</code> &<code>#60</code> small&<code>#62</code> Small text&<code>#60</code> /small&<code>#62</code> &<code>#34</code> );
  * </pre>
  * <p>
  * (See the Pango manual for complete documentation] of available
- * tags, {@link Pango#parseMarkup})
+ * tags, {@link Pango<code>#parseMarkup</code> )
  * <p>
  * The markup passed to gtk_label_set_markup() must be valid; for example,
- * literal &#60;, &#62; and &#38; characters must be escaped as &#38;lt;, &#38;gt;, and &#38;amp;.
+ * literal &<code>#60</code> , &<code>#62</code>  and &<code>#38</code>  characters must be escaped as &<code>#38</code> lt;, &<code>#38</code> gt;, and &<code>#38</code> amp;.
  * If you pass text obtained from the user, file, or a network to
- * {@link org.gtk.gtk.Label#setMarkup}, you&#8217;ll want to escape it with
+ * {@link org.gtk.gtk.Label<code>#setMarkup</code> , you&<code>#8217</code> ll want to escape it with
  * g_markup_escape_text() or g_markup_printf_escaped().
  * <p>
  * Markup strings are just a convenient way to set the {@link [struct@Pango.AttrList] (ref=struct)}
- * on a label; {@link org.gtk.gtk.Label#setAttributes} may be a simpler way to set
+ * on a label; {@link org.gtk.gtk.Label<code>#setAttributes</code>  may be a simpler way to set
  * attributes in some cases. Be careful though; {@link [struct@Pango.AttrList] (ref=struct)} tends
- * to cause internationalization problems, unless you&#8217;re applying attributes
+ * to cause internationalization problems, unless you&<code>#8217</code> re applying attributes
  * to the entire string (i.e. unless you set the range of each attribute
- * to {@link [0, <code>G_MAXINT)).</code> The reason is that specifying the start_index and
- * end_index for a [struct@Pango.Attribute] (ref=0, <code>G_MAXINT)).</code> The reason is that specifying the start_index and
+ * to {@link [0, <code>G_MAXINT</code> ). The reason is that specifying the start_index and
+ * end_index for a [struct@Pango.Attribute] (ref=0, <code>G_MAXINT</code> ). The reason is that specifying the start_index and
  * end_index for a [struct)} requires knowledge of the exact
  * string being displayed, so translations will cause problems.
  * <p>
- * <h1>electable labels</h1>
+ * <h1>Selectable labels</h1>
  * <p>
- * Labels can be made selectable with {@link org.gtk.gtk.Label#setSelectable}.
+ * Labels can be made selectable with {@link org.gtk.gtk.Label<code>#setSelectable</code> .
  * Selectable labels allow the user to copy the label contents to
  * the clipboard. Only labels that contain useful-to-copy information
- * &#8212; such as error messages &#8212; should be made selectable.
+ * &<code>#8212</code>  such as error messages &<code>#8212</code>  should be made selectable.
  * <p>
- * <h1>ext layout</h1>
+ * <h1>Text layout</h1>
  * <p>
  * A label can contain any number of paragraphs, but will have
  * performance problems if it contains more than a small number.
  * Paragraphs are separated by newlines or other paragraph separators
  * understood by Pango.
  * <p>
- * Labels can automatically wrap text if you call {@link org.gtk.gtk.Label#setWrap}.
+ * Labels can automatically wrap text if you call {@link org.gtk.gtk.Label<code>#setWrap</code> .
  * <p>
- * {@link org.gtk.gtk.Label#setJustify} sets how the lines in a label align
+ * {@link org.gtk.gtk.Label<code>#setJustify</code>  sets how the lines in a label align
  * with one another. If you want to set how the label as a whole aligns
  * in its available space, see the {@link [property@Gtk.Widget:halign] (ref=property)} and
  * {@link [property@Gtk.Widget:valign] (ref=property)} properties.
@@ -157,28 +157,28 @@ import java.lang.invoke.*;
  * is used as the natural width. Even if max-width-chars specified, wrapping
  * labels will be rewrapped to use all of the available width.
  * <p>
- * <h1>inks</h1>
+ * <h1>Links</h1>
  * <p>
  * GTK supports markup for clickable hyperlinks in addition to regular Pango
- * markup. The markup for links is borrowed from HTML, using the <code>&#60;a&#62;</code> with
- * &#8220;href&#8220;, &#8220;title&#8220; and &#8220;class&#8220; attributes. GTK renders links similar to the
- * way they appear in web browsers, with colored, underlined text. The &#8220;title&#8220;
- * attribute is displayed as a tooltip on the link. The &#8220;class&#8220; attribute is
+ * markup. The markup for links is borrowed from HTML, using the <code>&<code>#60</code> a&<code>#62</code> </code> with
+ * &<code>#8220</code> href&<code>#8220</code> , &<code>#8220</code> title&<code>#8220</code>  and &<code>#8220</code> class&<code>#8220</code>  attributes. GTK renders links similar to the
+ * way they appear in web browsers, with colored, underlined text. The &<code>#8220</code> title&<code>#8220</code> 
+ * attribute is displayed as a tooltip on the link. The &<code>#8220</code> class&<code>#8220</code>  attribute is
  * used as style class on the CSS node for the link.
  * <p>
  * An example looks like this:
  * <p><pre>c
  * const char *text =
- * &#34;Go to the&#34;
- * &#34;&#60;a href=\\&#34;http://www.gtk.org title=\\&#34;&#38;lt;i&#38;gt;Our&#38;lt;/i&#38;gt; website\\&#34;&#62;&#34;
- * &#34;GTK website&#60;/a&#62; for more...&#34;;
+ * &<code>#34</code> Go to the&<code>#34</code> 
+ * &<code>#34</code> &<code>#60</code> a href=\\&<code>#34</code> http://www.gtk.org title=\\&<code>#34</code> &<code>#38</code> lt;i&<code>#38</code> gt;Our&<code>#38</code> lt;/i&<code>#38</code> gt; website\\&<code>#34</code> &<code>#62</code> &<code>#34</code> 
+ * &<code>#34</code> GTK website&<code>#60</code> /a&<code>#62</code>  for more...&<code>#34</code> ;
  * GtkWidget *label = gtk_label_new (NULL);
  * gtk_label_set_markup (GTK_LABEL (label), text);
  * </pre>
  * 
  * It is possible to implement custom handling for links and their tooltips
  * with the {@link [signal@Gtk.Label::activate-link] (ref=signal)} signal and the
- * {@link org.gtk.gtk.Label#getCurrentUri} function.
+ * {@link org.gtk.gtk.Label<code>#getCurrentUri</code>  function.
  */
 public class Label extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -215,12 +215,12 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * If characters in @str are preceded by an underscore, they are
      * underlined. If you need a literal underscore character in a label, use
-     * &#39;__&#39; (two underscores). The first underlined character represents a
+     * &<code>#39</code> __&<code>#39</code>  (two underscores). The first underlined character represents a
      * keyboard accelerator called a mnemonic. The mnemonic key can be used
      * to activate another widget, chosen automatically, or explicitly using
-     * {@link org.gtk.gtk.Label#setMnemonicWidget}.
+     * {@link org.gtk.gtk.Label<code>#setMnemonicWidget</code> .
      * <p>
-     * If {@link org.gtk.gtk.Label#setMnemonicWidget} is not called, then the first
+     * If {@link org.gtk.gtk.Label<code>#setMnemonicWidget</code>  is not called, then the first
      * activatable ancestor of the <code>GtkLabel</code> will be chosen as the mnemonic
      * widget. For instance, if the label is inside a button or menu item,
      * the button or menu item will automatically become the mnemonic widget
@@ -234,9 +234,9 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the labels attribute list.
      * <p>
      * This is the {@link [struct@Pango.AttrList] (ref=struct)} that was set on the label using
-     * {@link org.gtk.gtk.Label#setAttributes}, if any. This function does not
+     * {@link org.gtk.gtk.Label<code>#setAttributes</code> , if any. This function does not
      * reflect attributes that come from the labels markup (see
-     * {@link org.gtk.gtk.Label#setMarkup}). If you want to get the effective
+     * {@link org.gtk.gtk.Label<code>#setMarkup</code> ). If you want to get the effective
      * attributes for the label, use<code>pango_layout_get_attribute (gtk_label_get_layout (self))</code>.
      */
     public org.pango.AttrList getAttributes() {
@@ -262,7 +262,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns the ellipsizing position of the label.
      * 
-     * See {@link org.gtk.gtk.Label#setEllipsize}.
+     * See {@link org.gtk.gtk.Label<code>#setEllipsize</code> .
      */
     public org.pango.EllipsizeMode getEllipsize() {
         var RESULT = gtk_h.gtk_label_get_ellipsize(handle());
@@ -272,7 +272,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets the extra menu model of @label.
      * 
-     * See {@link org.gtk.gtk.Label#setExtraMenu}.
+     * See {@link org.gtk.gtk.Label<code>#setExtraMenu</code> .
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_label_get_extra_menu(handle());
@@ -282,7 +282,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns the justification of the label.
      * 
-     * See {@link org.gtk.gtk.Label#setJustify}.
+     * See {@link org.gtk.gtk.Label<code>#setJustify</code> .
      */
     public Justification getJustify() {
         var RESULT = gtk_h.gtk_label_get_justify(handle());
@@ -293,7 +293,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Fetches the text from a label.
      * 
      * The returned text includes any embedded underlines indicating
-     * mnemonics and Pango markup. (See {@link org.gtk.gtk.Label#getText}).
+     * mnemonics and Pango markup. (See {@link org.gtk.gtk.Label<code>#getText</code> ).
      */
     public java.lang.String getLabel() {
         var RESULT = gtk_h.gtk_label_get_label(handle());
@@ -304,7 +304,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the <code>PangoLayout</code> used to display the label.
      * 
      * The layout is useful to e.g. convert text positions to pixel
-     * positions, in combination with {@link org.gtk.gtk.Label#getLayoutOffsets}.
+     * positions, in combination with {@link org.gtk.gtk.Label<code>#getLayoutOffsets</code> .
      * The returned layout is owned by the @label so need not be
      * freed by the caller. The @label is free to recreate its layout
      * at any time, so it should be considered read-only.
@@ -318,7 +318,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets the number of lines to which an ellipsized, wrapping
      * label should be limited.
      * 
-     * See {@link org.gtk.gtk.Label#setLines}.
+     * See {@link org.gtk.gtk.Label<code>#setLines</code> .
      */
     public int getLines() {
         var RESULT = gtk_h.gtk_label_get_lines(handle());
@@ -328,7 +328,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Retrieves the desired maximum width of @label, in characters.
      * 
-     * See {@link org.gtk.gtk.Label#setWidthChars}.
+     * See {@link org.gtk.gtk.Label<code>#setWidthChars</code> .
      */
     public int getMaxWidthChars() {
         var RESULT = gtk_h.gtk_label_get_max_width_chars(handle());
@@ -351,7 +351,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Retrieves the target of the mnemonic (keyboard shortcut) of this
      * label.
      * 
-     * See {@link org.gtk.gtk.Label#setMnemonicWidget}.
+     * See {@link org.gtk.gtk.Label<code>#setMnemonicWidget</code> .
      */
     public Widget getMnemonicWidget() {
         var RESULT = gtk_h.gtk_label_get_mnemonic_widget(handle());
@@ -361,7 +361,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns line wrap mode used by the label.
      * 
-     * See {@link org.gtk.gtk.Label#setNaturalWrapMode}.
+     * See {@link org.gtk.gtk.Label<code>#setNaturalWrapMode</code> .
      */
     public NaturalWrapMode getNaturalWrapMode() {
         var RESULT = gtk_h.gtk_label_get_natural_wrap_mode(handle());
@@ -389,7 +389,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * The returned text is as it appears on screen. This does not include
      * any embedded underlines indicating mnemonics or Pango markup. (See
-     * {@link org.gtk.gtk.Label#getLabel})
+     * {@link org.gtk.gtk.Label<code>#getLabel</code> )
      */
     public java.lang.String getText() {
         var RESULT = gtk_h.gtk_label_get_text(handle());
@@ -397,9 +397,9 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns whether the label&#8217;s text is interpreted as Pango markup.
+     * Returns whether the label&<code>#8217</code> s text is interpreted as Pango markup.
      * 
-     * See {@link org.gtk.gtk.Label#setUseMarkup}.
+     * See {@link org.gtk.gtk.Label<code>#setUseMarkup</code> .
      */
     public boolean getUseMarkup() {
         var RESULT = gtk_h.gtk_label_get_use_markup(handle());
@@ -409,7 +409,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns whether an embedded underlines in the label indicate mnemonics.
      * 
-     * See {@link org.gtk.gtk.Label#setUseUnderline}.
+     * See {@link org.gtk.gtk.Label<code>#setUseUnderline</code> .
      */
     public boolean getUseUnderline() {
         var RESULT = gtk_h.gtk_label_get_use_underline(handle());
@@ -419,7 +419,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Retrieves the desired width of @label, in characters.
      * 
-     * See {@link org.gtk.gtk.Label#setWidthChars}.
+     * See {@link org.gtk.gtk.Label<code>#setWidthChars</code> .
      */
     public int getWidthChars() {
         var RESULT = gtk_h.gtk_label_get_width_chars(handle());
@@ -429,7 +429,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns whether lines in the label are automatically wrapped.
      * 
-     * See {@link org.gtk.gtk.Label#setWrap}.
+     * See {@link org.gtk.gtk.Label<code>#setWrap</code> .
      */
     public boolean getWrap() {
         var RESULT = gtk_h.gtk_label_get_wrap(handle());
@@ -439,7 +439,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns line wrap mode used by the label.
      * 
-     * See {@link org.gtk.gtk.Label#setWrapMode}.
+     * See {@link org.gtk.gtk.Label<code>#setWrapMode</code> .
      */
     public org.pango.WrapMode getWrapMode() {
         var RESULT = gtk_h.gtk_label_get_wrap_mode(handle());
@@ -469,7 +469,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Selects a range of characters in the label, if the label is selectable.
      * 
-     * See {@link org.gtk.gtk.Label#setSelectable}. If the label is not selectable,
+     * See {@link org.gtk.gtk.Label<code>#setSelectable</code> . If the label is not selectable,
      * this function has no effect. If @start_offset or
      * @end_offset are -1, then the end of the label will be substituted.
      */
@@ -513,10 +513,10 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets the alignment of the lines in the text of the label relative to
      * each other.
      * 
-     * {@link org.gtk.gtk.Justification#LEFT} is the default value when the widget is first created
+     * {@link org.gtk.gtk.Justification<code>#LEFT</code>  is the default value when the widget is first created
      * with {@link [ctor@Gtk.Label.new] (ref=ctor)}. If you instead want to set the alignment of
-     * the label as a whole, use {@link org.gtk.gtk.Widget#setHalign} instead.
-     * {@link org.gtk.gtk.Label#setJustify} has no effect on labels containing
+     * the label as a whole, use {@link org.gtk.gtk.Widget<code>#setHalign</code>  instead.
+     * {@link org.gtk.gtk.Label<code>#setJustify</code>  has no effect on labels containing
      * only a single line.
      */
     public void setJustify(Justification jtype) {
@@ -539,7 +539,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * should be limited.
      * 
      * This has no effect if the label is not wrapping or ellipsized.
-     * Set this to -1 if you don&#8217;t want to limit the number of lines.
+     * Set this to -1 if you don&<code>#8217</code> t want to limit the number of lines.
      */
     public void setLines(int lines) {
         gtk_h.gtk_label_set_lines(handle(), lines);
@@ -549,15 +549,15 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets the labels text and attributes from markup.
      * <p>
      * The string must be marked up with Pango markup
-     * (see {@link Pango#parseMarkup}).
+     * (see {@link Pango<code>#parseMarkup</code> ).
      * <p>
      * If the @str is external data, you may need to escape it
      * with g_markup_escape_text() or g_markup_printf_escaped():
      * <p><pre>c
      * GtkWidget *self = gtk_label_new (NULL);
-     * const char *str = &#34;...&#34;;
-     * const char *format = &#34;&#60;span style=\\&#34;italic\\&#34;&#62;\\<code>s&#60;/span&#62;&#34;;
-     * char</code> *markup;
+     * const char *str = &<code>#34</code> ...&<code>#34</code> ;
+     * const char *format = &<code>#34</code> &<code>#60</code> span style=\\&<code>#34</code> italic\\&<code>#34</code> &<code>#62</code> \\<code>s</code> <code>#60</code> /span&<code>#62</code> &<code>#34</code> ;
+     * char *markup;
      * 
      * markup = g_markup_printf_escaped (format, str);
      * gtk_label_set_markup (GTK_LABEL (self), markup);
@@ -571,7 +571,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * property you should also ensure that you set the
      * {@link [property@Gtk.Label:use-markup] (ref=property)} property accordingly.
      * 
-     * See also: {@link org.gtk.gtk.Label#setText}
+     * See also: {@link org.gtk.gtk.Label<code>#setText</code>
      */
     public void setMarkup(java.lang.String str) {
         gtk_h.gtk_label_set_markup(handle(), Interop.allocateNativeString(str).handle());
@@ -580,13 +580,13 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets the labels text, attributes and mnemonic from markup.
      * 
-     * Parses @str which is marked up with Pango markup (see {@link Pango#parseMarkup}),
-     * setting the label&#8217;s text and attribute list based on the parse results.
+     * Parses @str which is marked up with Pango markup (see {@link Pango<code>#parseMarkup</code> ),
+     * setting the label&<code>#8217</code> s text and attribute list based on the parse results.
      * If characters in @str are preceded by an underscore, they are underlined
      * indicating that they represent a keyboard accelerator called a mnemonic.
      * 
      * The mnemonic key can be used to activate another widget, chosen
-     * automatically, or explicitly using {@link org.gtk.gtk.Label#setMnemonicWidget}.
+     * automatically, or explicitly using {@link org.gtk.gtk.Label<code>#setMnemonicWidget</code> .
      */
     public void setMarkupWithMnemonic(java.lang.String str) {
         gtk_h.gtk_label_set_markup_with_mnemonic(handle(), Interop.allocateNativeString(str).handle());
@@ -603,8 +603,8 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Associate the label with its mnemonic target.
      * 
      * If the label has been set so that it has a mnemonic key (using
-     * i.e. {@link org.gtk.gtk.Label#setMarkupWithMnemonic},
-     * {@link org.gtk.gtk.Label#setTextWithMnemonic},
+     * i.e. {@link org.gtk.gtk.Label<code>#setMarkupWithMnemonic</code> ,
+     * {@link org.gtk.gtk.Label<code>#setTextWithMnemonic</code> ,
      * {@link [ctor@Gtk.Label.new_with_mnemonic] (ref=ctor)}
      * or the {@link [property@Gtk.Label:use_underline] (ref=property)} property) the label can be
      * associated with a widget that is the target of the mnemonic. When the
@@ -661,19 +661,19 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * This function will set the {@link [property@Gtk.Label:use-markup] (ref=property)} property
      * to <code>false</code> as a side effect.
      * 
-     * See also: {@link org.gtk.gtk.Label#setMarkup}
+     * See also: {@link org.gtk.gtk.Label<code>#setMarkup</code>
      */
     public void setText(java.lang.String str) {
         gtk_h.gtk_label_set_text(handle(), Interop.allocateNativeString(str).handle());
     }
     
     /**
-     * Sets the label&#8217;s text from the string @str.
+     * Sets the label&<code>#8217</code> s text from the string @str.
      * 
      * If characters in @str are preceded by an underscore, they are underlined
      * indicating that they represent a keyboard accelerator called a mnemonic.
      * The mnemonic key can be used to activate another widget, chosen
-     * automatically, or explicitly using {@link org.gtk.gtk.Label#setMnemonicWidget}.
+     * automatically, or explicitly using {@link org.gtk.gtk.Label<code>#setMnemonicWidget</code> .
      */
     public void setTextWithMnemonic(java.lang.String str) {
         gtk_h.gtk_label_set_text_with_mnemonic(handle(), Interop.allocateNativeString(str).handle());
@@ -682,7 +682,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the text of the label contains markup.
      * 
-     * See {@link org.gtk.gtk.Label#setMarkup}.
+     * See {@link org.gtk.gtk.Label<code>#setMarkup</code> .
      */
     public void setUseMarkup(boolean setting) {
         gtk_h.gtk_label_set_use_markup(handle(), setting ? 1 : 0);
@@ -705,15 +705,15 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Toggles line wrapping within the <code>GtkLabel</code> widget.
      * 
-     * <code>true</code> makes it break lines if text exceeds the widget&#8217;s size.
+     * <code>true</code> makes it break lines if text exceeds the widget&<code>#8217</code> s size.
      * <code>false</code> lets the text get cut off by the edge of the widget if
      * it exceeds the widget size.
      * 
      * Note that setting line wrapping to <code>true</code> does not make the label
-     * wrap at its parent container&#8217;s width, because GTK widgets
-     * conceptually can&#8217;t make their requisition depend on the parent
-     * container&#8217;s size. For a label that wraps at a specific position,
-     * set the label&#8217;s width using {@link org.gtk.gtk.Widget#setSizeRequest}.
+     * wrap at its parent container&<code>#8217</code> s width, because GTK widgets
+     * conceptually can&<code>#8217</code> t make their requisition depend on the parent
+     * container&<code>#8217</code> s size. For a label that wraps at a specific position,
+     * set the label&<code>#8217</code> s width using {@link org.gtk.gtk.Widget<code>#setSizeRequest</code> .
      */
     public void setWrap(boolean wrap) {
         gtk_h.gtk_label_set_wrap(handle(), wrap ? 1 : 0);
@@ -723,8 +723,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Controls how line wrapping is done.
      * 
      * This only affects the label if line wrapping is on. (See
-     * {@link org.gtk.gtk.Label#setWrap}) The default is <code>PANGO_WRAP_WORD
-     * which</code> means wrap on word boundaries.
+     * {@link org.gtk.gtk.Label<code>#setWrap</code> ) The default is {@link org.pango.WrapMode<code>#WORD</code>  which means wrap on word boundaries.
      * 
      * For sizing behavior, also consider the {@link [property@Gtk.Label:natural-wrap-mode] (ref=property)}
      * property.

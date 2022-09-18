@@ -17,10 +17,10 @@ import java.lang.invoke.*;
  * {@link org.gtk.gdkpixbuf.Pixbuf}, or a Cairo surface, or other pixel data.
  * <p>
  * The ownership of the pixel data is transferred to the <code>GdkTexture</code>
- * instance; you can only make a copy of it, via {@link org.gtk.gdk.Texture#download}.
+ * instance; you can only make a copy of it, via {@link org.gtk.gdk.Texture<code>#download</code> .
  * <p><code>GdkTexture</code> is an immutable object: That means you cannot change
  * anything about it other than increasing the reference count via
- * {@link org.gtk.gobject.Object#ref}, and consequently, it is a thread-safe object.
+ * {@link org.gtk.gobject.Object<code>#ref</code> , and consequently, it is a thread-safe object.
  */
 public class Texture extends org.gtk.gobject.Object implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
 
@@ -42,7 +42,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * Creates a new texture object representing the <code>GdkPixbuf</code>.
      * 
      * This function is threadsafe, so that you can e.g. use GTask
-     * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
+     * and {@link org.gtk.gio.Task<code>#runInThread</code>  to avoid blocking the main thread
      * while loading a big image.
      */
     public static Texture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
@@ -67,7 +67,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * If <code>null</code> is returned, then @error will be set.
      * 
      * This function is threadsafe, so that you can e.g. use GTask
-     * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
+     * and {@link org.gtk.gio.Task<code>#runInThread</code>  to avoid blocking the main thread
      * while loading a big image.
      */
     public static Texture newFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
@@ -92,7 +92,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * If <code>null</code> is returned, then @error will be set.
      * 
      * This function is threadsafe, so that you can e.g. use GTask
-     * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
+     * and {@link org.gtk.gio.Task<code>#runInThread</code>  to avoid blocking the main thread
      * while loading a big image.
      */
     public static Texture newFromFile(org.gtk.gio.File file) throws GErrorException {
@@ -117,7 +117,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * If <code>null</code> is returned, then @error will be set.
      * 
      * This function is threadsafe, so that you can e.g. use GTask
-     * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
+     * and {@link org.gtk.gio.Task<code>#runInThread</code>  to avoid blocking the main thread
      * while loading a big image.
      */
     public static Texture newFromFilename(java.lang.String path) throws GErrorException {
@@ -141,7 +141,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * {@link [ctor@Gdk.Texture.new_from_file] (ref=ctor)} to load it.
      * 
      * This function is threadsafe, so that you can e.g. use GTask
-     * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
+     * and {@link org.gtk.gio.Task<code>#runInThread</code>  to avoid blocking the main thread
      * while loading a big image.
      */
     public static Texture newFromResource(java.lang.String resourcePath) {
@@ -155,7 +155,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * may reside on a GPU or on a remote display server.
      * <p>
      * The data format of the downloaded data is equivalent to
-     * <code>CAIRO_FORMAT_ARGB32,</code> so every downloaded pixel requires
+     * {@link org.cairographics.Format<code>#ARGB32</code>   so every downloaded pixel requires
      * 4 bytes of memory.
      * <p>
      * Downloading a texture into a Cairo image surface:<pre>c
@@ -194,7 +194,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * This is a utility function intended for debugging and testing.
      * If you want more control over formats, proper error handling or
      * want to store to a {@link [iface@Gio.File] (ref=iface)} or other location, you might want to
-     * use {@link org.gtk.gdk.Texture#saveToPngBytes} or look into the
+     * use {@link org.gtk.gdk.Texture<code>#saveToPngBytes</code>  or look into the
      * gdk-pixbuf library.
      */
     public boolean saveToPng(java.lang.String filename) {
@@ -215,7 +215,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * library such as the gdk-pixbuf library.
      * 
      * If you are dealing with high dynamic range float data, you
-     * might also want to consider {@link org.gtk.gdk.Texture#saveToTiffBytes}
+     * might also want to consider {@link org.gtk.gdk.Texture<code>#saveToTiffBytes</code> 
      * instead.
      */
     public org.gtk.glib.Bytes saveToPngBytes() {
@@ -239,13 +239,13 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * Use {@link [ctor@Gdk.Texture.new_from_bytes] (ref=ctor)} to read it back.
      * 
      * This function is intended to store a representation of the
-     * texture&#39;s data that is as accurate as possible. This is
+     * texture&<code>#39</code> s data that is as accurate as possible. This is
      * particularly relevant when working with high dynamic range
      * images and floating-point texture data.
      * 
      * If that is not your concern and you are interested in a
      * smaller size and a more portable format, you might want to
-     * use {@link org.gtk.gdk.Texture#saveToPngBytes}.
+     * use {@link org.gtk.gdk.Texture<code>#saveToPngBytes</code> .
      */
     public org.gtk.glib.Bytes saveToTiffBytes() {
         var RESULT = gtk_h.gdk_texture_save_to_tiff_bytes(handle());

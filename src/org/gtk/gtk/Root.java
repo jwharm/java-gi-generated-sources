@@ -17,9 +17,9 @@ import java.lang.invoke.*;
  * The obvious example of a <code>GtkRoot</code> is <code>GtkWindow</code>.
  * <p>
  * To get the display to which a <code>GtkRoot</code> belongs, use
- * {@link org.gtk.gtk.Root#getDisplay}.
+ * {@link org.gtk.gtk.Root<code>#getDisplay</code> .
  * <p><code>GtkRoot</code> also maintains the location of keyboard focus inside its widget
- * hierarchy, with {@link org.gtk.gtk.Root#setFocus} and {@link org.gtk.gtk.Root#getFocus}.
+ * hierarchy, with {@link org.gtk.gtk.Root<code>#setFocus</code>  and {@link org.gtk.gtk.Root<code>#getFocus</code> .
  */
 public interface Root extends io.github.jwharm.javagi.NativeAddress {
 
@@ -47,10 +47,10 @@ public interface Root extends io.github.jwharm.javagi.NativeAddress {
      * If @focus is not the current focus widget, and is focusable, sets
      * it as the focus widget for the root.
      * 
-     * If @focus is <code>NULL,</code> unsets the focus widget for the root.
+     * If @focus is <code>null</code>  unsets the focus widget for the root.
      * 
      * To set the focus to a particular widget in the root, it is usually
-     * more convenient to use {@link org.gtk.gtk.Widget#grabFocus} instead of
+     * more convenient to use {@link org.gtk.gtk.Widget<code>#grabFocus</code>  instead of
      * this function.
      */
     public default void setFocus(Widget focus) {

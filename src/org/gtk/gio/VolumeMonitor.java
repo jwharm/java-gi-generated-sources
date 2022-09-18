@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GVolumeMonitor is for listing the user interesting devices and volumes
+ * {@link org.gtk.gio.VolumeMonitor} is for listing the user interesting devices and volumes
  * on the computer. In other words, what a file selector or file manager
  * would show in a sidebar.
  * 
- * #GVolumeMonitor is not
+ * {@link org.gtk.gio.VolumeMonitor} is not
  * {@link [thread-default-context aware]}{@link [g-main-context-push-thread-default]},
  * and so should not be used other than from the main thread, with no
  * thread-default-context active.
@@ -43,7 +43,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Finds a #GMount object by its UUID (see g_mount_get_uuid())
+     * Finds a {@link org.gtk.gio.Mount} object by its UUID (see g_mount_get_uuid())
      */
     public Mount getMountForUuid(java.lang.String uuid) {
         var RESULT = gtk_h.g_volume_monitor_get_mount_for_uuid(handle(), Interop.allocateNativeString(uuid).handle());
@@ -62,7 +62,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Finds a #GVolume object by its UUID (see g_volume_get_uuid())
+     * Finds a {@link org.gtk.gio.Volume} object by its UUID (see g_volume_get_uuid())
      */
     public Volume getVolumeForUuid(java.lang.String uuid) {
         var RESULT = gtk_h.g_volume_monitor_get_volume_for_uuid(handle(), Interop.allocateNativeString(uuid).handle());

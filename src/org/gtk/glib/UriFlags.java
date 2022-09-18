@@ -20,7 +20,7 @@ public class UriFlags {
      *     {@link [RFC 3986]}(https://tools.ietf.org/html/rfc3986) grammar specifies,
      *     fixing up or ignoring common mistakes in URIs coming from external
      *     sources. This is also needed for some obscure URI schemes where <code>;</code>
-     *     separates the host from the path. Don&#8217;t use this flag unless you need to.
+     *     separates the host from the path. Don&<code>#8217</code> t use this flag unless you need to.
      */
     public static final int PARSE_RELAXED = 1;
     
@@ -38,12 +38,11 @@ public class UriFlags {
     public static final int HAS_AUTH_PARAMS = 4;
     
     /**
-     * When parsing a URI, this indicates that <code><code></code>-encoded
-     * </code>    characters in the userinfo, path, query, and fragment fields
+     * When parsing a URI, this indicates that <code><code></code> /code>-encoded
+     *     characters in the userinfo, path, query, and fragment fields
      *     should not be decoded. (And likewise the host field if
-     *     {@link org.gtk.glib.UriFlags#NON_DNS} is also set.) When building a URI, it indicates
-     *     that you have already <code><code></code>-encoded</code> the components, and so #GUri
-     *     should not do any encoding itself.
+     *     {@link org.gtk.glib.UriFlags<code>#NON_DNS</code>  is also set.) When building a URI, it indicates
+     *     that you have already <code><code></code> /code>-encoded the components, and so {@link org.gtk.glib.Uri}     should not do any encoding itself.
      */
     public static final int ENCODED = 8;
     
@@ -55,18 +54,18 @@ public class UriFlags {
     public static final int NON_DNS = 16;
     
     /**
-     * Same as <code>G_URI_FLAGS_ENCODED,</code> for the query
+     * Same as {@link org.gtk.glib.UriFlags<code>#ENCODED</code>   for the query
      *     field only.
      */
     public static final int ENCODED_QUERY = 32;
     
     /**
-     * Same as <code>G_URI_FLAGS_ENCODED,</code> for the path only.
+     * Same as {@link org.gtk.glib.UriFlags<code>#ENCODED</code>   for the path only.
      */
     public static final int ENCODED_PATH = 64;
     
     /**
-     * Same as <code>G_URI_FLAGS_ENCODED,</code> for the
+     * Same as {@link org.gtk.glib.UriFlags<code>#ENCODED</code>   for the
      *     fragment only.
      */
     public static final int ENCODED_FRAGMENT = 128;

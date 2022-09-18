@@ -21,18 +21,18 @@ import java.lang.invoke.*;
  * <p>
  * For instance, the built-in GTK input method {@link org.gtk.gtk.IMContextSimple}
  * implements the input of arbitrary Unicode code points by holding down the
- * &#60;kbd&#62;Control&#60;/kbd&#62; and &#60;kbd&#62;Shift&#60;/kbd&#62; keys and then typing &#60;kbd&#62;u&#60;/kbd&#62;
+ * &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code>  keys and then typing &<code>#60</code> kbd&<code>#62</code> u&<code>#60</code> /kbd&<code>#62</code> 
  * followed by the hexadecimal digits of the code point. When releasing the
- * &#60;kbd&#62;Control&#60;/kbd&#62; and &#60;kbd&#62;Shift&#60;/kbd&#62; keys, preediting ends and the
+ * &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code>  keys, preediting ends and the
  * character is inserted as text. For example,
  * <p>
  *     Ctrl+Shift+u 2 0 A C
  * <p>
- * results in the &#8364; sign.
+ * results in the &<code>#8364</code>  sign.
  * <p>
  * Additional input methods can be made available for use by GTK widgets as
  * loadable modules. An input method module is a small shared library which
- * provides a <code>GIOExtension</code> for the extension point named &#34;gtk-im-module&#34;.
+ * provides a <code>GIOExtension</code> for the extension point named &<code>#34</code> gtk-im-module&<code>#34</code> .
  * 
  * To connect a widget to the users preferred input method, you should use
  * {@link org.gtk.gtk.IMMulticontext}.
@@ -56,7 +56,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * which differs from the usage other places in <code>GtkIMContext</code>.
      * 
      * In order to use this function, you should first call
-     * {@link org.gtk.gtk.IMContext#getSurrounding} to get the current context,
+     * {@link org.gtk.gtk.IMContext<code>#getSurrounding</code>  to get the current context,
      * and call this function immediately afterwards to make sure that you
      * know what you are deleting. You should also account for the fact
      * that even if the signal was handled, the input context might not
@@ -85,7 +85,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * Allow an input method to internally handle key press and release
      * events.
      * 
-     * If this function returns <code>TRUE,</code> then no further processing
+     * If this function returns <code>true</code>  then no further processing
      * should be done for this key event.
      */
     public boolean filterKeypress(org.gtk.gdk.Event event) {
@@ -160,7 +160,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * Sets whether the IM context should use the preedit string
      * to display feedback.
      * 
-     * If @use_preedit is <code>false</code> (default is <code>TRUE),</code> then the IM context
+     * If @use_preedit is <code>false</code> (default is <code>true</code> , then the IM context
      * may use some other method to display feedback, such as displaying
      * it in a child of the root window.
      */
@@ -232,7 +232,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * currently being entered has changed.
      * 
      * It is also emitted at the end of a preedit sequence, in which case
-     * {@link org.gtk.gtk.IMContext#getPreeditString} returns the empty string.
+     * {@link org.gtk.gtk.IMContext<code>#getPreeditString</code>  returns the empty string.
      */
     public SignalHandle onPreeditChanged(PreeditChangedHandler handler) {
         try {
@@ -307,7 +307,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * requires the context surrounding the cursor.
      * 
      * The callback should set the input method surrounding context by
-     * calling the {@link org.gtk.gtk.IMContext#setSurrounding} method.
+     * calling the {@link org.gtk.gtk.IMContext<code>#setSurrounding</code>  method.
      */
     public SignalHandle onRetrieveSurrounding(RetrieveSurroundingHandler handler) {
         try {

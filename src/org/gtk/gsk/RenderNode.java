@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  * the rectangle set when creating it.
  * 
  * Render nodes are meant to be transient; once they have been associated
- * to a {@link org.gtk.gsk.Renderer} it&#39;s safe to release any reference you have on
+ * to a {@link org.gtk.gsk.Renderer} it&<code>#39</code> s safe to release any reference you have on
  * them. All {@link org.gtk.gsk.RenderNode}s are immutable, you can only specify their
  * properties during construction.
  */
@@ -36,9 +36,9 @@ public class RenderNode extends org.gtk.gobject.Object {
     /**
      * Draw the contents of @node to the given cairo context.
      * <p>
-     * Typically, you&#39;ll use this function to implement fallback rendering
+     * Typically, you&<code>#39</code> ll use this function to implement fallback rendering
      * of <code>GskRenderNode</code>s on an intermediate Cairo context, instead of using
-     * the drawing context associated to a {@link org.gtk.gdk.Surface}&#39;s rendering buffer.
+     * the drawing context associated to a {@link org.gtk.gdk.Surface}&<code>#39</code> s rendering buffer.
      * 
      * For advanced nodes that cannot be supported using Cairo, in particular
      * for nodes doing 3D operations, this function may fail.
@@ -99,8 +99,8 @@ public class RenderNode extends org.gtk.gobject.Object {
     }
     
     /**
-     * This function is equivalent to calling {@link org.gtk.gsk.RenderNode#serialize}
-     * followed by {@link GLib#fileSetContents}.
+     * This function is equivalent to calling {@link org.gtk.gsk.RenderNode<code>#serialize</code> 
+     * followed by {@link GLib<code>#fileSetContents</code> .
      * 
      * See those two functions for details on the arguments.
      * 
@@ -117,7 +117,7 @@ public class RenderNode extends org.gtk.gobject.Object {
     }
     
     /**
-     * Loads data previously created via {@link org.gtk.gsk.RenderNode#serialize}.
+     * Loads data previously created via {@link org.gtk.gsk.RenderNode<code>#serialize</code> .
      * 
      * For a discussion of the supported format, see that function.
      */

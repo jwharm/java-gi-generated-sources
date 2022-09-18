@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A utility type for constructing container-type #GVariant instances.
+ * A utility type for constructing container-type {@link org.gtk.glib.Variant} instances.
  * 
  * This is an opaque structure and may only be accessed using the
  * following functions.
  * 
- * #GVariantBuilder is not threadsafe in any way.  Do not attempt to
+ * {@link org.gtk.glib.VariantBuilder} is not threadsafe in any way.  Do not attempt to
  * access it from more than one thread.
  */
 public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
@@ -28,13 +28,13 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates and initialises a new #GVariantBuilder.
+     * Allocates and initialises a new {@link org.gtk.glib.VariantBuilder} 
      * 
      * You should call g_variant_builder_unref() on the return value when it
      * is no longer needed.  The memory will not be automatically freed by
      * any other call.
      * 
-     * In most cases it is easier to place a #GVariantBuilder directly on
+     * In most cases it is easier to place a {@link org.gtk.glib.VariantBuilder} directly on
      * the stack of the calling function and initialise it with
      * g_variant_builder_init().
      */
@@ -59,19 +59,19 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Releases all memory associated with a #GVariantBuilder without
-     * freeing the #GVariantBuilder structure itself.
+     * Releases all memory associated with a {@link org.gtk.glib.VariantBuilder} without
+     * freeing the {@link org.gtk.glib.VariantBuilder} structure itself.
      * 
      * It typically only makes sense to do this on a stack-allocated
-     * #GVariantBuilder if you want to abort building the value part-way
+     * {@link org.gtk.glib.VariantBuilder} if you want to abort building the value part-way
      * through.  This function need not be called if you call
-     * g_variant_builder_end() and it also doesn&#39;t need to be called on
+     * g_variant_builder_end() and it also doesn&<code>#39</code> t need to be called on
      * builders allocated with g_variant_builder_new() (see
      * g_variant_builder_unref() for that).
      * 
-     * This function leaves the #GVariantBuilder structure set to all-zeros.
+     * This function leaves the {@link org.gtk.glib.VariantBuilder} structure set to all-zeros.
      * It is valid to call this function on either an initialised
-     * #GVariantBuilder or one that is set to all-zeros but it is not valid
+     * {@link org.gtk.glib.VariantBuilder} or one that is set to all-zeros but it is not valid
      * to call this function on uninitialised memory.
      */
     public void clear() {
@@ -95,7 +95,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * 
      * It is not permissible to use @builder in any way after this call
      * except for reference counting operations (in the case of a
-     * heap-allocated #GVariantBuilder) or by reinitialising it with
+     * heap-allocated {@link org.gtk.glib.VariantBuilder}  or by reinitialising it with
      * g_variant_builder_init() (in the case of stack-allocated). This
      * means that for the stack-allocated builders there is no need to
      * call g_variant_builder_clear() after the call to
@@ -115,11 +115,11 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initialises a #GVariantBuilder structure.
+     * Initialises a {@link org.gtk.glib.VariantBuilder} structure.
      * 
-     * @type must be non-<code>NULL.</code>  It specifies the type of container to
+     * @type must be non-<code>null</code>   It specifies the type of container to
      * construct.  It can be an indefinite type such as
-     * <code>G_VARIANT_TYPE_ARRAY</code> or a definite type such as &#34;as&#34; or &#34;(ii)&#34;.
+     * <code>G_VARIANT_TYPE_ARRAY</code> or a definite type such as &<code>#34</code> as&<code>#34</code>  or &<code>#34</code> (ii)&<code>#34</code> .
      * Maybe, array, tuple, dictionary entry and variant-typed values may be
      * constructed.
      * 
@@ -127,20 +127,20 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_builder_add_value() or g_variant_builder_add().
      * 
      * After all the child values are added, g_variant_builder_end() frees
-     * the memory associated with the builder and returns the #GVariant that
+     * the memory associated with the builder and returns the {@link org.gtk.glib.Variant} that
      * was created.
      * 
      * This function completely ignores the previous contents of @builder.
      * On one hand this means that it is valid to pass in completely
      * uninitialised memory.  On the other hand, this means that if you are
-     * initialising over top of an existing #GVariantBuilder you need to
+     * initialising over top of an existing {@link org.gtk.glib.VariantBuilder} you need to
      * first call g_variant_builder_clear() in order to avoid leaking
      * memory.
      * 
      * You must not call g_variant_builder_ref() or
-     * g_variant_builder_unref() on a #GVariantBuilder that was initialised
+     * g_variant_builder_unref() on a {@link org.gtk.glib.VariantBuilder} that was initialised
      * with this function.  If you ever pass a reference to a
-     * #GVariantBuilder outside of the control of your own code then you
+     * {@link org.gtk.glib.VariantBuilder} outside of the control of your own code then you
      * should assume that the person receiving that reference may try to use
      * reference counting; you should use g_variant_builder_new() instead of
      * this function.
@@ -160,7 +160,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * a value of an incorrect type).
      * 
      * Example of building a nested variant:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * GVariantBuilder builder;
      * guint32 some_number = get_number ();
      * g_autoptr (GHashTable) some_dict = get_dict ();
@@ -169,22 +169,22 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * const GVariant *value;
      * g_autoptr (GVariant) output = NULL;
      * 
-     * g_variant_builder_init (&#38;builder, G_VARIANT_TYPE (&#34;(ua{sv})&#34;));
-     * g_variant_builder_add (&#38;builder, &#34;u&#34;, some_number);
-     * g_variant_builder_open (&#38;builder, G_VARIANT_TYPE (&#34;a{sv}&#34;));
+     * g_variant_builder_init (&<code>#38</code> builder, G_VARIANT_TYPE (&<code>#34</code> (ua{sv})&<code>#34</code> ));
+     * g_variant_builder_add (&<code>#38</code> builder, &<code>#34</code> u&<code>#34</code> , some_number);
+     * g_variant_builder_open (&<code>#38</code> builder, G_VARIANT_TYPE (&<code>#34</code> a{sv}&<code>#34</code> ));
      * 
-     * g_hash_table_iter_init (&#38;iter, some_dict);
-     * while (g_hash_table_iter_next (&#38;iter, (gpointer *) &#38;key, (gpointer *) &#38;value))
+     * g_hash_table_iter_init (&<code>#38</code> iter, some_dict);
+     * while (g_hash_table_iter_next (&<code>#38</code> iter, (gpointer *) &<code>#38</code> key, (gpointer *) &<code>#38</code> value))
      *   {
-     *     g_variant_builder_open (&#38;builder, G_VARIANT_TYPE (&#34;{sv}&#34;));
-     *     g_variant_builder_add (&#38;builder, &#34;s&#34;, key);
-     *     g_variant_builder_add (&#38;builder, &#34;v&#34;, value);
-     *     g_variant_builder_close (&#38;builder);
+     *     g_variant_builder_open (&<code>#38</code> builder, G_VARIANT_TYPE (&<code>#34</code> {sv}&<code>#34</code> ));
+     *     g_variant_builder_add (&<code>#38</code> builder, &<code>#34</code> s&<code>#34</code> , key);
+     *     g_variant_builder_add (&<code>#38</code> builder, &<code>#34</code> v&<code>#34</code> , value);
+     *     g_variant_builder_close (&<code>#38</code> builder);
      *   }
      * 
-     * g_variant_builder_close (&#38;builder);
+     * g_variant_builder_close (&<code>#38</code> builder);
      * 
-     * output = g_variant_builder_end (&#38;builder);
+     * output = g_variant_builder_end (&<code>#38</code> builder);
      * ]}|
      */
     public void open(VariantType type) {
@@ -194,7 +194,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increases the reference count on @builder.
      * 
-     * Don&#39;t call this on stack-allocated #GVariantBuilder instances or bad
+     * Don&<code>#39</code> t call this on stack-allocated {@link org.gtk.glib.VariantBuilder} instances or bad
      * things will happen.
      */
     public VariantBuilder ref() {
@@ -206,9 +206,9 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Decreases the reference count on @builder.
      * 
      * In the event that there are no more references, releases all memory
-     * associated with the #GVariantBuilder.
+     * associated with the {@link org.gtk.glib.VariantBuilder} 
      * 
-     * Don&#39;t call this on stack-allocated #GVariantBuilder instances or bad
+     * Don&<code>#39</code> t call this on stack-allocated {@link org.gtk.glib.VariantBuilder} instances or bad
      * things will happen.
      */
     public void unref() {

@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * The type of the @complete_interface_info function of #GTypePluginClass.
+ * The type of the @complete_interface_info function of {@link org.gtk.gobject.TypePluginClass}
  */
 @FunctionalInterface
 public interface TypePluginCompleteInterfaceInfo {

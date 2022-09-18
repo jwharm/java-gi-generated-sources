@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Instances of the #GDBusMethodInvocation class are used when
+ * Instances of the {@link org.gtk.gio.DBusMethodInvocation} class are used when
  * handling D-Bus method calls. It provides a way to asynchronously
  * return results and errors.
  * 
- * The normal way to obtain a #GDBusMethodInvocation object is to receive
+ * The normal way to obtain a {@link org.gtk.gio.DBusMethodInvocation} object is to receive
  * it as an argument to the handle_method_call() function in a
- * #GDBusInterfaceVTable that was passed to g_dbus_connection_register_object().
+ * {@link org.gtk.gio.DBusInterfaceVTable} that was passed to g_dbus_connection_register_object().
  */
 public class DBusMethodInvocation extends org.gtk.gobject.Object {
 
@@ -28,7 +28,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the #GDBusConnection the method was invoked on.
+     * Gets the {@link org.gtk.gio.DBusConnection} the method was invoked on.
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_connection(handle());
@@ -40,8 +40,8 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * 
      * If this method call is a property Get, Set or GetAll call that has
      * been redirected to the method call handler then
-     * &#34;org.freedesktop.DBus.Properties&#34; will be returned.  See
-     * #GDBusInterfaceVTable for more information.
+     * &<code>#34</code> org.freedesktop.DBus.Properties&<code>#34</code>  will be returned.  See
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information.
      */
     public java.lang.String getInterfaceName() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_interface_name(handle());
@@ -49,10 +49,10 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the #GDBusMessage for the method invocation. This is useful if
+     * Gets the {@link org.gtk.gio.DBusMessage} for the method invocation. This is useful if
      * you need to use low-level protocol features, such as UNIX file
      * descriptor passing, that cannot be properly expressed in the
-     * #GVariant API.
+     * {@link org.gtk.glib.Variant} API.
      * 
      * See this {@link [server]}{@link [gdbus-server]} and {@link [client]}{@link [gdbus-unix-fd-client]}
      * for an example of how to use this low-level API to send and receive
@@ -69,7 +69,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * If this method invocation is a property Get, Set or GetAll call that
      * has been redirected to the method call handler then <code>null</code> will be
      * returned.  See g_dbus_method_invocation_get_property_info() and
-     * #GDBusInterfaceVTable for more information.
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information.
      */
     public DBusMethodInfo getMethodInfo() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_method_info(handle());
@@ -110,7 +110,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * handler for an object on account of its property_get() or
      * property_set() vtable pointers being unset.
      * 
-     * See #GDBusInterfaceVTable for more information.
+     * See {@link org.gtk.gio.DBusInterfaceVTable} for more information.
      * 
      * If the call was GetAll, <code>null</code> will be returned.
      */
@@ -128,7 +128,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the @user_data #gpointer passed to g_dbus_connection_register_object().
+     * Gets the @user_data <code>#gpointer</code> passed to g_dbus_connection_register_object().
      */
     public jdk.incubator.foreign.MemoryAddress getUserData() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_user_data(handle());
@@ -139,7 +139,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Finishes handling a D-Bus method call by returning an error.
      * 
      * This method will take ownership of @invocation. See
-     * #GDBusInterfaceVTable for more information about the ownership of
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information about the ownership of
      * @invocation.
      */
     public void returnDbusError(java.lang.String errorName, java.lang.String errorMessage) {
@@ -150,7 +150,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Like g_dbus_method_invocation_return_error() but without printf()-style formatting.
      * 
      * This method will take ownership of @invocation. See
-     * #GDBusInterfaceVTable for more information about the ownership of
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information about the ownership of
      * @invocation.
      */
     public void returnErrorLiteral(org.gtk.glib.Quark domain, int code, java.lang.String message) {
@@ -162,7 +162,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * language bindings.
      * 
      * This method will take ownership of @invocation. See
-     * #GDBusInterfaceVTable for more information about the ownership of
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information about the ownership of
      * @invocation.
      */
     public void returnErrorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList varArgs) {
@@ -170,11 +170,10 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Like g_dbus_method_invocation_return_error() but takes a #GError
-     * instead of the error domain, error code and message.
+     * Like g_dbus_method_invocation_return_error() but takes a {@link org.gtk.glib.Error} instead of the error domain, error code and message.
      * 
      * This method will take ownership of @invocation. See
-     * #GDBusInterfaceVTable for more information about the ownership of
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information about the ownership of
      * @invocation.
      */
     public void returnGerror(org.gtk.glib.Error error) {
@@ -190,37 +189,37 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * single out-parameter, it must be contained in a tuple. If the method has no
      * out-parameters, @parameters may be <code>null</code> or an empty tuple.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * GDBusMethodInvocation *invocation = some_invocation;
      * g_autofree gchar *result_string = NULL;
      * g_autoptr (GError) error = NULL;
      * 
-     * result_string = calculate_result (&#38;error);
+     * result_string = calculate_result (&<code>#38</code> error);
      * 
      * if (error != NULL)
      *   g_dbus_method_invocation_return_gerror (invocation, error);
      * else
      *   g_dbus_method_invocation_return_value (invocation,
-     *                                          g_variant_new (&#34;(s)&#34;, result_string));
+     *                                          g_variant_new (&<code>#34</code> (s)&<code>#34</code> , result_string));
      * 
      * // Do not free @invocation here; returning a value does that
-     * ] (ref=&#60;!-- language=&#34;C&#34; --&#62;
+     * ] (ref=&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * GDBusMethodInvocation *invocation = some_invocation;
      * g_autofree gchar *result_string = NULL;
      * g_autoptr (GError) error = NULL;
      * 
-     * result_string = calculate_result (&#38;error);
+     * result_string = calculate_result (&<code>#38</code> error);
      * 
      * if (error != NULL)
      *   g_dbus_method_invocation_return_gerror (invocation, error);
      * else
      *   g_dbus_method_invocation_return_value (invocation,
-     *                                          g_variant_new (&#34;(s)&#34;, result_string));
+     *                                          g_variant_new (&<code>#34</code> (s)&<code>#34</code> , result_string));
      * 
      * // Do not free )}|
      * 
      * This method will take ownership of @invocation. See
-     * #GDBusInterfaceVTable for more information about the ownership of
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information about the ownership of
      * @invocation.
      * 
      * Since 2.48, if the method call requested for a reply not to be sent
@@ -233,12 +232,12 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Like g_dbus_method_invocation_return_value() but also takes a #GUnixFDList.
+     * Like g_dbus_method_invocation_return_value() but also takes a {@link org.gtk.gio.UnixFDList} 
      * 
      * This method is only available on UNIX.
      * 
      * This method will take ownership of @invocation. See
-     * #GDBusInterfaceVTable for more information about the ownership of
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information about the ownership of
      * @invocation.
      */
     public void returnValueWithUnixFdList(org.gtk.glib.Variant parameters, UnixFDList fdList) {
@@ -250,7 +249,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * of @error so the caller does not need to free it.
      * 
      * This method will take ownership of @invocation. See
-     * #GDBusInterfaceVTable for more information about the ownership of
+     * {@link org.gtk.gio.DBusInterfaceVTable} for more information about the ownership of
      * @invocation.
      */
     public void takeError(org.gtk.glib.Error error) {

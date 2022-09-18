@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Interface definition for #GAsyncResult.
+ * Interface definition for {@link org.gtk.gio.AsyncResult}
  */
 public class AsyncResultIface extends io.github.jwharm.javagi.ResourceBase {
 

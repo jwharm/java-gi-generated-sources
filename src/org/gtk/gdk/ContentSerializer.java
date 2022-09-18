@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  * 
  * GTK provides serializers and deserializers for common data types
  * such as text, colors, images or file lists. To register your own
- * serialization functions, use {@link Gdk#contentRegisterSerializer}.
+ * serialization functions, use {@link Gdk<code>#contentRegisterSerializer</code> .
  * 
  * Also see {@link org.gtk.gdk.ContentDeserializer}.
  */
@@ -81,7 +81,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     /**
      * Gets the data that was associated with the current operation.
      * 
-     * See {@link org.gtk.gdk.ContentSerializer#setTaskData}.
+     * See {@link org.gtk.gdk.ContentSerializer<code>#setTaskData</code> .
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.gdk_content_serializer_get_task_data(handle());

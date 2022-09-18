@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GPollableInputStream is implemented by #GInputStreams that
+ * {@link org.gtk.gio.PollableInputStream} is implemented by <code>#GInputStreams</code> that
  * can be polled for readiness to read. This can be used when
  * interfacing with a non-GIO API that expects
  * UNIX-file-descriptor-style asynchronous I/O rather than GIO-style.
@@ -17,9 +17,9 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
 
     /**
      * Checks if @stream is actually pollable. Some classes may implement
-     * #GPollableInputStream but have only certain instances of that class
-     * be pollable. If this method returns <code>FALSE,</code> then the behavior of
-     * other #GPollableInputStream methods is undefined.
+     * {@link org.gtk.gio.PollableInputStream} but have only certain instances of that class
+     * be pollable. If this method returns <code>false</code>  then the behavior of
+     * other {@link org.gtk.gio.PollableInputStream} methods is undefined.
      * 
      * For any given stream, the value returned by this method is constant;
      * a stream cannot switch from pollable to non-pollable or vice versa.
@@ -30,9 +30,9 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Creates a #GSource that triggers when @stream can be read, or
+     * Creates a {@link org.gtk.glib.Source} that triggers when @stream can be read, or
      * @cancellable is triggered or an error occurs. The callback on the
-     * source is of the #GPollableSourceFunc type.
+     * source is of the {@link org.gtk.gio.PollableSourceFunc} type.
      * 
      * As with g_pollable_input_stream_is_readable(), it is possible that
      * the stream may not actually be readable even after the source
@@ -47,12 +47,11 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
     /**
      * Checks if @stream can be read.
      * 
-     * Note that some stream types may not be able to implement this 100<code>
-     * reliably,</code> and it is possible that a call to g_input_stream_read()
+     * Note that some stream types may not be able to implement this 100<code></code> reliably, and it is possible that a call to g_input_stream_read()
      * after this returns <code>true</code> would still block. To guarantee
      * non-blocking behavior, you should always use
      * g_pollable_input_stream_read_nonblocking(), which will return a
-     * {@link org.gtk.gio.IOErrorEnum#WOULD_BLOCK} error rather than blocking.
+     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error rather than blocking.
      */
     public default boolean isReadable() {
         var RESULT = gtk_h.g_pollable_input_stream_is_readable(handle());
@@ -62,9 +61,8 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
     /**
      * Attempts to read up to @count bytes from @stream into @buffer, as
      * with g_input_stream_read(). If @stream is not currently readable,
-     * this will immediately return <code>G_IO_ERROR_WOULD_BLOCK,</code> and you can
-     * use g_pollable_input_stream_create_source() to create a #GSource
-     * that will be triggered when @stream is readable.
+     * this will immediately return {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>   and you can
+     * use g_pollable_input_stream_create_source() to create a {@link org.gtk.glib.Source} that will be triggered when @stream is readable.
      * 
      * Note that since this method never blocks, you cannot actually
      * use @cancellable to cancel it. However, it will return an error

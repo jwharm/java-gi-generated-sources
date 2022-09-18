@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * recommended or fallback applications.
  * <p>
  * To obtain the application that has been selected in a <code>GtkAppChooser</code>,
- * use {@link org.gtk.gtk.AppChooser#getAppInfo}.
+ * use {@link org.gtk.gtk.AppChooser<code>#getAppInfo</code> .
  */
 public interface AppChooser extends io.github.jwharm.javagi.NativeAddress {
 

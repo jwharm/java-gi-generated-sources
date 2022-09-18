@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GVariantIter is an opaque data structure and can only be accessed
+ * {@link org.gtk.glib.VariantIter} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
@@ -18,7 +18,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new heap-allocated #GVariantIter to iterate over the
+     * Creates a new heap-allocated {@link org.gtk.glib.VariantIter} to iterate over the
      * container that was being iterated over by @iter.  Iteration begins on
      * the new iterator from the current position of the old iterator but
      * the two copies are independent past that point.
@@ -35,7 +35,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a heap-allocated #GVariantIter.  Only call this function on
+     * Frees a heap-allocated {@link org.gtk.glib.VariantIter}   Only call this function on
      * iterators that were returned by g_variant_iter_new() or
      * g_variant_iter_copy().
      */
@@ -44,7 +44,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initialises (without allocating) a #GVariantIter.  @iter may be
+     * Initialises (without allocating) a {@link org.gtk.glib.VariantIter}   @iter may be
      * completely uninitialised prior to this call; its old value is
      * ignored.
      * 
@@ -76,7 +76,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * you no longer need it.
      * 
      * Here is an example for iterating with g_variant_iter_next_value():
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      *   // recursively iterate a container
      *   void
      *   iterate_container_recursive (GVariant *container)
@@ -84,10 +84,10 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      *     GVariantIter iter;
      *     GVariant *child;
      * 
-     *     g_variant_iter_init (&#38;iter, container);
-     *     while ((child = g_variant_iter_next_value (&#38;iter)))
+     *     g_variant_iter_init (&<code>#38</code> iter, container);
+     *     while ((child = g_variant_iter_next_value (&<code>#38</code> iter)))
      *       {
-     *         g_print (&#34;type &#39;<code>s&#39;\\n&#34;,</code> g_variant_get_type_string (child));
+     *         g_print (&<code>#34</code> type &<code>#39</code> <code>s</code> <code>#39</code> \\n&<code>#34</code> , g_variant_get_type_string (child));
      * 
      *         if (g_variant_is_container (child))
      *           iterate_container_recursive (child);

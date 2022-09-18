@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * Flags used internally in the #GHook implementation.
+ * Flags used internally in the {@link org.gtk.glib.Hook} implementation.
  */
 public class HookFlagMask {
 

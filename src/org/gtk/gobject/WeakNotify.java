@@ -1,14 +1,14 @@
 package org.gtk.gobject;
 
 /**
- * A #GWeakNotify function can be added to an object as a callback that gets
+ * A {@link org.gtk.gobject.WeakNotify} function can be added to an object as a callback that gets
  * triggered when the object is finalized.
  * 
- * Since the object is already being disposed when the #GWeakNotify is called,
- * there&#39;s not much you could do with the object, apart from e.g. using its
+ * Since the object is already being disposed when the {@link org.gtk.gobject.WeakNotify} is called,
+ * there&<code>#39</code> s not much you could do with the object, apart from e.g. using its
  * address as hash-index or the like.
  * 
- * In particular, this means it&#8217;s invalid to call g_object_ref(),
+ * In particular, this means it&<code>#8217</code> s invalid to call g_object_ref(),
  * g_weak_ref_init(), g_weak_ref_set(), g_object_add_toggle_ref(),
  * g_object_weak_ref(), g_object_add_weak_pointer() or any function which calls
  * them on the object from this callback.

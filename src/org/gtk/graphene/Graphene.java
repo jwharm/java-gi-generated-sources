@@ -20,7 +20,7 @@ public final class Graphene {
     public static final int VEC4_LEN = 4;
 
     /**
-     * A degenerate #graphene_box_t that can only be expanded.
+     * A degenerate {@link org.gtk.graphene.Box} that can only be expanded.
      * 
      * The returned value is owned by Graphene and should not be modified or freed.
      */
@@ -30,7 +30,7 @@ public final class Graphene {
     }
     
     /**
-     * A degenerate #graphene_box_t that cannot be expanded.
+     * A degenerate {@link org.gtk.graphene.Box} that cannot be expanded.
      * 
      * The returned value is owned by Graphene and should not be modified or freed.
      */
@@ -40,7 +40,7 @@ public final class Graphene {
     }
     
     /**
-     * A #graphene_box_t with the minimum vertex set at (-1, -1, -1) and the
+     * A {@link org.gtk.graphene.Box} with the minimum vertex set at (-1, -1, -1) and the
      * maximum vertex set at (0, 0, 0).
      * 
      * The returned value is owned by Graphene and should not be modified or freed.
@@ -51,7 +51,7 @@ public final class Graphene {
     }
     
     /**
-     * A #graphene_box_t with the minimum vertex set at (0, 0, 0) and the
+     * A {@link org.gtk.graphene.Box} with the minimum vertex set at (0, 0, 0) and the
      * maximum vertex set at (1, 1, 1).
      * 
      * The returned value is owned by Graphene and should not be modified or freed.
@@ -62,7 +62,7 @@ public final class Graphene {
     }
     
     /**
-     * A #graphene_box_t with the minimum vertex set at (-1, -1, -1) and the
+     * A {@link org.gtk.graphene.Box} with the minimum vertex set at (-1, -1, -1) and the
      * maximum vertex set at (1, 1, 1).
      * 
      * The returned value is owned by Graphene and should not be modified or freed.
@@ -73,7 +73,7 @@ public final class Graphene {
     }
     
     /**
-     * A #graphene_box_t with both the minimum and maximum vertices set at (0, 0, 0).
+     * A {@link org.gtk.graphene.Box} with both the minimum and maximum vertices set at (0, 0, 0).
      * 
      * The returned value is owned by Graphene and should not be modified or freed.
      */
@@ -99,7 +99,7 @@ public final class Graphene {
     }
     
     /**
-     * Allocates a new #graphene_rect_t.
+     * Allocates a new {@link org.gtk.graphene.Rect} 
      * 
      * The contents of the returned rectangle are undefined.
      */
@@ -118,7 +118,7 @@ public final class Graphene {
     }
     
     /**
-     * A constant pointer to a zero #graphene_size_t, useful for
+     * A constant pointer to a zero {@link org.gtk.graphene.Size}  useful for
      * equality checks and interpolations.
      */
     public static Size sizeZero() {
@@ -204,7 +204,7 @@ public final class Graphene {
     }
     
     /**
-     * Retrieves a pointer to a #graphene_vec4_t with all its
+     * Retrieves a pointer to a {@link org.gtk.graphene.Vec4} with all its
      * components set to 1.
      */
     public static Vec4 vec4One() {
@@ -213,7 +213,7 @@ public final class Graphene {
     }
     
     /**
-     * Retrieves a pointer to a #graphene_vec4_t with its
+     * Retrieves a pointer to a {@link org.gtk.graphene.Vec4} with its
      * components set to (0, 0, 0, 1).
      */
     public static Vec4 vec4WAxis() {
@@ -222,7 +222,7 @@ public final class Graphene {
     }
     
     /**
-     * Retrieves a pointer to a #graphene_vec4_t with its
+     * Retrieves a pointer to a {@link org.gtk.graphene.Vec4} with its
      * components set to (1, 0, 0, 0).
      */
     public static Vec4 vec4XAxis() {
@@ -231,7 +231,7 @@ public final class Graphene {
     }
     
     /**
-     * Retrieves a pointer to a #graphene_vec4_t with its
+     * Retrieves a pointer to a {@link org.gtk.graphene.Vec4} with its
      * components set to (0, 1, 0, 0).
      */
     public static Vec4 vec4YAxis() {
@@ -240,7 +240,7 @@ public final class Graphene {
     }
     
     /**
-     * Retrieves a pointer to a #graphene_vec4_t with its
+     * Retrieves a pointer to a {@link org.gtk.graphene.Vec4} with its
      * components set to (0, 0, 1, 0).
      */
     public static Vec4 vec4ZAxis() {
@@ -249,7 +249,7 @@ public final class Graphene {
     }
     
     /**
-     * Retrieves a pointer to a #graphene_vec4_t with all its
+     * Retrieves a pointer to a {@link org.gtk.graphene.Vec4} with all its
      * components set to 0.
      */
     public static Vec4 vec4Zero() {

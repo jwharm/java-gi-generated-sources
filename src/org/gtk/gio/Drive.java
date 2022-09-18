@@ -8,32 +8,32 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GDrive - this represent a piece of hardware connected to the machine.
- * It&#39;s generally only created for removable hardware or hardware with
+ * {@link org.gtk.gio.Drive} - this represent a piece of hardware connected to the machine.
+ * It&<code>#39</code> s generally only created for removable hardware or hardware with
  * removable media.
  * 
- * #GDrive is a container class for #GVolume objects that stem from
- * the same piece of media. As such, #GDrive abstracts a drive with
+ * {@link org.gtk.gio.Drive} is a container class for {@link org.gtk.gio.Volume} objects that stem from
+ * the same piece of media. As such, {@link org.gtk.gio.Drive} abstracts a drive with
  * (or without) removable media and provides operations for querying
  * whether media is available, determining whether media change is
  * automatically detected and ejecting the media.
  * 
- * If the #GDrive reports that media isn&#39;t automatically detected, one
+ * If the {@link org.gtk.gio.Drive} reports that media isn&<code>#39</code> t automatically detected, one
  * can poll for media; typically one should not do this periodically
  * as a poll for media operation is potentially expensive and may
  * spin up the drive creating noise.
  * 
- * #GDrive supports starting and stopping drives with authentication
+ * {@link org.gtk.gio.Drive} supports starting and stopping drives with authentication
  * support for the former. This can be used to support a diverse set
  * of use cases including connecting/disconnecting iSCSI devices,
  * powering down external disk enclosures and starting/stopping
  * multi-disk devices such as RAID devices. Note that the actual
- * semantics and side-effects of starting/stopping a #GDrive may vary
+ * semantics and side-effects of starting/stopping a {@link org.gtk.gio.Drive} may vary
  * according to implementation. To choose the correct verbs in e.g. a
  * file manager, use g_drive_get_start_stop_type().
  * 
  * For porting from GnomeVFS note that there is no equivalent of
- * #GDrive in that API.
+ * {@link org.gtk.gio.Drive} in that API.
  */
 public interface Drive extends io.github.jwharm.javagi.NativeAddress {
 
@@ -80,7 +80,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Ejects a drive. This is an asynchronous operation, and is
      * finished by calling g_drive_eject_with_operation_finish() with the @drive
-     * and #GAsyncResult data returned in the @callback.
+     * and {@link org.gtk.gio.AsyncResult} data returned in the @callback.
      */
     public default void ejectWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -120,15 +120,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the identifier of the given kind for @drive. The only
      * identifier currently available is
-     * 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Gets the identifier of the given kind for @drive. The only
-     * identifier currently available is
-     * %G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE.
+     * <code>G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE</code>
      */
     public default java.lang.String getIdentifier(java.lang.String kind) {
         var RESULT = gtk_h.g_drive_get_identifier(handle(), Interop.allocateNativeString(kind).handle());
@@ -213,7 +205,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if the #GDrive and/or its media is considered removable by the user.
+     * Checks if the {@link org.gtk.gio.Drive} and/or its media is considered removable by the user.
      * See g_drive_is_media_removable().
      */
     public default boolean isRemovable() {
@@ -326,7 +318,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Emitted when the drive&#39;s state has changed.
+     * Emitted when the drive&<code>#39</code> s state has changed.
      */
     public default SignalHandle onChanged(ChangedHandler handler) {
         try {
@@ -349,7 +341,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * This signal is emitted when the #GDrive have been
+     * This signal is emitted when the {@link org.gtk.gio.Drive} have been
      * disconnected. If the recipient is holding references to the
      * object they should release them so the object can be
      * finalized.

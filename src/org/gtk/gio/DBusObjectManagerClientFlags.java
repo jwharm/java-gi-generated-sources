@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used when constructing a #GDBusObjectManagerClient.
+ * Flags used when constructing a {@link org.gtk.gio.DBusObjectManagerClient}
  */
 public class DBusObjectManagerClientFlags {
 

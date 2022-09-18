@@ -1,10 +1,10 @@
 package org.gtk.glib;
 
 /**
- * The hashing algorithm to be used by #GChecksum when performing the
+ * The hashing algorithm to be used by {@link org.gtk.glib.Checksum} when performing the
  * digest of some data.
  * 
- * Note that the #GChecksumType enumeration may be extended at a later
+ * Note that the {@link org.gtk.glib.ChecksumType} enumeration may be extended at a later
  * date to include new hashing algorithm types.
  */
 public enum ChecksumType {

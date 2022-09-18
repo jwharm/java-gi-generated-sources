@@ -22,16 +22,16 @@ import java.lang.invoke.*;
  * and set of attributes for that string. Once that is done, the set of
  * formatted lines can be extracted from the object, the layout can be
  * rendered, and conversion between logical character positions within
- * the layout&#39;s text, and the physical position of the resulting glyphs
+ * the layout&<code>#39</code> s text, and the physical position of the resulting glyphs
  * can be made.
  * <p>
  * There are a number of parameters to adjust the formatting of a<code>PangoLayout</code>. The following image shows adjustable parameters
  * (on the left) and font metrics (on the right):
  * <p>
- * &#60;picture&#62;
- *   &#60;source srcset=&#34;layout-dark.png&#34; media=&#34;(prefers-color-scheme: dark)&#34;&#62;
- *   &#60;img alt=&#34;Pango Layout Parameters&#34; src=&#34;layout-light.png&#34;&#62;
- * &#60;/picture&#62;
+ * &<code>#60</code> picture&<code>#62</code> 
+ *   &<code>#60</code> source srcset=&<code>#34</code> layout-dark.png&<code>#34</code>  media=&<code>#34</code> (prefers-color-scheme: dark)&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> img alt=&<code>#34</code> Pango Layout Parameters&<code>#34</code>  src=&<code>#34</code> layout-light.png&<code>#34</code> &<code>#62</code> 
+ * &<code>#60</code> /picture&<code>#62</code> 
  * <p>
  * The following images demonstrate the effect of alignment and
  * justification on the layout of text:
@@ -72,7 +72,7 @@ public class Layout extends org.gtk.gobject.Object {
     
     /**
      * Forces recomputation of any state in the <code>PangoLayout</code> that
-     * might depend on the layout&#39;s context.
+     * might depend on the layout&<code>#39</code> s context.
      * 
      * This function should be called if you make changes to the context
      * subsequent to creating the layout.
@@ -113,7 +113,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Gets whether to calculate the base direction for the layout
      * according to its contents.
      * 
-     * See {@link org.pango.Layout#setAutoDir}.
+     * See {@link org.pango.Layout<code>#setAutoDir</code> .
      */
     public boolean getAutoDir() {
         var RESULT = gtk_h.pango_layout_get_auto_dir(handle());
@@ -132,14 +132,14 @@ public class Layout extends org.gtk.gobject.Object {
      * Given an index within a layout, determines the positions that of the
      * strong and weak cursors if the insertion point is at that index.
      * 
-     * This is a variant of {@link org.pango.Layout#getCursorPos} that applies
+     * This is a variant of {@link org.pango.Layout<code>#getCursorPos</code>  that applies
      * font metric information about caret slope and offset to the positions
      * it returns.
      * 
-     * &#60;picture&#62;
-     *   &#60;source srcset=&#34;caret-metrics-dark.png&#34; media=&#34;(prefers-color-scheme: dark)&#34;&#62;
-     *   &#60;img alt=&#34;Caret metrics&#34; src=&#34;caret-metrics-light.png&#34;&#62;
-     * &#60;/picture&#62;
+     * &<code>#60</code> picture&<code>#62</code> 
+     *   &<code>#60</code> source srcset=&<code>#34</code> caret-metrics-dark.png&<code>#34</code>  media=&<code>#34</code> (prefers-color-scheme: dark)&<code>#34</code> &<code>#62</code> 
+     *   &<code>#60</code> img alt=&<code>#34</code> Caret metrics&<code>#34</code>  src=&<code>#34</code> caret-metrics-light.png&<code>#34</code> &<code>#62</code> 
+     * &<code>#60</code> /picture&<code>#62</code>
      */
     public void getCaretPos(int index, Rectangle strongPos, Rectangle weakPos) {
         gtk_h.pango_layout_get_caret_pos(handle(), index, strongPos.handle(), weakPos.handle());
@@ -169,10 +169,10 @@ public class Layout extends org.gtk.gobject.Object {
      * The position of each cursor is stored as a zero-width rectangle
      * with the height of the run extents.
      * 
-     * &#60;picture&#62;
-     *   &#60;source srcset=&#34;cursor-positions-dark.png&#34; media=&#34;(prefers-color-scheme: dark)&#34;&#62;
-     *   &#60;img alt=&#34;Cursor positions&#34; src=&#34;cursor-positions-light.png&#34;&#62;
-     * &#60;/picture&#62;
+     * &<code>#60</code> picture&<code>#62</code> 
+     *   &<code>#60</code> source srcset=&<code>#34</code> cursor-positions-dark.png&<code>#34</code>  media=&<code>#34</code> (prefers-color-scheme: dark)&<code>#34</code> &<code>#62</code> 
+     *   &<code>#60</code> img alt=&<code>#34</code> Cursor positions&<code>#34</code>  src=&<code>#34</code> cursor-positions-light.png&<code>#34</code> &<code>#62</code> 
+     * &<code>#60</code> /picture&<code>#62</code> 
      * 
      * The strong cursor location is the location where characters of the
      * directionality equal to the base direction of the layout are inserted.
@@ -181,14 +181,14 @@ public class Layout extends org.gtk.gobject.Object {
      * 
      * The following example shows text with both a strong and a weak cursor.
      * 
-     * &#60;picture&#62;
-     *   &#60;source srcset=&#34;split-cursor-dark.png&#34; media=&#34;(prefers-color-scheme: dark)&#34;&#62;
-     *   &#60;img alt=&#34;Strong and weak cursors&#34; src=&#34;split-cursor-light.png&#34;&#62;
-     * &#60;/picture&#62;
+     * &<code>#60</code> picture&<code>#62</code> 
+     *   &<code>#60</code> source srcset=&<code>#34</code> split-cursor-dark.png&<code>#34</code>  media=&<code>#34</code> (prefers-color-scheme: dark)&<code>#34</code> &<code>#62</code> 
+     *   &<code>#60</code> img alt=&<code>#34</code> Strong and weak cursors&<code>#34</code>  src=&<code>#34</code> split-cursor-light.png&<code>#34</code> &<code>#62</code> 
+     * &<code>#60</code> /picture&<code>#62</code> 
      * 
      * The strong cursor has a little arrow pointing to the right, the weak
-     * cursor to the left. Typing a &#39;c&#39; in this situation will insert the
-     * character after the &#39;b&#39;, and typing another Hebrew character, like &#39;&#1490;&#39;,
+     * cursor to the left. Typing a &<code>#39</code> c&<code>#39</code>  in this situation will insert the
+     * character after the &<code>#39</code> b&<code>#39</code> , and typing another Hebrew character, like &<code>#39</code> &<code>#1490</code> &<code>#39</code> ,
      * will insert it at the end.
      */
     public void getCursorPos(int index, Rectangle strongPos, Rectangle weakPos) {
@@ -206,9 +206,9 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Gets the type of ellipsization being performed for @layout.
      * 
-     * See {@link org.pango.Layout#setEllipsize}.
+     * See {@link org.pango.Layout<code>#setEllipsize</code> .
      * 
-     * Use {@link org.pango.Layout#isEllipsized} to query whether any
+     * Use {@link org.pango.Layout<code>#isEllipsized</code>  to query whether any
      * paragraphs were actually ellipsized.
      */
     public EllipsizeMode getEllipsize() {
@@ -243,7 +243,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Gets the height of layout used for ellipsization.
      * 
-     * See {@link org.pango.Layout#setHeight} for details.
+     * See {@link org.pango.Layout<code>#setHeight</code>  for details.
      */
     public int getHeight() {
         var RESULT = gtk_h.pango_layout_get_height(handle());
@@ -289,7 +289,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Retrieves a particular line from a <code>PangoLayout</code>.
      * 
-     * Use the faster {@link org.pango.Layout#getLineReadonly} if you do not
+     * Use the faster {@link org.pango.Layout<code>#getLineReadonly</code>  if you do not
      * plan to modify the contents of the line (glyphs, glyph widths, etc.).
      */
     public LayoutLine getLine(int line) {
@@ -308,7 +308,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Retrieves a particular line from a <code>PangoLayout</code>.
      * 
-     * This is a faster alternative to {@link org.pango.Layout#getLine},
+     * This is a faster alternative to {@link org.pango.Layout<code>#getLine</code> ,
      * but the user is not expected to modify the contents of the line
      * (glyphs, glyph widths, etc.).
      */
@@ -320,7 +320,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Gets the line spacing factor of @layout.
      * 
-     * See {@link org.pango.Layout#setLineSpacing}.
+     * See {@link org.pango.Layout<code>#setLineSpacing</code> .
      */
     public float getLineSpacing() {
         var RESULT = gtk_h.pango_layout_get_line_spacing(handle());
@@ -330,7 +330,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Returns the lines of the @layout as a list.
      * 
-     * Use the faster {@link org.pango.Layout#getLinesReadonly} if you do not
+     * Use the faster {@link org.pango.Layout<code>#getLinesReadonly</code>  if you do not
      * plan to modify the contents of the lines (glyphs, glyph widths, etc.).
      */
     public org.gtk.glib.SList getLines() {
@@ -341,7 +341,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Returns the lines of the @layout as a list.
      * 
-     * This is a faster alternative to {@link org.pango.Layout#getLines},
+     * This is a faster alternative to {@link org.pango.Layout<code>#getLines</code> ,
      * but the user is not expected to modify the contents of the lines
      * (glyphs, glyph widths, etc.).
      */
@@ -353,10 +353,10 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Computes the logical and ink extents of @layout in device units.
      * 
-     * This function just calls {@link org.pango.Layout#getExtents} followed by
+     * This function just calls {@link org.pango.Layout<code>#getExtents</code>  followed by
      * two {@link [func@extents_to_pixels]} calls, rounding @ink_rect and @logical_rect
      * such that the rounded rectangles fully contain the unrounded one (that is,
-     * passes them as first argument to {@link Pango#extentsToPixels}).
+     * passes them as first argument to {@link Pango<code>#extentsToPixels</code> ).
      */
     public void getPixelExtents(Rectangle inkRect, Rectangle logicalRect) {
         gtk_h.pango_layout_get_pixel_extents(handle(), inkRect.handle(), logicalRect.handle());
@@ -369,12 +369,12 @@ public class Layout extends org.gtk.gobject.Object {
      * when a new layout is created and is increased whenever the layout is
      * changed using any of the setter functions, or the <code>PangoContext</code> it
      * uses has changed. The serial may wrap, but will never have the value 0.
-     * Since it can wrap, never compare it with &#34;less than&#34;, always use &#34;not equals&#34;.
+     * Since it can wrap, never compare it with &<code>#34</code> less than&<code>#34</code> , always use &<code>#34</code> not equals&<code>#34</code> .
      * <p>
      * This can be used to automatically detect changes to a <code>PangoLayout</code>,
      * and is useful for example to decide whether a layout needs redrawing.
      * To force the serial to be increased, use
-     * {@link org.pango.Layout#contextChanged}.
+     * {@link org.pango.Layout<code>#contextChanged</code> .
      */
     public int getSerial() {
         var RESULT = gtk_h.pango_layout_get_serial(handle());
@@ -384,7 +384,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Obtains whether @layout is in single paragraph mode.
      * 
-     * See {@link org.pango.Layout#setSingleParagraphMode}.
+     * See {@link org.pango.Layout<code>#setSingleParagraphMode</code> .
      */
     public boolean getSingleParagraphMode() {
         var RESULT = gtk_h.pango_layout_get_single_paragraph_mode(handle());
@@ -405,7 +405,7 @@ public class Layout extends org.gtk.gobject.Object {
      * If no <code>PangoTabArray</code> has been set, then the default tabs are
      * in use and <code>null</code> is returned. Default tabs are every 8 spaces.
      * 
-     * The return value should be freed with {@link org.pango.TabArray#free}.
+     * The return value should be freed with {@link org.pango.TabArray<code>#free</code> .
      */
     public TabArray getTabs() {
         var RESULT = gtk_h.pango_layout_get_tabs(handle());
@@ -427,7 +427,7 @@ public class Layout extends org.gtk.gobject.Object {
      * 
      * This function can be used to determine if there are any fonts
      * available to render all characters in a certain string, or when
-     * used in combination with <code>PANGO_ATTR_FALLBACK,</code> to check if a
+     * used in combination with {@link org.pango.AttrType<code>#FALLBACK</code>   to check if a
      * certain font supports all the characters in the string.
      */
     public int getUnknownGlyphsCount() {
@@ -446,7 +446,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Gets the wrap mode for the layout.
      * 
-     * Use {@link org.pango.Layout#isWrapped} to query whether
+     * Use {@link org.pango.Layout<code>#isWrapped</code>  to query whether
      * any paragraphs were actually wrapped.
      */
     public WrapMode getWrap() {
@@ -458,10 +458,10 @@ public class Layout extends org.gtk.gobject.Object {
      * Converts from an index within a <code>PangoLayout</code> to the onscreen position
      * corresponding to the grapheme at that index.
      * <p>
-     * The return value is represented as rectangle. Note that <code>pos-&#62;x</code> is
-     * always the leading edge of the grapheme and <code>pos-&#62;x + pos-&#62;width</code> the
+     * The return value is represented as rectangle. Note that <code>pos-&<code>#62</code> x</code> is
+     * always the leading edge of the grapheme and <code>pos-&<code>#62</code> x + pos-&<code>#62</code> width</code> the
      * trailing edge of the grapheme. If the directionality of the grapheme
-     * is right-to-left, then <code>pos-&#62;width</code> will be negative.
+     * is right-to-left, then <code>pos-&<code>#62</code> width</code> will be negative.
      */
     public void indexToPos(int index, Rectangle pos) {
         gtk_h.pango_layout_index_to_pos(handle(), index, pos.handle());
@@ -471,7 +471,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Queries whether the layout had to ellipsize any paragraphs.
      * 
      * This returns <code>true</code> if the ellipsization mode for @layout
-     * is not <code>PANGO_ELLIPSIZE_NONE,</code> a positive width is set on @layout,
+     * is not {@link org.pango.EllipsizeMode<code>#NONE</code>   a positive width is set on @layout,
      * and there are paragraphs exceeding that width that have to be
      * ellipsized.
      */
@@ -484,8 +484,8 @@ public class Layout extends org.gtk.gobject.Object {
      * Queries whether the layout had to wrap any paragraphs.
      * 
      * This returns <code>true</code> if a positive width is set on @layout,
-     * ellipsization mode of @layout is set to <code>PANGO_ELLIPSIZE_NONE,
-     * and</code> there are paragraphs exceeding the layout width that have
+     * ellipsization mode of @layout is set to {@link org.pango.EllipsizeMode<code>#NONE</code>  
+     * and there are paragraphs exceeding the layout width that have
      * to be wrapped.
      */
     public boolean isWrapped() {
@@ -494,10 +494,10 @@ public class Layout extends org.gtk.gobject.Object {
     }
     
     /**
-     * Serializes the @layout for later deserialization via {@link Pango#Layout}.
+     * Serializes the @layout for later deserialization via {@link Pango<code>#Layout</code> .
      * 
      * There are no guarantees about the format of the output across different
-     * versions of Pango and {@link Pango#Layout} will reject data
+     * versions of Pango and {@link Pango<code>#Layout</code>  will reject data
      * that it cannot parse.
      * 
      * The intended use of this function is testing, benchmarking and debugging.
@@ -512,16 +512,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Sets the alignment for the layout: how partial lines are
      * positioned within the horizontal space available.
      * 
-     * The default alignment is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets the alignment for the layout: how partial lines are
-     * positioned within the horizontal space available.
-     * 
-     * The default alignment is %PANGO_ALIGN_LEFT.
+     * The default alignment is {@link org.pango.Alignment<code>#LEFT</code>
      */
     public void setAlignment(Alignment alignment) {
         gtk_h.pango_layout_set_alignment(handle(), alignment.getValue());
@@ -546,12 +537,12 @@ public class Layout extends org.gtk.gobject.Object {
      * will have left-to-right layout. Paragraphs with only neutral characters
      * get their direction from the surrounding paragraphs.
      * <p>
-     * When <code>FALSE,</code> the choice between left-to-right and right-to-left
-     * layout is done according to the base direction of the layout&#39;s<code>PangoContext</code>. (See {@link org.pango.Context#setBaseDir}).
+     * When <code>false</code>  the choice between left-to-right and right-to-left
+     * layout is done according to the base direction of the layout&<code>#39</code> s<code>PangoContext</code>. (See {@link org.pango.Context<code>#setBaseDir</code> ).
      * 
      * When the auto-computed direction of a paragraph differs from the
      * base direction of the context, the interpretation of
-     * {@link org.pango.Alignment#LEFT} and {@link org.pango.Alignment#RIGHT} are swapped.
+     * {@link org.pango.Alignment<code>#LEFT</code>  and {@link org.pango.Alignment<code>#RIGHT</code>  are swapped.
      */
     public void setAutoDir(boolean autoDir) {
         gtk_h.pango_layout_set_auto_dir(handle(), autoDir ? 1 : 0);
@@ -563,16 +554,16 @@ public class Layout extends org.gtk.gobject.Object {
      * Depending on the ellipsization mode @ellipsize text is
      * removed from the start, middle, or end of text so they
      * fit within the width and height of layout set with
-     * {@link org.pango.Layout#setWidth} and {@link org.pango.Layout#setHeight}.
+     * {@link org.pango.Layout<code>#setWidth</code>  and {@link org.pango.Layout<code>#setHeight</code> .
      * 
      * If the layout contains characters such as newlines that
      * force it to be layed out in multiple paragraphs, then whether
      * each paragraph is ellipsized separately or the entire layout
      * is ellipsized as a whole depends on the set height of the layout.
      * 
-     * The default value is <code>PANGO_ELLIPSIZE_NONE.
+     * The default value is {@link org.pango.EllipsizeMode<code>#NONE</code>  
      * 
-     * See</code> {@link org.pango.Layout#setHeight} for details.
+     * See {@link org.pango.Layout<code>#setHeight</code>  for details.
      */
     public void setEllipsize(EllipsizeMode ellipsize) {
         gtk_h.pango_layout_set_ellipsize(handle(), ellipsize.getValue());
@@ -582,7 +573,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Sets the default font description for the layout.
      * 
      * If no font description is set on the layout, the
-     * font description from the layout&#39;s context is used.
+     * font description from the layout&<code>#39</code> s context is used.
      */
     public void setFontDescription(FontDescription desc) {
         gtk_h.pango_layout_set_font_description(handle(), desc.handle());
@@ -610,9 +601,9 @@ public class Layout extends org.gtk.gobject.Object {
      * if your code relies on this behavior.
      * 
      * Height setting only has effect if a positive width is set on
-     * @layout and ellipsization mode of @layout is not <code>PANGO_ELLIPSIZE_NONE.
-     * The</code> behavior is undefined if a height other than -1 is set and
-     * ellipsization mode is set to <code>PANGO_ELLIPSIZE_NONE,</code> and may change in the
+     * @layout and ellipsization mode of @layout is not {@link org.pango.EllipsizeMode<code>#NONE</code>  
+     * The behavior is undefined if a height other than -1 is set and
+     * ellipsization mode is set to {@link org.pango.EllipsizeMode<code>#NONE</code>   and may change in the
      * future.
      */
     public void setHeight(int height) {
@@ -627,9 +618,9 @@ public class Layout extends org.gtk.gobject.Object {
      * lines will be indented by the absolute value of @indent.
      * 
      * The indent setting is ignored if layout alignment is set to
-     * <code>PANGO_ALIGN_CENTER.
+     * {@link org.pango.Alignment<code>#CENTER</code>  
      * 
-     * The</code> default value is 0.
+     * The default value is 0.
      */
     public void setIndent(int indent) {
         gtk_h.pango_layout_set_indent(handle(), indent);
@@ -650,9 +641,9 @@ public class Layout extends org.gtk.gobject.Object {
      * Justification will move content away from its tab-aligned
      * positions.
      * 
-     * The default value is <code>FALSE.
+     * The default value is <code>false</code> 
      * 
-     * Also</code> see {@link org.pango.Layout#setJustifyLastLine}.
+     * Also see {@link org.pango.Layout<code>#setJustifyLastLine</code> .
      */
     public void setJustify(boolean justify) {
         gtk_h.pango_layout_set_justify(handle(), justify ? 1 : 0);
@@ -662,22 +653,10 @@ public class Layout extends org.gtk.gobject.Object {
      * Sets whether the last line should be stretched to fill the
      * entire width of the layout.
      * 
-     * This only has an effect if {@link org.pango.Layout#setJustify} has
+     * This only has an effect if {@link org.pango.Layout<code>#setJustify</code>  has
      * been called as well.
      * 
-     * The default value is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets whether the last line should be stretched to fill the
-     * entire width of the layout.
-     * 
-     * This only has an effect if {@link org.pango.Layout#setJustify} has
-     * been called as well.
-     * 
-     * The default value is %FALSE.
+     * The default value is <code>false</code>
      */
     public void setJustifyLastLine(boolean justify) {
         gtk_h.pango_layout_set_justify_last_line(handle(), justify ? 1 : 0);
@@ -694,12 +673,12 @@ public class Layout extends org.gtk.gobject.Object {
      * 
      * where height2 is the line height of the second line
      * (as determined by the font(s)). In this case, the spacing
-     * set with {@link org.pango.Layout#setSpacing} is ignored.
+     * set with {@link org.pango.Layout<code>#setSpacing</code>  is ignored.
      * 
      * If @factor is zero (the default), spacing is applied as before.
      * 
      * Note: for semantics that are closer to the CSS line-height
-     * property, see {@link Pango#attrLineHeightNew}.
+     * property, see {@link Pango<code>#attrLineHeightNew</code> .
      */
     public void setLineSpacing(float factor) {
         gtk_h.pango_layout_set_line_spacing(handle(), factor);
@@ -712,8 +691,8 @@ public class Layout extends org.gtk.gobject.Object {
      * 
      * Replaces the current text and attribute list.
      * 
-     * This is the same as {@link org.pango.Layout#setMarkupWithAccel},
-     * but the markup text isn&#39;t scanned for accelerators.
+     * This is the same as {@link org.pango.Layout<code>#setMarkupWithAccel</code> ,
+     * but the markup text isn&<code>#39</code> t scanned for accelerators.
      */
     public void setMarkup(java.lang.String markup, int length) {
         gtk_h.pango_layout_set_markup(handle(), Interop.allocateNativeString(markup).handle(), length);
@@ -722,17 +701,12 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Sets the single paragraph mode of @layout.
      * 
-     * If @setting is <code>TRUE,</code> do not treat newlines and similar characters
+     * If @setting is <code>true</code>  do not treat newlines and similar characters
      * as paragraph separators; instead, keep all text in a single paragraph,
      * and display a glyph for paragraph separator characters. Used when
      * you want to allow editing of newlines on a single text line.
      * 
-     * The default value is do not treat newlines and similar characters
-     * as paragraph separators; instead, keep all text in a single paragraph,
-     * and display a glyph for paragraph separator characters. Used when
-     * you want to allow editing of newlines on a single text line.
-     * 
-     * The default value is %FALSE.
+     * The default value is <code>false</code>
      */
     public void setSingleParagraphMode(boolean setting) {
         gtk_h.pango_layout_set_single_paragraph_mode(handle(), setting ? 1 : 0);
@@ -750,11 +724,11 @@ public class Layout extends org.gtk.gobject.Object {
      * 
      * Note: Since 1.44, Pango is using the line height (as determined
      * by the font) for placing lines when the line spacing factor is set
-     * to a non-zero value with {@link org.pango.Layout#setLineSpacing}.
+     * to a non-zero value with {@link org.pango.Layout<code>#setLineSpacing</code> .
      * In that case, the @spacing set with this function is ignored.
      * 
      * Note: for semantics that are closer to the CSS line-height
-     * property, see {@link Pango#attrLineHeightNew}.
+     * property, see {@link Pango<code>#attrLineHeightNew</code> .
      */
     public void setSpacing(int spacing) {
         gtk_h.pango_layout_set_spacing(handle(), spacing);
@@ -765,21 +739,14 @@ public class Layout extends org.gtk.gobject.Object {
      * <p><code>PangoLayout</code> will place content at the next tab position
      * whenever it meets a Tab character (U+0009).
      * 
-     * By default, tabs are every 8 spaces. If @tabs is <code>NULL,</code> the
+     * By default, tabs are every 8 spaces. If @tabs is <code>null</code>  the
      * default tabs are reinstated. @tabs is copied into the layout;
      * you must free your copy of @tabs yourself.
      * 
      * Note that tabs and justification conflict with each other:
      * Justification will move content away from its tab-aligned
      * positions. The same is true for alignments other than
-     * the
-     * default tabs are reinstated. @tabs is copied into the layout;
-     * you must free your copy of @tabs yourself.
-     * 
-     * Note that tabs and justification conflict with each other:
-     * Justification will move content away from its tab-aligned
-     * positions. The same is true for alignments other than
-     * %PANGO_ALIGN_LEFT.
+     * {@link org.pango.Alignment<code>#LEFT</code>
      */
     public void setTabs(TabArray tabs) {
         gtk_h.pango_layout_set_tabs(handle(), tabs.handle());
@@ -791,9 +758,9 @@ public class Layout extends org.gtk.gobject.Object {
      * This function validates @text and renders invalid UTF-8
      * with a placeholder glyph.
      * 
-     * Note that if you have used {@link org.pango.Layout#setMarkup} or
-     * {@link org.pango.Layout#setMarkupWithAccel} on @layout before, you
-     * may want to call {@link org.pango.Layout#setAttributes} to clear the
+     * Note that if you have used {@link org.pango.Layout<code>#setMarkup</code>  or
+     * {@link org.pango.Layout<code>#setMarkupWithAccel</code>  on @layout before, you
+     * may want to call {@link org.pango.Layout<code>#setAttributes</code>  to clear the
      * attributes set on the layout from the markup as this function does
      * not clear attributes.
      */
@@ -815,22 +782,10 @@ public class Layout extends org.gtk.gobject.Object {
      * Sets the wrap mode.
      * 
      * The wrap mode only has effect if a width is set on the layout
-     * with {@link org.pango.Layout#setWidth}. To turn off wrapping,
+     * with {@link org.pango.Layout<code>#setWidth</code> . To turn off wrapping,
      * set the width to -1.
      * 
-     * The default value is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets the wrap mode.
-     * 
-     * The wrap mode only has effect if a width is set on the layout
-     * with {@link org.pango.Layout#setWidth}. To turn off wrapping,
-     * set the width to -1.
-     * 
-     * The default value is %PANGO_WRAP_WORD.
+     * The default value is {@link org.pango.WrapMode<code>#WORD</code>
      */
     public void setWrap(WrapMode wrap) {
         gtk_h.pango_layout_set_wrap(handle(), wrap.getValue());
@@ -839,8 +794,8 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * A convenience method to serialize a layout to a file.
      * 
-     * It is equivalent to calling {@link org.pango.Layout#serialize}
-     * followed by {@link GLib#fileSetContents}.
+     * It is equivalent to calling {@link org.pango.Layout<code>#serialize</code> 
+     * followed by {@link GLib<code>#fileSetContents</code> .
      * 
      * See those two functions for details on the arguments.
      * 
@@ -857,7 +812,7 @@ public class Layout extends org.gtk.gobject.Object {
     }
     
     /**
-     * Loads data previously created via {@link org.pango.Layout#serialize}.
+     * Loads data previously created via {@link org.pango.Layout<code>#serialize</code> .
      * 
      * For a discussion of the supported format, see that function.
      * 

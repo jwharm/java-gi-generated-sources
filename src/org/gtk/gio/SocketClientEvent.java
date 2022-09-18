@@ -1,8 +1,8 @@
 package org.gtk.gio;
 
 /**
- * Describes an event occurring on a #GSocketClient. See the
- * #GSocketClient::event signal for more details.
+ * Describes an event occurring on a {@link org.gtk.gio.SocketClient}  See the
+ * {@link org.gtk.gio.SocketClient} :event signal for more details.
  * 
  * Additional values may be added to this type in the future.
  */
@@ -56,7 +56,7 @@ public enum SocketClientEvent {
     
     /**
      * The client is done with a particular
-     *   #GSocketConnectable.
+     *   {@link org.gtk.gio.SocketConnectable}
      */
     COMPLETE;
     

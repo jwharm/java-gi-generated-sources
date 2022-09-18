@@ -12,18 +12,18 @@ import java.lang.invoke.*;
  * <p>
  * An important aspect of expressions is that the value can be obtained
  * from a source that is several steps away. For example, an expression
- * may describe &#8216;the value of property A of <code>object1</code>, which is itself the
- * value of a property of <code>object2</code>&#8217;. And <code>object1</code> may not even exist yet
+ * may describe &<code>#8216</code> the value of property A of <code>object1</code>, which is itself the
+ * value of a property of <code>object2</code>&<code>#8217</code> . And <code>object1</code> may not even exist yet
  * at the time that the expression is created. This is contrast to <code>GObject</code>
  * property bindings, which can only create direct connections between
  * the properties of two objects that must both exist for the duration
  * of the binding.
  * <p>
- * An expression needs to be &#34;evaluated&#34; to obtain the value that it currently
+ * An expression needs to be &<code>#34</code> evaluated&<code>#34</code>  to obtain the value that it currently
  * refers to. An evaluation always happens in the context of a current object
  * called <code>this</code> (it mirrors the behavior of object-oriented languages),
  * which may or may not influence the result of the evaluation. Use
- * {@link org.gtk.gtk.Expression#evaluate} for evaluating an expression.
+ * {@link org.gtk.gtk.Expression<code>#evaluate</code>  for evaluating an expression.
  * <p>
  * Various methods for defining expressions exist, from simple constants via
  * {@link [ctor@Gtk.ConstantExpression.new] (ref=ctor)} to looking up properties in a <code>GObject</code>
@@ -34,18 +34,18 @@ import java.lang.invoke.*;
  * Here is an example of a complex expression:
  * <p><pre>c
  *   color_expr = gtk_property_expression_new (GTK_TYPE_LIST_ITEM,
- *                                             NULL, &#34;item&#34;);
+ *                                             NULL, &<code>#34</code> item&<code>#34</code> );
  *   expression = gtk_property_expression_new (GTK_TYPE_COLOR,
- *                                             color_expr, &#34;name&#34;);
+ *                                             color_expr, &<code>#34</code> name&<code>#34</code> );
  * </pre>
  * <p>
  * when evaluated with <code>this</code> being a <code>GtkListItem</code>, it will obtain the
- * &#34;item&#34; property from the <code>GtkListItem</code>, and then obtain the &#34;name&#34; property
+ * &<code>#34</code> item&<code>#34</code>  property from the <code>GtkListItem</code>, and then obtain the &<code>#34</code> name&<code>#34</code>  property
  * from the resulting object (which is assumed to be of type <code>GTK_TYPE_COLOR</code>).
  * <p>
  * A more concise way to describe this would be
  * <p><pre>
- *   this-&#62;item-&#62;name
+ *   this-&<code>#62</code> item-&<code>#62</code> name
  * </pre>
  * <p>
  * The most likely place where you will encounter expressions is in the context
@@ -55,31 +55,31 @@ import java.lang.invoke.*;
  * <p>
  * By default, expressions are not paying attention to changes and evaluation is
  * just a snapshot of the current state at a given time. To get informed about
- * changes, an expression needs to be &#34;watched&#34; via a {@link [struct@Gtk.ExpressionWatch] (ref=struct)},
+ * changes, an expression needs to be &<code>#34</code> watched&<code>#34</code>  via a {@link [struct@Gtk.ExpressionWatch] (ref=struct)},
  * which will cause a callback to be called whenever the value of the expression may
- * have changed; {@link org.gtk.gtk.Expression#watch} starts watching an expression, and
- * {@link org.gtk.gtk.ExpressionWatch#unwatch} stops.
+ * have changed; {@link org.gtk.gtk.Expression<code>#watch</code>  starts watching an expression, and
+ * {@link org.gtk.gtk.ExpressionWatch<code>#unwatch</code>  stops.
  * <p>
  * Watches can be created for automatically updating the property of an object,
- * similar to GObject&#39;s <code>GBinding</code> mechanism, by using {@link org.gtk.gtk.Expression#bind}.
+ * similar to GObject&<code>#39</code> s <code>GBinding</code> mechanism, by using {@link org.gtk.gtk.Expression<code>#bind</code> .
  * <p>
  * <h2>GtkExpression in GObject properties</h2>
  * <p>
  * In order to use a <code>GtkExpression</code> as a <code>GObject</code> property, you must use the
- * {@link Gtk#paramSpecExpression} when creating a <code>GParamSpec</code> to install in the<code>GObject</code> class being defined; for instance:
+ * {@link Gtk<code>#paramSpecExpression</code>  when creating a <code>GParamSpec</code> to install in the<code>GObject</code> class being defined; for instance:
  * <p><pre>c
  * obj_props{@link [PROP_EXPRESSION]} =
- *   gtk_param_spec_expression (&#34;expression&#34;,
- *                              &#34;Expression&#34;,
- *                              &#34;The expression used by the widget&#34;,
+ *   gtk_param_spec_expression (&<code>#34</code> expression&<code>#34</code> ,
+ *                              &<code>#34</code> Expression&<code>#34</code> ,
+ *                              &<code>#34</code> The expression used by the widget&<code>#34</code> ,
  *                              G_PARAM_READWRITE |
  *                              G_PARAM_STATIC_STRINGS |
  *                              G_PARAM_EXPLICIT_NOTIFY);
  * </pre>
  * <p>
  * When implementing the <code>GObjectClass.set_property</code> and <code>GObjectClass.get_property</code>
- * virtual functions, you must use {@link Gtk#valueGetExpression}, to retrieve the
- * stored <code>GtkExpression</code> from the <code>GValue</code> container, and {@link Gtk#valueSetExpression},
+ * virtual functions, you must use {@link Gtk<code>#valueGetExpression</code> , to retrieve the
+ * stored <code>GtkExpression</code> from the <code>GValue</code> container, and {@link Gtk<code>#valueSetExpression</code> ,
  * to store the <code>GtkExpression</code> into the <code>GValue</code>; for instance:
  * <p><pre>c
  *   // in set_property()...
@@ -89,41 +89,41 @@ import java.lang.invoke.*;
  * <p>
  *   // in get_property()...
  *   case PROP_EXPRESSION:
- *     gtk_value_set_expression (value, foo-&#62;expression);
+ *     gtk_value_set_expression (value, foo-&<code>#62</code> expression);
  *     break;
  * </pre>
  * <p>
  * <h2>GtkExpression in .ui files</h2>
  * <p><code>GtkBuilder</code> has support for creating expressions. The syntax here can be used where
- * a <code>GtkExpression</code> object is needed like in a <code>&#60;property&#62;</code> tag for an expression
- * property, or in a <code>&#60;binding name=&#34;property&#34;&#62;</code> tag to bind a property to an expression.
+ * a <code>GtkExpression</code> object is needed like in a <code>&<code>#60</code> property&<code>#62</code> </code> tag for an expression
+ * property, or in a <code>&<code>#60</code> binding name=&<code>#34</code> property&<code>#34</code> &<code>#62</code> </code> tag to bind a property to an expression.
  * <p>
- * To create a property expression, use the <code>&#60;lookup&#62;</code> element. It can have a <code>type</code>
+ * To create a property expression, use the <code>&<code>#60</code> lookup&<code>#62</code> </code> element. It can have a <code>type</code>
  * attribute to specify the object type, and a <code>name</code> attribute to specify the property
- * to look up. The content of <code>&#60;lookup&#62;</code> can either be an element specfiying the expression
+ * to look up. The content of <code>&<code>#60</code> lookup&<code>#62</code> </code> can either be an element specfiying the expression
  * to use the object, or a string that specifies the name of the object to use.
  * <p>
  * Example:
  * <p><pre>xml
- *   &#60;lookup name=&#39;search&#39;&#62;string_filter&#60;/lookup&#62;
+ *   &<code>#60</code> lookup name=&<code>#39</code> search&<code>#39</code> &<code>#62</code> string_filter&<code>#60</code> /lookup&<code>#62</code> 
  * </pre>
  * <p>
- * To create a constant expression, use the <code>&#60;constant&#62;</code> element. If the type attribute
+ * To create a constant expression, use the <code>&<code>#60</code> constant&<code>#62</code> </code> element. If the type attribute
  * is specified, the element content is interpreted as a value of that type. Otherwise,
  * it is assumed to be an object. For instance:
  * <p><pre>xml
- *   &#60;constant&#62;string_filter&#60;/constant&#62;
- *   &#60;constant type=&#39;gchararray&#39;&#62;Hello, world&#60;/constant&#62;
+ *   &<code>#60</code> constant&<code>#62</code> string_filter&<code>#60</code> /constant&<code>#62</code> 
+ *   &<code>#60</code> constant type=&<code>#39</code> gchararray&<code>#39</code> &<code>#62</code> Hello, world&<code>#60</code> /constant&<code>#62</code> 
  * </pre>
  * <p>
- * To create a closure expression, use the <code>&#60;closure&#62;</code> element. The <code>type</code> and <code>function</code>
+ * To create a closure expression, use the <code>&<code>#60</code> closure&<code>#62</code> </code> element. The <code>type</code> and <code>function</code>
  * attributes specify what function to use for the closure, the content of the element
  * contains the expressions for the parameters. For instance:
  * <p><pre>xml
- *   &#60;closure type=&#39;gchararray&#39; function=&#39;combine_args_somehow&#39;&#62;
- *     &#60;constant type=&#39;gchararray&#39;&#62;File size:&#60;/constant&#62;
- *     &#60;lookup type=&#39;GFile&#39; name=&#39;size&#39;&#62;myfile&#60;/lookup&#62;
- *   &#60;/closure&#62;
+ *   &<code>#60</code> closure type=&<code>#39</code> gchararray&<code>#39</code>  function=&<code>#39</code> combine_args_somehow&<code>#39</code> &<code>#62</code> 
+ *     &<code>#60</code> constant type=&<code>#39</code> gchararray&<code>#39</code> &<code>#62</code> File size:&<code>#60</code> /constant&<code>#62</code> 
+ *     &<code>#60</code> lookup type=&<code>#39</code> GFile&<code>#39</code>  name=&<code>#39</code> size&<code>#39</code> &<code>#62</code> myfile&<code>#60</code> /lookup&<code>#62</code> 
+ *   &<code>#60</code> /closure&<code>#62</code> 
  * </pre>
  */
 public class Expression extends org.gtk.gobject.Object {
@@ -138,17 +138,17 @@ public class Expression extends org.gtk.gobject.Object {
     }
     
     /**
-     * Bind <code>target</code>&#39;s property named <code>property</code> to <code>self</code>.
+     * Bind <code>target</code>&<code>#39</code> s property named <code>property</code> to <code>self</code>.
      * <p>
      * The value that <code>self</code> evaluates to is set via <code>g_object_set()</code> on<code>target</code>. This is repeated whenever <code>self</code> changes to ensure that
-     * the object&#39;s property stays synchronized with <code>self</code>.
+     * the object&<code>#39</code> s property stays synchronized with <code>self</code>.
      * <p>
-     * If <code>self</code>&#39;s evaluation fails, <code>target</code>&#39;s <code>property</code> is not updated.
-     * You can ensure that this doesn&#39;t happen by using a fallback
+     * If <code>self</code>&<code>#39</code> s evaluation fails, <code>target</code>&<code>#39</code> s <code>property</code> is not updated.
+     * You can ensure that this doesn&<code>#39</code> t happen by using a fallback
      * expression.
      * <p>
      * Note that this function takes ownership of <code>self</code>. If you want
-     * to keep it around, you should {@link org.gtk.gtk.Expression#ref} it beforehand.
+     * to keep it around, you should {@link org.gtk.gtk.Expression<code>#ref</code>  it beforehand.
      */
     public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
         var RESULT = gtk_h.gtk_expression_bind(handle(), target.handle(), Interop.allocateNativeString(property).handle(), this_.handle());
@@ -160,7 +160,7 @@ public class Expression extends org.gtk.gobject.Object {
      * in @value.
      * <p>
      * The <code>GType</code> of <code>value</code> will be the type given by
-     * {@link org.gtk.gtk.Expression#getValueType}.
+     * {@link org.gtk.gtk.Expression<code>#getValueType</code> .
      * <p>
      * It is possible that expressions cannot be evaluated - for example
      * when the expression references objects that have been destroyed or
@@ -187,9 +187,9 @@ public class Expression extends org.gtk.gobject.Object {
      * Checks if the expression is static.
      * 
      * A static expression will never change its result when
-     * {@link org.gtk.gtk.Expression#evaluate} is called on it with the same arguments.
+     * {@link org.gtk.gtk.Expression<code>#evaluate</code>  is called on it with the same arguments.
      * 
-     * That means a call to {@link org.gtk.gtk.Expression#watch} is not necessary because
+     * That means a call to {@link org.gtk.gtk.Expression<code>#watch</code>  is not necessary because
      * it will never trigger a notify.
      */
     public boolean isStatic() {

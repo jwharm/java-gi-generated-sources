@@ -63,13 +63,10 @@ public class TreeSelection extends org.gtk.gobject.Object {
     
     /**
      * Sets @iter to the currently selected node if @selection is set to
-     * {@link org.gtk.gtk.SelectionMode#SINGLE} or <code>GTK_SELECTION_BROWSE.</code>  @iter may be NULL if you
+     * {@link org.gtk.gtk.SelectionMode<code>#SINGLE</code>  or {@link org.gtk.gtk.SelectionMode<code>#BROWSE</code>    @iter may be NULL if you
      * just want to test if @selection has any selected nodes.  @model is filled
      * with the current model as a convenience.  This function will not work if you
-     * use @selection is  @iter may be NULL if you
-     * just want to test if @selection has any selected nodes.  @model is filled
-     * with the current model as a convenience.  This function will not work if you
-     * use @selection is %GTK_SELECTION_MULTIPLE.
+     * use @selection is {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>
      */
     public boolean getSelected(TreeModel[] model, TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_selection_get_selected(handle(), Interop.allocateNativeArray(model).handle(), iter.handle());
@@ -83,7 +80,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * To do this, you can use gtk_tree_row_reference_new().
      * 
      * To free the return value, use:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
      * ]}|
      */
@@ -126,14 +123,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Selects all the nodes. @selection must be set to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Selects all the nodes. @selection must be set to %GTK_SELECTION_MULTIPLE
-     * mode.
+     * Selects all the nodes. @selection must be set to {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>  mode.
      */
     public void selectAll() {
         gtk_h.gtk_tree_selection_select_all(handle());
@@ -155,7 +145,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     
     /**
      * Selects a range of nodes, determined by @start_path and @end_path inclusive.
-     * @selection must be set to {@link org.gtk.gtk.SelectionMode#MULTIPLE} mode.
+     * @selection must be set to {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>  mode.
      */
     public void selectRange(TreePath startPath, TreePath endPath) {
         gtk_h.gtk_tree_selection_select_range(handle(), startPath.handle(), endPath.handle());
@@ -182,7 +172,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     
     /**
      * Sets the selection mode of the @selection.  If the previous type was
-     * <code>GTK_SELECTION_MULTIPLE,</code> then the anchor is kept selected, if it was
+     * {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>   then the anchor is kept selected, if it was
      * previously selected.
      */
     public void setMode(SelectionMode type) {
@@ -194,8 +184,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * 
      * If set, this function is called before any node is selected or unselected,
      * giving some control over which nodes are selected. The select function
-     * should return <code>true</code> if the state of the node may be toggled, and <code>FALSE
-     * if</code> the state of the node should be left unchanged.
+     * should return <code>true</code> if the state of the node may be toggled, and <code>false</code> if the state of the node should be left unchanged.
      */
     public void setSelectFunction(TreeSelectionFunc func) {
         try {

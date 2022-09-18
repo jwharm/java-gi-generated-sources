@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * at the time it was lifted.
  * 
  * If the velocity is desired in intermediate points,
- * {@link org.gtk.gtk.GestureSwipe#getVelocity} can be called in a
+ * {@link org.gtk.gtk.GestureSwipe<code>#getVelocity</code>  can be called in a
  * {@link [signal@Gtk.Gesture::update] (ref=signal)} handler.
  * 
  * All velocities are reported in pixels/sec units.

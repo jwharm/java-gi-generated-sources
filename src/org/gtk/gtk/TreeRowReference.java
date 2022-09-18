@@ -29,7 +29,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * This reference will keep pointing to the node pointed to
      * by @path, so long as it exists. Any changes that occur on @model are
      * propagated, and the path is updated appropriately. If
-     * @path isn&#8217;t a valid path in @model, then <code>null</code> is returned.
+     * @path isn&<code>#8217</code> t a valid path in @model, then <code>null</code> is returned.
      */
     public TreeRowReference(TreeModel model, TreePath path) {
         super(constructNew(model, path));
@@ -46,7 +46,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * Creates a row reference based on @path.
      * <p>
      * This reference will keep pointing to the node pointed to
-     * by @path, so long as it exists. If @path isn&#8217;t a valid
+     * by @path, so long as it exists. If @path isn&<code>#8217</code> t a valid
      * path in @model, then <code>null</code> is returned. However, unlike
      * references created with gtk_tree_row_reference_new(), it
      * does not listen to the model for changes. The creator of
@@ -60,7 +60,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * objects like <code>GtkTreeView</code> already use this mechanism internally,
      * using them as the proxy object will produce unpredictable results.
      * Further more, passing the same object as @model and @proxy
-     * doesn&#8217;t work for reasons of internal implementation.
+     * doesn&<code>#8217</code> t work for reasons of internal implementation.
      * 
      * This type of row reference is primarily meant by structures that
      * need to carefully monitor exactly when a row reference updates
@@ -79,13 +79,13 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free&#8217;s @reference. @reference may be 
+     * Free&<code>#8217</code> s @reference. @reference may be 
      *             
      *           
      *         
      *       
      *       
-     *         Free&#8217;s @reference. @reference may be %NULL
+     *         Free&<code>#8217</code> s @reference. @reference may be %NULL
      */
     public void free() {
         gtk_h.gtk_tree_row_reference_free(handle());

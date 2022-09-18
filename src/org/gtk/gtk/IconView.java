@@ -12,18 +12,18 @@ import java.lang.invoke.*;
  * <p><code>GtkIconView</code> provides an alternative view on a <code>GtkTreeModel</code>.
  * It displays the model as a grid of icons with labels. Like
  * {@link org.gtk.gtk.TreeView}, it allows to select one or multiple items
- * (depending on the selection mode, see {@link org.gtk.gtk.IconView#setSelectionMode}).
+ * (depending on the selection mode, see {@link org.gtk.gtk.IconView<code>#setSelectionMode</code> ).
  * In addition to selection with the arrow keys, <code>GtkIconView</code> supports
  * rubberband selection, which is controlled by dragging the pointer.
  * <p>
  * Note that if the tree model is backed by an actual tree store (as
  * opposed to a flat list where the mapping to icons is obvious),<code>GtkIconView</code> will only display the first level of the tree and
- * ignore the tree&#8217;s branches.
+ * ignore the tree&<code>#8217</code> s branches.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * iconview.view
- * &#9584;&#9472;&#9472; {@link [rubberband]}
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [rubberband]}
  * </pre>
  * <p><code>GtkIconView</code> has a single CSS node with name iconview and style class .view.
  * For rubberband selection, a subnode with name rubberband is used.
@@ -87,14 +87,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Turns @icon_view into a drop destination for automatic DND. Calling this
-     * method sets <code>GtkIconView</code>:reorderable to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Turns @icon_view into a drop destination for automatic DND. Calling this
-     * method sets <code>GtkIconView</code>:reorderable to %FALSE.
+     * method sets <code>GtkIconView</code>:reorderable to <code>false</code>
      */
     public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, int actions) {
         gtk_h.gtk_icon_view_enable_model_drag_dest(handle(), formats.handle(), actions);
@@ -102,14 +95,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Turns @icon_view into a drag source for automatic DND. Calling this
-     * method sets <code>GtkIconView</code>:reorderable to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Turns @icon_view into a drag source for automatic DND. Calling this
-     * method sets <code>GtkIconView</code>:reorderable to %FALSE.
+     * method sets <code>GtkIconView</code>:reorderable to <code>false</code>
      */
     public void enableModelDragSource(int startButtonMask, org.gtk.gdk.ContentFormats formats, int actions) {
         gtk_h.gtk_icon_view_enable_model_drag_source(handle(), startButtonMask, formats.handle(), actions);
@@ -152,10 +138,10 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Fills in @path and @cell with the current cursor path and cell.
-     * If the cursor isn&#8217;t currently set, then *@path will be <code>NULL.
-     * If</code> no cell currently has focus, then *@cell will be <code>NULL.
+     * If the cursor isn&<code>#8217</code> t currently set, then *@path will be <code>null</code> 
+     * If no cell currently has focus, then *@cell will be <code>null</code> 
      * <p>
-     * The</code> returned <code>GtkTreePath</code> must be freed with gtk_tree_path_free().
+     * The returned <code>GtkTreePath</code> must be freed with gtk_tree_path_free().
      */
     public boolean getCursor(TreePath[] path, CellRenderer[] cell) {
         var RESULT = gtk_h.gtk_icon_view_get_cursor(handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(cell).handle());
@@ -278,7 +264,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * To do this, you can use gtk_tree_row_reference_new().
      * <p>
      * To free the return value, use <code>g_list_free_full</code>:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * GtkWidget *icon_view = gtk_icon_view_new ();
      * // Use icon_view
      * 
@@ -319,8 +305,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Returns the column of @icon_view&#8217;s model which is being used for
-     * displaying tooltips on @icon_view&#8217;s rows.
+     * Returns the column of @icon_view&<code>#8217</code> s model which is being used for
+     * displaying tooltips on @icon_view&<code>#8217</code> s rows.
      */
     public int getTooltipColumn() {
         var RESULT = gtk_h.gtk_icon_view_get_tooltip_column(handle());
@@ -334,8 +320,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * function without modification.
      * 
      * The return value indicates whether there is an icon view item at the given
-     * coordinates (<code>TRUE)</code> or not (<code>FALSE)</code> for mouse tooltips. For keyboard
-     * tooltips the item returned will be the cursor item. When <code>TRUE,</code> then any of
+     * coordinates (<code>true</code>  or not (<code>false</code>  for mouse tooltips. For keyboard
+     * tooltips the item returned will be the cursor item. When <code>true</code>  then any of
      * @model, @path and @iter which have been provided will be set to point to
      * that row and the corresponding model.
      */
@@ -378,7 +364,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * 0.0 means left/top alignment, 1.0 means right/bottom alignment, 0.5 means
      * center.
      * 
-     * If @use_align is <code>FALSE,</code> then the alignment arguments are ignored, and the
+     * If @use_align is <code>false</code>  then the alignment arguments are ignored, and the
      * tree does the minimum amount of work to scroll the item onto the screen.
      * This means that the item will be scrolled to the edge closest to its current
      * position.  If the item is currently visible on the screen, nothing is done.
@@ -393,14 +379,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Selects all the icons. @icon_view must has its selection mode set
-     * to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Selects all the icons. @icon_view must has its selection mode set
-     * to %GTK_SELECTION_MULTIPLE.
+     * to {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>
      */
     public void selectAll() {
         gtk_h.gtk_icon_view_select_all(handle());
@@ -459,9 +438,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Sets the current keyboard focus to be at @path, and selects it.  This is
-     * useful when you want to focus the user&#8217;s attention on a particular item.
-     * If @cell is not <code>NULL,</code> then focus is given to the cell specified by
-     * it. Additionally, if @start_editing is <code>TRUE,</code> then editing should be
+     * useful when you want to focus the user&<code>#8217</code> s attention on a particular item.
+     * If @cell is not <code>null</code>  then focus is given to the cell specified by
+     * it. Additionally, if @start_editing is <code>true</code>  then editing should be
      * started in the specified cell.
      * <p>
      * This function is often followed by <code>gtk_widget_grab_focus
@@ -489,7 +468,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Sets the <code>GtkIconView</code>:item-padding property which specifies the padding
-     * around each of the icon view&#8217;s items.
+     * around each of the icon view&<code>#8217</code> s items.
      */
     public void setItemPadding(int itemPadding) {
         gtk_h.gtk_icon_view_set_item_padding(handle(), itemPadding);
@@ -526,7 +505,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the model for a <code>GtkIconView</code>.
      * If the @icon_view already has a model set, it will remove
-     * it before setting the new model.  If @model is <code>NULL,</code> then
+     * it before setting the new model.  If @model is <code>null</code>  then
      * it will unset the old model.
      */
     public void setModel(TreeModel model) {
@@ -543,9 +522,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * This function is a convenience function to allow you to reorder models that
-     * support the <code>GtkTreeDragSourceIface</code> and the <code>GtkTreeDragDestIface</code>. Both<code>GtkTreeStore</code> and <code>GtkListStore</code> support these. If @reorderable is <code>TRUE,</code> then
+     * support the <code>GtkTreeDragSourceIface</code> and the <code>GtkTreeDragDestIface</code>. Both<code>GtkTreeStore</code> and <code>GtkListStore</code> support these. If @reorderable is <code>true</code>  then
      * the user can reorder the model by dragging and dropping rows.  The
-     * developer can listen to these changes by connecting to the model&#39;s
+     * developer can listen to these changes by connecting to the model&<code>#39</code> s
      * row_inserted and row_deleted signals. The reordering is implemented by setting up
      * the icon view as a drag source and destination. Therefore, drag and
      * drop can not be used in a reorderable view for any other purpose.
@@ -603,14 +582,14 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * If you only plan to have simple (text-only) tooltips on full items, you
      * can use this function to have <code>GtkIconView</code> handle these automatically
-     * for you. @column should be set to the column in @icon_view&#8217;s model
+     * for you. @column should be set to the column in @icon_view&<code>#8217</code> s model
      * containing the tooltip texts, or -1 to disable this feature.
      * <p>
      * When enabled, <code>GtkWidget:has-tooltip</code> will be set to <code>true</code> and
      * @icon_view will connect a <code>GtkWidget::query-tooltip</code> signal handler.
      * 
      * Note that the signal handler sets the text with gtk_tooltip_set_markup(),
-     * so &#38;, &#60;, etc have to be escaped in the text.
+     * so &<code>#38</code> , &<code>#60</code> , etc have to be escaped in the text.
      */
     public void setTooltipColumn(int column) {
         gtk_h.gtk_icon_view_set_tooltip_column(handle(), column);
@@ -641,14 +620,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Undoes the effect of gtk_icon_view_enable_model_drag_dest(). Calling this
-     * method sets <code>GtkIconView</code>:reorderable to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Undoes the effect of gtk_icon_view_enable_model_drag_dest(). Calling this
-     * method sets <code>GtkIconView</code>:reorderable to %FALSE.
+     * method sets <code>GtkIconView</code>:reorderable to <code>false</code>
      */
     public void unsetModelDragDest() {
         gtk_h.gtk_icon_view_unset_model_drag_dest(handle());
@@ -656,14 +628,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Undoes the effect of gtk_icon_view_enable_model_drag_source(). Calling this
-     * method sets <code>GtkIconView</code>:reorderable to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Undoes the effect of gtk_icon_view_enable_model_drag_source(). Calling this
-     * method sets <code>GtkIconView</code>:reorderable to %FALSE.
+     * method sets <code>GtkIconView</code>:reorderable to <code>false</code>
      */
     public void unsetModelDragSource() {
         gtk_h.gtk_icon_view_unset_model_drag_source(handle());
@@ -708,9 +673,9 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * The ::item-activated signal is emitted when the method
      * gtk_icon_view_item_activated() is called, when the user double
-     * clicks an item with the &#34;activate-on-single-click&#34; property set
-     * to <code>FALSE,</code> or when the user single clicks an item when the
-     * &#34;activate-on-single-click&#34; property set to <code>TRUE.</code> It is also
+     * clicks an item with the &<code>#34</code> activate-on-single-click&<code>#34</code>  property set
+     * to <code>false</code>  or when the user single clicks an item when the
+     * &<code>#34</code> activate-on-single-click&<code>#34</code>  property set to <code>true</code>  It is also
      * emitted when a non-editable item is selected and one of the keys:
      * Space, Return or Enter is pressed.
      */
@@ -746,7 +711,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * The default bindings for this signal include
      * - Arrow keys which move by individual steps
      * - Home/End keys which move to the first/last item
-     * - PageUp/PageDown which move by &#34;pages&#34;
+     * - PageUp/PageDown which move by &<code>#34</code> pages&<code>#34</code> 
      * All of these will extend the selection when combined with
      * the Shift modifier.
      */

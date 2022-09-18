@@ -15,10 +15,10 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [An example GtkSpinner]}(spinner.png)
  * <p>
- * To start the animation, use {@link org.gtk.gtk.Spinner#start}, to stop it
- * use {@link org.gtk.gtk.Spinner#stop}.
+ * To start the animation, use {@link org.gtk.gtk.Spinner<code>#start</code> , to stop it
+ * use {@link org.gtk.gtk.Spinner<code>#stop</code> .
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkSpinner</code> has a single CSS node with the name spinner.
  * When the animation is active, the :checked pseudoclass is
  * added to this node.

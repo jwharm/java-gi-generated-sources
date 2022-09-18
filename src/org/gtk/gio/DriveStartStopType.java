@@ -6,7 +6,7 @@ package org.gtk.gio;
 public enum DriveStartStopType {
 
     /**
-     * Unknown or drive doesn&#39;t support
+     * Unknown or drive doesn&<code>#39</code> t support
      *    start/stop.
      */
     UNKNOWN,
@@ -33,8 +33,8 @@ public enum DriveStartStopType {
     
     /**
      * The start/stop methods will
-     *    unlock/lock the disk (for example using the ATA &#60;quote&#62;SECURITY
-     *    UNLOCK DEVICE&#60;/quote&#62; command)
+     *    unlock/lock the disk (for example using the ATA &<code>#60</code> quote&<code>#62</code> SECURITY
+     *    UNLOCK DEVICE&<code>#60</code> /quote&<code>#62</code>  command)
      */
     PASSWORD;
     

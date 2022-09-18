@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GParamSpec derived structure that contains the meta data for #GType properties.
+ * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for {@link org.gtk.glib.Type} properties.
  */
 public class ParamSpecGType extends ParamSpec {
 

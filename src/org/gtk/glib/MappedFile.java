@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GMappedFile represents a file mapping created with
+ * The {@link org.gtk.glib.MappedFile} represents a file mapping created with
  * g_mapped_file_new(). It has only private members and should
  * not be accessed directly.
  */
@@ -30,33 +30,20 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Maps a file into memory. On UNIX, this is using the mmap() function.
      * 
-     * If @writable is <code>TRUE,</code> the mapped buffer may be modified, otherwise
+     * If @writable is <code>true</code>  the mapped buffer may be modified, otherwise
      * it is an error to modify the mapped buffer. Modifications to the buffer
      * are not visible to other processes mapping the same file, and are not
      * written back to the file.
      * 
      * Note that modifications of the underlying file might affect the contents
-     * of the #GMappedFile. Therefore, mapping should only be used if the file
+     * of the {@link org.gtk.glib.MappedFile}  Therefore, mapping should only be used if the file
      * will not be modified, or if all modifications of the file are done
      * atomically (e.g. using g_file_set_contents()).
      * 
      * If @filename is the name of an empty, regular file, the function
-     * will successfully return an empty #GMappedFile. In other cases of
+     * will successfully return an empty {@link org.gtk.glib.MappedFile}  In other cases of
      * size 0 (e.g. device files such as /dev/null), @error will be set
-     * to the #GFileError value the mapped buffer may be modified, otherwise
-     * it is an error to modify the mapped buffer. Modifications to the buffer
-     * are not visible to other processes mapping the same file, and are not
-     * written back to the file.
-     * 
-     * Note that modifications of the underlying file might affect the contents
-     * of the #GMappedFile. Therefore, mapping should only be used if the file
-     * will not be modified, or if all modifications of the file are done
-     * atomically (e.g. using g_file_set_contents()).
-     * 
-     * If @filename is the name of an empty, regular file, the function
-     * will successfully return an empty #GMappedFile. In other cases of
-     * size 0 (e.g. device files such as /dev/null), @error will be set
-     * to the #GFileError value %G_FILE_ERROR_INVAL.
+     * to the {@link org.gtk.glib.FileError} value {@link org.gtk.glib.FileError<code>#INVAL</code>
      */
     public MappedFile(java.lang.String filename, boolean writable) throws GErrorException {
         super(constructNew(filename, writable));
@@ -74,13 +61,13 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Maps a file into memory. On UNIX, this is using the mmap() function.
      * 
-     * If @writable is <code>TRUE,</code> the mapped buffer may be modified, otherwise
+     * If @writable is <code>true</code>  the mapped buffer may be modified, otherwise
      * it is an error to modify the mapped buffer. Modifications to the buffer
      * are not visible to other processes mapping the same file, and are not
      * written back to the file.
      * 
      * Note that modifications of the underlying file might affect the contents
-     * of the #GMappedFile. Therefore, mapping should only be used if the file
+     * of the {@link org.gtk.glib.MappedFile}  Therefore, mapping should only be used if the file
      * will not be modified, or if all modifications of the file are done
      * atomically (e.g. using g_file_set_contents()).
      */
@@ -89,9 +76,9 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GBytes which references the data mapped from @file.
+     * Creates a new {@link org.gtk.glib.Bytes} which references the data mapped from @file.
      * The mapped contents of the file must not be modified after creating this
-     * bytes object, because a #GBytes should be immutable.
+     * bytes object, because a {@link org.gtk.glib.Bytes} should be immutable.
      */
     public Bytes getBytes() {
         var RESULT = gtk_h.g_mapped_file_get_bytes(handle());
@@ -99,10 +86,10 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the contents of a #GMappedFile.
+     * Returns the contents of a {@link org.gtk.glib.MappedFile} 
      * 
      * Note that the contents may not be zero-terminated,
-     * even if the #GMappedFile is backed by a text file.
+     * even if the {@link org.gtk.glib.MappedFile} is backed by a text file.
      * 
      * If the file is empty then <code>null</code> is returned.
      */
@@ -112,7 +99,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the length of the contents of a #GMappedFile.
+     * Returns the length of the contents of a {@link org.gtk.glib.MappedFile}
      */
     public long getLength() {
         var RESULT = gtk_h.g_mapped_file_get_length(handle());

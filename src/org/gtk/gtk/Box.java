@@ -18,25 +18,25 @@ import java.lang.invoke.*;
  * {@link [property@Gtk.Widget:halign] (ref=property)} and {@link [property@Gtk.Widget:valign] (ref=property)} properties
  * can be used on the children to influence their allocation.
  * <p>
- * Use repeated calls to {@link org.gtk.gtk.Box#append} to pack widgets into a<code>GtkBox</code> from start to end. Use {@link org.gtk.gtk.Box#remove} to remove widgets
- * from the <code>GtkBox</code>. {@link org.gtk.gtk.Box#insertChildAfter} can be used to add
+ * Use repeated calls to {@link org.gtk.gtk.Box<code>#append</code>  to pack widgets into a<code>GtkBox</code> from start to end. Use {@link org.gtk.gtk.Box<code>#remove</code>  to remove widgets
+ * from the <code>GtkBox</code>. {@link org.gtk.gtk.Box<code>#insertChildAfter</code>  can be used to add
  * a child at a particular position.
  * <p>
- * Use {@link org.gtk.gtk.Box#setHomogeneous} to specify whether or not all children
+ * Use {@link org.gtk.gtk.Box<code>#setHomogeneous</code>  to specify whether or not all children
  * of the <code>GtkBox</code> are forced to get the same amount of space.
  * <p>
- * Use {@link org.gtk.gtk.Box#setSpacing} to determine how much space will be minimally
+ * Use {@link org.gtk.gtk.Box<code>#setSpacing</code>  to determine how much space will be minimally
  * placed between all children in the <code>GtkBox</code>. Note that spacing is added
  * *between* the children.
  * <p>
- * Use {@link org.gtk.gtk.Box#reorderChildAfter} to move a child to a different
+ * Use {@link org.gtk.gtk.Box<code>#reorderChildAfter</code>  to move a child to a different
  * place in the box.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkBox</code> uses a single CSS node with name box.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkBox</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkBox</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
  */
 public class Box extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -97,7 +97,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Inserts @child in the position after @sibling in the list
      * of @box children.
      * 
-     * If @sibling is <code>NULL,</code> insert @child at the first position.
+     * If @sibling is <code>null</code>  insert @child at the first position.
      */
     public void insertChildAfter(Widget child, Widget sibling) {
         gtk_h.gtk_box_insert_child_after(handle(), child.handle(), sibling.handle());
@@ -114,8 +114,8 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Removes a child widget from @box.
      * 
      * The child must have been added before with
-     * {@link org.gtk.gtk.Box#append}, {@link org.gtk.gtk.Box#prepend}, or
-     * {@link org.gtk.gtk.Box#insertChildAfter}.
+     * {@link org.gtk.gtk.Box<code>#append</code> , {@link org.gtk.gtk.Box<code>#prepend</code> , or
+     * {@link org.gtk.gtk.Box<code>#insertChildAfter</code> .
      */
     public void remove(Widget child) {
         gtk_h.gtk_box_remove(handle(), child.handle());
@@ -125,7 +125,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Moves @child to the position after @sibling in the list
      * of @box children.
      * 
-     * If @sibling is <code>NULL,</code> move @child to the first position.
+     * If @sibling is <code>null</code>  move @child to the first position.
      */
     public void reorderChildAfter(Widget child, Widget sibling) {
         gtk_h.gtk_box_reorder_child_after(handle(), child.handle(), sibling.handle());

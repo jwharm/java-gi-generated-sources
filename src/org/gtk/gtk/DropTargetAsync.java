@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  * <p>
  * It is the more complete but also more complex method of handling drop
  * operations compared to {@link org.gtk.gtk.DropTarget}, and you should only use
- * it if <code>GtkDropTarget</code> doesn&#39;t provide all the features you need.
+ * it if <code>GtkDropTarget</code> doesn&<code>#39</code> t provide all the features you need.
  * <p>
  * To use a <code>GtkDropTargetAsync</code> to receive drops on a widget, you create
  * a <code>GtkDropTargetAsync</code> object, configure which data formats and actions
  * you support, connect to its signals, and then attach it to the widget
- * with {@link org.gtk.gtk.Widget#addController}.
+ * with {@link org.gtk.gtk.Widget<code>#addController</code> .
  * <p>
  * During a drag operation, the first signal that a <code>GtkDropTargetAsync</code>
  * emits is {@link [signal@Gtk.DropTargetAsync::accept] (ref=signal)}, which is meant to determine
@@ -37,11 +37,10 @@ import java.lang.invoke.*;
  * to update the status of the ongoing operation. The ::drop handler
  * should decide if it ultimately accepts the drop and if it does, it
  * should initiate the data transfer and finish the operation by calling
- * {@link org.gtk.gdk.Drop#finish}.
+ * {@link org.gtk.gdk.Drop<code>#finish</code> .
  * 
  * Between the ::drag-enter and ::drag-leave signals the widget is a
- * current drop target, and will receive the <code>GTK_STATE_FLAG_DROP_ACTIVE
- * state,</code> which can be used by themes to style the widget as a drop target.
+ * current drop target, and will receive the {@link org.gtk.gtk.StateFlags<code>#DROP_ACTIVE</code>  state, which can be used by themes to style the widget as a drop target.
  */
 public class DropTargetAsync extends EventController {
 
@@ -77,7 +76,7 @@ public class DropTargetAsync extends EventController {
     /**
      * Gets the data formats that this drop target accepts.
      * 
-     * If the result is <code>NULL,</code> all formats are expected to be supported.
+     * If the result is <code>null</code>  all formats are expected to be supported.
      */
     public org.gtk.gdk.ContentFormats getFormats() {
         var RESULT = gtk_h.gtk_drop_target_async_get_formats(handle());
@@ -119,7 +118,7 @@ public class DropTargetAsync extends EventController {
      * 
      * If the drop is not accepted, <code>false</code> will be returned and the drop target
      * will ignore the drop. If <code>true</code> is returned, the drop is accepted for now
-     * but may be rejected later via a call to {@link org.gtk.gtk.DropTargetAsync#rejectDrop}
+     * but may be rejected later via a call to {@link org.gtk.gtk.DropTargetAsync<code>#rejectDrop</code> 
      * or ultimately by returning <code>false</code> from a {@link [signal@Gtk.DropTargetAsync::drop] (ref=signal)}
      * handler.
      * 
@@ -129,7 +128,7 @@ public class DropTargetAsync extends EventController {
      * If the decision whether the drop will be accepted or rejected needs
      * further processing, such as inspecting the data, this function should
      * return <code>true</code> and proceed as is @drop was accepted and if it decides to
-     * reject the drop later, it should call {@link org.gtk.gtk.DropTargetAsync#rejectDrop}.
+     * reject the drop later, it should call {@link org.gtk.gtk.DropTargetAsync<code>#rejectDrop</code> .
      */
     public SignalHandle onAccept(AcceptHandler handler) {
         try {
@@ -231,14 +230,14 @@ public class DropTargetAsync extends EventController {
      * drop zone or not. If it is not in a drop zone, it returns <code>false</code> and no
      * further processing is necessary.
      * 
-     * Otherwise, the handler returns <code>TRUE.</code> In this case, this handler will
-     * accept the drop. The handler must ensure that {@link org.gtk.gdk.Drop#finish}
+     * Otherwise, the handler returns <code>true</code>  In this case, this handler will
+     * accept the drop. The handler must ensure that {@link org.gtk.gdk.Drop<code>#finish</code> 
      * is called to let the source know that the drop is done. The call to
-     * {@link org.gtk.gdk.Drop#finish} must only be done when all data has been received.
+     * {@link org.gtk.gdk.Drop<code>#finish</code>  must only be done when all data has been received.
      * 
      * To receive the data, use one of the read functions provided by
-     * {@link org.gtk.gdk.Drop} such as {@link org.gtk.gdk.Drop#readAsync} or
-     * {@link org.gtk.gdk.Drop#readValueAsync}.
+     * {@link org.gtk.gdk.Drop} such as {@link org.gtk.gdk.Drop<code>#readAsync</code>  or
+     * {@link org.gtk.gdk.Drop<code>#readValueAsync</code> .
      */
     public SignalHandle onDrop(DropHandler handler) {
         try {

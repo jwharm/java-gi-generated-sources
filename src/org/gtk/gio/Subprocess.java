@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GSubprocess allows the creation of and interaction with child
+ * {@link org.gtk.gio.Subprocess} allows the creation of and interaction with child
  * processes.
  * <p>
  * Processes can be communicated with using standard GIO-style APIs (ie:
- * <h1>nputStream, #GOutputStream).  There are GIO-style APIs to wait for</h1>
+ * {@link org.gtk.gio.InputStream}  {@link org.gtk.gio.OutputStream} .  There are GIO-style APIs to wait for
  * process termination (ie: cancellable and with an asynchronous
  * variant).
  * <p>
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  * g_output_stream_splice_async().  This makes GSubprocess
  * significantly more powerful and flexible than equivalent APIs in
  * some other languages such as the <code>subprocess.py</code>
- * included with Python.  For example, using #GSubprocess one could
+ * included with Python.  For example, using {@link org.gtk.gio.Subprocess} one could
  * create two child processes, reading standard output from the first,
  * processing it, and writing to the input stream of the second, all
  * without blocking the main loop.
@@ -32,34 +32,34 @@ import java.lang.invoke.*;
  * A powerful g_subprocess_communicate() API is provided similar to the<code>communicate()</code> method of <code>subprocess.py</code>. This enables very easy
  * interaction with a subprocess that has been opened with pipes.
  * <p>
- * <h1>ubprocess defaults to tight control over the file descriptors open</h1>
+ * {@link org.gtk.gio.Subprocess} defaults to tight control over the file descriptors open
  * in the child process, avoiding dangling-fd issues that are caused by
  * a simple fork()/exec().  The only open file descriptors in the
  * spawned process are ones that were explicitly specified by the
- * <h1>ubprocess API (unless {@link org.gtk.gio.SubprocessFlags#INHERIT_FDS} was</h1>
+ * {@link org.gtk.gio.Subprocess} API (unless {@link org.gtk.gio.SubprocessFlags<code>#INHERIT_FDS</code>  was
  * specified).
  * <p>
- * <h1>ubprocess will quickly reap all child processes as they exit,</h1>
- * avoiding &#34;zombie processes&#34; remaining around for long periods of
+ * {@link org.gtk.gio.Subprocess} will quickly reap all child processes as they exit,
+ * avoiding &<code>#34</code> zombie processes&<code>#34</code>  remaining around for long periods of
  * time.  g_subprocess_wait() can be used to wait for this to happen,
  * but it will happen even without the call being explicitly made.
  * <p>
- * As a matter of principle, #GSubprocess has no API that accepts
+ * As a matter of principle, {@link org.gtk.gio.Subprocess} has no API that accepts
  * shell-style space-separated strings.  It will, however, match the
  * typical shell behaviour of searching the PATH for executables that do
  * not contain a directory separator in their name. By default, the <code>PATH</code>
  * of the current process is used.  You can specify
- * {@link org.gtk.gio.SubprocessFlags#SEARCH_PATH_FROM_ENVP} to use the <code>PATH</code> of the
+ * {@link org.gtk.gio.SubprocessFlags<code>#SEARCH_PATH_FROM_ENVP</code>  to use the <code>PATH</code> of the
  * launcher environment instead.
  * 
- * #GSubprocess attempts to have a very simple API for most uses (ie:
+ * {@link org.gtk.gio.Subprocess} attempts to have a very simple API for most uses (ie:
  * spawning a subprocess with arguments and support for most typical
  * kinds of input and output redirection).  See g_subprocess_new(). The
- * #GSubprocessLauncher API is provided for more complicated cases
+ * {@link org.gtk.gio.SubprocessLauncher} API is provided for more complicated cases
  * (advanced types of redirection, environment variable manipulation,
  * change of working directory, child setup functions, etc).
  * 
- * A typical use of #GSubprocess will involve calling
+ * A typical use of {@link org.gtk.gio.Subprocess} will involve calling
  * g_subprocess_new(), followed by g_subprocess_wait_async() or
  * g_subprocess_wait().  After the process exits, the status can be
  * checked using functions such as g_subprocess_get_if_exited() (which
@@ -88,15 +88,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * Create a new process with the given flags and argument list.
      * 
-     * The argument list is expected to be 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Create a new process with the given flags and argument list.
-     * 
-     * The argument list is expected to be %NULL-terminated.
+     * The argument list is expected to be <code>null</code> terminated.
      */
     public static Subprocess newv(java.lang.String[] argv, int flags) throws GErrorException {
         return new Subprocess(constructNewv(argv, flags));
@@ -107,29 +99,29 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * and output has been completed.
      * 
      * If @stdin_buf is given, the subprocess must have been created with
-     * <code>G_SUBPROCESS_FLAGS_STDIN_PIPE.</code>  The given data is fed to the
+     * {@link org.gtk.gio.SubprocessFlags<code>#STDIN_PIPE</code>    The given data is fed to the
      * stdin of the subprocess and the pipe is closed (ie: EOF).
      * 
      * At the same time (as not to cause blocking when dealing with large
-     * amounts of data), if {@link org.gtk.gio.SubprocessFlags#STDOUT_PIPE} or
-     * {@link org.gtk.gio.SubprocessFlags#STDERR_PIPE} were used, reads from those
+     * amounts of data), if {@link org.gtk.gio.SubprocessFlags<code>#STDOUT_PIPE</code>  or
+     * {@link org.gtk.gio.SubprocessFlags<code>#STDERR_PIPE</code>  were used, reads from those
      * streams.  The data that was read is returned in @stdout and/or
      * the @stderr.
      * 
-     * If the subprocess was created with <code>G_SUBPROCESS_FLAGS_STDOUT_PIPE,
-     * @stdout_buf</code> will contain the data read from stdout.  Otherwise, for
-     * subprocesses not created with <code>G_SUBPROCESS_FLAGS_STDOUT_PIPE,
-     * @stdout_buf</code> will be set to <code>NULL.</code>  Similar provisions apply to
-     * @stderr_buf and <code>G_SUBPROCESS_FLAGS_STDERR_PIPE.
+     * If the subprocess was created with {@link org.gtk.gio.SubprocessFlags<code>#STDOUT_PIPE</code>  
+     * @stdout_buf will contain the data read from stdout.  Otherwise, for
+     * subprocesses not created with {@link org.gtk.gio.SubprocessFlags<code>#STDOUT_PIPE</code>  
+     * @stdout_buf will be set to <code>null</code>   Similar provisions apply to
+     * @stderr_buf and {@link org.gtk.gio.SubprocessFlags<code>#STDERR_PIPE</code>  
      * 
-     * As</code> usual, any output variable may be given as <code>null</code> to ignore it.
+     * As usual, any output variable may be given as <code>null</code> to ignore it.
      * 
      * If you desire the stdout and stderr data to be interleaved, create
-     * the subprocess with {@link org.gtk.gio.SubprocessFlags#STDOUT_PIPE} and
-     * <code>G_SUBPROCESS_FLAGS_STDERR_MERGE.</code>  The merged result will be returned
-     * in @stdout_buf and @stderr_buf will be set to <code>NULL.
+     * the subprocess with {@link org.gtk.gio.SubprocessFlags<code>#STDOUT_PIPE</code>  and
+     * {@link org.gtk.gio.SubprocessFlags<code>#STDERR_MERGE</code>    The merged result will be returned
+     * in @stdout_buf and @stderr_buf will be set to <code>null</code> 
      * 
-     * In</code> case of any error (including cancellation), <code>false</code> will be
+     * In case of any error (including cancellation), <code>false</code> will be
      * returned with @error set.  Some or all of the stdin data may have
      * been written.  Any stdout or stderr data that has been read will be
      * discarded. None of the out variables (aside from @error) will have
@@ -237,19 +229,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * however, you can use g_subprocess_wait() to monitor the status of
      * the process after calling this function.
      * 
-     * On Unix, this function sends 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Use an operating-system specific method to attempt an immediate,
-     * forceful termination of the process.  There is no mechanism to
-     * determine whether or not the request itself was successful;
-     * however, you can use g_subprocess_wait() to monitor the status of
-     * the process after calling this function.
-     * 
-     * On Unix, this function sends %SIGKILL.
+     * On Unix, this function sends <code>SIGKILL</code>
      */
     public void forceExit() {
         gtk_h.g_subprocess_force_exit(handle());
@@ -263,20 +243,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * This is equivalent to the system WEXITSTATUS macro.
      * 
      * It is an error to call this function before g_subprocess_wait() and
-     * unless g_subprocess_get_if_exited() returned 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Check the exit status of the subprocess, given that it exited
-     * normally.  This is the value passed to the exit() system call or the
-     * return value from main.
-     * 
-     * This is equivalent to the system WEXITSTATUS macro.
-     * 
-     * It is an error to call this function before g_subprocess_wait() and
-     * unless g_subprocess_get_if_exited() returned %TRUE.
+     * unless g_subprocess_get_if_exited() returned <code>true</code>
      */
     public int getExitStatus() {
         var RESULT = gtk_h.g_subprocess_get_exit_status(handle());
@@ -286,15 +253,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * On UNIX, returns the process ID as a decimal string.
      * On Windows, returns the result of GetProcessId() also as a string.
-     * If the subprocess has terminated, this will return 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         On UNIX, returns the process ID as a decimal string.
-     * On Windows, returns the result of GetProcessId() also as a string.
-     * If the subprocess has terminated, this will return %NULL.
+     * If the subprocess has terminated, this will return <code>null</code>
      */
     public java.lang.String getIdentifier() {
         var RESULT = gtk_h.g_subprocess_get_identifier(handle());
@@ -347,11 +306,11 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     }
     
     /**
-     * Gets the #GInputStream from which to read the stderr output of
+     * Gets the {@link org.gtk.gio.InputStream} from which to read the stderr output of
      * @subprocess.
      * 
-     * The process must have been created with <code>G_SUBPROCESS_FLAGS_STDERR_PIPE,
-     * otherwise</code> <code>null</code> will be returned.
+     * The process must have been created with {@link org.gtk.gio.SubprocessFlags<code>#STDERR_PIPE</code>  
+     * otherwise <code>null</code> will be returned.
      */
     public InputStream getStderrPipe() {
         var RESULT = gtk_h.g_subprocess_get_stderr_pipe(handle());
@@ -359,11 +318,11 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     }
     
     /**
-     * Gets the #GOutputStream that you can write to in order to give data
+     * Gets the {@link org.gtk.gio.OutputStream} that you can write to in order to give data
      * to the stdin of @subprocess.
      * 
-     * The process must have been created with {@link org.gtk.gio.SubprocessFlags#STDIN_PIPE} and
-     * not <code>G_SUBPROCESS_FLAGS_STDIN_INHERIT,</code> otherwise <code>null</code> will be returned.
+     * The process must have been created with {@link org.gtk.gio.SubprocessFlags<code>#STDIN_PIPE</code>  and
+     * not {@link org.gtk.gio.SubprocessFlags<code>#STDIN_INHERIT</code>   otherwise <code>null</code> will be returned.
      */
     public OutputStream getStdinPipe() {
         var RESULT = gtk_h.g_subprocess_get_stdin_pipe(handle());
@@ -371,11 +330,11 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     }
     
     /**
-     * Gets the #GInputStream from which to read the stdout output of
+     * Gets the {@link org.gtk.gio.InputStream} from which to read the stdout output of
      * @subprocess.
      * 
-     * The process must have been created with <code>G_SUBPROCESS_FLAGS_STDOUT_PIPE,
-     * otherwise</code> <code>null</code> will be returned.
+     * The process must have been created with {@link org.gtk.gio.SubprocessFlags<code>#STDOUT_PIPE</code>  
+     * otherwise <code>null</code> will be returned.
      */
     public InputStream getStdoutPipe() {
         var RESULT = gtk_h.g_subprocess_get_stdout_pipe(handle());
@@ -383,7 +342,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     }
     
     /**
-     * Checks if the process was &#34;successful&#34;.  A process is considered
+     * Checks if the process was &<code>#34</code> successful&<code>#34</code> .  A process is considered
      * successful if it exited cleanly with an exit status of 0, either by
      * way of the exit() system call or return from main().
      * 
@@ -402,19 +361,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * This is equivalent to the system WTERMSIG macro.
      * 
      * It is an error to call this function before g_subprocess_wait() and
-     * unless g_subprocess_get_if_signaled() returned 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Get the signal number that caused the subprocess to terminate, given
-     * that it terminated due to a signal.
-     * 
-     * This is equivalent to the system WTERMSIG macro.
-     * 
-     * It is an error to call this function before g_subprocess_wait() and
-     * unless g_subprocess_get_if_signaled() returned %TRUE.
+     * unless g_subprocess_get_if_signaled() returned <code>true</code>
      */
     public int getTermSig() {
         var RESULT = gtk_h.g_subprocess_get_term_sig(handle());
@@ -444,7 +391,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * This function does not fail in the case of the subprocess having
      * abnormal termination.  See g_subprocess_wait_check() for that.
      * 
-     * Cancelling @cancellable doesn&#39;t kill the subprocess.  Call
+     * Cancelling @cancellable doesn&<code>#39</code> t kill the subprocess.  Call
      * g_subprocess_force_exit() if it is desirable.
      */
     public boolean wait(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {

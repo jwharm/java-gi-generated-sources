@@ -18,43 +18,43 @@ import java.lang.invoke.*;
  * {@link [ctor@Gtk.ComboBoxText.new_with_entry] (ref=ctor)}.
  * <p>
  * You can add items to a <code>GtkComboBoxText</code> with
- * {@link org.gtk.gtk.ComboBoxText#appendText},
- * {@link org.gtk.gtk.ComboBoxText#insertText} or
- * {@link org.gtk.gtk.ComboBoxText#prependText} and remove options with
- * {@link org.gtk.gtk.ComboBoxText#remove}.
+ * {@link org.gtk.gtk.ComboBoxText<code>#appendText</code> ,
+ * {@link org.gtk.gtk.ComboBoxText<code>#insertText</code>  or
+ * {@link org.gtk.gtk.ComboBoxText<code>#prependText</code>  and remove options with
+ * {@link org.gtk.gtk.ComboBoxText<code>#remove</code> .
  * <p>
  * If the <code>GtkComboBoxText</code> contains an entry (via the
  * {@link [property@Gtk.ComboBox:has-entry] (ref=property)} property), its contents can be retrieved
- * using {@link org.gtk.gtk.ComboBoxText#getActiveText}.
+ * using {@link org.gtk.gtk.ComboBoxText<code>#getActiveText</code> .
  * <p>
- * You should not call {@link org.gtk.gtk.ComboBox#setModel} or attempt to pack more
+ * You should not call {@link org.gtk.gtk.ComboBox<code>#setModel</code>  or attempt to pack more
  * cells into this combo box via its {@link [iface@Gtk.CellLayout] (ref=iface)} interface.
  * <p>
- * <h1>tkComboBoxText as GtkBuildable</h1>
+ * <h1>GtkComboBoxText as GtkBuildable</h1>
  * <p>
  * The <code>GtkComboBoxText</code> implementation of the <code>GtkBuildable</code> interface supports
- * adding items directly using the &#60;items&#62; element and specifying &#60;item&#62;
- * elements for each item. Each &#60;item&#62; element can specify the &#8220;id&#8221;
+ * adding items directly using the &<code>#60</code> items&<code>#62</code>  element and specifying &<code>#60</code> item&<code>#62</code> 
+ * elements for each item. Each &<code>#60</code> item&<code>#62</code>  element can specify the &<code>#8220</code> id&<code>#8221</code> 
  * corresponding to the appended text and also supports the regular
- * translation attributes &#8220;translatable&#8221;, &#8220;context&#8221; and &#8220;comments&#8221;.
+ * translation attributes &<code>#8220</code> translatable&<code>#8221</code> , &<code>#8220</code> context&<code>#8221</code>  and &<code>#8220</code> comments&<code>#8221</code> .
  * <p>
  * Here is a UI definition fragment specifying <code>GtkComboBoxText</code> items:<pre>xml
- * &#60;object class=&#34;GtkComboBoxText&#34;&#62;
- *   &#60;items&#62;
- *     &#60;item translatable=&#34;yes&#34; id=&#34;factory&#34;&#62;Factory&#60;/item&#62;
- *     &#60;item translatable=&#34;yes&#34; id=&#34;home&#34;&#62;Home&#60;/item&#62;
- *     &#60;item translatable=&#34;yes&#34; id=&#34;subway&#34;&#62;Subway&#60;/item&#62;
- *   &#60;/items&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkComboBoxText&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> items&<code>#62</code> 
+ *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code>  id=&<code>#34</code> factory&<code>#34</code> &<code>#62</code> Factory&<code>#60</code> /item&<code>#62</code> 
+ *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code>  id=&<code>#34</code> home&<code>#34</code> &<code>#62</code> Home&<code>#60</code> /item&<code>#62</code> 
+ *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code>  id=&<code>#34</code> subway&<code>#34</code> &<code>#62</code> Subway&<code>#60</code> /item&<code>#62</code> 
+ *   &<code>#60</code> /items&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * combobox
- * &#9584;&#9472;&#9472; box.linked
- *     &#9500;&#9472;&#9472; entry.combo
- *     &#9500;&#9472;&#9472; button.combo
- *     &#9584;&#9472;&#9472; window.popup
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box.linked
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  entry.combo
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button.combo
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  window.popup
  * </pre>
  * <p><code>GtkComboBoxText</code> has a single CSS node with name combobox. It adds
  * the style class .combo to the main CSS nodes of its entry and button
@@ -100,7 +100,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * 
      * If @id is non-<code>null</code> then it is used as the ID of the row.
      * 
-     * This is the same as calling {@link org.gtk.gtk.ComboBoxText#insert}
+     * This is the same as calling {@link org.gtk.gtk.ComboBoxText<code>#insert</code> 
      * with a position of -1.
      */
     public void append(java.lang.String id, java.lang.String text) {
@@ -110,7 +110,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Appends @text to the list of strings stored in @combo_box.
      * 
-     * This is the same as calling {@link org.gtk.gtk.ComboBoxText#insertText}
+     * This is the same as calling {@link org.gtk.gtk.ComboBoxText<code>#insertText</code> 
      * with a position of -1.
      */
     public void appendText(java.lang.String text) {
@@ -147,7 +147,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * 
      * If @position is negative then @text is appended.
      * 
-     * This is the same as calling {@link org.gtk.gtk.ComboBoxText#insert}
+     * This is the same as calling {@link org.gtk.gtk.ComboBoxText<code>#insert</code> 
      * with a <code>null</code> ID string.
      */
     public void insertText(int position, java.lang.String text) {
@@ -159,7 +159,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * 
      * If @id is non-<code>null</code> then it is used as the ID of the row.
      * 
-     * This is the same as calling {@link org.gtk.gtk.ComboBoxText#insert}
+     * This is the same as calling {@link org.gtk.gtk.ComboBoxText<code>#insert</code> 
      * with a position of 0.
      */
     public void prepend(java.lang.String id, java.lang.String text) {
@@ -169,7 +169,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Prepends @text to the list of strings stored in @combo_box.
      * 
-     * This is the same as calling {@link org.gtk.gtk.ComboBoxText#insertText}
+     * This is the same as calling {@link org.gtk.gtk.ComboBoxText<code>#insertText</code> 
      * with a position of 0.
      */
     public void prependText(java.lang.String text) {

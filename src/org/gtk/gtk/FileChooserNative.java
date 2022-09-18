@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * <code>GtkFileChooserNative</code> is an abstraction of a dialog suitable
- * for use with &#8220;File Open&#8221; or &#8220;File Save as&#8221; commands.
+ * for use with &<code>#8220</code> File Open&<code>#8221</code>  or &<code>#8220</code> File Save as&<code>#8221</code>  commands.
  * <p>
  * By default, this just uses a <code>GtkFileChooserDialog</code> to implement
  * the actual dialog. However, on some platforms, such as Windows and
@@ -57,13 +57,13 @@ import java.lang.invoke.*;
  *   GtkFileChooserNative *native;
  *   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
  * <p>
- *   native = gtk_file_chooser_native_new (&#34;Open File&#34;,
+ *   native = gtk_file_chooser_native_new (&<code>#34</code> Open File&<code>#34</code> ,
  *                                         parent_window,
  *                                         action,
- *                                         &#34;_Open&#34;,
- *                                         &#34;_Cancel&#34;);
+ *                                         &<code>#34</code> _Open&<code>#34</code> ,
+ *                                         &<code>#34</code> _Cancel&<code>#34</code> );
  * <p>
- *   g_signal_connect (native, &#34;response&#34;, G_CALLBACK (on_response), NULL);
+ *   g_signal_connect (native, &<code>#34</code> response&<code>#34</code> , G_CALLBACK (on_response), NULL);
  *   gtk_native_dialog_show (GTK_NATIVE_DIALOG (native));
  * </pre>
  * <p>
@@ -91,19 +91,19 @@ import java.lang.invoke.*;
  *   GtkFileChooser *chooser;
  *   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
  * <p>
- *   native = gtk_file_chooser_native_new (&#34;Save File&#34;,
+ *   native = gtk_file_chooser_native_new (&<code>#34</code> Save File&<code>#34</code> ,
  *                                         parent_window,
  *                                         action,
- *                                         &#34;_Save&#34;,
- *                                         &#34;_Cancel&#34;);
+ *                                         &<code>#34</code> _Save&<code>#34</code> ,
+ *                                         &<code>#34</code> _Cancel&<code>#34</code> );
  *   chooser = GTK_FILE_CHOOSER (native);
  * <p>
  *   if (user_edited_a_new_document)
- *     gtk_file_chooser_set_current_name (chooser, _(&#34;Untitled document&#34;));
+ *     gtk_file_chooser_set_current_name (chooser, _(&<code>#34</code> Untitled document&<code>#34</code> ));
  *   else
  *     gtk_file_chooser_set_file (chooser, existing_file, NULL);
  * <p>
- *   g_signal_connect (native, &#34;response&#34;, G_CALLBACK (on_response), NULL);
+ *   g_signal_connect (native, &<code>#34</code> response&<code>#34</code> , G_CALLBACK (on_response), NULL);
  *   gtk_native_dialog_show (GTK_NATIVE_DIALOG (native));
  * </pre>
  * <p>
@@ -112,9 +112,9 @@ import java.lang.invoke.*;
  * <p>
  * <h2>Response Codes</h2>
  * <p><code>GtkFileChooserNative</code> inherits from {@link org.gtk.gtk.NativeDialog},
- * which means it will return {@link org.gtk.gtk.ResponseType#ACCEPT} if the user accepted,
- * and {@link org.gtk.gtk.ResponseType#CANCEL} if he pressed cancel. It can also return
- * {@link org.gtk.gtk.ResponseType#DELETE_EVENT} if the window was unexpectedly closed.
+ * which means it will return {@link org.gtk.gtk.ResponseType<code>#ACCEPT</code>  if the user accepted,
+ * and {@link org.gtk.gtk.ResponseType<code>#CANCEL</code>  if he pressed cancel. It can also return
+ * {@link org.gtk.gtk.ResponseType<code>#DELETE_EVENT</code>  if the window was unexpectedly closed.
  * <p>
  * <h2>Differences from</h2><code>GtkFileChooserDialog</code>
  * <p>
@@ -195,7 +195,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * 
      * If characters in @label are preceded by an underscore, they are
      * underlined. If you need a literal underscore character in a label,
-     * use &#8220;__&#8221; (two underscores). The first underlined character represents
+     * use &<code>#8220</code> __&<code>#8221</code>  (two underscores). The first underlined character represents
      * a keyboard accelerator called a mnemonic.
      * 
      * Pressing Alt and that key should activate the button.
@@ -209,7 +209,7 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * 
      * If characters in @label are preceded by an underscore, they are
      * underlined. If you need a literal underscore character in a label,
-     * use &#8220;__&#8221; (two underscores). The first underlined character represents
+     * use &<code>#8220</code> __&<code>#8221</code>  (two underscores). The first underlined character represents
      * a keyboard accelerator called a mnemonic.
      * 
      * Pressing Alt and that key should activate the button.

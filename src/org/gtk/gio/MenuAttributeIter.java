@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GMenuAttributeIter is an opaque structure type.  You must access it
+ * {@link org.gtk.gio.MenuAttributeIter} is an opaque structure type.  You must access it
  * using the functions below.
  */
 public class MenuAttributeIter extends org.gtk.gobject.Object {

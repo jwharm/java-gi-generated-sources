@@ -25,18 +25,18 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GChecksum, using the checksum algorithm @checksum_type.
+     * Creates a new {@link org.gtk.glib.Checksum}  using the checksum algorithm @checksum_type.
      * If the @checksum_type is not known, <code>null</code> is returned.
-     * A #GChecksum can be used to compute the checksum, or digest, of an
+     * A {@link org.gtk.glib.Checksum} can be used to compute the checksum, or digest, of an
      * arbitrary binary blob, using different hashing algorithms.
      * 
-     * A #GChecksum works by feeding a binary blob through g_checksum_update()
+     * A {@link org.gtk.glib.Checksum} works by feeding a binary blob through g_checksum_update()
      * until there is data to be checked; the digest can then be extracted
      * using g_checksum_get_string(), which will return the checksum as a
      * hexadecimal string; or g_checksum_get_digest(), which will return a
      * vector of raw bytes. Once either g_checksum_get_string() or
-     * g_checksum_get_digest() have been called on a #GChecksum, the checksum
-     * will be closed and it won&#39;t be possible to call g_checksum_update()
+     * g_checksum_get_digest() have been called on a {@link org.gtk.glib.Checksum}  the checksum
+     * will be closed and it won&<code>#39</code> t be possible to call g_checksum_update()
      * on it anymore.
      */
     public Checksum(ChecksumType checksumType) {
@@ -44,7 +44,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a #GChecksum. If @checksum has been closed, by calling
+     * Copies a {@link org.gtk.glib.Checksum}  If @checksum has been closed, by calling
      * g_checksum_get_string() or g_checksum_get_digest(), the copied
      * checksum will be closed as well.
      */
@@ -63,7 +63,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the digest as a hexadecimal string.
      * 
-     * Once this function has been called the #GChecksum can no longer be
+     * Once this function has been called the {@link org.gtk.glib.Checksum} can no longer be
      * updated with g_checksum_update().
      * 
      * The hexadecimal characters will be lower case.
@@ -81,7 +81,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Feeds @data into an existing #GChecksum. The checksum must still be
+     * Feeds @data into an existing {@link org.gtk.glib.Checksum}  The checksum must still be
      * open, that is g_checksum_get_string() or g_checksum_get_digest() must
      * not have been called on @checksum.
      */

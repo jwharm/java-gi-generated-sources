@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A virtual method for the #hb_font_funcs_t of an #hb_font_t object.
+ * A virtual method for the {@link org.harfbuzz.font_funcs_t} of an {@link org.harfbuzz.font_t} object.
  * 
  * This method should retrieve the advance for a specified glyph, in
  * horizontal-direction text segments. Advances must be returned in
- * an #hb_position_t output parameter.
+ * an {@link org.harfbuzz.position_t} output parameter.
  */
 public interface FontGetGlyphHAdvanceFuncT extends FontGetGlyphAdvanceFuncT {
 

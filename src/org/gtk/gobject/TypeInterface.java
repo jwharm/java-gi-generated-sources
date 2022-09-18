@@ -17,7 +17,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the corresponding #GTypeInterface structure of the parent type
+     * Returns the corresponding {@link org.gtk.gobject.TypeInterface} structure of the parent type
      * of the instance type to which @g_iface belongs. This is useful when
      * deriving the implementation of an interface from the parent type and
      * then possibly overriding some methods.
@@ -31,7 +31,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * Adds @prerequisite_type to the list of prerequisites of @interface_type.
      * This means that any type implementing @interface_type must also implement
      * @prerequisite_type. Prerequisites can be thought of as an alternative to
-     * interface derivation (which GType doesn&#39;t support). An interface can have
+     * interface derivation (which GType doesn&<code>#39</code> t support). An interface can have
      * at most one instantiatable prerequisite type.
      */
     public static void addPrerequisite(Type interfaceType, Type prerequisiteType) {
@@ -39,10 +39,9 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the #GTypePlugin structure for the dynamic interface
-     * @interface_type which has been added to @instance_type, or <code>NULL
-     * if</code> @interface_type has not been added to @instance_type or does
-     * not have a #GTypePlugin structure. See g_type_add_interface_dynamic().
+     * Returns the {@link org.gtk.gobject.TypePlugin} structure for the dynamic interface
+     * @interface_type which has been added to @instance_type, or <code>null</code> if @interface_type has not been added to @instance_type or does
+     * not have a {@link org.gtk.gobject.TypePlugin} structure. See g_type_add_interface_dynamic().
      */
     public static TypePlugin getPlugin(Type instanceType, Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_get_plugin(instanceType.getValue(), interfaceType.getValue());
@@ -63,7 +62,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the #GTypeInterface structure of an interface to which the
+     * Returns the {@link org.gtk.gobject.TypeInterface} structure of an interface to which the
      * passed in class conforms.
      */
     public static TypeInterface peek(TypeClass instanceClass, Type ifaceType) {

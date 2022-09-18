@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * to look up fonts, and default values such as the default language,
  * default gravity, or default font.
  * <p>
- * To obtain a <code>PangoContext</code>, use {@link org.pango.FontMap#createContext}.
+ * To obtain a <code>PangoContext</code>, use {@link org.pango.FontMap<code>#createContext</code> .
  */
 public class Context extends org.gtk.gobject.Object {
 
@@ -37,12 +37,12 @@ public class Context extends org.gtk.gobject.Object {
      * Creates a new <code>PangoContext</code> initialized to default values.
      * <p>
      * This function is not particularly useful as it should always
-     * be followed by a {@link org.pango.Context#setFontMap} call, and the
-     * function {@link org.pango.FontMap#createContext} does these two steps
+     * be followed by a {@link org.pango.Context<code>#setFontMap</code>  call, and the
+     * function {@link org.pango.FontMap<code>#createContext</code>  does these two steps
      * together and hence users are recommended to use that.
      * <p>
      * If you are using Pango as part of a higher-level system,
-     * that system may have it&#39;s own way of create a <code>PangoContext</code>.
+     * that system may have it&<code>#39</code> s own way of create a <code>PangoContext</code>.
      * For instance, the GTK toolkit has, among others,<code>gtk_widget_get_pango_context()</code>. Use those instead.
      */
     public Context() {
@@ -54,7 +54,7 @@ public class Context extends org.gtk.gobject.Object {
      * using this context to re-layout.
      * 
      * This function is only useful when implementing a new backend
-     * for Pango, something applications won&#39;t do. Backends should
+     * for Pango, something applications won&<code>#39</code> t do. Backends should
      * call this function if they have attached extra data to the context
      * and such data is changed.
      */
@@ -65,7 +65,7 @@ public class Context extends org.gtk.gobject.Object {
     /**
      * Retrieves the base direction for the context.
      * 
-     * See {@link org.pango.Context#setBaseDir}.
+     * See {@link org.pango.Context<code>#setBaseDir</code> .
      */
     public Direction getBaseDir() {
         var RESULT = gtk_h.pango_context_get_base_dir(handle());
@@ -75,7 +75,7 @@ public class Context extends org.gtk.gobject.Object {
     /**
      * Retrieves the base gravity for the context.
      * 
-     * See {@link org.pango.Context#setBaseGravity}.
+     * See {@link org.pango.Context<code>#setBaseGravity</code> .
      */
     public Gravity getBaseGravity() {
         var RESULT = gtk_h.pango_context_get_base_gravity(handle());
@@ -101,9 +101,9 @@ public class Context extends org.gtk.gobject.Object {
     /**
      * Retrieves the gravity for the context.
      * 
-     * This is similar to {@link org.pango.Context#getBaseGravity},
-     * except for when the base gravity is {@link org.pango.Gravity#AUTO} for
-     * which {@link Pango#Gravity} is used to return the
+     * This is similar to {@link org.pango.Context<code>#getBaseGravity</code> ,
+     * except for when the base gravity is {@link org.pango.Gravity<code>#AUTO</code>  for
+     * which {@link Pango<code>#Gravity</code>  is used to return the
      * gravity from the current context matrix.
      */
     public Gravity getGravity() {
@@ -114,7 +114,7 @@ public class Context extends org.gtk.gobject.Object {
     /**
      * Retrieves the gravity hint for the context.
      * 
-     * See {@link org.pango.Context#setGravityHint} for details.
+     * See {@link org.pango.Context<code>#setGravityHint</code>  for details.
      */
     public GravityHint getGravityHint() {
         var RESULT = gtk_h.pango_context_get_gravity_hint(handle());
@@ -133,7 +133,7 @@ public class Context extends org.gtk.gobject.Object {
      * Gets the transformation matrix that will be applied when
      * rendering with this context.
      * 
-     * See {@link org.pango.Context#setMatrix}.
+     * See {@link org.pango.Context<code>#setMatrix</code> .
      */
     public Matrix getMatrix() {
         var RESULT = gtk_h.pango_context_get_matrix(handle());
@@ -174,8 +174,8 @@ public class Context extends org.gtk.gobject.Object {
      * when a new context is created and is increased whenever the context
      * is changed using any of the setter functions, or the <code>PangoFontMap</code> it
      * uses to find fonts has changed. The serial may wrap, but will never
-     * have the value 0. Since it can wrap, never compare it with &#34;less than&#34;,
-     * always use &#34;not equals&#34;.
+     * have the value 0. Since it can wrap, never compare it with &<code>#34</code> less than&<code>#34</code> ,
+     * always use &<code>#34</code> not equals&<code>#34</code> .
      * <p>
      * This can be used to automatically detect changes to a <code>PangoContext</code>,
      * and is only useful when implementing objects that need update when their<code>PangoContext</code> changes, like <code>PangoLayout</code>.
@@ -207,10 +207,10 @@ public class Context extends org.gtk.gobject.Object {
      * Sets the base direction for the context.
      * 
      * The base direction is used in applying the Unicode bidirectional
-     * algorithm; if the @direction is {@link org.pango.Direction#LTR} or
-     * <code>PANGO_DIRECTION_RTL,</code> then the value will be used as the paragraph
+     * algorithm; if the @direction is {@link org.pango.Direction<code>#LTR</code>  or
+     * {@link org.pango.Direction<code>#RTL</code>   then the value will be used as the paragraph
      * direction in the Unicode bidirectional algorithm. A value of
-     * {@link org.pango.Direction#WEAK_LTR} or {@link org.pango.Direction#WEAK_RTL} is used only
+     * {@link org.pango.Direction<code>#WEAK_LTR</code>  or {@link org.pango.Direction<code>#WEAK_RTL</code>  is used only
      * for paragraphs that do not contain any strong characters themselves.
      */
     public void setBaseDir(Direction direction) {
@@ -250,8 +250,7 @@ public class Context extends org.gtk.gobject.Object {
      * 
      * The gravity hint is used in laying vertical text out, and
      * is only relevant if gravity of the context as returned by
-     * {@link org.pango.Context#getGravity} is set to <code>PANGO_GRAVITY_EAST
-     * or</code> %PANGO_GRAVITY_WEST.
+     * {@link org.pango.Context<code>#getGravity</code>  is set to {@link org.pango.Gravity<code>#EAST</code>  or {@link org.pango.Gravity<code>#WEST</code>
      */
     public void setGravityHint(GravityHint hint) {
         gtk_h.pango_context_set_gravity_hint(handle(), hint.getValue());
@@ -261,7 +260,7 @@ public class Context extends org.gtk.gobject.Object {
      * Sets the global language tag for the context.
      * 
      * The default language for the locale of the running process
-     * can be found using {@link Pango#Language}.
+     * can be found using {@link Pango<code>#Language</code> .
      */
     public void setLanguage(Language language) {
         gtk_h.pango_context_set_language(handle(), language.handle());
@@ -273,7 +272,7 @@ public class Context extends org.gtk.gobject.Object {
      * 
      * Note that reported metrics are in the user space coordinates before
      * the application of the matrix, not device-space coordinates after the
-     * application of the matrix. So, they don&#39;t scale with the matrix, though
+     * application of the matrix. So, they don&<code>#39</code> t scale with the matrix, though
      * they may change slightly for different matrices, depending on how the
      * text is fit to the pixel grid.
      */
@@ -286,7 +285,7 @@ public class Context extends org.gtk.gobject.Object {
      * round glyph positions and widths to integral positions,
      * in device units.
      * 
-     * This is useful when the renderer can&#39;t handle subpixel
+     * This is useful when the renderer can&<code>#39</code> t handle subpixel
      * positioning of glyphs.
      * 
      * The default value is to round glyph positions, to remain

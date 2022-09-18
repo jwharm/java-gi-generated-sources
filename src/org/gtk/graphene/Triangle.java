@@ -22,7 +22,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_triangle_t.
+     * Allocates a new {@link org.gtk.graphene.Triangle} 
      * 
      * The contents of the returned structure are undefined.
      */
@@ -39,7 +39,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given #graphene_triangle_t are equal.
+     * Checks whether the two given {@link org.gtk.graphene.Triangle} are equal.
      */
     public boolean equal(Triangle b) {
         var RESULT = gtk_h.graphene_triangle_equal(handle(), b.handle());
@@ -54,7 +54,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the area of the given #graphene_triangle_t.
+     * Computes the area of the given {@link org.gtk.graphene.Triangle}
      */
     public float getArea() {
         var RESULT = gtk_h.graphene_triangle_get_area(handle());
@@ -68,13 +68,13 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * The point @p must lie on the same plane as the triangle @t; if the
      * point is not coplanar, the result of this function is undefined.
      * <p>
-     * If we place the origin in the coordinates of the triangle&#39;s A point,
+     * If we place the origin in the coordinates of the triangle&<code>#39</code> s A point,
      * the barycentric coordinates are <code>u</code>, which is on the AC vector; and <code>v</code>
      * which is on the AB vector:
      * <p>
      * !{@link []}(triangle-barycentric.png)
      * <p>
-     * The returned #graphene_vec2_t contains the following values, in order:
+     * The returned {@link org.gtk.graphene.Vec2} contains the following values, in order:
      * <p>
      *  - <code>res.x = u</code>
      *  - <code>res.y = v</code>
@@ -85,16 +85,16 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the bounding box of the given #graphene_triangle_t.
+     * Computes the bounding box of the given {@link org.gtk.graphene.Triangle}
      */
     public void getBoundingBox(Box res) {
         gtk_h.graphene_triangle_get_bounding_box(handle(), res.handle());
     }
     
     /**
-     * Computes the coordinates of the midpoint of the given #graphene_triangle_t.
+     * Computes the coordinates of the midpoint of the given {@link org.gtk.graphene.Triangle} 
      * 
-     * The midpoint G is the {@link [centroid]}(https://en.wikipedia.org/wiki/Centroid#Triangle_centroid)
+     * The midpoint G is the {@link [centroid]}(https://en.wikipedia.org/wiki/Centroid<code>#Triangle_centroid</code> 
      * of the triangle, i.e. the intersection of its medians.
      */
     public void getMidpoint(Point3D res) {
@@ -102,22 +102,22 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the normal vector of the given #graphene_triangle_t.
+     * Computes the normal vector of the given {@link org.gtk.graphene.Triangle}
      */
     public void getNormal(Vec3 res) {
         gtk_h.graphene_triangle_get_normal(handle(), res.handle());
     }
     
     /**
-     * Computes the plane based on the vertices of the given #graphene_triangle_t.
+     * Computes the plane based on the vertices of the given {@link org.gtk.graphene.Triangle}
      */
     public void getPlane(Plane res) {
         gtk_h.graphene_triangle_get_plane(handle(), res.handle());
     }
     
     /**
-     * Retrieves the three vertices of the given #graphene_triangle_t and returns
-     * their coordinates as #graphene_point3d_t.
+     * Retrieves the three vertices of the given {@link org.gtk.graphene.Triangle} and returns
+     * their coordinates as {@link org.gtk.graphene.Point3D}
      */
     public void getPoints(Point3D a, Point3D b, Point3D c) {
         gtk_h.graphene_triangle_get_points(handle(), a.handle(), b.handle(), c.handle());
@@ -127,8 +127,8 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * Computes the UV coordinates of the given point @p.
      * <p>
      * The point @p must lie on the same plane as the triangle @t; if the point
-     * is not coplanar, the result of this function is undefined. If @p is <code>NULL,
-     * the</code> point will be set in (0, 0, 0).
+     * is not coplanar, the result of this function is undefined. If @p is <code>null</code> 
+     * the point will be set in (0, 0, 0).
      * <p>
      * The UV coordinates will be placed in the @res vector:
      * <p>
@@ -143,14 +143,14 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the three vertices of the given #graphene_triangle_t.
+     * Retrieves the three vertices of the given {@link org.gtk.graphene.Triangle}
      */
     public void getVertices(Vec3 a, Vec3 b, Vec3 c) {
         gtk_h.graphene_triangle_get_vertices(handle(), a.handle(), b.handle(), c.handle());
     }
     
     /**
-     * Initializes a #graphene_triangle_t using the three given arrays
+     * Initializes a {@link org.gtk.graphene.Triangle} using the three given arrays
      * of floating point values, each representing the coordinates of
      * a point in 3D space.
      */
@@ -160,7 +160,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_triangle_t using the three given 3D points.
+     * Initializes a {@link org.gtk.graphene.Triangle} using the three given 3D points.
      */
     public Triangle initFromPoint3d(Point3D a, Point3D b, Point3D c) {
         var RESULT = gtk_h.graphene_triangle_init_from_point3d(handle(), a.handle(), b.handle(), c.handle());
@@ -168,7 +168,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_triangle_t using the three given vectors.
+     * Initializes a {@link org.gtk.graphene.Triangle} using the three given vectors.
      */
     public Triangle initFromVec3(Vec3 a, Vec3 b, Vec3 c) {
         var RESULT = gtk_h.graphene_triangle_init_from_vec3(handle(), a.handle(), b.handle(), c.handle());

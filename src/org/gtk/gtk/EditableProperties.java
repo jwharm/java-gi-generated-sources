@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The identifiers for {@link [iface@Gtk.Editable] (ref=iface)} properties.
  * <p>
- * See {@link Gtk#Editable} for details on how to
+ * See {@link Gtk<code>#Editable</code>  for details on how to
  * implement the <code>GtkEditable</code> interface.
  */
 public enum EditableProperties {

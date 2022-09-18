@@ -23,7 +23,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
      * Evaluates the watched expression and on success stores the result
      * in <code>value</code>.
      * <p>
-     * This is equivalent to calling {@link org.gtk.gtk.Expression#evaluate} with the
+     * This is equivalent to calling {@link org.gtk.gtk.Expression<code>#evaluate</code>  with the
      * expression and this pointer originally used to create <code>watch</code>.
      */
     public boolean evaluate(org.gtk.gobject.Value value) {
@@ -52,7 +52,7 @@ public class ExpressionWatch extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Stops watching an expression.
      * 
-     * See {@link org.gtk.gtk.Expression#watch} for how the watch
+     * See {@link org.gtk.gtk.Expression<code>#watch</code>  for how the watch
      * was established.
      */
     public void unwatch() {

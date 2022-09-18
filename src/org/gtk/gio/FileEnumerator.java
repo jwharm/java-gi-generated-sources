@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GFileEnumerator allows you to operate on a set of #GFiles,
- * returning a #GFileInfo structure for each file enumerated (e.g.
- * g_file_enumerate_children() will return a #GFileEnumerator for each
+ * {@link org.gtk.gio.FileEnumerator} allows you to operate on a set of <code>#GFiles</code> 
+ * returning a {@link org.gtk.gio.FileInfo} structure for each file enumerated (e.g.
+ * g_file_enumerate_children() will return a {@link org.gtk.gio.FileEnumerator} for each
  * of the children within a directory).
  * 
- * To get the next file&#39;s information from a #GFileEnumerator, use
+ * To get the next file&<code>#39</code> s information from a {@link org.gtk.gio.FileEnumerator}  use
  * g_file_enumerator_next_file() or its asynchronous version,
  * g_file_enumerator_next_files_async(). Note that the asynchronous
- * version will return a list of #GFileInfos, whereas the
+ * version will return a list of <code>#GFileInfos</code>  whereas the
  * synchronous will only return the next file in the enumerator.
  * 
  * The ordering of returned files is unspecified for non-Unix
@@ -30,9 +30,9 @@ import java.lang.invoke.*;
  * modification time, you will have to implement that in your
  * application code.
  * 
- * To close a #GFileEnumerator, use g_file_enumerator_close(), or
+ * To close a {@link org.gtk.gio.FileEnumerator}  use g_file_enumerator_close(), or
  * its asynchronous version, g_file_enumerator_close_async(). Once
- * a #GFileEnumerator is closed, no further actions may be performed
+ * a {@link org.gtk.gio.FileEnumerator} is closed, no further actions may be performed
  * on it, and it should be freed with g_object_unref().
  */
 public class FileEnumerator extends org.gtk.gobject.Object {
@@ -48,7 +48,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     
     /**
      * Releases all resources used by this enumerator, making the
-     * enumerator return {@link org.gtk.gio.IOErrorEnum#CLOSED} on all calls.
+     * enumerator return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  on all calls.
      * 
      * This will be automatically called when the last reference
      * is dropped, but you might want to call this function to make
@@ -66,9 +66,9 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     /**
      * Asynchronously closes the file enumerator.
      * 
-     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
+     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned in
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned in
      * g_file_enumerator_close_finish().
      */
     public void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -89,12 +89,12 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * Finishes closing a file enumerator, started from g_file_enumerator_close_async().
      * 
      * If the file enumerator was already closed when g_file_enumerator_close_async()
-     * was called, then this function will report {@link org.gtk.gio.IOErrorEnum#CLOSED} in @error, and
-     * return <code>FALSE.</code> If the file enumerator had pending operation when the close
-     * operation was started, then this function will report <code>G_IO_ERROR_PENDING,</code> and
-     * return <code>FALSE.</code>  If @cancellable was not <code>NULL,</code> then the operation may have been
+     * was called, then this function will report {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  in @error, and
+     * return <code>false</code>  If the file enumerator had pending operation when the close
+     * operation was started, then this function will report {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>   and
+     * return <code>false</code>   If @cancellable was not <code>null</code>  then the operation may have been
      * cancelled by triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be set, and <code>false</code> will be
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be set, and <code>false</code> will be
      * returned.
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
@@ -107,15 +107,15 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
-     * Return a new #GFile which refers to the file named by @info in the source
+     * Return a new {@link org.gtk.gio.File} which refers to the file named by @info in the source
      * directory of @enumerator.  This function is primarily intended to be used
      * inside loops with g_file_enumerator_next_file().
      * 
      * To use this, <code>G_FILE_ATTRIBUTE_STANDARD_NAME</code> must have been listed in the
-     * attributes list used when creating the #GFileEnumerator.
+     * attributes list used when creating the {@link org.gtk.gio.FileEnumerator} 
      * 
-     * This is a convenience method that&#39;s equivalent to:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * This is a convenience method that&<code>#39</code> s equivalent to:
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      *   gchar *name = g_file_info_get_name (info);
      *   GFile *child = g_file_get_child (g_file_enumerator_get_container (enumr),
      *                                    name);
@@ -127,7 +127,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the #GFile container which is being enumerated.
+     * Get the {@link org.gtk.gio.File} container which is being enumerated.
      */
     public File getContainer() {
         var RESULT = gtk_h.g_file_enumerator_get_container(handle());
@@ -151,22 +151,22 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     }
     
     /**
-     * This is a version of g_file_enumerator_next_file() that&#39;s easier to
+     * This is a version of g_file_enumerator_next_file() that&<code>#39</code> s easier to
      * use correctly from C programs.  With g_file_enumerator_next_file(),
-     * the gboolean return value signifies &#34;end of iteration or error&#34;, which
-     * requires allocation of a temporary #GError.
+     * the gboolean return value signifies &<code>#34</code> end of iteration or error&<code>#34</code> , which
+     * requires allocation of a temporary {@link org.gtk.glib.Error} 
      * 
      * In contrast, with this function, a <code>false</code> return from
      * g_file_enumerator_iterate() *always* means
-     * &#34;error&#34;.  End of iteration is signaled by @out_info or @out_child being <code>NULL.
+     * &<code>#34</code> error&<code>#34</code> .  End of iteration is signaled by @out_info or @out_child being <code>null</code> 
      * 
-     * Another</code> crucial difference is that the references for @out_info and
+     * Another crucial difference is that the references for @out_info and
      * @out_child are owned by @direnum (they are cached as hidden
      * properties).  You must not unref them in your own code.  This makes
      * memory management significantly easier for C code in combination
      * with loops.
      * 
-     * Finally, this function optionally allows retrieving a #GFile as
+     * Finally, this function optionally allows retrieving a {@link org.gtk.gio.File} as
      * well.
      * 
      * You must specify at least one of @out_info or @out_child.
@@ -179,11 +179,11 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * while (TRUE)
      *   {
      *     GFileInfo *info;
-     *     if (!g_file_enumerator_iterate (direnum, &#38;info, NULL, cancellable, error))
+     *     if (!g_file_enumerator_iterate (direnum, &<code>#38</code> info, NULL, cancellable, error))
      *       goto out;
      *     if (!info)
      *       break;
-     *     ... do stuff with &#34;info&#34;; do not unref it! ...
+     *     ... do stuff with &<code>#34</code> info&<code>#34</code> ; do not unref it! ...
      *   }
      * 
      * out:
@@ -193,11 +193,11 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * while (TRUE)
      *   {
      *     GFileInfo *info;
-     *     if (!g_file_enumerator_iterate (direnum, &#38;info, NULL, cancellable, error))
+     *     if (!g_file_enumerator_iterate (direnum, &<code>#38</code> info, NULL, cancellable, error))
      *       goto out;
      *     if (!info)
      *       break;
-     *     ... do stuff with &#34;info&#34;; do not unref it! ...
+     *     ... do stuff with &<code>#34</code> info&<code>#34</code> ; do not unref it! ...
      *   }
      * 
      * out:
@@ -214,11 +214,10 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     
     /**
      * Returns information for the next file in the enumerated object.
-     * Will block until the information is available. The #GFileInfo
-     * returned from this function will contain attributes that match the
-     * attribute string that was passed when the #GFileEnumerator was created.
+     * Will block until the information is available. The {@link org.gtk.gio.FileInfo} returned from this function will contain attributes that match the
+     * attribute string that was passed when the {@link org.gtk.gio.FileEnumerator} was created.
      * 
-     * See the documentation of #GFileEnumerator for information about the
+     * See the documentation of {@link org.gtk.gio.FileEnumerator} for information about the
      * order of returned files.
      * 
      * On error, returns <code>null</code> and sets @error to the error. If the
@@ -239,25 +238,21 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * When all i/o for the operation is finished the @callback will be called with
      * the requested information.
      * 
-     * See the documentation of #GFileEnumerator for information about the
+     * See the documentation of {@link org.gtk.gio.FileEnumerator} for information about the
      * order of returned files.
      * 
      * The callback can be called with less than @num_files files in case of error
      * or at the end of the enumerator. In case of a partial error the callback will
      * be called with any succeeding items and no error, and on the next request the
      * error will be reported. If a request is cancelled the callback will be called
-     * with <code>G_IO_ERROR_CANCELLED.
+     * with {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  
      * 
-     * During</code> an async request no other sync and async calls are allowed, and will
-     * result in {@link org.gtk.gio.IOErrorEnum#PENDING} errors.
-     * 
-     * Any outstanding i/o request with higher priority (lower numerical value) will
-     * be executed before an outstanding request with lower priority. Default
-     * priority is errors.
+     * During an async request no other sync and async calls are allowed, and will
+     * result in {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  errors.
      * 
      * Any outstanding i/o request with higher priority (lower numerical value) will
      * be executed before an outstanding request with lower priority. Default
-     * priority is %G_PRIORITY_DEFAULT.
+     * priority is <code>G_PRIORITY_DEFAULT</code>
      */
     public void nextFilesAsync(int numFiles, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {

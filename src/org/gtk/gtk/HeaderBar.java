@@ -20,51 +20,51 @@ import java.lang.invoke.*;
  * maximize and close buttons, or the window icon.
  * <p>
  * For these reasons, <code>GtkHeaderBar</code> is the natural choice for use as the
- * custom titlebar widget of a <code>GtkWindow</code> (see {@link org.gtk.gtk.Window#setTitlebar}),
+ * custom titlebar widget of a <code>GtkWindow</code> (see {@link org.gtk.gtk.Window<code>#setTitlebar</code> ),
  * as it gives features typical of titlebars while allowing the addition of
  * child widgets.
  * <p>
  * <h2>GtkHeaderBar as GtkBuildable</h2>
  * <p>
  * The <code>GtkHeaderBar</code> implementation of the <code>GtkBuildable</code> interface supports
- * adding children at the start or end sides by specifying &#8220;start&#8221; or &#8220;end&#8221; as
- * the &#8220;type&#8221; attribute of a &#60;child&#62; element, or setting the title widget by
- * specifying &#8220;title&#8221; value.
+ * adding children at the start or end sides by specifying &<code>#8220</code> start&<code>#8221</code>  or &<code>#8220</code> end&<code>#8221</code>  as
+ * the &<code>#8220</code> type&<code>#8221</code>  attribute of a &<code>#60</code> child&<code>#62</code>  element, or setting the title widget by
+ * specifying &<code>#8220</code> title&<code>#8221</code>  value.
  * <p>
  * By default the <code>GtkHeaderBar</code> uses a <code>GtkLabel</code> displaying the title of the
  * window it is contained in as the title widget, equivalent to the following
  * UI definition:
  * <p><pre>xml
- * &#60;object class=&#34;GtkHeaderBar&#34;&#62;
- *   &#60;property name=&#34;title-widget&#34;&#62;
- *     &#60;object class=&#34;GtkLabel&#34;&#62;
- *       &#60;property name=&#34;label&#34; translatable=&#34;yes&#34;&#62;Label&#60;/property&#62;
- *       &#60;property name=&#34;single-line-mode&#34;&#62;True&#60;/property&#62;
- *       &#60;property name=&#34;ellipsize&#34;&#62;end&#60;/property&#62;
- *       &#60;property name=&#34;width-chars&#34;&#62;5&#60;/property&#62;
- *       &#60;style&#62;
- *         &#60;class name=&#34;title&#34;/&#62;
- *       &#60;/style&#62;
- *     &#60;/object&#62;
- *   &#60;/property&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkHeaderBar&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> property name=&<code>#34</code> title-widget&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code>  translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Label&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> single-line-mode&<code>#34</code> &<code>#62</code> True&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> ellipsize&<code>#34</code> &<code>#62</code> end&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> width-chars&<code>#34</code> &<code>#62</code> 5&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> style&<code>#62</code> 
+ *         &<code>#60</code> class name=&<code>#34</code> title&<code>#34</code> /&<code>#62</code> 
+ *       &<code>#60</code> /style&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /property&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * headerbar
- * &#9584;&#9472;&#9472; windowhandle
- *     &#9584;&#9472;&#9472; box
- *         &#9500;&#9472;&#9472; box.start
- *         &#9474;   &#9500;&#9472;&#9472; windowcontrols.start
- *         &#9474;   &#9584;&#9472;&#9472; {@link [other children]}
- *         &#9500;&#9472;&#9472; {@link [Title Widget]}
- *         &#9584;&#9472;&#9472; box.end
- *             &#9500;&#9472;&#9472; {@link [other children]}
- *             &#9584;&#9472;&#9472; windowcontrols.end
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  windowhandle
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box
+ *         &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  box.start
+ *         &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  windowcontrols.start
+ *         &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [other children]}
+ *         &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [Title Widget]}
+ *         &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box.end
+ *             &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [other children]}
+ *             &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  windowcontrols.end
  * </pre>
  * <p>
- * A <code>GtkHeaderBar</code>&#39;s CSS node is called <code>headerbar</code>. It contains a <code>windowhandle</code>
+ * A <code>GtkHeaderBar</code>&<code>#39</code> s CSS node is called <code>headerbar</code>. It contains a <code>windowhandle</code>
  * subnode, which contains a <code>box</code> subnode, which contains two <code>box</code> subnodes at
  * the start and end of the header bar, as well as a center node that represents
  * the title.
@@ -72,8 +72,8 @@ import java.lang.invoke.*;
  * Each of the boxes contains a <code>windowcontrols</code> subnode, see
  * {@link org.gtk.gtk.WindowControls} for details, as well as other children.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkHeaderBar</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkHeaderBar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
  */
 public class HeaderBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -118,7 +118,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Retrieves the title widget of the header.
      * 
-     * See {@link org.gtk.gtk.HeaderBar#setTitleWidget}.
+     * See {@link org.gtk.gtk.HeaderBar<code>#setTitleWidget</code> .
      */
     public Widget getTitleWidget() {
         var RESULT = gtk_h.gtk_header_bar_get_title_widget(handle());
@@ -145,9 +145,9 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * Removes a child from the <code>GtkHeaderBar</code>.
      * 
      * The child must have been added with
-     * {@link org.gtk.gtk.HeaderBar#packStart},
-     * {@link org.gtk.gtk.HeaderBar#packEnd} or
-     * {@link org.gtk.gtk.HeaderBar#setTitleWidget}.
+     * {@link org.gtk.gtk.HeaderBar<code>#packStart</code> ,
+     * {@link org.gtk.gtk.HeaderBar<code>#packEnd</code>  or
+     * {@link org.gtk.gtk.HeaderBar<code>#setTitleWidget</code> .
      */
     public void remove(Widget child) {
         gtk_h.gtk_header_bar_remove(handle(), child.handle());
@@ -169,7 +169,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * from those on the right. Recognized button names are minimize,
      * maximize, close and icon (the window icon).
      * 
-     * For example, &#8220;icon:minimize,maximize,close&#8221; specifies a icon
+     * For example, &<code>#8220</code> icon:minimize,maximize,close&<code>#8221</code>  specifies a icon
      * on the left, and minimize, maximize and close buttons on the right.
      */
     public void setDecorationLayout(java.lang.String layout) {
@@ -187,14 +187,14 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the title for the <code>GtkHeaderBar</code>.
      * 
-     * When set to <code>NULL,</code> the headerbar will display the title of
+     * When set to <code>null</code>  the headerbar will display the title of
      * the window it is contained in.
      * 
      * The title should help a user identify the current view.
      * To achieve the same style as the builtin title, use the
-     * &#8220;title&#8221; style class.
+     * &<code>#8220</code> title&<code>#8221</code>  style class.
      * 
-     * You should set the title widget to <code>NULL,</code> for the window
+     * You should set the title widget to <code>null</code>  for the window
      * title label to be visible again.
      */
     public void setTitleWidget(Widget titleWidget) {

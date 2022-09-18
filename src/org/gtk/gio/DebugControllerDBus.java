@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GDebugControllerDBus is an implementation of #GDebugController which exposes
+ * {@link org.gtk.gio.DebugControllerDBus} is an implementation of {@link org.gtk.gio.DebugController} which exposes
  * debug settings as a D-Bus object.
  * <p>
- * It is a #GInitable object, and will register an object at<code>/org/gtk/Debugging</code> on the bus given as
- * <h1>ebugControllerDBus:connection once it&#8217;s initialized. The object will be</h1>
- * unregistered when the last reference to the #GDebugControllerDBus is dropped.
+ * It is a {@link org.gtk.gio.Initable} object, and will register an object at<code>/org/gtk/Debugging</code> on the bus given as
+ * {@link org.gtk.gio.DebugControllerDBus} connection once it&<code>#8217</code> s initialized. The object will be
+ * unregistered when the last reference to the {@link org.gtk.gio.DebugControllerDBus} is dropped.
  * <p>
  * This D-Bus object can be used by remote processes to enable or disable debug
  * output in this process. Remote processes calling<code>org.gtk.Debugging.SetDebugEnabled()</code> will affect the value of
- * <h1>ebugController:debug-enabled and, by default, g_log_get_debug_enabled().</h1>
+ * {@link org.gtk.gio.DebugController} debug-enabled and, by default, g_log_get_debug_enabled().
  * default.
  * <p>
  * By default, all processes will be able to call <code>SetDebugEnabled()</code>. If this
@@ -26,43 +26,43 @@ import java.lang.invoke.*;
  * privileged users or processes.
  * <p>
  * One option is to install a D-Bus security policy which restricts access to<code>SetDebugEnabled()</code>, installing something like the following in<code>$datadir/dbus-1/system.d/</code>:
- * |{@link [&#60;!-- language=&#34;XML&#34; --&#62;
- * &#60;?xml version=&#34;1.0&#34;?&#62; &#60;!--*-nxml-*--&#62;
- * &#60;!DOCTYPE busconfig PUBLIC &#34;-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN&#34;
- *      &#34;http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd&#34;&#62;
- * &#60;busconfig&#62;
- *   &#60;policy user=&#34;root&#34;&#62;
- *     &#60;allow send_destination=&#34;com.example.MyService&#34; send_interface=&#34;org.gtk.Debugging&#34;/&#62;
- *   &#60;/policy&#62;
- *   &#60;policy context=&#34;default&#34;&#62;
- *     &#60;deny send_destination=&#34;com.example.MyService&#34; send_interface=&#34;org.gtk.Debugging&#34;/&#62;
- *   &#60;/policy&#62;
- * &#60;/busconfig&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> XML&<code>#34</code>  --&<code>#62</code> 
+ * &<code>#60</code> ?xml version=&<code>#34</code> 1.0&<code>#34</code> ?&<code>#62</code>  &<code>#60</code> !--*-nxml-*--&<code>#62</code> 
+ * &<code>#60</code> !DOCTYPE busconfig PUBLIC &<code>#34</code> -//freedesktop//DTD D-BUS Bus Configuration 1.0//EN&<code>#34</code> 
+ *      &<code>#34</code> http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd&<code>#34</code> &<code>#62</code> 
+ * &<code>#60</code> busconfig&<code>#62</code> 
+ *   &<code>#60</code> policy user=&<code>#34</code> root&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> allow send_destination=&<code>#34</code> com.example.MyService&<code>#34</code>  send_interface=&<code>#34</code> org.gtk.Debugging&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /policy&<code>#62</code> 
+ *   &<code>#60</code> policy context=&<code>#34</code> default&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> deny send_destination=&<code>#34</code> com.example.MyService&<code>#34</code>  send_interface=&<code>#34</code> org.gtk.Debugging&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /policy&<code>#62</code> 
+ * &<code>#60</code> /busconfig&<code>#62</code> 
  * ]}|
  * <p>
  * This will prevent the <code>SetDebugEnabled()</code> method from being called by all
  * except root. It will not prevent the <code>DebugEnabled</code> property from being read,
- * as it&#8217;s accessed through the <code>org.freedesktop.DBus.Properties</code> interface.
+ * as it&<code>#8217</code> s accessed through the <code>org.freedesktop.DBus.Properties</code> interface.
  * 
  * Another option is to use polkit to allow or deny requests on a case-by-case
  * basis, allowing for the possibility of dynamic authorisation. To do this,
- * connect to the #GDebugControllerDBus::authorize signal and query polkit in
+ * connect to the {@link org.gtk.gio.DebugControllerDBus} :authorize signal and query polkit in
  * it:
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  *   g_autoptr(GError) child_error = NULL;
  *   g_autoptr(GDBusConnection) connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, NULL);
  *   gulong debug_controller_authorize_id = 0;
  * 
  *   // Set up the debug controller.
- *   debug_controller = G_DEBUG_CONTROLLER (g_debug_controller_dbus_new (priv-&#62;connection, NULL, &#38;child_error));
+ *   debug_controller = G_DEBUG_CONTROLLER (g_debug_controller_dbus_new (priv-&<code>#62</code> connection, NULL, &<code>#38</code> child_error));
  *   if (debug_controller == NULL)
  *     {
- *       g_error (&#34;Could not register debug controller on bus: <code>s&#34;),
- * </code>               child_error-&#62;message);
+ *       g_error (&<code>#34</code> Could not register debug controller on bus: <code>s</code> <code>#34</code> ),
+ *                child_error-&<code>#62</code> message);
  *     }
  * 
  *   debug_controller_authorize_id = g_signal_connect (debug_controller,
- *                                                     &#34;authorize&#34;,
+ *                                                     &<code>#34</code> authorize&<code>#34</code> ,
  *                                                     G_CALLBACK (debug_controller_authorize_cb),
  *                                                     self);
  * 
@@ -82,28 +82,28 @@ import java.lang.invoke.*;
  *     message = g_dbus_method_invocation_get_message (invocation);
  *     message_flags = g_dbus_message_get_flags (message);
  * 
- *     authority = polkit_authority_get_sync (NULL, &#38;local_error);
+ *     authority = polkit_authority_get_sync (NULL, &<code>#38</code> local_error);
  *     if (authority == NULL)
  *       {
- *         g_warning (&#34;Failed to get polkit authority: <code>s&#34;,</code> local_error-&#62;message);
+ *         g_warning (&<code>#34</code> Failed to get polkit authority: <code>s</code> <code>#34</code> , local_error-&<code>#62</code> message);
  *         return FALSE;
  *       }
  * 
- *     if (message_flags &#38; G_DBUS_MESSAGE_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION)
+ *     if (message_flags &<code>#38</code>  G_DBUS_MESSAGE_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION)
  *       flags |= POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION;
  * 
  *     subject = polkit_system_bus_name_new (g_dbus_method_invocation_get_sender (invocation));
  * 
  *     auth_result = polkit_authority_check_authorization_sync (authority,
  *                                                              subject,
- *                                                              &#34;com.example.MyService.set-debug-enabled&#34;,
+ *                                                              &<code>#34</code> com.example.MyService.set-debug-enabled&<code>#34</code> ,
  *                                                              NULL,
  *                                                              flags,
  *                                                              NULL,
- *                                                              &#38;local_error);
+ *                                                              &<code>#38</code> local_error);
  *     if (auth_result == NULL)
  *       {
- *         g_warning (&#34;Failed to get check polkit authorization: <code>s&#34;,</code> local_error-&#62;message);
+ *         g_warning (&<code>#34</code> Failed to get check polkit authorization: <code>s</code> <code>#34</code> , local_error-&<code>#62</code> message);
  *         return FALSE;
  *       }
  * 
@@ -132,11 +132,11 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
     }
     
     /**
-     * Create a new #GDebugControllerDBus and synchronously initialize it.
+     * Create a new {@link org.gtk.gio.DebugControllerDBus} and synchronously initialize it.
      * 
      * Initializing the object will export the debug object on @connection. The
      * object will remain registered until the last reference to the
-     * #GDebugControllerDBus is dropped.
+     * {@link org.gtk.gio.DebugControllerDBus} is dropped.
      * 
      * Initialization may fail if registering the object on @connection fails.
      */
@@ -149,17 +149,17 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * 
      * Any pending method calls to the object will complete successfully, but new
      * ones will return an error. This method will block until all pending
-     * #GDebugControllerDBus::authorize signals have been handled. This is expected
+     * {@link org.gtk.gio.DebugControllerDBus} :authorize signals have been handled. This is expected
      * to not take long, as it will just be waiting for threads to join. If any
-     * #GDebugControllerDBus::authorize signal handlers are still executing in other
+     * {@link org.gtk.gio.DebugControllerDBus} :authorize signal handlers are still executing in other
      * threads, this will block until after they have returned.
      * 
      * This method will be called automatically when the final reference to the
-     * #GDebugControllerDBus is dropped. You may want to call it explicitly to know
+     * {@link org.gtk.gio.DebugControllerDBus} is dropped. You may want to call it explicitly to know
      * when the controller has been fully removed from the bus, or to break
      * reference count cycles.
      * 
-     * Calling this method from within a #GDebugControllerDBus::authorize signal
+     * Calling this method from within a {@link org.gtk.gio.DebugControllerDBus} :authorize signal
      * handler will cause a deadlock and must not be done.
      */
     public void stop() {
@@ -184,15 +184,11 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * change the debug settings is rejected.
      * 
      * Otherwise, if <code>true</code> is returned, signal emission continues. If no handlers
-     * return <code>FALSE,</code> then the debug settings are allowed to be changed.
+     * return <code>false</code>  then the debug settings are allowed to be changed.
      * 
      * Signal handlers must not modify @invocation, or cause it to return a value.
      * 
-     * The default class handler just returns then the debug settings are allowed to be changed.
-     * 
-     * Signal handlers must not modify @invocation, or cause it to return a value.
-     * 
-     * The default class handler just returns %TRUE.
+     * The default class handler just returns <code>true</code>
      */
     public SignalHandle onAuthorize(AuthorizeHandler handler) {
         try {

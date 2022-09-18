@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * Its primary user is {@link org.gtk.gtk.SortListModel}
  * <p>
  * The model will use a sorter to determine the order in which
- * its items should appear by calling {@link org.gtk.gtk.Sorter#compare}
+ * its items should appear by calling {@link org.gtk.gtk.Sorter<code>#compare</code> 
  * for pairs of items.
  * <p>
  * Sorters may change their sorting behavior through their lifetime.
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * via the {@link [property@Gtk.ColumnViewColumn:sorter] (ref=property)} property, where the user can
  * change the sorting by clicking on list headers.
  * <p>
- * Of course, in particular for large lists, it is also possible to subclass<code>GtkSorter</code> and provide one&#39;s own sorter.
+ * Of course, in particular for large lists, it is also possible to subclass<code>GtkSorter</code> and provide one&<code>#39</code> s own sorter.
  */
 public class Sorter extends org.gtk.gobject.Object {
 
@@ -44,7 +44,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * <p>
      * This emits the {@link [signal@Gtk.Sorter::changed] (ref=signal)} signal. Users
      * of the sorter should then update the sort order via
-     * {@link org.gtk.gtk.Sorter#compare}.
+     * {@link org.gtk.gtk.Sorter<code>#compare</code> .
      * <p>
      * Depending on the @change parameter, it may be possible to
      * update the sort order without a full resorting. Refer to
@@ -64,12 +64,12 @@ public class Sorter extends org.gtk.gobject.Object {
      * Sorters implement a partial order:
      * 
      * * It is reflexive, ie a = a
-     * * It is antisymmetric, ie if a &#60; b and b &#60; a, then a = b
-     * * It is transitive, ie given any 3 items with a &#8804; b and b &#8804; c,
-     *   then a &#8804; c
+     * * It is antisymmetric, ie if a &<code>#60</code>  b and b &<code>#60</code>  a, then a = b
+     * * It is transitive, ie given any 3 items with a &<code>#8804</code>  b and b &<code>#8804</code>  c,
+     *   then a &<code>#8804</code>  c
      * 
      * The sorter may signal it conforms to additional constraints
-     * via the return value of {@link org.gtk.gtk.Sorter#getOrder}.
+     * via the return value of {@link org.gtk.gtk.Sorter<code>#getOrder</code> .
      */
     public Ordering compare(org.gtk.gobject.Object item1, org.gtk.gobject.Object item2) {
         var RESULT = gtk_h.gtk_sorter_compare(handle(), item1.handle(), item2.handle());

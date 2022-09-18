@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * use the methods of this interface to interact with the
  * widget.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkFileChooserWidget</code> has a single CSS node with name filechooser.
  */
 public class FileChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FileChooser {
@@ -53,10 +53,10 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * This is used to make the file chooser show the user&#39;s Desktop
+     * This is used to make the file chooser show the user&<code>#39</code> s Desktop
      * folder in the file list.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;D&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> D&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onDesktopFolder(DesktopFolderHandler handler) {
         try {
@@ -86,11 +86,11 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * This is used to make the file chooser go to a child of the
      * current folder in the file hierarchy. The subfolder that will
      * be used is displayed in the path bar widget of the file chooser.
-     * For example, if the path bar is showing &#34;/foo/bar/baz&#34;, with bar
+     * For example, if the path bar is showing &<code>#34</code> /foo/bar/baz&<code>#34</code> , with bar
      * currently displayed, then this will cause the file chooser to
-     * switch to the &#34;baz&#34; subfolder.
+     * switch to the &<code>#34</code> baz&<code>#34</code>  subfolder.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;Down&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Down&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onDownFolder(DownFolderHandler handler) {
         try {
@@ -117,10 +117,10 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * This is used to make the file chooser show the user&#39;s home
+     * This is used to make the file chooser show the user&<code>#39</code> s home
      * folder in the file list.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;Home&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Home&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onHomeFolder(HomeFolderHandler handler) {
         try {
@@ -147,14 +147,14 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * <p>
-     * This is used to make the file chooser show a &#34;Location&#34; prompt which
+     * This is used to make the file chooser show a &<code>#34</code> Location&<code>#34</code>  prompt which
      * the user can use to manually type the name of the file he wishes to select.
      * <p>
-     * The default bindings for this signal are &#60;kbd&#62;Control&#60;/kbd&#62;-&#60;kbd&#62;L&#60;/kbd&#62;
-     * with a @path string of &#34;&#34; (the empty string). It is also bound to
-     * &#60;kbd&#62;/&#60;/kbd&#62; with a @path string of &#34;<code>/</code>&#34; (a slash):  this lets you
+     * The default bindings for this signal are &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> L&<code>#60</code> /kbd&<code>#62</code> 
+     * with a @path string of &<code>#34</code> &<code>#34</code>  (the empty string). It is also bound to
+     * &<code>#60</code> kbd&<code>#62</code> /&<code>#60</code> /kbd&<code>#62</code>  with a @path string of &<code>#34</code> <code>/</code>&<code>#34</code>  (a slash):  this lets you
      * type <code>/</code> and immediately type a path name. On Unix systems, this is
-     * bound to &#60;kbd&#62;~&#60;/kbd&#62; (tilde) with a @path string of &#34;~&#34; itself for
+     * bound to &<code>#60</code> kbd&<code>#62</code> ~&<code>#60</code> /kbd&<code>#62</code>  (tilde) with a @path string of &<code>#34</code> ~&<code>#34</code>  itself for
      * access to home directories.
      */
     public SignalHandle onLocationPopup(LocationPopupHandler handler) {
@@ -182,10 +182,10 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * <p>
-     * This is used to make the file chooser show a &#34;Location&#34; prompt
+     * This is used to make the file chooser show a &<code>#34</code> Location&<code>#34</code>  prompt
      * when the user pastes into a <code>GtkFileChooserWidget</code>.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Control&#60;/kbd&#62;-&#60;kbd&#62;V&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> V&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onLocationPopupOnPaste(LocationPopupOnPasteHandler handler) {
         try {
@@ -212,11 +212,11 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * This is used to toggle the visibility of a &#34;Location&#34; prompt
+     * This is used to toggle the visibility of a &<code>#34</code> Location&<code>#34</code>  prompt
      * which the user can use to manually type the name of the file
      * he wishes to select.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Control&#60;/kbd&#62;-&#60;kbd&#62;L&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> L&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onLocationTogglePopup(LocationTogglePopupHandler handler) {
         try {
@@ -245,7 +245,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * 
      * This is used to move the focus to the places sidebar.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;P&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> P&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onPlacesShortcut(PlacesShortcutHandler handler) {
         try {
@@ -277,9 +277,9 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * you have three bookmarks, you can pass 0, 1, 2 to this signal
      * to switch to each of them, respectively.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;1&#60;/kbd&#62;,
-     * &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;2&#60;/kbd&#62;, etc. until &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;0&#60;/kbd&#62;.
-     * Note that in the default binding, that &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;1&#60;/kbd&#62; is
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> 1&<code>#60</code> /kbd&<code>#62</code> ,
+     * &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> 2&<code>#60</code> /kbd&<code>#62</code> , etc. until &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> 0&<code>#60</code> /kbd&<code>#62</code> .
+     * Note that in the default binding, that &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> 1&<code>#60</code> /kbd&<code>#62</code>  is
      * actually defined to switch to the bookmark at index 0, and so on
      * successively.
      */
@@ -310,7 +310,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * 
      * This is used to make the file chooser show the Recent location.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;R&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> R&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onRecentShortcut(RecentShortcutHandler handler) {
         try {
@@ -339,7 +339,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * 
      * This is used to make the file chooser show the search entry.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;S&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> S&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onSearchShortcut(SearchShortcutHandler handler) {
         try {
@@ -368,7 +368,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * 
      * This is used to make the file chooser display hidden files.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Control&#60;/kbd&#62;-&#60;kbd&#62;H&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> H&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onShowHidden(ShowHiddenHandler handler) {
         try {
@@ -398,7 +398,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * This is used to make the file chooser go to the parent
      * of the current folder in the file hierarchy.
      * 
-     * The default binding for this signal is &#60;kbd&#62;Alt&#60;/kbd&#62;-&#60;kbd&#62;Up&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Up&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onUpFolder(UpFolderHandler handler) {
         try {

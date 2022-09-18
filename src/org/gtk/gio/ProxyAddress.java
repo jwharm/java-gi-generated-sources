@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Support for proxied #GInetSocketAddress.
+ * Support for proxied {@link org.gtk.gio.InetSocketAddress}
  */
 public class ProxyAddress extends InetSocketAddress implements SocketConnectable {
 
@@ -27,11 +27,11 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Creates a new #GProxyAddress for @inetaddr with @protocol that should
+     * Creates a new {@link org.gtk.gio.ProxyAddress} for @inetaddr with @protocol that should
      * tunnel through @dest_hostname and @dest_port.
      * 
-     * (Note that this method doesn&#39;t set the #GProxyAddress:uri or
-     * #GProxyAddress:destination-protocol fields; use g_object_new()
+     * (Note that this method doesn&<code>#39</code> t set the {@link org.gtk.gio.ProxyAddress} uri or
+     * {@link org.gtk.gio.ProxyAddress} destination-protocol fields; use g_object_new()
      * directly if you want to set those.)
      */
     public ProxyAddress(InetAddress inetaddr, short port, java.lang.String protocol, java.lang.String destHostname, short destPort, java.lang.String username, java.lang.String password) {
@@ -39,7 +39,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy&#39;s destination hostname; that is, the name of the host
+     * Gets @proxy&<code>#39</code> s destination hostname; that is, the name of the host
      * that will be connected to via the proxy, not the name of the proxy
      * itself.
      */
@@ -49,7 +49,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy&#39;s destination port; that is, the port on the
+     * Gets @proxy&<code>#39</code> s destination port; that is, the port on the
      * destination host that will be connected to via the proxy, not the
      * port number of the proxy itself.
      */
@@ -60,7 +60,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     
     /**
      * Gets the protocol that is being spoken to the destination
-     * server; eg, &#34;http&#34; or &#34;ftp&#34;.
+     * server; eg, &<code>#34</code> http&<code>#34</code>  or &<code>#34</code> ftp&<code>#34</code> .
      */
     public java.lang.String getDestinationProtocol() {
         var RESULT = gtk_h.g_proxy_address_get_destination_protocol(handle());
@@ -68,7 +68,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy&#39;s password.
+     * Gets @proxy&<code>#39</code> s password.
      */
     public java.lang.String getPassword() {
         var RESULT = gtk_h.g_proxy_address_get_password(handle());
@@ -76,7 +76,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy&#39;s protocol. eg, &#34;socks&#34; or &#34;http&#34;
+     * Gets @proxy&<code>#39</code> s protocol. eg, &<code>#34</code> socks&<code>#34</code>  or &<code>#34</code> http&<code>#34</code>
      */
     public java.lang.String getProtocol() {
         var RESULT = gtk_h.g_proxy_address_get_protocol(handle());
@@ -92,7 +92,7 @@ public class ProxyAddress extends InetSocketAddress implements SocketConnectable
     }
     
     /**
-     * Gets @proxy&#39;s username.
+     * Gets @proxy&<code>#39</code> s username.
      */
     public java.lang.String getUsername() {
         var RESULT = gtk_h.g_proxy_address_get_username(handle());

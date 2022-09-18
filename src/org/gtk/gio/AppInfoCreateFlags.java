@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used when creating a #GAppInfo.
+ * Flags used when creating a {@link org.gtk.gio.AppInfo}
  */
 public class AppInfoCreateFlags {
 

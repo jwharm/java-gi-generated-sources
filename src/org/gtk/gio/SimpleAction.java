@@ -8,11 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GSimpleAction is the obvious simple implementation of the #GAction
- * interface. This is the easiest way to create an action for purposes of
- * adding it to a #GSimpleActionGroup.
+ * A {@link org.gtk.gio.SimpleAction} is the obvious simple implementation of the {@link org.gtk.gio.Action} interface. This is the easiest way to create an action for purposes of
+ * adding it to a {@link org.gtk.gio.SimpleActionGroup} 
  * 
- * See also #GtkAction.
+ * See also <code>#GtkAction</code>
  */
 public class SimpleAction extends org.gtk.gobject.Object implements Action {
 
@@ -48,10 +47,10 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     /**
      * Creates a new stateful action.
      * 
-     * All future state values must have the same #GVariantType as the initial
+     * All future state values must have the same {@link org.gtk.glib.VariantType} as the initial
      * @state.
      * 
-     * If the @state #GVariant is floating, it is consumed.
+     * If the @state {@link org.gtk.glib.Variant} is floating, it is consumed.
      */
     public static SimpleAction newStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
         return new SimpleAction(constructNewStateful(name, parameterType, state));
@@ -73,10 +72,10 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     /**
      * Sets the state of the action.
      * 
-     * This directly updates the &#39;state&#39; property to the given value.
+     * This directly updates the &<code>#39</code> state&<code>#39</code>  property to the given value.
      * 
      * This should only be called by the implementor of the action.  Users
-     * of the action should not attempt to directly modify the &#39;state&#39;
+     * of the action should not attempt to directly modify the &<code>#39</code> state&<code>#39</code> 
      * property.  Instead, they should call g_action_change_state() to
      * request the change.
      * 
@@ -110,11 +109,11 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * 
      * Since GLib 2.40, if no handler is connected to this signal then the
      * default behaviour for boolean-stated actions with a <code>null</code> parameter
-     * type is to toggle them via the #GSimpleAction::change-state signal.
+     * type is to toggle them via the {@link org.gtk.gio.SimpleAction} :change-state signal.
      * For stateful actions where the state type is equal to the parameter
      * type, the default is to forward them directly to
-     * #GSimpleAction::change-state.  This should allow almost all users
-     * of #GSimpleAction to connect only one handler or the other.
+     * {@link org.gtk.gio.SimpleAction} :change-state.  This should allow almost all users
+     * of {@link org.gtk.gio.SimpleAction} to connect only one handler or the other.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
@@ -151,8 +150,8 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * default action is taken. If the state should change then you must
      * call g_simple_action_set_state() from the handler.
      * 
-     * An example of a &#39;change-state&#39; handler:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * An example of a &<code>#39</code> change-state&<code>#39</code>  handler:
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * static void
      * change_volume_state (GSimpleAction *action,
      *                      GVariant      *value,
@@ -163,7 +162,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      *   requested = g_variant_get_int32 (value);
      * 
      *   // Volume only goes from 0 to 10
-     *   if (0 &#60;= requested &#38;&#38; requested &#60;= 10)
+     *   if (0 &<code>#60</code> = requested &<code>#38</code> &<code>#38</code>  requested &<code>#60</code> = 10)
      *     g_simple_action_set_state (action, value);
      * }
      * ]}|

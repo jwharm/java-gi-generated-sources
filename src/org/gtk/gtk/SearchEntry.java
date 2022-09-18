@@ -16,9 +16,9 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [An example GtkSearchEntry]}(search-entry.png)
  * <p>
- * It will show an inactive symbolic &#8220;find&#8221; icon when the search
- * entry is empty, and a symbolic &#8220;clear&#8221; icon when there is text.
- * Clicking on the &#8220;clear&#8221; icon will empty the search entry.
+ * It will show an inactive symbolic &<code>#8220</code> find&<code>#8221</code>  icon when the search
+ * entry is empty, and a symbolic &<code>#8220</code> clear&<code>#8221</code>  icon when there is text.
+ * Clicking on the &<code>#8220</code> clear&<code>#8221</code>  icon will empty the search entry.
  * <p>
  * To make filtering appear more reactive, it is a good idea to
  * not react to every change in the entry text immediately, but
@@ -33,7 +33,7 @@ import java.lang.invoke.*;
  * <p>
  * Often, <code>GtkSearchEntry</code> will be fed events by means of being
  * placed inside a {@link org.gtk.gtk.SearchBar}. If that is not the case,
- * you can use {@link org.gtk.gtk.SearchEntry#setKeyCaptureWidget} to
+ * you can use {@link org.gtk.gtk.SearchEntry<code>#setKeyCaptureWidget</code>  to
  * let it capture key input from another widget.
  * <p><code>GtkSearchEntry</code> provides only minimal API and should be used with
  * the {@link [iface@Gtk.Editable] (ref=iface)} API.
@@ -41,13 +41,13 @@ import java.lang.invoke.*;
  * <h2>CSS Nodes</h2>
  * <p><pre>
  * entry.search
- * &#9584;&#9472;&#9472; text
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  text
  * </pre>
  * <p><code>GtkSearchEntry</code> has a single CSS node with name entry that carries
  * a <code>.search</code> style class, and the text node is a child of that.
  * <p>
  * <h2>Accessibility</h2>
- * <p><code>GtkSearchEntry</code> uses the {@link org.gtk.gtk.AccessibleRole#SEARCH_BOX} role.
+ * <p><code>GtkSearchEntry</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SEARCH_BOX</code>  role.
  */
 public class SearchEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
@@ -88,16 +88,16 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * continue a search.
      * <p>
      * If the entry is part of a <code>GtkSearchBar</code>, it is preferable
-     * to call {@link org.gtk.gtk.SearchBar#setKeyCaptureWidget} instead,
+     * to call {@link org.gtk.gtk.SearchBar<code>#setKeyCaptureWidget</code>  instead,
      * which will reveal the entry in addition to triggering the
      * search entry.
      * 
      * Note that despite the name of this function, the events
-     * are only &#39;captured&#39; in the bubble phase, which means that
+     * are only &<code>#39</code> captured&<code>#39</code>  in the bubble phase, which means that
      * editable child widgets of @widget will receive text input
      * before it gets captured. If that is not desired, you can
      * capture and forward the events yourself with
-     * {@link org.gtk.gtk.EventControllerKey#forward}.
+     * {@link org.gtk.gtk.EventControllerKey<code>#forward</code> .
      */
     public void setKeyCaptureWidget(Widget widget) {
         gtk_h.gtk_search_entry_set_key_capture_widget(handle(), widget.handle());

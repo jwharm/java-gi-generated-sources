@@ -34,7 +34,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the cancellable for the current operation.
      * <p>
-     * This is the <code>GCancellable</code> that was passed to {@link Gdk#contentDeserializeAsync}.
+     * This is the <code>GCancellable</code> that was passed to {@link Gdk<code>#contentDeserializeAsync</code> .
      */
     public org.gtk.gio.Cancellable getCancellable() {
         var RESULT = gtk_h.gdk_content_deserializer_get_cancellable(handle());
@@ -52,7 +52,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the input stream for the current operation.
      * 
-     * This is the stream that was passed to {@link Gdk#contentDeserializeAsync}.
+     * This is the stream that was passed to {@link Gdk<code>#contentDeserializeAsync</code> .
      */
     public org.gtk.gio.InputStream getInputStream() {
         var RESULT = gtk_h.gdk_content_deserializer_get_input_stream(handle());
@@ -70,7 +70,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the I/O priority for the current operation.
      * 
-     * This is the priority that was passed to {@link Gdk#contentDeserializeAsync}.
+     * This is the priority that was passed to {@link Gdk<code>#contentDeserializeAsync</code> .
      */
     public int getPriority() {
         var RESULT = gtk_h.gdk_content_deserializer_get_priority(handle());
@@ -80,7 +80,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the data that was associated with the current operation.
      * 
-     * See {@link org.gtk.gdk.ContentDeserializer#setTaskData}.
+     * See {@link org.gtk.gdk.ContentDeserializer<code>#setTaskData</code> .
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.gdk_content_deserializer_get_task_data(handle());

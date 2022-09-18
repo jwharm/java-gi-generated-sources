@@ -25,7 +25,7 @@ public enum PixbufAlphaMode {
     BILEVEL,
     
     /**
-     * For now falls back to #GDK_PIXBUF_ALPHA_BILEVEL.
+     * For now falls back to <code>#GDK_PIXBUF_ALPHA_BILEVEL</code> 
      *  In the future it will do full alpha compositing.
      */
     FULL;

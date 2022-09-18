@@ -23,7 +23,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new empty #GKeyFile object. Use
+     * Creates a new empty {@link org.gtk.glib.KeyFile} object. Use
      * g_key_file_load_from_file(), g_key_file_load_from_data(),
      * g_key_file_load_from_dirs() or g_key_file_load_from_data_dirs() to
      * read an existing key file.
@@ -46,9 +46,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * boolean.
      * 
      * If @key cannot be found then <code>false</code> is returned and @error is set
-     * to <code>G_KEY_FILE_ERROR_KEY_NOT_FOUND.</code> Likewise, if the value
-     * associated with @key cannot be interpreted as a boolean then <code>FALSE
-     * is</code> returned and @error is set to returned and @error is set to %G_KEY_FILE_ERROR_INVALID_VALUE.
+     * to {@link org.gtk.glib.KeyFileError<code>#KEY_NOT_FOUND</code>   Likewise, if the value
+     * associated with @key cannot be interpreted as a boolean then <code>false</code> is returned and @error is set to {@link org.gtk.glib.KeyFileError<code>#INVALID_VALUE</code>
      */
     public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -62,10 +61,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves a comment above @key from @group_name.
      * If @key is <code>null</code> then @comment will be read from above
-     * @group_name. If both @key and @group_name are <code>NULL,</code> then
+     * @group_name. If both @key and @group_name are <code>null</code>  then
      * @comment will be read from above the first group in the file.
      * 
-     * Note that the returned string does not include the &#39;#&#39; comment markers,
+     * Note that the returned string does not include the &<code>#39</code> <code>#</code> <code>#39</code>  comment markers,
      * but does include any whitespace after them (on each line). It includes
      * the line breaks between lines, but does not include the final line break.
      */
@@ -80,14 +79,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the value associated with @key under @group_name as a
-     * double. If @group_name is <code>NULL,</code> the start_group is used.
+     * double. If @group_name is <code>null</code>  the start_group is used.
      * 
      * If @key cannot be found then 0.0 is returned and @error is set to
-     * <code>G_KEY_FILE_ERROR_KEY_NOT_FOUND.</code> Likewise, if the value associated
+     * {@link org.gtk.glib.KeyFileError<code>#KEY_NOT_FOUND</code>   Likewise, if the value associated
      * with @key cannot be interpreted as a double then 0.0 is returned
-     * and @error is set to Likewise, if the value associated
-     * with @key cannot be interpreted as a double then 0.0 is returned
-     * and @error is set to %G_KEY_FILE_ERROR_INVALID_VALUE.
+     * and @error is set to {@link org.gtk.glib.KeyFileError<code>#INVALID_VALUE</code>
      */
     public double getDouble(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -117,13 +114,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * integer.
      * 
      * If @key cannot be found then 0 is returned and @error is set to
-     * <code>G_KEY_FILE_ERROR_KEY_NOT_FOUND.</code> Likewise, if the value associated
+     * {@link org.gtk.glib.KeyFileError<code>#KEY_NOT_FOUND</code>   Likewise, if the value associated
      * with @key cannot be interpreted as an integer, or is out of range
-     * for a #gint, then 0 is returned
-     * and @error is set to Likewise, if the value associated
-     * with @key cannot be interpreted as an integer, or is out of range
-     * for a #gint, then 0 is returned
-     * and @error is set to %G_KEY_FILE_ERROR_INVALID_VALUE.
+     * for a <code>#gint</code>  then 0 is returned
+     * and @error is set to {@link org.gtk.glib.KeyFileError<code>#INVALID_VALUE</code>
      */
     public int getInteger(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -155,12 +149,12 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * translated in the given @locale if available.  If @locale is
      * <code>null</code> then the current locale is assumed.
      * 
-     * If @locale is to be non-<code>NULL,</code> or if the current locale will change over
-     * the lifetime of the #GKeyFile, it must be loaded with
-     * {@link org.gtk.glib.KeyFileFlags#KEEP_TRANSLATIONS} in order to load strings for all locales.
+     * If @locale is to be non-<code>null</code>  or if the current locale will change over
+     * the lifetime of the {@link org.gtk.glib.KeyFile}  it must be loaded with
+     * {@link org.gtk.glib.KeyFileFlags<code>#KEEP_TRANSLATIONS</code>  in order to load strings for all locales.
      * 
      * If @key cannot be found then <code>null</code> is returned and @error is set
-     * to <code>G_KEY_FILE_ERROR_KEY_NOT_FOUND.</code> If the value associated
+     * to {@link org.gtk.glib.KeyFileError<code>#KEY_NOT_FOUND</code>   If the value associated
      * with @key cannot be interpreted or no suitable translation can
      * be found then the untranslated value is returned.
      */
@@ -187,10 +181,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * like \\s.
      * 
      * In the event the key cannot be found, <code>null</code> is returned and
-     * @error is set to <code>G_KEY_FILE_ERROR_KEY_NOT_FOUND.</code>  In the
+     * @error is set to {@link org.gtk.glib.KeyFileError<code>#KEY_NOT_FOUND</code>    In the
      * event that the @group_name cannot be found, <code>null</code> is returned
-     * and @error is set to is returned
-     * and @error is set to %G_KEY_FILE_ERROR_GROUP_NOT_FOUND.
+     * and @error is set to {@link org.gtk.glib.KeyFileError<code>#GROUP_NOT_FOUND</code>
      */
     public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -220,10 +213,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Use g_key_file_get_string() to retrieve an unescaped UTF-8 string.
      * 
      * In the event the key cannot be found, <code>null</code> is returned and
-     * @error is set to <code>G_KEY_FILE_ERROR_KEY_NOT_FOUND.</code>  In the
+     * @error is set to {@link org.gtk.glib.KeyFileError<code>#KEY_NOT_FOUND</code>    In the
      * event that the @group_name cannot be found, <code>null</code> is returned
-     * and @error is set to is returned
-     * and @error is set to %G_KEY_FILE_ERROR_GROUP_NOT_FOUND.
+     * and @error is set to {@link org.gtk.glib.KeyFileError<code>#GROUP_NOT_FOUND</code>
      */
     public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -246,9 +238,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Looks whether the key file has the key @key in the group
      * @group_name.
      * 
-     * Note that this function does not follow the rules for #GError strictly;
+     * Note that this function does not follow the rules for {@link org.gtk.glib.Error} strictly;
      * the return value both carries meaning and signals an error.  To use
-     * this function, you must pass a #GError pointer in @error, and check
+     * this function, you must pass a {@link org.gtk.glib.Error} pointer in @error, and check
      * whether it is not <code>null</code> to see if an error occurred.
      * 
      * Language bindings should use g_key_file_get_value() to test whether
@@ -264,8 +256,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Loads a key file from the data in @bytes into an empty #GKeyFile structure.
-     * If the object cannot be created then <code>error</code> is set to a #GKeyFileError.
+     * Loads a key file from the data in @bytes into an empty {@link org.gtk.glib.KeyFile} structure.
+     * If the object cannot be created then <code>error</code> is set to a {@link org.gtk.glib.KeyFileError}
      */
     public boolean loadFromBytes(Bytes bytes, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -277,8 +269,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Loads a key file from memory into an empty #GKeyFile structure.
-     * If the object cannot be created then <code>error</code> is set to a #GKeyFileError.
+     * Loads a key file from memory into an empty {@link org.gtk.glib.KeyFile} structure.
+     * If the object cannot be created then <code>error</code> is set to a {@link org.gtk.glib.KeyFileError}
      */
     public boolean loadFromData(java.lang.String data, long length, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -292,9 +284,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function looks for a key file named @file in the paths
      * returned from g_get_user_data_dir() and g_get_system_data_dirs(),
-     * loads the file into @key_file and returns the file&#39;s full path in
+     * loads the file into @key_file and returns the file&<code>#39</code> s full path in
      * @full_path.  If the file could not be loaded then an <code>error</code> is
-     * set to either a #GFileError or #GKeyFileError.
+     * set to either a {@link org.gtk.glib.FileError} or {@link org.gtk.glib.KeyFileError}
      */
     public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -308,10 +300,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function looks for a key file named @file in the paths
      * specified in @search_dirs, loads the file into @key_file and
-     * returns the file&#39;s full path in @full_path.
+     * returns the file&<code>#39</code> s full path in @full_path.
      * 
      * If the file could not be found in any of the @search_dirs,
-     * {@link org.gtk.glib.KeyFileError#NOT_FOUND} is returned. If
+     * {@link org.gtk.glib.KeyFileError<code>#NOT_FOUND</code>  is returned. If
      * the file is found but the OS returns an error when opening or reading the
      * file, a <code>G_FILE_ERROR</code> is returned. If there is a problem parsing the file, a
      * <code>G_KEY_FILE_ERROR</code> is returned.
@@ -326,14 +318,14 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Loads a key file into an empty #GKeyFile structure.
+     * Loads a key file into an empty {@link org.gtk.glib.KeyFile} structure.
      * 
      * If the OS returns an error when opening or reading the file, a
      * <code>G_FILE_ERROR</code> is returned. If there is a problem parsing the file, a
      * <code>G_KEY_FILE_ERROR</code> is returned.
      * 
-     * This function will never return a {@link org.gtk.glib.KeyFileError#NOT_FOUND} error. If the
-     * @file is not found, {@link org.gtk.glib.FileError#NOENT} is returned.
+     * This function will never return a {@link org.gtk.glib.KeyFileError<code>#NOT_FOUND</code>  error. If the
+     * @file is not found, {@link org.gtk.glib.FileError<code>#NOENT</code>  is returned.
      */
     public boolean loadFromFile(java.lang.String file, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -355,7 +347,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes a comment above @key from @group_name.
      * If @key is <code>null</code> then @comment will be removed above @group_name.
-     * If both @key and @group_name are <code>NULL,</code> then @comment will
+     * If both @key and @group_name are <code>null</code>  then @comment will
      * be removed above the first group in the file.
      */
     public boolean removeComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
@@ -421,7 +413,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Associates a list of boolean values with @key under @group_name.
      * If @key cannot be found then it is created.
-     * If @group_name is <code>NULL,</code> the start_group is used.
+     * If @group_name is <code>null</code>  the start_group is used.
      */
     public void setBooleanList(java.lang.String groupName, java.lang.String key, boolean[] list, long length) {
         gtk_h.g_key_file_set_boolean_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
@@ -431,10 +423,10 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Places a comment above @key from @group_name.
      * 
      * If @key is <code>null</code> then @comment will be written above @group_name.
-     * If both @key and @group_name  are <code>NULL,</code> then @comment will be
+     * If both @key and @group_name  are <code>null</code>  then @comment will be
      * written above the first group in the file.
      * 
-     * Note that this function prepends a &#39;#&#39; comment marker to
+     * Note that this function prepends a &<code>#39</code> <code>#</code> <code>#39</code>  comment marker to
      * each line of @comment.
      */
     public boolean setComment(java.lang.String groupName, java.lang.String key, java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
@@ -488,8 +480,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the character which is used to separate
-     * values in lists. Typically &#39;;&#39; or &#39;,&#39; are used
-     * as separators. The default list separator is &#39;;&#39;.
+     * values in lists. Typically &<code>#39</code> ;&<code>#39</code>  or &<code>#39</code> ,&<code>#39</code>  are used
+     * as separators. The default list separator is &<code>#39</code> ;&<code>#39</code> .
      */
     public void setListSeparator(byte separator) {
         gtk_h.g_key_file_set_list_separator(handle(), separator);

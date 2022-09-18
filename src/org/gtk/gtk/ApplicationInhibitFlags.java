@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Types of user actions that may be blocked by <code>GtkApplication</code>.
  * 
- * See {@link org.gtk.gtk.Application#inhibit}.
+ * See {@link org.gtk.gtk.Application<code>#inhibit</code> .
  */
 public class ApplicationInhibitFlags {
 

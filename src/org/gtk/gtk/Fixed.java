@@ -32,7 +32,7 @@ import java.lang.invoke.*;
  * thus may produce unwanted results if your app is run under right-to-left
  * languages such as Hebrew or Arabic. That is: normally GTK will order
  * containers appropriately for the text direction, e.g. to put labels to
- * the right of the thing they label when using an RTL language, but it can&#8217;t
+ * the right of the thing they label when using an RTL language, but it can&<code>#8217</code> t
  * do that with <code>GtkFixed</code>. So if you need to reorder widgets depending on
  * the text direction, you would need to manually detect it and adjust child
  * positions accordingly.
@@ -104,7 +104,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * This is a convenience function that retrieves the
      * {@link org.gtk.gtk.FixedLayoutChild} instance associated to
-     * @widget and calls {@link org.gtk.gtk.FixedLayoutChild#setTransform}.
+     * @widget and calls {@link org.gtk.gtk.FixedLayoutChild<code>#setTransform</code> .
      */
     public void setChildTransform(Widget widget, org.gtk.gsk.Transform transform) {
         gtk_h.gtk_fixed_set_child_transform(handle(), widget.handle(), transform.handle());

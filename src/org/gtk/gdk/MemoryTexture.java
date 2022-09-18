@@ -29,7 +29,7 @@ public class MemoryTexture extends Texture implements Paintable, org.gtk.gio.Ico
     /**
      * Creates a new texture for a blob of image data.
      * <p>
-     * The <code>GBytes</code> must contain @stride &#215; @height pixels
+     * The <code>GBytes</code> must contain @stride &<code>#215</code>  @height pixels
      * in the given format.
      */
     public MemoryTexture(int width, int height, MemoryFormat format, org.gtk.glib.Bytes bytes, long stride) {

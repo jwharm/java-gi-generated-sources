@@ -1,12 +1,11 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the #hb_unicode_funcs_t structure.
+ * A virtual method for the {@link org.harfbuzz.unicode_funcs_t} structure.
  * 
  * This method should decompose an input Unicode code point,
- * returning the two decomposed code points in #hb_codepoint_t
- * output parameters (if successful). The method must return an
- * #hb_bool_t indicating the success of the composition.
+ * returning the two decomposed code points in {@link org.harfbuzz.codepoint_t} output parameters (if successful). The method must return an
+ * {@link org.harfbuzz.bool_t} indicating the success of the composition.
  */
 @FunctionalInterface
 public interface UnicodeDecomposeFuncT {

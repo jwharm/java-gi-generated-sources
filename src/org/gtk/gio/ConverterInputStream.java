@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Converter input stream implements #GInputStream and allows
+ * Converter input stream implements {@link org.gtk.gio.InputStream} and allows
  * conversion of data of various types during reading.
  * 
- * As of GLib 2.34, #GConverterInputStream implements
- * #GPollableInputStream.
+ * As of GLib 2.34, {@link org.gtk.gio.ConverterInputStream} implements
+ * {@link org.gtk.gio.PollableInputStream}
  */
 public class ConverterInputStream extends FilterInputStream implements PollableInputStream {
 
@@ -38,7 +38,7 @@ public class ConverterInputStream extends FilterInputStream implements PollableI
     }
     
     /**
-     * Gets the #GConverter that is used by @converter_stream.
+     * Gets the {@link org.gtk.gio.Converter} that is used by @converter_stream.
      */
     public Converter getConverter() {
         var RESULT = gtk_h.g_converter_input_stream_get_converter(handle());

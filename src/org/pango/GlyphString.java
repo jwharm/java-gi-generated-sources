@@ -43,7 +43,7 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Compute the logical and ink extents of a glyph string.
      * 
-     * See the documentation for {@link org.pango.Font#getGlyphExtents} for details
+     * See the documentation for {@link org.pango.Font<code>#getGlyphExtents</code>  for details
      * about the interpretation of the rectangles.
      * 
      * Examples of logical (red) and ink (green) rects:
@@ -79,7 +79,7 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      * When multiple characters compose a single cluster, the width of the
      * entire cluster is divided equally among the characters.
      * 
-     * See also {@link org.pango.GlyphItem#getLogicalWidths}.
+     * See also {@link org.pango.GlyphItem<code>#getLogicalWidths</code> .
      */
     public void getLogicalWidths(java.lang.String text, int length, int embeddingLevel, int[] logicalWidths) {
         gtk_h.pango_glyph_string_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), length, embeddingLevel, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths)).handle());
@@ -88,8 +88,8 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the logical width of the glyph string.
      * 
-     * This can also be computed using {@link org.pango.GlyphString#extents}.
-     * However, since this only computes the width, it&#39;s much faster. This
+     * This can also be computed using {@link org.pango.GlyphString<code>#extents</code> .
+     * However, since this only computes the width, it&<code>#39</code> s much faster. This
      * is in fact only a convenience function that computes the sum of
      * @geometry.width for each glyph in the @glyphs.
      */

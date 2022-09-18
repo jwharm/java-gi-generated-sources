@@ -1,99 +1,99 @@
 package org.gtk.glib;
 
 /**
- * The range of possible top-level types of #GVariant instances.
+ * The range of possible top-level types of {@link org.gtk.glib.Variant} instances.
  */
 public enum VariantClass {
 
     /**
-     * The #GVariant is a boolean.
+     * The {@link org.gtk.glib.Variant} is a boolean.
      */
     BOOLEAN,
     
     /**
-     * The #GVariant is a byte.
+     * The {@link org.gtk.glib.Variant} is a byte.
      */
     BYTE,
     
     /**
-     * The #GVariant is a signed 16 bit integer.
+     * The {@link org.gtk.glib.Variant} is a signed 16 bit integer.
      */
     INT16,
     
     /**
-     * The #GVariant is an unsigned 16 bit integer.
+     * The {@link org.gtk.glib.Variant} is an unsigned 16 bit integer.
      */
     UINT16,
     
     /**
-     * The #GVariant is a signed 32 bit integer.
+     * The {@link org.gtk.glib.Variant} is a signed 32 bit integer.
      */
     INT32,
     
     /**
-     * The #GVariant is an unsigned 32 bit integer.
+     * The {@link org.gtk.glib.Variant} is an unsigned 32 bit integer.
      */
     UINT32,
     
     /**
-     * The #GVariant is a signed 64 bit integer.
+     * The {@link org.gtk.glib.Variant} is a signed 64 bit integer.
      */
     INT64,
     
     /**
-     * The #GVariant is an unsigned 64 bit integer.
+     * The {@link org.gtk.glib.Variant} is an unsigned 64 bit integer.
      */
     UINT64,
     
     /**
-     * The #GVariant is a file handle index.
+     * The {@link org.gtk.glib.Variant} is a file handle index.
      */
     HANDLE,
     
     /**
-     * The #GVariant is a double precision floating
+     * The {@link org.gtk.glib.Variant} is a double precision floating
      *                          point value.
      */
     DOUBLE,
     
     /**
-     * The #GVariant is a normal string.
+     * The {@link org.gtk.glib.Variant} is a normal string.
      */
     STRING,
     
     /**
-     * The #GVariant is a D-Bus object path
+     * The {@link org.gtk.glib.Variant} is a D-Bus object path
      *                               string.
      */
     OBJECT_PATH,
     
     /**
-     * The #GVariant is a D-Bus signature string.
+     * The {@link org.gtk.glib.Variant} is a D-Bus signature string.
      */
     SIGNATURE,
     
     /**
-     * The #GVariant is a variant.
+     * The {@link org.gtk.glib.Variant} is a variant.
      */
     VARIANT,
     
     /**
-     * The #GVariant is a maybe-typed value.
+     * The {@link org.gtk.glib.Variant} is a maybe-typed value.
      */
     MAYBE,
     
     /**
-     * The #GVariant is an array.
+     * The {@link org.gtk.glib.Variant} is an array.
      */
     ARRAY,
     
     /**
-     * The #GVariant is a tuple.
+     * The {@link org.gtk.glib.Variant} is a tuple.
      */
     TUPLE,
     
     /**
-     * The #GVariant is a dictionary entry.
+     * The {@link org.gtk.glib.Variant} is a dictionary entry.
      */
     DICT_ENTRY;
     

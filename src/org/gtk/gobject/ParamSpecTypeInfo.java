@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * This structure is used to provide the type system with the information
- * required to initialize and destruct (finalize) a parameter&#39;s class and
+ * required to initialize and destruct (finalize) a parameter&<code>#39</code> s class and
  * instances thereof.
  * 
  * The initialized structure is passed to the g_param_type_register_static()

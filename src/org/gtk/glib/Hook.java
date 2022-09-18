@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GHook struct represents a single hook function in a #GHookList.
+ * The {@link org.gtk.glib.Hook} struct represents a single hook function in a {@link org.gtk.glib.HookList}
  */
 public class Hook extends io.github.jwharm.javagi.ResourceBase {
 
@@ -17,7 +17,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares the ids of two #GHook elements, returning a negative value
+     * Compares the ids of two {@link org.gtk.glib.Hook} elements, returning a negative value
      * if the second id is greater than the first.
      */
     public int compareIds(Hook sibling) {
@@ -26,7 +26,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates space for a #GHook and initializes it.
+     * Allocates space for a {@link org.gtk.glib.Hook} and initializes it.
      */
     public static Hook alloc(HookList hookList) {
         var RESULT = gtk_h.g_hook_alloc(hookList.handle());
@@ -34,7 +34,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Destroys a #GHook, given its ID.
+     * Destroys a {@link org.gtk.glib.Hook}  given its ID.
      */
     public static boolean destroy(HookList hookList, long hookId) {
         var RESULT = gtk_h.g_hook_destroy(hookList.handle(), hookId);
@@ -42,7 +42,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes one #GHook from a #GHookList, marking it
+     * Removes one {@link org.gtk.glib.Hook} from a {@link org.gtk.glib.HookList}  marking it
      * inactive and calling g_hook_unref() on it.
      */
     public static void destroyLink(HookList hookList, Hook hook) {
@@ -50,7 +50,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a #GHook in a #GHookList using the given function to
+     * Finds a {@link org.gtk.glib.Hook} in a {@link org.gtk.glib.HookList} using the given function to
      * test for a match.
      */
     public static Hook find(HookList hookList, boolean needValids, HookFindFunc func) {
@@ -69,7 +69,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a #GHook in a #GHookList with the given data.
+     * Finds a {@link org.gtk.glib.Hook} in a {@link org.gtk.glib.HookList} with the given data.
      */
     public static Hook findData(HookList hookList, boolean needValids, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_hook_find_data(hookList.handle(), needValids ? 1 : 0, data);
@@ -77,7 +77,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a #GHook in a #GHookList with the given function.
+     * Finds a {@link org.gtk.glib.Hook} in a {@link org.gtk.glib.HookList} with the given function.
      */
     public static Hook findFunc(HookList hookList, boolean needValids, jdk.incubator.foreign.MemoryAddress func) {
         var RESULT = gtk_h.g_hook_find_func(hookList.handle(), needValids ? 1 : 0, func);
@@ -85,7 +85,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a #GHook in a #GHookList with the given function and data.
+     * Finds a {@link org.gtk.glib.Hook} in a {@link org.gtk.glib.HookList} with the given function and data.
      */
     public static Hook findFuncData(HookList hookList, boolean needValids, jdk.incubator.foreign.MemoryAddress func, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_hook_find_func_data(hookList.handle(), needValids ? 1 : 0, func, data);
@@ -93,10 +93,10 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the first #GHook in a #GHookList which has not been destroyed.
-     * The reference count for the #GHook is incremented, so you must call
+     * Returns the first {@link org.gtk.glib.Hook} in a {@link org.gtk.glib.HookList} which has not been destroyed.
+     * The reference count for the {@link org.gtk.glib.Hook} is incremented, so you must call
      * g_hook_unref() to restore it when no longer needed. (Or call
-     * g_hook_next_valid() if you are stepping through the #GHookList.)
+     * g_hook_next_valid() if you are stepping through the {@link org.gtk.glib.HookList} )
      */
     public static Hook firstValid(HookList hookList, boolean mayBeInCall) {
         var RESULT = gtk_h.g_hook_first_valid(hookList.handle(), mayBeInCall ? 1 : 0);
@@ -104,15 +104,15 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls the #GHookList @finalize_hook function if it exists,
-     * and frees the memory allocated for the #GHook.
+     * Calls the {@link org.gtk.glib.HookList} @finalize_hook function if it exists,
+     * and frees the memory allocated for the {@link org.gtk.glib.Hook}
      */
     public static void free(HookList hookList, Hook hook) {
         gtk_h.g_hook_free(hookList.handle(), hook.handle());
     }
     
     /**
-     * Returns the #GHook with the given id, or <code>null</code> if it is not found.
+     * Returns the {@link org.gtk.glib.Hook} with the given id, or <code>null</code> if it is not found.
      */
     public static Hook get(HookList hookList, long hookId) {
         var RESULT = gtk_h.g_hook_get(hookList.handle(), hookId);
@@ -120,15 +120,15 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a #GHook into a #GHookList, before a given #GHook.
+     * Inserts a {@link org.gtk.glib.Hook} into a {@link org.gtk.glib.HookList}  before a given {@link org.gtk.glib.Hook}
      */
     public static void insertBefore(HookList hookList, Hook sibling, Hook hook) {
         gtk_h.g_hook_insert_before(hookList.handle(), sibling.handle(), hook.handle());
     }
     
     /**
-     * Returns the next #GHook in a #GHookList which has not been destroyed.
-     * The reference count for the #GHook is incremented, so you must call
+     * Returns the next {@link org.gtk.glib.Hook} in a {@link org.gtk.glib.HookList} which has not been destroyed.
+     * The reference count for the {@link org.gtk.glib.Hook} is incremented, so you must call
      * g_hook_unref() to restore it when no longer needed. (Or continue to call
      * g_hook_next_valid() until <code>null</code> is returned.)
      */
@@ -138,14 +138,14 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Prepends a #GHook on the start of a #GHookList.
+     * Prepends a {@link org.gtk.glib.Hook} on the start of a {@link org.gtk.glib.HookList}
      */
     public static void prepend(HookList hookList, Hook hook) {
         gtk_h.g_hook_prepend(hookList.handle(), hook.handle());
     }
     
     /**
-     * Increments the reference count for a #GHook.
+     * Increments the reference count for a {@link org.gtk.glib.Hook}
      */
     public static Hook ref(HookList hookList, Hook hook) {
         var RESULT = gtk_h.g_hook_ref(hookList.handle(), hook.handle());
@@ -153,9 +153,9 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decrements the reference count of a #GHook.
-     * If the reference count falls to 0, the #GHook is removed
-     * from the #GHookList and g_hook_free() is called to free it.
+     * Decrements the reference count of a {@link org.gtk.glib.Hook} 
+     * If the reference count falls to 0, the {@link org.gtk.glib.Hook} is removed
+     * from the {@link org.gtk.glib.HookList} and g_hook_free() is called to free it.
      */
     public static void unref(HookList hookList, Hook hook) {
         gtk_h.g_hook_unref(hookList.handle(), hook.handle());

@@ -80,7 +80,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
      * you cannot call this function multiple times on the same @builder instance.
      * 
      * This function is intended primarily for bindings. C code should use
-     * {@link org.gtk.gdk.ContentFormatsBuilder#freeToFormats}.
+     * {@link org.gtk.gdk.ContentFormatsBuilder<code>#freeToFormats</code> .
      */
     public ContentFormats toFormats() {
         var RESULT = gtk_h.gdk_content_formats_builder_to_formats(handle());

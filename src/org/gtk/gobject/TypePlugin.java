@@ -16,25 +16,25 @@ import java.lang.invoke.*;
  * 1. The type is initially introduced (usually upon loading the module
  *    the first time, or by your main application that knows what modules
  *    introduces what types), like this:
- *    |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ *    |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  *    new_type_id = g_type_register_dynamic (parent_type_id,
- *                                           &#34;TypeName&#34;,
+ *                                           &<code>#34</code> TypeName&<code>#34</code> ,
  *                                           new_type_plugin,
  *                                           type_flags);
  *    ]}|
  *    where @new_type_plugin is an implementation of the
- *    #GTypePlugin interface.
+ *    {@link org.gtk.gobject.TypePlugin} interface.
  * 
- * 2. The type&#39;s implementation is referenced, e.g. through
+ * 2. The type&<code>#39</code> s implementation is referenced, e.g. through
  *    g_type_class_ref() or through g_type_create_instance() (this is
  *    being called by g_object_new()) or through one of the above done on
  *    a type derived from @new_type_id.
  * 
- * 3. This causes the type system to load the type&#39;s implementation by
+ * 3. This causes the type system to load the type&<code>#39</code> s implementation by
  *    calling g_type_plugin_use() and g_type_plugin_complete_type_info()
  *    on @new_type_plugin.
  * 
- * 4. At some point the type&#39;s implementation isn&#39;t required anymore,
+ * 4. At some point the type&<code>#39</code> s implementation isn&<code>#39</code> t required anymore,
  *    e.g. after g_type_class_unref() or g_type_free_instance() (called
  *    when the reference count of an instance drops to zero).
  * 
@@ -44,7 +44,7 @@ import java.lang.invoke.*;
  * 
  * 6. Things may repeat from the second step.
  * 
- * So basically, you need to implement a #GTypePlugin type that
+ * So basically, you need to implement a {@link org.gtk.gobject.TypePlugin} type that
  * carries a use_count, once use_count goes from zero to one, you need
  * to load the implementation to successfully handle the upcoming
  * g_type_plugin_complete_type_info() call. Later, maybe after
@@ -53,7 +53,7 @@ import java.lang.invoke.*;
  * g_type_plugin_use() and g_type_plugin_complete_type_info() again
  * when the type is needed again.
  * 
- * #GTypeModule is an implementation of #GTypePlugin that already
+ * {@link org.gtk.gobject.TypeModule} is an implementation of {@link org.gtk.gobject.TypePlugin} that already
  * implements most of this except for the actual module loading and
  * unloading. It even handles multiple registered types per module.
  */
@@ -61,7 +61,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Calls the @complete_interface_info function from the
-     * #GTypePluginClass of @plugin. There should be no need to use this
+     * {@link org.gtk.gobject.TypePluginClass} of @plugin. There should be no need to use this
      * function outside of the GObject type system itself.
      */
     public default void completeInterfaceInfo(Type instanceType, Type interfaceType, InterfaceInfo info) {
@@ -69,7 +69,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Calls the @complete_type_info function from the #GTypePluginClass of @plugin.
+     * Calls the @complete_type_info function from the {@link org.gtk.gobject.TypePluginClass} of @plugin.
      * There should be no need to use this function outside of the GObject
      * type system itself.
      */
@@ -78,7 +78,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Calls the @unuse_plugin function from the #GTypePluginClass of
+     * Calls the @unuse_plugin function from the {@link org.gtk.gobject.TypePluginClass} of
      * @plugin.  There should be no need to use this function outside of
      * the GObject type system itself.
      */
@@ -87,7 +87,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Calls the @use_plugin function from the #GTypePluginClass of
+     * Calls the @use_plugin function from the {@link org.gtk.gobject.TypePluginClass} of
      * @plugin.  There should be no need to use this function outside of
      * the GObject type system itself.
      */

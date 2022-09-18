@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * Acts as a lightweight registry for possible valid file attributes.
- * The registry stores Key-Value pair formats as #GFileAttributeInfos.
+ * The registry stores Key-Value pair formats as <code>#GFileAttributeInfos</code>
  */
 public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase {
 

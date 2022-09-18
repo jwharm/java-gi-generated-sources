@@ -14,8 +14,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Asks the <code>GtkTreeDragSource</code> to delete the row at @path, because
-     * it was moved somewhere else via drag-and-drop. Returns <code>FALSE
-     * if</code> the deletion fails because @path no longer exists, or for
+     * it was moved somewhere else via drag-and-drop. Returns <code>false</code> if the deletion fails because @path no longer exists, or for
      * some model-specific reason. Should robustly handle a @path no
      * longer found in the model!
      */
@@ -36,7 +35,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Asks the <code>GtkTreeDragSource</code> whether a particular row can be used as
-     * the source of a DND operation. If the source doesn&#8217;t implement
+     * the source of a DND operation. If the source doesn&<code>#8217</code> t implement
      * this interface, the row is assumed draggable.
      */
     public default boolean rowDraggable(TreePath path) {

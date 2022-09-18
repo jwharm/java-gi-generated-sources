@@ -17,11 +17,11 @@ import java.lang.invoke.*;
  * <p>
  * Tags should be in the {@link org.gtk.gtk.TextTagTable} for a given<code>GtkTextBuffer</code> before using them with that buffer.
  * <p>
- * {@link org.gtk.gtk.TextBuffer#createTag} is the best way to create tags.
- * See &#8220;gtk4-demo&#8221; for numerous examples.
+ * {@link org.gtk.gtk.TextBuffer<code>#createTag</code>  is the best way to create tags.
+ * See &<code>#8220</code> gtk4-demo&<code>#8221</code>  for numerous examples.
  * <p>
- * For each property of <code>GtkTextTag</code>, there is a &#8220;set&#8221; property, e.g.
- * &#8220;font-set&#8221; corresponds to &#8220;font&#8221;. These &#8220;set&#8221; properties reflect
+ * For each property of <code>GtkTextTag</code>, there is a &<code>#8220</code> set&<code>#8221</code>  property, e.g.
+ * &<code>#8220</code> font-set&<code>#8221</code>  corresponds to &<code>#8220</code> font&<code>#8221</code> . These &<code>#8220</code> set&<code>#8221</code>  properties reflect
  * whether a property has been set or not.
  * 
  * They are maintained by GTK and you should not set them independently.
@@ -71,17 +71,17 @@ public class TextTag extends org.gtk.gobject.Object {
      * Sets the priority of a <code>GtkTextTag</code>.
      * 
      * Valid priorities start at 0 and go to one less than
-     * {@link org.gtk.gtk.TextTagTable#getSize}. Each tag in a table
+     * {@link org.gtk.gtk.TextTagTable<code>#getSize</code> . Each tag in a table
      * has a unique priority; setting the priority of one tag shifts
      * the priorities of all the other tags in the table to maintain
      * a unique priority for each tag.
      * 
-     * Higher priority tags &#8220;win&#8221; if two tags both set the same text
+     * Higher priority tags &<code>#8220</code> win&<code>#8221</code>  if two tags both set the same text
      * attribute. When adding a tag to a tag table, it will be assigned
      * the highest priority in the table by default; so normally the
      * precedence of a set of tags is the order in which they were added
-     * to the table, or created with {@link org.gtk.gtk.TextBuffer#createTag},
-     * which adds the tag to the buffer&#8217;s table automatically.
+     * to the table, or created with {@link org.gtk.gtk.TextBuffer<code>#createTag</code> ,
+     * which adds the tag to the buffer&<code>#8217</code> s table automatically.
      */
     public void setPriority(int priority) {
         gtk_h.gtk_text_tag_set_priority(handle(), priority);

@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * Modules supporting animations must derive a type from
- * #GdkPixbufAnimationIter, providing suitable implementations of the
+ * {@link org.gtk.gdkpixbuf.PixbufAnimationIter}  providing suitable implementations of the
  * virtual functions.
  */
 public class PixbufAnimationIterClass extends io.github.jwharm.javagi.ResourceBase {

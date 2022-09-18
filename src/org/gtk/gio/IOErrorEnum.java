@@ -5,9 +5,9 @@ package org.gtk.gio;
  * 
  * Note that this domain may be extended in future GLib releases. In
  * general, new error codes either only apply to new APIs, or else
- * replace {@link org.gtk.gio.IOErrorEnum#FAILED} in cases that were not explicitly
+ * replace {@link org.gtk.gio.IOErrorEnum<code>#FAILED</code>  in cases that were not explicitly
  * distinguished before. You should therefore avoid writing code like
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_FAILED))
  *   {
  *     // Assume that this is EPRINTERONFIRE
@@ -15,16 +15,16 @@ package org.gtk.gio;
  *   }
  * ]}|
  * but should instead treat all unrecognized error codes the same as
- * <code>G_IO_ERROR_FAILED.
+ * {@link org.gtk.gio.IOErrorEnum<code>#FAILED</code>  
  * 
- * See</code> also #GPollableReturn for a cheaper way of returning
- * {@link org.gtk.gio.IOErrorEnum#WOULD_BLOCK} to callers without allocating a #GError.
+ * See also {@link org.gtk.gio.PollableReturn} for a cheaper way of returning
+ * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  to callers without allocating a {@link org.gtk.glib.Error}
  */
 public enum IOErrorEnum {
 
     /**
      * Generic error condition for when an operation fails
-     *     and no more specific #GIOErrorEnum value is defined.
+     *     and no more specific {@link org.gtk.gio.IOErrorEnum} value is defined.
      */
     FAILED,
     
@@ -49,7 +49,7 @@ public enum IOErrorEnum {
     NOT_DIRECTORY,
     
     /**
-     * File is a directory that isn&#39;t empty.
+     * File is a directory that isn&<code>#39</code> t empty.
      */
     NOT_EMPTY,
     
@@ -104,7 +104,7 @@ public enum IOErrorEnum {
     NOT_SUPPORTED,
     
     /**
-     * File isn&#39;t mounted.
+     * File isn&<code>#39</code> t mounted.
      */
     NOT_MOUNTED,
     
@@ -119,7 +119,7 @@ public enum IOErrorEnum {
     CLOSED,
     
     /**
-     * Operation was cancelled. See #GCancellable.
+     * Operation was cancelled. See {@link org.gtk.gio.Cancellable}
      */
     CANCELLED,
     
@@ -134,12 +134,12 @@ public enum IOErrorEnum {
     READ_ONLY,
     
     /**
-     * Backup couldn&#39;t be created.
+     * Backup couldn&<code>#39</code> t be created.
      */
     CANT_CREATE_BACKUP,
     
     /**
-     * File&#39;s Entity Tag was incorrect.
+     * File&<code>#39</code> s Entity Tag was incorrect.
      */
     WRONG_ETAG,
     
@@ -164,7 +164,7 @@ public enum IOErrorEnum {
     WOULD_BLOCK,
     
     /**
-     * Host couldn&#39;t be found (remote operations).
+     * Host couldn&<code>#39</code> t be found (remote operations).
      */
     HOST_NOT_FOUND,
     
@@ -181,7 +181,7 @@ public enum IOErrorEnum {
     
     /**
      * The current process has too many files
-     *     open and can&#39;t open any more. Duplicate descriptors do count toward
+     *     open and can&<code>#39</code> t open any more. Duplicate descriptors do count toward
      *     this limit. Since 2.20
      */
     TOO_MANY_OPEN_FILES,
@@ -208,7 +208,7 @@ public enum IOErrorEnum {
     
     /**
      * A remote object generated an error that
-     *     doesn&#39;t correspond to a locally registered #GError error
+     *     doesn&<code>#39</code> t correspond to a locally registered {@link org.gtk.glib.Error} error
      *     domain. Use g_dbus_error_get_remote_error() to extract the D-Bus
      *     error name and g_dbus_error_strip_remote_error() to fix up the
      *     message so it matches what was received on the wire. Since 2.26.
@@ -258,9 +258,9 @@ public enum IOErrorEnum {
     
     /**
      * Connection closed by peer. Note that this
-     *     is the same code as <code>G_IO_ERROR_BROKEN_PIPE;</code> before 2.44 some
-     *     &#34;connection closed&#34; errors returned <code>G_IO_ERROR_BROKEN_PIPE,</code> but others
-     *     returned <code>G_IO_ERROR_FAILED.</code> Now they should all return the same
+     *     is the same code as {@link org.gtk.gio.IOErrorEnum<code>#BROKEN_PIPE</code>   before 2.44 some
+     *     &<code>#34</code> connection closed&<code>#34</code>  errors returned {@link org.gtk.gio.IOErrorEnum<code>#BROKEN_PIPE</code>   but others
+     *     returned {@link org.gtk.gio.IOErrorEnum<code>#FAILED</code>   Now they should all return the same
      *     value, which has this more logical name. Since 2.44.
      */
     CONNECTION_CLOSED,

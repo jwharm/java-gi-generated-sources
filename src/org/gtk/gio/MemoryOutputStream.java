@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GMemoryOutputStream is a class for using arbitrary
+ * {@link org.gtk.gio.MemoryOutputStream} is a class for using arbitrary
  * memory chunks as output for GIO streaming output operations.
  * 
- * As of GLib 2.34, #GMemoryOutputStream trivially implements
- * #GPollableOutputStream: it always polls as ready.
+ * As of GLib 2.34, {@link org.gtk.gio.MemoryOutputStream} trivially implements
+ * {@link org.gtk.gio.PollableOutputStream}  it always polls as ready.
  */
 public class MemoryOutputStream extends OutputStream implements PollableOutputStream, Seekable {
 
@@ -42,14 +42,14 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
     }
     
     /**
-     * Creates a new #GMemoryOutputStream.
+     * Creates a new {@link org.gtk.gio.MemoryOutputStream} 
      * 
      * In most cases this is not the function you want.  See
      * g_memory_output_stream_new_resizable() instead.
      * 
-     * If @data is non-<code>NULL,</code> the stream will use that for its internal storage.
+     * If @data is non-<code>null</code>  the stream will use that for its internal storage.
      * 
-     * If @realloc_fn is non-<code>NULL,</code> it will be used for resizing the internal
+     * If @realloc_fn is non-<code>null</code>  it will be used for resizing the internal
      * storage when necessary and the stream will be considered resizable.
      * In that case, the stream will start out being (conceptually) empty.
      * @size is used only as a hint for how big @data is.  Specifically,
@@ -59,7 +59,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * 
      * If @realloc_fn is <code>null</code> then the stream is fixed-sized.  Seeking to
      * the end will seek to @size exactly.  Writing past the end will give
-     * an &#39;out of space&#39; error.  Attempting to seek past the end will fail.
+     * an &<code>#39</code> out of space&<code>#39</code>  error.  Attempting to seek past the end will fail.
      * Unlike the resizable case, seeking to an offset within the stream and
      * writing will preserve the bytes passed in as @data before that point
      * and will return them as part of g_memory_output_stream_steal_data().
@@ -69,10 +69,10 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * It is probably only meaningful to provide @data and @size in the case
      * that you want a fixed-sized stream.  Put another way: if @realloc_fn
      * is non-<code>null</code> then it makes most sense to give @data as <code>null</code> and
-     * @size as 0 (allowing #GMemoryOutputStream to do the initial
+     * @size as 0 (allowing {@link org.gtk.gio.MemoryOutputStream} to do the initial
      * allocation for itself).
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * // a stream that can grow
      * stream = g_memory_output_stream_new (NULL, 0, realloc, free);
      * 
@@ -94,7 +94,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
     }
     
     /**
-     * Creates a new #GMemoryOutputStream, using g_realloc() and g_free()
+     * Creates a new {@link org.gtk.gio.MemoryOutputStream}  using g_realloc() and g_free()
      * for memory allocation.
      */
     public static MemoryOutputStream newResizable() {
@@ -125,7 +125,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * Gets the size of the currently allocated data area (available from
      * g_memory_output_stream_get_data()).
      * 
-     * You probably don&#39;t want to use this function on resizable streams.
+     * You probably don&<code>#39</code> t want to use this function on resizable streams.
      * See g_memory_output_stream_get_data_size() instead.  For resizable
      * streams the size returned by this function is an implementation
      * detail and may be change at any time in response to operations on the
@@ -133,9 +133,9 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * 
      * If the stream is fixed-sized (ie: no realloc was passed to
      * g_memory_output_stream_new()) then this is the maximum size of the
-     * stream and further writes will return <code>G_IO_ERROR_NO_SPACE.
+     * stream and further writes will return {@link org.gtk.gio.IOErrorEnum<code>#NO_SPACE</code>  
      * 
-     * In</code> any case, if you want the number of bytes currently written to the
+     * In any case, if you want the number of bytes currently written to the
      * stream, use g_memory_output_stream_get_data_size().
      */
     public long getSize() {
@@ -144,7 +144,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
     }
     
     /**
-     * Returns data from the @ostream as a #GBytes. @ostream must be
+     * Returns data from the @ostream as a {@link org.gtk.glib.Bytes}  @ostream must be
      * closed before calling this function.
      */
     public org.gtk.glib.Bytes stealAsBytes() {
@@ -155,8 +155,8 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
     /**
      * Gets any loaded data from the @ostream. Ownership of the data
      * is transferred to the caller; when no longer needed it must be
-     * freed using the free function set in @ostream&#39;s
-     * #GMemoryOutputStream:destroy-function property.
+     * freed using the free function set in @ostream&<code>#39</code> s
+     * {@link org.gtk.gio.MemoryOutputStream} destroy-function property.
      * 
      * @ostream must be closed before calling this function.
      */

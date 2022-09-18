@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A <code>GtkBitset</code> represents a set of unsigned integers.
  * <p>
- * Another name for this data structure is &#34;bitmap&#34;.
+ * Another name for this data structure is &<code>#34</code> bitmap&<code>#34</code> .
  * <p>
  * The current implementation is based on {@link [roaring bitmaps]}(https://roaringbitmap.org/).
  * <p>
@@ -55,7 +55,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds @value to @self if it wasn&#39;t part of it before.
+     * Adds @value to @self if it wasn&<code>#39</code> t part of it before.
      */
     public boolean add(int value) {
         var RESULT = gtk_h.gtk_bitset_add(handle(), value);
@@ -147,7 +147,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the value of the @nth item in self.
      * 
-     * If @nth is &#62;= the size of @self, 0 is returned.
+     * If @nth is &<code>#62</code> = the size of @self, 0 is returned.
      */
     public int getNth(int nth) {
         var RESULT = gtk_h.gtk_bitset_get_nth(handle(), nth);
@@ -161,7 +161,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Note that this function returns a <code>guint64</code>, because when all
      * values are set, the return value is <code>G_MAXUINT + 1</code>. Unless you
-     * are sure this cannot happen (it can&#39;t with <code>GListModel</code>), be sure
+     * are sure this cannot happen (it can&<code>#39</code> t with <code>GListModel</code>), be sure
      * to use a 64bit type.
      */
     public long getSize() {
@@ -175,7 +175,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Note that this function returns a <code>guint64</code>, because when all values are
      * set, the return value is <code>G_MAXUINT + 1</code>. Unless you are sure this cannot
-     * happen (it can&#39;t with <code>GListModel</code>), be sure to use a 64bit type.
+     * happen (it can&<code>#39</code> t with <code>GListModel</code>), be sure to use a 64bit type.
      */
     public long getSizeInRange(int first, int last) {
         var RESULT = gtk_h.gtk_bitset_get_size_in_range(handle(), first, last);
@@ -261,7 +261,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Shifts all values in @self to the right by @amount.
      * 
-     * Values that end up too large to be held in a #guint are discarded.
+     * Values that end up too large to be held in a <code>#guint</code> are discarded.
      */
     public void shiftRight(int amount) {
         gtk_h.gtk_bitset_shift_right(handle(), amount);
@@ -271,11 +271,11 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * This is a support function for <code>GListModel</code> handling, by mirroring
      * the <code>GlistModel::items-changed</code> signal.
      * 
-     * First, it &#34;cuts&#34; the values from @position to @removed from
+     * First, it &<code>#34</code> cuts&<code>#34</code>  the values from @position to @removed from
      * the bitset. That is, it removes all those values and shifts
      * all larger values to the left by @removed places.
      * 
-     * Then, it &#34;pastes&#34; new room into the bitset by shifting all values
+     * Then, it &<code>#34</code> pastes&<code>#34</code>  new room into the bitset by shifting all values
      * larger than @position by @added spaces to the right. This frees
      * up space that can then be filled.
      */
@@ -298,7 +298,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets @self to be the union of @self and @other.
      * 
-     * That is, add all values from @other into @self that weren&#39;t part of it.
+     * That is, add all values from @other into @self that weren&<code>#39</code> t part of it.
      * 
      * It is allowed for @self and @other to be the same bitset. Nothing will
      * happen in that case.

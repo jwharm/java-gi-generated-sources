@@ -15,10 +15,10 @@ import java.lang.invoke.*;
  * the model.
  * 
  * Columns have a title, and can optionally have a header menu set
- * with {@link org.gtk.gtk.ColumnViewColumn#setHeaderMenu}.
+ * with {@link org.gtk.gtk.ColumnViewColumn<code>#setHeaderMenu</code> .
  * 
  * A sorter can be associated with a column using
- * {@link org.gtk.gtk.ColumnViewColumn#setSorter}, to let users influence sorting
+ * {@link org.gtk.gtk.ColumnViewColumn<code>#setSorter</code> , to let users influence sorting
  * by clicking on the column header.
  */
 public class ColumnViewColumn extends org.gtk.gobject.Object {
@@ -41,12 +41,12 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Creates a new <code>GtkColumnViewColumn</code> that uses the given @factory for
      * mapping items to widgets.
      * <p>
-     * You most likely want to call {@link org.gtk.gtk.ColumnView#appendColumn} next.
+     * You most likely want to call {@link org.gtk.gtk.ColumnView<code>#appendColumn</code>  next.
      * <p>
      * The function takes ownership of the argument, so you can write code like:
      * <p><pre>c
-     * column = gtk_column_view_column_new (_(&#34;Name&#34;),
-     *   gtk_builder_list_item_factory_new_from_resource (&#34;/name.ui&#34;));
+     * column = gtk_column_view_column_new (_(&<code>#34</code> Name&<code>#34</code> ),
+     *   gtk_builder_list_item_factory_new_from_resource (&<code>#34</code> /name.ui&<code>#34</code> ));
      * </pre>
      */
     public ColumnViewColumn(java.lang.String title, ListItemFactory factory) {
@@ -54,7 +54,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the column view that&#39;s currently displaying this column.
+     * Gets the column view that&<code>#39</code> s currently displaying this column.
      * 
      * If @self has not been added to a column view yet, <code>null</code> is returned.
      */
@@ -72,7 +72,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the factory that&#39;s currently used to populate list items for
+     * Gets the factory that&<code>#39</code> s currently used to populate list items for
      * this column.
      */
     public ListItemFactory getFactory() {
@@ -133,17 +133,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Sets the column to take available extra space.
      * 
      * The extra space is shared equally amongst all columns that
-     * have the expand set to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets the column to take available extra space.
-     * 
-     * The extra space is shared equally amongst all columns that
-     * have the expand set to %TRUE.
+     * have the expand set to <code>true</code>
      */
     public void setExpand(boolean expand) {
         gtk_h.gtk_column_view_column_set_expand(handle(), expand ? 1 : 0);
@@ -162,7 +152,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * otherwise unsets it.
      * 
      * Setting a fixed width overrides the automatically calculated
-     * width. Interactive resizing also sets the &#8220;fixed-width&#8221; property.
+     * width. Interactive resizing also sets the &<code>#8220</code> fixed-width&<code>#8221</code>  property.
      */
     public void setFixedWidth(int fixedWidth) {
         gtk_h.gtk_column_view_column_set_fixed_width(handle(), fixedWidth);
@@ -186,13 +176,13 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     /**
      * Associates a sorter with the column.
      * 
-     * If @sorter is <code>NULL,</code> the column will not let users change
+     * If @sorter is <code>null</code>  the column will not let users change
      * the sorting by clicking on its header.
      * 
      * This sorter can be made active by clicking on the column
-     * header, or by calling {@link org.gtk.gtk.ColumnView#sortByColumn}.
+     * header, or by calling {@link org.gtk.gtk.ColumnView<code>#sortByColumn</code> .
      * 
-     * See {@link org.gtk.gtk.ColumnView#getSorter} for the necessary steps
+     * See {@link org.gtk.gtk.ColumnView<code>#getSorter</code>  for the necessary steps
      * for setting up customizable sorting for {@link org.gtk.gtk.ColumnView}.
      */
     public void setSorter(Sorter sorter) {

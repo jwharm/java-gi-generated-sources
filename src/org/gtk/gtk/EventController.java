@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  * to <code>GdkEvents</code>, and possibly trigger actions as a consequence.
  * 
  * Event controllers are added to a widget with
- * {@link org.gtk.gtk.Widget#addController}. It is rarely necessary to
- * explicitly remove a controller with {@link org.gtk.gtk.Widget#removeController}.
+ * {@link org.gtk.gtk.Widget<code>#addController</code> . It is rarely necessary to
+ * explicitly remove a controller with {@link org.gtk.gtk.Widget<code>#removeController</code> .
  * 
  * See the chapter on {@link [input handling]}(input-handling.html) for
  * an overview of the basic concepts, such as the capture and bubble
@@ -124,8 +124,8 @@ public class EventController extends org.gtk.gobject.Object {
     /**
      * Sets the event propagation limit on the event controller.
      * 
-     * If the limit is set to <code>GTK_LIMIT_SAME_NATIVE,</code> the controller
-     * won&#39;t handle events that are targeted at widgets on a different
+     * If the limit is set to {@link org.gtk.gtk.PropagationLimit<code>#SAME_NATIVE</code>   the controller
+     * won&<code>#39</code> t handle events that are targeted at widgets on a different
      * surface, such as popovers.
      */
     public void setPropagationLimit(PropagationLimit limit) {
@@ -135,7 +135,7 @@ public class EventController extends org.gtk.gobject.Object {
     /**
      * Sets the propagation phase at which a controller handles events.
      * 
-     * If @phase is <code>GTK_PHASE_NONE,</code> no automatic event handling will be
+     * If @phase is {@link org.gtk.gtk.PropagationPhase<code>#NONE</code>   no automatic event handling will be
      * performed, but other additional gesture maintenance will.
      */
     public void setPropagationPhase(PropagationPhase phase) {

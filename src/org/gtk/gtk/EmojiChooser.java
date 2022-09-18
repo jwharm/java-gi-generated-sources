@@ -14,15 +14,15 @@ import java.lang.invoke.*;
  * <p><code>GtkEmojiChooser</code> emits the {@link [signal@Gtk.EmojiChooser::emoji-picked] (ref=signal)}
  * signal when an Emoji is selected.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * popover
- * &#9500;&#9472;&#9472; box.emoji-searchbar
- * &#9474;   &#9584;&#9472;&#9472; entry.search
- * &#9584;&#9472;&#9472; box.emoji-toolbar
- *     &#9500;&#9472;&#9472; button.image-button.emoji-section
- *     &#9500;&#9472;&#9472; ...
- *     &#9584;&#9472;&#9472; button.image-button.emoji-section
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  box.emoji-searchbar
+ * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  entry.search
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box.emoji-toolbar
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button.image-button.emoji-section
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  ...
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.image-button.emoji-section
  * </pre>
  * <p>
  * Every <code>GtkEmojiChooser</code> consists of a main node called popover.

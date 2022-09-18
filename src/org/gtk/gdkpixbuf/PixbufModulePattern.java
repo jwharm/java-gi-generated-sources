@@ -13,29 +13,29 @@ import java.lang.invoke.*;
  * The signature of a module is a set of prefixes. Prefixes are encoded as
  * pairs of ordinary strings, where the second string, called the mask, if
  * not <code>NULL</code>, must be of the same length as the first one and may contain
- * &#39; &#39;, &#39;!&#39;, &#39;x&#39;, &#39;z&#39;, and &#39;n&#39; to indicate bytes that must be matched,
- * not matched, &#34;don&#39;t-care&#34;-bytes, zeros and non-zeros, respectively.
+ * &<code>#39</code>  &<code>#39</code> , &<code>#39</code> !&<code>#39</code> , &<code>#39</code> x&<code>#39</code> , &<code>#39</code> z&<code>#39</code> , and &<code>#39</code> n&<code>#39</code>  to indicate bytes that must be matched,
+ * not matched, &<code>#34</code> don&<code>#39</code> t-care&<code>#34</code> -bytes, zeros and non-zeros, respectively.
  * <p>
  * Each prefix has an associated integer that describes the relevance of
- * the prefix, with 0 meaning a mismatch and 100 a &#34;perfect match&#34;.
+ * the prefix, with 0 meaning a mismatch and 100 a &<code>#34</code> perfect match&<code>#34</code> .
  * <p>
- * Starting with gdk-pixbuf 2.8, the first byte of the mask may be &#39;*&#39;,
+ * Starting with gdk-pixbuf 2.8, the first byte of the mask may be &<code>#39</code> *&<code>#39</code> ,
  * indicating an unanchored pattern that matches not only at the beginning,
- * but also in the middle. Versions prior to 2.8 will interpret the &#39;*&#39;
- * like an &#39;x&#39;.
+ * but also in the middle. Versions prior to 2.8 will interpret the &<code>#39</code> *&<code>#39</code> 
+ * like an &<code>#39</code> x&<code>#39</code> .
  * <p>
  * The signature of a module is stored as an array of<code>GdkPixbufModulePatterns</code>. The array is terminated by a pattern
  * where the <code>prefix</code> is <code>NULL</code>.
  * <p><pre>c
  * GdkPixbufModulePattern *signature{@link []} = {
- *   { &#34;abcdx&#34;, &#34; !x z&#34;, 100 },
- *   { &#34;bla&#34;, NULL,  90 },
+ *   { &<code>#34</code> abcdx&<code>#34</code> , &<code>#34</code>  !x z&<code>#34</code> , 100 },
+ *   { &<code>#34</code> bla&<code>#34</code> , NULL,  90 },
  *   { NULL, NULL, 0 }
  * };
  * </pre>
  * 
- * In the example above, the signature matches e.g. &#34;auud\\0&#34; with
- * relevance 100, and &#34;blau&#34; with relevance 90.
+ * In the example above, the signature matches e.g. &<code>#34</code> auud\\0&<code>#34</code>  with
+ * relevance 100, and &<code>#34</code> blau&<code>#34</code>  with relevance 90.
  */
 public class PixbufModulePattern extends io.github.jwharm.javagi.ResourceBase {
 

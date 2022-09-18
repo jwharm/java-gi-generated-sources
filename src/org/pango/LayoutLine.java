@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * A <code>PangoLayoutLine</code> represents one of the lines resulting from laying
  * out a paragraph via <code>PangoLayout</code>.
  * <p><code>PangoLayoutLine</code> structures are obtained by calling
- * {@link org.pango.Layout#getLine} and are only valid until the text,
+ * {@link org.pango.Layout<code>#getLine</code>  and are only valid until the text,
  * attributes, or settings of the parent <code>PangoLayout</code> are modified.
  */
 public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
@@ -23,7 +23,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the logical and ink extents of a layout line.
      * 
-     * See {@link org.pango.Font#getGlyphExtents} for details
+     * See {@link org.pango.Font<code>#getGlyphExtents</code>  for details
      * about the interpretation of the rectangles.
      */
     public void getExtents(Rectangle inkRect, Rectangle logicalRect) {
@@ -41,7 +41,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the logical and ink extents of @layout_line in device units.
      * 
-     * This function just calls {@link org.pango.LayoutLine#getExtents} followed by
+     * This function just calls {@link org.pango.LayoutLine<code>#getExtents</code>  followed by
      * two {@link [func@extents_to_pixels]} calls, rounding @ink_rect and @logical_rect
      * such that the rounded rectangles fully contain the unrounded one (that is,
      * passes them as first argument to {@link [func@extents_to_pixels]}).

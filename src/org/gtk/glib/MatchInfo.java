@@ -23,16 +23,16 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * match done with @string against @regex and have the same syntax used by
      * g_regex_replace().
      * 
-     * The @string_to_expand must be UTF-8 encoded even if {@link org.gtk.glib.RegexCompileFlags#RAW} was
+     * The @string_to_expand must be UTF-8 encoded even if {@link org.gtk.glib.RegexCompileFlags<code>#RAW</code>  was
      * passed to g_regex_new().
      * 
      * The backreferences are extracted from the string passed to the match
      * function, so you cannot call this function after freeing the string.
      * 
      * @match_info may be <code>null</code> in which case @string_to_expand must not
-     * contain references. For instance &#34;foo\\n&#34; does not refer to an actual
-     * pattern and &#39;\\n&#39; merely will be replaced with \\n character,
-     * while to expand &#34;\\0&#34; (whole match) one needs the result of a match.
+     * contain references. For instance &<code>#34</code> foo\\n&<code>#34</code>  does not refer to an actual
+     * pattern and &<code>#39</code> \\n&<code>#39</code>  merely will be replaced with \\n character,
+     * while to expand &<code>#34</code> \\0&<code>#34</code>  (whole match) one needs the result of a match.
      * Use g_regex_check_replacement() to find out whether @string_to_expand
      * contains references.
      */
@@ -46,12 +46,12 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the text matching the @match_num&#39;th capturing
+     * Retrieves the text matching the @match_num&<code>#39</code> th capturing
      * parentheses. 0 is the full text of the match, 1 is the first paren
      * set, 2 the second, and so on.
      * 
-     * If @match_num is a valid sub pattern but it didn&#39;t match anything
-     * (e.g. sub pattern 1, matching &#34;b&#34; against &#34;(a)?b&#34;) then an empty
+     * If @match_num is a valid sub pattern but it didn&<code>#39</code> t match anything
+     * (e.g. sub pattern 1, matching &<code>#34</code> b&<code>#34</code>  against &<code>#34</code> (a)?b&<code>#34</code> ) then an empty
      * string is returned.
      * 
      * If the match was obtained using the DFA algorithm, that is using
@@ -71,8 +71,8 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the text matching the capturing parentheses named @name.
      * 
-     * If @name is a valid sub pattern name but it didn&#39;t match anything
-     * (e.g. sub pattern &#34;X&#34;, matching &#34;b&#34; against &#34;(?P&#60;X&#62;a)?b&#34;)
+     * If @name is a valid sub pattern name but it didn&<code>#39</code> t match anything
+     * (e.g. sub pattern &<code>#34</code> X&<code>#34</code> , matching &<code>#34</code> b&<code>#34</code>  against &<code>#34</code> (?P&<code>#60</code> X&<code>#62</code> a)?b&<code>#34</code> )
      * then an empty string is returned.
      * 
      * The string is fetched from the string passed to the match function,
@@ -84,7 +84,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @match_info is not <code>NULL,</code> calls g_match_info_unref(); otherwise does
+     * If @match_info is not <code>null</code>  calls g_match_info_unref(); otherwise does
      * nothing.
      */
     public void free() {
@@ -107,7 +107,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns #GRegex object used in @match_info. It belongs to Glib
+     * Returns {@link org.gtk.glib.Regex} object used in @match_info. It belongs to Glib
      * and must not be freed. Use g_regex_ref() if you need to keep it
      * after you free @match_info object.
      */
@@ -135,26 +135,24 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * Consider, for example, an application where a human is required to
      * type in data for a field with specific formatting requirements. An
      * example might be a date in the form ddmmmyy, defined by the pattern
-     * &#34;^\\d?\\d(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\\d\\d$&#34;.
-     * If the application sees the user&#8217;s keystrokes one by one, and can
+     * &<code>#34</code> ^\\d?\\d(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\\d\\d$&<code>#34</code> .
+     * If the application sees the user&<code>#8217</code> s keystrokes one by one, and can
      * check that what has been typed so far is potentially valid, it is
      * able to raise an error as soon as a mistake is made.
      * 
      * GRegex supports the concept of partial matching by means of the
-     * {@link org.gtk.glib.RegexMatchFlags#PARTIAL_SOFT} and {@link org.gtk.glib.RegexMatchFlags#PARTIAL_HARD} flags.
+     * {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_SOFT</code>  and {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_HARD</code>  flags.
      * When they are used, the return code for
-     * g_regex_match() or g_regex_match_full() is, as usual, <code>TRUE
-     * for</code> a complete match, <code>false</code> otherwise. But, when these functions
-     * return <code>FALSE,</code> you can check if the match was partial calling
+     * g_regex_match() or g_regex_match_full() is, as usual, <code>true</code> for a complete match, <code>false</code> otherwise. But, when these functions
+     * return <code>false</code>  you can check if the match was partial calling
      * g_match_info_is_partial_match().
      * 
-     * The difference between {@link org.gtk.glib.RegexMatchFlags#PARTIAL_SOFT} and
-     * {@link org.gtk.glib.RegexMatchFlags#PARTIAL_HARD} is that when a partial match is encountered
-     * with <code>G_REGEX_MATCH_PARTIAL_SOFT,</code> matching continues to search for a
-     * possible complete match, while with {@link org.gtk.glib.RegexMatchFlags#PARTIAL_HARD} matching
+     * The difference between {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_SOFT</code>  and
+     * {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_HARD</code>  is that when a partial match is encountered
+     * with {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_SOFT</code>   matching continues to search for a
+     * possible complete match, while with {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_HARD</code>  matching
      * stops at the partial match.
-     * When both {@link org.gtk.glib.RegexMatchFlags#PARTIAL_SOFT} and <code>G_REGEX_MATCH_PARTIAL_HARD
-     * are</code> set, the latter takes precedence.
+     * When both {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_SOFT</code>  and {@link org.gtk.glib.RegexMatchFlags<code>#PARTIAL_HARD</code>  are set, the latter takes precedence.
      * 
      * There were formerly some restrictions on the pattern for partial matching.
      * The restrictions no longer apply.

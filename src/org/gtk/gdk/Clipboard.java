@@ -11,20 +11,20 @@ import java.lang.invoke.*;
  * The <code>GdkClipboard</code> object represents data shared between applications or
  * inside an application.
  * <p>
- * To get a <code>GdkClipboard</code> object, use {@link org.gtk.gdk.Display#getClipboard} or
- * {@link org.gtk.gdk.Display#getPrimaryClipboard}. You can find out about the data
+ * To get a <code>GdkClipboard</code> object, use {@link org.gtk.gdk.Display<code>#getClipboard</code>  or
+ * {@link org.gtk.gdk.Display<code>#getPrimaryClipboard</code> . You can find out about the data
  * that is currently available in a clipboard using
- * {@link org.gtk.gdk.Clipboard#getFormats}.
+ * {@link org.gtk.gdk.Clipboard<code>#getFormats</code> .
  * <p>
  * To make text or image data available in a clipboard, use
- * {@link org.gtk.gdk.Clipboard#setText} or {@link org.gtk.gdk.Clipboard#setTexture}.
- * For other data, you can use {@link org.gtk.gdk.Clipboard#setContent}, which
+ * {@link org.gtk.gdk.Clipboard<code>#setText</code>  or {@link org.gtk.gdk.Clipboard<code>#setTexture</code> .
+ * For other data, you can use {@link org.gtk.gdk.Clipboard<code>#setContent</code> , which
  * takes a {@link org.gtk.gdk.ContentProvider} object.
  * <p>
  * To read textual or image data from a clipboard, use
- * {@link org.gtk.gdk.Clipboard#readTextAsync} or
- * {@link org.gtk.gdk.Clipboard#readTextureAsync}. For other data, use
- * {@link org.gtk.gdk.Clipboard#readAsync}, which provides a <code>GInputStream</code> object.
+ * {@link org.gtk.gdk.Clipboard<code>#readTextAsync</code>  or
+ * {@link org.gtk.gdk.Clipboard<code>#readTextureAsync</code> . For other data, use
+ * {@link org.gtk.gdk.Clipboard<code>#readAsync</code> , which provides a <code>GInputStream</code> object.
  */
 public class Clipboard extends org.gtk.gobject.Object {
 
@@ -70,8 +70,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * A clipboard is considered local if it was last claimed
      * by the running application.
      * 
-     * Note that {@link org.gtk.gdk.Clipboard#getContent} may return <code>NULL
-     * even</code> on a local clipboard. In this case the clipboard is empty.
+     * Note that {@link org.gtk.gdk.Clipboard<code>#getContent</code>  may return <code>null</code> even on a local clipboard. In this case the clipboard is empty.
      */
     public boolean isLocal() {
         var RESULT = gtk_h.gdk_clipboard_is_local(handle());
@@ -79,11 +78,11 @@ public class Clipboard extends org.gtk.gobject.Object {
     }
     
     /**
-     * Asynchronously requests an input stream to read the @clipboard&#39;s
+     * Asynchronously requests an input stream to read the @clipboard&<code>#39</code> s
      * contents from.
      * 
      * When the operation is finished @callback will be called. You must then
-     * call {@link org.gtk.gdk.Clipboard#readFinish} to get the result of the operation.
+     * call {@link org.gtk.gdk.Clipboard<code>#readFinish</code>  to get the result of the operation.
      * 
      * The clipboard will choose the most suitable mime type from the given list
      * to fulfill the request, preferring the ones listed first.
@@ -105,7 +104,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous clipboard read.
      * 
-     * See {@link org.gtk.gdk.Clipboard#readAsync}.
+     * See {@link org.gtk.gdk.Clipboard<code>#readAsync</code> .
      */
     public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, java.lang.String[] outMimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -120,10 +119,10 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Asynchronously request the @clipboard contents converted to a string.
      * 
      * When the operation is finished @callback will be called. You must then
-     * call {@link org.gtk.gdk.Clipboard#readTextFinish} to get the result.
+     * call {@link org.gtk.gdk.Clipboard<code>#readTextFinish</code>  to get the result.
      * 
-     * This is a simple wrapper around {@link org.gtk.gdk.Clipboard#readValueAsync}.
-     * Use that function or {@link org.gtk.gdk.Clipboard#readAsync} directly if you
+     * This is a simple wrapper around {@link org.gtk.gdk.Clipboard<code>#readValueAsync</code> .
+     * Use that function or {@link org.gtk.gdk.Clipboard<code>#readAsync</code>  directly if you
      * need more control over the operation.
      */
     public void readTextAsync(org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
@@ -143,7 +142,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous clipboard read.
      * 
-     * See {@link org.gtk.gdk.Clipboard#readTextAsync}.
+     * See {@link org.gtk.gdk.Clipboard<code>#readTextAsync</code> .
      */
     public java.lang.String readTextFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -158,10 +157,10 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Asynchronously request the @clipboard contents converted to a <code>GdkPixbuf</code>.
      * 
      * When the operation is finished @callback will be called. You must then
-     * call {@link org.gtk.gdk.Clipboard#readTextureFinish} to get the result.
+     * call {@link org.gtk.gdk.Clipboard<code>#readTextureFinish</code>  to get the result.
      * 
-     * This is a simple wrapper around {@link org.gtk.gdk.Clipboard#readValueAsync}.
-     * Use that function or {@link org.gtk.gdk.Clipboard#readAsync} directly if you
+     * This is a simple wrapper around {@link org.gtk.gdk.Clipboard<code>#readValueAsync</code> .
+     * Use that function or {@link org.gtk.gdk.Clipboard<code>#readAsync</code>  directly if you
      * need more control over the operation.
      */
     public void readTextureAsync(org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
@@ -181,7 +180,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous clipboard read.
      * 
-     * See {@link org.gtk.gdk.Clipboard#readTextureAsync}.
+     * See {@link org.gtk.gdk.Clipboard<code>#readTextureAsync</code> .
      */
     public Texture readTextureFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -197,11 +196,11 @@ public class Clipboard extends org.gtk.gobject.Object {
      * @type.
      * <p>
      * When the operation is finished @callback will be called. You must then call
-     * {@link org.gtk.gdk.Clipboard#readValueFinish} to get the resulting <code>GValue</code>.
+     * {@link org.gtk.gdk.Clipboard<code>#readValueFinish</code>  to get the resulting <code>GValue</code>.
      * <p>
      * For local clipboard contents that are available in the given <code>GType</code>,
      * the value will be copied directly. Otherwise, GDK will try to use
-     * {@link [func@content_deserialize_async]} to convert the clipboard&#39;s data.
+     * {@link [func@content_deserialize_async]} to convert the clipboard&<code>#39</code> s data.
      */
     public void readValueAsync(Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
@@ -220,7 +219,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous clipboard read.
      * 
-     * See {@link org.gtk.gdk.Clipboard#readValueAsync}.
+     * See {@link org.gtk.gdk.Clipboard<code>#readValueAsync</code> .
      */
     public org.gtk.gobject.Value readValueFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -234,15 +233,15 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Sets a new content provider on @clipboard.
      * <p>
-     * The clipboard will claim the <code>GdkDisplay</code>&#39;s resources and advertise
+     * The clipboard will claim the <code>GdkDisplay</code>&<code>#39</code> s resources and advertise
      * these new contents to other applications.
      * 
-     * In the rare case of a failure, this function will return <code>FALSE.</code> The
+     * In the rare case of a failure, this function will return <code>false</code>  The
      * clipboard will then continue reporting its old contents and ignore
      * @provider.
      * 
      * If the contents are read by either an external application or the
-     * @clipboard&#39;s read functions, @clipboard will select the best format to
+     * @clipboard&<code>#39</code> s read functions, @clipboard will select the best format to
      * transfer the contents and then request that format from @provider.
      */
     public boolean setContent(ContentProvider provider) {
@@ -283,15 +282,15 @@ public class Clipboard extends org.gtk.gobject.Object {
      * 
      * If the clipboard is not local, this function does nothing but report success.
      * 
-     * The @callback must call {@link org.gtk.gdk.Clipboard#storeFinish}.
+     * The @callback must call {@link org.gtk.gdk.Clipboard<code>#storeFinish</code> .
      * 
      * The purpose of this call is to preserve clipboard contents beyond the
      * lifetime of an application, so this function is typically called on
      * exit. Depending on the platform, the functionality may not be available
-     * unless a &#34;clipboard manager&#34; is running.
+     * unless a &<code>#34</code> clipboard manager&<code>#34</code>  is running.
      * 
      * This function is called automatically when a {@link org.gtk.gtk.Application} is
-     * shut down, so you likely don&#39;t need to call it.
+     * shut down, so you likely don&<code>#39</code> t need to call it.
      */
     public void storeAsync(int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
@@ -310,7 +309,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous clipboard store.
      * 
-     * See {@link org.gtk.gdk.Clipboard#storeAsync}.
+     * See {@link org.gtk.gdk.Clipboard<code>#storeAsync</code> .
      */
     public boolean storeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

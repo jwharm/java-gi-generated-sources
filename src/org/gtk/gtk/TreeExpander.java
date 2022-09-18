@@ -15,35 +15,35 @@ import java.lang.invoke.*;
  * {@link org.gtk.gtk.TreeListModel}. <code>GtkTreeExpander</code> provides the common UI
  * elements, gestures and keybindings for this purpose.
  * <p>
- * On top of this, the &#34;listitem.expand&#34;, &#34;listitem.collapse&#34; and
- * &#34;listitem.toggle-expand&#34; actions are provided to allow adding custom
+ * On top of this, the &<code>#34</code> listitem.expand&<code>#34</code> , &<code>#34</code> listitem.collapse&<code>#34</code>  and
+ * &<code>#34</code> listitem.toggle-expand&<code>#34</code>  actions are provided to allow adding custom
  * UI for managing expanded state.
  * <p>
  * The <code>GtkTreeListModel</code> must be set to not be passthrough. Then it
  * will provide {@link org.gtk.gtk.TreeListRow} items which can be set via
- * {@link org.gtk.gtk.TreeExpander#setListRow} on the expander.
+ * {@link org.gtk.gtk.TreeExpander<code>#setListRow</code>  on the expander.
  * The expander will then watch that row item automatically.
- * {@link org.gtk.gtk.TreeExpander#setChild} sets the widget that displays
+ * {@link org.gtk.gtk.TreeExpander<code>#setChild</code>  sets the widget that displays
  * the actual row contents.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * treeexpander
- * &#9500;&#9472;&#9472; {@link [indent]}*
- * &#9500;&#9472;&#9472; {@link [expander]}
- * &#9584;&#9472;&#9472; &#60;child&#62;
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [indent]}*
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [expander]}
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
  * </pre>
- * <p><code>GtkTreeExpander</code> has zero or one CSS nodes with the name &#34;expander&#34; that
+ * <p><code>GtkTreeExpander</code> has zero or one CSS nodes with the name &<code>#34</code> expander&<code>#34</code>  that
  * should display the expander icon. The node will be <code>:checked</code> when it
- * is expanded. If the node is not expandable, an &#34;indent&#34; node will be
+ * is expanded. If the node is not expandable, an &<code>#34</code> indent&<code>#34</code>  node will be
  * displayed instead.
  * <p>
- * For every level of depth, another &#34;indent&#34; node is prepended.
+ * For every level of depth, another &<code>#34</code> indent&<code>#34</code>  node is prepended.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkTreeExpander</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role. The expander icon
- * is represented as a <code>GTK_ACCESSIBLE_ROLE_BUTTON,</code> labelled by the expander&#39;s
- * child, and toggling it will change the {@link org.gtk.gtk.AccessibleState#EXPANDED} state.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkTreeExpander</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role. The expander icon
+ * is represented as a {@link org.gtk.gtk.AccessibleRole<code>#BUTTON</code>   labelled by the expander&<code>#39</code> s
+ * child, and toggling it will change the {@link org.gtk.gtk.AccessibleState<code>#EXPANDED</code>  state.
  */
 public class TreeExpander extends Widget implements Accessible, Buildable, ConstraintTarget {
 

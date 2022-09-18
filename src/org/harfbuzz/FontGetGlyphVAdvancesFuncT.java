@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A virtual method for the #hb_font_funcs_t of an #hb_font_t object.
+ * A virtual method for the {@link org.harfbuzz.font_funcs_t} of an {@link org.harfbuzz.font_t} object.
  * 
  * This method should retrieve the advances for a sequence of glyphs, in
  * vertical-direction text segments.

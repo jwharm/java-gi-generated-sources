@@ -67,7 +67,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     /**
      * Sets the model to show a slice of.
      * 
-     * The model&#39;s item type must conform to @self&#39;s item type.
+     * The model&<code>#39</code> s item type must conform to @self&<code>#39</code> s item type.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_slice_list_model_set_model(handle(), model.handle());
@@ -88,7 +88,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * than @size.
      * 
      * It can however have fewer items if the offset is too large
-     * or the model sliced from doesn&#39;t have enough items.
+     * or the model sliced from doesn&<code>#39</code> t have enough items.
      */
     public void setSize(int size) {
         gtk_h.gtk_slice_list_model_set_size(handle(), size);

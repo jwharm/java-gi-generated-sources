@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * <p>
  * Initially, a <code>GtkAppChooserButton</code> selects the first application
  * in its list, which will either be the most-recently used application
- * or, if {@link [property@Gtk.AppChooserButton:show-default-item] (ref=property)} is <code>TRUE,</code> the
+ * or, if {@link [property@Gtk.AppChooserButton:show-default-item] (ref=property)} is <code>true</code>  the
  * default application.
  * <p>
  * The list of applications shown in a <code>GtkAppChooserButton</code> includes
@@ -25,15 +25,15 @@ import java.lang.invoke.*;
  * which allows to open a full {@link org.gtk.gtk.AppChooserDialog}.
  * <p>
  * It is possible to add custom items to the list, using
- * {@link org.gtk.gtk.AppChooserButton#appendCustomItem}. These items cause
+ * {@link org.gtk.gtk.AppChooserButton<code>#appendCustomItem</code> . These items cause
  * the {@link [signal@Gtk.AppChooserButton::custom-item-activated] (ref=signal)} signal to be
  * emitted when they are selected.
  * <p>
  * To track changes in the selected application, use the
  * {@link [signal@Gtk.AppChooserButton::changed] (ref=signal)} signal.
  * <p>
- * <h1>SS nodes</h1>
- * <p><code>GtkAppChooserButton</code> has a single CSS node with the name &#8220;appchooserbutton&#8221;.
+ * <h1>CSS nodes</h1>
+ * <p><code>GtkAppChooserButton</code> has a single CSS node with the name &<code>#8220</code> appchooserbutton&<code>#8221</code> .
  */
 public class AppChooserButton extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
 
@@ -68,7 +68,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
      * {@link [signal@Gtk.AppChooserButton::custom-item-activated] (ref=signal)} signal, to add a
      * callback for the activation of a particular custom item in the list.
      * 
-     * See also {@link org.gtk.gtk.AppChooserButton#appendSeparator}.
+     * See also {@link org.gtk.gtk.AppChooserButton<code>#appendSeparator</code> .
      */
     public void appendCustomItem(java.lang.String name, java.lang.String label, org.gtk.gio.Icon icon) {
         gtk_h.gtk_app_chooser_button_append_custom_item(handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(label).handle(), icon.handle());
@@ -119,9 +119,9 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     /**
      * Selects a custom item.
      * 
-     * See {@link org.gtk.gtk.AppChooserButton#appendCustomItem}.
+     * See {@link org.gtk.gtk.AppChooserButton<code>#appendCustomItem</code> .
      * 
-     * Use {@link org.gtk.gtk.AppChooser#refresh} to bring the selection
+     * Use {@link org.gtk.gtk.AppChooser<code>#refresh</code>  to bring the selection
      * to its initial state.
      */
     public void setActiveCustomItem(java.lang.String name) {
@@ -217,7 +217,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     /**
      * Emitted when a custom item is activated.
      * 
-     * Use {@link org.gtk.gtk.AppChooserButton#appendCustomItem},
+     * Use {@link org.gtk.gtk.AppChooserButton<code>#appendCustomItem</code> ,
      * to add custom items.
      */
     public SignalHandle onCustomItemActivated(CustomItemActivatedHandler handler) {

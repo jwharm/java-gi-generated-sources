@@ -57,8 +57,8 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * character is typically double-width in a monospace font.
      * 
      * The best way to find out the grid-cell size is to call
-     * {@link org.pango.FontMetrics#getApproximateDigitWidth}, since the
-     * results of {@link org.pango.FontMetrics#getApproximateCharWidth} may
+     * {@link org.pango.FontMetrics<code>#getApproximateDigitWidth</code> , since the
+     * results of {@link org.pango.FontMetrics<code>#getApproximateCharWidth</code>  may
      * be affected by double-width characters.
      */
     public boolean isMonospace() {
@@ -71,7 +71,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * produce different faces.
      * 
      * Such axes are also known as _variations_; see
-     * {@link org.pango.FontDescription#setVariations} for more information.
+     * {@link org.pango.FontDescription<code>#setVariations</code>  for more information.
      */
     public boolean isVariable() {
         var RESULT = gtk_h.pango_font_family_is_variable(handle());

@@ -40,7 +40,7 @@ import java.lang.invoke.*;
  * the effects of {@link [signal@Gtk.SignalListItemFactory::setup] (ref=signal)}. After this signal
  * was emitted on a listitem, the listitem will be destroyed and not be used again.
  * <p>
- * Note that during the signal emissions, changing properties on the<code>GtkListItem</code>s passed will not trigger notify signals as the listitem&#39;s
+ * Note that during the signal emissions, changing properties on the<code>GtkListItem</code>s passed will not trigger notify signals as the listitem&<code>#39</code> s
  * notifications are frozen. See g_object_freeze_notify() for details.
  * <p>
  * For tracking changes in other properties in the <code>GtkListItem</code>, the

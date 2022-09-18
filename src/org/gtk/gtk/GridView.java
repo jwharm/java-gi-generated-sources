@@ -20,24 +20,24 @@ import java.lang.invoke.*;
  * To learn more about the list widget framework, see the
  * {@link [overview]}(section-list-widget.html).
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * gridview
- * &#9500;&#9472;&#9472; child{@link [.activatable]}
- * &#9474;
- * &#9500;&#9472;&#9472; child{@link [.activatable]}
- * &#9474;
- * &#9482;
- * &#9584;&#9472;&#9472; {@link [rubberband]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  child{@link [.activatable]}
+ * &<code>#9474</code> 
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  child{@link [.activatable]}
+ * &<code>#9474</code> 
+ * &<code>#9482</code> 
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [rubberband]}
  * </pre>
  * <p><code>GtkGridView</code> uses a single CSS node with name <code>gridview</code>. Each child uses
  * a single CSS node with name <code>child</code>. If the {@link [property@Gtk.ListItem:activatable] (ref=property)}
  * property is set, the corresponding row will have the <code>.activatable</code> style
  * class. For rubberband selection, a subnode with name <code>rubberband</code> is used.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkGridView</code> uses the {@link org.gtk.gtk.AccessibleRole#GRID} role, and the items
- * use the {@link org.gtk.gtk.AccessibleRole#GRID_CELL} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkGridView</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GRID</code>  role, and the items
+ * use the {@link org.gtk.gtk.AccessibleRole<code>#GRID_CELL</code>  role.
  */
 public class GridView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
@@ -62,7 +62,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * The function takes ownership of the
      * arguments, so you can write code like<pre>c
      * grid_view = gtk_grid_view_new (create_model (),
-     *   gtk_builder_list_item_factory_new_from_resource (&#34;/resource.ui&#34;));
+     *   gtk_builder_list_item_factory_new_from_resource (&<code>#34</code> /resource.ui&<code>#34</code> ));
      * </pre>
      */
     public GridView(SelectionModel model, ListItemFactory factory) {
@@ -78,7 +78,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Gets the factory that&#39;s currently used to populate list items.
+     * Gets the factory that&<code>#39</code> s currently used to populate list items.
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_grid_view_get_factory(handle());
@@ -102,7 +102,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Gets the model that&#39;s currently used to read the items displayed.
+     * Gets the model that&<code>#39</code> s currently used to read the items displayed.
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_grid_view_get_model(handle());
@@ -138,7 +138,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * This number must be at least 1.
      * 
      * If @max_columns is smaller than the minimum set via
-     * {@link org.gtk.gtk.GridView#setMinColumns}, that value is used instead.
+     * {@link org.gtk.gtk.GridView<code>#setMinColumns</code> , that value is used instead.
      */
     public void setMaxColumns(int maxColumns) {
         gtk_h.gtk_grid_view_set_max_columns(handle(), maxColumns);
@@ -150,7 +150,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * This number must be at least 1.
      * 
      * If @min_columns is smaller than the minimum set via
-     * {@link org.gtk.gtk.GridView#setMaxColumns}, that value is ignored.
+     * {@link org.gtk.gtk.GridView<code>#setMaxColumns</code> , that value is ignored.
      */
     public void setMinColumns(int minColumns) {
         gtk_h.gtk_grid_view_set_min_columns(handle(), minColumns);

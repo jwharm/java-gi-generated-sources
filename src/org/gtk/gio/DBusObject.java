@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GDBusObject type is the base type for D-Bus objects on both
- * the service side (see #GDBusObjectSkeleton) and the client side
- * (see #GDBusObjectProxy). It is essentially just a container of
+ * The {@link org.gtk.gio.DBusObject} type is the base type for D-Bus objects on both
+ * the service side (see {@link org.gtk.gio.DBusObjectSkeleton}  and the client side
+ * (see {@link org.gtk.gio.DBusObjectProxy} . It is essentially just a container of
  * interfaces.
  */
 public interface DBusObject extends io.github.jwharm.javagi.NativeAddress {

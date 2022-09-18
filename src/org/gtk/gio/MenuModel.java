@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GMenuModel represents the contents of a menu -- an ordered list of
+ * {@link org.gtk.gio.MenuModel} represents the contents of a menu -- an ordered list of
  * menu items. The items are associated with actions, which can be
  * activated through them. Items can be grouped in sections, and may
  * have submenus associated with them. Both items and sections usually
@@ -16,20 +16,20 @@ import java.lang.invoke.*;
  * the associated action (ie whether it is stateful, and what kind of
  * state it has) can influence the representation of the item.
  * 
- * The conceptual model of menus in #GMenuModel is hierarchical:
- * sections and submenus are again represented by #GMenuModels.
+ * The conceptual model of menus in {@link org.gtk.gio.MenuModel} is hierarchical:
+ * sections and submenus are again represented by <code>#GMenuModels</code> 
  * Menus themselves do not define their own roles. Rather, the role
- * of a particular #GMenuModel is defined by the item that references
- * it (or, in the case of the &#39;root&#39; menu, is defined by the context
+ * of a particular {@link org.gtk.gio.MenuModel} is defined by the item that references
+ * it (or, in the case of the &<code>#39</code> root&<code>#39</code>  menu, is defined by the context
  * in which it is used).
  * 
  * As an example, consider the visible portions of this menu:
  * 
- * ## An example menu # {#menu-example}
+ * <code>#</code>  An example menu <code>#</code> {<code>#menu</code> example}
  * 
  * !{@link []}(menu-example.png)
  * 
- * There are 8 &#34;menus&#34; visible in the screenshot: one menubar, two
+ * There are 8 &<code>#34</code> menus&<code>#34</code>  visible in the screenshot: one menubar, two
  * submenus and 5 sections:
  * 
  * - the toplevel menubar (containing 4 items)
@@ -46,7 +46,7 @@ import java.lang.invoke.*;
  * smaller blocks within the large block represent items in that menu. Some
  * items contain references to other menus.
  * 
- * ## A menu example # {#menu-model}
+ * <code>#</code>  A menu example <code>#</code> {<code>#menu</code> model}
  * 
  * !{@link []}(menu-model.png)
  * 
@@ -60,32 +60,31 @@ import java.lang.invoke.*;
  * The motivation for this abstract model of application controls is
  * that modern user interfaces tend to make these controls available
  * outside the application. Examples include global menus, jumplists,
- * dash boards, etc. To support such uses, it is necessary to &#39;export&#39;
+ * dash boards, etc. To support such uses, it is necessary to &<code>#39</code> export&<code>#39</code> 
  * information about actions and their representation in menus, which
  * is exactly what the {@link [GActionGroup exporter]}{@link [gio-GActionGroup-exporter]}
  * and the {@link [GMenuModel exporter]}{@link [gio-GMenuModel-exporter]} do for
- * #GActionGroup and #GMenuModel. The client-side counterparts to
- * make use of the exported information are #GDBusActionGroup and
- * #GDBusMenuModel.
+ * {@link org.gtk.gio.ActionGroup} and {@link org.gtk.gio.MenuModel}  The client-side counterparts to
+ * make use of the exported information are {@link org.gtk.gio.DBusActionGroup} and
+ * {@link org.gtk.gio.DBusMenuModel} 
  * 
- * The API of #GMenuModel is very generic, with iterators for the
+ * The API of {@link org.gtk.gio.MenuModel} is very generic, with iterators for the
  * attributes and links of an item, see g_menu_model_iterate_item_attributes()
- * and g_menu_model_iterate_item_links(). The &#39;standard&#39; attributes and
- * link types have predefined names: <code>G_MENU_ATTRIBUTE_LABEL,
- * %G_MENU_ATTRIBUTE_ACTION,</code> <code>G_MENU_ATTRIBUTE_TARGET,</code> <code>G_MENU_LINK_SECTION
- * and</code> <code>G_MENU_LINK_SUBMENU.
+ * and g_menu_model_iterate_item_links(). The &<code>#39</code> standard&<code>#39</code>  attributes and
+ * link types have predefined names: <code>G_MENU_ATTRIBUTE_LABEL</code> 
+ * <code>G_MENU_ATTRIBUTE_ACTION</code>  <code>G_MENU_ATTRIBUTE_TARGET</code>  <code>G_MENU_LINK_SECTION</code> and <code>G_MENU_LINK_SUBMENU</code> 
  * 
- * Items</code> in a #GMenuModel represent active controls if they refer to
+ * Items in a {@link org.gtk.gio.MenuModel} represent active controls if they refer to
  * an action that can get activated when the user interacts with the
  * menu item. The reference to the action is encoded by the string id
  * in the <code>G_MENU_ATTRIBUTE_ACTION</code> attribute. An action id uniquely
  * identifies an action in an action group. Which action group(s) provide
  * actions depends on the context in which the menu model is used.
  * E.g. when the model is exported as the application menu of a
- * #GtkApplication, actions can be application-wide or window-specific
+ * {@link org.gtk.gtk.Application}  actions can be application-wide or window-specific
  * (and thus come from two different action groups). By convention, the
- * application-wide actions have names that start with &#34;app.&#34;, while the
- * names of window-specific actions start with &#34;win.&#34;.
+ * application-wide actions have names that start with &<code>#34</code> app.&<code>#34</code> , while the
+ * names of window-specific actions start with &<code>#34</code> win.&<code>#34</code> .
  * 
  * While a wide variety of stateful actions is possible, the following
  * is the minimum that is expected to be supported by all users of exported
@@ -94,22 +93,22 @@ import java.lang.invoke.*;
  * - an action with no parameter type and boolean state
  * - an action with string parameter type and string state
  * 
- * ## Stateless
+ * <code>#</code>  Stateless
  * 
  * A stateless action typically corresponds to an ordinary menu item.
  * 
  * Selecting such a menu item will activate the action (with no parameter).
  * 
- * ## Boolean State
+ * <code>#</code>  Boolean State
  * 
- * An action with a boolean state will most typically be used with a &#34;toggle&#34;
- * or &#34;switch&#34; menu item. The state can be set directly, but activating the
+ * An action with a boolean state will most typically be used with a &<code>#34</code> toggle&<code>#34</code> 
+ * or &<code>#34</code> switch&<code>#34</code>  menu item. The state can be set directly, but activating the
  * action (with no parameter) results in the state being toggled.
  * 
  * Selecting a toggle menu item will activate the action. The menu item should
- * be rendered as &#34;checked&#34; when the state is true.
+ * be rendered as &<code>#34</code> checked&<code>#34</code>  when the state is true.
  * 
- * ## String Parameter and State
+ * <code>#</code>  String Parameter and State
  * 
  * Actions with string parameters and state will most typically be used to
  * represent an enumerated choice over the items available for a group of
@@ -119,7 +118,7 @@ import java.lang.invoke.*;
  * Radio menu items, in addition to being associated with the action, will
  * have a target value. Selecting that menu item will result in activation
  * of the action with the target value as the parameter. The menu item should
- * be rendered as &#34;selected&#34; when the state of the action is equal to the
+ * be rendered as &<code>#34</code> selected&<code>#34</code>  when the state of the action is equal to the
  * target value of the menu item.
  */
 public class MenuModel extends org.gtk.gobject.Object {
@@ -155,7 +154,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * Queries the item at position @item_index in @model for the link
      * specified by @link.
      * 
-     * If the link exists, the linked #GMenuModel is returned.  If the link
+     * If the link exists, the linked {@link org.gtk.gio.MenuModel} is returned.  If the link
      * does not exist, <code>null</code> is returned.
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
@@ -174,7 +173,7 @@ public class MenuModel extends org.gtk.gobject.Object {
     /**
      * Queries if @model is mutable.
      * 
-     * An immutable #GMenuModel will never emit the #GMenuModel::items-changed
+     * An immutable {@link org.gtk.gio.MenuModel} will never emit the {@link org.gtk.gio.MenuModel} :items-changed
      * signal. Consumers of the model may make optimisations accordingly.
      */
     public boolean isMutable() {
@@ -183,10 +182,9 @@ public class MenuModel extends org.gtk.gobject.Object {
     }
     
     /**
-     * Requests emission of the #GMenuModel::items-changed signal on @model.
+     * Requests emission of the {@link org.gtk.gio.MenuModel} :items-changed signal on @model.
      * 
-     * This function should never be called except by #GMenuModel
-     * subclasses.  Any other calls to this function will very likely lead
+     * This function should never be called except by {@link org.gtk.gio.MenuModel} subclasses.  Any other calls to this function will very likely lead
      * to a violation of the interface of the model.
      * 
      * The implementation should update its internal representation of the
@@ -196,7 +194,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * 
      * The implementation must dispatch this call directly from a mainloop
      * entry and not in response to calls -- particularly those from the
-     * #GMenuModel API.  Said another way: the menu must not change while
+     * {@link org.gtk.gio.MenuModel} API.  Said another way: the menu must not change while
      * user code is running without returning to the mainloop.
      */
     public void itemsChanged(int position, int removed, int added) {
@@ -204,7 +202,7 @@ public class MenuModel extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a #GMenuAttributeIter to iterate over the attributes of
+     * Creates a {@link org.gtk.gio.MenuAttributeIter} to iterate over the attributes of
      * the item at position @item_index in @model.
      * 
      * You must free the iterator with g_object_unref() when you are done.
@@ -215,7 +213,7 @@ public class MenuModel extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a #GMenuLinkIter to iterate over the links of the item at
+     * Creates a {@link org.gtk.gio.MenuLinkIter} to iterate over the links of the item at
      * position @item_index in @model.
      * 
      * You must free the iterator with g_object_unref() when you are done.

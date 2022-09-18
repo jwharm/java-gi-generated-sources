@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Flags for #hb_glyph_info_t.
+ * Flags for {@link org.harfbuzz.glyph_info_t}
  */
 public class GlyphFlagsT {
 
@@ -38,7 +38,7 @@ public class GlyphFlagsT {
      * 				   reshaping to a small piece around the
      * 				   breaking positin only, even if the breaking
      * 				   position carries the
-     * 				   #HB_GLYPH_FLAG_UNSAFE_TO_BREAK or when
+     * 				   <code>#HB_GLYPH_FLAG_UNSAFE_TO_BREAK</code> or when
      * 				   hyphenation or other text transformation
      * 				   happens at line-break position, in the following
      * 				   way:
@@ -72,7 +72,7 @@ public class GlyphFlagsT {
      * 				   can be alleviated by shaping more text than needed
      * 				   and looking for unsafe-to-concat flag within text
      * 				   clusters.
-     * 				   The #HB_GLYPH_FLAG_UNSAFE_TO_BREAK flag will
+     * 				   The <code>#HB_GLYPH_FLAG_UNSAFE_TO_BREAK</code> flag will
      * 				   always imply this flag.
      * 			   To use this flag, you must enable the buffer flag
      * 			   @HB_BUFFER_FLAG_PRODUCE_UNSAFE_TO_CONCAT during

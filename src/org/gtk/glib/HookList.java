@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GHookList struct represents a list of hook functions.
+ * The {@link org.gtk.glib.HookList} struct represents a list of hook functions.
  */
 public class HookList extends io.github.jwharm.javagi.ResourceBase {
 
@@ -17,37 +17,37 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes all the #GHook elements from a #GHookList.
+     * Removes all the {@link org.gtk.glib.Hook} elements from a {@link org.gtk.glib.HookList}
      */
     public void clear() {
         gtk_h.g_hook_list_clear(handle());
     }
     
     /**
-     * Initializes a #GHookList.
-     * This must be called before the #GHookList is used.
+     * Initializes a {@link org.gtk.glib.HookList} 
+     * This must be called before the {@link org.gtk.glib.HookList} is used.
      */
     public void init(int hookSize) {
         gtk_h.g_hook_list_init(handle(), hookSize);
     }
     
     /**
-     * Calls all of the #GHook functions in a #GHookList.
+     * Calls all of the {@link org.gtk.glib.Hook} functions in a {@link org.gtk.glib.HookList}
      */
     public void invoke(boolean mayRecurse) {
         gtk_h.g_hook_list_invoke(handle(), mayRecurse ? 1 : 0);
     }
     
     /**
-     * Calls all of the #GHook functions in a #GHookList.
-     * Any function which returns <code>false</code> is removed from the #GHookList.
+     * Calls all of the {@link org.gtk.glib.Hook} functions in a {@link org.gtk.glib.HookList} 
+     * Any function which returns <code>false</code> is removed from the {@link org.gtk.glib.HookList}
      */
     public void invokeCheck(boolean mayRecurse) {
         gtk_h.g_hook_list_invoke_check(handle(), mayRecurse ? 1 : 0);
     }
     
     /**
-     * Calls a function on each valid #GHook.
+     * Calls a function on each valid {@link org.gtk.glib.Hook}
      */
     public void marshal(boolean mayRecurse, HookMarshaller marshaller) {
         try {
@@ -64,15 +64,8 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls a function on each valid #GHook and destroys it if the
-     * function returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Calls a function on each valid #GHook and destroys it if the
-     * function returns %FALSE.
+     * Calls a function on each valid {@link org.gtk.glib.Hook} and destroys it if the
+     * function returns <code>false</code>
      */
     public void marshalCheck(boolean mayRecurse, HookCheckMarshaller marshaller) {
         try {

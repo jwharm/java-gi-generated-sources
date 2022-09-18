@@ -2,7 +2,7 @@ package org.gtk.glib;
 
 /**
  * The type of functions which are used to translate user-visible
- * strings, for &#60;option&#62;--help&#60;/option&#62; output.
+ * strings, for &<code>#60</code> option&<code>#62</code> --help&<code>#60</code> /option&<code>#62</code>  output.
  */
 @FunctionalInterface
 public interface TranslateFunc {

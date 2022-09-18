@@ -23,8 +23,8 @@ public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
      * Adds a palette to the color chooser.
      * 
      * If @orientation is horizontal, the colors are grouped in rows,
-     * with @colors_per_line colors in each row. If @horizontal is <code>FALSE,
-     * the</code> colors are grouped in columns instead.
+     * with @colors_per_line colors in each row. If @horizontal is <code>false</code> 
+     * the colors are grouped in columns instead.
      * 
      * The default color palette of {@link org.gtk.gtk.ColorChooserWidget} has
      * 45 colors, organized in columns of 5 colors (this includes some
@@ -36,7 +36,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
      * Calling this function for the first time has the side effect
      * of removing the default color palette from the color chooser.
      * 
-     * If @colors is <code>NULL,</code> removes all previously added palettes.
+     * If @colors is <code>null</code>  removes all previously added palettes.
      */
     public default void addPalette(Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
         gtk_h.gtk_color_chooser_add_palette(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors).handle());

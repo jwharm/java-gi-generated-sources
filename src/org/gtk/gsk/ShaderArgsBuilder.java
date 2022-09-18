@@ -123,7 +123,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
      * you cannot call this function multiple times on the same @builder instance.
      * 
      * This function is intended primarily for bindings. C code should use
-     * {@link org.gtk.gsk.ShaderArgsBuilder#freeToArgs}.
+     * {@link org.gtk.gsk.ShaderArgsBuilder<code>#freeToArgs</code> .
      */
     public org.gtk.glib.Bytes toArgs() {
         var RESULT = gtk_h.gsk_shader_args_builder_to_args(handle());

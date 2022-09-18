@@ -15,15 +15,14 @@ import java.lang.invoke.*;
  * visible in the filesystem and not affected by the filesystem
  * permissions, visibility, etc. Currently this is only supported
  * under Linux. If you attempt to use abstract sockets on other
- * systems, function calls may return <code>G_IO_ERROR_NOT_SUPPORTED
- * errors.</code> You can use g_unix_socket_address_abstract_names_supported()
+ * systems, function calls may return {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  errors. You can use g_unix_socket_address_abstract_names_supported()
  * to see if abstract names are supported.
  * <p>
- * Since GLib 2.72, #GUnixSocketAddress is available on all platforms. It
+ * Since GLib 2.72, {@link org.gtk.gio.UnixSocketAddress} is available on all platforms. It
  * requires underlying system support (such as Windows 10 with <code>AF_UNIX</code>) at
  * run time.
  * <p>
- * Before GLib 2.72, <code>&#60;gio/gunixsocketaddress.h&#62;</code> belonged to the UNIX-specific
+ * Before GLib 2.72, <code>&<code>#60</code> gio/gunixsocketaddress.h&<code>#62</code> </code> belonged to the UNIX-specific
  * GIO interfaces, thus you had to use the <code>gio-unix-2.0.pc</code> pkg-config file
  * when using it. This is no longer necessary since GLib 2.72.
  */
@@ -44,7 +43,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Creates a new #GUnixSocketAddress for @path.
+     * Creates a new {@link org.gtk.gio.UnixSocketAddress} for @path.
      * 
      * To create abstract socket addresses, on systems that support that,
      * use g_unix_socket_address_new_abstract().
@@ -59,8 +58,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Creates a new <code>G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED
-     * #GUnixSocketAddress</code> for @path.
+     * Creates a new {@link org.gtk.gio.UnixSocketAddressType<code>#ABSTRACT_PADDED</code>  {@link org.gtk.gio.UnixSocketAddress} for @path.
      */
     public static UnixSocketAddress newAbstract(byte[] path, int pathLen) {
         return new UnixSocketAddress(constructNewAbstract(path, pathLen));
@@ -72,24 +70,24 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Creates a new #GUnixSocketAddress of type @type with name @path.
+     * Creates a new {@link org.gtk.gio.UnixSocketAddress} of type @type with name @path.
      * <p>
-     * If @type is <code>G_UNIX_SOCKET_ADDRESS_PATH,</code> this is equivalent to
+     * If @type is {@link org.gtk.gio.UnixSocketAddressType<code>#PATH</code>   this is equivalent to
      * calling g_unix_socket_address_new().
      * <p>
-     * If @type is <code>G_UNIX_SOCKET_ADDRESS_ANONYMOUS,</code> @path and @path_len will be
+     * If @type is {@link org.gtk.gio.UnixSocketAddressType<code>#ANONYMOUS</code>   @path and @path_len will be
      * ignored.
      * <p>
-     * If @path_type is <code>G_UNIX_SOCKET_ADDRESS_ABSTRACT,</code> then @path_len
-     * bytes of @path will be copied to the socket&#39;s path, and only those
+     * If @path_type is {@link org.gtk.gio.UnixSocketAddressType<code>#ABSTRACT</code>   then @path_len
+     * bytes of @path will be copied to the socket&<code>#39</code> s path, and only those
      * bytes will be considered part of the name. (If @path_len is -1,
      * then @path is assumed to be NUL-terminated.) For example, if @path
-     * was &#34;test&#34;, then calling g_socket_address_get_native_size() on the
+     * was &<code>#34</code> test&<code>#34</code> , then calling g_socket_address_get_native_size() on the
      * returned socket would return 7 (2 bytes of overhead, 1 byte for the
-     * abstract-socket indicator byte, and 4 bytes for the name &#34;test&#34;).
+     * abstract-socket indicator byte, and 4 bytes for the name &<code>#34</code> test&<code>#34</code> ).
      * <p>
-     * If @path_type is <code>G_UNIX_SOCKET_ADDRESS_ABSTRACT_PADDED,</code> then
-     * @path_len bytes of @path will be copied to the socket&#39;s path, the
+     * If @path_type is {@link org.gtk.gio.UnixSocketAddressType<code>#ABSTRACT_PADDED</code>   then
+     * @path_len bytes of @path will be copied to the socket&<code>#39</code> s path, the
      * rest of the path will be padded with 0 bytes, and the entire
      * zero-padded buffer will be considered the name. (As above, if
      * @path_len is -1, then @path is assumed to be NUL-terminated.) In
@@ -98,8 +96,8 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * g_unix_socket_address_get_path_len() will still return just the
      * length of @path.
      * 
-     * {@link org.gtk.gio.UnixSocketAddressType#ABSTRACT} is preferred over
-     * {@link org.gtk.gio.UnixSocketAddressType#ABSTRACT_PADDED} for new programs. Of course,
+     * {@link org.gtk.gio.UnixSocketAddressType<code>#ABSTRACT</code>  is preferred over
+     * {@link org.gtk.gio.UnixSocketAddressType<code>#ABSTRACT_PADDED</code>  for new programs. Of course,
      * when connecting to a server created by another process, you must
      * use the appropriate type corresponding to how that process created
      * its listening socket.
@@ -109,7 +107,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets @address&#39;s type.
+     * Gets @address&<code>#39</code> s type.
      */
     public UnixSocketAddressType getAddressType() {
         var RESULT = gtk_h.g_unix_socket_address_get_address_type(handle());
@@ -117,7 +115,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets @address&#39;s path, or for abstract sockets the &#34;name&#34;.
+     * Gets @address&<code>#39</code> s path, or for abstract sockets the &<code>#34</code> name&<code>#34</code> .
      * 
      * Guaranteed to be zero-terminated, but an abstract socket
      * may contain embedded zeros, and thus you should use
@@ -130,7 +128,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets the length of @address&#39;s path.
+     * Gets the length of @address&<code>#39</code> s path.
      * 
      * For details, see g_unix_socket_address_get_path().
      */

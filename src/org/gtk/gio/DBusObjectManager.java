@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GDBusObjectManager type is the base type for service- and
+ * The {@link org.gtk.gio.DBusObjectManager} type is the base type for service- and
  * client-side implementations of the standardized
- * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
+ * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html<code>#standard</code> interfaces-objectmanager)
  * interface.
  * 
- * See #GDBusObjectManagerClient for the client-side implementation
- * and #GDBusObjectManagerServer for the service-side implementation.
+ * See {@link org.gtk.gio.DBusObjectManagerClient} for the client-side implementation
+ * and {@link org.gtk.gio.DBusObjectManagerServer} for the service-side implementation.
  */
 public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress {
 
@@ -28,7 +28,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Gets the #GDBusObject at @object_path, if any.
+     * Gets the {@link org.gtk.gio.DBusObject} at @object_path, if any.
      */
     public default DBusObject getObject(java.lang.String objectPath) {
         var RESULT = gtk_h.g_dbus_object_manager_get_object(handle(), Interop.allocateNativeString(objectPath).handle());
@@ -44,7 +44,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Gets all #GDBusObject objects known to @manager.
+     * Gets all {@link org.gtk.gio.DBusObject} objects known to @manager.
      */
     public default org.gtk.glib.List getObjects() {
         var RESULT = gtk_h.g_dbus_object_manager_get_objects(handle());

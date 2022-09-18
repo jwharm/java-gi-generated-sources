@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GDBusObjectManagerServer is used to export #GDBusObject instances using
+ * {@link org.gtk.gio.DBusObjectManagerServer} is used to export {@link org.gtk.gio.DBusObject} instances using
  * the standardized
- * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
+ * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html<code>#standard</code> interfaces-objectmanager)
  * interface. For example, remote D-Bus clients can get all objects
  * and properties in a single call. Additionally, any change in the
  * object hierarchy is broadcast using signals. This means that D-Bus
@@ -26,8 +26,8 @@ import java.lang.invoke.*;
  * It is supported, but not recommended, to export an object manager at the root
  * path, <code>/</code>.
  * 
- * See #GDBusObjectManagerClient for the client-side code that is
- * intended to be used with #GDBusObjectManagerServer or any D-Bus
+ * See {@link org.gtk.gio.DBusObjectManagerClient} for the client-side code that is
+ * intended to be used with {@link org.gtk.gio.DBusObjectManagerServer} or any D-Bus
  * object implementing the org.freedesktop.DBus.ObjectManager
  * interface.
  */
@@ -48,12 +48,12 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     }
     
     /**
-     * Creates a new #GDBusObjectManagerServer object.
+     * Creates a new {@link org.gtk.gio.DBusObjectManagerServer} object.
      * 
-     * The returned server isn&#39;t yet exported on any connection. To do so,
+     * The returned server isn&<code>#39</code> t yet exported on any connection. To do so,
      * use g_dbus_object_manager_server_set_connection(). Normally you
      * want to export all of your objects before doing so to avoid
-     * {@link [InterfacesAdded]}(http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager)
+     * {@link [InterfacesAdded]}(http://dbus.freedesktop.org/doc/dbus-specification.html<code>#standard</code> interfaces-objectmanager)
      * signals being emitted.
      */
     public DBusObjectManagerServer(java.lang.String objectPath) {
@@ -63,7 +63,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     /**
      * Exports @object on @manager.
      * 
-     * If there is already a #GDBusObject exported at the object path,
+     * If there is already a {@link org.gtk.gio.DBusObject} exported at the object path,
      * then the old object is removed.
      * 
      * The object path for @object must be in the hierarchy rooted by the
@@ -78,16 +78,16 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     
     /**
      * Like g_dbus_object_manager_server_export() but appends a string of
-     * the form _N (with N being a natural number) to @object&#39;s object path
+     * the form _N (with N being a natural number) to @object&<code>#39</code> s object path
      * if an object with the given path already exists. As such, the
-     * #GDBusObjectProxy:g-object-path property of @object may be modified.
+     * {@link org.gtk.gio.DBusObjectProxy} g-object-path property of @object may be modified.
      */
     public void exportUniquely(DBusObjectSkeleton object) {
         gtk_h.g_dbus_object_manager_server_export_uniquely(handle(), object.handle());
     }
     
     /**
-     * Gets the #GDBusConnection used by @manager.
+     * Gets the {@link org.gtk.gio.DBusConnection} used by @manager.
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_object_manager_server_get_connection(handle());
@@ -104,7 +104,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     
     /**
      * Exports all objects managed by @manager on @connection. If
-     * @connection is <code>NULL,</code> stops exporting objects.
+     * @connection is <code>null</code>  stops exporting objects.
      */
     public void setConnection(DBusConnection connection) {
         gtk_h.g_dbus_object_manager_server_set_connection(handle(), connection.handle());

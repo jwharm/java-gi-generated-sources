@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * <code>GdkVulkanContext</code> is an object representing the platform-specific
  * Vulkan draw context.
  * <p><code>GdkVulkanContext</code>s are created for a surface using
- * {@link org.gtk.gdk.Surface#createVulkanContext}, and the context will match
+ * {@link org.gtk.gdk.Surface<code>#createVulkanContext</code> , and the context will match
  * the characteristics of the surface.
  * <p>
  * Support for <code>GdkVulkanContext</code> is platform-specific and context creation

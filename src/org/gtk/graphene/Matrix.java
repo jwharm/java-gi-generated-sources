@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A structure capable of holding a 4x4 matrix.
  * 
- * The contents of the #graphene_matrix_t structure are private and
+ * The contents of the {@link org.gtk.graphene.Matrix} structure are private and
  * should never be accessed directly.
  */
 public class Matrix extends io.github.jwharm.javagi.ResourceBase {
@@ -25,7 +25,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_matrix_t.
+     * Allocates a new {@link org.gtk.graphene.Matrix}
      */
     public static Matrix alloc() {
         return new Matrix(constructAlloc());
@@ -37,7 +37,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * The algorithm for decomposing a matrix is taken from the
      * {@link [CSS3 Transforms specification]}(http://dev.w3.org/csswg/css-transforms/);
      * specifically, the decomposition code is based on the equivalent code
-     * published in &#34;Graphics Gems II&#34;, edited by Jim Arvo, and
+     * published in &<code>#34</code> Graphics Gems II&<code>#34</code> , edited by Jim Arvo, and
      * {@link [available online]}(http://tog.acm.org/resources/GraphicsGems/gemsii/unmatrix.c).
      */
     public boolean decompose(Vec3 translate, Vec3 scale, Quaternion rotate, Vec3 shear, Vec4 perspective) {
@@ -54,7 +54,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given #graphene_matrix_t matrices are equal.
+     * Checks whether the two given {@link org.gtk.graphene.Matrix} matrices are equal.
      */
     public boolean equal(Matrix b) {
         var RESULT = gtk_h.graphene_matrix_equal(handle(), b.handle());
@@ -62,7 +62,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given #graphene_matrix_t matrices are
+     * Checks whether the two given {@link org.gtk.graphene.Matrix} matrices are
      * byte-by-byte equal.
      * 
      * While this function is faster than graphene_matrix_equal(), it
@@ -70,7 +70,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * conjuction with either graphene_matrix_equal() or
      * graphene_matrix_near(). For instance:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      *   if (graphene_matrix_equal_fast (a, b))
      *     {
      *       // matrices are definitely the same
@@ -162,19 +162,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t from the values of an affine
+     * Initializes a {@link org.gtk.graphene.Matrix} from the values of an affine
      * transformation matrix.
      * 
      * The arguments map to the following matrix layout:
      * 
-     * |{@link [&#60;!-- language=&#34;plain&#34; --&#62;
-     *   &#9115; xx  yx &#9118;   &#9115;  a   b  0 &#9118;
-     *   &#9116; xy  yy &#9119; = &#9116;  c   d  0 &#9119;
-     *   &#9117; x0  y0 &#9120;   &#9117; tx  ty  1 &#9120;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> plain&<code>#34</code>  --&<code>#62</code> 
+     *   &<code>#9115</code>  xx  yx &<code>#9118</code>    &<code>#9115</code>   a   b  0 &<code>#9118</code> 
+     *   &<code>#9116</code>  xy  yy &<code>#9119</code>  = &<code>#9116</code>   c   d  0 &<code>#9119</code> 
+     *   &<code>#9117</code>  x0  y0 &<code>#9120</code>    &<code>#9117</code>  tx  ty  1 &<code>#9120</code> 
      * ]}|
      * 
      * This function can be used to convert between an affine matrix type
-     * from other libraries and a #graphene_matrix_t.
+     * from other libraries and a {@link org.gtk.graphene.Matrix}
      */
     public Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
         var RESULT = gtk_h.graphene_matrix_init_from_2d(handle(), xx, yx, xy, yy, x0, y0);
@@ -182,7 +182,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with the given array of floating
+     * Initializes a {@link org.gtk.graphene.Matrix} with the given array of floating
      * point values.
      */
     public Matrix initFromFloat(float[] v) {
@@ -191,7 +191,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t using the values of the
+     * Initializes a {@link org.gtk.graphene.Matrix} using the values of the
      * given matrix.
      */
     public Matrix initFromMatrix(Matrix src) {
@@ -200,7 +200,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with the given four row
+     * Initializes a {@link org.gtk.graphene.Matrix} with the given four row
      * vectors.
      */
     public Matrix initFromVec4(Vec4 v0, Vec4 v1, Vec4 v2, Vec4 v3) {
@@ -209,7 +209,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t compatible with #graphene_frustum_t.
+     * Initializes a {@link org.gtk.graphene.Matrix} compatible with {@link org.gtk.graphene.Frustum} 
      * 
      * See also: graphene_frustum_init_from_matrix()
      */
@@ -219,7 +219,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with the identity matrix.
+     * Initializes a {@link org.gtk.graphene.Matrix} with the identity matrix.
      */
     public Matrix initIdentity() {
         var RESULT = gtk_h.graphene_matrix_init_identity(handle());
@@ -227,7 +227,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t so that it positions the &#34;camera&#34;
+     * Initializes a {@link org.gtk.graphene.Matrix} so that it positions the &<code>#34</code> camera&<code>#34</code> 
      * at the given @eye coordinates towards an object at the @center
      * coordinates. The top of the camera is aligned to the direction
      * of the @up vector.
@@ -250,7 +250,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with an orthographic projection.
+     * Initializes a {@link org.gtk.graphene.Matrix} with an orthographic projection.
      */
     public Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
         var RESULT = gtk_h.graphene_matrix_init_ortho(handle(), left, right, top, bottom, zNear, zFar);
@@ -258,7 +258,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with a perspective projection.
+     * Initializes a {@link org.gtk.graphene.Matrix} with a perspective projection.
      */
     public Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
         var RESULT = gtk_h.graphene_matrix_init_perspective(handle(), fovy, aspect, zNear, zFar);
@@ -275,7 +275,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with the given scaling factors.
+     * Initializes a {@link org.gtk.graphene.Matrix} with the given scaling factors.
      */
     public Matrix initScale(float x, float y, float z) {
         var RESULT = gtk_h.graphene_matrix_init_scale(handle(), x, y, z);
@@ -283,7 +283,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with a skew transformation
+     * Initializes a {@link org.gtk.graphene.Matrix} with a skew transformation
      * with the given factors.
      */
     public Matrix initSkew(float xSkew, float ySkew) {
@@ -292,7 +292,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_matrix_t with a translation to the
+     * Initializes a {@link org.gtk.graphene.Matrix} with a translation to the
      * given coordinates.
      */
     public Matrix initTranslate(Point3D p) {
@@ -301,7 +301,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Linearly interpolates the two given #graphene_matrix_t by
+     * Linearly interpolates the two given {@link org.gtk.graphene.Matrix} by
      * interpolating the decomposed transformations separately.
      * 
      * If either matrix cannot be reduced to their transformations
@@ -321,7 +321,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the given #graphene_matrix_t is compatible with an
+     * Checks whether the given {@link org.gtk.graphene.Matrix} is compatible with an
      * a 2D affine transformation matrix.
      */
     public boolean is2d() {
@@ -330,7 +330,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether a #graphene_matrix_t has a visible back face.
+     * Checks whether a {@link org.gtk.graphene.Matrix} has a visible back face.
      */
     public boolean isBackfaceVisible() {
         var RESULT = gtk_h.graphene_matrix_is_backface_visible(handle());
@@ -338,7 +338,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the given #graphene_matrix_t is the identity matrix.
+     * Checks whether the given {@link org.gtk.graphene.Matrix} is the identity matrix.
      */
     public boolean isIdentity() {
         var RESULT = gtk_h.graphene_matrix_is_identity(handle());
@@ -354,17 +354,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Multiplies two #graphene_matrix_t.
+     * Multiplies two {@link org.gtk.graphene.Matrix} 
      * 
      * Matrix multiplication is not commutative in general; the order of the factors matters.
-     * The product of this multiplication is (@a &#215; @b)
+     * The product of this multiplication is (@a &<code>#215</code>  @b)
      */
     public void multiply(Matrix b, Matrix res) {
         gtk_h.graphene_matrix_multiply(handle(), b.handle(), res.handle());
     }
     
     /**
-     * Compares the two given #graphene_matrix_t matrices and checks
+     * Compares the two given {@link org.gtk.graphene.Matrix} matrices and checks
      * whether their values are within the given @epsilon of each
      * other.
      */
@@ -374,7 +374,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Normalizes the given #graphene_matrix_t.
+     * Normalizes the given {@link org.gtk.graphene.Matrix}
      */
     public void normalize(Matrix res) {
         gtk_h.graphene_matrix_normalize(handle(), res.handle());
@@ -398,14 +398,14 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Projects a #graphene_point_t using the matrix @m.
+     * Projects a {@link org.gtk.graphene.Point} using the matrix @m.
      */
     public void projectPoint(Point p, Point res) {
         gtk_h.graphene_matrix_project_point(handle(), p.handle(), res.handle());
     }
     
     /**
-     * Projects all corners of a #graphene_rect_t using the given matrix.
+     * Projects all corners of a {@link org.gtk.graphene.Rect} using the given matrix.
      * 
      * See also: graphene_matrix_project_point()
      */
@@ -414,7 +414,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Projects a #graphene_rect_t using the given matrix.
+     * Projects a {@link org.gtk.graphene.Rect} using the given matrix.
      * 
      * The resulting rectangle is the axis aligned bounding rectangle capable
      * of fully containing the projected rectangle.
@@ -436,7 +436,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Adds a rotation transformation to @m, using the given
-     * #graphene_euler_t.
+     * {@link org.gtk.graphene.Euler}
      */
     public void rotateEuler(Euler e) {
         gtk_h.graphene_matrix_rotate_euler(handle(), e.handle());
@@ -444,7 +444,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Adds a rotation transformation to @m, using the given
-     * #graphene_quaternion_t.
+     * {@link org.gtk.graphene.Quaternion} 
      * 
      * This is the equivalent of calling graphene_quaternion_to_matrix() and
      * then multiplying @m with the rotation matrix.
@@ -516,7 +516,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts a #graphene_matrix_t to an array of floating point
+     * Converts a {@link org.gtk.graphene.Matrix} to an array of floating point
      * values.
      */
     public void toFloat(float[] v) {
@@ -524,7 +524,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms each corner of a #graphene_rect_t using the given matrix @m.
+     * Transforms each corner of a {@link org.gtk.graphene.Rect} using the given matrix @m.
      * 
      * The result is the axis aligned bounding rectangle containing the coplanar
      * quadrilateral.
@@ -536,7 +536,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms the vertices of a #graphene_box_t using the given matrix @m.
+     * Transforms the vertices of a {@link org.gtk.graphene.Box} using the given matrix @m.
      * 
      * The result is the axis aligned bounding box containing the transformed
      * vertices.
@@ -546,10 +546,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms the given #graphene_point_t using the matrix @m.
+     * Transforms the given {@link org.gtk.graphene.Point} using the matrix @m.
      * 
      * Unlike graphene_matrix_transform_vec3(), this function will take into
-     * account the fourth row vector of the #graphene_matrix_t when computing
+     * account the fourth row vector of the {@link org.gtk.graphene.Matrix} when computing
      * the dot product of each row vector of the matrix.
      * 
      * See also: graphene_simd4x4f_point3_mul()
@@ -559,10 +559,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms the given #graphene_point3d_t using the matrix @m.
+     * Transforms the given {@link org.gtk.graphene.Point3D} using the matrix @m.
      * 
      * Unlike graphene_matrix_transform_vec3(), this function will take into
-     * account the fourth row vector of the #graphene_matrix_t when computing
+     * account the fourth row vector of the {@link org.gtk.graphene.Matrix} when computing
      * the dot product of each row vector of the matrix.
      * 
      * See also: graphene_simd4x4f_point3_mul()
@@ -572,14 +572,14 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transform a #graphene_ray_t using the given matrix @m.
+     * Transform a {@link org.gtk.graphene.Ray} using the given matrix @m.
      */
     public void transformRay(Ray r, Ray res) {
         gtk_h.graphene_matrix_transform_ray(handle(), r.handle(), res.handle());
     }
     
     /**
-     * Transforms each corner of a #graphene_rect_t using the given matrix @m.
+     * Transforms each corner of a {@link org.gtk.graphene.Rect} using the given matrix @m.
      * 
      * The result is a coplanar quadrilateral.
      * 
@@ -590,7 +590,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms a #graphene_sphere_t using the given matrix @m. The
+     * Transforms a {@link org.gtk.graphene.Sphere} using the given matrix @m. The
      * result is the bounding sphere containing the transformed sphere.
      */
     public void transformSphere(Sphere s, Sphere res) {
@@ -598,7 +598,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms the given #graphene_vec3_t using the matrix @m.
+     * Transforms the given {@link org.gtk.graphene.Vec3} using the matrix @m.
      * 
      * This function will multiply the X, Y, and Z row vectors of the matrix @m
      * with the corresponding components of the vector @v. The W row vector will
@@ -611,7 +611,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms the given #graphene_vec4_t using the matrix @m.
+     * Transforms the given {@link org.gtk.graphene.Vec4} using the matrix @m.
      * 
      * See also: graphene_simd4x4f_vec4_mul()
      */
@@ -621,7 +621,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Adds a translation transformation to @m using the coordinates
-     * of the given #graphene_point3d_t.
+     * of the given {@link org.gtk.graphene.Point3D} 
      * 
      * This is the equivalent of calling graphene_matrix_init_translate() and
      * then multiplying @m with the translation matrix.
@@ -646,7 +646,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Undoes the transformation on the corners of a #graphene_rect_t using the
+     * Undoes the transformation on the corners of a {@link org.gtk.graphene.Rect} using the
      * given matrix, within the given axis aligned rectangular @bounds.
      */
     public void untransformBounds(Rect r, Rect bounds, Rect res) {
@@ -654,7 +654,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Undoes the transformation of a #graphene_point_t using the
+     * Undoes the transformation of a {@link org.gtk.graphene.Point} using the
      * given matrix, within the given axis aligned rectangular @bounds.
      */
     public boolean untransformPoint(Point p, Rect bounds, Point res) {

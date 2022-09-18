@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  * <p>
  * The main properties of a <code>GtkSpinButton</code> are through an adjustment.
  * See the {@link org.gtk.gtk.Adjustment} documentation for more details about
- * an adjustment&#39;s properties.
+ * an adjustment&<code>#39</code> s properties.
  * <p>
  * Note that <code>GtkSpinButton</code> will by default make its entry large enough
  * to accommodate the lower and upper bounds of the adjustment. If this
@@ -88,22 +88,22 @@ import java.lang.invoke.*;
  * }
  * </pre>
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * spinbutton.horizontal
- * &#9500;&#9472;&#9472; text
- * &#9474;    &#9500;&#9472;&#9472; undershoot.left
- * &#9474;    &#9584;&#9472;&#9472; undershoot.right
- * &#9500;&#9472;&#9472; button.down
- * &#9584;&#9472;&#9472; button.up
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  text
+ * &<code>#9474</code>     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  undershoot.left
+ * &<code>#9474</code>     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  undershoot.right
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button.down
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.up
  * </pre>
  * <p><pre>
  * spinbutton.vertical
- * &#9500;&#9472;&#9472; button.up
- * &#9500;&#9472;&#9472; text
- * &#9474;    &#9500;&#9472;&#9472; undershoot.left
- * &#9474;    &#9584;&#9472;&#9472; undershoot.right
- * &#9584;&#9472;&#9472; button.down
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button.up
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  text
+ * &<code>#9474</code>     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  undershoot.left
+ * &<code>#9474</code>     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  undershoot.right
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.down
  * </pre>
  * <p><code>GtkSpinButton</code>s main CSS node has the name spinbutton. It creates subnodes
  * for the entry and the two buttons, with these names. The button nodes have
@@ -111,8 +111,8 @@ import java.lang.invoke.*;
  * below the text node. The orientation of the spin button is reflected in
  * the .vertical or .horizontal style class on the main node.
  * <p>
- * <h1>ccessiblity</h1>
- * <p><code>GtkSpinButton</code> uses the {@link org.gtk.gtk.AccessibleRole#SPIN_BUTTON} role.
+ * <h1>Accessiblity</h1>
+ * <p><code>GtkSpinButton</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SPIN_BUTTON</code>  role.
  */
 public class SpinButton extends Widget implements Accessible, Buildable, CellEditable, ConstraintTarget, Editable, Orientable {
 
@@ -155,7 +155,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Note that the way in which the precision is derived works
      * best if @step is a power of ten. If the resulting precision
      * is not suitable for your needs, use
-     * {@link org.gtk.gtk.SpinButton#setDigits} to correct it.
+     * {@link org.gtk.gtk.SpinButton<code>#setDigits</code>  to correct it.
      */
     public static SpinButton newWithRange(double min, double max, double step) {
         return new SpinButton(constructNewWithRange(min, max, step));
@@ -214,7 +214,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     /**
      * Gets the update behavior of a spin button.
      * 
-     * See {@link org.gtk.gtk.SpinButton#setUpdatePolicy}.
+     * See {@link org.gtk.gtk.SpinButton<code>#setUpdatePolicy</code> .
      */
     public SpinButtonUpdatePolicy getUpdatePolicy() {
         var RESULT = gtk_h.gtk_spin_button_get_update_policy(handle());
@@ -238,7 +238,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Returns whether the spin button&#8217;s value wraps around to the
+     * Returns whether the spin button&<code>#8217</code> s value wraps around to the
      * opposite limit when the upper or lower limit of the range is
      * exceeded.
      */
@@ -275,7 +275,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * Sets the step and page increments for spin_button.
      * 
      * This affects how quickly the value changes when
-     * the spin button&#8217;s arrows are activated.
+     * the spin button&<code>#8217</code> s arrows are activated.
      */
     public void setIncrements(double step, double page) {
         gtk_h.gtk_spin_button_set_increments(handle(), step, page);
@@ -335,7 +335,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Increment or decrement a spin button&#8217;s value in a specified
+     * Increment or decrement a spin button&<code>#8217</code> s value in a specified
      * direction by a specified amount.
      */
     public void spin(SpinType direction, double increment) {
@@ -388,7 +388,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     /**
      * Emitted to convert the users input into a double value.
      * 
-     * The signal handler is expected to use {@link org.gtk.gtk.Editable#getText}
+     * The signal handler is expected to use {@link org.gtk.gtk.Editable<code>#getText</code> 
      * to retrieve the text of the spinbutton and set @new_value to the
      * new value.
      * 
@@ -428,7 +428,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * 
      *    adjustment = gtk_spin_button_get_adjustment (spin);
      *    value = (int)gtk_adjustment_get_value (adjustment);
-     *    text = g_strdup_printf (&#34;<code>02d&#34;,</code> value);
+     *    text = g_strdup_printf (&<code>#34</code> <code>02d</code> <code>#34</code> , value);
      *    gtk_spin_button_set_text (spin, text):
      *    g_free (text);
      * 

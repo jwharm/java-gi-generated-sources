@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * #GMountOperationResult is returned as a result when a request for
+ * {@link org.gtk.gio.MountOperationResult} is returned as a result when a request for
  * information is send by the mounting operation.
  */
 public enum MountOperationResult {

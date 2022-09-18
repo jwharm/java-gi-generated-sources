@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  * To create a <code>GtkColorChooserDialog</code>, use {@link [ctor@Gtk.ColorChooserDialog.new] (ref=ctor)}.
  * 
  * To change the initially selected color, use
- * {@link org.gtk.gtk.ColorChooser#setRgba}. To get the selected color use
- * {@link org.gtk.gtk.ColorChooser#getRgba}.
+ * {@link org.gtk.gtk.ColorChooser<code>#setRgba</code> . To get the selected color use
+ * {@link org.gtk.gtk.ColorChooser<code>#getRgba</code> .
  */
 public class ColorChooserDialog extends Dialog implements Accessible, Buildable, ColorChooser, ConstraintTarget, Native, Root, ShortcutManager {
 

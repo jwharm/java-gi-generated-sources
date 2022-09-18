@@ -34,13 +34,13 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Determines if the style attributes of @new_match are a closer match
-     * for @desc than those of @old_match are, or if @old_match is <code>NULL,
-     * determines</code> if @new_match is a match at all.
+     * for @desc than those of @old_match are, or if @old_match is <code>null</code> 
+     * determines if @new_match is a match at all.
      * 
      * Approximate matching is done for weight and style; other style attributes
      * must match exactly. Style attributes are all attributes other than family
      * and size-related attributes. Approximate matching for style considers
-     * {@link org.pango.Style#OBLIQUE} and {@link org.pango.Style#ITALIC} as matches, but not as good
+     * {@link org.pango.Style<code>#OBLIQUE</code>  and {@link org.pango.Style<code>#ITALIC</code>  as matches, but not as good
      * a match as when the styles are equal.
      * 
      * Note that @old_match must match @desc.
@@ -59,10 +59,10 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Make a copy of a <code>PangoFontDescription</code>, but don&#39;t duplicate
+     * Make a copy of a <code>PangoFontDescription</code>, but don&<code>#39</code> t duplicate
      * allocated fields.
      * 
-     * This is like {@link org.pango.FontDescription#copy}, but only a shallow
+     * This is like {@link org.pango.FontDescription<code>#copy</code> , but only a shallow
      * copy is made of the family name and other allocated fields. The result
      * can only be used until @desc is modified or freed. This is meant
      * to be used when the copy is only needed temporarily.
@@ -78,18 +78,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Two font descriptions are considered equal if the fonts they describe
      * are provably identical. This means that their masks do not have to match,
      * as long as other fields are all the same. (Two font descriptions may
-     * result in identical fonts being loaded, but still compare 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Compares two font descriptions for equality.
-     * 
-     * Two font descriptions are considered equal if the fonts they describe
-     * are provably identical. This means that their masks do not have to match,
-     * as long as other fields are all the same. (Two font descriptions may
-     * result in identical fonts being loaded, but still compare %FALSE.)
+     * result in identical fonts being loaded, but still compare <code>false</code> )
      */
     public boolean equal(FontDescription desc2) {
         var RESULT = gtk_h.pango_font_description_equal(handle(), desc2.handle());
@@ -106,7 +95,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the family name field of a font description.
      * 
-     * See {@link org.pango.FontDescription#setFamily}.
+     * See {@link org.pango.FontDescription<code>#setFamily</code> .
      */
     public java.lang.String getFamily() {
         var RESULT = gtk_h.pango_font_description_get_family(handle());
@@ -116,7 +105,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the gravity field of a font description.
      * 
-     * See {@link org.pango.FontDescription#setGravity}.
+     * See {@link org.pango.FontDescription<code>#setGravity</code> .
      */
     public Gravity getGravity() {
         var RESULT = gtk_h.pango_font_description_get_gravity(handle());
@@ -134,7 +123,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the size field of a font description.
      * 
-     * See {@link org.pango.FontDescription#setSize}.
+     * See {@link org.pango.FontDescription<code>#setSize</code> .
      */
     public int getSize() {
         var RESULT = gtk_h.pango_font_description_get_size(handle());
@@ -145,8 +134,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Determines whether the size of the font is in points (not absolute)
      * or device units (absolute).
      * 
-     * See {@link org.pango.FontDescription#setSize}
-     * and {@link org.pango.FontDescription#setAbsoluteSize}.
+     * See {@link org.pango.FontDescription<code>#setSize</code> 
+     * and {@link org.pango.FontDescription<code>#setAbsoluteSize</code> .
      */
     public boolean getSizeIsAbsolute() {
         var RESULT = gtk_h.pango_font_description_get_size_is_absolute(handle());
@@ -156,7 +145,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the stretch field of a font description.
      * 
-     * See {@link org.pango.FontDescription#setStretch}.
+     * See {@link org.pango.FontDescription<code>#setStretch</code> .
      */
     public Stretch getStretch() {
         var RESULT = gtk_h.pango_font_description_get_stretch(handle());
@@ -166,7 +155,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the style field of a <code>PangoFontDescription</code>.
      * 
-     * See {@link org.pango.FontDescription#setStyle}.
+     * See {@link org.pango.FontDescription<code>#setStyle</code> .
      */
     public Style getStyle() {
         var RESULT = gtk_h.pango_font_description_get_style(handle());
@@ -176,7 +165,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the variant field of a <code>PangoFontDescription</code>.
      * 
-     * See {@link org.pango.FontDescription#setVariant}.
+     * See {@link org.pango.FontDescription<code>#setVariant</code> .
      */
     public Variant getVariant() {
         var RESULT = gtk_h.pango_font_description_get_variant(handle());
@@ -186,7 +175,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the variations field of a font description.
      * 
-     * See {@link org.pango.FontDescription#setVariations}.
+     * See {@link org.pango.FontDescription<code>#setVariations</code> .
      */
     public java.lang.String getVariations() {
         var RESULT = gtk_h.pango_font_description_get_variations(handle());
@@ -196,7 +185,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the weight field of a font description.
      * 
-     * See {@link org.pango.FontDescription#setWeight}.
+     * See {@link org.pango.FontDescription<code>#setWeight</code> .
      */
     public Weight getWeight() {
         var RESULT = gtk_h.pango_font_description_get_weight(handle());
@@ -207,7 +196,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Computes a hash of a <code>PangoFontDescription</code> structure.
      * 
      * This is suitable to be used, for example, as an argument
-     * to g_hash_table_new(). The hash value is independent of @desc-&#62;mask.
+     * to g_hash_table_new(). The hash value is independent of @desc-&<code>#62</code> mask.
      */
     public int hash() {
         var RESULT = gtk_h.pango_font_description_hash(handle());
@@ -218,11 +207,11 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Merges the fields that are set in @desc_to_merge into the fields in
      * @desc.
      * 
-     * If @replace_existing is <code>FALSE,</code> only fields in @desc that
-     * are not already set are affected. If <code>TRUE,</code> then fields that are
+     * If @replace_existing is <code>false</code>  only fields in @desc that
+     * are not already set are affected. If <code>true</code>  then fields that are
      * already set will be replaced as well.
      * 
-     * If @desc_to_merge is <code>NULL,</code> this function performs nothing.
+     * If @desc_to_merge is <code>null</code>  this function performs nothing.
      */
     public void merge(FontDescription descToMerge, boolean replaceExisting) {
         gtk_h.pango_font_description_merge(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
@@ -232,7 +221,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Merges the fields that are set in @desc_to_merge into the fields in
      * @desc, without copying allocated fields.
      * 
-     * This is like {@link org.pango.FontDescription#merge}, but only a shallow copy
+     * This is like {@link org.pango.FontDescription<code>#merge</code> , but only a shallow copy
      * is made of the family name and other allocated fields. @desc can only
      * be used until @desc_to_merge is modified or freed. This is meant to
      * be used when the merged font description is only needed temporarily.
@@ -244,7 +233,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the size field of a font description, in device units.
      * 
-     * This is mutually exclusive with {@link org.pango.FontDescription#setSize}
+     * This is mutually exclusive with {@link org.pango.FontDescription<code>#setSize</code> 
      * which sets the font size in points.
      */
     public void setAbsoluteSize(double size) {
@@ -266,7 +255,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the family name field of a font description, without copying the string.
      * 
-     * This is like {@link org.pango.FontDescription#setFamily}, except that no
+     * This is like {@link org.pango.FontDescription<code>#setFamily</code> , except that no
      * copy of @family is made. The caller must make sure that the
      * string passed in stays around until @desc has been freed or the
      * name is set again. This function can be used if @family is a static
@@ -281,7 +270,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The gravity field
      * specifies how the glyphs should be rotated. If @gravity is
-     * <code>PANGO_GRAVITY_AUTO,</code> this actually unsets the gravity mask on
+     * {@link org.pango.Gravity<code>#AUTO</code>   this actually unsets the gravity mask on
      * the font description.
      * <p>
      * This function is seldom useful to the user. Gravity should normally
@@ -295,7 +284,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Sets the size field of a font description in fractional points.
      * 
      * This is mutually exclusive with
-     * {@link org.pango.FontDescription#setAbsoluteSize}.
+     * {@link org.pango.FontDescription<code>#setAbsoluteSize</code> .
      */
     public void setSize(int size) {
         gtk_h.pango_font_description_set_size(handle(), size);
@@ -316,9 +305,9 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The {@link [enum@Pango.Style] (ref=enum)} enumeration describes whether the font is
      * slanted and the manner in which it is slanted; it can be either
-     * <code>PANGO_STYLE_NORMAL,</code> <code>PANGO_STYLE_ITALIC,</code> or <code>PANGO_STYLE_OBLIQUE.
+     * {@link org.pango.Style<code>#NORMAL</code>   {@link org.pango.Style<code>#ITALIC</code>   or {@link org.pango.Style<code>#OBLIQUE</code>  
      * 
-     * Most</code> fonts will either have a italic style or an oblique style,
+     * Most fonts will either have a italic style or an oblique style,
      * but not both, and font matching in Pango will match italic
      * specifications with oblique fonts and vice-versa if an exact
      * match is not found.
@@ -330,8 +319,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the variant field of a font description.
      * 
-     * The {@link [enum@Pango.Variant] (ref=enum)} can either be <code>PANGO_VARIANT_NORMAL
-     * or</code> %PANGO_VARIANT_SMALL_CAPS.
+     * The {@link [enum@Pango.Variant] (ref=enum)} can either be {@link org.pango.Variant<code>#NORMAL</code>  or {@link org.pango.Variant<code>#SMALL_CAPS</code>
      */
     public void setVariant(Variant variant) {
         gtk_h.pango_font_description_set_variant(handle(), variant.getValue());
@@ -353,7 +341,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * 
      * Pango does not currently have a way to find supported axes of
      * a font. Both harfbuzz and freetype have API for this. See
-     * for example {@link [hb_ot_var_get_axis_infos]}(https://harfbuzz.github.io/harfbuzz-hb-ot-var.html#hb-ot-var-get-axis-infos).
+     * for example {@link [hb_ot_var_get_axis_infos]}(https://harfbuzz.github.io/harfbuzz-hb-ot-var.html<code>#hb</code> ot-var-get-axis-infos).
      */
     public void setVariations(java.lang.String variations) {
         gtk_h.pango_font_description_set_variations(handle(), Interop.allocateNativeString(variations).handle());
@@ -362,7 +350,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the variations field of a font description.
      * 
-     * This is like {@link org.pango.FontDescription#setVariations}, except
+     * This is like {@link org.pango.FontDescription<code>#setVariations</code> , except
      * that no copy of @variations is made. The caller must make sure that
      * the string passed in stays around until @desc has been freed
      * or the name is set again. This function can be used if
@@ -389,7 +377,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Creates a filename representation of a font description.
      * 
      * The filename is identical to the result from calling
-     * {@link org.pango.FontDescription#toString}, but with underscores
+     * {@link org.pango.FontDescription<code>#toString</code> , but with underscores
      * instead of characters that are untypical in filenames, and in
      * lower case only.
      */
@@ -401,7 +389,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a string representation of a font description.
      * 
-     * See {@link Pango#FontDescription} for a description
+     * See {@link Pango<code>#FontDescription</code>  for a description
      * of the format of the string representation. The family list in
      * the string description will only have a terminating comma if
      * the last word of the list is a valid style option.
@@ -425,46 +413,46 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The string must have the form
      * 
-     *     &#34;\\{@link [FAMILY-LIST]} \\{@link [STYLE-OPTIONS]} \\{@link [SIZE]} \\{@link [VARIATIONS]}&#34;,
+     *     &<code>#34</code> \\{@link [FAMILY-LIST]} \\{@link [STYLE-OPTIONS]} \\{@link [SIZE]} \\{@link [VARIATIONS]}&<code>#34</code> ,
      * 
      * where FAMILY-LIST is a comma-separated list of families optionally
      * terminated by a comma, STYLE_OPTIONS is a whitespace-separated list
      * of words where each word describes one of style, variant, weight,
      * stretch, or gravity, and SIZE is a decimal number (size in points)
-     * or optionally followed by the unit modifier &#34;px&#34; for absolute size.
+     * or optionally followed by the unit modifier &<code>#34</code> px&<code>#34</code>  for absolute size.
      * VARIATIONS is a comma-separated list of font variation
-     * specifications of the form &#34;\\@axis=value&#34; (the = sign is optional).
+     * specifications of the form &<code>#34</code> \\@axis=value&<code>#34</code>  (the = sign is optional).
      * 
      * The following words are understood as styles:
-     * &#34;Normal&#34;, &#34;Roman&#34;, &#34;Oblique&#34;, &#34;Italic&#34;.
+     * &<code>#34</code> Normal&<code>#34</code> , &<code>#34</code> Roman&<code>#34</code> , &<code>#34</code> Oblique&<code>#34</code> , &<code>#34</code> Italic&<code>#34</code> .
      * 
      * The following words are understood as variants:
-     * &#34;Small-Caps&#34;, &#34;All-Small-Caps&#34;, &#34;Petite-Caps&#34;, &#34;All-Petite-Caps&#34;,
-     * &#34;Unicase&#34;, &#34;Title-Caps&#34;.
+     * &<code>#34</code> Small-Caps&<code>#34</code> , &<code>#34</code> All-Small-Caps&<code>#34</code> , &<code>#34</code> Petite-Caps&<code>#34</code> , &<code>#34</code> All-Petite-Caps&<code>#34</code> ,
+     * &<code>#34</code> Unicase&<code>#34</code> , &<code>#34</code> Title-Caps&<code>#34</code> .
      * 
      * The following words are understood as weights:
-     * &#34;Thin&#34;, &#34;Ultra-Light&#34;, &#34;Extra-Light&#34;, &#34;Light&#34;, &#34;Semi-Light&#34;,
-     * &#34;Demi-Light&#34;, &#34;Book&#34;, &#34;Regular&#34;, &#34;Medium&#34;, &#34;Semi-Bold&#34;, &#34;Demi-Bold&#34;,
-     * &#34;Bold&#34;, &#34;Ultra-Bold&#34;, &#34;Extra-Bold&#34;, &#34;Heavy&#34;, &#34;Black&#34;, &#34;Ultra-Black&#34;,
-     * &#34;Extra-Black&#34;.
+     * &<code>#34</code> Thin&<code>#34</code> , &<code>#34</code> Ultra-Light&<code>#34</code> , &<code>#34</code> Extra-Light&<code>#34</code> , &<code>#34</code> Light&<code>#34</code> , &<code>#34</code> Semi-Light&<code>#34</code> ,
+     * &<code>#34</code> Demi-Light&<code>#34</code> , &<code>#34</code> Book&<code>#34</code> , &<code>#34</code> Regular&<code>#34</code> , &<code>#34</code> Medium&<code>#34</code> , &<code>#34</code> Semi-Bold&<code>#34</code> , &<code>#34</code> Demi-Bold&<code>#34</code> ,
+     * &<code>#34</code> Bold&<code>#34</code> , &<code>#34</code> Ultra-Bold&<code>#34</code> , &<code>#34</code> Extra-Bold&<code>#34</code> , &<code>#34</code> Heavy&<code>#34</code> , &<code>#34</code> Black&<code>#34</code> , &<code>#34</code> Ultra-Black&<code>#34</code> ,
+     * &<code>#34</code> Extra-Black&<code>#34</code> .
      * 
      * The following words are understood as stretch values:
-     * &#34;Ultra-Condensed&#34;, &#34;Extra-Condensed&#34;, &#34;Condensed&#34;, &#34;Semi-Condensed&#34;,
-     * &#34;Semi-Expanded&#34;, &#34;Expanded&#34;, &#34;Extra-Expanded&#34;, &#34;Ultra-Expanded&#34;.
+     * &<code>#34</code> Ultra-Condensed&<code>#34</code> , &<code>#34</code> Extra-Condensed&<code>#34</code> , &<code>#34</code> Condensed&<code>#34</code> , &<code>#34</code> Semi-Condensed&<code>#34</code> ,
+     * &<code>#34</code> Semi-Expanded&<code>#34</code> , &<code>#34</code> Expanded&<code>#34</code> , &<code>#34</code> Extra-Expanded&<code>#34</code> , &<code>#34</code> Ultra-Expanded&<code>#34</code> .
      * 
      * The following words are understood as gravity values:
-     * &#34;Not-Rotated&#34;, &#34;South&#34;, &#34;Upside-Down&#34;, &#34;North&#34;, &#34;Rotated-Left&#34;,
-     * &#34;East&#34;, &#34;Rotated-Right&#34;, &#34;West&#34;.
+     * &<code>#34</code> Not-Rotated&<code>#34</code> , &<code>#34</code> South&<code>#34</code> , &<code>#34</code> Upside-Down&<code>#34</code> , &<code>#34</code> North&<code>#34</code> , &<code>#34</code> Rotated-Left&<code>#34</code> ,
+     * &<code>#34</code> East&<code>#34</code> , &<code>#34</code> Rotated-Right&<code>#34</code> , &<code>#34</code> West&<code>#34</code> .
      * 
      * Any one of the options may be absent. If FAMILY-LIST is absent, then
      * the family_name field of the resulting font description will be
-     * initialized to <code>NULL.</code> If STYLE-OPTIONS is missing, then all style
+     * initialized to <code>null</code>  If STYLE-OPTIONS is missing, then all style
      * options will be set to the default values. If SIZE is missing, the
      * size in the resulting font description will be set to 0.
      * 
      * A typical example:
      * 
-     *     &#34;Cantarell Italic Light 15 \\@wght=200&#34;
+     *     &<code>#34</code> Cantarell Italic Light 15 \\@wght=200&<code>#34</code>
      */
     public static FontDescription fromString(java.lang.String str) {
         var RESULT = gtk_h.pango_font_description_from_string(Interop.allocateNativeString(str).handle());

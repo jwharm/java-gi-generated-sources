@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  * have to replace it with a new one. If you need to pass arguments to
  * an action, these are specified by the higher-level <code>GtkShortcut</code> object.
  * <p>
- * To activate a <code>GtkShortcutAction</code> manually, {@link org.gtk.gtk.ShortcutAction#activate}
+ * To activate a <code>GtkShortcutAction</code> manually, {@link org.gtk.gtk.ShortcutAction<code>#activate</code> 
  * can be called.
  * 
  * GTK provides various actions:
@@ -75,7 +75,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * Note that some actions ignore the passed in @flags, @widget or @args.
      * 
      * Activation of an action can fail for various reasons. If the action
-     * is not supported by the @widget, if the @args don&#39;t match the action
+     * is not supported by the @widget, if the @args don&<code>#39</code> t match the action
      * or if the activation otherwise had no effect, <code>false</code> will be returned.
      */
     public boolean activate(int flags, Widget widget, org.gtk.glib.Variant args) {
@@ -98,7 +98,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
     /**
      * Prints the given action into a human-readable string.
      * 
-     * This is a small wrapper around {@link org.gtk.gtk.ShortcutAction#print}
+     * This is a small wrapper around {@link org.gtk.gtk.ShortcutAction<code>#print</code> 
      * to help when debugging.
      */
     public java.lang.String toString() {

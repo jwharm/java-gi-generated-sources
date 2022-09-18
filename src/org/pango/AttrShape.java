@@ -33,7 +33,7 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new shape attribute.
      * 
-     * Like {@link Pango#AttrShape}, but a user data pointer
+     * Like {@link Pango<code>#AttrShape</code> , but a user data pointer
      * is also provided; this pointer can be accessed when later
      * rendering the glyph.
      */

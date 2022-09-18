@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A set of functions used to perform memory allocation. The same #GMemVTable must
+ * A set of functions used to perform memory allocation. The same {@link org.gtk.glib.MemVTable} must
  * be used for all allocations in the same program; a call to g_mem_set_vtable(),
  * if it exists, should be prior to any use of GLib.
  * 

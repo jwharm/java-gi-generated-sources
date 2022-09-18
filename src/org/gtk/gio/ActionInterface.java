@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual function table for #GAction.
+ * The virtual function table for {@link org.gtk.gio.Action}
  */
 public class ActionInterface extends io.github.jwharm.javagi.ResourceBase {
 

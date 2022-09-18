@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GMemoryMonitor will monitor system memory and suggest to the application
+ * {@link org.gtk.gio.MemoryMonitor} will monitor system memory and suggest to the application
  * when to free memory so as to leave more room for other applications.
  * It is implemented on Linux using the {@link [Low Memory Monitor]}(https://gitlab.freedesktop.org/hadess/low-memory-monitor/)
  * ({@link [API documentation]}(https://hadess.pages.freedesktop.org/low-memory-monitor/)).
@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  * Possible actions to take when the signal is received are:
  * <p>
  *  - Free caches
- *  - Save files that haven&#39;t been looked at in a while to disk, ready to be reopened when needed
+ *  - Save files that haven&<code>#39</code> t been looked at in a while to disk, ready to be reopened when needed
  *  - Run a garbage collection cycle
  *  - Try and compress fragmented allocations
  *  - Exit on idle if the process has no reason to stay around
@@ -30,14 +30,14 @@ import java.lang.invoke.*;
  * make future heap allocations slower (due to releasing cached heap pages back
  * to the kernel).
  * 
- * See #GMemoryMonitorWarningLevel for details on the various warning levels.
+ * See {@link org.gtk.gio.MemoryMonitorWarningLevel} for details on the various warning levels.
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * static void
  * warning_cb (GMemoryMonitor *m, GMemoryMonitorWarningLevel level)
  * {
- *   g_debug (&#34;Warning level: <code>d&#34;,</code> level);
- *   if (warning_level &#62; G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
+ *   g_debug (&<code>#34</code> Warning level: <code>d</code> <code>#34</code> , level);
+ *   if (warning_level &<code>#62</code>  G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
  *     drop_caches ();
  * }
  * 
@@ -46,19 +46,19 @@ import java.lang.invoke.*;
  * {
  *   GMemoryMonitor *m;
  *   m = g_memory_monitor_dup_default ();
- *   g_signal_connect (G_OBJECT (m), &#34;low-memory-warning&#34;,
+ *   g_signal_connect (G_OBJECT (m), &<code>#34</code> low-memory-warning&<code>#34</code> ,
  *                     G_CALLBACK (warning_cb), NULL);
  *   return m;
  * }
  * ]}|
  * 
- * Don&#39;t forget to disconnect the #GMemoryMonitor::low-memory-warning
- * signal, and unref the #GMemoryMonitor itself when exiting.
+ * Don&<code>#39</code> t forget to disconnect the {@link org.gtk.gio.MemoryMonitor} :low-memory-warning
+ * signal, and unref the {@link org.gtk.gio.MemoryMonitor} itself when exiting.
  */
 public interface MemoryMonitor extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets a reference to the default #GMemoryMonitor for the system.
+     * Gets a reference to the default {@link org.gtk.gio.MemoryMonitor} for the system.
      */
     public static MemoryMonitor dupDefault() {
         var RESULT = gtk_h.g_memory_monitor_dup_default();
@@ -73,7 +73,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Emitted when the system is running low on free memory. The signal
      * handler should then take the appropriate action depending on the
-     * warning level. See the #GMemoryMonitorWarningLevel documentation for
+     * warning level. See the {@link org.gtk.gio.MemoryMonitorWarningLevel} documentation for
      * details.
      */
     public default SignalHandle onLowMemoryWarning(LowMemoryWarningHandler handler) {

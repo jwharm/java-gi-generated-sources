@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A structure containing a weak reference to a #GObject.
+ * A structure containing a weak reference to a {@link org.gtk.gobject.Object} 
  * <p>
- * A <code>GWeakRef</code> can either be empty (i.e. point to <code>NULL),</code> or point to an
- * object for as long as at least one &#34;strong&#34; reference to that object
- * exists. Before the object&#39;s #GObjectClass.dispose method is called,
- * every #GWeakRef associated with becomes empty (i.e. points to <code>NULL).
+ * A <code>GWeakRef</code> can either be empty (i.e. point to <code>null</code> , or point to an
+ * object for as long as at least one &<code>#34</code> strong&<code>#34</code>  reference to that object
+ * exists. Before the object&<code>#39</code> s {@link org.gtk.gobject.ObjectClass} dispose method is called,
+ * every {@link org.gtk.gobject.WeakRef} associated with becomes empty (i.e. points to <code>null</code> .
  * 
- * Like</code> #GValue, #GWeakRef can be statically allocated, stack- or
+ * Like {@link org.gtk.gobject.Value}  {@link org.gtk.gobject.WeakRef} can be statically allocated, stack- or
  * heap-allocated, or embedded in larger structures.
  * 
  * Unlike g_object_weak_ref() and g_object_add_weak_pointer(), this weak
@@ -23,14 +23,14 @@ import java.lang.invoke.*;
  * atomic with respect to invalidation of weak pointers to destroyed
  * objects.
  * 
- * If the object&#39;s #GObjectClass.dispose method results in additional
- * references to the object being held (&#8216;re-referencing&#8217;), any #GWeakRefs taken
- * before it was disposed will continue to point to <code>NULL.</code>  Any #GWeakRefs taken
+ * If the object&<code>#39</code> s {@link org.gtk.gobject.ObjectClass} dispose method results in additional
+ * references to the object being held (&<code>#8216</code> re-referencing&<code>#8217</code> ), any <code>#GWeakRefs</code> taken
+ * before it was disposed will continue to point to <code>null</code>   Any <code>#GWeakRefs</code> taken
  * during disposal and after re-referencing, or after disposal has returned due
  * to the re-referencing, will continue to point to the object until its refcount
  * goes back to zero, at which point they too will be invalidated.
  * 
- * It is invalid to take a #GWeakRef on an object during #GObjectClass.dispose
+ * It is invalid to take a {@link org.gtk.gobject.WeakRef} on an object during {@link org.gtk.gobject.ObjectClass} dispose
  * without first having or creating a strong reference to the object.
  */
 public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
@@ -40,10 +40,10 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees resources associated with a non-statically-allocated #GWeakRef.
-     * After this call, the #GWeakRef is left in an undefined state.
+     * Frees resources associated with a non-statically-allocated {@link org.gtk.gobject.WeakRef} 
+     * After this call, the {@link org.gtk.gobject.WeakRef} is left in an undefined state.
      * 
-     * You should only call this on a #GWeakRef that previously had
+     * You should only call this on a {@link org.gtk.gobject.WeakRef} that previously had
      * g_weak_ref_init() called on it.
      */
     public void clear() {
@@ -67,14 +67,14 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initialise a non-statically-allocated #GWeakRef.
+     * Initialise a non-statically-allocated {@link org.gtk.gobject.WeakRef} 
      * 
      * This function also calls g_weak_ref_set() with @object on the
      * freshly-initialised weak reference.
      * 
      * This function should always be matched with a call to
      * g_weak_ref_clear().  It is not necessary to use this function for a
-     * #GWeakRef in static storage because it will already be
+     * {@link org.gtk.gobject.WeakRef} in static storage because it will already be
      * properly initialised.  Just use g_weak_ref_set() directly.
      */
     public void init(Object object) {
@@ -83,9 +83,9 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Change the object to which @weak_ref points, or set it to
-     * <code>NULL.
+     * <code>null</code> 
      * 
-     * You</code> must own a strong reference on @object while calling this
+     * You must own a strong reference on @object while calling this
      * function.
      */
     public void set(Object object) {

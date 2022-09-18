@@ -8,26 +8,26 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GAppInfo and #GAppLaunchContext are used for describing and launching
+ * {@link org.gtk.gio.AppInfo} and {@link org.gtk.gio.AppLaunchContext} are used for describing and launching
  * applications installed on the system.
  * <p>
  * As of GLib 2.20, URIs will always be converted to POSIX paths
  * (using g_file_get_path()) when using g_app_info_launch() even if
  * the application requested an URI and not a POSIX path. For example
  * for a desktop-file based application with Exec key <code>totem
- * <code>U</code></code> and a single URI, <code>sftp://foo/file.avi</code>, then<code>/home/user/.gvfs/sftp on foo/file.avi</code> will be passed. This will
+ * <code>U</code> /code> and a single URI, <code>sftp://foo/file.avi</code>, then<code>/home/user/.gvfs/sftp on foo/file.avi</code> will be passed. This will
  * only work if a set of suitable GIO extensions (such as gvfs 2.26
  * compiled with FUSE support), is available and operational; if this
  * is not the case, the URI will be passed unmodified to the application.
  * Some URIs, such as <code>mailto:</code>, of course cannot be mapped to a POSIX
- * path (in gvfs there&#39;s no FUSE mount for it); such URIs will be
+ * path (in gvfs there&<code>#39</code> s no FUSE mount for it); such URIs will be
  * passed unmodified to the application.
  * <p>
  * Specifically for gvfs 2.26 and later, the POSIX URI will be mapped
- * back to the GIO URI in the #GFile constructors (since gvfs
- * implements the #GVfs extension point). As such, if the application
+ * back to the GIO URI in the {@link org.gtk.gio.File} constructors (since gvfs
+ * implements the {@link org.gtk.gio.Vfs} extension point). As such, if the application
  * needs to examine the URI, it needs to use g_file_get_uri() or
- * similar on #GFile. In other words, an application cannot assume
+ * similar on {@link org.gtk.gio.File}  In other words, an application cannot assume
  * that the URI passed to e.g. g_file_new_for_commandline_arg() is
  * equal to the result of g_file_get_uri(). The following snippet
  * illustrates this:
@@ -42,7 +42,7 @@ import java.lang.invoke.*;
  * strcmp (uri, uri_from_commandline) == 0;
  * g_free (uri);
  * <p>
- * if (g_file_has_uri_scheme (file, &#34;cdda&#34;))
+ * if (g_file_has_uri_scheme (file, &<code>#34</code> cdda&<code>#34</code> ))
  *   {
  *     // do something special with uri
  *   }
@@ -50,7 +50,7 @@ import java.lang.invoke.*;
  * ]}|
  * <p>
  * This code will work when both <code>cdda://sr0/Track 1.wav</code> and<code>/home/user/.gvfs/cdda on sr0/Track 1.wav</code> is passed to the
- * application. It should be noted that it&#39;s generally not safe
+ * application. It should be noted that it&<code>#39</code> s generally not safe
  * for applications to rely on the format of a particular URIs.
  * Different launcher applications (e.g. file managers) may have
  * different ideas of what a given URI means.
@@ -71,7 +71,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Obtains the information whether the #GAppInfo can be deleted.
+     * Obtains the information whether the {@link org.gtk.gio.AppInfo} can be deleted.
      * See g_app_info_delete().
      */
     public default boolean canDelete() {
@@ -88,10 +88,10 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Tries to delete a #GAppInfo.
+     * Tries to delete a {@link org.gtk.gio.AppInfo} 
      * 
      * On some platforms, there may be a difference between user-defined
-     * #GAppInfos which can be deleted, and system-wide ones which cannot.
+     * <code>#GAppInfos</code> which can be deleted, and system-wide ones which cannot.
      * See g_app_info_can_delete().
      */
     public default boolean delete() {
@@ -100,7 +100,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Creates a duplicate of a #GAppInfo.
+     * Creates a duplicate of a {@link org.gtk.gio.AppInfo}
      */
     public default AppInfo dup() {
         var RESULT = gtk_h.g_app_info_dup(handle());
@@ -108,7 +108,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if two #GAppInfos are equal.
+     * Checks if two <code>#GAppInfos</code> are equal.
      * 
      * Note that the check *may not* compare each individual
      * field, and only does an identity check. In case detecting changes in the
@@ -146,7 +146,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the executable&#39;s name for the installed application.
+     * Gets the executable&<code>#39</code> s name for the installed application.
      */
     public default java.lang.String getExecutable() {
         var RESULT = gtk_h.g_app_info_get_executable(handle());
@@ -167,7 +167,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * platform dependent. For instance, on Unix this is the
      * desktop file id from the xdg menu specification.
      * 
-     * Note that the returned ID may be <code>NULL,</code> depending on how
+     * Note that the returned ID may be <code>null</code>  depending on how
      * the @appinfo has been constructed.
      */
     public default java.lang.String getId() {
@@ -244,7 +244,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * Async version of g_app_info_launch_uris().
      * 
      * The @callback is invoked immediately after the application launch, but it
-     * waits for activation in case of D-Bus&#8211;activated applications and also provides
+     * waits for activation in case of D-Bus&<code>#8211</code> activated applications and also provides
      * extended error information for sandboxed applications, see notes for
      * g_app_info_launch_default_for_uri_async().
      */
@@ -351,7 +351,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Creates a new #GAppInfo from the given information.
+     * Creates a new {@link org.gtk.gio.AppInfo} from the given information.
      * 
      * Note that for @commandline, the quoting rules of the Exec key of the
      * {@link [freedesktop.org Desktop Entry Specification]}(http://freedesktop.org/Standards/desktop-entry-spec)
@@ -383,8 +383,8 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets a list of all #GAppInfos for a given content type,
-     * including the recommended and fallback #GAppInfos. See
+     * Gets a list of all <code>#GAppInfos</code> for a given content type,
+     * including the recommended and fallback <code>#GAppInfos</code>  See
      * g_app_info_get_recommended_for_type() and
      * g_app_info_get_fallback_for_type().
      */
@@ -394,7 +394,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the default #GAppInfo for a given content type.
+     * Gets the default {@link org.gtk.gio.AppInfo} for a given content type.
      */
     public static AppInfo getDefaultForType(java.lang.String contentType, boolean mustSupportUris) {
         var RESULT = gtk_h.g_app_info_get_default_for_type(Interop.allocateNativeString(contentType).handle(), mustSupportUris ? 1 : 0);
@@ -404,8 +404,8 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the default application for handling URIs with
      * the given URI scheme. A URI scheme is the initial part
-     * of the URI, up to but not including the &#39;:&#39;, e.g. &#34;http&#34;,
-     * &#34;ftp&#34; or &#34;sip&#34;.
+     * of the URI, up to but not including the &<code>#39</code> :&<code>#39</code> , e.g. &<code>#34</code> http&<code>#34</code> ,
+     * &<code>#34</code> ftp&<code>#34</code>  or &<code>#34</code> sip&<code>#34</code> .
      */
     public static AppInfo getDefaultForUriScheme(java.lang.String uriScheme) {
         var RESULT = gtk_h.g_app_info_get_default_for_uri_scheme(Interop.allocateNativeString(uriScheme).handle());
@@ -413,7 +413,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets a list of fallback #GAppInfos for a given content type, i.e.
+     * Gets a list of fallback <code>#GAppInfos</code> for a given content type, i.e.
      * those applications which claim to support the given content type
      * by MIME type subclassing and not directly.
      */
@@ -423,7 +423,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets a list of recommended #GAppInfos for a given content type, i.e.
+     * Gets a list of recommended <code>#GAppInfos</code> for a given content type, i.e.
      * those applications which claim to support the given content type exactly,
      * and not by MIME type subclassing.
      * Note that the first application of the list is the last used one, i.e.
@@ -441,7 +441,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * is done on the uri to detect the type of the file if
      * required.
      * 
-     * The D-Bus&#8211;activated applications don&#39;t have to be started if your application
+     * The D-Bus&<code>#8211</code> activated applications don&<code>#39</code> t have to be started if your application
      * terminates too soon after this function. To prevent this, use
      * g_app_info_launch_default_for_uri_async() instead.
      */
@@ -462,7 +462,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * sandboxed and the portal may present an application chooser
      * dialog to the user.
      * 
-     * This is also useful if you want to be sure that the D-Bus&#8211;activated
+     * This is also useful if you want to be sure that the D-Bus&<code>#8211</code> activated
      * applications are really started before termination and if you are interested
      * in receiving error information from their activation.
      */

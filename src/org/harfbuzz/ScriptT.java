@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Data type for scripts. Each #hb_script_t&#39;s value is an #hb_tag_t corresponding
+ * Data type for scripts. Each {@link org.harfbuzz.script_t} <code>#39</code> s value is an {@link org.harfbuzz.tag_t} corresponding
  * to the four-letter values defined by {@link [ISO 15924]}(https://unicode.org/iso15924/).
  * 
  * See also the Script (sc) property of the Unicode Character Database.

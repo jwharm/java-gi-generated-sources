@@ -31,8 +31,8 @@ import java.lang.invoke.*;
  * configuration facility.
  * <p>
  * There is one <code>GtkSettings</code> instance per display. It can be obtained with
- * {@link Gtk#Settings}, but in many cases, it is more
- * convenient to use {@link org.gtk.gtk.Widget#getSettings}.
+ * {@link Gtk<code>#Settings</code> , but in many cases, it is more
+ * convenient to use {@link org.gtk.gtk.Widget<code>#getSettings</code> .
  */
 public class Settings extends org.gtk.gobject.Object implements StyleProvider {
 
@@ -60,7 +60,7 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      * Gets the <code>GtkSettings</code> object for the default display, creating
      * it if necessary.
      * 
-     * See {@link Gtk#Settings}.
+     * See {@link Gtk<code>#Settings</code> .
      */
     public static Settings getDefault() {
         var RESULT = gtk_h.gtk_settings_get_default();

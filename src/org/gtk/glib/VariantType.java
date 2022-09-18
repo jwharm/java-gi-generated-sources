@@ -16,28 +16,28 @@ import java.lang.invoke.*;
  * information that is useful when working with GVariant.
  * <p>
  * The first major change with respect to the D-Bus type system is the
- * introduction of maybe (or &#34;nullable&#34;) types.  Any type in GVariant can be
- * converted to a maybe type, in which case, &#34;nothing&#34; (or &#34;null&#34;) becomes a
+ * introduction of maybe (or &<code>#34</code> nullable&<code>#34</code> ) types.  Any type in GVariant can be
+ * converted to a maybe type, in which case, &<code>#34</code> nothing&<code>#34</code>  (or &<code>#34</code> null&<code>#34</code> ) becomes a
  * valid value.  Maybe types have been added by introducing the
- * character &#34;m&#34; to type strings.
+ * character &<code>#34</code> m&<code>#34</code>  to type strings.
  * <p>
  * The second major change is that the GVariant type system supports the
- * concept of &#34;indefinite types&#34; -- types that are less specific than
+ * concept of &<code>#34</code> indefinite types&<code>#34</code>  -- types that are less specific than
  * the normal types found in D-Bus.  For example, it is possible to speak
- * of &#34;an array of any type&#34; in GVariant, where the D-Bus type system
- * would require you to speak of &#34;an array of integers&#34; or &#34;an array of
- * strings&#34;.  Indefinite types have been added by introducing the
- * characters &#34;*&#34;, &#34;?&#34; and &#34;r&#34; to type strings.
+ * of &<code>#34</code> an array of any type&<code>#34</code>  in GVariant, where the D-Bus type system
+ * would require you to speak of &<code>#34</code> an array of integers&<code>#34</code>  or &<code>#34</code> an array of
+ * strings&<code>#34</code> .  Indefinite types have been added by introducing the
+ * characters &<code>#34</code> *&<code>#34</code> , &<code>#34</code> ?&<code>#34</code>  and &<code>#34</code> r&<code>#34</code>  to type strings.
  * <p>
  * Finally, all arbitrary restrictions relating to the complexity of
  * types are lifted along with the restriction that dictionary entries
  * may only appear nested inside of arrays.
  * <p>
- * Just as in D-Bus, GVariant types are described with strings (&#34;type
- * strings&#34;).  Subject to the differences mentioned above, these strings
+ * Just as in D-Bus, GVariant types are described with strings (&<code>#34</code> type
+ * strings&<code>#34</code> ).  Subject to the differences mentioned above, these strings
  * are of the same form as those found in D-Bus.  Note, however: D-Bus
  * always works in terms of messages and therefore individual type
- * strings appear nowhere in its interface.  Instead, &#34;signatures&#34;
+ * strings appear nowhere in its interface.  Instead, &<code>#34</code> signatures&<code>#34</code> 
  * are a concatenation of the strings of the type of each argument in a
  * message.  GVariant deals with single values directly so GVariant type
  * strings always describe the type of exactly one value.  This means
@@ -51,19 +51,19 @@ import java.lang.invoke.*;
  * that are subtypes of indefinite types.  That is to say,
  * g_variant_get_type() will never return an indefinite type, but
  * calling g_variant_is_of_type() with an indefinite type may return
- * <code>TRUE.</code>  For example, you cannot have a value that represents &#34;an
- * array of no particular type&#34;, but you can have an &#34;array of integers&#34;
- * which certainly matches the type of &#34;an array of no particular type&#34;,
- * since &#34;array of integers&#34; is a subtype of &#34;array of no particular
- * type&#34;.
+ * <code>true</code>   For example, you cannot have a value that represents &<code>#34</code> an
+ * array of no particular type&<code>#34</code> , but you can have an &<code>#34</code> array of integers&<code>#34</code> 
+ * which certainly matches the type of &<code>#34</code> an array of no particular type&<code>#34</code> ,
+ * since &<code>#34</code> array of integers&<code>#34</code>  is a subtype of &<code>#34</code> array of no particular
+ * type&<code>#34</code> .
  * <p>
  * This is similar to how instances of abstract classes may not
  * directly exist in other type systems, but instances of their
  * non-abstract subtypes may.  For example, in GTK, no object that has
- * the type of #GtkBin can exist (since #GtkBin is an abstract class),
- * but a #GtkWindow can certainly be instantiated, and you would say
- * that the #GtkWindow is a #GtkBin (since #GtkWindow is a subclass of
- * <h1>kBin).</h1>
+ * the type of <code>#GtkBin</code> can exist (since <code>#GtkBin</code> is an abstract class),
+ * but a {@link org.gtk.gtk.Window} can certainly be instantiated, and you would say
+ * that the {@link org.gtk.gtk.Window} is a <code>#GtkBin</code> (since {@link org.gtk.gtk.Window} is a subclass of
+ * <code>#GtkBin</code> .
  * <p>
  * <h2>GVariant Type Strings</h2>
  * <p>
@@ -71,90 +71,89 @@ import java.lang.invoke.*;
  * <p>
  * <li>any basic type string (listed below)
  * <p>
- * <li>&#34;v&#34;, &#34;r&#34; or &#34;*&#34;
+ * <li>&<code>#34</code> v&<code>#34</code> , &<code>#34</code> r&<code>#34</code>  or &<code>#34</code> *&<code>#34</code> 
  * <p>
- * <li>one of the characters &#39;a&#39; or &#39;m&#39;, followed by another type string
+ * <li>one of the characters &<code>#39</code> a&<code>#39</code>  or &<code>#39</code> m&<code>#39</code> , followed by another type string
  * <p>
- * <li>the character &#39;(&#39;, followed by a concatenation of zero or more other
- *   type strings, followed by the character &#39;)&#39;
+ * <li>the character &<code>#39</code> (&<code>#39</code> , followed by a concatenation of zero or more other
+ *   type strings, followed by the character &<code>#39</code> )&<code>#39</code> 
  * <p>
- * <li>the character &#39;{&#39;, followed by a basic type string (see below),
- *   followed by another type string, followed by the character &#39;}&#39;
+ * <li>the character &<code>#39</code> {&<code>#39</code> , followed by a basic type string (see below),
+ *   followed by another type string, followed by the character &<code>#39</code> }&<code>#39</code> 
  * <p>
  * A basic type string describes a basic type (as per
  * g_variant_type_is_basic()) and is always a single character in length.
- * The valid basic type strings are &#34;b&#34;, &#34;y&#34;, &#34;n&#34;, &#34;q&#34;, &#34;i&#34;, &#34;u&#34;, &#34;x&#34;, &#34;t&#34;,
- * &#34;h&#34;, &#34;d&#34;, &#34;s&#34;, &#34;o&#34;, &#34;g&#34; and &#34;?&#34;.
+ * The valid basic type strings are &<code>#34</code> b&<code>#34</code> , &<code>#34</code> y&<code>#34</code> , &<code>#34</code> n&<code>#34</code> , &<code>#34</code> q&<code>#34</code> , &<code>#34</code> i&<code>#34</code> , &<code>#34</code> u&<code>#34</code> , &<code>#34</code> x&<code>#34</code> , &<code>#34</code> t&<code>#34</code> ,
+ * &<code>#34</code> h&<code>#34</code> , &<code>#34</code> d&<code>#34</code> , &<code>#34</code> s&<code>#34</code> , &<code>#34</code> o&<code>#34</code> , &<code>#34</code> g&<code>#34</code>  and &<code>#34</code> ?&<code>#34</code> .
  * <p>
- * The above definition is recursive to arbitrary depth. &#34;aaaaai&#34; and
- * &#34;(ui(nq((y)))s)&#34; are both valid type strings, as is
- * &#34;a(aa(ui)(qna{ya(yd)}))&#34;. In order to not hit memory limits, #GVariant
- * imposes a limit on recursion depth of 65 nested containers. This is the
- * limit in the D-Bus specification (64) plus one to allow a #GDBusMessage to
+ * The above definition is recursive to arbitrary depth. &<code>#34</code> aaaaai&<code>#34</code>  and
+ * &<code>#34</code> (ui(nq((y)))s)&<code>#34</code>  are both valid type strings, as is
+ * &<code>#34</code> a(aa(ui)(qna{ya(yd)}))&<code>#34</code> . In order to not hit memory limits, {@link org.gtk.glib.Variant} imposes a limit on recursion depth of 65 nested containers. This is the
+ * limit in the D-Bus specification (64) plus one to allow a {@link org.gtk.gio.DBusMessage} to
  * be nested in a top-level tuple.
  * <p>
  * The meaning of each of the characters is as follows:
- * <li><code>b</code>: the type string of <code>G_VARIANT_TYPE_BOOLEAN;</code> a boolean value.
- * <li><code>y</code>: the type string of <code>G_VARIANT_TYPE_BYTE;</code> a byte.
- * <li><code>n</code>: the type string of <code>G_VARIANT_TYPE_INT16;</code> a signed 16 bit integer.
- * <li><code>q</code>: the type string of <code>G_VARIANT_TYPE_UINT16;</code> an unsigned 16 bit integer.
- * <li><code>i</code>: the type string of <code>G_VARIANT_TYPE_INT32;</code> a signed 32 bit integer.
- * <li><code>u</code>: the type string of <code>G_VARIANT_TYPE_UINT32;</code> an unsigned 32 bit integer.
- * <li><code>x</code>: the type string of <code>G_VARIANT_TYPE_INT64;</code> a signed 64 bit integer.
- * <li><code>t</code>: the type string of <code>G_VARIANT_TYPE_UINT64;</code> an unsigned 64 bit integer.
- * <li><code>h</code>: the type string of <code>G_VARIANT_TYPE_HANDLE;</code> a signed 32 bit value
+ * <li><code>b</code>: the type string of <code>G_VARIANT_TYPE_BOOLEAN</code>  a boolean value.
+ * <li><code>y</code>: the type string of <code>G_VARIANT_TYPE_BYTE</code>  a byte.
+ * <li><code>n</code>: the type string of <code>G_VARIANT_TYPE_INT16</code>  a signed 16 bit integer.
+ * <li><code>q</code>: the type string of <code>G_VARIANT_TYPE_UINT16</code>  an unsigned 16 bit integer.
+ * <li><code>i</code>: the type string of <code>G_VARIANT_TYPE_INT32</code>  a signed 32 bit integer.
+ * <li><code>u</code>: the type string of <code>G_VARIANT_TYPE_UINT32</code>  an unsigned 32 bit integer.
+ * <li><code>x</code>: the type string of <code>G_VARIANT_TYPE_INT64</code>  a signed 64 bit integer.
+ * <li><code>t</code>: the type string of <code>G_VARIANT_TYPE_UINT64</code>  an unsigned 64 bit integer.
+ * <li><code>h</code>: the type string of <code>G_VARIANT_TYPE_HANDLE</code>  a signed 32 bit value
  *   that, by convention, is used as an index into an array of file
  *   descriptors that are sent alongside a D-Bus message.
- * <li><code>d</code>: the type string of <code>G_VARIANT_TYPE_DOUBLE;</code> a double precision
+ * <li><code>d</code>: the type string of <code>G_VARIANT_TYPE_DOUBLE</code>  a double precision
  *   floating point value.
- * <li><code>s</code>: the type string of <code>G_VARIANT_TYPE_STRING;</code> a string.
- * <li><code>o</code>: the type string of <code>G_VARIANT_TYPE_OBJECT_PATH;</code> a string in the form
+ * <li><code>s</code>: the type string of <code>G_VARIANT_TYPE_STRING</code>  a string.
+ * <li><code>o</code>: the type string of <code>G_VARIANT_TYPE_OBJECT_PATH</code>  a string in the form
  *   of a D-Bus object path.
- * <li><code>g</code>: the type string of <code>G_VARIANT_TYPE_SIGNATURE;</code> a string in the form of
+ * <li><code>g</code>: the type string of <code>G_VARIANT_TYPE_SIGNATURE</code>  a string in the form of
  *   a D-Bus type signature.
- * <li><code>?</code>: the type string of <code>G_VARIANT_TYPE_BASIC;</code> an indefinite type that
+ * <li><code>?</code>: the type string of <code>G_VARIANT_TYPE_BASIC</code>  an indefinite type that
  *   is a supertype of any of the basic types.
- * <li><code>v</code>: the type string of <code>G_VARIANT_TYPE_VARIANT;</code> a container type that
+ * <li><code>v</code>: the type string of <code>G_VARIANT_TYPE_VARIANT</code>  a container type that
  *   contain any other type of value.
  * <li><code>a</code>: used as a prefix on another type string to mean an array of that
- *   type; the type string &#34;ai&#34;, for example, is the type of an array of
+ *   type; the type string &<code>#34</code> ai&<code>#34</code> , for example, is the type of an array of
  *   signed 32-bit integers.
- * <li><code>m</code>: used as a prefix on another type string to mean a &#34;maybe&#34;, or
- *   &#34;nullable&#34;, version of that type; the type string &#34;ms&#34;, for example,
+ * <li><code>m</code>: used as a prefix on another type string to mean a &<code>#34</code> maybe&<code>#34</code> , or
+ *   &<code>#34</code> nullable&<code>#34</code> , version of that type; the type string &<code>#34</code> ms&<code>#34</code> , for example,
  *   is the type of a value that maybe contains a string, or maybe contains
  *   nothing.
  * <li><code>()</code>: used to enclose zero or more other concatenated type strings to
- *   create a tuple type; the type string &#34;(is)&#34;, for example, is the type of
+ *   create a tuple type; the type string &<code>#34</code> (is)&<code>#34</code> , for example, is the type of
  *   a pair of an integer and a string.
- * <li><code>r</code>: the type string of <code>G_VARIANT_TYPE_TUPLE;</code> an indefinite type that is
+ * <li><code>r</code>: the type string of <code>G_VARIANT_TYPE_TUPLE</code>  an indefinite type that is
  *   a supertype of any tuple type, regardless of the number of items.
  * <li><code>{}</code>: used to enclose a basic type string concatenated with another type
  *   string to create a dictionary entry type, which usually appears inside of
- *   an array to form a dictionary; the type string &#34;a{sd}&#34;, for example, is
+ *   an array to form a dictionary; the type string &<code>#34</code> a{sd}&<code>#34</code> , for example, is
  *   the type of a dictionary that maps strings to double precision floating
  *   point values.
  * <p>
  *   The first type (the basic type) is the key type and the second type is
  *   the value type. The reason that the first type is restricted to being a
  *   basic type is so that it can easily be hashed.
- * <li><code>*</code>: the type string of <code>G_VARIANT_TYPE_ANY;</code> the indefinite type that is
+ * <li><code>*</code>: the type string of <code>G_VARIANT_TYPE_ANY</code>  the indefinite type that is
  *   a supertype of all types.  Note that, as with all type strings, this
  *   character represents exactly one type. It cannot be used inside of tuples
- *   to mean &#34;any number of items&#34;.
+ *   to mean &<code>#34</code> any number of items&<code>#34</code> .
  * 
  * Any type string of a container that contains an indefinite type is,
- * itself, an indefinite type. For example, the type string &#34;a*&#34;
- * (corresponding to <code>G_VARIANT_TYPE_ARRAY)</code> is an indefinite type
- * that is a supertype of every array type. &#34;(*s)&#34; is a supertype
+ * itself, an indefinite type. For example, the type string &<code>#34</code> a*&<code>#34</code> 
+ * (corresponding to <code>G_VARIANT_TYPE_ARRAY</code>  is an indefinite type
+ * that is a supertype of every array type. &<code>#34</code> (*s)&<code>#34</code>  is a supertype
  * of all tuples that contain exactly two items where the second
  * item is a string.
  * 
- * &#34;a{?*}&#34; is an indefinite type that is a supertype of all arrays
+ * &<code>#34</code> a{?*}&<code>#34</code>  is an indefinite type that is a supertype of all arrays
  * containing dictionary entries where the key is any basic type and
  * the value is any type at all.  This is, by definition, a dictionary,
- * so this type string corresponds to <code>G_VARIANT_TYPE_DICTIONARY.</code> Note
+ * so this type string corresponds to <code>G_VARIANT_TYPE_DICTIONARY</code>  Note
  * that, due to the restriction that the key of a dictionary entry must
- * be a basic type, &#34;{**}&#34; is not a valid type string.
+ * be a basic type, &<code>#34</code> {**}&<code>#34</code>  is not a valid type string.
  */
 public class VariantType extends io.github.jwharm.javagi.ResourceBase {
 
@@ -168,7 +167,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GVariantType corresponding to the type string given
+     * Creates a new {@link org.gtk.glib.VariantType} corresponding to the type string given
      * by @type_string.  It is appropriate to call g_variant_type_free() on
      * the return value.
      * 
@@ -233,24 +232,17 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Constructs a new tuple type, from @items.
      * 
      * @length is the number of items in @items, or -1 to indicate that
-     * @items is <code>NULL-terminated.
+     * @items is <code>null</code> terminated.
      * 
-     * It</code> is appropriate to call g_variant_type_free() on the return value.
+     * It is appropriate to call g_variant_type_free() on the return value.
      */
     public static VariantType newTuple(VariantType[] items, int length) {
         return new VariantType(constructNewTuple(items, length));
     }
     
     /**
-     * Makes a copy of a #GVariantType.  It is appropriate to call
-     * g_variant_type_free() on the return value.  @type may not be 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Makes a copy of a #GVariantType.  It is appropriate to call
-     * g_variant_type_free() on the return value.  @type may not be %NULL.
+     * Makes a copy of a {@link org.gtk.glib.VariantType}   It is appropriate to call
+     * g_variant_type_free() on the return value.  @type may not be <code>null</code>
      */
     public VariantType copy() {
         var RESULT = gtk_h.g_variant_type_copy(handle());
@@ -285,9 +277,9 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * be returned if they are not exactly equal.  If you want to check for
      * subtypes, use g_variant_type_is_subtype_of().
      * 
-     * The argument types of @type1 and @type2 are only #gconstpointer to
-     * allow use with #GHashTable without function pointer casting.  For
-     * both arguments, a valid #GVariantType must be provided.
+     * The argument types of @type1 and @type2 are only <code>#gconstpointer</code> to
+     * allow use with {@link org.gtk.glib.HashTable} without function pointer casting.  For
+     * both arguments, a valid {@link org.gtk.glib.VariantType} must be provided.
      */
     public boolean equal(VariantType type2) {
         var RESULT = gtk_h.g_variant_type_equal(handle(), type2.handle());
@@ -300,14 +292,14 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * 
      * This function may only be used with tuple or dictionary entry types,
      * but must not be used with the generic tuple type
-     * <code>G_VARIANT_TYPE_TUPLE.
+     * <code>G_VARIANT_TYPE_TUPLE</code> 
      * 
-     * In</code> the case of a dictionary entry type, this returns the type of
+     * In the case of a dictionary entry type, this returns the type of
      * the key.
      * 
-     * <code>null</code> is returned in case of @type being <code>G_VARIANT_TYPE_UNIT.
+     * <code>null</code> is returned in case of @type being <code>G_VARIANT_TYPE_UNIT</code> 
      * 
-     * This</code> call, together with g_variant_type_next() provides an iterator
+     * This call, together with g_variant_type_next() provides an iterator
      * interface over tuple and dictionary entry types.
      */
     public VariantType first() {
@@ -316,11 +308,11 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a #GVariantType that was allocated with
+     * Frees a {@link org.gtk.glib.VariantType} that was allocated with
      * g_variant_type_copy(), g_variant_type_new() or one of the container
      * type constructor functions.
      * 
-     * In the case that @type is <code>NULL,</code> this function does nothing.
+     * In the case that @type is <code>null</code>  this function does nothing.
      * 
      * Since 2.24
      */
@@ -341,9 +333,9 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Hashes @type.
      * 
-     * The argument type of @type is only #gconstpointer to allow use with
-     * #GHashTable without function pointer casting.  A valid
-     * #GVariantType must be provided.
+     * The argument type of @type is only <code>#gconstpointer</code> to allow use with
+     * {@link org.gtk.glib.HashTable} without function pointer casting.  A valid
+     * {@link org.gtk.glib.VariantType} must be provided.
      */
     public int hash() {
         var RESULT = gtk_h.g_variant_type_hash(handle());
@@ -352,10 +344,10 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Determines if the given @type is an array type.  This is true if the
-     * type string for @type starts with an &#39;a&#39;.
+     * type string for @type starts with an &<code>#39</code> a&<code>#39</code> .
      * 
      * This function returns <code>true</code> for any indefinite type for which every
-     * definite subtype is an array type -- <code>G_VARIANT_TYPE_ARRAY,</code> for
+     * definite subtype is an array type -- <code>G_VARIANT_TYPE_ARRAY</code>  for
      * example.
      */
     public boolean isArray() {
@@ -372,8 +364,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Only a basic type may be used as the key of a dictionary entry.
      * 
      * This function returns <code>false</code> for all indefinite types except
-     * for all indefinite types except
-     * %G_VARIANT_TYPE_BASIC.
+     * <code>G_VARIANT_TYPE_BASIC</code>
      */
     public boolean isBasic() {
         var RESULT = gtk_h.g_variant_type_is_basic(handle());
@@ -387,7 +378,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * entry types plus the variant type.
      * 
      * This function returns <code>true</code> for any indefinite type for which every
-     * definite subtype is a container -- <code>G_VARIANT_TYPE_ARRAY,</code> for
+     * definite subtype is a container -- <code>G_VARIANT_TYPE_ARRAY</code>  for
      * example.
      */
     public boolean isContainer() {
@@ -399,12 +390,12 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Determines if the given @type is definite (ie: not indefinite).
      * 
      * A type is definite if its type string does not contain any indefinite
-     * type characters (&#39;*&#39;, &#39;?&#39;, or &#39;r&#39;).
+     * type characters (&<code>#39</code> *&<code>#39</code> , &<code>#39</code> ?&<code>#39</code> , or &<code>#39</code> r&<code>#39</code> ).
      * 
-     * A #GVariant instance may not have an indefinite type, so calling
+     * A {@link org.gtk.glib.Variant} instance may not have an indefinite type, so calling
      * this function on the result of g_variant_get_type() will always
      * result in <code>true</code> being returned.  Calling this function on an
-     * indefinite type like <code>G_VARIANT_TYPE_ARRAY,</code> however, will result in
+     * indefinite type like <code>G_VARIANT_TYPE_ARRAY</code>  however, will result in
      * <code>false</code> being returned.
      */
     public boolean isDefinite() {
@@ -414,11 +405,11 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Determines if the given @type is a dictionary entry type.  This is
-     * true if the type string for @type starts with a &#39;{&#39;.
+     * true if the type string for @type starts with a &<code>#39</code> {&<code>#39</code> .
      * 
      * This function returns <code>true</code> for any indefinite type for which every
      * definite subtype is a dictionary entry type --
-     * <code>G_VARIANT_TYPE_DICT_ENTRY,</code> for example.
+     * <code>G_VARIANT_TYPE_DICT_ENTRY</code>  for example.
      */
     public boolean isDictEntry() {
         var RESULT = gtk_h.g_variant_type_is_dict_entry(handle());
@@ -427,10 +418,10 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Determines if the given @type is a maybe type.  This is true if the
-     * type string for @type starts with an &#39;m&#39;.
+     * type string for @type starts with an &<code>#39</code> m&<code>#39</code> .
      * 
      * This function returns <code>true</code> for any indefinite type for which every
-     * definite subtype is a maybe type -- <code>G_VARIANT_TYPE_MAYBE,</code> for
+     * definite subtype is a maybe type -- <code>G_VARIANT_TYPE_MAYBE</code>  for
      * example.
      */
     public boolean isMaybe() {
@@ -452,11 +443,11 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Determines if the given @type is a tuple type.  This is true if the
-     * type string for @type starts with a &#39;(&#39; or if @type is
-     * <code>G_VARIANT_TYPE_TUPLE.
+     * type string for @type starts with a &<code>#39</code> (&<code>#39</code>  or if @type is
+     * <code>G_VARIANT_TYPE_TUPLE</code> 
      * 
-     * This</code> function returns <code>true</code> for any indefinite type for which every
-     * definite subtype is a tuple type -- <code>G_VARIANT_TYPE_TUPLE,</code> for
+     * This function returns <code>true</code> for any indefinite type for which every
+     * definite subtype is a tuple type -- <code>G_VARIANT_TYPE_TUPLE</code>  for
      * example.
      */
     public boolean isTuple() {
@@ -490,9 +481,9 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * 
      * This function may only be used with tuple or dictionary entry types,
      * but must not be used with the generic tuple type
-     * <code>G_VARIANT_TYPE_TUPLE.
+     * <code>G_VARIANT_TYPE_TUPLE</code> 
      * 
-     * In</code> the case of a dictionary entry type, this function will always
+     * In the case of a dictionary entry type, this function will always
      * return 2.
      */
     public long nItems() {
@@ -509,9 +500,9 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If called on the key type of a dictionary entry then this call
      * returns the value type.  If called on the value type of a dictionary
-     * entry then this call returns <code>NULL.
+     * entry then this call returns <code>null</code> 
      * 
-     * For</code> tuples, <code>null</code> is returned when @type is the last item in a tuple.
+     * For tuples, <code>null</code> is returned when @type is the last item in a tuple.
      */
     public VariantType next() {
         var RESULT = gtk_h.g_variant_type_next(handle());
@@ -566,8 +557,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * accessed.
      * 
      * If a valid type string is found, @endptr is updated to point to the
-     * first character past the end of the string that was found and <code>TRUE
-     * is</code> returned.
+     * first character past the end of the string that was found and <code>true</code> is returned.
      * 
      * If there is no valid type string starting at @string, or if the type
      * string does not end before @limit then <code>false</code> is returned.

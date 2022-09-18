@@ -49,11 +49,11 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * must only read the new data for the first of the two changed
      * children, otherwise the resorting of the children will be wrong.
      * 
-     * This generally means that if you don&#8217;t fully control the data
+     * This generally means that if you don&<code>#8217</code> t fully control the data
      * model, you have to duplicate the data that affects the sorting
      * and filtering functions into the widgets themselves.
      * 
-     * Another alternative is to call {@link org.gtk.gtk.FlowBox#invalidateSort}
+     * Another alternative is to call {@link org.gtk.gtk.FlowBox<code>#invalidateSort</code> 
      * on any model change, but that is more expensive.
      */
     public void changed() {
@@ -105,7 +105,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * This is a {@link [keybinding signal]}(class.SignalAction.html),
      * but it can be used by applications for their own purposes.
      * 
-     * The default bindings are &#60;kbd&#62;Space&#60;/kbd&#62; and &#60;kbd&#62;Enter&#60;/kbd&#62;.
+     * The default bindings are &<code>#60</code> kbd&<code>#62</code> Space&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Enter&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {

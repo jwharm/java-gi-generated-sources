@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GDBusServer is a helper for listening to and accepting D-Bus
+ * {@link org.gtk.gio.DBusServer} is a helper for listening to and accepting D-Bus
  * connections. This can be used to create a new D-Bus server, allowing two
  * peers to use the D-Bus protocol for their own specialized communication.
  * A server instance provided in this way will not perform message routing or
@@ -20,12 +20,11 @@ import java.lang.invoke.*;
  * An example of peer-to-peer communication with GDBus can be found
  * in {@link [gdbus-example-peer.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-peer.c).
  * 
- * Note that a minimal #GDBusServer will accept connections from any
- * peer. In many use-cases it will be necessary to add a #GDBusAuthObserver
- * that only accepts connections that have successfully authenticated
- * as the same user that is running the #GDBusServer. Since GLib 2.68 this can
+ * Note that a minimal {@link org.gtk.gio.DBusServer} will accept connections from any
+ * peer. In many use-cases it will be necessary to add a {@link org.gtk.gio.DBusAuthObserver} that only accepts connections that have successfully authenticated
+ * as the same user that is running the {@link org.gtk.gio.DBusServer}  Since GLib 2.68 this can
  * be achieved more simply by passing the
- * {@link org.gtk.gio.DBusServerFlags#AUTHENTICATION_REQUIRE_SAME_USER} flag to the server.
+ * {@link org.gtk.gio.DBusServerFlags<code>#AUTHENTICATION_REQUIRE_SAME_USER</code>  flag to the server.
  */
 public class DBusServer extends org.gtk.gobject.Object implements Initable {
 
@@ -56,15 +55,15 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * 
      * To have control over the available authentication mechanisms and
      * the users that are authorized to connect, it is strongly recommended
-     * to provide a non-<code>null</code> #GDBusAuthObserver.
+     * to provide a non-<code>null</code> {@link org.gtk.gio.DBusAuthObserver} 
      * 
-     * Connect to the #GDBusServer::new-connection signal to handle
+     * Connect to the {@link org.gtk.gio.DBusServer} :new-connection signal to handle
      * incoming connections.
      * 
-     * The returned #GDBusServer isn&#39;t active - you have to start it with
+     * The returned {@link org.gtk.gio.DBusServer} isn&<code>#39</code> t active - you have to start it with
      * g_dbus_server_start().
      * 
-     * #GDBusServer is used in this {@link [example]}{@link [gdbus-peer-to-peer]}.
+     * {@link org.gtk.gio.DBusServer} is used in this {@link [example]}{@link [gdbus-peer-to-peer]}.
      * 
      * This is a synchronous failable constructor. There is currently no
      * asynchronous version.
@@ -75,10 +74,10 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
     
     /**
      * Gets a
-     * {@link [D-Bus address]}(https://dbus.freedesktop.org/doc/dbus-specification.html#addresses)
+     * {@link [D-Bus address]}(https://dbus.freedesktop.org/doc/dbus-specification.html<code>#addresses</code> 
      * string that can be used by clients to connect to @server.
      * 
-     * This is valid and non-empty if initializing the #GDBusServer succeeded.
+     * This is valid and non-empty if initializing the {@link org.gtk.gio.DBusServer} succeeded.
      */
     public java.lang.String getClientAddress() {
         var RESULT = gtk_h.g_dbus_server_get_client_address(handle());
@@ -134,21 +133,20 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * identity (if any), was authenticated.
      * 
      * If you want to accept the connection, take a reference to the
-     * @connection object and return <code>TRUE.</code> When you are done with the
+     * @connection object and return <code>true</code>  When you are done with the
      * connection call g_dbus_connection_close() and give up your
      * reference. Note that the other peer may disconnect at any time -
      * a typical thing to do when accepting a connection is to listen to
-     * the #GDBusConnection::closed signal.
+     * the {@link org.gtk.gio.DBusConnection} :closed signal.
      * 
-     * If #GDBusServer:flags contains <code>G_DBUS_SERVER_FLAGS_RUN_IN_THREAD
-     * then</code> the signal is emitted in a new thread dedicated to the
+     * If {@link org.gtk.gio.DBusServer} flags contains {@link org.gtk.gio.DBusServerFlags<code>#RUN_IN_THREAD</code>  then the signal is emitted in a new thread dedicated to the
      * connection. Otherwise the signal is emitted in the
      * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
      * of the thread that @server was constructed in.
      * 
      * You are guaranteed that signal handlers for this signal runs
      * before incoming messages on @connection are processed. This means
-     * that it&#39;s suitable to call g_dbus_connection_register_object() or
+     * that it&<code>#39</code> s suitable to call g_dbus_connection_register_object() or
      * similar from the signal handler.
      */
     public SignalHandle onNewConnection(NewConnectionHandler handler) {

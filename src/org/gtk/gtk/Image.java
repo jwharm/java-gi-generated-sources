@@ -16,11 +16,11 @@ import java.lang.invoke.*;
  * you would load a <code>GdkTexture</code> from a file, using the convenience function
  * {@link [ctor@Gtk.Image.new_from_file] (ref=ctor)}, for instance:
  * <p><pre>c
- * GtkWidget *image = gtk_image_new_from_file (&#34;myfile.png&#34;);
+ * GtkWidget *image = gtk_image_new_from_file (&<code>#34</code> myfile.png&<code>#34</code> );
  * </pre>
  * <p>
- * If the file isn&#8217;t loaded successfully, the image will contain a
- * &#8220;broken image&#8221; icon similar to that used in many web browsers.
+ * If the file isn&<code>#8217</code> t loaded successfully, the image will contain a
+ * &<code>#8220</code> broken image&<code>#8221</code>  icon similar to that used in many web browsers.
  * <p>
  * If you want to handle errors in loading the file yourself,
  * for example by displaying an error message, then load the image with
@@ -30,7 +30,7 @@ import java.lang.invoke.*;
  * Sometimes an application will want to avoid depending on external data
  * files, such as image files. See the documentation of <code>GResource</code> inside
  * GIO, for details. In this case, {@link [property@Gtk.Image:resource] (ref=property)},
- * {@link [ctor@Gtk.Image.new_from_resource] (ref=ctor)}, and {@link org.gtk.gtk.Image#setFromResource}
+ * {@link [ctor@Gtk.Image.new_from_resource] (ref=ctor)}, and {@link org.gtk.gtk.Image<code>#setFromResource</code> 
  * should be used.
  * <p><code>GtkImage</code> displays its image as an icon, with a size that is determined
  * by the application. See {@link org.gtk.gtk.Picture} if you want to show an image
@@ -74,15 +74,15 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a new <code>GtkImage</code> displaying the file @filename.
      * <p>
-     * If the file isn&#8217;t found or can&#8217;t be loaded, the resulting <code>GtkImage</code>
-     * will display a &#8220;broken image&#8221; icon. This function never returns <code>NULL,
-     * it</code> always returns a valid <code>GtkImage</code> widget.
+     * If the file isn&<code>#8217</code> t found or can&<code>#8217</code> t be loaded, the resulting <code>GtkImage</code>
+     * will display a &<code>#8220</code> broken image&<code>#8221</code>  icon. This function never returns <code>null</code> 
+     * it always returns a valid <code>GtkImage</code> widget.
      * <p>
      * If you need to detect failures to load the file, use
      * {@link [ctor@Gdk.Texture.new_from_file] (ref=ctor)} to load the file yourself,
      * then create the <code>GtkImage</code> from the texture.
      * 
-     * The storage type (see {@link org.gtk.gtk.Image#getStorageType})
+     * The storage type (see {@link org.gtk.gtk.Image<code>#getStorageType</code> )
      * of the returned image is not defined, it will be whatever
      * is appropriate for displaying the file.
      */
@@ -98,7 +98,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a <code>GtkImage</code> displaying an icon from the current icon theme.
      * 
-     * If the icon name isn&#8217;t known, a &#8220;broken image&#8221; icon will be
+     * If the icon name isn&<code>#8217</code> t known, a &<code>#8220</code> broken image&<code>#8221</code>  icon will be
      * displayed instead. If the current icon theme is changed, the icon
      * will be updated appropriately.
      */
@@ -114,7 +114,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a <code>GtkImage</code> displaying an icon from the current icon theme.
      * 
-     * If the icon name isn&#8217;t known, a &#8220;broken image&#8221; icon will be
+     * If the icon name isn&<code>#8217</code> t known, a &<code>#8220</code> broken image&<code>#8221</code>  icon will be
      * displayed instead. If the current icon theme is changed, the icon
      * will be updated appropriately.
      */
@@ -153,7 +153,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * need to unref it if you own references. <code>GtkImage</code> will add its own
      * reference rather than adopting yours.
      * <p>
-     * This is a helper for {@link [ctor@Gtk.Image.new_from_paintable] (ref=ctor)}, and you can&#39;t
+     * This is a helper for {@link [ctor@Gtk.Image.new_from_paintable] (ref=ctor)}, and you can&<code>#39</code> t
      * get back the exact pixbuf once this is called, only a texture.
      * <p>
      * Note that this function just creates an <code>GtkImage</code> from the pixbuf.
@@ -172,15 +172,15 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a new <code>GtkImage</code> displaying the resource file @resource_path.
      * <p>
-     * If the file isn&#8217;t found or can&#8217;t be loaded, the resulting <code>GtkImage</code> will
-     * display a &#8220;broken image&#8221; icon. This function never returns <code>NULL,
-     * it</code> always returns a valid <code>GtkImage</code> widget.
+     * If the file isn&<code>#8217</code> t found or can&<code>#8217</code> t be loaded, the resulting <code>GtkImage</code> will
+     * display a &<code>#8220</code> broken image&<code>#8221</code>  icon. This function never returns <code>null</code> 
+     * it always returns a valid <code>GtkImage</code> widget.
      * <p>
      * If you need to detect failures to load the file, use
      * {@link [ctor@GdkPixbuf.Pixbuf.new_from_file] (ref=ctor)} to load the file yourself,
      * then create the <code>GtkImage</code> from the pixbuf.
      * 
-     * The storage type (see {@link org.gtk.gtk.Image#getStorageType}) of
+     * The storage type (see {@link org.gtk.gtk.Image<code>#getStorageType</code> ) of
      * the returned image is not defined, it will be whatever is
      * appropriate for displaying the file.
      */
@@ -198,8 +198,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets the <code>GIcon</code> being displayed by the <code>GtkImage</code>.
      * <p>
-     * The storage type of the image must be {@link org.gtk.gtk.ImageType#EMPTY} or
-     * {@link org.gtk.gtk.ImageType#GICON} (see {@link org.gtk.gtk.Image#getStorageType}).
+     * The storage type of the image must be {@link org.gtk.gtk.ImageType<code>#EMPTY</code>  or
+     * {@link org.gtk.gtk.ImageType<code>#GICON</code>  (see {@link org.gtk.gtk.Image<code>#getStorageType</code> ).
      * The caller of this function does not own a reference to the
      * returned <code>GIcon</code>.
      */
@@ -211,8 +211,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets the icon name and size being displayed by the <code>GtkImage</code>.
      * <p>
-     * The storage type of the image must be {@link org.gtk.gtk.ImageType#EMPTY} or
-     * {@link org.gtk.gtk.ImageType#ICON_NAME} (see {@link org.gtk.gtk.Image#getStorageType}).
+     * The storage type of the image must be {@link org.gtk.gtk.ImageType<code>#EMPTY</code>  or
+     * {@link org.gtk.gtk.ImageType<code>#ICON_NAME</code>  (see {@link org.gtk.gtk.Image<code>#getStorageType</code> ).
      * The returned string is owned by the <code>GtkImage</code> and should not
      * be freed.
      */
@@ -232,8 +232,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets the image <code>GdkPaintable</code> being displayed by the <code>GtkImage</code>.
      * 
-     * The storage type of the image must be {@link org.gtk.gtk.ImageType#EMPTY} or
-     * {@link org.gtk.gtk.ImageType#PAINTABLE} (see {@link org.gtk.gtk.Image#getStorageType}).
+     * The storage type of the image must be {@link org.gtk.gtk.ImageType<code>#EMPTY</code>  or
+     * {@link org.gtk.gtk.ImageType<code>#PAINTABLE</code>  (see {@link org.gtk.gtk.Image<code>#getStorageType</code> ).
      * The caller of this function does not own a reference to the
      * returned paintable.
      */
@@ -255,18 +255,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * to store image data.
      * <p>
      * If the <code>GtkImage</code> has no image data, the return value will
-     * be 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Gets the type of representation being used by the <code>GtkImage</code>
-     * to store image data.
-     * <p>
-     * If the <code>GtkImage</code> has no image data, the return value will
-     * be %GTK_IMAGE_EMPTY.
+     * be {@link org.gtk.gtk.ImageType<code>#EMPTY</code>
      */
     public ImageType getStorageType() {
         var RESULT = gtk_h.gtk_image_get_storage_type(handle());
@@ -314,8 +303,8 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * See {@link [ctor@Gtk.Image.new_from_pixbuf] (ref=ctor)} for details.
      * 
-     * Note: This is a helper for {@link org.gtk.gtk.Image#setFromPaintable},
-     * and you can&#39;t get back the exact pixbuf once this is called,
+     * Note: This is a helper for {@link org.gtk.gtk.Image<code>#setFromPaintable</code> ,
+     * and you can&<code>#39</code> t get back the exact pixbuf once this is called,
      * only a paintable.
      */
     public void setFromPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
@@ -342,7 +331,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets the pixel size to use for named icons.
      * 
      * If the pixel size is set to a value != -1, it is used instead
-     * of the icon size set by {@link org.gtk.gtk.Image#setFromIconName}.
+     * of the icon size set by {@link org.gtk.gtk.Image<code>#setFromIconName</code> .
      */
     public void setPixelSize(int pixelSize) {
         gtk_h.gtk_image_set_pixel_size(handle(), pixelSize);

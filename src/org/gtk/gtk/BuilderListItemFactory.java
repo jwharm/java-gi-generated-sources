@@ -14,20 +14,20 @@ import java.lang.invoke.*;
  * The templates must be extending <code>GtkListItem</code>, and typically use<code>GtkExpression</code>s to obtain data from the items in the model.
  * <p>
  * Example:<pre>xml
- *   &#60;interface&#62;
- *     &#60;template class=&#34;GtkListItem&#34;&#62;
- *       &#60;property name=&#34;child&#34;&#62;
- *         &#60;object class=&#34;GtkLabel&#34;&#62;
- *           &#60;property name=&#34;xalign&#34;&#62;0&#60;/property&#62;
- *           &#60;binding name=&#34;label&#34;&#62;
- *             &#60;lookup name=&#34;name&#34; type=&#34;SettingsKey&#34;&#62;
- *               &#60;lookup name=&#34;item&#34;&#62;GtkListItem&#60;/lookup&#62;
- *             &#60;/lookup&#62;
- *           &#60;/binding&#62;
- *         &#60;/object&#62;
- *       &#60;/property&#62;
- *     &#60;/template&#62;
- *   &#60;/interface&#62;
+ *   &<code>#60</code> interface&<code>#62</code> 
+ *     &<code>#60</code> template class=&<code>#34</code> GtkListItem&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> child&<code>#34</code> &<code>#62</code> 
+ *         &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code> &<code>#62</code> 
+ *           &<code>#60</code> property name=&<code>#34</code> xalign&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *           &<code>#60</code> binding name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> 
+ *             &<code>#60</code> lookup name=&<code>#34</code> name&<code>#34</code>  type=&<code>#34</code> SettingsKey&<code>#34</code> &<code>#62</code> 
+ *               &<code>#60</code> lookup name=&<code>#34</code> item&<code>#34</code> &<code>#62</code> GtkListItem&<code>#60</code> /lookup&<code>#62</code> 
+ *             &<code>#60</code> /lookup&<code>#62</code> 
+ *           &<code>#60</code> /binding&<code>#62</code> 
+ *         &<code>#60</code> /object&<code>#62</code> 
+ *       &<code>#60</code> /property&<code>#62</code> 
+ *     &<code>#60</code> /template&<code>#62</code> 
+ *   &<code>#60</code> /interface&<code>#62</code> 
  * </pre>
  */
 public class BuilderListItemFactory extends ListItemFactory {

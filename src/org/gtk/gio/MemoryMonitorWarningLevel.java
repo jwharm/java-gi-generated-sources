@@ -4,9 +4,9 @@ package org.gtk.gio;
  * Memory availability warning levels.
  * 
  * Note that because new values might be added, it is recommended that applications check
- * #GMemoryMonitorWarningLevel as ranges, for example:
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
- * if (warning_level &#62; G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
+ * {@link org.gtk.gio.MemoryMonitorWarningLevel} as ranges, for example:
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+ * if (warning_level &<code>#62</code>  G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
  *   drop_caches ();
  * ]}|
  */

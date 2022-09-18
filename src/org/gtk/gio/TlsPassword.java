@@ -27,7 +27,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a new #GTlsPassword object.
+     * Create a new {@link org.gtk.gio.TlsPassword} object.
      */
     public TlsPassword(int flags, java.lang.String description) {
         super(constructNew(flags, description));

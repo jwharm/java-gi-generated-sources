@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GListModel is an interface that represents a mutable list of
- * #GObjects. Its main intention is as a model for various widgets in
+ * {@link org.gtk.gio.ListModel} is an interface that represents a mutable list of
+ * <code>#GObjects</code>  Its main intention is as a model for various widgets in
  * user interfaces, such as list views, but it can also be used as a
  * convenient method of returning lists of data, with support for
  * updates.
  * 
  * Each object in the list may also report changes in itself via some
- * mechanism (normally the #GObject::notify signal).  Taken together
- * with the #GListModel::items-changed signal, this provides for a list
+ * mechanism (normally the {@link org.gtk.gobject.Object} :notify signal).  Taken together
+ * with the {@link org.gtk.gio.ListModel} :items-changed signal, this provides for a list
  * that can change its membership, and in which the members can change
  * their individual properties.
  * 
@@ -24,13 +24,13 @@ import java.lang.invoke.*;
  * points, where each access point can report dynamic properties such as
  * signal strength.
  * 
- * It is important to note that the #GListModel itself does not report
+ * It is important to note that the {@link org.gtk.gio.ListModel} itself does not report
  * changes to the individual items.  It only reports changes to the list
  * membership.  If you want to observe changes to the objects themselves
  * then you need to connect signals to the objects that you are
  * interested in.
  * 
- * All items in a #GListModel are of (or derived from) the same type.
+ * All items in a {@link org.gtk.gio.ListModel} are of (or derived from) the same type.
  * g_list_model_get_item_type() returns that type.  The type may be an
  * interface, in which case all objects in the list must implement it.
  * 
@@ -39,14 +39,14 @@ import java.lang.invoke.*;
  * g_list_model_get_item() returns an item at a (0-based) position. In
  * order to allow implementations to calculate the list length lazily,
  * you can also iterate over items: starting from 0, repeatedly call
- * g_list_model_get_item() until it returns <code>NULL.
+ * g_list_model_get_item() until it returns <code>null</code> 
  * 
- * An</code> implementation may create objects lazily, but must take care to
+ * An implementation may create objects lazily, but must take care to
  * return the same object for a given position until all references to
  * it are gone.
  * 
  * On the other side, a consumer is expected only to hold references on
- * objects that are currently &#34;user visible&#34;, in order to facilitate the
+ * objects that are currently &<code>#34</code> user visible&<code>#34</code> , in order to facilitate the
  * maximum level of laziness in the implementation of the list and to
  * reduce the required number of signal connections at a given time.
  * 
@@ -81,7 +81,7 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
      * returned by this function, or a subtype, or if the type is an
      * interface, they are an implementation of that interface.
      * 
-     * The item type of a #GListModel can not change during the life of the
+     * The item type of a {@link org.gtk.gio.ListModel} can not change during the life of the
      * model.
      */
     public default org.gtk.gobject.Type getItemType() {
@@ -94,17 +94,7 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
      * 
      * Depending on the model implementation, calling this function may be
      * less efficient than iterating the list with increasing values for
-     * @position until g_list_model_get_item() returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Gets the number of items in @list.
-     * 
-     * Depending on the model implementation, calling this function may be
-     * less efficient than iterating the list with increasing values for
-     * @position until g_list_model_get_item() returns %NULL.
+     * @position until g_list_model_get_item() returns <code>null</code>
      */
     public default int getNItems() {
         var RESULT = gtk_h.g_list_model_get_n_items(handle());
@@ -131,21 +121,20 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Emits the #GListModel::items-changed signal on @list.
+     * Emits the {@link org.gtk.gio.ListModel} :items-changed signal on @list.
      * 
      * This function should only be called by classes implementing
-     * #GListModel. It has to be called after the internal representation
+     * {@link org.gtk.gio.ListModel}  It has to be called after the internal representation
      * of @list has been updated, because handlers connected to this signal
      * might query the new state of the list.
      * 
      * Implementations must only make changes to the model (as visible to
      * its consumer) in places that will not cause problems for that
      * consumer.  For models that are driven directly by a write API (such
-     * as #GListStore), changes can be reported in response to uses of that
+     * as {@link org.gtk.gio.ListStore} , changes can be reported in response to uses of that
      * API.  For models that represent remote data, changes should only be
      * made from a fresh mainloop dispatch.  It is particularly not
-     * permitted to make changes in response to a call to the #GListModel
-     * consumer API.
+     * permitted to make changes in response to a call to the {@link org.gtk.gio.ListModel} consumer API.
      * 
      * Stated another way: in general, it is assumed that code making a
      * series of accesses to the model via the API, without returning to the

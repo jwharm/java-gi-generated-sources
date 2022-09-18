@@ -35,7 +35,7 @@ import java.lang.invoke.*;
  * <p>
  * Modules may only implement a subset of the functionality available via<code>GdkPixbufModule</code>. If a particular functionality is not implemented, the<code>fill_vtable</code> function will simply not set the corresponding
  * function pointers of the <code>GdkPixbufModule</code> structure. If a module supports
- * incremental loading (i.e. provides <code>begin_load</code>, <code>stop_load</code> and<code>load_increment</code>), it doesn&#39;t have to implement <code>load</code>, since <code>GdkPixbuf</code>
+ * incremental loading (i.e. provides <code>begin_load</code>, <code>stop_load</code> and<code>load_increment</code>), it doesn&<code>#39</code> t have to implement <code>load</code>, since <code>GdkPixbuf</code>
  * can supply a generic <code>load</code> implementation wrapping the incremental loading.
  * <p>
  * <h2>Installing modules</h2>

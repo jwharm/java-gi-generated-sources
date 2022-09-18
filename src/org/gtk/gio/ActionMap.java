@@ -8,14 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The GActionMap interface is implemented by #GActionGroup
- * implementations that operate by containing a number of
- * named #GAction instances, such as #GSimpleActionGroup.
+ * The GActionMap interface is implemented by {@link org.gtk.gio.ActionGroup} implementations that operate by containing a number of
+ * named {@link org.gtk.gio.Action} instances, such as {@link org.gtk.gio.SimpleActionGroup} 
  * 
  * One useful application of this interface is to map the
  * names of actions from various action groups to unique,
- * prefixed names (e.g. by prepending &#34;app.&#34; or &#34;win.&#34;).
- * This is the motivation for the &#39;Map&#39; part of the interface
+ * prefixed names (e.g. by prepending &<code>#34</code> app.&<code>#34</code>  or &<code>#34</code> win.&<code>#34</code> ).
+ * This is the motivation for the &<code>#39</code> Map&<code>#39</code>  part of the interface
  * name.
  */
 public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
@@ -33,12 +32,12 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * A convenience function for creating multiple #GSimpleAction instances
-     * and adding them to a #GActionMap.
+     * A convenience function for creating multiple {@link org.gtk.gio.SimpleAction} instances
+     * and adding them to a {@link org.gtk.gio.ActionMap} 
      * 
-     * Each action is constructed as per one #GActionEntry.
+     * Each action is constructed as per one {@link org.gtk.gio.ActionEntry} 
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * static void
      * activate_quit (GSimpleAction *simple,
      *                GVariant      *parameter,
@@ -52,15 +51,15 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      *                        GVariant      *parameter,
      *                        gpointer       user_data)
      * {
-     *   g_print (&#34;<code>s\\n&#34;,</code> g_variant_get_string (parameter, NULL));
+     *   g_print (&<code>#34</code> <code>s</code> n&<code>#34</code> , g_variant_get_string (parameter, NULL));
      * }
      * 
      * static GActionGroup *
      * create_action_group (void)
      * {
      *   const GActionEntry entries[]} = {
-     *     { &#34;quit&#34;,         activate_quit              },
-     *     { &#34;print-string&#34;, activate_print_string, &#34;s&#34; }
+     *     { &<code>#34</code> quit&<code>#34</code> ,         activate_quit              },
+     *     { &<code>#34</code> print-string&<code>#34</code> , activate_print_string, &<code>#34</code> s&<code>#34</code>  }
      *   };
      *   GSimpleActionGroup *group;
      * 
@@ -78,15 +77,7 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Looks up the action with the name @action_name in @action_map.
      * 
-     * If no such action exists, returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Looks up the action with the name @action_name in @action_map.
-     * 
-     * If no such action exists, returns %NULL.
+     * If no such action exists, returns <code>null</code>
      */
     public default Action lookupAction(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_map_lookup_action(handle(), Interop.allocateNativeString(actionName).handle());

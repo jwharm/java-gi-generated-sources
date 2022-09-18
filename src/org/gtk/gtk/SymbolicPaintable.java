@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * <code>GtkSymbolicPaintable</code> is an interface that support symbolic colors in
  * paintables.
  * <p><code>GdkPaintable</code>s implementing the interface will have the
- * {@link org.gtk.gtk.SymbolicPaintable#snapshotSymbolic} function called and
+ * {@link org.gtk.gtk.SymbolicPaintable<code>#snapshotSymbolic</code>  function called and
  * have the colors for drawing symbolic icons passed. At least 4 colors are guaranteed
  * to be passed every time.
  * 

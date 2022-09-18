@@ -15,11 +15,11 @@ import java.lang.invoke.*;
  * <p>
  * It is suitable widget for selecting a font in a preference dialog.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * fontbutton
- * &#9584;&#9472;&#9472; button.font
- *     &#9584;&#9472;&#9472; {@link [content]}
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.font
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [content]}
  * </pre>
  * <p><code>GtkFontButton</code> has a single CSS node with name fontbutton which
  * contains a button node with the .font style class.
@@ -106,7 +106,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * If @use_font is <code>TRUE,</code> the font name will be written
+     * If @use_font is <code>true</code>  the font name will be written
      * using the selected font.
      */
     public void setUseFont(boolean useFont) {
@@ -114,7 +114,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * If @use_size is <code>TRUE,</code> the font name will be written using
+     * If @use_size is <code>true</code>  the font name will be written using
      * the selected size.
      */
     public void setUseSize(boolean useSize) {
@@ -155,7 +155,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Emitted when the user selects a font.
      * 
-     * When handling this signal, use {@link org.gtk.gtk.FontChooser#getFont}
+     * When handling this signal, use {@link org.gtk.gtk.FontChooser<code>#getFont</code> 
      * to find out which font was just selected.
      * 
      * Note that this signal is only emitted when the user changes the font.

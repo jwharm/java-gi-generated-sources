@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * 
  * New values may be added in the future for new features, so external
  * implementations of {@link [iface@Gtk.BuilderScope] (ref=iface)} should test the flags
- * for unknown values and raise a {@link org.gtk.gtk.BuilderError#INVALID_ATTRIBUTE} error
+ * for unknown values and raise a {@link org.gtk.gtk.BuilderError<code>#INVALID_ATTRIBUTE</code>  error
  * when they encounter one.
  */
 public class BuilderClosureFlags {

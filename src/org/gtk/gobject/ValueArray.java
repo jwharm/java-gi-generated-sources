@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GValueArray contains an array of #GValue elements.
+ * A {@link org.gtk.gobject.ValueArray} contains an array of {@link org.gtk.gobject.Value} elements.
  */
 public class ValueArray extends io.github.jwharm.javagi.ResourceBase {
 

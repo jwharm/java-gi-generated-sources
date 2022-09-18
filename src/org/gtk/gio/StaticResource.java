@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GStaticResource is an opaque data structure and can only be accessed
+ * {@link org.gtk.gio.StaticResource} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public class StaticResource extends io.github.jwharm.javagi.ResourceBase {

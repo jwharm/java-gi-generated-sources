@@ -8,8 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GTypeValueTable provides the functions required by the #GValue
- * implementation, to serve as a container for values of a type.
+ * The {@link org.gtk.gobject.TypeValueTable} provides the functions required by the {@link org.gtk.gobject.Value} implementation, to serve as a container for values of a type.
  */
 public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
 
@@ -18,7 +17,7 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the location of the #GTypeValueTable associated with @type.
+     * Returns the location of the {@link org.gtk.gobject.TypeValueTable} associated with @type.
      * 
      * Note that this function should only be used from source code
      * that implements or has internal knowledge of the implementation of

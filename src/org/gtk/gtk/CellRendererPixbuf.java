@@ -14,10 +14,9 @@ import java.lang.invoke.*;
  * to render either a given <code>GdkPixbuf</code> (set via the<code>GtkCellRendererPixbuf:pixbuf</code> property) or a named icon (set via the<code>GtkCellRendererPixbuf:icon-name</code> property).
  * <p>
  * To support the tree view, <code>GtkCellRendererPixbuf</code> also supports rendering two
- * alternative pixbufs, when the <code>GtkCellRenderer:is-expander</code> property is <code>TRUE.
- * If</code> the <code>GtkCellRenderer:is-expanded property</code> is <code>true</code> and the<code>GtkCellRendererPixbuf:pixbuf-expander-open</code> property is set to a pixbuf, it
- * renders that pixbuf, if the <code>GtkCellRenderer:is-expanded</code> property is <code>FALSE
- * and</code> the <code>GtkCellRendererPixbuf:pixbuf-expander-closed</code> property is set to a
+ * alternative pixbufs, when the <code>GtkCellRenderer:is-expander</code> property is <code>true</code> 
+ * If the <code>GtkCellRenderer:is-expanded property</code> is <code>true</code> and the<code>GtkCellRendererPixbuf:pixbuf-expander-open</code> property is set to a pixbuf, it
+ * renders that pixbuf, if the <code>GtkCellRenderer:is-expanded</code> property is <code>false</code> and the <code>GtkCellRendererPixbuf:pixbuf-expander-closed</code> property is set to a
  * pixbuf, it renders that one.
  */
 public class CellRendererPixbuf extends CellRenderer {
@@ -41,7 +40,7 @@ public class CellRendererPixbuf extends CellRenderer {
      * parameters using object properties. Object properties can be set
      * globally (with g_object_set()). Also, with <code>GtkTreeViewColumn</code>, you
      * can bind a property to a value in a <code>GtkTreeModel</code>. For example, you
-     * can bind the &#8220;pixbuf&#8221; property on the cell renderer to a pixbuf value
+     * can bind the &<code>#8220</code> pixbuf&<code>#8221</code>  property on the cell renderer to a pixbuf value
      * in the model, thus rendering a different image in each row of the<code>GtkTreeView</code>.
      */
     public CellRendererPixbuf() {

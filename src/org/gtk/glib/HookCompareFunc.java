@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * Defines the type of function used to compare #GHook elements in
+ * Defines the type of function used to compare {@link org.gtk.glib.Hook} elements in
  * g_hook_insert_sorted().
  */
 @FunctionalInterface

@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Data type for the &#34;General_Category&#34; (gc) property from
+ * Data type for the &<code>#34</code> General_Category&<code>#34</code>  (gc) property from
  * the Unicode Character Database.
  */
 public enum UnicodeGeneralCategoryT {

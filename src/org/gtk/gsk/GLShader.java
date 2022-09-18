@@ -49,7 +49,7 @@ import java.lang.invoke.*;
  *                 in vec2 uv)
  * </pre>
  * <p>
- * Where the input @fragCoord is the coordinate of the pixel we&#39;re
+ * Where the input @fragCoord is the coordinate of the pixel we&<code>#39</code> re
  * currently rendering, relative to the boundary rectangle that was
  * specified in the <code>GskGLShaderNode</code>, and @resolution is the width and
  * height of that rectangle. This is in the typical GTK coordinate
@@ -82,7 +82,7 @@ import java.lang.invoke.*;
  * uniform sampler2D u_texture2;
  * </pre>
  * <p>
- * GTK uses the &#34;gsk&#34; namespace in the symbols it uses in the
+ * GTK uses the &<code>#34</code> gsk&<code>#34</code>  namespace in the symbols it uses in the
  * shader, so your code should not use any symbols with the prefix gsk
  * or GSK. There are some helper functions declared that you can use:
  * <p><pre>glsl
@@ -93,14 +93,14 @@ import java.lang.invoke.*;
  * coordinates, and containes some helper ifdefs to ensure that
  * it works on all OpenGL versions.
  * <p>
- * You can compile the shader yourself using {@link org.gtk.gsk.GLShader#compile},
+ * You can compile the shader yourself using {@link org.gtk.gsk.GLShader<code>#compile</code> ,
  * otherwise the GSK renderer will do it when it handling the glshader
  * node. If errors occurs, the returned @error will include the glsl
  * sources, so you can see what GSK was passing to the compiler. You
  * can also set GSK_DEBUG=shaders in the environment to see the sources
  * and other relevant information about all shaders that GSK is handling.
  * <p>
- * <h1>n example shader</h1>
+ * <h1>An example shader</h1>
  * <p><pre>glsl
  * uniform float position;
  * uniform sampler2D u_texture1;

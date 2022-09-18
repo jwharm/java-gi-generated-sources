@@ -62,9 +62,8 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A variant of g_type_class_unref() for use in #GTypeClassCacheFunc
-     * implementations. It unreferences a class without consulting the chain
-     * of #GTypeClassCacheFuncs, avoiding the recursion which would occur
+     * A variant of g_type_class_unref() for use in {@link org.gtk.gobject.TypeClassCacheFunc} implementations. It unreferences a class without consulting the chain
+     * of <code>#GTypeClassCacheFuncs</code>  avoiding the recursion which would occur
      * otherwise.
      */
     public void unrefUncached() {
@@ -73,9 +72,9 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This function is essentially the same as g_type_class_ref(),
-     * except that the classes reference count isn&#39;t incremented.
+     * except that the classes reference count isn&<code>#39</code> t incremented.
      * As a consequence, this function may return <code>null</code> if the class
-     * of the type passed in does not currently exist (hasn&#39;t been
+     * of the type passed in does not currently exist (hasn&<code>#39</code> t been
      * referenced before).
      */
     public static TypeClass peek(Type type) {
@@ -94,7 +93,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Increments the reference count of the class structure belonging to
-     * @type. This function will demand-create the class if it doesn&#39;t
+     * @type. This function will demand-create the class if it doesn&<code>#39</code> t
      * exist already.
      */
     public static TypeClass ref(Type type) {

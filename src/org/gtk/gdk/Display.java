@@ -17,11 +17,11 @@ import java.lang.invoke.*;
  * 
  * Most of the input device handling has been factored out into separate
  * {@link org.gtk.gdk.Seat} objects. Every display has a one or more seats, which
- * can be accessed with {@link org.gtk.gdk.Display#getDefaultSeat} and
- * {@link org.gtk.gdk.Display#listSeats}.
+ * can be accessed with {@link org.gtk.gdk.Display<code>#getDefaultSeat</code>  and
+ * {@link org.gtk.gdk.Display<code>#listSeats</code> .
  * 
  * Output devices are represented by {@link org.gtk.gdk.Monitor} objects, which can
- * be accessed with {@link org.gtk.gdk.Display#getMonitorAtSurface} and similar APIs.
+ * be accessed with {@link org.gtk.gdk.Display<code>#getMonitorAtSurface</code>  and similar APIs.
  */
 public class Display extends org.gtk.gobject.Object {
 
@@ -59,7 +59,7 @@ public class Display extends org.gtk.gobject.Object {
      * <p>
      * If the creation of the <code>GdkGLContext</code> failed, @error will be set.
      * Before using the returned <code>GdkGLContext</code>, you will need to
-     * call {@link org.gtk.gdk.GLContext#makeCurrent} or {@link org.gtk.gdk.GLContext#realize}.
+     * call {@link org.gtk.gdk.GLContext<code>#makeCurrent</code>  or {@link org.gtk.gdk.GLContext<code>#realize</code> .
      */
     public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -115,16 +115,7 @@ public class Display extends org.gtk.gobject.Object {
      * Returns the default <code>GdkSeat</code> for this display.
      * 
      * Note that a display may not have a seat. In this case,
-     * this function will return 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Returns the default <code>GdkSeat</code> for this display.
-     * 
-     * Note that a display may not have a seat. In this case,
-     * this function will return %NULL.
+     * this function will return <code>null</code>
      */
     public Seat getDefaultSeat() {
         var RESULT = gtk_h.gdk_display_get_default_seat(handle());
@@ -186,8 +177,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the startup notification ID for a Wayland display, or <code>NULL
-     * if</code> no ID has been defined.
+     * Gets the startup notification ID for a Wayland display, or <code>null</code> if no ID has been defined.
      */
     public java.lang.String getStartupNotificationId() {
         var RESULT = gtk_h.gdk_display_get_startup_notification_id(handle());
@@ -206,29 +196,13 @@ public class Display extends org.gtk.gobject.Object {
      * Returns whether surfaces can reasonably be expected to have
      * their alpha channel drawn correctly on the screen.
      * 
-     * Check {@link org.gtk.gdk.Display#isRgba} for whether the display
+     * Check {@link org.gtk.gdk.Display<code>#isRgba</code>  for whether the display
      * supports an alpha channel.
      * 
      * On X11 this function returns whether a compositing manager is
      * compositing on @display.
      * 
-     * On modern displays, this value is always 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Returns whether surfaces can reasonably be expected to have
-     * their alpha channel drawn correctly on the screen.
-     * 
-     * Check {@link org.gtk.gdk.Display#isRgba} for whether the display
-     * supports an alpha channel.
-     * 
-     * On X11 this function returns whether a compositing manager is
-     * compositing on @display.
-     * 
-     * On modern displays, this value is always %TRUE.
+     * On modern displays, this value is always <code>true</code>
      */
     public boolean isComposited() {
         var RESULT = gtk_h.gdk_display_is_composited(handle());
@@ -240,20 +214,13 @@ public class Display extends org.gtk.gobject.Object {
      * alpha channel.
      * 
      * Even if a <code>true</code> is returned, it is possible that the
-     * surface&#8217;s alpha channel won&#8217;t be honored when displaying the
+     * surface&<code>#8217</code> s alpha channel won&<code>#8217</code> t be honored when displaying the
      * surface on the screen: in particular, for X an appropriate
      * windowing manager and compositing manager must be running to
-     * provide appropriate display. Use {@link org.gtk.gdk.Display#isComposited}
+     * provide appropriate display. Use {@link org.gtk.gdk.Display<code>#isComposited</code> 
      * to check if that is the case.
      * 
-     * On modern displays, this value is always is returned, it is possible that the
-     * surface&#8217;s alpha channel won&#8217;t be honored when displaying the
-     * surface on the screen: in particular, for X an appropriate
-     * windowing manager and compositing manager must be running to
-     * provide appropriate display. Use {@link org.gtk.gdk.Display#isComposited}
-     * to check if that is the case.
-     * 
-     * On modern displays, this value is always %TRUE.
+     * On modern displays, this value is always <code>true</code>
      */
     public boolean isRgba() {
         var RESULT = gtk_h.gdk_display_is_rgba(handle());
@@ -274,7 +241,7 @@ public class Display extends org.gtk.gobject.Object {
      * 
      * GTK will call this function automatically for {@link org.gtk.gtk.Window}
      * with custom startup-notification identifier unless
-     * {@link org.gtk.gtk.Window#setAutoStartupNotification}
+     * {@link org.gtk.gtk.Window<code>#setAutoStartupNotification</code> 
      * is called to disable that feature.
      */
     public void notifyStartupComplete(java.lang.String startupId) {
@@ -285,9 +252,9 @@ public class Display extends org.gtk.gobject.Object {
      * Checks that OpenGL is available for @self and ensures that it is
      * properly initialized.
      * When this fails, an @error will be set describing the error and this
-     * function returns <code>FALSE.
+     * function returns <code>false</code> 
      * <p>
-     * Note</code> that even if this function succeeds, creating a <code>GdkGLContext</code>
+     * Note that even if this function succeeds, creating a <code>GdkGLContext</code>
      * may still fail.
      * 
      * This function is idempotent. Calling it multiple times will just
@@ -320,15 +287,10 @@ public class Display extends org.gtk.gobject.Object {
     /**
      * Returns <code>true</code> if the display supports input shapes.
      * 
-     * This means that {@link org.gtk.gdk.Surface#setInputRegion} can
+     * This means that {@link org.gtk.gdk.Surface<code>#setInputRegion</code>  can
      * be used to modify the input shape of surfaces on @display.
      * 
-     * On modern displays, this value is always if the display supports input shapes.
-     * 
-     * This means that {@link org.gtk.gdk.Surface#setInputRegion} can
-     * be used to modify the input shape of surfaces on @display.
-     * 
-     * On modern displays, this value is always %TRUE.
+     * On modern displays, this value is always <code>true</code>
      */
     public boolean supportsInputShapes() {
         var RESULT = gtk_h.gdk_display_supports_input_shapes(handle());
@@ -340,8 +302,8 @@ public class Display extends org.gtk.gobject.Object {
      * requests have been handled.
      * 
      * This is often used for making sure that the display is synchronized
-     * with the current state of the program. Calling {@link org.gtk.gdk.Display#sync}
-     * before {@link gdkx11.Display#errorTrapPop} makes sure that any errors
+     * with the current state of the program. Calling {@link org.gtk.gdk.Display<code>#sync</code> 
+     * before {@link gdkx11.Display<code>#errorTrapPop</code>  makes sure that any errors
      * generated from earlier requests are handled before the error trap is removed.
      * 
      * This is most useful for X11. On windowing systems where requests are

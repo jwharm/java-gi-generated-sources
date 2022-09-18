@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  * Use <code>GtkViewport</code> to scroll child widgets such as <code>GtkGrid</code>,<code>GtkBox</code>, and so on.
  * <p>
  * The <code>GtkViewport</code> will start scrolling content only if allocated
- * less than the child widget&#8217;s minimum size in a given orientation.
+ * less than the child widget&<code>#8217</code> s minimum size in a given orientation.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkViewport</code> has a single CSS node with name <code>viewport</code>.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkViewport</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkViewport</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
  */
 public class Viewport extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 

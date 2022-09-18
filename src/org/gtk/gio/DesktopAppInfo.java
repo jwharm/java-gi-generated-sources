@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GDesktopAppInfo is an implementation of #GAppInfo based on
+ * {@link org.gtk.gio.DesktopAppInfo} is an implementation of {@link org.gtk.gio.AppInfo} based on
  * desktop files.
  * <p>
- * Note that <code>&#60;gio/gdesktopappinfo.h&#62;</code> belongs to the UNIX-specific
+ * Note that <code>&<code>#60</code> gio/gdesktopappinfo.h&<code>#62</code> </code> belongs to the UNIX-specific
  * GIO interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
  * file when using it.
  */
@@ -32,7 +32,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Creates a new #GDesktopAppInfo based on a desktop file id.
+     * Creates a new {@link org.gtk.gio.DesktopAppInfo} based on a desktop file id.
      * <p>
      * A desktop file id is the basename of the desktop file, including the
      * .desktop extension. GIO is looking for a desktop file with this name
@@ -53,7 +53,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Creates a new #GDesktopAppInfo.
+     * Creates a new {@link org.gtk.gio.DesktopAppInfo}
      */
     public static DesktopAppInfo newFromFilename(java.lang.String filename) {
         return new DesktopAppInfo(constructNewFromFilename(filename));
@@ -65,17 +65,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Creates a new #GDesktopAppInfo.
+     * Creates a new {@link org.gtk.gio.DesktopAppInfo}
      */
     public static DesktopAppInfo newFromKeyfile(org.gtk.glib.KeyFile keyFile) {
         return new DesktopAppInfo(constructNewFromKeyfile(keyFile));
     }
     
     /**
-     * Gets the user-visible display name of the &#34;additional application
-     * action&#34; specified by @action_name.
+     * Gets the user-visible display name of the &<code>#34</code> additional application
+     * action&<code>#34</code>  specified by @action_name.
      * 
-     * This corresponds to the &#34;Name&#34; key within the keyfile group for the
+     * This corresponds to the &<code>#34</code> Name&<code>#34</code>  key within the keyfile group for the
      * action.
      */
     public java.lang.String getActionName(java.lang.String actionName) {
@@ -86,7 +86,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Looks up a boolean value in the keyfile backing @info.
      * 
-     * The @key is looked up in the &#34;Desktop Entry&#34; group.
+     * The @key is looked up in the &<code>#34</code> Desktop Entry&<code>#34</code>  group.
      */
     public boolean getBoolean(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_get_boolean(handle(), Interop.allocateNativeString(key).handle());
@@ -103,16 +103,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     
     /**
      * When @info was created from a known filename, return it.  In some
-     * situations such as the #GDesktopAppInfo returned from
-     * g_desktop_app_info_new_from_keyfile(), this function will return 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         When @info was created from a known filename, return it.  In some
-     * situations such as the #GDesktopAppInfo returned from
-     * g_desktop_app_info_new_from_keyfile(), this function will return %NULL.
+     * situations such as the {@link org.gtk.gio.DesktopAppInfo} returned from
+     * g_desktop_app_info_new_from_keyfile(), this function will return <code>null</code>
      */
     public java.lang.String getFilename() {
         var RESULT = gtk_h.g_desktop_app_info_get_filename(handle());
@@ -140,7 +132,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * Looks up a localized string value in the keyfile backing @info
      * translated to the current locale.
      * 
-     * The @key is looked up in the &#34;Desktop Entry&#34; group.
+     * The @key is looked up in the &<code>#34</code> Desktop Entry&<code>#34</code>  group.
      */
     public java.lang.String getLocaleString(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_get_locale_string(handle(), Interop.allocateNativeString(key).handle());
@@ -161,7 +153,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * Checks if the application info should be shown in menus that list available
      * applications for a specific name of the desktop, based on the<code>OnlyShowIn</code> and <code>NotShowIn</code> keys.
      * <p>
-     * @desktop_env should typically be given as <code>NULL,</code> in which case the<code>XDG_CURRENT_DESKTOP</code> environment variable is consulted.  If you want
+     * @desktop_env should typically be given as <code>null</code>  in which case the<code>XDG_CURRENT_DESKTOP</code> environment variable is consulted.  If you want
      * to override the default mechanism then you may specify @desktop_env,
      * but this is not recommended.
      * 
@@ -186,7 +178,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Looks up a string value in the keyfile backing @info.
      * 
-     * The @key is looked up in the &#34;Desktop Entry&#34; group.
+     * The @key is looked up in the &<code>#34</code> Desktop Entry&<code>#34</code>  group.
      */
     public java.lang.String getString(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_get_string(handle(), Interop.allocateNativeString(key).handle());
@@ -194,7 +186,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Returns whether @key exists in the &#34;Desktop Entry&#34; group
+     * Returns whether @key exists in the &<code>#34</code> Desktop Entry&<code>#34</code>  group
      * of the keyfile backing @info.
      */
     public boolean hasKey(java.lang.String key) {
@@ -210,7 +202,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * 
      * Note that if the main entry of the desktop file indicates that the
      * application supports startup notification, and @launch_context is
-     * non-<code>NULL,</code> then startup notification will be used when activating the
+     * non-<code>null</code>  then startup notification will be used when activating the
      * action (and as such, invocation of the action on the receiving side
      * must signal the end of startup notification when it is completed).
      * This is the expected behaviour of applications declaring additional

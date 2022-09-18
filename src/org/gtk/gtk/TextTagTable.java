@@ -15,18 +15,18 @@ import java.lang.invoke.*;
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
  * <p>
- * <h1>tkTextTagTables as GtkBuildable</h1>
+ * <h1>GtkTextTagTables as GtkBuildable</h1>
  * <p>
  * The <code>GtkTextTagTable</code> implementation of the <code>GtkBuildable</code> interface
- * supports adding tags by specifying &#8220;tag&#8221; as the &#8220;type&#8221; attribute
- * of a &#60;child&#62; element.
+ * supports adding tags by specifying &<code>#8220</code> tag&<code>#8221</code>  as the &<code>#8220</code> type&<code>#8221</code>  attribute
+ * of a &<code>#60</code> child&<code>#62</code>  element.
  * <p>
  * An example of a UI definition fragment specifying tags:<pre>xml
- * &#60;object class=&#34;GtkTextTagTable&#34;&#62;
- *  &#60;child type=&#34;tag&#34;&#62;
- *    &#60;object class=&#34;GtkTextTag&#34;/&#62;
- *  &#60;/child&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkTextTagTable&<code>#34</code> &<code>#62</code> 
+ *  &<code>#60</code> child type=&<code>#34</code> tag&<code>#34</code> &<code>#62</code> 
+ *    &<code>#60</code> object class=&<code>#34</code> GtkTextTag&<code>#34</code> /&<code>#62</code> 
+ *  &<code>#60</code> /child&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  */
 public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
@@ -71,7 +71,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * Calls @func on each tag in @table, with user data @data.
      * 
      * Note that the table may not be modified while iterating
-     * over it (you can&#8217;t add/remove tags).
+     * over it (you can&<code>#8217</code> t add/remove tags).
      */
     public void foreach(TextTagTableForeach func) {
         try {
@@ -107,8 +107,8 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * Remove a tag from the table.
      * <p>
      * If a <code>GtkTextBuffer</code> has @table as its tag table, the tag is
-     * removed from the buffer. The table&#8217;s reference to the tag is
-     * removed, so the tag will end up destroyed if you don&#8217;t have
+     * removed from the buffer. The table&<code>#8217</code> s reference to the tag is
+     * removed, so the tag will end up destroyed if you don&<code>#8217</code> t have
      * a reference to it.
      */
     public void remove(TextTag tag) {

@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the #hb_draw_funcs_t to perform a &#34;quadratic-to&#34; draw
+ * A virtual method for the {@link org.harfbuzz.draw_funcs_t} to perform a &<code>#34</code> quadratic-to&<code>#34</code>  draw
  * operation.
  */
 @FunctionalInterface

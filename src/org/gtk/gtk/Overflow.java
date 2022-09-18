@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Defines how content overflowing a given area should be handled.
  * 
- * This is used in {@link org.gtk.gtk.Widget#setOverflow}. The
+ * This is used in {@link org.gtk.gtk.Widget<code>#setOverflow</code> . The
  * {@link [property@Gtk.Widget:overflow] (ref=property)} property is modeled after the
  * CSS overflow property, but implements it only partially.
  */

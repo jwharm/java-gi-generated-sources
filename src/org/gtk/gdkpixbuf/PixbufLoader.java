@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  * network connection, or when loading an extremely large file.
  * <p>
  * To use <code>GdkPixbufLoader</code> to load an image, create a new instance,
- * and call {@link org.gtk.gdkpixbuf.PixbufLoader#write} to send the data
- * to it. When done, {@link org.gtk.gdkpixbuf.PixbufLoader#close} should be
+ * and call {@link org.gtk.gdkpixbuf.PixbufLoader<code>#write</code>  to send the data
+ * to it. When done, {@link org.gtk.gdkpixbuf.PixbufLoader<code>#close</code>  should be
  * called to end the stream and finalize everything.
  * <p>
  * The loader will emit three important signals throughout the process:
@@ -27,11 +27,11 @@ import java.lang.invoke.*;
  *  - {@link [signal@GdkPixbuf.PixbufLoader::size-prepared] (ref=signal)} will be emitted as
  *    soon as the image has enough information to determine the size of
  *    the image to be used. If you want to scale the image while loading
- *    it, you can call {@link org.gtk.gdkpixbuf.PixbufLoader#setSize} in
+ *    it, you can call {@link org.gtk.gdkpixbuf.PixbufLoader<code>#setSize</code>  in
  *    response to this signal.
  *  - {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} will be emitted as
  *    soon as the pixbuf of the desired has been allocated. You can obtain
- *    the <code>GdkPixbuf</code> instance by calling {@link org.gtk.gdkpixbuf.PixbufLoader#getPixbuf}.
+ *    the <code>GdkPixbuf</code> instance by calling {@link org.gtk.gdkpixbuf.PixbufLoader<code>#getPixbuf</code> .
  *    If you want to use it, simply acquire a reference to it. You can
  *    also call <code>gdk_pixbuf_loader_get_pixbuf()</code> later to get the same
  *    pixbuf.
@@ -42,13 +42,13 @@ import java.lang.invoke.*;
  *    interlaced image you will need to make several passes before the
  *    image is done loading.
  * 
- * ## Loading an animation
+ * <code>#</code>  Loading an animation
  * 
  * Loading an animation is almost as easy as loading an image. Once the
  * first {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} signal has been
- * emitted, you can call {@link org.gtk.gdkpixbuf.PixbufLoader#getAnimation} to
+ * emitted, you can call {@link org.gtk.gdkpixbuf.PixbufLoader<code>#getAnimation</code>  to
  * get the {@link org.gtk.gdkpixbuf.PixbufAnimation} instance, and then call
- * and {@link org.gtk.gdkpixbuf.PixbufAnimation#getIter} to get a
+ * and {@link org.gtk.gdkpixbuf.PixbufAnimation<code>#getIter</code>  to get a
  * {@link org.gtk.gdkpixbuf.PixbufAnimationIter} to retrieve the pixbuf for the
  * desired time stamp.
  */
@@ -89,17 +89,16 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * image data as if it were an image of MIME type @mime_type, instead of
      * identifying the type automatically.
      * 
-     * This function is useful if you want an error if the image isn&#39;t the
-     * expected MIME type; for loading image formats that can&#39;t be reliably
+     * This function is useful if you want an error if the image isn&<code>#39</code> t the
+     * expected MIME type; for loading image formats that can&<code>#39</code> t be reliably
      * identified by looking at the data; or if the user manually forces a
      * specific MIME type.
      * 
      * The list of supported mime types depends on what image loaders
-     * are installed, but typically &#34;image/png&#34;, &#34;image/jpeg&#34;, &#34;image/gif&#34;,
-     * &#34;image/tiff&#34; and &#34;image/x-xpixmap&#34; are among the supported mime types.
+     * are installed, but typically &<code>#34</code> image/png&<code>#34</code> , &<code>#34</code> image/jpeg&<code>#34</code> , &<code>#34</code> image/gif&<code>#34</code> ,
+     * &<code>#34</code> image/tiff&<code>#34</code>  and &<code>#34</code> image/x-xpixmap&<code>#34</code>  are among the supported mime types.
      * To obtain the full list of supported mime types, call
-     * gdk_pixbuf_format_get_mime_types() on each of the #GdkPixbufFormat
-     * structs returned by gdk_pixbuf_get_formats().
+     * gdk_pixbuf_format_get_mime_types() on each of the {@link org.gtk.gdkpixbuf.PixbufFormat} structs returned by gdk_pixbuf_get_formats().
      */
     public static PixbufLoader newWithMimeType(java.lang.String mimeType) throws GErrorException {
         return new PixbufLoader(constructNewWithMimeType(mimeType));
@@ -119,16 +118,16 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * image data as if it were an image of type @image_type, instead of
      * identifying the type automatically.
      * 
-     * This function is useful if you want an error if the image isn&#39;t the
-     * expected type; for loading image formats that can&#39;t be reliably
+     * This function is useful if you want an error if the image isn&<code>#39</code> t the
+     * expected type; for loading image formats that can&<code>#39</code> t be reliably
      * identified by looking at the data; or if the user manually forces
      * a specific type.
      * 
      * The list of supported image formats depends on what image loaders
-     * are installed, but typically &#34;png&#34;, &#34;jpeg&#34;, &#34;gif&#34;, &#34;tiff&#34; and
-     * &#34;xpm&#34; are among the supported formats. To obtain the full list of
+     * are installed, but typically &<code>#34</code> png&<code>#34</code> , &<code>#34</code> jpeg&<code>#34</code> , &<code>#34</code> gif&<code>#34</code> , &<code>#34</code> tiff&<code>#34</code>  and
+     * &<code>#34</code> xpm&<code>#34</code>  are among the supported formats. To obtain the full list of
      * supported image formats, call gdk_pixbuf_format_get_name() on each
-     * of the #GdkPixbufFormat structs returned by gdk_pixbuf_get_formats().
+     * of the {@link org.gtk.gdkpixbuf.PixbufFormat} structs returned by gdk_pixbuf_get_formats().
      */
     public static PixbufLoader newWithType(java.lang.String imageType) throws GErrorException {
         return new PixbufLoader(constructNewWithType(imageType));
@@ -139,12 +138,12 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * gdk_pixbuf_loader_write() will occur, so that it can free its
      * internal loading structures.
      * <p>
-     * This function also tries to parse any data that hasn&#39;t yet been parsed;
+     * This function also tries to parse any data that hasn&<code>#39</code> t yet been parsed;
      * if the remaining data is partial or corrupt, an error will be returned.
      * <p>
      * If <code>FALSE</code> is returned, <code>error</code> will be set to an error from the<code>GDK_PIXBUF_ERROR</code> or <code>G_FILE_ERROR</code> domains.
      * <p>
-     * If you&#39;re just cancelling a load rather than expecting it to be finished,
+     * If you&<code>#39</code> re just cancelling a load rather than expecting it to be finished,
      * passing <code>NULL</code> for <code>error</code> to ignore it is reasonable.
      * 
      * Remember that this function does not release a reference on the loader, so
@@ -160,13 +159,13 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     }
     
     /**
-     * Queries the #GdkPixbufAnimation that a pixbuf loader is currently creating.
+     * Queries the {@link org.gtk.gdkpixbuf.PixbufAnimation} that a pixbuf loader is currently creating.
      * <p>
      * In general it only makes sense to call this function after the
      * {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} signal has been emitted by
      * the loader.
      * <p>
-     * If the loader doesn&#39;t have enough bytes yet, and hasn&#39;t emitted the <code>area-prepared</code>
+     * If the loader doesn&<code>#39</code> t have enough bytes yet, and hasn&<code>#39</code> t emitted the <code>area-prepared</code>
      * signal, this function will return <code>NULL</code>.
      */
     public PixbufAnimation getAnimation() {
@@ -184,7 +183,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     }
     
     /**
-     * Queries the #GdkPixbuf that a pixbuf loader is currently creating.
+     * Queries the {@link org.gtk.gdkpixbuf.Pixbuf} that a pixbuf loader is currently creating.
      * <p>
      * In general it only makes sense to call this function after the
      * {@link [signal@GdkPixbuf.PixbufLoader::area-prepared] (ref=signal)} signal has been
@@ -197,8 +196,8 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * The returned pixbuf will be the same in all future calls to the loader,
      * so if you want to keep using it, you should acquire a reference to it.
      * 
-     * Additionally, if the loader is an animation, it will return the &#34;static
-     * image&#34; of the animation (see gdk_pixbuf_animation_get_static_image()).
+     * Additionally, if the loader is an animation, it will return the &<code>#34</code> static
+     * image&<code>#34</code>  of the animation (see gdk_pixbuf_animation_get_static_image()).
      */
     public Pixbuf getPixbuf() {
         var RESULT = gtk_h.gdk_pixbuf_loader_get_pixbuf(handle());

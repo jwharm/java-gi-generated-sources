@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * to select a different color with the single-color editor.
  * <p>
  * To enter the single-color editing mode, use the context menu of any
- * color of the palette, or use the &#39;+&#39; button to add a new custom color.
+ * color of the palette, or use the &<code>#39</code> +&<code>#39</code>  button to add a new custom color.
  * <p>
  * The chooser automatically remembers the last selection, as well
  * as custom colors.
@@ -23,13 +23,13 @@ import java.lang.invoke.*;
  * To create a <code>GtkColorChooserWidget</code>, use {@link [ctor@Gtk.ColorChooserWidget.new] (ref=ctor)}.
  * <p>
  * To change the initially selected color, use
- * {@link org.gtk.gtk.ColorChooser#setRgba}. To get the selected color use
- * {@link org.gtk.gtk.ColorChooser#getRgba}.
+ * {@link org.gtk.gtk.ColorChooser<code>#setRgba</code> . To get the selected color use
+ * {@link org.gtk.gtk.ColorChooser<code>#getRgba</code> .
  * <p>
  * The <code>GtkColorChooserWidget</code> is used in the {@link org.gtk.gtk.ColorChooserDialog}
  * to provide a dialog for selecting colors.
  * <p>
- * <h1>SS names</h1>
+ * <h1>CSS names</h1>
  * <p><code>GtkColorChooserWidget</code> has a single CSS node with name colorchooser.
  */
 public class ColorChooserWidget extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {

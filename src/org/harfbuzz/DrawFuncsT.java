@@ -10,10 +10,10 @@ import java.lang.invoke.*;
 /**
  * Glyph draw callbacks.
  * 
- * #hb_draw_move_to_func_t, #hb_draw_line_to_func_t and
- * #hb_draw_cubic_to_func_t calls are necessary to be defined but we translate
- * #hb_draw_quadratic_to_func_t calls to #hb_draw_cubic_to_func_t if the
- * callback isn&#39;t defined.
+ * {@link org.harfbuzz.draw_move_to_func_t}  {@link org.harfbuzz.draw_line_to_func_t} and
+ * {@link org.harfbuzz.draw_cubic_to_func_t} calls are necessary to be defined but we translate
+ * {@link org.harfbuzz.draw_quadratic_to_func_t} calls to {@link org.harfbuzz.draw_cubic_to_func_t} if the
+ * callback isn&<code>#39</code> t defined.
  */
 public class DrawFuncsT extends io.github.jwharm.javagi.ResourceBase {
 

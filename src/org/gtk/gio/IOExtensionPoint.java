@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GIOExtensionPoint is an opaque data structure and can only be accessed
+ * {@link org.gtk.gio.IOExtensionPoint} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
@@ -18,7 +18,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a #GIOExtension for an extension point by name.
+     * Finds a {@link org.gtk.gio.IOExtension} for an extension point by name.
      */
     public IOExtension getExtensionByName(java.lang.String name) {
         var RESULT = gtk_h.g_io_extension_point_get_extension_by_name(handle(), Interop.allocateNativeString(name).handle());
@@ -55,7 +55,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      * @extension_point_name.
      * 
      * If @type has already been registered as an extension for this
-     * extension point, the existing #GIOExtension object is returned.
+     * extension point, the existing {@link org.gtk.gio.IOExtension} object is returned.
      */
     public static IOExtension implement(java.lang.String extensionPointName, Type type, java.lang.String extensionName, int priority) {
         var RESULT = gtk_h.g_io_extension_point_implement(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);

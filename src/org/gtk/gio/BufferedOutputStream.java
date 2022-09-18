@@ -8,19 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Buffered output stream implements #GFilterOutputStream and provides
+ * Buffered output stream implements {@link org.gtk.gio.FilterOutputStream} and provides
  * for buffered writes.
  * 
- * By default, #GBufferedOutputStream&#39;s buffer size is set at 4 kilobytes.
+ * By default, {@link org.gtk.gio.BufferedOutputStream} <code>#39</code> s buffer size is set at 4 kilobytes.
  * 
  * To create a buffered output stream, use g_buffered_output_stream_new(),
- * or g_buffered_output_stream_new_sized() to specify the buffer&#39;s size
+ * or g_buffered_output_stream_new_sized() to specify the buffer&<code>#39</code> s size
  * at construction.
  * 
  * To get the size of a buffer within a buffered input stream, use
  * g_buffered_output_stream_get_buffer_size(). To change the size of a
- * buffered output stream&#39;s buffer, use
- * g_buffered_output_stream_set_buffer_size(). Note that the buffer&#39;s
+ * buffered output stream&<code>#39</code> s buffer, use
+ * g_buffered_output_stream_set_buffer_size(). Note that the buffer&<code>#39</code> s
  * size cannot be reduced below the size of the data within the buffer.
  */
 public class BufferedOutputStream extends FilterOutputStream implements Seekable {
@@ -75,7 +75,7 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
     }
     
     /**
-     * Sets whether or not the @stream&#39;s buffer should automatically grow.
+     * Sets whether or not the @stream&<code>#39</code> s buffer should automatically grow.
      * If @auto_grow is true, then each write will just make the buffer
      * larger, and you must manually flush the buffer to actually write out
      * the data to the underlying stream.

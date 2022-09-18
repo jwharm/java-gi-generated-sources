@@ -36,9 +36,9 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GTree like g_tree_new() and allows to specify functions
+     * Creates a new {@link org.gtk.glib.Tree} like g_tree_new() and allows to specify functions
      * to free the memory allocated for the key and value that get called when
-     * removing the entry from the #GTree.
+     * removing the entry from the {@link org.gtk.glib.Tree}
      */
     public static Tree newFull(CompareDataFunc keyCompareFunc) {
         return new Tree(constructNewFull(keyCompareFunc));
@@ -60,7 +60,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GTree with a comparison function that accepts user data.
+     * Creates a new {@link org.gtk.glib.Tree} with a comparison function that accepts user data.
      * See g_tree_new() for more details.
      */
     public static Tree newWithData(CompareDataFunc keyCompareFunc) {
@@ -68,25 +68,24 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes all keys and values from the #GTree and decreases its
+     * Removes all keys and values from the {@link org.gtk.glib.Tree} and decreases its
      * reference count by one. If keys and/or values are dynamically
-     * allocated, you should either free them first or create the #GTree
-     * using g_tree_new_full(). In the latter case the destroy functions
+     * allocated, you should either free them first or create the {@link org.gtk.glib.Tree} using g_tree_new_full(). In the latter case the destroy functions
      * you supplied will be called on all keys and values before destroying
-     * the #GTree.
+     * the {@link org.gtk.glib.Tree}
      */
     public void destroy() {
         gtk_h.g_tree_destroy(handle());
     }
     
     /**
-     * Calls the given function for each of the key/value pairs in the #GTree.
+     * Calls the given function for each of the key/value pairs in the {@link org.gtk.glib.Tree} 
      * The function is passed the key and value of each pair, and the given
      * @data parameter. The tree is traversed in sorted order.
      * 
-     * The tree may not be modified while iterating over it (you can&#39;t
+     * The tree may not be modified while iterating over it (you can&<code>#39</code> t
      * add/remove items). To remove all items matching a predicate, you need
-     * to add each item to a list in your #GTraverseFunc as you walk over
+     * to add each item to a list in your {@link org.gtk.glib.TraverseFunc} as you walk over
      * the tree, then walk the list and remove each item.
      */
     public void foreach(TraverseFunc func) {
@@ -104,13 +103,13 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls the given function for each of the nodes in the #GTree.
+     * Calls the given function for each of the nodes in the {@link org.gtk.glib.Tree} 
      * The function is passed the pointer to the particular node, and the given
      * @data parameter. The tree traversal happens in-order.
      * 
-     * The tree may not be modified while iterating over it (you can&#39;t
+     * The tree may not be modified while iterating over it (you can&<code>#39</code> t
      * add/remove items). To remove all items matching a predicate, you need
-     * to add each item to a list in your #GTraverseFunc as you walk over
+     * to add each item to a list in your {@link org.gtk.glib.TraverseFunc} as you walk over
      * the tree, then walk the list and remove each item.
      */
     public void foreachNode(TraverseNodeFunc func) {
@@ -128,10 +127,10 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the height of a #GTree.
+     * Gets the height of a {@link org.gtk.glib.Tree} 
      * 
-     * If the #GTree contains no nodes, the height is 0.
-     * If the #GTree contains only one root node the height is 1.
+     * If the {@link org.gtk.glib.Tree} contains no nodes, the height is 0.
+     * If the {@link org.gtk.glib.Tree} contains only one root node the height is 1.
      * If the root node has children the height is 2, etc.
      */
     public int height() {
@@ -140,9 +139,9 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a key/value pair into a #GTree.
+     * Inserts a key/value pair into a {@link org.gtk.glib.Tree} 
      * 
-     * Inserts a new key and value into a #GTree as g_tree_insert_node() does,
+     * Inserts a new key and value into a {@link org.gtk.glib.Tree} as g_tree_insert_node() does,
      * only this function does not return the inserted or set node.
      */
     public void insert(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
@@ -150,15 +149,15 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a key/value pair into a #GTree.
+     * Inserts a key/value pair into a {@link org.gtk.glib.Tree} 
      * 
-     * If the given key already exists in the #GTree its corresponding value
+     * If the given key already exists in the {@link org.gtk.glib.Tree} its corresponding value
      * is set to the new value. If you supplied a @value_destroy_func when
-     * creating the #GTree, the old value is freed using that function. If
-     * you supplied a @key_destroy_func when creating the #GTree, the passed
+     * creating the {@link org.gtk.glib.Tree}  the old value is freed using that function. If
+     * you supplied a @key_destroy_func when creating the {@link org.gtk.glib.Tree}  the passed
      * key is freed using that function.
      * 
-     * The tree is automatically &#39;balanced&#39; as new key/value pairs are added,
+     * The tree is automatically &<code>#39</code> balanced&<code>#39</code>  as new key/value pairs are added,
      * so that the distance from the root to every leaf is as small as possible.
      * The cost of maintaining a balanced tree while inserting new key/value
      * result in a O(n log(n)) operation where most of the other operations
@@ -170,7 +169,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the value corresponding to the given key. Since a #GTree is
+     * Gets the value corresponding to the given key. Since a {@link org.gtk.glib.Tree} is
      * automatically balanced as key/value pairs are added, key lookup
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
@@ -180,7 +179,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Looks up a key in the #GTree, returning the original key and the
+     * Looks up a key in the {@link org.gtk.glib.Tree}  returning the original key and the
      * associated value. This is useful if you need to free the memory
      * allocated for the original key, for example before calling
      * g_tree_remove().
@@ -191,7 +190,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the tree node corresponding to the given key. Since a #GTree is
+     * Gets the tree node corresponding to the given key. Since a {@link org.gtk.glib.Tree} is
      * automatically balanced as key/value pairs are added, key lookup
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
@@ -214,7 +213,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the number of nodes in a #GTree.
+     * Gets the number of nodes in a {@link org.gtk.glib.Tree}
      */
     public int nnodes() {
         var RESULT = gtk_h.g_tree_nnodes(handle());
@@ -222,8 +221,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the first in-order node of the tree, or <code>NULL
-     * for</code> an empty tree.
+     * Returns the first in-order node of the tree, or <code>null</code> for an empty tree.
      */
     public TreeNode nodeFirst() {
         var RESULT = gtk_h.g_tree_node_first(handle());
@@ -231,8 +229,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the last in-order node of the tree, or <code>NULL
-     * for</code> an empty tree.
+     * Returns the last in-order node of the tree, or <code>null</code> for an empty tree.
      */
     public TreeNode nodeLast() {
         var RESULT = gtk_h.g_tree_node_last(handle());
@@ -250,12 +247,12 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes a key/value pair from a #GTree.
+     * Removes a key/value pair from a {@link org.gtk.glib.Tree} 
      * 
-     * If the #GTree was created using g_tree_new_full(), the key and value
+     * If the {@link org.gtk.glib.Tree} was created using g_tree_new_full(), the key and value
      * are freed using the supplied destroy functions, otherwise you have to
      * make sure that any dynamically allocated values are freed yourself.
-     * If the key does not exist in the #GTree, the function does nothing.
+     * If the key does not exist in the {@link org.gtk.glib.Tree}  the function does nothing.
      * 
      * The cost of maintaining a balanced tree while removing a key/value
      * result in a O(n log(n)) operation where most of the other operations
@@ -267,22 +264,15 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes all nodes from a #GTree and destroys their keys and values,
-     * then resets the #GTree&#8217;s root to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Removes all nodes from a #GTree and destroys their keys and values,
-     * then resets the #GTree&#8217;s root to %NULL.
+     * Removes all nodes from a {@link org.gtk.glib.Tree} and destroys their keys and values,
+     * then resets the {@link org.gtk.glib.Tree} <code>#8217</code> s root to <code>null</code>
      */
     public void removeAll() {
         gtk_h.g_tree_remove_all(handle());
     }
     
     /**
-     * Inserts a new key and value into a #GTree as g_tree_replace_node() does,
+     * Inserts a new key and value into a {@link org.gtk.glib.Tree} as g_tree_replace_node() does,
      * only this function does not return the inserted or set node.
      */
     public void replace(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
@@ -290,14 +280,14 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a new key and value into a #GTree similar to g_tree_insert_node().
-     * The difference is that if the key already exists in the #GTree, it gets
+     * Inserts a new key and value into a {@link org.gtk.glib.Tree} similar to g_tree_insert_node().
+     * The difference is that if the key already exists in the {@link org.gtk.glib.Tree}  it gets
      * replaced by the new key. If you supplied a @value_destroy_func when
-     * creating the #GTree, the old value is freed using that function. If you
-     * supplied a @key_destroy_func when creating the #GTree, the old key is
+     * creating the {@link org.gtk.glib.Tree}  the old value is freed using that function. If you
+     * supplied a @key_destroy_func when creating the {@link org.gtk.glib.Tree}  the old key is
      * freed using that function.
      * 
-     * The tree is automatically &#39;balanced&#39; as new key/value pairs are added,
+     * The tree is automatically &<code>#39</code> balanced&<code>#39</code>  as new key/value pairs are added,
      * so that the distance from the root to every leaf is as small as possible.
      */
     public TreeNode replaceNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
@@ -306,7 +296,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Searches a #GTree using @search_func.
+     * Searches a {@link org.gtk.glib.Tree} using @search_func.
      * 
      * The @search_func is called with a pointer to the key of a key/value
      * pair in the tree, and the passed in @user_data. If @search_func returns
@@ -332,7 +322,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Searches a #GTree using @search_func.
+     * Searches a {@link org.gtk.glib.Tree} using @search_func.
      * 
      * The @search_func is called with a pointer to the key of a key/value
      * pair in the tree, and the passed in @user_data. If @search_func returns
@@ -358,10 +348,10 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes a key and its associated value from a #GTree without calling
+     * Removes a key and its associated value from a {@link org.gtk.glib.Tree} without calling
      * the key and value destroy functions.
      * 
-     * If the key does not exist in the #GTree, the function does nothing.
+     * If the key does not exist in the {@link org.gtk.glib.Tree}  the function does nothing.
      */
     public boolean steal(jdk.incubator.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_steal(handle(), key);

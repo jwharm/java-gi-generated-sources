@@ -11,7 +11,7 @@ package org.gtk.gtk;
  * the model, i.e. it must be reflexive, antisymmetric and transitive.
  * <p>
  * For example, if @model is a product catalogue, then a compare function
- * for the &#8220;price&#8221; column could be one which returns<code>price_of(@a) - price_of(@b)</code>.
+ * for the &<code>#8220</code> price&<code>#8221</code>  column could be one which returns<code>price_of(@a) - price_of(@b)</code>.
  */
 @FunctionalInterface
 public interface TreeIterCompareFunc {

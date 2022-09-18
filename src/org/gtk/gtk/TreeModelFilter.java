@@ -13,18 +13,18 @@ import java.lang.invoke.*;
  * A <code>GtkTreeModelFilter</code> is a tree model which wraps another tree model,
  * and can do the following things:
  * <p>
- * <li>Filter specific rows, based on data from a &#8220;visible column&#8221;, a column
+ * <li>Filter specific rows, based on data from a &<code>#8220</code> visible column&<code>#8221</code> , a column
  *   storing booleans indicating whether the row should be filtered or not,
- *   or based on the return value of a &#8220;visible function&#8221;, which gets a
+ *   or based on the return value of a &<code>#8220</code> visible function&<code>#8221</code> , which gets a
  *   model, iter and user_data and returns a boolean indicating whether the
  *   row should be filtered or not.
  * <p>
- * <li>Modify the &#8220;appearance&#8221; of the model, using a modify function.
+ * <li>Modify the &<code>#8220</code> appearance&<code>#8221</code>  of the model, using a modify function.
  *   This is extremely powerful and allows for just changing some
  *   values and also for creating a completely different model based
  *   on the given child model.
  * <p>
- * <li>Set a different root node, also known as a &#8220;virtual root&#8221;. You can pass
+ * <li>Set a different root node, also known as a &<code>#8220</code> virtual root&<code>#8221</code> . You can pass
  *   in a <code>GtkTreePath</code> indicating the root node for the filter at construction
  *   time.
  * <p>
@@ -53,13 +53,13 @@ import java.lang.invoke.*;
  * Determining the visibility state of a given node based on the state
  * of its child nodes is a frequently occurring use case. Therefore,<code>GtkTreeModelFilter</code> explicitly supports this. For example, when a node
  * does not have any children, you might not want the node to be visible.
- * As soon as the first row is added to the node&#8217;s child level (or the
- * last row removed), the node&#8217;s visibility should be updated.
+ * As soon as the first row is added to the node&<code>#8217</code> s child level (or the
+ * last row removed), the node&<code>#8217</code> s visibility should be updated.
  * <p>
  * This introduces a dependency from the node on its child nodes. In order
  * to accommodate this, <code>GtkTreeModelFilter</code> must make sure the necessary
  * signals are received from the child model. This is achieved by building,
- * for all nodes which are exposed as visible nodes to <code>GtkTreeModelFilter</code>&#39;s
+ * for all nodes which are exposed as visible nodes to <code>GtkTreeModelFilter</code>&<code>#39</code> s
  * clients, the child level (if any) and take a reference on the first node
  * in this level. Furthermore, for every row-inserted, row-changed or
  * row-deleted signal (also these which were not handled because the node
@@ -68,7 +68,7 @@ import java.lang.invoke.*;
  * <p>
  * Beware, however, that this explicit support is limited to these two
  * cases. For example, if you want a node to be visible only if two nodes
- * in a child&#8217;s child level (2 levels deeper) are visible, you are on your
+ * in a child&<code>#8217</code> s child level (2 levels deeper) are visible, you are on your
  * own. In this case, either rely on <code>GtkTreeStore</code> to emit all signals
  * because it does not implement reference counting, or for models that
  * do implement reference counting, obtain references on these child levels
@@ -87,9 +87,9 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     
     /**
      * This function should almost never be called. It clears the @filter
-     * of any cached iterators that haven&#8217;t been reffed with
+     * of any cached iterators that haven&<code>#8217</code> t been reffed with
      * gtk_tree_model_ref_node(). This might be useful if the child model
-     * being filtered is static (and doesn&#8217;t change often) and there has been
+     * being filtered is static (and doesn&<code>#8217</code> t change often) and there has been
      * a lot of unreffed access to nodes. As a side effect of this function,
      * all unreffed iters will be invalid.
      */
@@ -110,9 +110,8 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     /**
      * Converts @child_path to a path relative to @filter. That is, @child_path
      * points to a path in the child model. The rerturned path will point to the
-     * same row in the filtered model. If @child_path isn&#8217;t a valid path on the
-     * child model or points to a row which is not visible in @filter, then <code>NULL
-     * is</code> returned.
+     * same row in the filtered model. If @child_path isn&<code>#8217</code> t a valid path on the
+     * child model or points to a row which is not visible in @filter, then <code>null</code> is returned.
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
         var RESULT = gtk_h.gtk_tree_model_filter_convert_child_path_to_path(handle(), childPath.handle());
@@ -183,8 +182,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     /**
      * Sets @column of the child_model to be the column where @filter should
      * look for visibility information. @columns should be a column of type
-     * <code>G_TYPE_BOOLEAN,</code> where <code>true</code> means that a row is visible, and <code>FALSE
-     * if</code> not.
+     * <code>G_TYPE_BOOLEAN</code>  where <code>true</code> means that a row is visible, and <code>false</code> if not.
      * 
      * Note that gtk_tree_model_filter_set_visible_func() or
      * gtk_tree_model_filter_set_visible_column() can only be called
@@ -208,18 +206,18 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * be empty. The visible function should therefore take special care of empty
      * rows, like in the example below.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * static gboolean
      * visible_func (GtkTreeModel *model,
      *               GtkTreeIter  *iter,
      *               gpointer      data)
      * {
-     *   // Visible if row is non-empty and first column is &#8220;HI&#8221;
+     *   // Visible if row is non-empty and first column is &<code>#8220</code> HI&<code>#8221</code> 
      *   char *str;
      *   gboolean visible = FALSE;
      * 
-     *   gtk_tree_model_get (model, iter, 0, &#38;str, -1);
-     *   if (str &#38;&#38; strcmp (str, &#34;HI&#34;) == 0)
+     *   gtk_tree_model_get (model, iter, 0, &<code>#38</code> str, -1);
+     *   if (str &<code>#38</code> &<code>#38</code>  strcmp (str, &<code>#34</code> HI&<code>#34</code> ) == 0)
      *     visible = TRUE;
      *   g_free (str);
      * 

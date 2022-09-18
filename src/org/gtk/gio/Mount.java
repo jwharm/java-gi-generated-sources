@@ -8,23 +8,21 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GMount interface represents user-visible mounts. Note, when
- * porting from GnomeVFS, #GMount is the moral equivalent of #GnomeVFSVolume.
+ * The {@link org.gtk.gio.Mount} interface represents user-visible mounts. Note, when
+ * porting from GnomeVFS, {@link org.gtk.gio.Mount} is the moral equivalent of <code>#GnomeVFSVolume</code> 
  * 
- * #GMount is a &#34;mounted&#34; filesystem that you can access. Mounted is in
- * quotes because it&#39;s not the same as a unix mount, it might be a gvfs
+ * {@link org.gtk.gio.Mount} is a &<code>#34</code> mounted&<code>#34</code>  filesystem that you can access. Mounted is in
+ * quotes because it&<code>#39</code> s not the same as a unix mount, it might be a gvfs
  * mount, but you can still access the files on it if you use GIO. Might or
  * might not be related to a volume object.
  * 
- * Unmounting a #GMount instance is an asynchronous operation. For
- * more information about asynchronous operations, see #GAsyncResult
- * and #GTask. To unmount a #GMount instance, first call
- * g_mount_unmount_with_operation() with (at least) the #GMount instance and a
- * #GAsyncReadyCallback.  The callback will be fired when the
+ * Unmounting a {@link org.gtk.gio.Mount} instance is an asynchronous operation. For
+ * more information about asynchronous operations, see {@link org.gtk.gio.AsyncResult} and {@link org.gtk.gio.Task}  To unmount a {@link org.gtk.gio.Mount} instance, first call
+ * g_mount_unmount_with_operation() with (at least) the {@link org.gtk.gio.Mount} instance and a
+ * {@link org.gtk.gio.AsyncReadyCallback}   The callback will be fired when the
  * operation has resolved (either with success or failure), and a
- * #GAsyncResult structure will be passed to the callback.  That
- * callback should then call g_mount_unmount_with_operation_finish() with the #GMount
- * and the #GAsyncResult data to see if the operation was completed
+ * {@link org.gtk.gio.AsyncResult} structure will be passed to the callback.  That
+ * callback should then call g_mount_unmount_with_operation_finish() with the {@link org.gtk.gio.Mount} and the {@link org.gtk.gio.AsyncResult} data to see if the operation was completed
  * successfully.  If an @error is present when g_mount_unmount_with_operation_finish()
  * is called, then it will be filled with any error information.
  */
@@ -49,7 +47,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Ejects a mount. This is an asynchronous operation, and is
      * finished by calling g_mount_eject_with_operation_finish() with the @mount
-     * and #GAsyncResult data returned in the @callback.
+     * and {@link org.gtk.gio.AsyncResult} data returned in the @callback.
      */
     public default void ejectWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -91,8 +89,8 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the drive for the @mount.
      * 
-     * This is a convenience method for getting the #GVolume and then
-     * using that object to get the #GDrive.
+     * This is a convenience method for getting the {@link org.gtk.gio.Volume} and then
+     * using that object to get the {@link org.gtk.gio.Drive}
      */
     public default Drive getDrive() {
         var RESULT = gtk_h.g_mount_get_drive(handle());
@@ -161,7 +159,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Tries to guess the type of content stored on @mount. Returns one or
      * more textual identifiers of well-known content types (typically
-     * prefixed with &#34;x-content/&#34;), e.g. x-content/image-dcf for camera
+     * prefixed with &<code>#34</code> x-content/&<code>#34</code> ), e.g. x-content/image-dcf for camera
      * memory cards. See the
      * {@link [shared-mime-info]}(http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec)
      * specification for more on x-content types.
@@ -169,7 +167,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
      * This is an asynchronous operation (see
      * g_mount_guess_content_type_sync() for the synchronous version), and
      * is finished by calling g_mount_guess_content_type_finish() with the
-     * @mount and #GAsyncResult data returned in the @callback.
+     * @mount and {@link org.gtk.gio.AsyncResult} data returned in the @callback.
      */
     public default void guessContentType(boolean forceRescan, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -190,24 +188,24 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
      * avoid displaying @mount in the user interface if it is shadowed.
      * <p>
      * A mount is said to be shadowed if there exists one or more user
-     * visible objects (currently #GMount objects) with a root that is
+     * visible objects (currently {@link org.gtk.gio.Mount} objects) with a root that is
      * inside the root of @mount.
      * <p>
      * One application of shadow mounts is when exposing a single file
      * system that is used to address several logical volumes. In this
-     * situation, a #GVolumeMonitor implementation would create two
-     * <h1>olume objects (for example, one for the camera functionality of</h1>
+     * situation, a {@link org.gtk.gio.VolumeMonitor} implementation would create two
+     * {@link org.gtk.gio.Volume} objects (for example, one for the camera functionality of
      * the device and one for a SD card reader on the device) with
      * activation URIs <code>gphoto2://{@link [usb:001,002]}/store1/</code>
      * and <code>gphoto2://{@link [usb:001,002]}/store2/</code>. When the
      * underlying mount (with root<code>gphoto2://{@link [usb:001,002]}/</code>) is mounted, said
-     * #GVolumeMonitor implementation would create two #GMount objects
+     * {@link org.gtk.gio.VolumeMonitor} implementation would create two {@link org.gtk.gio.Mount} objects
      * (each with their root matching the corresponding volume activation
      * root) that would shadow the original mount.
      * 
      * The proxy monitor in GVfs 2.26 and later, automatically creates and
      * manage shadow mounts (and shadows the underlying mount) if the
-     * activation root on a #GVolume is set.
+     * activation root on a {@link org.gtk.gio.Volume} is set.
      */
     public default boolean isShadowed() {
         var RESULT = gtk_h.g_mount_is_shadowed(handle());
@@ -217,7 +215,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Remounts a mount. This is an asynchronous operation, and is
      * finished by calling g_mount_remount_finish() with the @mount
-     * and #GAsyncResults data returned in the @callback.
+     * and <code>#GAsyncResults</code> data returned in the @callback.
      * 
      * Remounting is useful when some setting affecting the operation
      * of the volume has been changed, as these may need a remount to
@@ -254,9 +252,9 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Increments the shadow count on @mount. Usually used by
-     * #GVolumeMonitor implementations when creating a shadow mount for
+     * {@link org.gtk.gio.VolumeMonitor} implementations when creating a shadow mount for
      * @mount, see g_mount_is_shadowed() for more information. The caller
-     * will need to emit the #GMount::changed signal on @mount manually.
+     * will need to emit the {@link org.gtk.gio.Mount} :changed signal on @mount manually.
      */
     public default void shadow() {
         gtk_h.g_mount_shadow(handle());
@@ -265,7 +263,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Unmounts a mount. This is an asynchronous operation, and is
      * finished by calling g_mount_unmount_with_operation_finish() with the @mount
-     * and #GAsyncResult data returned in the @callback.
+     * and {@link org.gtk.gio.AsyncResult} data returned in the @callback.
      */
     public default void unmountWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -296,9 +294,9 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Decrements the shadow count on @mount. Usually used by
-     * #GVolumeMonitor implementations when destroying a shadow mount for
+     * {@link org.gtk.gio.VolumeMonitor} implementations when destroying a shadow mount for
      * @mount, see g_mount_is_shadowed() for more information. The caller
-     * will need to emit the #GMount::changed signal on @mount manually.
+     * will need to emit the {@link org.gtk.gio.Mount} :changed signal on @mount manually.
      */
     public default void unshadow() {
         gtk_h.g_mount_unshadow(handle());
@@ -333,7 +331,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * This signal may be emitted when the #GMount is about to be
+     * This signal may be emitted when the {@link org.gtk.gio.Mount} is about to be
      * unmounted.
      * 
      * This signal depends on the backend and is only emitted if
@@ -360,7 +358,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * This signal is emitted when the #GMount have been
+     * This signal is emitted when the {@link org.gtk.gio.Mount} have been
      * unmounted. If the recipient is holding references to the
      * object they should release them so the object can be
      * finalized.

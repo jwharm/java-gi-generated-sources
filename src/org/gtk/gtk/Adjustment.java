@@ -63,7 +63,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * 
      * Use this function to avoid multiple emissions of the
      * {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signal. See
-     * {@link org.gtk.gtk.Adjustment#setLower} for an alternative
+     * {@link org.gtk.gtk.Adjustment<code>#setLower</code>  for an alternative
      * way of compressing multiple emissions of
      * {@link [signal@Gtk.Adjustment::changed] (ref=signal)} into one.
      */
@@ -134,13 +134,13 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * setters, multiple {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signals will
      * be emitted. However, since the emission of the
      * {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signal is tied to the emission
-     * of the ::notify signals of the changed properties, it&#8217;s possible
+     * of the ::notify signals of the changed properties, it&<code>#8217</code> s possible
      * to compress the {@link [signal@Gtk.Adjustment::changed] (ref=signal)} signals into one
      * by calling g_object_freeze_notify() and g_object_thaw_notify()
      * around the calls to the individual setters.
      * 
      * Alternatively, using a single g_object_set() for all the properties
-     * to change, or using {@link org.gtk.gtk.Adjustment#configure} has the same effect.
+     * to change, or using {@link org.gtk.gtk.Adjustment<code>#configure</code>  has the same effect.
      */
     public void setLower(double lower) {
         gtk_h.gtk_adjustment_set_lower(handle(), lower);
@@ -149,7 +149,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Sets the page increment of the adjustment.
      * 
-     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * See {@link org.gtk.gtk.Adjustment<code>#setLower</code>  about how to compress
      * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */
@@ -160,7 +160,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Sets the page size of the adjustment.
      * 
-     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * See {@link org.gtk.gtk.Adjustment<code>#setLower</code>  about how to compress
      * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */
@@ -171,7 +171,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
     /**
      * Sets the step increment of the adjustment.
      * 
-     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * See {@link org.gtk.gtk.Adjustment<code>#setLower</code>  about how to compress
      * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */
@@ -185,7 +185,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
      * Note that values will be restricted by <code>upper - page-size</code>
      * if the page-size property is nonzero.
      * 
-     * See {@link org.gtk.gtk.Adjustment#setLower} about how to compress
+     * See {@link org.gtk.gtk.Adjustment<code>#setLower</code>  about how to compress
      * multiple emissions of the {@link [signal@Gtk.Adjustment::changed] (ref=signal)}
      * signal when setting multiple adjustment properties.
      */

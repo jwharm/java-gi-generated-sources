@@ -62,7 +62,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
      * 
      * A handler for this signal should update the @context
      * according to @page_setup and set up a suitable cairo
-     * context, using {@link org.gtk.gtk.PrintContext#setCairoContext}.
+     * context, using {@link org.gtk.gtk.PrintContext<code>#setCairoContext</code> .
      */
     public default SignalHandle onGotPageSize(GotPageSizeHandler handler) {
         try {

@@ -10,14 +10,14 @@ public class TestSubprocessFlags {
 
     /**
      * If this flag is given, the child
-     *     process will inherit the parent&#39;s stdin. Otherwise, the child&#39;s
+     *     process will inherit the parent&<code>#39</code> s stdin. Otherwise, the child&<code>#39</code> s
      *     stdin is redirected to <code>/dev/null</code>.
      */
     public static final int STDIN = 1;
     
     /**
      * If this flag is given, the child
-     *     process will inherit the parent&#39;s stdout. Otherwise, the child&#39;s
+     *     process will inherit the parent&<code>#39</code> s stdout. Otherwise, the child&<code>#39</code> s
      *     stdout will not be visible, but it will be captured to allow
      *     later tests with g_test_trap_assert_stdout().
      */
@@ -25,7 +25,7 @@ public class TestSubprocessFlags {
     
     /**
      * If this flag is given, the child
-     *     process will inherit the parent&#39;s stderr. Otherwise, the child&#39;s
+     *     process will inherit the parent&<code>#39</code> s stderr. Otherwise, the child&<code>#39</code> s
      *     stderr will not be visible, but it will be captured to allow
      *     later tests with g_test_trap_assert_stderr().
      */

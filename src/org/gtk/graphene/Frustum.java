@@ -25,7 +25,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_frustum_t structure.
+     * Allocates a new {@link org.gtk.graphene.Frustum} structure.
      * 
      * The contents of the returned structure are undefined.
      */
@@ -35,7 +35,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks whether a point is inside the volume defined by the given
-     * #graphene_frustum_t.
+     * {@link org.gtk.graphene.Frustum}
      */
     public boolean containsPoint(Point3D point) {
         var RESULT = gtk_h.graphene_frustum_contains_point(handle(), point.handle());
@@ -43,7 +43,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given #graphene_frustum_t are equal.
+     * Checks whether the two given {@link org.gtk.graphene.Frustum} are equal.
      */
     public boolean equal(Frustum b) {
         var RESULT = gtk_h.graphene_frustum_equal(handle(), b.handle());
@@ -58,14 +58,14 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the planes that define the given #graphene_frustum_t.
+     * Retrieves the planes that define the given {@link org.gtk.graphene.Frustum}
      */
     public void getPlanes(Plane[] planes) {
         gtk_h.graphene_frustum_get_planes(handle(), Interop.allocateNativeArray(planes).handle());
     }
     
     /**
-     * Initializes the given #graphene_frustum_t using the provided
+     * Initializes the given {@link org.gtk.graphene.Frustum} using the provided
      * clipping planes.
      */
     public Frustum init(Plane p0, Plane p1, Plane p2, Plane p3, Plane p4, Plane p5) {
@@ -74,8 +74,8 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given #graphene_frustum_t using the clipping
-     * planes of another #graphene_frustum_t.
+     * Initializes the given {@link org.gtk.graphene.Frustum} using the clipping
+     * planes of another {@link org.gtk.graphene.Frustum}
      */
     public Frustum initFromFrustum(Frustum src) {
         var RESULT = gtk_h.graphene_frustum_init_from_frustum(handle(), src.handle());
@@ -83,7 +83,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_frustum_t using the given @matrix.
+     * Initializes a {@link org.gtk.graphene.Frustum} using the given @matrix.
      */
     public Frustum initFromMatrix(Matrix matrix) {
         var RESULT = gtk_h.graphene_frustum_init_from_matrix(handle(), matrix.handle());
@@ -92,7 +92,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks whether the given @box intersects a plane of
-     * a #graphene_frustum_t.
+     * a {@link org.gtk.graphene.Frustum}
      */
     public boolean intersectsBox(Box box) {
         var RESULT = gtk_h.graphene_frustum_intersects_box(handle(), box.handle());
@@ -101,7 +101,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks whether the given @sphere intersects a plane of
-     * a #graphene_frustum_t.
+     * a {@link org.gtk.graphene.Frustum}
      */
     public boolean intersectsSphere(Sphere sphere) {
         var RESULT = gtk_h.graphene_frustum_intersects_sphere(handle(), sphere.handle());

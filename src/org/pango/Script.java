@@ -351,7 +351,7 @@ public enum Script {
     PHAGS_PA,
     
     /**
-     * N&#39;Ko. Since 1.14
+     * N&<code>#39</code> Ko. Since 1.14
      */
     NKO,
     

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Native dialogs are platform dialogs that don&#39;t use <code>GtkDialog</code>.
+ * Native dialogs are platform dialogs that don&<code>#39</code> t use <code>GtkDialog</code>.
  * <p>
  * They are used in order to integrate better with a platform, by
  * looking the same as other native applications and supporting
@@ -91,7 +91,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * 
      * Once this is called the {@link [signal@Gtk.NativeDialog::response] (ref=signal)} signal
      * will *not* be emitted until after the next call to
-     * {@link org.gtk.gtk.NativeDialog#show}.
+     * {@link org.gtk.gtk.NativeDialog<code>#show</code> .
      * 
      * If the dialog is not visible this does nothing.
      */
@@ -104,7 +104,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * 
      * Modal dialogs prevent interaction with other windows in the same
      * application. To keep modal dialogs on top of main application
-     * windows, use {@link org.gtk.gtk.NativeDialog#setTransientFor} to make
+     * windows, use {@link org.gtk.gtk.NativeDialog<code>#setTransientFor</code>  to make
      * the dialog transient for the parent; most window managers will
      * then disallow lowering the dialog below the parent.
      */
@@ -155,7 +155,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * 
      * When this is called the dialog has been hidden.
      * 
-     * If you call {@link org.gtk.gtk.NativeDialog#hide} before the user
+     * If you call {@link org.gtk.gtk.NativeDialog<code>#hide</code>  before the user
      * responds to the dialog this signal will not be emitted.
      */
     public SignalHandle onResponse(ResponseHandler handler) {

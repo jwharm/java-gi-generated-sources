@@ -22,7 +22,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_size_t.
+     * Allocates a new {@link org.gtk.graphene.Size} 
      * 
      * The contents of the returned value are undefined.
      */
@@ -31,7 +31,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two give #graphene_size_t are equal.
+     * Checks whether the two give {@link org.gtk.graphene.Size} are equal.
      */
     public boolean equal(Size b) {
         var RESULT = gtk_h.graphene_size_equal(handle(), b.handle());
@@ -46,7 +46,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_size_t using the given @width and @height.
+     * Initializes a {@link org.gtk.graphene.Size} using the given @width and @height.
      */
     public Size init(float width, float height) {
         var RESULT = gtk_h.graphene_size_init(handle(), width, height);
@@ -54,7 +54,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_size_t using the width and height of
+     * Initializes a {@link org.gtk.graphene.Size} using the width and height of
      * the given @src.
      */
     public Size initFromSize(Size src) {
@@ -63,7 +63,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Linearly interpolates the two given #graphene_size_t using the given
+     * Linearly interpolates the two given {@link org.gtk.graphene.Size} using the given
      * interpolation @factor.
      */
     public void interpolate(Size b, double factor, Size res) {
@@ -71,14 +71,14 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Scales the components of a #graphene_size_t using the given @factor.
+     * Scales the components of a {@link org.gtk.graphene.Size} using the given @factor.
      */
     public void scale(float factor, Size res) {
         gtk_h.graphene_size_scale(handle(), factor, res.handle());
     }
     
     /**
-     * A constant pointer to a zero #graphene_size_t, useful for
+     * A constant pointer to a zero {@link org.gtk.graphene.Size}  useful for
      * equality checks and interpolations.
      */
     public static Size zero() {

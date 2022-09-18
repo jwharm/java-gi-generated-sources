@@ -12,21 +12,21 @@ import java.lang.invoke.*;
  * since it is not equivalent to <code>time_t</code> on 64-bit platforms
  * with a 64-bit <code>time_t</code>.
  * <p>
- * Unrelated to #GTimer.
+ * Unrelated to {@link org.gtk.glib.Timer} 
  * <p>
- * Note that #GTime is defined to always be a 32-bit integer,
+ * Note that {@link org.gtk.glib.Time} is defined to always be a 32-bit integer,
  * unlike <code>time_t</code> which may be 64-bit on some systems. Therefore,
- * #GTime will overflow in the year 2038, and you cannot use the
- * address of a #GTime variable as argument to the UNIX time()
+ * {@link org.gtk.glib.Time} will overflow in the year 2038, and you cannot use the
+ * address of a {@link org.gtk.glib.Time} variable as argument to the UNIX time()
  * function.
  * 
  * Instead, do the following:
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * time_t ttime;
  * GTime gtime;
  * 
- * time (&#38;ttime);
+ * time (&<code>#38</code> ttime);
  * gtime = (GTime)ttime;
  * ]}|
  */

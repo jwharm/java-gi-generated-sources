@@ -23,14 +23,14 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GMainLoop structure.
+     * Creates a new {@link org.gtk.glib.MainLoop} structure.
      */
     public MainLoop(MainContext context, boolean isRunning) {
         super(constructNew(context, isRunning));
     }
     
     /**
-     * Returns the #GMainContext of @loop.
+     * Returns the {@link org.gtk.glib.MainContext} of @loop.
      */
     public MainContext getContext() {
         var RESULT = gtk_h.g_main_loop_get_context(handle());
@@ -46,7 +46,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Stops a #GMainLoop from running. Any calls to g_main_loop_run()
+     * Stops a {@link org.gtk.glib.MainLoop} from running. Any calls to g_main_loop_run()
      * for the loop will return.
      * 
      * Note that sources that have already been dispatched when
@@ -57,7 +57,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count on a #GMainLoop object by one.
+     * Increases the reference count on a {@link org.gtk.glib.MainLoop} object by one.
      */
     public MainLoop ref() {
         var RESULT = gtk_h.g_main_loop_ref(handle());
@@ -66,7 +66,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Runs a main loop until g_main_loop_quit() is called on the loop.
-     * If this is called for the thread of the loop&#39;s #GMainContext,
+     * If this is called for the thread of the loop&<code>#39</code> s {@link org.gtk.glib.MainContext} 
      * it will process events from the loop, otherwise it will
      * simply wait.
      */
@@ -75,7 +75,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count on a #GMainLoop object by one. If
+     * Decreases the reference count on a {@link org.gtk.glib.MainLoop} object by one. If
      * the result is zero, free the loop and free all associated memory.
      */
     public void unref() {

@@ -26,27 +26,27 @@ import java.lang.invoke.*;
  * (using e.g. the cursor arrow keys) or by a page (using e.g. the Page Down/Up
  * keys).
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * scrollbar
- * &#9584;&#9472;&#9472; range{@link [.fine-tune]}
- *     &#9584;&#9472;&#9472; trough
- *         &#9584;&#9472;&#9472; slider
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  range{@link [.fine-tune]}
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  trough
+ *         &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  slider
  * </pre>
  * <p><code>GtkScrollbar</code> has a main CSS node with name scrollbar and a subnode for its
  * contents. The main node gets the .horizontal or .vertical style classes applied,
- * depending on the scrollbar&#39;s orientation.
+ * depending on the scrollbar&<code>#39</code> s orientation.
  * <p>
  * The range node gets the style class .fine-tune added when the scrollbar is
- * in &#39;fine-tuning&#39; mode.
+ * in &<code>#39</code> fine-tuning&<code>#39</code>  mode.
  * <p>
  * Other style classes that may be added to scrollbars inside
  * {@link org.gtk.gtk.ScrolledWindow} include the positional classes (.left, .right,
  * .top, .bottom) and style classes related to overlay scrolling (.overlay-indicator,
  * .dragging, .hovering).
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkScrollbar</code> uses the {@link org.gtk.gtk.AccessibleRole#SCROLLBAR} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkScrollbar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SCROLLBAR</code>  role.
  */
 public class Scrollbar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -72,7 +72,7 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Returns the scrollbar&#39;s adjustment.
+     * Returns the scrollbar&<code>#39</code> s adjustment.
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_scrollbar_get_adjustment(handle());

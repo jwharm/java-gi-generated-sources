@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for #GSocketAddressEnumerator.
+ * Class structure for {@link org.gtk.gio.SocketAddressEnumerator}
  */
 public class SocketAddressEnumeratorClass extends io.github.jwharm.javagi.ResourceBase {
 

@@ -27,8 +27,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates an array of @initial_size tab stops.
      * 
-     * Tab stops are specified in pixel units if @positions_in_pixels is <code>TRUE,
-     * otherwise</code> in Pango units. All stops are initially at position 0.
+     * Tab stops are specified in pixel units if @positions_in_pixels is <code>true</code> 
+     * otherwise in Pango units. All stops are initially at position 0.
      */
     public TabArray(int initialSize, boolean positionsInPixels) {
         super(constructNew(initialSize, positionsInPixels));
@@ -52,7 +52,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the Unicode character to use as decimal point.
      * 
-     * This is only relevant for tabs with {@link org.pango.TabAlign#DECIMAL} alignment,
+     * This is only relevant for tabs with {@link org.pango.TabAlign<code>#DECIMAL</code>  alignment,
      * which align content at the first occurrence of the decimal point
      * character.
      * 
@@ -94,7 +94,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the Unicode character to use as decimal point.
      * 
-     * This is only relevant for tabs with {@link org.pango.TabAlign#DECIMAL} alignment,
+     * This is only relevant for tabs with {@link org.pango.TabAlign<code>#DECIMAL</code>  alignment,
      * which align content at the first occurrence of the decimal point
      * character.
      * 
@@ -145,7 +145,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Deserializes a <code>PangoTabArray</code> from a string.
      * 
-     * This is the counterpart to {@link org.pango.TabArray#toString}.
+     * This is the counterpart to {@link org.pango.TabArray<code>#toString</code> .
      * See that functions for details about the format.
      */
     public static TabArray fromString(java.lang.String text) {

@@ -33,7 +33,7 @@ public class NumericSorter extends Sorter {
      * Creates a new numeric sorter using the given @expression.
      * 
      * Smaller numbers will be sorted first. You can call
-     * {@link org.gtk.gtk.NumericSorter#setSortOrder} to change this.
+     * {@link org.gtk.gtk.NumericSorter<code>#setSortOrder</code>  to change this.
      */
     public NumericSorter(Expression expression) {
         super(constructNew(expression));
@@ -62,7 +62,7 @@ public class NumericSorter extends Sorter {
      * compare items as invalid.
      * 
      * The expression must have a return type that can be compared
-     * numerically, such as <code>G_TYPE_INT</code> or or %G_TYPE_DOUBLE.
+     * numerically, such as <code>G_TYPE_INT</code> or <code>G_TYPE_DOUBLE</code>
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_numeric_sorter_set_expression(handle(), expression.handle());

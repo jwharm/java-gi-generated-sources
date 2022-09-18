@@ -22,20 +22,20 @@ import java.lang.invoke.*;
  * <p><code>GtkPasswordEntry</code> provides only minimal API and should be used with
  * the {@link [iface@Gtk.Editable] (ref=iface)} API.
  * <p>
- * <h1>SS Nodes</h1>
+ * <h1>CSS Nodes</h1>
  * <p><pre>
  * entry.password
- * &#9584;&#9472;&#9472; text
- *     &#9500;&#9472;&#9472; image.caps-lock-indicator
- *     &#9482;
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  text
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  image.caps-lock-indicator
+ *     &<code>#9482</code> 
  * </pre>
  * <p><code>GtkPasswordEntry</code> has a single CSS node with name entry that carries
  * a .passwordstyle class. The text Css node below it has a child with
  * name image and style class .caps-lock-indicator for the Caps Lock
  * icon, and possibly other children.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkPasswordEntry</code> uses the {@link org.gtk.gtk.AccessibleRole#TEXT_BOX} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkPasswordEntry</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#TEXT_BOX</code>  role.
  */
 public class PasswordEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 

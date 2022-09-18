@@ -11,10 +11,10 @@ import java.lang.invoke.*;
  * The list of functions that can be implemented for the <code>GdkPaintable</code>
  * interface.
  * 
- * Note that apart from the {@link org.gtk.gdk.Paintable#snapshot} function,
+ * Note that apart from the {@link org.gtk.gdk.Paintable<code>#snapshot</code>  function,
  * no virtual function of this interface is mandatory to implement, though it
- * is a good idea to implement {@link org.gtk.gdk.Paintable#getCurrentImage}
- * for non-static paintables and {@link org.gtk.gdk.Paintable#getFlags} if the
+ * is a good idea to implement {@link org.gtk.gdk.Paintable<code>#getCurrentImage</code> 
+ * for non-static paintables and {@link org.gtk.gdk.Paintable<code>#getFlags</code>  if the
  * image is not dynamic as the default implementation returns no flags and
  * that will make the implementation likely quite slow.
  */

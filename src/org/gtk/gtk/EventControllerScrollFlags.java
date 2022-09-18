@@ -6,7 +6,7 @@ package org.gtk.gtk;
 public class EventControllerScrollFlags {
 
     /**
-     * Don&#39;t emit scroll.
+     * Don&<code>#39</code> t emit scroll.
      */
     public static final int NONE = 0;
     

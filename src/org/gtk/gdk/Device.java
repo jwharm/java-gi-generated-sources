@@ -49,7 +49,7 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      * 
      * The direction of a layout is the direction of the majority
-     * of its symbols. See {@link Pango#unicharDirection}.
+     * of its symbols. See {@link Pango<code>#unicharDirection</code> .
      */
     public org.pango.Direction getDirection() {
         var RESULT = gtk_h.gdk_device_get_direction(handle());
@@ -68,7 +68,7 @@ public class Device extends org.gtk.gobject.Object {
      * Determines whether the pointer follows device motion.
      * 
      * This is not meaningful for keyboard devices, which
-     * don&#39;t have a pointer.
+     * don&<code>#39</code> t have a pointer.
      */
     public boolean getHasCursor() {
         var RESULT = gtk_h.gdk_device_get_has_cursor(handle());
@@ -115,7 +115,7 @@ public class Device extends org.gtk.gobject.Object {
      * Returns the product ID of this device.
      * 
      * This ID is retrieved from the device, and does not change.
-     * See {@link org.gtk.gdk.Device#getVendorId} for more information.
+     * See {@link org.gtk.gdk.Device<code>#getVendorId</code>  for more information.
      */
     public java.lang.String getProductId() {
         var RESULT = gtk_h.gdk_device_get_product_id(handle());
@@ -166,7 +166,7 @@ public class Device extends org.gtk.gobject.Object {
      * <p>
      * This ID is retrieved from the device, and does not change.
      * <p>
-     * This function, together with {@link org.gtk.gdk.Device#getProductId},
+     * This function, together with {@link org.gtk.gdk.Device<code>#getProductId</code> ,
      * can be used to eg. compose <code>GSettings</code> paths to store settings
      * for this device.
      * <p><pre>c
@@ -181,7 +181,7 @@ public class Device extends org.gtk.gobject.Object {
      *    vendor = gdk_device_get_vendor_id (device);
      *    product = gdk_device_get_product_id (device);
      * 
-     *    path = g_strdup_printf (&#34;/org/example/app/devices/<code>s:%s/&#34;,</code> vendor, product);
+     *    path = g_strdup_printf (&<code>#34</code> /org/example/app/devices/<code>s</code> <code>s</code> &<code>#34</code> , vendor, product);
      *    settings = g_settings_new_with_path (DEVICE_SCHEMA, path);
      *    g_free (path);
      * 

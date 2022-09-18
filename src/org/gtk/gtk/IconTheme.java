@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * <code>GtkIconTheme</code> provides a facility for loading themed icons.
  * <p>
  * The main reason for using a name rather than simply providing a filename
- * is to allow different icons to be used depending on what &#8220;icon theme&#8221; is
+ * is to allow different icons to be used depending on what &<code>#8220</code> icon theme&<code>#8221</code>  is
  * selected by the user. The operation of icon themes on Linux and Unix
  * follows the {@link [Icon Theme Specification]}(http://www.freedesktop.org/Standards/icon-theme-spec)
  * There is a fallback icon theme, named <code>hicolor</code>, where applications
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  * <p>
  * In many cases, named themes are used indirectly, via {@link org.gtk.gtk.Image}
  * rather than directly, but looking up icons directly is also simple. The<code>GtkIconTheme</code> object acts as a database of all the icons in the current
- * theme. You can create new <code>GtkIconTheme</code> objects, but it&#8217;s much more
+ * theme. You can create new <code>GtkIconTheme</code> objects, but it&<code>#8217</code> s much more
  * efficient to use the standard icon theme of the <code>GtkWidget</code> so that the
  * icon information is shared with other people looking up icons.
  * <p><pre>c
@@ -30,7 +30,7 @@ import java.lang.invoke.*;
  * 
  * icon_theme = gtk_icon_theme_get_for_display (gtk_widget_get_display (my_widget));
  * icon = gtk_icon_theme_lookup_icon (icon_theme,
- *                                    &#34;my-icon-name&#34;, // icon name
+ *                                    &<code>#34</code> my-icon-name&<code>#34</code> , // icon name
  *                                    48, // icon size
  *                                    1,  // scale
  *                                    0,  // flags);
@@ -59,8 +59,8 @@ public class IconTheme extends org.gtk.gobject.Object {
      * Creates a new icon theme object.
      * 
      * Icon theme objects are used to lookup up an icon by name
-     * in a particular icon theme. Usually, you&#8217;ll want to use
-     * {@link Gtk#IconTheme} rather than creating
+     * in a particular icon theme. Usually, you&<code>#8217</code> ll want to use
+     * {@link Gtk<code>#IconTheme</code>  rather than creating
      * a new icon theme object for scratch.
      */
     public IconTheme() {
@@ -71,7 +71,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * Adds a resource path that will be looked at when looking
      * for icons, similar to search paths.
      * 
-     * See {@link org.gtk.gtk.IconTheme#setResourcePath}.
+     * See {@link org.gtk.gtk.IconTheme<code>#setResourcePath</code> .
      * 
      * This function should be used to make application-specific icons
      * available as part of the icon theme.
@@ -83,7 +83,7 @@ public class IconTheme extends org.gtk.gobject.Object {
     /**
      * Appends a directory to the search path.
      * 
-     * See {@link org.gtk.gtk.IconTheme#setSearchPath}.
+     * See {@link org.gtk.gtk.IconTheme<code>#setSearchPath</code> .
      */
     public void addSearchPath(java.lang.String path) {
         gtk_h.gtk_icon_theme_add_search_path(handle(), Interop.allocateNativeString(path).handle());
@@ -148,8 +148,8 @@ public class IconTheme extends org.gtk.gobject.Object {
      * provided, they will be tried in order.
      * 
      * If no matching icon is found, then a paintable that renders the
-     * &#34;missing icon&#34; icon is returned. If you need to do something else
-     * for missing icons you need to use {@link org.gtk.gtk.IconTheme#hasIcon}.
+     * &<code>#34</code> missing icon&<code>#34</code>  icon is returned. If you need to do something else
+     * for missing icons you need to use {@link org.gtk.gtk.IconTheme<code>#hasIcon</code> .
      * 
      * Note that you probably want to listen for icon theme changes and
      * update the icon. This is usually done by overriding the
@@ -184,9 +184,9 @@ public class IconTheme extends org.gtk.gobject.Object {
      * of one or more of the directories in @path with the same name
      * as the icon theme containing an index.theme file. (Themes from
      * multiple of the path elements are combined to allow themes to be
-     * extended by adding icons in the user&#8217;s home directory.)
+     * extended by adding icons in the user&<code>#8217</code> s home directory.)
      * 
-     * In addition if an icon found isn&#8217;t found either in the current
+     * In addition if an icon found isn&<code>#8217</code> t found either in the current
      * icon theme or the default icon theme, and an image file with
      * the right name is found directly in one of the elements of
      * @path, then that image will be used for the icon name.
@@ -203,7 +203,7 @@ public class IconTheme extends org.gtk.gobject.Object {
      * overriding system configuration.
      * 
      * This function cannot be called on the icon theme objects returned
-     * from {@link Gtk#IconTheme}.
+     * from {@link Gtk<code>#IconTheme</code> .
      */
     public void setThemeName(java.lang.String themeName) {
         gtk_h.gtk_icon_theme_set_theme_name(handle(), Interop.allocateNativeString(themeName).handle());

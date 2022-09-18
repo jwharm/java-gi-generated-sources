@@ -14,25 +14,25 @@ import java.lang.invoke.*;
  * {@link [property@Gtk.Scrollable:hadjustment] (ref=property)} and
  * {@link [property@Gtk.Scrollable:vadjustment] (ref=property)} properties.
  * 
- * ## Creating a scrollable widget
+ * <code>#</code>  Creating a scrollable widget
  * 
  * All scrollable widgets should do the following.
  * 
- * - When a parent widget sets the scrollable child widget&#8217;s adjustments,
+ * - When a parent widget sets the scrollable child widget&<code>#8217</code> s adjustments,
  *   the widget should connect to the {@link [signal@Gtk.Adjustment::value-changed] (ref=signal)}
- *   signal. The child widget should then populate the adjustments&#8217; properties
+ *   signal. The child widget should then populate the adjustments&<code>#8217</code>  properties
  *   as soon as possible, which usually means queueing an allocation right away
- *   and populating the properties in the {@link org.gtk.gtk.Widget#sizeAllocate}
+ *   and populating the properties in the {@link org.gtk.gtk.Widget<code>#sizeAllocate</code> 
  *   implementation.
  * 
  * - Because its preferred size is the size for a fully expanded widget,
  *   the scrollable widget must be able to cope with underallocations.
  *   This means that it must accept any value passed to its
- *   {@link org.gtk.gtk.Widget#sizeAllocate} implementation.
+ *   {@link org.gtk.gtk.Widget<code>#sizeAllocate</code>  implementation.
  * 
  * - When the parent allocates space to the scrollable child widget,
- *   the widget must ensure the adjustments&#8217; property values are correct and up
- *   to date, for example using {@link org.gtk.gtk.Adjustment#configure}.
+ *   the widget must ensure the adjustments&<code>#8217</code>  property values are correct and up
+ *   to date, for example using {@link org.gtk.gtk.Adjustment<code>#configure</code> .
  * 
  * - When any of the adjustments emits the {@link [signal@Gtk.Adjustment::value-changed] (ref=signal)}
  *   signal, the scrollable widget should scroll its contents.

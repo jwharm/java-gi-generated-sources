@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A <code>GtkShortcutTrigger</code> that triggers when a specific mnemonic is pressed.
  * 
- * Mnemonics require a *mnemonic modifier* (typically &#60;kbd&#62;Alt&#60;/kbd&#62;) to be
+ * Mnemonics require a *mnemonic modifier* (typically &<code>#60</code> kbd&<code>#62</code> Alt&<code>#60</code> /kbd&<code>#62</code> ) to be
  * pressed together with the mnemonic key.
  */
 public class MnemonicTrigger extends ShortcutTrigger {

@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GSimplePermission is a trivial implementation of #GPermission that
+ * {@link org.gtk.gio.SimplePermission} is a trivial implementation of {@link org.gtk.gio.Permission} that
  * represents a permission that is either always or never allowed.  The
- * value is given at construction and doesn&#39;t change.
+ * value is given at construction and doesn&<code>#39</code> t change.
  * 
  * Calling request or release will result in errors.
  */
@@ -31,7 +31,7 @@ public class SimplePermission extends Permission {
     }
     
     /**
-     * Creates a new #GPermission instance that represents an action that is
+     * Creates a new {@link org.gtk.gio.Permission} instance that represents an action that is
      * either always or never allowed.
      */
     public SimplePermission(boolean allowed) {

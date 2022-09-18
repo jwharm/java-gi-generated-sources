@@ -1,9 +1,9 @@
 package org.harfbuzz;
 
 /**
- * Flags from comparing two #hb_buffer_t&#39;s.
+ * Flags from comparing two {@link org.harfbuzz.buffer_t} <code>#39</code> s.
  * <p>
- * Buffer with different #hb_buffer_content_type_t cannot be meaningfully
+ * Buffer with different {@link org.harfbuzz.buffer_content_type_t} cannot be meaningfully
  * compared in any further detail.
  * <p>
  * For buffers with differing length, the per-glyph comparison is not
@@ -21,7 +21,7 @@ public class BufferDiffFlagsT {
     
     /**
      * buffers with different
-     *     #hb_buffer_content_type_t.
+     *     {@link org.harfbuzz.buffer_content_type_t}
      */
     public static final int CONTENT_TYPE_MISMATCH = 1;
     
@@ -43,22 +43,22 @@ public class BufferDiffFlagsT {
     public static final int DOTTED_CIRCLE_PRESENT = 8;
     
     /**
-     * difference in #hb_glyph_info_t.codepoint
+     * difference in {@link org.harfbuzz.glyph_info_t} codepoint
      */
     public static final int CODEPOINT_MISMATCH = 16;
     
     /**
-     * difference in #hb_glyph_info_t.cluster
+     * difference in {@link org.harfbuzz.glyph_info_t} cluster
      */
     public static final int CLUSTER_MISMATCH = 32;
     
     /**
-     * difference in #hb_glyph_flags_t.
+     * difference in {@link org.harfbuzz.glyph_flags_t}
      */
     public static final int GLYPH_FLAGS_MISMATCH = 64;
     
     /**
-     * difference in #hb_glyph_position_t.
+     * difference in {@link org.harfbuzz.glyph_position_t}
      */
     public static final int POSITION_MISMATCH = 128;
     

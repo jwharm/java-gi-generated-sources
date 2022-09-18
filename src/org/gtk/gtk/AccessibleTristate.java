@@ -1,12 +1,11 @@
 package org.gtk.gtk;
 
 /**
- * The possible values for the <code>GTK_ACCESSIBLE_STATE_PRESSED
- * accessible</code> state.
+ * The possible values for the {@link org.gtk.gtk.AccessibleState<code>#PRESSED</code>  accessible state.
  * 
- * Note that the {@link org.gtk.gtk.AccessibleTristate#FALSE} and
- * {@link org.gtk.gtk.AccessibleTristate#TRUE} have the same values
- * as <code>false</code> and and %TRUE.
+ * Note that the {@link org.gtk.gtk.AccessibleTristate<code>#FALSE</code>  and
+ * {@link org.gtk.gtk.AccessibleTristate<code>#TRUE</code>  have the same values
+ * as <code>false</code> and <code>true</code>
  */
 public enum AccessibleTristate {
 

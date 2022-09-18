@@ -6,14 +6,14 @@ package org.gtk.gtk;
 public enum BuilderError {
 
     /**
-     * A type-func attribute didn&#8217;t name
+     * A type-func attribute didn&<code>#8217</code> t name
      *  a function that returns a <code>GType</code>.
      */
     INVALID_TYPE_FUNCTION,
     
     /**
      * The input contained a tag that <code>GtkBuilder</code>
-     *  can&#8217;t handle.
+     *  can&<code>#8217</code> t handle.
      */
     UNHANDLED_TAG,
     
@@ -25,13 +25,13 @@ public enum BuilderError {
     
     /**
      * <code>GtkBuilder</code> found an attribute that
-     *  it doesn&#8217;t understand.
+     *  it doesn&<code>#8217</code> t understand.
      */
     INVALID_ATTRIBUTE,
     
     /**
      * <code>GtkBuilder</code> found a tag that
-     *  it doesn&#8217;t understand.
+     *  it doesn&<code>#8217</code> t understand.
      */
     INVALID_TAG,
     
@@ -42,7 +42,7 @@ public enum BuilderError {
     MISSING_PROPERTY_VALUE,
     
     /**
-     * <code>GtkBuilder</code> couldn&#8217;t parse
+     * <code>GtkBuilder</code> couldn&<code>#8217</code> t parse
      *  some attribute value.
      */
     INVALID_VALUE,
@@ -65,7 +65,7 @@ public enum BuilderError {
     OBJECT_TYPE_REFUSED,
     
     /**
-     * The wrong type was specified in a composite class&#8217;s template XML
+     * The wrong type was specified in a composite class&<code>#8217</code> s template XML
      */
     TEMPLATE_MISMATCH,
     

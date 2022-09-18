@@ -29,7 +29,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * Attempts to create a new schema source corresponding to the contents
      * of the given directory.
      * <p>
-     * This function is not required for normal uses of #GSettings but it
+     * This function is not required for normal uses of {@link org.gtk.gio.Settings} but it
      * may be useful to authors of plugin management systems.
      * <p>
      * The directory should contain a file called <code>gschemas.compiled</code> as
@@ -42,7 +42,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * system and to <code>false</code> for files in the home directory.
      * <p>
      * In either case, an empty file or some types of corruption in the file will
-     * result in {@link org.gtk.glib.FileError#INVAL} being returned.
+     * result in {@link org.gtk.glib.FileError<code>#INVAL</code>  being returned.
      * <p>
      * If @parent is non-<code>null</code> then there are two effects.
      * <p>
@@ -67,9 +67,9 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * 
      * If @recursive is <code>true</code> then include parent sources.  If <code>false</code> then
      * only include the schemas from one source (ie: one directory).  You
-     * probably want <code>TRUE.
+     * probably want <code>true</code> 
      * 
-     * Non-relocatable</code> schemas are those for which you can call
+     * Non-relocatable schemas are those for which you can call
      * g_settings_new().  Relocatable schemas are those for which you must
      * use g_settings_new_with_path().
      * 
@@ -83,14 +83,13 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up a schema with the identifier @schema_id in @source.
      * 
-     * This function is not required for normal uses of #GSettings but it
+     * This function is not required for normal uses of {@link org.gtk.gio.Settings} but it
      * may be useful to authors of plugin management systems or to those who
      * want to introspect the content of schemas.
      * 
-     * If the schema isn&#39;t found directly in @source and @recursive is <code>TRUE
-     * then</code> the parent sources will also be checked.
+     * If the schema isn&<code>#39</code> t found directly in @source and @recursive is <code>true</code> then the parent sources will also be checked.
      * 
-     * If the schema isn&#39;t found, <code>null</code> is returned.
+     * If the schema isn&<code>#39</code> t found, <code>null</code> is returned.
      */
     public SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
         var RESULT = gtk_h.g_settings_schema_source_lookup(handle(), Interop.allocateNativeString(schemaId).handle(), recursive ? 1 : 0);
@@ -115,7 +114,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the default system schema source.
      * <p>
-     * This function is not required for normal uses of #GSettings but it
+     * This function is not required for normal uses of {@link org.gtk.gio.Settings} but it
      * may be useful to authors of plugin management systems or to those who
      * want to introspect the content of schemas.
      * <p>

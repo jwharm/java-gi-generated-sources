@@ -54,7 +54,7 @@ import java.lang.invoke.*;
  * 
  * Once you have chosen your factory and created it, you need to set it
  * on the view widget you want to use it with, such as via
- * {@link org.gtk.gtk.ListView#setFactory}. Reusing factories across different
+ * {@link org.gtk.gtk.ListView<code>#setFactory</code> . Reusing factories across different
  * views is allowed, but very uncommon.
  */
 public class ListItemFactory extends org.gtk.gobject.Object {

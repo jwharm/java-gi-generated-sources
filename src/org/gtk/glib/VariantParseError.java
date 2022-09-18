@@ -11,17 +11,20 @@ public enum VariantParseError {
     FAILED,
     
     /**
-     * a non-basic #GVariantType was given where a basic type was expected
+     * a non-basic {@link org.gtk.glib.VariantType} was given where a basic type was expected
      */
     BASIC_TYPE_EXPECTED,
     
     /**
-     * cannot infer the #GVariantType
+     * cannot infer the 
+     *       
+     *       
+     *         cannot infer the #GVariantType
      */
     CANNOT_INFER_TYPE,
     
     /**
-     * an indefinite #GVariantType was given where a definite type was expected
+     * an indefinite {@link org.gtk.glib.VariantType} was given where a definite type was expected
      */
     DEFINITE_TYPE_EXPECTED,
     
@@ -36,7 +39,7 @@ public enum VariantParseError {
     INVALID_CHARACTER,
     
     /**
-     * not a valid #GVariant format string
+     * not a valid {@link org.gtk.glib.Variant} format string
      */
     INVALID_FORMAT_STRING,
     
@@ -51,7 +54,7 @@ public enum VariantParseError {
     INVALID_SIGNATURE,
     
     /**
-     * not a valid #GVariant type string
+     * not a valid {@link org.gtk.glib.Variant} type string
      */
     INVALID_TYPE_STRING,
     
@@ -96,7 +99,7 @@ public enum VariantParseError {
     VALUE_EXPECTED,
     
     /**
-     * variant was too deeply nested; #GVariant is only guaranteed to handle nesting up to 64 levels (Since: 2.64)
+     * variant was too deeply nested; {@link org.gtk.glib.Variant} is only guaranteed to handle nesting up to 64 levels (Since: 2.64)
      */
     RECURSION;
     

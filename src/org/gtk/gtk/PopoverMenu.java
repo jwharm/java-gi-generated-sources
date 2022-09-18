@@ -18,91 +18,91 @@ import java.lang.invoke.*;
  * <p><code>GtkPopoverMenu</code> is meant to be used primarily with menu models,
  * using {@link [ctor@Gtk.PopoverMenu.new_from_model] (ref=ctor)}. If you need to put
  * other widgets such as a <code>GtkSpinButton</code> or a <code>GtkSwitch</code> into a popover,
- * you can use {@link org.gtk.gtk.PopoverMenu#addChild}.
+ * you can use {@link org.gtk.gtk.PopoverMenu<code>#addChild</code> .
  * <p>
  * For more dialog-like behavior, use a plain <code>GtkPopover</code>.
  * <p>
  * <h2>Menu models</h2>
  * <p>
  * The XML format understood by <code>GtkBuilder</code> for <code>GMenuModel</code> consists
- * of a toplevel <code>&#60;menu&#62;</code> element, which contains one or more <code>&#60;item&#62;</code>
- * elements. Each <code>&#60;item&#62;</code> element contains <code>&#60;attribute&#62;</code> and <code>&#60;link&#62;</code>
- * elements with a mandatory name attribute. <code>&#60;link&#62;</code> elements have the
- * same content model as <code>&#60;menu&#62;</code>. Instead of <code>&#60;link name=&#34;submenu&#34;&#62;</code>
- * or <code>&#60;link name=&#34;section&#34;&#62;</code>, you can use <code>&#60;submenu&#62;</code> or <code>&#60;section&#62;</code>
+ * of a toplevel <code>&<code>#60</code> menu&<code>#62</code> </code> element, which contains one or more <code>&<code>#60</code> item&<code>#62</code> </code>
+ * elements. Each <code>&<code>#60</code> item&<code>#62</code> </code> element contains <code>&<code>#60</code> attribute&<code>#62</code> </code> and <code>&<code>#60</code> link&<code>#62</code> </code>
+ * elements with a mandatory name attribute. <code>&<code>#60</code> link&<code>#62</code> </code> elements have the
+ * same content model as <code>&<code>#60</code> menu&<code>#62</code> </code>. Instead of <code>&<code>#60</code> link name=&<code>#34</code> submenu&<code>#34</code> &<code>#62</code> </code>
+ * or <code>&<code>#60</code> link name=&<code>#34</code> section&<code>#34</code> &<code>#62</code> </code>, you can use <code>&<code>#60</code> submenu&<code>#62</code> </code> or <code>&<code>#60</code> section&<code>#62</code> </code>
  * elements.
  * <p><pre>xml
- * &#60;menu id=&#39;app-menu&#39;&#62;
- *   &#60;section&#62;
- *     &#60;item&#62;
- *       &#60;attribute name=&#39;label&#39; translatable=&#39;yes&#39;&#62;_New Window&#60;/attribute&#62;
- *       &#60;attribute name=&#39;action&#39;&#62;app.new&#60;/attribute&#62;
- *     &#60;/item&#62;
- *     &#60;item&#62;
- *       &#60;attribute name=&#39;label&#39; translatable=&#39;yes&#39;&#62;_About Sunny&#60;/attribute&#62;
- *       &#60;attribute name=&#39;action&#39;&#62;app.about&#60;/attribute&#62;
- *     &#60;/item&#62;
- *     &#60;item&#62;
- *       &#60;attribute name=&#39;label&#39; translatable=&#39;yes&#39;&#62;_Quit&#60;/attribute&#62;
- *       &#60;attribute name=&#39;action&#39;&#62;app.quit&#60;/attribute&#62;
- *     &#60;/item&#62;
- *   &#60;/section&#62;
- * &#60;/menu&#62;
+ * &<code>#60</code> menu id=&<code>#39</code> app-menu&<code>#39</code> &<code>#62</code> 
+ *   &<code>#60</code> section&<code>#62</code> 
+ *     &<code>#60</code> item&<code>#62</code> 
+ *       &<code>#60</code> attribute name=&<code>#39</code> label&<code>#39</code>  translatable=&<code>#39</code> yes&<code>#39</code> &<code>#62</code> _New Window&<code>#60</code> /attribute&<code>#62</code> 
+ *       &<code>#60</code> attribute name=&<code>#39</code> action&<code>#39</code> &<code>#62</code> app.new&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> /item&<code>#62</code> 
+ *     &<code>#60</code> item&<code>#62</code> 
+ *       &<code>#60</code> attribute name=&<code>#39</code> label&<code>#39</code>  translatable=&<code>#39</code> yes&<code>#39</code> &<code>#62</code> _About Sunny&<code>#60</code> /attribute&<code>#62</code> 
+ *       &<code>#60</code> attribute name=&<code>#39</code> action&<code>#39</code> &<code>#62</code> app.about&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> /item&<code>#62</code> 
+ *     &<code>#60</code> item&<code>#62</code> 
+ *       &<code>#60</code> attribute name=&<code>#39</code> label&<code>#39</code>  translatable=&<code>#39</code> yes&<code>#39</code> &<code>#62</code> _Quit&<code>#60</code> /attribute&<code>#62</code> 
+ *       &<code>#60</code> attribute name=&<code>#39</code> action&<code>#39</code> &<code>#62</code> app.quit&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> /item&<code>#62</code> 
+ *   &<code>#60</code> /section&<code>#62</code> 
+ * &<code>#60</code> /menu&<code>#62</code> 
  * </pre>
  * <p>
  * Attribute values can be translated using gettext, like other <code>GtkBuilder</code>
- * content. <code>&#60;attribute&#62;</code> elements can be marked for translation with a<code>translatable=&#34;yes&#34;</code> attribute. It is also possible to specify message
+ * content. <code>&<code>#60</code> attribute&<code>#62</code> </code> elements can be marked for translation with a<code>translatable=&<code>#34</code> yes&<code>#34</code> </code> attribute. It is also possible to specify message
  * context and translator comments, using the context and comments attributes.
  * To make use of this, the <code>GtkBuilder</code> must have been given the gettext
  * domain to use.
  * <p>
  * The following attributes are used when constructing menu items:
  * <p>
- * <li>&#34;label&#34;: a user-visible string to display
- * <li>&#34;use-markup&#34;: whether the text in the menu item includes {@link [Pango markup]}(https://docs.gtk.org/Pango/pango_markup.html)
- * <li>&#34;action&#34;: the prefixed name of the action to trigger
- * <li>&#34;target&#34;: the parameter to use when activating the action
- * <li>&#34;icon&#34; and &#34;verb-icon&#34;: names of icons that may be displayed
- * <li>&#34;submenu-action&#34;: name of an action that may be used to track
+ * <li>&<code>#34</code> label&<code>#34</code> : a user-visible string to display
+ * <li>&<code>#34</code> use-markup&<code>#34</code> : whether the text in the menu item includes {@link [Pango markup]}(https://docs.gtk.org/Pango/pango_markup.html)
+ * <li>&<code>#34</code> action&<code>#34</code> : the prefixed name of the action to trigger
+ * <li>&<code>#34</code> target&<code>#34</code> : the parameter to use when activating the action
+ * <li>&<code>#34</code> icon&<code>#34</code>  and &<code>#34</code> verb-icon&<code>#34</code> : names of icons that may be displayed
+ * <li>&<code>#34</code> submenu-action&<code>#34</code> : name of an action that may be used to track
  *      whether a submenu is open
- * <li>&#34;hidden-when&#34;: a string used to determine when the item will be hidden.
- *      Possible values include &#34;action-disabled&#34;, &#34;action-missing&#34;, &#34;macos-menubar&#34;.
- *      This is mainly useful for exported menus, see {@link org.gtk.gtk.Application#setMenubar}.
- * <li>&#34;custom&#34;: a string used to match against the ID of a custom child added with
- *      {@link org.gtk.gtk.PopoverMenu#addChild}, {@link org.gtk.gtk.PopoverMenuBar#addChild},
- *      or in the ui file with <code>&#60;child type=&#34;ID&#34;&#62;</code>.
+ * <li>&<code>#34</code> hidden-when&<code>#34</code> : a string used to determine when the item will be hidden.
+ *      Possible values include &<code>#34</code> action-disabled&<code>#34</code> , &<code>#34</code> action-missing&<code>#34</code> , &<code>#34</code> macos-menubar&<code>#34</code> .
+ *      This is mainly useful for exported menus, see {@link org.gtk.gtk.Application<code>#setMenubar</code> .
+ * <li>&<code>#34</code> custom&<code>#34</code> : a string used to match against the ID of a custom child added with
+ *      {@link org.gtk.gtk.PopoverMenu<code>#addChild</code> , {@link org.gtk.gtk.PopoverMenuBar<code>#addChild</code> ,
+ *      or in the ui file with <code>&<code>#60</code> child type=&<code>#34</code> ID&<code>#34</code> &<code>#62</code> </code>.
  * <p>
  * The following attributes are used when constructing sections:
  * <p>
- * <li>&#34;label&#34;: a user-visible string to use as section heading
- * <li>&#34;display-hint&#34;: a string used to determine special formatting for the section.
- *     Possible values include &#34;horizontal-buttons&#34;, &#34;circular-buttons&#34; and
- *     &#34;inline-buttons&#34;. They all indicate that section should be
+ * <li>&<code>#34</code> label&<code>#34</code> : a user-visible string to use as section heading
+ * <li>&<code>#34</code> display-hint&<code>#34</code> : a string used to determine special formatting for the section.
+ *     Possible values include &<code>#34</code> horizontal-buttons&<code>#34</code> , &<code>#34</code> circular-buttons&<code>#34</code>  and
+ *     &<code>#34</code> inline-buttons&<code>#34</code> . They all indicate that section should be
  *     displayed as a horizontal row of buttons.
- * <li>&#34;text-direction&#34;: a string used to determine the <code>GtkTextDirection</code> to use
- *     when &#34;display-hint&#34; is set to &#34;horizontal-buttons&#34;. Possible values
- *     include &#34;rtl&#34;, &#34;ltr&#34;, and &#34;none&#34;.
+ * <li>&<code>#34</code> text-direction&<code>#34</code> : a string used to determine the <code>GtkTextDirection</code> to use
+ *     when &<code>#34</code> display-hint&<code>#34</code>  is set to &<code>#34</code> horizontal-buttons&<code>#34</code> . Possible values
+ *     include &<code>#34</code> rtl&<code>#34</code> , &<code>#34</code> ltr&<code>#34</code> , and &<code>#34</code> none&<code>#34</code> .
  * <p>
  * The following attributes are used when constructing submenus:
  * <p>
- * <li>&#34;label&#34;: a user-visible string to display
- * <li>&#34;icon&#34;: icon name to display
+ * <li>&<code>#34</code> label&<code>#34</code> : a user-visible string to display
+ * <li>&<code>#34</code> icon&<code>#34</code> : icon name to display
  * <p>
  * Menu items will also show accelerators, which are usually associated
- * with actions via {@link org.gtk.gtk.Application#setAccelsForAction},
- * {@link org.gtk.gtk.WidgetClass#addBindingAction} or
- * {@link org.gtk.gtk.ShortcutController#addShortcut}.
+ * with actions via {@link org.gtk.gtk.Application<code>#setAccelsForAction</code> ,
+ * {@link org.gtk.gtk.WidgetClass<code>#addBindingAction</code>  or
+ * {@link org.gtk.gtk.ShortcutController<code>#addShortcut</code> .
  * <p>
- * <h1>SS Nodes</h1>
+ * <h1>CSS Nodes</h1>
  * <p><code>GtkPopoverMenu</code> is just a subclass of <code>GtkPopover</code> that adds custom content
  * to it, therefore it has the same CSS nodes. It is one of the cases that add
- * a .menu style class to the popover&#39;s main node.
+ * a .menu style class to the popover&<code>#39</code> s main node.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkPopoverMenu</code> uses the {@link org.gtk.gtk.AccessibleRole#MENU} role, and its
- * items use the <code>GTK_ACCESSIBLE_ROLE_MENU_ITEM,
- * %GTK_ACCESSIBLE_ROLE_MENU_ITEM_CHECKBOX</code> or
- * {@link org.gtk.gtk.AccessibleRole#MENU_ITEM_RADIO} roles, depending on the
+ * <h1>Accessibility</h1>
+ * <p><code>GtkPopoverMenu</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#MENU</code>  role, and its
+ * items use the {@link org.gtk.gtk.AccessibleRole<code>#MENU_ITEM</code>  
+ * {@link org.gtk.gtk.AccessibleRole<code>#MENU_ITEM_CHECKBOX</code>  or
+ * {@link org.gtk.gtk.AccessibleRole<code>#MENU_ITEM_RADIO</code>  roles, depending on the
  * action they are connected to.
  */
 public class PopoverMenu extends Popover implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
@@ -128,7 +128,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * by means of being attached to a widget that is contained within
      * the <code>GtkApplicationWindow</code>s widget hierarchy.
      * 
-     * Actions can also be added using {@link org.gtk.gtk.Widget#insertActionGroup}
+     * Actions can also be added using {@link org.gtk.gtk.Widget<code>#insertActionGroup</code> 
      * on the menus attach widget or on any of its parent widgets.
      * 
      * This function creates menus with sliding submenus.
@@ -150,11 +150,11 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * The created buttons are connected to actions found in the
      * action groups that are accessible from the parent widget.
      * This includes the <code>GtkApplicationWindow</code> to which the popover
-     * belongs. Actions can also be added using {@link org.gtk.gtk.Widget#insertActionGroup}
+     * belongs. Actions can also be added using {@link org.gtk.gtk.Widget<code>#insertActionGroup</code> 
      * on the parent widget or on any of its parent widgets.
      * 
      * The only flag that is supported currently is
-     * <code>GTK_POPOVER_MENU_NESTED,</code> which makes GTK create traditional,
+     * {@link org.gtk.gtk.PopoverMenuFlags<code>#NESTED</code>   which makes GTK create traditional,
      * nested submenus instead of the default sliding submenus.
      */
     public static PopoverMenu newFromModelFull(org.gtk.gio.MenuModel model, int flags) {

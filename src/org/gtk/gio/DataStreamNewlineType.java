@@ -1,22 +1,22 @@
 package org.gtk.gio;
 
 /**
- * #GDataStreamNewlineType is used when checking for or setting the line endings for a given file.
+ * {@link org.gtk.gio.DataStreamNewlineType} is used when checking for or setting the line endings for a given file.
  */
 public enum DataStreamNewlineType {
 
     /**
-     * Selects &#34;LF&#34; line endings, common on most modern UNIX platforms.
+     * Selects &<code>#34</code> LF&<code>#34</code>  line endings, common on most modern UNIX platforms.
      */
     LF,
     
     /**
-     * Selects &#34;CR&#34; line endings.
+     * Selects &<code>#34</code> CR&<code>#34</code>  line endings.
      */
     CR,
     
     /**
-     * Selects &#34;CR, LF&#34; line ending, common on Microsoft Windows.
+     * Selects &<code>#34</code> CR, LF&<code>#34</code>  line ending, common on Microsoft Windows.
      */
     CR_LF,
     

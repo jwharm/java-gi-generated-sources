@@ -12,32 +12,32 @@ import java.lang.invoke.*;
  * <p>
  * Most common shortcuts are using this controller implicitly, e.g. by
  * adding a mnemonic underline to a <code>GtkLabel</code>, or by installing a key
- * binding using {@link org.gtk.gtk.WidgetClass#addBinding}, or by adding accelerators
- * to global actions using {@link org.gtk.gtk.Application#setAccelsForAction}.
+ * binding using {@link org.gtk.gtk.WidgetClass<code>#addBinding</code> , or by adding accelerators
+ * to global actions using {@link org.gtk.gtk.Application<code>#setAccelsForAction</code> .
  * <p>
  * But it is possible to create your own shortcut controller, and add
  * shortcuts to it.
  * <p><code>GtkShortcutController</code> implements <code>GListModel</code> for querying the
  * shortcuts that have been added to it.
  * <p>
- * <h1>tkShortcutController as a GtkBuildable</h1>
+ * <h1>GtkShortcutController as a GtkBuildable</h1>
  * <p><code>GtkShortcutControllers</code> can be creates in ui files to set up
  * shortcuts in the same place as the widgets.
  * <p>
  * An example of a UI definition fragment with <code>GtkShortcutController</code>:<pre>xml
- *   &#60;object class=&#39;GtkButton&#39;&#62;
- *     &#60;child&#62;
- *       &#60;object class=&#39;GtkShortcutController&#39;&#62;
- *         &#60;property name=&#39;scope&#39;&#62;managed&#60;/property&#62;
- *         &#60;child&#62;
- *           &#60;object class=&#39;GtkShortcut&#39;&#62;
- *             &#60;property name=&#39;trigger&#39;&#62;&#38;lt;Control&#38;gt;k&#60;/property&#62;
- *             &#60;property name=&#39;action&#39;&#62;activate&#60;/property&#62;
- *           &#60;/object&#62;
- *         &#60;/child&#62;
- *       &#60;/object&#62;
- *     &#60;/child&#62;
- *   &#60;/object&#62;
+ *   &<code>#60</code> object class=&<code>#39</code> GtkButton&<code>#39</code> &<code>#62</code> 
+ *     &<code>#60</code> child&<code>#62</code> 
+ *       &<code>#60</code> object class=&<code>#39</code> GtkShortcutController&<code>#39</code> &<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#39</code> scope&<code>#39</code> &<code>#62</code> managed&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> child&<code>#62</code> 
+ *           &<code>#60</code> object class=&<code>#39</code> GtkShortcut&<code>#39</code> &<code>#62</code> 
+ *             &<code>#60</code> property name=&<code>#39</code> trigger&<code>#39</code> &<code>#62</code> &<code>#38</code> lt;Control&<code>#38</code> gt;k&<code>#60</code> /property&<code>#62</code> 
+ *             &<code>#60</code> property name=&<code>#39</code> action&<code>#39</code> &<code>#62</code> activate&<code>#60</code> /property&<code>#62</code> 
+ *           &<code>#60</code> /object&<code>#62</code> 
+ *         &<code>#60</code> /child&<code>#62</code> 
+ *       &<code>#60</code> /object&<code>#62</code> 
+ *     &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
  * This example creates a {@link org.gtk.gtk.ActivateAction} for triggering the<code>activate</code> signal of the <code>GtkButton</code>. See {@link [ctor@Gtk.ShortcutAction.parse_string] (ref=ctor)}
@@ -106,7 +106,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
     /**
      * Gets the scope for when this controller activates its shortcuts.
      * 
-     * See {@link org.gtk.gtk.ShortcutController#setScope} for details.
+     * See {@link org.gtk.gtk.ShortcutController<code>#setScope</code>  for details.
      */
     public ShortcutScope getScope() {
         var RESULT = gtk_h.gtk_shortcut_controller_get_scope(handle());
@@ -150,7 +150,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * keyboard shortcuts that can be activated even when a widget does
      * not have focus.
      * 
-     * With <code>GTK_SHORTCUT_SCOPE_LOCAL,</code> shortcuts will only be activated
+     * With {@link org.gtk.gtk.ShortcutScope<code>#LOCAL</code>   shortcuts will only be activated
      * when the widget has focus.
      */
     public void setScope(ShortcutScope scope) {

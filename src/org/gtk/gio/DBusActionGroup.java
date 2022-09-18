@@ -8,8 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GDBusActionGroup is an implementation of the #GActionGroup
- * interface that can be used as a proxy for an action group
+ * {@link org.gtk.gio.DBusActionGroup} is an implementation of the {@link org.gtk.gio.ActionGroup} interface that can be used as a proxy for an action group
  * that is exported over D-Bus with g_dbus_connection_export_action_group().
  */
 public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGroup, RemoteActionGroup {
@@ -24,7 +23,7 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGro
     }
     
     /**
-     * Obtains a #GDBusActionGroup for the action group which is exported at
+     * Obtains a {@link org.gtk.gio.DBusActionGroup} for the action group which is exported at
      * the given @bus_name and @object_path.
      * 
      * The thread default main context is taken at the time of this call.

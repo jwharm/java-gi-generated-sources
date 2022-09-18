@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The class structure for the #GTlsConnection type.
+ * The class structure for the {@link org.gtk.gio.TlsConnection} type.
  */
 public class TlsConnectionClass extends io.github.jwharm.javagi.ResourceBase {
 

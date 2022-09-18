@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * Flags that influence the behavior of {@link org.pango.Layout#serialize}.
+ * Flags that influence the behavior of {@link org.pango.Layout<code>#serialize</code> .
  * 
  * New members may be added to this enumeration over time.
  */

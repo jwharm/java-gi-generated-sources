@@ -4,7 +4,7 @@ package org.gtk.gtk;
  * Describes the known strictness of a filter.
  * 
  * Note that for filters where the strictness is not known,
- * {@link org.gtk.gtk.FilterMatch#SOME} is always an acceptable value,
+ * {@link org.gtk.gtk.FilterMatch<code>#SOME</code>  is always an acceptable value,
  * even if a filter does match all or no items.
  */
 public enum FilterMatch {
@@ -17,21 +17,13 @@ public enum FilterMatch {
     
     /**
      * The filter does not match any item,
-     *   gtk_filter_match() will always return 
-     *       
-     *       
-     *         The filter does not match any item,
-     *   gtk_filter_match() will always return %FALSE.
+     *   gtk_filter_match() will always return <code>false</code>
      */
     NONE,
     
     /**
      * The filter matches all items,
-     *   gtk_filter_match() will alays return 
-     *       
-     *       
-     *         The filter matches all items,
-     *   gtk_filter_match() will alays return %TRUE.
+     *   gtk_filter_match() will alays return <code>true</code>
      */
     ALL;
     

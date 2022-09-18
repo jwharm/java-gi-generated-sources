@@ -23,7 +23,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GMainContext structure.
+     * Creates a new {@link org.gtk.glib.MainContext} structure.
      */
     public MainContext() {
         super(constructNew());
@@ -35,7 +35,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GMainContext structure.
+     * Creates a new {@link org.gtk.glib.MainContext} structure.
      */
     public static MainContext newWithFlags(int flags) {
         return new MainContext(constructNewWithFlags(flags));
@@ -102,7 +102,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a #GSource given a pair of context and ID.
+     * Finds a {@link org.gtk.glib.Source} given a pair of context and ID.
      * 
      * It is a programmer error to attempt to look up a non-existent source.
      * 
@@ -134,8 +134,8 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * Invokes a function in such a way that @context is owned during the
      * invocation of @function.
      * 
-     * If @context is <code>null</code> then the global default main context &#8212; as
-     * returned by g_main_context_default() &#8212; is used.
+     * If @context is <code>null</code> then the global default main context &<code>#8212</code>  as
+     * returned by g_main_context_default() &<code>#8212</code>  is used.
      * 
      * If @context is owned by the current thread, @function is called
      * directly.  Otherwise, if @context is the thread-default main context
@@ -145,12 +145,11 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * 
      * In any other case, an idle source is created to call @function and
      * that source is attached to @context (presumably to be run in another
-     * thread).  The idle source is attached with <code>G_PRIORITY_DEFAULT
-     * priority.</code>  If you want a different priority, use
+     * thread).  The idle source is attached with <code>G_PRIORITY_DEFAULT</code> priority.  If you want a different priority, use
      * g_main_context_invoke_full().
      * 
      * Note that, as with normal idle functions, @function should probably
-     * return <code>FALSE.</code>  If it returns <code>TRUE,</code> it will be continuously run in a
+     * return <code>false</code>   If it returns <code>true</code>  it will be continuously run in a
      * loop (and may prevent this call from returning).
      */
     public void invoke(SourceFunc function) {
@@ -173,7 +172,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * 
      * This function is the same as g_main_context_invoke() except that it
      * lets you specify the priority in case @function ends up being
-     * scheduled as an idle and also lets you give a #GDestroyNotify for @data.
+     * scheduled as an idle and also lets you give a {@link org.gtk.glib.DestroyNotify} for @data.
      * 
      * @notify should not assume that it is called from any particular
      * thread or with any particular context acquired.
@@ -195,7 +194,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Determines whether this thread holds the (recursive)
-     * ownership of this #GMainContext. This is useful to
+     * ownership of this {@link org.gtk.glib.MainContext}  This is useful to
      * know before waiting on another thread that may be
      * blocking to get ownership of @context.
      */
@@ -207,15 +206,14 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Runs a single iteration for the given main loop. This involves
      * checking to see if any event sources are ready to be processed,
-     * then if no events sources are ready and @may_block is <code>TRUE,</code> waiting
+     * then if no events sources are ready and @may_block is <code>true</code>  waiting
      * for a source to become ready, then dispatching the highest priority
-     * events sources that are ready. Otherwise, if @may_block is <code>FALSE
-     * sources</code> are not waited to become ready, only those highest priority
+     * events sources that are ready. Otherwise, if @may_block is <code>false</code> sources are not waited to become ready, only those highest priority
      * events sources will be dispatched (if any), that are ready at this
      * given moment without further waiting.
      * 
-     * Note that even when @may_block is <code>TRUE,</code> it is still possible for
-     * g_main_context_iteration() to return <code>FALSE,</code> since the wait may
+     * Note that even when @may_block is <code>true</code>  it is still possible for
+     * g_main_context_iteration() to return <code>false</code>  since the wait may
      * be interrupted for other reasons than an event source becoming ready.
      */
     public boolean iteration(boolean mayBlock) {
@@ -251,20 +249,20 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * the context used by functions like g_idle_add().
      * 
      * Normally you would call this function shortly after creating a new
-     * thread, passing it a #GMainContext which will be run by a
-     * #GMainLoop in that thread, to set a new default context for all
+     * thread, passing it a {@link org.gtk.glib.MainContext} which will be run by a
+     * {@link org.gtk.glib.MainLoop} in that thread, to set a new default context for all
      * async operations in that thread. In this case you may not need to
      * ever call g_main_context_pop_thread_default(), assuming you want the
-     * new #GMainContext to be the default for the whole lifecycle of the
+     * new {@link org.gtk.glib.MainContext} to be the default for the whole lifecycle of the
      * thread.
      * 
-     * If you don&#39;t have control over how the new thread was created (e.g.
-     * in the new thread isn&#39;t newly created, or if the thread life
-     * cycle is managed by a #GThreadPool), it is always suggested to wrap
-     * the logic that needs to use the new #GMainContext inside a
+     * If you don&<code>#39</code> t have control over how the new thread was created (e.g.
+     * in the new thread isn&<code>#39</code> t newly created, or if the thread life
+     * cycle is managed by a {@link org.gtk.glib.ThreadPool} , it is always suggested to wrap
+     * the logic that needs to use the new {@link org.gtk.glib.MainContext} inside a
      * g_main_context_push_thread_default() / g_main_context_pop_thread_default()
      * pair, otherwise threads that are re-used will end up never explicitly
-     * releasing the #GMainContext reference they hold.
+     * releasing the {@link org.gtk.glib.MainContext} reference they hold.
      * 
      * In some cases you may want to schedule a single operation in a
      * non-default context, or temporarily use a non-default context in
@@ -284,7 +282,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count on a #GMainContext object by one.
+     * Increases the reference count on a {@link org.gtk.glib.MainContext} object by one.
      */
     public MainContext ref() {
         var RESULT = gtk_h.g_main_context_ref(handle());
@@ -310,7 +308,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count on a #GMainContext object by one. If
+     * Decreases the reference count on a {@link org.gtk.glib.MainContext} object by one. If
      * the result is zero, free the context and free all associated memory.
      */
     public void unref() {
@@ -323,27 +321,27 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * and return.  Otherwise, cause the next invocation of
      * g_main_context_iteration() to return without blocking.
      * 
-     * This API is useful for low-level control over #GMainContext; for
+     * This API is useful for low-level control over {@link org.gtk.glib.MainContext}  for
      * example, integrating it with main loop implementations such as
-     * #GMainLoop.
+     * {@link org.gtk.glib.MainLoop} 
      * 
      * Another related use for this function is when implementing a main
      * loop with a termination condition, computed from multiple threads:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
-     *   #define NUM_TASKS 10
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     *   <code>#define</code> NUM_TASKS 10
      *   static gint tasks_remaining = NUM_TASKS;  // (atomic)
      *   ...
      *  
-     *   while (g_atomic_int_get (&#38;tasks_remaining) != 0)
+     *   while (g_atomic_int_get (&<code>#38</code> tasks_remaining) != 0)
      *     g_main_context_iteration (NULL, TRUE);
      * ]}|
      *  
      * Then in a thread:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      *   perform_work();
      * 
-     *   if (g_atomic_int_dec_and_test (&#38;tasks_remaining))
+     *   if (g_atomic_int_dec_and_test (&<code>#38</code> tasks_remaining))
      *     g_main_context_wakeup (NULL);
      * ]}|
      */
@@ -354,7 +352,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the global default main context. This is the main context
      * used for main loop functions when a main loop is not explicitly
-     * specified, and corresponds to the &#34;main&#34; main loop. See also
+     * specified, and corresponds to the &<code>#34</code> main&<code>#34</code>  main loop. See also
      * g_main_context_get_thread_default().
      */
     public static MainContext default_() {
@@ -363,11 +361,11 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the thread-default #GMainContext for this thread. Asynchronous
+     * Gets the thread-default {@link org.gtk.glib.MainContext} for this thread. Asynchronous
      * operations that want to be able to be run in contexts other than
      * the default one should call this method or
-     * g_main_context_ref_thread_default() to get a #GMainContext to add
-     * their #GSources to. (Note that even in single-threaded
+     * g_main_context_ref_thread_default() to get a {@link org.gtk.glib.MainContext} to add
+     * their <code>#GSources</code> to. (Note that even in single-threaded
      * programs applications may sometimes want to temporarily push a
      * non-default context, so it is not safe to assume that this will
      * always return <code>null</code> if you are running in the default thread.)
@@ -381,22 +379,11 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the thread-default #GMainContext for this thread, as with
+     * Gets the thread-default {@link org.gtk.glib.MainContext} for this thread, as with
      * g_main_context_get_thread_default(), but also adds a reference to
      * it with g_main_context_ref(). In addition, unlike
      * g_main_context_get_thread_default(), if the thread-default context
-     * is the global default context, this will return that #GMainContext
-     * (with a ref added to it) rather than returning 
-     *           
-     *         
-     *       
-     *       
-     *         Gets the thread-default #GMainContext for this thread, as with
-     * g_main_context_get_thread_default(), but also adds a reference to
-     * it with g_main_context_ref(). In addition, unlike
-     * g_main_context_get_thread_default(), if the thread-default context
-     * is the global default context, this will return that #GMainContext
-     * (with a ref added to it) rather than returning %NULL.
+     * is the global default context, this will return that {@link org.gtk.glib.MainContext} (with a ref added to it) rather than returning <code>null</code>
      */
     public static MainContext refThreadDefault() {
         var RESULT = gtk_h.g_main_context_ref_thread_default();

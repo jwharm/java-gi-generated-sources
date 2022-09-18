@@ -10,27 +10,27 @@ import java.lang.invoke.*;
 /**
  * <code>GtkStringList</code> is a list model that wraps an array of strings.
  * <p>
- * The objects in the model have a &#34;string&#34; property.
+ * The objects in the model have a &<code>#34</code> string&<code>#34</code>  property.
  * <p><code>GtkStringList</code> is well-suited for any place where you would
  * typically use a <code>char*{@link []}</code>, but need a list model.
  * <p>
- * <h1>tkStringList as GtkBuildable</h1>
+ * <h1>GtkStringList as GtkBuildable</h1>
  * <p>
  * The <code>GtkStringList</code> implementation of the <code>GtkBuildable</code> interface
- * supports adding items directly using the &#60;items&#62; element and
- * specifying &#60;item&#62; elements for each item. Each &#60;item&#62; element
- * supports the regular translation attributes &#8220;translatable&#8221;,
- * &#8220;context&#8221; and &#8220;comments&#8221;.
+ * supports adding items directly using the &<code>#60</code> items&<code>#62</code>  element and
+ * specifying &<code>#60</code> item&<code>#62</code>  elements for each item. Each &<code>#60</code> item&<code>#62</code>  element
+ * supports the regular translation attributes &<code>#8220</code> translatable&<code>#8221</code> ,
+ * &<code>#8220</code> context&<code>#8221</code>  and &<code>#8220</code> comments&<code>#8221</code> .
  * <p>
  * Here is a UI definition fragment specifying a <code>GtkStringList</code>
  * <p><pre>xml
- * &#60;object class=&#34;GtkStringList&#34;&#62;
- *   &#60;items&#62;
- *     &#60;item translatable=&#34;yes&#34;&#62;Factory&#60;/item&#62;
- *     &#60;item translatable=&#34;yes&#34;&#62;Home&#60;/item&#62;
- *     &#60;item translatable=&#34;yes&#34;&#62;Subway&#60;/item&#62;
- *   &#60;/items&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkStringList&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> items&<code>#62</code> 
+ *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Factory&<code>#60</code> /item&<code>#62</code> 
+ *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Home&<code>#60</code> /item&<code>#62</code> 
+ *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Subway&<code>#60</code> /item&<code>#62</code> 
+ *   &<code>#60</code> /items&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  */
 public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, Buildable {
@@ -60,7 +60,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Appends @string to @self.
      * 
      * The @string will be copied. See
-     * {@link org.gtk.gtk.StringList#take} for a way to avoid that.
+     * {@link org.gtk.gtk.StringList<code>#take</code>  for a way to avoid that.
      */
     public void append(java.lang.String string) {
         gtk_h.gtk_string_list_append(handle(), Interop.allocateNativeString(string).handle());
@@ -93,8 +93,8 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Changes @self by removing @n_removals strings and adding @additions
      * to it.
      * 
-     * This function is more efficient than {@link org.gtk.gtk.StringList#append}
-     * and {@link org.gtk.gtk.StringList#remove}, because it only emits the
+     * This function is more efficient than {@link org.gtk.gtk.StringList<code>#append</code> 
+     * and {@link org.gtk.gtk.StringList<code>#remove</code> , because it only emits the
      * ::items-changed signal once for the change.
      * 
      * This function copies the strings in @additions.
@@ -111,10 +111,10 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Adds @string to self at the end, and takes
      * ownership of it.
      * <p>
-     * This variant of {@link org.gtk.gtk.StringList#append}
+     * This variant of {@link org.gtk.gtk.StringList<code>#append</code> 
      * is convenient for formatting strings:
      * <p><pre>c
-     * gtk_string_list_take (self, g_strdup_print (&#34;<code>d</code> dollars&#34;, lots));
+     * gtk_string_list_take (self, g_strdup_print (&<code>#34</code> <code>d</code> dollars&<code>#34</code> , lots));
      * </pre>
      */
     public void take(java.lang.String string) {

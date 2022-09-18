@@ -1,10 +1,10 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the #hb_font_funcs_t of an #hb_font_t object.
+ * A virtual method for the {@link org.harfbuzz.font_funcs_t} of an {@link org.harfbuzz.font_t} object.
  * 
  * This method should retrieve the extents for a specified glyph. Extents must be
- * returned in an #hb_glyph_extents output parameter.
+ * returned in an <code>#hb_glyph_extents</code> output parameter.
  */
 @FunctionalInterface
 public interface FontGetGlyphExtentsFuncT {

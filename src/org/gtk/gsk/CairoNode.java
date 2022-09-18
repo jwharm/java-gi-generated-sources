@@ -30,7 +30,7 @@ public class CairoNode extends RenderNode {
      * Creates a <code>GskRenderNode</code> that will render a cairo surface
      * into the area given by @bounds.
      * 
-     * You can draw to the cairo surface using {@link org.gtk.gsk.CairoNode#getDrawContext}.
+     * You can draw to the cairo surface using {@link org.gtk.gsk.CairoNode<code>#getDrawContext</code> .
      */
     public CairoNode(org.gtk.graphene.Rect bounds) {
         super(constructNew(bounds));

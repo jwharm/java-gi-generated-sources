@@ -17,15 +17,14 @@ import java.lang.invoke.*;
  * refers to adding cell renderers with reference to a particular position
  * in a <code>GtkCellAreaBox</code>. There are two reference positions: the
  * start and the end of the box.
- * When the <code>GtkCellAreaBox</code> is oriented in the <code>GTK_ORIENTATION_VERTICAL
- * orientation,</code> the start is defined as the top of the box and the end is
- * defined as the bottom. In the {@link org.gtk.gtk.Orientation#HORIZONTAL} orientation
+ * When the <code>GtkCellAreaBox</code> is oriented in the {@link org.gtk.gtk.Orientation<code>#VERTICAL</code>  orientation, the start is defined as the top of the box and the end is
+ * defined as the bottom. In the {@link org.gtk.gtk.Orientation<code>#HORIZONTAL</code>  orientation
  * start is defined as the left side and the end is defined as the right
  * side.
  * <p>
  * Alignments of <code>GtkCellRenderer</code>s rendered in adjacent rows can be
  * configured by configuring the <code>GtkCellAreaBox</code> align child cell property
- * with gtk_cell_area_cell_set_property() or by specifying the &#34;align&#34;
+ * with gtk_cell_area_cell_set_property() or by specifying the &<code>#34</code> align&<code>#34</code> 
  * argument to gtk_cell_area_box_pack_start() and gtk_cell_area_box_pack_end().
  */
 public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orientable {

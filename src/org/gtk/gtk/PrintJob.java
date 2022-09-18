@@ -13,10 +13,10 @@ import java.lang.invoke.*;
  * You only need to deal directly with print jobs if you use the
  * non-portable {@link org.gtk.gtk.PrintUnixDialog} API.
  * <p>
- * Use {@link org.gtk.gtk.PrintJob#getSurface} to obtain the cairo surface
- * onto which the pages must be drawn. Use {@link org.gtk.gtk.PrintJob#send}
- * to send the finished job to the printer. If you don&#8217;t use cairo<code>GtkPrintJob</code> also supports printing of manually generated PostScript,
- * via {@link org.gtk.gtk.PrintJob#setSourceFile}.
+ * Use {@link org.gtk.gtk.PrintJob<code>#getSurface</code>  to obtain the cairo surface
+ * onto which the pages must be drawn. Use {@link org.gtk.gtk.PrintJob<code>#send</code> 
+ * to send the finished job to the printer. If you don&<code>#8217</code> t use cairo<code>GtkPrintJob</code> also supports printing of manually generated PostScript,
+ * via {@link org.gtk.gtk.PrintJob<code>#setSourceFile</code> .
  */
 public class PrintJob extends org.gtk.gobject.Object {
 
@@ -161,7 +161,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     /**
      * Returns whether jobs will be tracked after printing.
      * 
-     * For details, see {@link org.gtk.gtk.PrintJob#setTrackPrintStatus}.
+     * For details, see {@link org.gtk.gtk.PrintJob<code>#setTrackPrintStatus</code> .
      */
     public boolean getTrackPrintStatus() {
         var RESULT = gtk_h.gtk_print_job_get_track_print_status(handle());
@@ -264,10 +264,10 @@ public class PrintJob extends org.gtk.gobject.Object {
      * 
      * The file can be in any format understood by the platforms
      * printing system (typically PostScript, but on many platforms
-     * PDF may work too). See {@link org.gtk.gtk.Printer#acceptsPdf} and
-     * {@link org.gtk.gtk.Printer#acceptsPs}.
+     * PDF may work too). See {@link org.gtk.gtk.Printer<code>#acceptsPdf</code>  and
+     * {@link org.gtk.gtk.Printer<code>#acceptsPs</code> .
      * 
-     * This is similar to {@link org.gtk.gtk.PrintJob#setSourceFile},
+     * This is similar to {@link org.gtk.gtk.PrintJob<code>#setSourceFile</code> ,
      * but takes expects an open file descriptor for the file,
      * instead of a filename.
      */
@@ -286,8 +286,8 @@ public class PrintJob extends org.gtk.gobject.Object {
      * 
      * The file can be in any format understood by the platforms
      * printing system (typically PostScript, but on many platforms
-     * PDF may work too). See {@link org.gtk.gtk.Printer#acceptsPdf} and
-     * {@link org.gtk.gtk.Printer#acceptsPs}.
+     * PDF may work too). See {@link org.gtk.gtk.Printer<code>#acceptsPdf</code>  and
+     * {@link org.gtk.gtk.Printer<code>#acceptsPs</code> .
      */
     public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -299,10 +299,10 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * If track_status is <code>TRUE,</code> the print job will try to continue report
+     * If track_status is <code>true</code>  the print job will try to continue report
      * on the status of the print job in the printer queues and printer.
      * 
-     * This can allow your application to show things like &#8220;out of paper&#8221;
+     * This can allow your application to show things like &<code>#8220</code> out of paper&<code>#8221</code> 
      * issues, and when the print job actually reaches the printer.
      * 
      * This function is often implemented using some form of polling,
@@ -320,7 +320,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     /**
      * Emitted when the status of a job changes.
      * 
-     * The signal handler can use {@link org.gtk.gtk.PrintJob#getStatus}
+     * The signal handler can use {@link org.gtk.gtk.PrintJob<code>#getStatus</code> 
      * to obtain the new status.
      */
     public SignalHandle onStatusChanged(StatusChangedHandler handler) {

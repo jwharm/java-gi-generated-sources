@@ -4,7 +4,7 @@ package org.pango;
  * The <code>PangoAttrType</code> distinguishes between different types of attributes.
  * 
  * Along with the predefined values, it is possible to allocate additional
- * values for custom attributes using {@link AttrType#register}. The predefined
+ * values for custom attributes using {@link AttrType<code>#register</code> . The predefined
  * values are given below. The type of structure used to store the attribute is
  * listed in parentheses after the description.
  */

@@ -1,11 +1,11 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the #hb_font_funcs_t of an #hb_font_t object.
+ * A virtual method for the {@link org.harfbuzz.font_funcs_t} of an {@link org.harfbuzz.font_t} object.
  * 
  * This method should retrieve the (X,Y) coordinates (in font units) for a
  * specified contour point in a glyph. Each coordinate must be returned as
- * an #hb_position_t output parameter.
+ * an {@link org.harfbuzz.position_t} output parameter.
  */
 @FunctionalInterface
 public interface FontGetGlyphContourPointFuncT {

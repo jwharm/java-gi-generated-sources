@@ -29,7 +29,7 @@ public enum PixbufError {
     UNKNOWN_TYPE,
     
     /**
-     * Don&#39;t know how to perform the
+     * Don&<code>#39</code> t know how to perform the
      *  given operation on the type of image at hand.
      */
     UNSUPPORTED_OPERATION,

@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * This enumeration isn&#39;t used in the API, but may be useful if you need
+ * This enumeration isn&<code>#39</code> t used in the API, but may be useful if you need
  * to mark a number as a day, month, or year.
  */
 public enum DateDMY {

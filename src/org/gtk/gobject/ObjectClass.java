@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * The class structure for the GObject type.
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * // Example of implementing a singleton using a constructor.
  * static MySingleton *the_singleton = NULL;
  * 
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  *   
  *   if (!the_singleton)
  *     {
- *       object = G_OBJECT_CLASS (parent_class)-&#62;constructor (type,
+ *       object = G_OBJECT_CLASS (parent_class)-&<code>#62</code> constructor (type,
  *                                                            n_construct_params,
  *                                                            construct_params);
  *       the_singleton = MY_SINGLETON (object);
@@ -42,7 +42,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Looks up the #GParamSpec for a property of a class.
+     * Looks up the {@link org.gtk.gobject.ParamSpec} for a property of a class.
      */
     public ParamSpec findProperty(java.lang.String propertyName) {
         var RESULT = gtk_h.g_object_class_find_property(handle(), Interop.allocateNativeString(propertyName).handle());
@@ -50,24 +50,24 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Installs new properties from an array of #GParamSpecs.
+     * Installs new properties from an array of <code>#GParamSpecs</code> 
      * 
      * All properties should be installed during the class initializer.  It
      * is possible to install properties after that, but doing so is not
      * recommend, and specifically, is not guaranteed to be thread-safe vs.
      * use of properties on the same type on other threads.
      * 
-     * The property id of each property is the index of each #GParamSpec in
+     * The property id of each property is the index of each {@link org.gtk.gobject.ParamSpec} in
      * the @pspecs array.
      * 
-     * The property id of 0 is treated specially by #GObject and it should not
-     * be used to store a #GParamSpec.
+     * The property id of 0 is treated specially by {@link org.gtk.gobject.Object} and it should not
+     * be used to store a {@link org.gtk.gobject.ParamSpec} 
      * 
      * This function should be used if you plan to use a static array of
-     * #GParamSpecs and g_object_notify_by_pspec(). For instance, this
+     * <code>#GParamSpecs</code> and g_object_notify_by_pspec(). For instance, this
      * class initialization:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * enum {
      *   PROP_0, PROP_FOO, PROP_BAR, N_PROPERTIES
      * };
@@ -80,18 +80,18 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      *   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
      * 
      *   obj_properties{@link [PROP_FOO]} =
-     *     g_param_spec_int (&#34;foo&#34;, &#34;Foo&#34;, &#34;Foo&#34;,
+     *     g_param_spec_int (&<code>#34</code> foo&<code>#34</code> , &<code>#34</code> Foo&<code>#34</code> , &<code>#34</code> Foo&<code>#34</code> ,
      *                       -1, G_MAXINT,
      *                       0,
      *                       G_PARAM_READWRITE);
      * 
      *   obj_properties{@link [PROP_BAR]} =
-     *     g_param_spec_string (&#34;bar&#34;, &#34;Bar&#34;, &#34;Bar&#34;,
+     *     g_param_spec_string (&<code>#34</code> bar&<code>#34</code> , &<code>#34</code> Bar&<code>#34</code> , &<code>#34</code> Bar&<code>#34</code> ,
      *                          NULL,
      *                          G_PARAM_READWRITE);
      * 
-     *   gobject_class-&#62;set_property = my_object_set_property;
-     *   gobject_class-&#62;get_property = my_object_get_property;
+     *   gobject_class-&<code>#62</code> set_property = my_object_set_property;
+     *   gobject_class-&<code>#62</code> get_property = my_object_get_property;
      *   g_object_class_install_properties (gobject_class,
      *                                      N_PROPERTIES,
      *                                      obj_properties);
@@ -100,13 +100,13 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * 
      * allows calling g_object_notify_by_pspec() to notify of property changes:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * void
      * my_object_set_foo (MyObject *self, gint foo)
      * {
-     *   if (self-&#62;foo != foo)
+     *   if (self-&<code>#62</code> foo != foo)
      *     {
-     *       self-&#62;foo = foo;
+     *       self-&<code>#62</code> foo = foo;
      *       g_object_notify_by_pspec (G_OBJECT (self), obj_properties[PROP_FOO]});
      *     }
      *  }
@@ -135,17 +135,17 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Registers @property_id as referring to a property with the name
      * @name in a parent class or in an interface implemented by @oclass.
-     * This allows this class to &#34;override&#34; a property implementation in
+     * This allows this class to &<code>#34</code> override&<code>#34</code>  a property implementation in
      * a parent class or to provide the implementation of a property from
      * an interface.
      * 
      * Internally, overriding is implemented by creating a property of type
-     * #GParamSpecOverride; generally operations that query the properties of
+     * {@link org.gtk.gobject.ParamSpecOverride}  generally operations that query the properties of
      * the object class, such as g_object_class_find_property() or
      * g_object_class_list_properties() will return the overridden
      * property. However, in one case, the @construct_properties argument of
-     * the @constructor virtual function, the #GParamSpecOverride is passed
-     * instead, so that the @param_id field of the #GParamSpec will be
+     * the @constructor virtual function, the {@link org.gtk.gobject.ParamSpecOverride} is passed
+     * instead, so that the @param_id field of the {@link org.gtk.gobject.ParamSpec} will be
      * correct.  For virtually all uses, this makes no difference. If you
      * need to get the overridden property, you can call
      * g_param_spec_get_redirect_target().

@@ -13,21 +13,21 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [An example GtkCenterBox]}(centerbox.png)
  * <p>
- * To add children to <code>GtkCenterBox</code>, use {@link org.gtk.gtk.CenterBox#setStartWidget},
- * {@link org.gtk.gtk.CenterBox#setCenterWidget} and
- * {@link org.gtk.gtk.CenterBox#setEndWidget}.
+ * To add children to <code>GtkCenterBox</code>, use {@link org.gtk.gtk.CenterBox<code>#setStartWidget</code> ,
+ * {@link org.gtk.gtk.CenterBox<code>#setCenterWidget</code>  and
+ * {@link org.gtk.gtk.CenterBox<code>#setEndWidget</code> .
  * <p>
  * The sizing and positioning of children can be influenced with the
  * align and expand properties of the children.
  * <p>
- * <h1>tkCenterBox as GtkBuildable</h1>
+ * <h1>GtkCenterBox as GtkBuildable</h1>
  * <p>
  * The <code>GtkCenterBox</code> implementation of the <code>GtkBuildable</code> interface
- * supports placing children in the 3 positions by specifying &#8220;start&#8221;, &#8220;center&#8221;
- * or &#8220;end&#8221; as the &#8220;type&#8221; attribute of a &#60;child&#62; element.
+ * supports placing children in the 3 positions by specifying &<code>#8220</code> start&<code>#8221</code> , &<code>#8220</code> center&<code>#8221</code> 
+ * or &<code>#8220</code> end&<code>#8221</code>  as the &<code>#8220</code> type&<code>#8221</code>  attribute of a &<code>#60</code> child&<code>#62</code>  element.
  * <p>
- * <h1>SS nodes</h1>
- * <p><code>GtkCenterBox</code> uses a single CSS node with the name &#8220;box&#8221;,
+ * <h1>CSS nodes</h1>
+ * <p><code>GtkCenterBox</code> uses a single CSS node with the name &<code>#8220</code> box&<code>#8221</code> ,
  * <p>
  * The first child of the <code>GtkCenterBox</code> will be allocated depending on the
  * text direction, i.e. in left-to-right layouts it will be allocated on the
@@ -36,8 +36,8 @@ import java.lang.invoke.*;
  * In vertical orientation, the nodes of the children are arranged from top to
  * bottom.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkCenterBox</code> uses the {@link org.gtk.gtk.AccessibleRole#GROUP} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkCenterBox</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
  */
 public class CenterBox extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -110,15 +110,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the center widget.
      * 
-     * To remove the existing center widget, pas 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets the center widget.
-     * 
-     * To remove the existing center widget, pas %NULL.
+     * To remove the existing center widget, pas <code>null</code>
      */
     public void setCenterWidget(Widget child) {
         gtk_h.gtk_center_box_set_center_widget(handle(), child.handle());
@@ -127,15 +119,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the end widget.
      * 
-     * To remove the existing end widget, pass 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets the end widget.
-     * 
-     * To remove the existing end widget, pass %NULL.
+     * To remove the existing end widget, pass <code>null</code>
      */
     public void setEndWidget(Widget child) {
         gtk_h.gtk_center_box_set_end_widget(handle(), child.handle());
@@ -144,15 +128,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the start widget.
      * 
-     * To remove the existing start widget, pass 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets the start widget.
-     * 
-     * To remove the existing start widget, pass %NULL.
+     * To remove the existing start widget, pass <code>null</code>
      */
     public void setStartWidget(Widget child) {
         gtk_h.gtk_center_box_set_start_widget(handle(), child.handle());

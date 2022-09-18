@@ -12,14 +12,14 @@ import java.lang.invoke.*;
  * strings to a fixed search term.
  * <p>
  * The strings are obtained from the items by evaluating a <code>GtkExpression</code>
- * set with {@link org.gtk.gtk.StringFilter#setExpression}, and they are
- * compared against a search term set with {@link org.gtk.gtk.StringFilter#setSearch}.
+ * set with {@link org.gtk.gtk.StringFilter<code>#setExpression</code> , and they are
+ * compared against a search term set with {@link org.gtk.gtk.StringFilter<code>#setSearch</code> .
  * <p><code>GtkStringFilter</code> has several different modes of comparison - it
  * can match the whole string, just a prefix, or any substring. Use
- * {@link org.gtk.gtk.StringFilter#setMatchMode} choose a mode.
+ * {@link org.gtk.gtk.StringFilter<code>#setMatchMode</code>  choose a mode.
  * 
  * It is also possible to make case-insensitive comparisons, with
- * {@link org.gtk.gtk.StringFilter#setIgnoreCase}.
+ * {@link org.gtk.gtk.StringFilter<code>#setIgnoreCase</code> .
  */
 public class StringFilter extends Filter {
 
@@ -84,17 +84,7 @@ public class StringFilter extends Filter {
      * Sets the expression that the string filter uses to
      * obtain strings from items.
      * 
-     * The expression must have a value type of 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets the expression that the string filter uses to
-     * obtain strings from items.
-     * 
-     * The expression must have a value type of %G_TYPE_STRING.
+     * The expression must have a value type of <code>G_TYPE_STRING</code>
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_string_filter_set_expression(handle(), expression.handle());

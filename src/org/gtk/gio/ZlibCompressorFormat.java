@@ -1,8 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Used to select the type of data format to use for #GZlibDecompressor
- * and #GZlibCompressor.
+ * Used to select the type of data format to use for {@link org.gtk.gio.ZlibDecompressor} and {@link org.gtk.gio.ZlibCompressor}
  */
 public enum ZlibCompressorFormat {
 

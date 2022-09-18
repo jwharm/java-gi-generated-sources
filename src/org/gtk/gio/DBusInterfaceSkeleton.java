@@ -69,7 +69,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Gets the #GDBusInterfaceSkeletonFlags that describes what the behavior
+     * Gets the {@link org.gtk.gio.DBusInterfaceSkeletonFlags} that describes what the behavior
      * of @interface_
      */
     public int getFlags() {
@@ -159,9 +159,9 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Note that this signal is emitted in a thread dedicated to
      * handling the method call so handlers are allowed to perform
      * blocking IO. This means that it is appropriate to call e.g.
-     * {@link [polkit_authority_check_authorization_sync()]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#polkit-authority-check-authorization-sync)
+     * {@link [polkit_authority_check_authorization_sync()]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html<code>#polkit</code> authority-check-authorization-sync)
      * with the
-     * {@link [POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#POLKIT-CHECK-AUTHORIZATION-FLAGS-ALLOW-USER-INTERACTION:CAPS)
+     * {@link [POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html<code>#POLKIT</code> CHECK-AUTHORIZATION-FLAGS-ALLOW-USER-INTERACTION:CAPS)
      * flag set.
      * 
      * If <code>false</code> is returned then no further handlers are run and the
@@ -170,20 +170,19 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * g_dbus_method_invocation_return_error()).
      * 
      * Otherwise, if <code>true</code> is returned, signal emission continues. If no
-     * handlers return <code>FALSE,</code> then the method is dispatched. If
-     * @interface has an enclosing #GDBusObjectSkeleton, then the
-     * #GDBusObjectSkeleton::authorize-method signal handlers run before
+     * handlers return <code>false</code>  then the method is dispatched. If
+     * @interface has an enclosing {@link org.gtk.gio.DBusObjectSkeleton}  then the
+     * {@link org.gtk.gio.DBusObjectSkeleton} :authorize-method signal handlers run before
      * the handlers for this signal.
      * 
-     * The default class handler just returns <code>TRUE.
+     * The default class handler just returns <code>true</code> 
      * 
-     * Please</code> note that the common case is optimized: if no signals
-     * handlers are connected and the default class handler isn&#39;t
+     * Please note that the common case is optimized: if no signals
+     * handlers are connected and the default class handler isn&<code>#39</code> t
      * overridden (for both @interface and the enclosing
-     * #GDBusObjectSkeleton, if any) and #GDBusInterfaceSkeleton:g-flags does
+     * {@link org.gtk.gio.DBusObjectSkeleton}  if any) and {@link org.gtk.gio.DBusInterfaceSkeleton} g-flags does
      * not have the
-     * <code>G_DBUS_INTERFACE_SKELETON_FLAGS_HANDLE_METHOD_INVOCATIONS_IN_THREAD
-     * flags</code> set, no dedicated thread is ever used and the call will be
+     * {@link org.gtk.gio.DBusInterfaceSkeletonFlags<code>#HANDLE_METHOD_INVOCATIONS_IN_THREAD</code>  flags set, no dedicated thread is ever used and the call will be
      * handled in the same thread as the object that @interface belongs
      * to was exported in.
      */

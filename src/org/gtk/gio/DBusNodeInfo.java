@@ -26,10 +26,10 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Parses @xml_data and returns a #GDBusNodeInfo representing the data.
+     * Parses @xml_data and returns a {@link org.gtk.gio.DBusNodeInfo} representing the data.
      * 
      * The introspection XML must contain exactly one top-level
-     * &#60;node&#62; element.
+     * &<code>#60</code> node&<code>#62</code>  element.
      * 
      * Note that this routine is using a
      * {@link [GMarkup]}{@link [glib-Simple-XML-Subset-Parser.description]}-based

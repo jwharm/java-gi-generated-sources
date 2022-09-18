@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GTlsFileDatabase is implemented by #GTlsDatabase objects which load
+ * {@link org.gtk.gio.TlsFileDatabase} is implemented by {@link org.gtk.gio.TlsDatabase} objects which load
  * their certificate information from a file. It is an interface which
  * TLS library specific subtypes implement.
  */
 public interface TlsFileDatabase extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Creates a new #GTlsFileDatabase which uses anchor certificate authorities
+     * Creates a new {@link org.gtk.gio.TlsFileDatabase} which uses anchor certificate authorities
      * in @anchors to verify certificate chains.
      * 
      * The certificates in @anchors must be PEM encoded.

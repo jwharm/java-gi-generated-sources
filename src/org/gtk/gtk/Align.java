@@ -3,21 +3,18 @@ package org.gtk.gtk;
 /**
  * Controls how a widget deals with extra space in a single dimension.
  * 
- * Alignment only matters if the widget receives a &#8220;too large&#8221; allocation,
+ * Alignment only matters if the widget receives a &<code>#8220</code> too large&<code>#8221</code>  allocation,
  * for example if you packed the widget with the {@link [property@Gtk.Widget:hexpand] (ref=property)}
  * property inside a {@link [class@Box]}, then the widget might get extra space.
  * If you have for example a 16x16 icon inside a 32x32 space, the icon
  * could be scaled and stretched, it could be centered, or it could be
  * positioned to one side of the space.
  * 
- * Note that in horizontal context {@link org.gtk.gtk.Align#START} and <code>GTK_ALIGN_END
- * are</code> interpreted relative to text direction.
+ * Note that in horizontal context {@link org.gtk.gtk.Align<code>#START</code>  and {@link org.gtk.gtk.Align<code>#END</code>  are interpreted relative to text direction.
  * 
- * {@link org.gtk.gtk.Align#BASELINE} support is optional for containers and widgets, and
- * it is only supported for vertical alignment.  When it&#39;s not supported by
- * a child or a container it is treated as support is optional for containers and widgets, and
- * it is only supported for vertical alignment.  When it&#39;s not supported by
- * a child or a container it is treated as %GTK_ALIGN_FILL.
+ * {@link org.gtk.gtk.Align<code>#BASELINE</code>  support is optional for containers and widgets, and
+ * it is only supported for vertical alignment.  When it&<code>#39</code> s not supported by
+ * a child or a container it is treated as {@link org.gtk.gtk.Align<code>#FILL</code>
  */
 public enum Align {
 

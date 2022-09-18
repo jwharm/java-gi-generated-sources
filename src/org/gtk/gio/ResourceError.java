@@ -1,8 +1,8 @@
 package org.gtk.gio;
 
 /**
- * An error code used with <code>G_RESOURCE_ERROR</code> in a #GError returned
- * from a #GResource routine.
+ * An error code used with <code>G_RESOURCE_ERROR</code> in a {@link org.gtk.glib.Error} returned
+ * from a {@link org.gtk.gio.Resource} routine.
  */
 public enum ResourceError {
 

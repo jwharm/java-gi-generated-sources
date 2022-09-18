@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * implementation via its <code>GtkCellAreaClass.create_context()</code> virtual
  * method and is used to store cell sizes and alignments for a series of<code>GtkTreeModel</code> rows that are requested and rendered in the same context.
  * <p><code>GtkCellLayout</code> widgets can create any number of contexts in which to
- * request and render groups of data rows. However, it&#8217;s important that the
+ * request and render groups of data rows. However, it&<code>#8217</code> s important that the
  * same context which was used to request sizes for a given <code>GtkTreeModel</code>
  * row also be used for the same row when calling other <code>GtkCellArea</code> APIs
  * such as gtk_cell_area_render() and gtk_cell_area_event().
@@ -53,7 +53,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * fetch information about the area it is being used for.
      * <p>
      * For instance at <code>GtkCellAreaContextClass.allocate()</code> time
-     * it&#8217;s important to know details about any cell spacing
+     * it&<code>#8217</code> s important to know details about any cell spacing
      * that the <code>GtkCellArea</code> is configured with in order to
      * compute a proper allocation.
      */

@@ -9,24 +9,14 @@ public class TraverseFlags {
     /**
      * only leaf nodes should be visited. This name has
      *                     been introduced in 2.6, for older version use
-     *                     
-     *       
-     *       
-     *         only leaf nodes should be visited. This name has
-     *                     been introduced in 2.6, for older version use
-     *                     %G_TRAVERSE_LEAFS.
+     *                     {@link org.gtk.glib.TraverseFlags<code>#LEAFS</code>
      */
     public static final int LEAVES = 1;
     
     /**
      * only non-leaf nodes should be visited. This
      *                         name has been introduced in 2.6, for older
-     *                         version use 
-     *       
-     *       
-     *         only non-leaf nodes should be visited. This
-     *                         name has been introduced in 2.6, for older
-     *                         version use %G_TRAVERSE_NON_LEAFS.
+     *                         version use {@link org.gtk.glib.TraverseFlags<code>#NON_LEAFS</code>
      */
     public static final int NON_LEAVES = 2;
     
@@ -41,18 +31,12 @@ public class TraverseFlags {
     public static final int MASK = 3;
     
     /**
-     * identical to 
-     *       
-     *       
-     *         identical to %G_TRAVERSE_LEAVES.
+     * identical to {@link org.gtk.glib.TraverseFlags<code>#LEAVES</code>
      */
     public static final int LEAFS = 1;
     
     /**
-     * identical to 
-     *       
-     *       
-     *         identical to %G_TRAVERSE_NON_LEAVES.
+     * identical to {@link org.gtk.glib.TraverseFlags<code>#NON_LEAVES</code>
      */
     public static final int NON_LEAFS = 2;
     

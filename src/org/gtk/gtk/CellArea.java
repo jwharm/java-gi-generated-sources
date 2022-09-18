@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * An abstract class for laying out <code>GtkCellRenderer</code>s
  * <p>
  * The <code>GtkCellArea</code> is an abstract class for {@link [iface@Gtk.CellLayout] (ref=iface)}
- * widgets (also referred to as &#34;layouting widgets&#34;) to interface with
+ * widgets (also referred to as &<code>#34</code> layouting widgets&<code>#34</code> ) to interface with
  * an arbitrary number of {@link org.gtk.gtk.CellRenderer}s and interact with the user
  * for a given {@link [iface@Gtk.TreeModel] (ref=iface)} row.
  * <p>
@@ -21,10 +21,10 @@ import java.lang.invoke.*;
  * Usually users dont have to interact with the <code>GtkCellArea</code> directly
  * unless they are implementing a cell-layouting widget themselves.
  * <p>
- * <h1>equesting area sizes</h1>
+ * <h1>Requesting area sizes</h1>
  * <p>
  * As outlined in
- * {@link [GtkWidget&#8217;s geometry management section]}(class.Widget.html#height-for-width-geometry-management),
+ * {@link [GtkWidget&<code>#8217</code> s geometry management section]}(class.Widget.html<code>#height</code> for-width-geometry-management),
  * GTK uses a height-for-width
  * geometry management system to compute the sizes of widgets and user
  * interfaces. <code>GtkCellArea</code> uses the same semantics to calculate the
@@ -38,21 +38,21 @@ import java.lang.invoke.*;
  * width and wrap the areas around, requesting height for more cell
  * areas when allocated less width.
  * <p>
- * It&#8217;s also important for areas to maintain some cell
+ * It&<code>#8217</code> s also important for areas to maintain some cell
  * alignments with areas rendered for adjacent rows (cells can
- * appear &#8220;columnized&#8221; inside an area even when the size of
+ * appear &<code>#8220</code> columnized&<code>#8221</code>  inside an area even when the size of
  * cells are different in each row). For this reason the <code>GtkCellArea</code>
  * uses a {@link org.gtk.gtk.CellAreaContext} object to store the alignments
  * and sizes along the way (as well as the overall largest minimum
  * and natural size for all the rows which have been calculated
  * with the said context).
  * <p>
- * The {@link org.gtk.gtk.CellAreaContext} is an opaque object specific to the<code>GtkCellArea</code> which created it (see {@link org.gtk.gtk.CellArea#createContext}).
+ * The {@link org.gtk.gtk.CellAreaContext} is an opaque object specific to the<code>GtkCellArea</code> which created it (see {@link org.gtk.gtk.CellArea<code>#createContext</code> ).
  * <p>
  * The owning cell-layouting widget can create as many contexts as
  * it wishes to calculate sizes of rows which should receive the
  * same size in at least one orientation (horizontally or vertically),
- * However, it&#8217;s important that the same {@link org.gtk.gtk.CellAreaContext} which
+ * However, it&<code>#8217</code> s important that the same {@link org.gtk.gtk.CellAreaContext} which
  * was used to request the sizes for a given <code>GtkTreeModel</code> row be
  * used when rendering or processing events for that row.
  * <p>
@@ -63,19 +63,19 @@ import java.lang.invoke.*;
  * int minimum_width;
  * int natural_width;
  * <p>
- * valid = gtk_tree_model_get_iter_first (model, &#38;iter);
+ * valid = gtk_tree_model_get_iter_first (model, &<code>#38</code> iter);
  * while (valid)
  *   {
- *     gtk_cell_area_apply_attributes (area, model, &#38;iter, FALSE, FALSE);
+ *     gtk_cell_area_apply_attributes (area, model, &<code>#38</code> iter, FALSE, FALSE);
  *     gtk_cell_area_get_preferred_width (area, context, widget, NULL, NULL);
  * <p>
- *     valid = gtk_tree_model_iter_next (model, &#38;iter);
+ *     valid = gtk_tree_model_iter_next (model, &<code>#38</code> iter);
  *   }
  * <p>
- * gtk_cell_area_context_get_preferred_width (context, &#38;minimum_width, &#38;natural_width);
+ * gtk_cell_area_context_get_preferred_width (context, &<code>#38</code> minimum_width, &<code>#38</code> natural_width);
  * </pre>
  * <p>
- * Note that in this example it&#8217;s not important to observe the
+ * Note that in this example it&<code>#8217</code> s not important to observe the
  * returned minimum and natural width of the area for each row
  * unless the cell-layouting object is actually interested in the
  * widths of individual rows. The overall width is however stored
@@ -86,8 +86,8 @@ import java.lang.invoke.*;
  * support requesting and rendering rows in treemodels with an
  * exceedingly large amount of rows. The <code>GtkCellLayout</code> widget in
  * that case would calculate the required width of the rows in an
- * idle or timeout source (see {@link GLib#timeoutAdd}) and when the widget
- * is requested its actual width in {@link org.gtk.gtk.Widget#measure}
+ * idle or timeout source (see {@link GLib<code>#timeoutAdd</code> ) and when the widget
+ * is requested its actual width in {@link org.gtk.gtk.Widget<code>#measure</code> 
  * it can simply consult the width accumulated so far in the<code>GtkCellAreaContext</code> object.
  * <p>
  * A simple example where rows are rendered from top to bottom and
@@ -103,7 +103,7 @@ import java.lang.invoke.*;
  * <p>
  *   foo_ensure_at_least_one_handfull_of_rows_have_been_requested (self);
  * <p>
- *   gtk_cell_area_context_get_preferred_width (priv-&#62;context, minimum_size, natural_size);
+ *   gtk_cell_area_context_get_preferred_width (priv-&<code>#62</code> context, minimum_size, natural_size);
  * }
  * </pre>
  * <p>
@@ -116,7 +116,7 @@ import java.lang.invoke.*;
  * Requesting the height for width (or width for height) of an area is
  * a similar task except in this case the <code>GtkCellAreaContext</code> does not
  * store the data (actually, it does not know how much space the layouting
- * widget plans to allocate it for every row. It&#8217;s up to the layouting
+ * widget plans to allocate it for every row. It&<code>#8217</code> s up to the layouting
  * widget to render each row of data with the appropriate height and
  * width which was requested by the <code>GtkCellArea</code>).
  * <p>
@@ -129,20 +129,20 @@ import java.lang.invoke.*;
  * int full_minimum_height = 0;
  * int full_natural_height = 0;
  * <p>
- * valid = gtk_tree_model_get_iter_first (model, &#38;iter);
+ * valid = gtk_tree_model_get_iter_first (model, &<code>#38</code> iter);
  * while (valid)
  *   {
- *     gtk_cell_area_apply_attributes (area, model, &#38;iter, FALSE, FALSE);
+ *     gtk_cell_area_apply_attributes (area, model, &<code>#38</code> iter, FALSE, FALSE);
  *     gtk_cell_area_get_preferred_height_for_width (area, context, widget,
- *                                                   width, &#38;minimum_height, &#38;natural_height);
+ *                                                   width, &<code>#38</code> minimum_height, &<code>#38</code> natural_height);
  * <p>
  *     if (width_is_for_allocation)
- *        cache_row_height (&#38;iter, minimum_height, natural_height);
+ *        cache_row_height (&<code>#38</code> iter, minimum_height, natural_height);
  * <p>
  *     full_minimum_height += minimum_height;
  *     full_natural_height += natural_height;
  * <p>
- *     valid = gtk_tree_model_iter_next (model, &#38;iter);
+ *     valid = gtk_tree_model_iter_next (model, &<code>#38</code> iter);
  *   }
  * </pre>
  * <p>
@@ -155,23 +155,23 @@ import java.lang.invoke.*;
  * In some cases the layouting widget is requested the height for an
  * arbitrary for_width, this is a special case for layouting widgets
  * who need to request size for tens of thousands  of rows. For this
- * case it&#8217;s only important that the layouting widget calculate
+ * case it&<code>#8217</code> s only important that the layouting widget calculate
  * one reasonably sized chunk of rows and return that height
  * synchronously. The reasoning here is that any layouting widget is
  * at least capable of synchronously calculating enough height to fill
  * the screen height (or scrolled window height) in response to a single
- * call to {@link org.gtk.gtk.Widget#measure}. Returning
+ * call to {@link org.gtk.gtk.Widget<code>#measure</code> . Returning
  * a perfect height for width that is larger than the screen area is
  * inconsequential since after the layouting receives an allocation
  * from a scrolled window it simply continues to drive the scrollbar
  * values while more and more height is required for the row heights
  * that are calculated in the background.
  * <p>
- * <h1>endering Areas</h1>
+ * <h1>Rendering Areas</h1>
  * <p>
  * Once area sizes have been acquired at least for the rows in the
  * visible area of the layouting widget they can be rendered at
- * {@link org.gtk.gtk.Widget#snapshot} time.
+ * {@link org.gtk.gtk.Widget<code>#snapshot</code>  time.
  * <p>
  * A crude example of how to render all the rows at the root level
  * runs as follows:
@@ -182,21 +182,21 @@ import java.lang.invoke.*;
  * int minimum_width;
  * int natural_width;
  * <p>
- * gtk_widget_get_allocation (widget, &#38;allocation);
+ * gtk_widget_get_allocation (widget, &<code>#38</code> allocation);
  * cell_area.width = allocation.width;
  * <p>
- * valid = gtk_tree_model_get_iter_first (model, &#38;iter);
+ * valid = gtk_tree_model_get_iter_first (model, &<code>#38</code> iter);
  * while (valid)
  *   {
- *     cell_area.height = get_cached_height_for_row (&#38;iter);
+ *     cell_area.height = get_cached_height_for_row (&<code>#38</code> iter);
  * <p>
- *     gtk_cell_area_apply_attributes (area, model, &#38;iter, FALSE, FALSE);
+ *     gtk_cell_area_apply_attributes (area, model, &<code>#38</code> iter, FALSE, FALSE);
  *     gtk_cell_area_render (area, context, widget, cr,
- *                           &#38;cell_area, &#38;cell_area, state_flags, FALSE);
+ *                           &<code>#38</code> cell_area, &<code>#38</code> cell_area, state_flags, FALSE);
  * <p>
  *     cell_area.y += cell_area.height;
  * <p>
- *     valid = gtk_tree_model_iter_next (model, &#38;iter);
+ *     valid = gtk_tree_model_iter_next (model, &<code>#38</code> iter);
  *   }
  * </pre>
  * <p>
@@ -205,36 +205,36 @@ import java.lang.invoke.*;
  * give every row its minimum or natural height or, if the model content
  * is expected to fit inside the layouting widget without scrolling, it
  * would make sense to calculate the allocation for each row at
- * the time the widget is allocated using {@link Gtk#distributeNaturalAllocation}.
+ * the time the widget is allocated using {@link Gtk<code>#distributeNaturalAllocation</code> .
  * <p>
- * <h1>andling Events and Driving Keyboard Focus</h1>
+ * <h1>Handling Events and Driving Keyboard Focus</h1>
  * <p>
  * Passing events to the area is as simple as handling events on any
- * normal widget and then passing them to the {@link org.gtk.gtk.CellArea#event}
+ * normal widget and then passing them to the {@link org.gtk.gtk.CellArea<code>#event</code> 
  * API as they come in. Usually <code>GtkCellArea</code> is only interested in
  * button events, however some customized derived areas can be implemented
  * who are interested in handling other events. Handling an event can
  * trigger the {@link [<code>signal@Gtk.CellArea::focus-changed</code>] (ref=<code>signal)} signal to fire; as well
  * as {@link [<code>signal@GtkCellArea::add-editable</code>] (ref=<code>signal)} in the case that an editable cell
  * was clicked and needs to start editing. You can call
- * {@link org.gtk.gtk.CellArea#stopEditing} at any time to cancel any cell editing
+ * {@link org.gtk.gtk.CellArea<code>#stopEditing</code>  at any time to cancel any cell editing
  * that is currently in progress.
  * <p>
  * The <code>GtkCellArea</code> drives keyboard focus from cell to cell in a way
  * similar to <code>GtkWidget</code>. For layouting widgets that support giving
- * focus to cells it&#8217;s important to remember to pass <code>GTK_CELL_RENDERER_FOCUSED</code>
+ * focus to cells it&<code>#8217</code> s important to remember to pass <code>GTK_CELL_RENDERER_FOCUSED</code>
  * to the area functions for the row that has focus and to tell the
  * area to paint the focus at render time.
  * <p>
  * Layouting widgets that accept focus on cells should implement the
- * {@link org.gtk.gtk.Widget#focus} virtual method. The layouting widget is always
+ * {@link org.gtk.gtk.Widget<code>#focus</code>  virtual method. The layouting widget is always
  * responsible for knowing where <code>GtkTreeModel</code> rows are rendered inside
- * the widget, so at {@link org.gtk.gtk.Widget#focus} time the layouting widget
+ * the widget, so at {@link org.gtk.gtk.Widget<code>#focus</code>  time the layouting widget
  * should use the <code>GtkCellArea</code> methods to navigate focus inside the area
  * and then observe the {@link [enum@Gtk.DirectionType] (ref=enum)} to pass the focus to adjacent
  * rows and areas.
  * <p>
- * A basic example of how the {@link org.gtk.gtk.Widget#focus} virtual method
+ * A basic example of how the {@link org.gtk.gtk.Widget<code>#focus</code>  virtual method
  * should be implemented:
  * <p><pre>
  * static gboolean
@@ -243,20 +243,20 @@ import java.lang.invoke.*;
  * {
  *   Foo *self = FOO (widget);
  *   FooPrivate *priv = foo_get_instance_private (self);
- *   int focus_row = priv-&#62;focus_row;
+ *   int focus_row = priv-&<code>#62</code> focus_row;
  *   gboolean have_focus = FALSE;
  * <p>
  *   if (!gtk_widget_has_focus (widget))
  *     gtk_widget_grab_focus (widget);
  * <p>
- *   valid = gtk_tree_model_iter_nth_child (priv-&#62;model, &#38;iter, NULL, priv-&#62;focus_row);
+ *   valid = gtk_tree_model_iter_nth_child (priv-&<code>#62</code> model, &<code>#38</code> iter, NULL, priv-&<code>#62</code> focus_row);
  *   while (valid)
  *     {
- *       gtk_cell_area_apply_attributes (priv-&#62;area, priv-&#62;model, &#38;iter, FALSE, FALSE);
+ *       gtk_cell_area_apply_attributes (priv-&<code>#62</code> area, priv-&<code>#62</code> model, &<code>#38</code> iter, FALSE, FALSE);
  * <p>
- *       if (gtk_cell_area_focus (priv-&#62;area, direction))
+ *       if (gtk_cell_area_focus (priv-&<code>#62</code> area, direction))
  *         {
- *            priv-&#62;focus_row = focus_row;
+ *            priv-&<code>#62</code> focus_row = focus_row;
  *            have_focus = TRUE;
  *            break;
  *         }
@@ -273,7 +273,7 @@ import java.lang.invoke.*;
  *               else
  *                {
  *                   focus_row--;
- *                   valid = gtk_tree_model_iter_nth_child (priv-&#62;model, &#38;iter, NULL, focus_row);
+ *                   valid = gtk_tree_model_iter_nth_child (priv-&<code>#62</code> model, &<code>#38</code> iter, NULL, focus_row);
  *                }
  *             }
  *           else
@@ -283,7 +283,7 @@ import java.lang.invoke.*;
  *               else
  *                 {
  *                   focus_row++;
- *                   valid = gtk_tree_model_iter_next (priv-&#62;model, &#38;iter);
+ *                   valid = gtk_tree_model_iter_next (priv-&<code>#62</code> model, &<code>#38</code> iter);
  *                 }
  *             }
  *         }
@@ -294,24 +294,24 @@ import java.lang.invoke.*;
  * <p>
  * Note that the layouting widget is responsible for matching the<code>GtkDirectionType</code> values to the way it lays out its cells.
  * <p>
- * <h1>ell Properties</h1>
+ * <h1>Cell Properties</h1>
  * <p>
  * The <code>GtkCellArea</code> introduces cell properties for <code>GtkCellRenderer</code>s.
  * This provides some general interfaces for defining the relationship
  * cell areas have with their cells. For instance in a {@link org.gtk.gtk.CellAreaBox}
- * a cell might &#8220;expand&#8221; and receive extra space when the area is allocated
- * more than its full natural request, or a cell might be configured to &#8220;align&#8221;
+ * a cell might &<code>#8220</code> expand&<code>#8221</code>  and receive extra space when the area is allocated
+ * more than its full natural request, or a cell might be configured to &<code>#8220</code> align&<code>#8221</code> 
  * with adjacent rows which were requested and rendered with the same<code>GtkCellAreaContext</code>.
  * 
- * Use {@link org.gtk.gtk.CellAreaClass#installCellProperty} to install cell
- * properties for a cell area class and {@link org.gtk.gtk.CellAreaClass#findCellProperty}
- * or {@link org.gtk.gtk.CellAreaClass#listCellProperties} to get information about
+ * Use {@link org.gtk.gtk.CellAreaClass<code>#installCellProperty</code>  to install cell
+ * properties for a cell area class and {@link org.gtk.gtk.CellAreaClass<code>#findCellProperty</code> 
+ * or {@link org.gtk.gtk.CellAreaClass<code>#listCellProperties</code>  to get information about
  * existing cell properties.
  * 
- * To set the value of a cell property, use {@link org.gtk.gtk.CellArea#cellSetProperty},
- * {@link org.gtk.gtk.CellArea#cellSet} or {@link org.gtk.gtk.CellArea#cellSetValist}. To obtain
- * the value of a cell property, use {@link org.gtk.gtk.CellArea#cellGetProperty}
- * {@link org.gtk.gtk.CellArea#cellGet} or {@link org.gtk.gtk.CellArea#cellGetValist}.
+ * To set the value of a cell property, use {@link org.gtk.gtk.CellArea<code>#cellSetProperty</code> ,
+ * {@link org.gtk.gtk.CellArea<code>#cellSet</code>  or {@link org.gtk.gtk.CellArea<code>#cellSetValist</code> . To obtain
+ * the value of a cell property, use {@link org.gtk.gtk.CellArea<code>#cellGetProperty</code> 
+ * {@link org.gtk.gtk.CellArea<code>#cellGet</code>  or {@link org.gtk.gtk.CellArea<code>#cellGetValist</code> .
  */
 public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Buildable, CellLayout {
 
@@ -337,7 +337,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * This is used by <code>GtkCellArea</code> subclasses when handling events
      * to activate cells, the base <code>GtkCellArea</code> class activates cells
-     * for keyboard events for free in its own GtkCellArea-&#62;activate()
+     * for keyboard events for free in its own GtkCellArea-&<code>#62</code> activate()
      * implementation.
      */
     public boolean activateCell(Widget widget, CellRenderer renderer, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, int flags) {
@@ -353,7 +353,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     /**
-     * Adds @sibling to @renderer&#8217;s focusable area, focus will be drawn
+     * Adds @sibling to @renderer&<code>#8217</code> s focusable area, focus will be drawn
      * around @renderer and all of its siblings if @renderer can
      * focus for a given row.
      * 
@@ -465,7 +465,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     /**
-     * This should be called by the @area&#8217;s owning layout widget
+     * This should be called by the @area&<code>#8217</code> s owning layout widget
      * when focus is to be passed to @area, or moved within @area
      * for a given @direction and row data.
      * <p>
@@ -626,7 +626,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     /**
-     * Returns whether @sibling is one of @renderer&#8217;s focus siblings
+     * Returns whether @sibling is one of @renderer&<code>#8217</code> s focus siblings
      * (see gtk_cell_area_add_focus_sibling()).
      */
     public boolean isFocusSibling(CellRenderer renderer, CellRenderer sibling) {
@@ -642,7 +642,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     /**
-     * Removes @sibling from @renderer&#8217;s focus sibling list
+     * Removes @sibling from @renderer&<code>#8217</code> s focus sibling list
      * (see gtk_cell_area_add_focus_sibling()).
      */
     public void removeFocusSibling(CellRenderer renderer, CellRenderer sibling) {
@@ -661,7 +661,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     /**
-     * Snapshots @area&#8217;s cells according to @area&#8217;s layout onto at
+     * Snapshots @area&<code>#8217</code> s cells according to @area&<code>#8217</code> s layout onto at
      * the given coordinates.
      */
     public void snapshot(CellAreaContext context, Widget widget, Snapshot snapshot, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags, boolean paintFocus) {
@@ -671,7 +671,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Explicitly stops the editing of the currently edited cell.
      * 
-     * If @canceled is <code>TRUE,</code> the currently edited cell renderer
+     * If @canceled is <code>true</code>  the currently edited cell renderer
      * will emit the ::editing-canceled signal, otherwise the
      * the ::editing-done signal will be emitted on the current
      * edit widget.
@@ -739,7 +739,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * is emitted either as a result of focus handling or event
      * handling.
      * 
-     * It&#39;s possible that the signal is emitted even if the
+     * It&<code>#39</code> s possible that the signal is emitted even if the
      * currently focused renderer did not change, this is
      * because focus may change to the same renderer in the
      * same cell area for a different row of data.

@@ -91,7 +91,7 @@ public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
      * Implementations of <code>GtkCellEditable</code> are responsible for
      * emitting this signal when they are done editing. It must
      * be emitted after the <code>GtkCellEditable::editing-done</code> signal,
-     * to give the cell renderer a chance to update the cell&#39;s value
+     * to give the cell renderer a chance to update the cell&<code>#39</code> s value
      * before the widget is removed.
      * <p>
      * gtk_cell_editable_remove_widget() is a convenience method

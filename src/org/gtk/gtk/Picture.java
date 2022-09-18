@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  * <p>
  * Many convenience functions are provided to make pictures simple to use.
  * For example, if you want to load an image from a file, and then display
- * it, there&#8217;s a convenience function to do this:
+ * it, there&<code>#8217</code> s a convenience function to do this:
  * <p><pre>c
- * GtkWidget *widget = gtk_picture_new_for_filename (&#34;myfile.png&#34;);
+ * GtkWidget *widget = gtk_picture_new_for_filename (&<code>#34</code> myfile.png&<code>#34</code> );
  * </pre>
  * <p>
- * If the file isn&#8217;t loaded successfully, the picture will contain a
- * &#8220;broken image&#8221; icon similar to that used in many web browsers.
+ * If the file isn&<code>#8217</code> t loaded successfully, the picture will contain a
+ * &<code>#8220</code> broken image&<code>#8221</code>  icon similar to that used in many web browsers.
  * If you want to handle errors in loading the file yourself,
  * for example by displaying an error message, then load the image with
  * {@link [ctor@Gdk.Texture.new_from_file] (ref=ctor)}, then create the <code>GtkPicture</code> with
@@ -29,7 +29,7 @@ import java.lang.invoke.*;
  * Sometimes an application will want to avoid depending on external data
  * files, such as image files. See the documentation of <code>GResource</code> for details.
  * In this case, {@link [ctor@Gtk.Picture.new_for_resource] (ref=ctor)} and
- * {@link org.gtk.gtk.Picture#setResource} should be used.
+ * {@link org.gtk.gtk.Picture<code>#setResource</code>  should be used.
  * <p><code>GtkPicture</code> displays an image at its natural size. See {@link org.gtk.gtk.Image}
  * if you want to display a fixed-size image, such as an icon.
  * <p>
@@ -42,7 +42,7 @@ import java.lang.invoke.*;
  * but be careful if you do not know the size of the paintable in use (like
  * when displaying user-loaded images). This can easily cause the picture to
  * grow larger than the screen. And {@link [property@GtkWidget:halign] (ref=property)} and
- * {@link [property@GtkWidget:valign] (ref=property)} can be used to make sure the paintable doesn&#39;t
+ * {@link [property@GtkWidget:valign] (ref=property)} can be used to make sure the paintable doesn&<code>#39</code> t
  * fill all available space but is instead displayed at its original size.
  * <p>
  * <h2>CSS nodes</h2>
@@ -82,7 +82,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     /**
      * Creates a new <code>GtkPicture</code> displaying the given @file.
      * <p>
-     * If the file isn&#8217;t found or can&#8217;t be loaded, the resulting<code>GtkPicture</code> is empty.
+     * If the file isn&<code>#8217</code> t found or can&<code>#8217</code> t be loaded, the resulting<code>GtkPicture</code> is empty.
      * <p>
      * If you need to detect failures to load the file, use
      * {@link [ctor@Gdk.Texture.new_from_file] (ref=ctor)} to load the file yourself,
@@ -176,7 +176,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Gets the <code>GFile</code> currently displayed if @self is displaying a file.
      * 
      * If @self is not displaying a file, for example when
-     * {@link org.gtk.gtk.Picture#setPaintable} was used, then <code>null</code> is returned.
+     * {@link org.gtk.gtk.Picture<code>#setPaintable</code>  was used, then <code>null</code> is returned.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_picture_get_file(handle());
@@ -202,40 +202,27 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     /**
      * Sets an alternative textual description for the picture contents.
      * 
-     * It is equivalent to the &#34;alt&#34; attribute for images on websites.
+     * It is equivalent to the &<code>#34</code> alt&<code>#34</code>  attribute for images on websites.
      * 
      * This text will be made available to accessibility tools.
      * 
-     * If the picture cannot be described textually, set this property to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets an alternative textual description for the picture contents.
-     * 
-     * It is equivalent to the &#34;alt&#34; attribute for images on websites.
-     * 
-     * This text will be made available to accessibility tools.
-     * 
-     * If the picture cannot be described textually, set this property to %NULL.
+     * If the picture cannot be described textually, set this property to <code>null</code>
      */
     public void setAlternativeText(java.lang.String alternativeText) {
         gtk_h.gtk_picture_set_alternative_text(handle(), Interop.allocateNativeString(alternativeText).handle());
     }
     
     /**
-     * If set to <code>TRUE,</code> the @self can be made smaller than its contents.
+     * If set to <code>true</code>  the @self can be made smaller than its contents.
      * 
      * The contents will then be scaled down when rendering.
      * 
      * If you want to still force a minimum size manually, consider using
-     * {@link org.gtk.gtk.Widget#setSizeRequest}.
+     * {@link org.gtk.gtk.Widget<code>#setSizeRequest</code> .
      * 
      * Also of note is that a similar function for growing does not exist
      * because the grow behavior can be controlled via
-     * {@link org.gtk.gtk.Widget#setHalign} and {@link org.gtk.gtk.Widget#setValign}.
+     * {@link org.gtk.gtk.Widget<code>#setHalign</code>  and {@link org.gtk.gtk.Widget<code>#setValign</code> .
      */
     public void setCanShrink(boolean canShrink) {
         gtk_h.gtk_picture_set_can_shrink(handle(), canShrink ? 1 : 0);
@@ -253,21 +240,21 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     /**
      * Makes @self load and display the given @filename.
      * 
-     * This is a utility function that calls {@link org.gtk.gtk.Picture#setFile}.
+     * This is a utility function that calls {@link org.gtk.gtk.Picture<code>#setFile</code> .
      */
     public void setFilename(java.lang.String filename) {
         gtk_h.gtk_picture_set_filename(handle(), Interop.allocateNativeString(filename).handle());
     }
     
     /**
-     * If set to <code>TRUE,</code> the @self will render its contents according to
+     * If set to <code>true</code>  the @self will render its contents according to
      * their aspect ratio.
      * 
      * That means that empty space may show up at the top/bottom or
      * left/right of @self.
      * 
      * If set to <code>false</code> or if the contents provide no aspect ratio,
-     * the contents will be stretched over the picture&#39;s whole area.
+     * the contents will be stretched over the picture&<code>#39</code> s whole area.
      */
     public void setKeepAspectRatio(boolean keepAspectRatio) {
         gtk_h.gtk_picture_set_keep_aspect_ratio(handle(), keepAspectRatio ? 1 : 0);
@@ -276,7 +263,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     /**
      * Makes @self display the given @paintable.
      * 
-     * If @paintable is <code>NULL,</code> nothing will be displayed.
+     * If @paintable is <code>null</code>  nothing will be displayed.
      * 
      * See {@link [ctor@Gtk.Picture.new_for_paintable] (ref=ctor)} for details.
      */
@@ -289,7 +276,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * 
      * See {@link [ctor@Gtk.Picture.new_for_pixbuf] (ref=ctor)} for details.
      * 
-     * This is a utility function that calls {@link org.gtk.gtk.Picture#setPaintable}.
+     * This is a utility function that calls {@link org.gtk.gtk.Picture<code>#setPaintable</code> .
      */
     public void setPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         gtk_h.gtk_picture_set_pixbuf(handle(), pixbuf.handle());
@@ -299,7 +286,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Makes @self load and display the resource at the given
      * @resource_path.
      * 
-     * This is a utility function that calls {@link org.gtk.gtk.Picture#setFile}.
+     * This is a utility function that calls {@link org.gtk.gtk.Picture<code>#setFile</code> .
      */
     public void setResource(java.lang.String resourcePath) {
         gtk_h.gtk_picture_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());

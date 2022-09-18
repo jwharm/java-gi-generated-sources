@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GSequence struct is an opaque data type representing a
+ * The {@link org.gtk.glib.Sequence} struct is an opaque data type representing a
  * {@link [sequence]}{@link [glib-Sequences]} data type.
  */
 public class Sequence extends io.github.jwharm.javagi.ResourceBase {
@@ -78,8 +78,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the positive length (&#62;= 0) of @seq. Note that this method is
-     * O(h) where <code>h&#39; is the height of the tree. It is thus more efficient
+     * Returns the positive length (&<code>#62</code> = 0) of @seq. Note that this method is
+     * O(h) where <code>h&<code>#39</code>  is the height of the tree. It is thus more efficient
      * to use g_sequence_is_empty() when comparing the length to zero.
      */
     public int getLength() {
@@ -97,7 +97,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * if the first item comes before the second, and a positive value
      * if the second item comes before the first.
      * 
-     * Note that when adding a large amount of data to a #GSequence,
+     * Note that when adding a large amount of data to a {@link org.gtk.glib.Sequence} 
      * it is more efficient to do unsorted insertions and then call
      * g_sequence_sort() or g_sequence_sort_iter().
      */
@@ -119,7 +119,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Like g_sequence_insert_sorted(), but uses
-     * a #GSequenceIterCompareFunc instead of a #GCompareDataFunc as
+     * a {@link org.gtk.glib.SequenceIterCompareFunc} instead of a {@link org.gtk.glib.CompareDataFunc} as
      * the compare function.
      * 
      * @iter_cmp is called with two iterators pointing into @seq.
@@ -127,7 +127,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * value if the first iterator comes before the second, and a
      * positive value if the second iterator comes before the first.
      * 
-     * Note that when adding a large amount of data to a #GSequence,
+     * Note that when adding a large amount of data to a {@link org.gtk.glib.Sequence} 
      * it is more efficient to do unsorted insertions and then call
      * g_sequence_sort() or g_sequence_sort_iter().
      */
@@ -191,8 +191,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Like g_sequence_lookup(), but uses a #GSequenceIterCompareFunc
-     * instead of a #GCompareDataFunc as the compare function.
+     * Like g_sequence_lookup(), but uses a {@link org.gtk.glib.SequenceIterCompareFunc} instead of a {@link org.gtk.glib.CompareDataFunc} as the compare function.
      * 
      * @iter_cmp is called with two iterators pointing into @seq.
      * It should return 0 if the iterators are equal, a negative value
@@ -258,8 +257,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Like g_sequence_search(), but uses a #GSequenceIterCompareFunc
-     * instead of a #GCompareDataFunc as the compare function.
+     * Like g_sequence_search(), but uses a {@link org.gtk.glib.SequenceIterCompareFunc} instead of a {@link org.gtk.glib.CompareDataFunc} as the compare function.
      * 
      * @iter_cmp is called with two iterators pointing into @seq.
      * It should return 0 if the iterators are equal, a negative value
@@ -311,8 +309,8 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Like g_sequence_sort(), but uses a #GSequenceIterCompareFunc instead
-     * of a #GCompareDataFunc as the compare function
+     * Like g_sequence_sort(), but uses a {@link org.gtk.glib.SequenceIterCompareFunc} instead
+     * of a {@link org.gtk.glib.CompareDataFunc} as the compare function
      * 
      * @cmp_func is called with two iterators pointing into @seq. It should
      * return 0 if the iterators are equal, a negative value if the first
@@ -384,7 +382,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * allowed for @dest to point to a different sequence than the one pointed
      * into by @begin and @end.
      * 
-     * If @dest is <code>NULL,</code> the range indicated by @begin and @end is
+     * If @dest is <code>null</code>  the range indicated by @begin and @end is
      * removed from the sequence. If @dest points to a place within
      * the (@begin, @end) range, the range does not move.
      */
@@ -463,10 +461,10 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Like g_sequence_sort_changed(), but uses
-     * a #GSequenceIterCompareFunc instead of a #GCompareDataFunc as
+     * a {@link org.gtk.glib.SequenceIterCompareFunc} instead of a {@link org.gtk.glib.CompareDataFunc} as
      * the compare function.
      * 
-     * @iter_cmp is called with two iterators pointing into the #GSequence that
+     * @iter_cmp is called with two iterators pointing into the {@link org.gtk.glib.Sequence} that
      * @iter points into. It should
      * return 0 if the iterators are equal, a negative value if the first
      * iterator comes before the second, and a positive value if the second

@@ -115,7 +115,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * Checks if a row can be expanded.
      * 
      * This does not mean that the row is actually expanded,
-     * this can be checked with {@link org.gtk.gtk.TreeListRow#getExpanded}.
+     * this can be checked with {@link org.gtk.gtk.TreeListRow<code>#getExpanded</code> .
      * 
      * If a row is expandable never changes until the row is destroyed.
      */
@@ -128,7 +128,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * Expands or collapses a row.
      * 
      * If a row is expanded, the model of calling the
-     * {@link [callback@Gtk.TreeListModelCreateModelFunc] (ref=callback)} for the row&#39;s
+     * {@link [callback@Gtk.TreeListModelCreateModelFunc] (ref=callback)} for the row&<code>#39</code> s
      * item will be inserted after this row. If a row is collapsed,
      * those items will be removed from the model.
      * 

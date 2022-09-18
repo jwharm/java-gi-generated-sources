@@ -12,9 +12,9 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [An example GtkScale]}(scales.png)
  * <p>
- * To use it, you&#8217;ll probably want to investigate the methods on its base
+ * To use it, you&<code>#8217</code> ll probably want to investigate the methods on its base
  * class, {@link [class@GtkRange]}, in addition to the methods for <code>GtkScale</code> itself.
- * To set the value of a scale, you would normally use {@link org.gtk.gtk.Range#setValue}.
+ * To set the value of a scale, you would normally use {@link org.gtk.gtk.Range<code>#setValue</code> .
  * To detect changes to the value, you would normally use the
  * {@link [signal@Gtk.Range::value-changed] (ref=signal)} signal.
  * <p>
@@ -23,46 +23,46 @@ import java.lang.invoke.*;
  * applications that want to show an undeterminate value on the scale, without
  * changing the layout of the application (such as movie or music players).
  * <p>
- * <h1>tkScale as GtkBuildable</h1>
- * <p><code>GtkScale</code> supports a custom &#60;marks&#62; element, which can contain multiple
- * &#60;mark\\&#62; elements. The &#8220;value&#8221; and &#8220;position&#8221; attributes have the same
- * meaning as {@link org.gtk.gtk.Scale#addMark} parameters of the same name. If
+ * <h1>GtkScale as GtkBuildable</h1>
+ * <p><code>GtkScale</code> supports a custom &<code>#60</code> marks&<code>#62</code>  element, which can contain multiple
+ * &<code>#60</code> mark\\&<code>#62</code>  elements. The &<code>#8220</code> value&<code>#8221</code>  and &<code>#8220</code> position&<code>#8221</code>  attributes have the same
+ * meaning as {@link org.gtk.gtk.Scale<code>#addMark</code>  parameters of the same name. If
  * the element is not empty, its content is taken as the markup to show at
- * the mark. It can be translated with the usual &#8221;translatable&#8221; and
- * &#8220;context&#8221; attributes.
+ * the mark. It can be translated with the usual &<code>#8221</code> translatable&<code>#8221</code>  and
+ * &<code>#8220</code> context&<code>#8221</code>  attributes.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * scale{@link [.fine-tune]}{@link [.marks-before]}{@link [.marks-after]}
- * &#9500;&#9472;&#9472; {@link [value]}{@link [.top]}{@link [.right]}{@link [.bottom]}{@link [.left]}
- * &#9500;&#9472;&#9472; marks.top
- * &#9474;   &#9500;&#9472;&#9472; mark
- * &#9474;   &#9482;    &#9500;&#9472;&#9472; {@link [label]}
- * &#9474;   &#9482;    &#9584;&#9472;&#9472; indicator
- * &#9482;   &#9482;
- * &#9474;   &#9584;&#9472;&#9472; mark
- * &#9500;&#9472;&#9472; marks.bottom
- * &#9474;   &#9500;&#9472;&#9472; mark
- * &#9474;   &#9482;    &#9500;&#9472;&#9472; indicator
- * &#9474;   &#9482;    &#9584;&#9472;&#9472; {@link [label]}
- * &#9482;   &#9482;
- * &#9474;   &#9584;&#9472;&#9472; mark
- * &#9584;&#9472;&#9472; trough
- *     &#9500;&#9472;&#9472; {@link [fill]}
- *     &#9500;&#9472;&#9472; {@link [highlight]}
- *     &#9584;&#9472;&#9472; slider
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [value]}{@link [.top]}{@link [.right]}{@link [.bottom]}{@link [.left]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  marks.top
+ * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  mark
+ * &<code>#9474</code>    &<code>#9482</code>     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [label]}
+ * &<code>#9474</code>    &<code>#9482</code>     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  indicator
+ * &<code>#9482</code>    &<code>#9482</code> 
+ * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  mark
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  marks.bottom
+ * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  mark
+ * &<code>#9474</code>    &<code>#9482</code>     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  indicator
+ * &<code>#9474</code>    &<code>#9482</code>     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [label]}
+ * &<code>#9482</code>    &<code>#9482</code> 
+ * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  mark
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  trough
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [fill]}
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [highlight]}
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  slider
  * </pre>
  * <p><code>GtkScale</code> has a main CSS node with name scale and a subnode for its contents,
  * with subnodes named trough and slider.
  * <p>
  * The main node gets the style class .fine-tune added when the scale is in
- * &#39;fine-tuning&#39; mode.
+ * &<code>#39</code> fine-tuning&<code>#39</code>  mode.
  * <p>
- * If the scale has an origin (see {@link org.gtk.gtk.Scale#setHasOrigin}), there is
+ * If the scale has an origin (see {@link org.gtk.gtk.Scale<code>#setHasOrigin</code> ), there is
  * a subnode with name highlight below the trough node that is used for rendering
  * the highlighted part of the trough.
  * <p>
- * If the scale is showing a fill level (see {@link org.gtk.gtk.Range#setShowFillLevel}),
+ * If the scale is showing a fill level (see {@link org.gtk.gtk.Range<code>#setShowFillLevel</code> ),
  * there is a subnode with name fill below the trough node that is used for
  * rendering the filled in part of the trough.
  * <p>
@@ -75,15 +75,15 @@ import java.lang.invoke.*;
  * scale, the label subnode is the first when present. Otherwise, the indicator
  * subnode is the first.
  * <p>
- * The main CSS node gets the &#39;marks-before&#39; and/or &#39;marks-after&#39; style classes
+ * The main CSS node gets the &<code>#39</code> marks-before&<code>#39</code>  and/or &<code>#39</code> marks-after&<code>#39</code>  style classes
  * added depending on what marks are present.
  * <p>
  * If the scale is displaying the value (see {@link [property@Gtk.Scale:draw-value] (ref=property)}),
  * there is subnode with name value. This node will get the .top or .bottom style
  * classes similar to the marks node.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkScale</code> uses the {@link org.gtk.gtk.AccessibleRole#SLIDER} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkScale</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SLIDER</code>  role.
  */
 public class Scale extends Range implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -118,13 +118,13 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * 
      * The returns scale will have the given orientation and will let the
      * user input a number between @min and @max (including @min and @max)
-     * with the increment @step. @step must be nonzero; it&#8217;s the distance
+     * with the increment @step. @step must be nonzero; it&<code>#8217</code> s the distance
      * the slider moves when using the arrow keys to adjust the scale
      * value.
      * 
      * Note that the way in which the precision is derived works best if
      * @step is a power of ten. If the resulting precision is not suitable
-     * for your needs, use {@link org.gtk.gtk.Scale#setDigits} to correct it.
+     * for your needs, use {@link org.gtk.gtk.Scale<code>#setDigits</code>  to correct it.
      */
     public static Scale newWithRange(Orientation orientation, double min, double max, double step) {
         return new Scale(constructNewWithRange(orientation, min, max, step));
@@ -137,9 +137,9 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * and GTK makes it easy for the user to position the scale exactly at the
      * marks value.
      * 
-     * If @markup is not <code>NULL,</code> text is shown next to the tick mark.
+     * If @markup is not <code>null</code>  text is shown next to the tick mark.
      * 
-     * To remove marks from a scale, use {@link org.gtk.gtk.Scale#clearMarks}.
+     * To remove marks from a scale, use {@link org.gtk.gtk.Scale<code>#clearMarks</code> .
      */
     public void addMark(double value, PositionType position, java.lang.String markup) {
         gtk_h.gtk_scale_add_mark(handle(), value, position.getValue(), Interop.allocateNativeString(markup).handle());
@@ -203,11 +203,11 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * of digits, so the retrieved value matches the displayed one, if
      * {@link [property@GtkScale:draw-value] (ref=property)} is <code>true</code> when the value changes. If
      * you want to enforce rounding the value when {@link [property@GtkScale:draw-value] (ref=property)}
-     * is <code>FALSE,</code> you can set {@link [property@GtkRange:round-digits] (ref=property)} instead.
+     * is <code>false</code>  you can set {@link [property@GtkRange:round-digits] (ref=property)} instead.
      * <p>
      * Note that rounding to a small number of digits can interfere with
      * the smooth autoscrolling that is built into <code>GtkScale</code>. As an alternative,
-     * you can use {@link org.gtk.gtk.Scale#setFormatValueFunc} to format the displayed
+     * you can use {@link org.gtk.gtk.Scale<code>#setFormatValueFunc</code>  to format the displayed
      * value yourself.
      */
     public void setDigits(int digits) {
@@ -226,9 +226,9 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * @func allows you to change how the scale value is displayed.
      * 
      * The given function will return an allocated string representing
-     * @value. That string will then be used to display the scale&#39;s value.
+     * @value. That string will then be used to display the scale&<code>#39</code> s value.
      * 
-     * If #NULL is passed as @func, the value will be displayed on
+     * If <code>#NULL</code> is passed as @func, the value will be displayed on
      * its own, rounded according to the value of the
      * {@link [property@GtkScale:digits] (ref=property)} property.
      */

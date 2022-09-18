@@ -22,21 +22,21 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a #graphene_point3d_t structure.
+     * Allocates a {@link org.gtk.graphene.Point3D} structure.
      */
     public static Point3D alloc() {
         return new Point3D(constructAlloc());
     }
     
     /**
-     * Computes the cross product of the two given #graphene_point3d_t.
+     * Computes the cross product of the two given {@link org.gtk.graphene.Point3D}
      */
     public void cross(Point3D b, Point3D res) {
         gtk_h.graphene_point3d_cross(handle(), b.handle(), res.handle());
     }
     
     /**
-     * Computes the distance between the two given #graphene_point3d_t.
+     * Computes the distance between the two given {@link org.gtk.graphene.Point3D}
      */
     public float distance(Point3D b, Vec3 delta) {
         var RESULT = gtk_h.graphene_point3d_distance(handle(), b.handle(), delta.handle());
@@ -44,7 +44,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the dot product of the two given #graphene_point3d_t.
+     * Computes the dot product of the two given {@link org.gtk.graphene.Point3D}
      */
     public float dot(Point3D b) {
         var RESULT = gtk_h.graphene_point3d_dot(handle(), b.handle());
@@ -67,7 +67,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_point3d_t with the given coordinates.
+     * Initializes a {@link org.gtk.graphene.Point3D} with the given coordinates.
      */
     public Point3D init(float x, float y, float z) {
         var RESULT = gtk_h.graphene_point3d_init(handle(), x, y, z);
@@ -75,8 +75,8 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_point3d_t using the coordinates of
-     * another #graphene_point3d_t.
+     * Initializes a {@link org.gtk.graphene.Point3D} using the coordinates of
+     * another {@link org.gtk.graphene.Point3D}
      */
     public Point3D initFromPoint(Point3D src) {
         var RESULT = gtk_h.graphene_point3d_init_from_point(handle(), src.handle());
@@ -84,8 +84,8 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_point3d_t using the components
-     * of a #graphene_vec3_t.
+     * Initializes a {@link org.gtk.graphene.Point3D} using the components
+     * of a {@link org.gtk.graphene.Vec3}
      */
     public Point3D initFromVec3(Vec3 v) {
         var RESULT = gtk_h.graphene_point3d_init_from_vec3(handle(), v.handle());
@@ -102,7 +102,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the length of the vector represented by the
-     * coordinates of the given #graphene_point3d_t.
+     * coordinates of the given {@link org.gtk.graphene.Point3D}
      */
     public float length() {
         var RESULT = gtk_h.graphene_point3d_length(handle());
@@ -120,17 +120,17 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the normalization of the vector represented by the
-     * coordinates of the given #graphene_point3d_t.
+     * coordinates of the given {@link org.gtk.graphene.Point3D}
      */
     public void normalize(Point3D res) {
         gtk_h.graphene_point3d_normalize(handle(), res.handle());
     }
     
     /**
-     * Normalizes the coordinates of a #graphene_point3d_t using the
+     * Normalizes the coordinates of a {@link org.gtk.graphene.Point3D} using the
      * given viewport and clipping planes.
      * 
-     * The coordinates of the resulting #graphene_point3d_t will be
+     * The coordinates of the resulting {@link org.gtk.graphene.Point3D} will be
      * in the {@link [ -1, 1 ]} range.
      */
     public void normalizeViewport(Rect viewport, float zNear, float zFar, Point3D res) {
@@ -138,7 +138,7 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Scales the coordinates of the given #graphene_point3d_t by
+     * Scales the coordinates of the given {@link org.gtk.graphene.Point3D} by
      * the given @factor.
      */
     public void scale(float factor, Point3D res) {
@@ -146,8 +146,8 @@ public class Point3D extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Stores the coordinates of a #graphene_point3d_t into a
-     * #graphene_vec3_t.
+     * Stores the coordinates of a {@link org.gtk.graphene.Point3D} into a
+     * {@link org.gtk.graphene.Vec3}
      */
     public void toVec3(Vec3 v) {
         gtk_h.graphene_point3d_to_vec3(handle(), v.handle());

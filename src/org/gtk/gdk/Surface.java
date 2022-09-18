@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A <code>GdkSurface</code> is a rectangular region on the screen.
  * 
- * It&#8217;s a low-level object, used to implement high-level objects
+ * It&<code>#8217</code> s a low-level object, used to implement high-level objects
  * such as {@link org.gtk.gtk.Window} or {@link org.gtk.gtk.Dialog} in GTK.
  * 
  * The surfaces you see in practice are either {@link [iface@Gdk.Toplevel] (ref=iface)} or
@@ -38,7 +38,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Create a new popup surface.
      * 
      * The surface will be attached to @parent and can be positioned
-     * relative to it using {@link org.gtk.gdk.Popup#present}.
+     * relative to it using {@link org.gtk.gdk.Popup<code>#present</code> .
      */
     public static Surface newPopup(Surface parent, boolean autohide) {
         return new Surface(constructNewPopup(parent, autohide));
@@ -60,7 +60,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Emits a short beep associated to @surface.
      * 
      * If the display of @surface does not support per-surface beeps,
-     * emits a short beep on the display just as {@link org.gtk.gdk.Display#beep}.
+     * emits a short beep on the display just as {@link org.gtk.gdk.Display<code>#beep</code> .
      */
     public void beep() {
         gtk_h.gdk_surface_beep(handle());
@@ -80,7 +80,7 @@ public class Surface extends org.gtk.gobject.Object {
      * The context is disconnected from any particular surface or surface.
      * If the creation of the <code>GdkGLContext</code> failed, @error will be set.
      * Before using the returned <code>GdkGLContext</code>, you will need to
-     * call {@link org.gtk.gdk.GLContext#makeCurrent} or {@link org.gtk.gdk.GLContext#realize}.
+     * call {@link org.gtk.gdk.GLContext<code>#makeCurrent</code>  or {@link org.gtk.gdk.GLContext<code>#realize</code> .
      */
     public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -105,7 +105,7 @@ public class Surface extends org.gtk.gobject.Object {
      * have transparency, black otherwise.)
      * 
      * This function always returns a valid pointer, but it will return a
-     * pointer to a &#8220;nil&#8221; surface if @other is already in an error state
+     * pointer to a &<code>#8220</code> nil&<code>#8221</code>  surface if @other is already in an error state
      * or any other error occurs.
      */
     public org.cairographics.Surface createSimilarSurface(org.cairographics.Content content, int width, int height) {
@@ -129,10 +129,10 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Destroys the window system resources associated with @surface and
-     * decrements @surface&#39;s reference count.
+     * decrements @surface&<code>#39</code> s reference count.
      * 
      * The window system resources for all children of @surface are also
-     * destroyed, but the children&#8217;s reference counts are not decremented.
+     * destroyed, but the children&<code>#8217</code> s reference counts are not decremented.
      * 
      * Note that a surface will not be destroyed automatically when its
      * reference count reaches zero. You must call this function yourself
@@ -148,7 +148,7 @@ public class Surface extends org.gtk.gobject.Object {
      * If the return value is <code>null</code> then there is no custom cursor set on
      * the surface, and it is using the cursor for its parent surface.
      * 
-     * Use {@link org.gtk.gdk.Surface#setCursor} to unset the cursor of the surface.
+     * Use {@link org.gtk.gdk.Surface<code>#setCursor</code>  to unset the cursor of the surface.
      */
     public Cursor getCursor() {
         var RESULT = gtk_h.gdk_surface_get_cursor(handle());
@@ -162,7 +162,7 @@ public class Surface extends org.gtk.gobject.Object {
      * If the return value is <code>null</code> then there is no custom cursor set on the
      * specified surface, and it is using the cursor for its parent surface.
      * 
-     * Use {@link org.gtk.gdk.Surface#setCursor} to unset the cursor of the surface.
+     * Use {@link org.gtk.gdk.Surface<code>#setCursor</code>  to unset the cursor of the surface.
      */
     public Cursor getDeviceCursor(Device device) {
         var RESULT = gtk_h.gdk_surface_get_device_cursor(handle(), device.handle());
@@ -191,8 +191,8 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Returns the height of the given @surface.
      * 
-     * Surface size is reported in &#8221;application pixels&#8221;, not
-     * &#8221;device pixels&#8221; (see {@link org.gtk.gdk.Surface#getScaleFactor}).
+     * Surface size is reported in &<code>#8221</code> application pixels&<code>#8221</code> , not
+     * &<code>#8221</code> device pixels&<code>#8221</code>  (see {@link org.gtk.gdk.Surface<code>#getScaleFactor</code> ).
      */
     public int getHeight() {
         var RESULT = gtk_h.gdk_surface_get_height(handle());
@@ -202,8 +202,8 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Checks whether the surface has been mapped.
      * 
-     * A surface is mapped with {@link org.gtk.gdk.Toplevel#present}
-     * or {@link org.gtk.gdk.Popup#present}.
+     * A surface is mapped with {@link org.gtk.gdk.Toplevel<code>#present</code> 
+     * or {@link org.gtk.gdk.Popup<code>#present</code> .
      */
     public boolean getMapped() {
         var RESULT = gtk_h.gdk_surface_get_mapped(handle());
@@ -231,8 +231,8 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Returns the width of the given @surface.
      * 
-     * Surface size is reported in &#8221;application pixels&#8221;, not
-     * &#8221;device pixels&#8221; (see {@link org.gtk.gdk.Surface#getScaleFactor}).
+     * Surface size is reported in &<code>#8221</code> application pixels&<code>#8221</code> , not
+     * &<code>#8221</code> device pixels&<code>#8221</code>  (see {@link org.gtk.gdk.Surface<code>#getScaleFactor</code> ).
      */
     public int getWidth() {
         var RESULT = gtk_h.gdk_surface_get_width(handle());
@@ -244,8 +244,8 @@ public class Surface extends org.gtk.gobject.Object {
      * 
      * For toplevel surfaces, withdraws them, so they will no longer be
      * known to the window manager; for all surfaces, unmaps them, so
-     * they won&#8217;t be displayed. Normally done automatically as
-     * part of {@link org.gtk.gtk.Widget#hide}.
+     * they won&<code>#8217</code> t be displayed. Normally done automatically as
+     * part of {@link org.gtk.gtk.Widget<code>#hide</code> .
      */
     public void hide() {
         gtk_h.gdk_surface_hide(handle());
@@ -271,9 +271,9 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Request a layout phase from the surface&#39;s frame clock.
+     * Request a layout phase from the surface&<code>#39</code> s frame clock.
      * 
-     * See {@link org.gtk.gdk.FrameClock#requestPhase}.
+     * See {@link org.gtk.gdk.FrameClock<code>#requestPhase</code> .
      */
     public void requestLayout() {
         gtk_h.gdk_surface_request_layout(handle());
@@ -287,12 +287,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Note that @cursor must be for the same display as @surface.
      * 
      * Use {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)} or {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}
-     * to create the cursor. To make the cursor invisible, use for the @cursor argument means that @surface will use
-     * the cursor of its parent surface. Most surfaces should use this default.
-     * Note that @cursor must be for the same display as @surface.
-     * 
-     * Use {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)} or {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}
-     * to create the cursor. To make the cursor invisible, use %GDK_BLANK_CURSOR.
+     * to create the cursor. To make the cursor invisible, use <code>GDK_BLANK_CURSOR</code>
      */
     public void setCursor(Cursor cursor) {
         gtk_h.gdk_surface_set_cursor(handle(), cursor.handle());
@@ -305,11 +300,7 @@ public class Surface extends org.gtk.gobject.Object {
      * cursor of its parent surface. Most surfaces should use this default.
      * 
      * Use {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)} or {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}
-     * to create the cursor. To make the cursor invisible, use for the @cursor argument means that @surface will use the
-     * cursor of its parent surface. Most surfaces should use this default.
-     * 
-     * Use {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)} or {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}
-     * to create the cursor. To make the cursor invisible, use %GDK_BLANK_CURSOR.
+     * to create the cursor. To make the cursor invisible, use <code>GDK_BLANK_CURSOR</code>
      */
     public void setDeviceCursor(Device device, Cursor cursor) {
         gtk_h.gdk_surface_set_device_cursor(handle(), device.handle(), cursor.handle());
@@ -326,9 +317,9 @@ public class Surface extends org.gtk.gobject.Object {
      * An input region is typically used with RGBA surfaces. The alpha
      * channel of the surface defines which pixels are invisible and
      * allows for nicely antialiased borders, and the input region
-     * controls where the surface is &#8220;clickable&#8221;.
+     * controls where the surface is &<code>#8220</code> clickable&<code>#8221</code> .
      * 
-     * Use {@link org.gtk.gdk.Display#supportsInputShapes} to find out if
+     * Use {@link org.gtk.gdk.Display<code>#supportsInputShapes</code>  to find out if
      * a particular backend supports input regions.
      */
     public void setInputRegion(org.cairographics.Region region) {
@@ -350,7 +341,7 @@ public class Surface extends org.gtk.gobject.Object {
      * GTK will update this property automatically if the @surface background
      * is opaque, as we know where the opaque regions are. If your surface
      * background is not opaque, please update this property in your
-     * {@link org.gtk.gtk.Widget#cssChanged} handler.
+     * {@link org.gtk.gtk.Widget<code>#cssChanged</code>  handler.
      */
     public void setOpaqueRegion(org.cairographics.Region region) {
         gtk_h.gdk_surface_set_opaque_region(handle(), region.handle());
@@ -411,8 +402,8 @@ public class Surface extends org.gtk.gobject.Object {
      * Emitted when the size of @surface is changed, or when relayout should
      * be performed.
      * 
-     * Surface size is reported in &#8221;application pixels&#8221;, not
-     * &#8221;device pixels&#8221; (see gdk_surface_get_scale_factor()).
+     * Surface size is reported in &<code>#8221</code> application pixels&<code>#8221</code> , not
+     * &<code>#8221</code> device pixels&<code>#8221</code>  (see gdk_surface_get_scale_factor()).
      */
     public SignalHandle onLayout(LayoutHandler handler) {
         try {

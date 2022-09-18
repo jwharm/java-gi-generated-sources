@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * <code>GtkFileChooserDialog</code> is a dialog suitable for use with
- * &#8220;File Open&#8221; or &#8220;File Save&#8221; commands.
+ * &<code>#8220</code> File Open&<code>#8221</code>  or &<code>#8220</code> File Save&<code>#8221</code>  commands.
  * <p>
  * !{@link [An example GtkFileChooserDialog]}(filechooser.png)
  * <p>
@@ -51,18 +51,18 @@ import java.lang.invoke.*;
  *   GtkWidget *dialog;
  *   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
  * <p>
- *   dialog = gtk_file_chooser_dialog_new (&#34;Open File&#34;,
+ *   dialog = gtk_file_chooser_dialog_new (&<code>#34</code> Open File&<code>#34</code> ,
  *                                         parent_window,
  *                                         action,
- *                                         _(&#34;_Cancel&#34;),
+ *                                         _(&<code>#34</code> _Cancel&<code>#34</code> ),
  *                                         GTK_RESPONSE_CANCEL,
- *                                         _(&#34;_Open&#34;),
+ *                                         _(&<code>#34</code> _Open&<code>#34</code> ),
  *                                         GTK_RESPONSE_ACCEPT,
  *                                         NULL);
  * <p>
  *   gtk_widget_show (dialog);
  * <p>
- *   g_signal_connect (dialog, &#34;response&#34;,
+ *   g_signal_connect (dialog, &<code>#34</code> response&<code>#34</code> ,
  *                     G_CALLBACK (on_open_response),
  *                     NULL);
  * </pre>
@@ -90,24 +90,24 @@ import java.lang.invoke.*;
  *   GtkFileChooser *chooser;
  *   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
  * <p>
- *   dialog = gtk_file_chooser_dialog_new (&#34;Save File&#34;,
+ *   dialog = gtk_file_chooser_dialog_new (&<code>#34</code> Save File&<code>#34</code> ,
  *                                         parent_window,
  *                                         action,
- *                                         _(&#34;_Cancel&#34;),
+ *                                         _(&<code>#34</code> _Cancel&<code>#34</code> ),
  *                                         GTK_RESPONSE_CANCEL,
- *                                         _(&#34;_Save&#34;),
+ *                                         _(&<code>#34</code> _Save&<code>#34</code> ),
  *                                         GTK_RESPONSE_ACCEPT,
  *                                         NULL);
  *   chooser = GTK_FILE_CHOOSER (dialog);
  * <p>
  *   if (user_edited_a_new_document)
- *     gtk_file_chooser_set_current_name (chooser, _(&#34;Untitled document&#34;));
+ *     gtk_file_chooser_set_current_name (chooser, _(&<code>#34</code> Untitled document&<code>#34</code> ));
  *   else
  *     gtk_file_chooser_set_file (chooser, existing_filename);
  * <p>
  *   gtk_widget_show (dialog);
  * <p>
- *   g_signal_connect (dialog, &#34;response&#34;,
+ *   g_signal_connect (dialog, &<code>#34</code> response&<code>#34</code> ,
  *                     G_CALLBACK (on_save_response),
  *                     NULL);
  * </pre>
@@ -116,55 +116,51 @@ import java.lang.invoke.*;
  * <p>
  * There are various cases in which you may need to use a <code>GtkFileChooserDialog</code>:
  * <p>
- * <li>To select a file for opening, use <code>GTK_FILE_CHOOSER_ACTION_OPEN.
+ * <li>To select a file for opening, use {@link org.gtk.gtk.FileChooserAction<code>#OPEN</code>  
  * <p>
- * <li>To</code> save a file for the first time, use <code>GTK_FILE_CHOOSER_ACTION_SAVE,
- * </code>  and suggest a name such as &#8220;Untitled&#8221; with
- *   {@link org.gtk.gtk.FileChooser#setCurrentName}.
+ * <li>To save a file for the first time, use {@link org.gtk.gtk.FileChooserAction<code>#SAVE</code>  
+ *   and suggest a name such as &<code>#8220</code> Untitled&<code>#8221</code>  with
+ *   {@link org.gtk.gtk.FileChooser<code>#setCurrentName</code> .
  * <p>
- * <li>To save a file under a different name, use <code>GTK_FILE_CHOOSER_ACTION_SAVE,
- * </code>  and set the existing file with {@link org.gtk.gtk.FileChooser#setFile}.
+ * <li>To save a file under a different name, use {@link org.gtk.gtk.FileChooserAction<code>#SAVE</code>  
+ *   and set the existing file with {@link org.gtk.gtk.FileChooser<code>#setFile</code> .
  * <p>
- * <li>To choose a folder instead of a filem use <code>GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER.
+ * <li>To choose a folder instead of a filem use {@link org.gtk.gtk.FileChooserAction<code>#SELECT_FOLDER</code>  
  * <p>
- * In</code> general, you should only cause the file chooser to show a specific
- * folder when it is appropriate to use {@link org.gtk.gtk.FileChooser#setFile},
- * i.e. when you are doing a &#8220;Save As&#8221; command and you already have a file
+ * In general, you should only cause the file chooser to show a specific
+ * folder when it is appropriate to use {@link org.gtk.gtk.FileChooser<code>#setFile</code> ,
+ * i.e. when you are doing a &<code>#8220</code> Save As&<code>#8221</code>  command and you already have a file
  * saved somewhere.
  * <p>
  * <h2>Response Codes</h2>
  * <p><code>GtkFileChooserDialog</code> inherits from {@link org.gtk.gtk.Dialog}, so buttons that
- * go in its action area have response codes such as {@link org.gtk.gtk.ResponseType#ACCEPT} and
- * <code>GTK_RESPONSE_CANCEL.</code> For example, you could call
+ * go in its action area have response codes such as {@link org.gtk.gtk.ResponseType<code>#ACCEPT</code>  and
+ * {@link org.gtk.gtk.ResponseType<code>#CANCEL</code>   For example, you could call
  * {@link [ctor@Gtk.FileChooserDialog.new] (ref=ctor)} as follows:
  * <p><pre>c
  * GtkWidget *dialog;
  * GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
  * <p>
- * dialog = gtk_file_chooser_dialog_new (&#34;Open File&#34;,
+ * dialog = gtk_file_chooser_dialog_new (&<code>#34</code> Open File&<code>#34</code> ,
  *                                       parent_window,
  *                                       action,
- *                                       _(&#34;_Cancel&#34;),
+ *                                       _(&<code>#34</code> _Cancel&<code>#34</code> ),
  *                                       GTK_RESPONSE_CANCEL,
- *                                       _(&#34;_Open&#34;),
+ *                                       _(&<code>#34</code> _Open&<code>#34</code> ),
  *                                       GTK_RESPONSE_ACCEPT,
  *                                       NULL);
  * </pre>
  * <p>
- * This will create buttons for &#8220;Cancel&#8221; and &#8220;Open&#8221; that use predefined
+ * This will create buttons for &<code>#8220</code> Cancel&<code>#8221</code>  and &<code>#8220</code> Open&<code>#8221</code>  that use predefined
  * response identifiers from {@link [enum@Gtk.ResponseType] (ref=enum)}.  For most dialog
  * boxes you can use your own custom response codes rather than the
  * ones in {@link [enum@Gtk.ResponseType] (ref=enum)}, but <code>GtkFileChooserDialog</code> assumes that
- * its &#8220;accept&#8221;-type action, e.g. an &#8220;Open&#8221; or &#8220;Save&#8221; button,
+ * its &<code>#8220</code> accept&<code>#8221</code> -type action, e.g. an &<code>#8220</code> Open&<code>#8221</code>  or &<code>#8220</code> Save&<code>#8221</code>  button,
  * will have one of the following response codes:
  * <p>
- * <li><code>GTK_RESPONSE_ACCEPT
- * <li>%GTK_RESPONSE_OK
- * <li>%GTK_RESPONSE_YES
- * <li>%GTK_RESPONSE_APPLY
- * <p>
- * This</code> is because <code>GtkFileChooserDialog</code> must intercept responses and switch
- * to folders if appropriate, rather than letting the dialog terminate &#8212; the
+ * <li>{@link org.gtk.gtk.ResponseType<code>#ACCEPT</code>  <li>{@link org.gtk.gtk.ResponseType<code>#OK</code>  <li>{@link org.gtk.gtk.ResponseType<code>#YES</code>  <li>{@link org.gtk.gtk.ResponseType<code>#APPLY</code>  <p>
+ * This is because <code>GtkFileChooserDialog</code> must intercept responses and switch
+ * to folders if appropriate, rather than letting the dialog terminate &<code>#8212</code>  the
  * implementation uses these known response codes to know which responses can
  * be blocked if appropriate.
  * <p>

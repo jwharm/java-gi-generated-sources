@@ -18,13 +18,13 @@ import java.lang.invoke.*;
  * <p>
  * <h2>Margins</h2>
  * <p>
- * The margins specified in this object are the &#8220;print margins&#8221;, i.e. the
+ * The margins specified in this object are the &<code>#8220</code> print margins&<code>#8221</code> , i.e. the
  * parts of the page that the printer cannot print on. These are different
  * from the layout margins that a word processor uses; they are typically
  * used to determine the minimal size for the layout margins.
  * <p>
  * To obtain a <code>GtkPageSetup</code> use {@link [ctor@Gtk.PageSetup.new] (ref=ctor)} to get the defaults,
- * or use {@link Gtk#printRunPageSetupDialog} to show the page setup dialog
+ * or use {@link Gtk<code>#printRunPageSetupDialog</code>  to show the page setup dialog
  * and receive the resulting page setup.
  * <p>
  * <h2>A page setup dialog</h2>
@@ -87,7 +87,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * <p>
      * Returns a new <code>GtkPageSetup</code> object with the restored
      * page setup, or <code>null</code> if an error occurred.
-     * See {@link org.gtk.gtk.PageSetup#toFile}.
+     * See {@link org.gtk.gtk.PageSetup<code>#toFile</code> .
      */
     public static PageSetup newFromFile(java.lang.String fileName) throws GErrorException {
         return new PageSetup(constructNewFromFile(fileName));
@@ -102,7 +102,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Desrialize a page setup from an a{sv} variant.
      * 
      * The variant must be in the format produced by
-     * {@link org.gtk.gtk.PageSetup#toGvariant}.
+     * {@link org.gtk.gtk.PageSetup<code>#toGvariant</code> .
      */
     public static PageSetup newFromGvariant(org.gtk.glib.Variant variant) {
         return new PageSetup(constructNewFromGvariant(variant));
@@ -165,7 +165,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * 
      * Note that this function takes orientation
      * and margins into consideration.
-     * See {@link org.gtk.gtk.PageSetup#getPaperHeight}.
+     * See {@link org.gtk.gtk.PageSetup<code>#getPaperHeight</code> .
      */
     public double getPageHeight(Unit unit) {
         var RESULT = gtk_h.gtk_page_setup_get_page_height(handle(), unit.getValue());
@@ -177,7 +177,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * 
      * Note that this function takes orientation
      * and margins into consideration.
-     * See {@link org.gtk.gtk.PageSetup#getPaperWidth}.
+     * See {@link org.gtk.gtk.PageSetup<code>#getPaperWidth</code> .
      */
     public double getPageWidth(Unit unit) {
         var RESULT = gtk_h.gtk_page_setup_get_page_width(handle(), unit.getValue());
@@ -189,7 +189,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * 
      * Note that this function takes orientation,
      * but not margins into consideration.
-     * See {@link org.gtk.gtk.PageSetup#getPageHeight}.
+     * See {@link org.gtk.gtk.PageSetup<code>#getPageHeight</code> .
      */
     public double getPaperHeight(Unit unit) {
         var RESULT = gtk_h.gtk_page_setup_get_paper_height(handle(), unit.getValue());
@@ -209,7 +209,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * 
      * Note that this function takes orientation,
      * but not margins into consideration.
-     * See {@link org.gtk.gtk.PageSetup#getPageWidth}.
+     * See {@link org.gtk.gtk.PageSetup<code>#getPageWidth</code> .
      */
     public double getPaperWidth(Unit unit) {
         var RESULT = gtk_h.gtk_page_setup_get_paper_width(handle(), unit.getValue());
@@ -235,7 +235,7 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Reads the page setup from the file @file_name.
      * 
-     * See {@link org.gtk.gtk.PageSetup#toFile}.
+     * See {@link org.gtk.gtk.PageSetup<code>#toFile</code> .
      */
     public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -284,7 +284,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Sets the paper size of the <code>GtkPageSetup</code> without
      * changing the margins.
      * 
-     * See {@link org.gtk.gtk.PageSetup#setPaperSizeAndDefaultMargins}.
+     * See {@link org.gtk.gtk.PageSetup<code>#setPaperSizeAndDefaultMargins</code> .
      */
     public void setPaperSize(PaperSize size) {
         gtk_h.gtk_page_setup_set_paper_size(handle(), size.handle());

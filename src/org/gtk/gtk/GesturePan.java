@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * <p>
  * These are drags that are locked to happen along one axis. The axis
  * that a <code>GtkGesturePan</code> handles is defined at construct time, and
- * can be changed through {@link org.gtk.gtk.GesturePan#setOrientation}.
+ * can be changed through {@link org.gtk.gtk.GesturePan<code>#setOrientation</code> .
  * <p>
  * When the gesture starts to be recognized, <code>GtkGesturePan</code> will
  * attempt to determine as early as possible whether the sequence

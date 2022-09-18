@@ -26,7 +26,7 @@ public interface Buildable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the ID of the @buildable object.
      * <p><code>GtkBuilder</code> sets the name based on the ID attribute
-     * of the &#60;object&#62; tag used to construct the @buildable.
+     * of the &<code>#60</code> object&<code>#62</code>  tag used to construct the @buildable.
      */
     public default java.lang.String getBuildableId() {
         var RESULT = gtk_h.gtk_buildable_get_buildable_id(handle());

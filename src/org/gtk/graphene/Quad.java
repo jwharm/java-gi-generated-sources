@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A 4 vertex quadrilateral, as represented by four #graphene_point_t.
+ * A 4 vertex quadrilateral, as represented by four {@link org.gtk.graphene.Point} 
  * 
- * The contents of a #graphene_quad_t are private and should never be
+ * The contents of a {@link org.gtk.graphene.Quad} are private and should never be
  * accessed directly.
  */
 public class Quad extends io.github.jwharm.javagi.ResourceBase {
@@ -25,7 +25,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_quad_t instance.
+     * Allocates a new {@link org.gtk.graphene.Quad} instance.
      * 
      * The contents of the returned instance are undefined.
      */
@@ -41,7 +41,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if the given #graphene_quad_t contains the given #graphene_point_t.
+     * Checks if the given {@link org.gtk.graphene.Quad} contains the given {@link org.gtk.graphene.Point}
      */
     public boolean contains(Point p) {
         var RESULT = gtk_h.graphene_quad_contains(handle(), p.handle());
@@ -56,7 +56,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the point of a #graphene_quad_t at the given index.
+     * Retrieves the point of a {@link org.gtk.graphene.Quad} at the given index.
      */
     public Point getPoint(int index) {
         var RESULT = gtk_h.graphene_quad_get_point(handle(), index);
@@ -64,7 +64,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quad_t with the given points.
+     * Initializes a {@link org.gtk.graphene.Quad} with the given points.
      */
     public Quad init(Point p1, Point p2, Point p3, Point p4) {
         var RESULT = gtk_h.graphene_quad_init(handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle());
@@ -72,7 +72,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quad_t using an array of points.
+     * Initializes a {@link org.gtk.graphene.Quad} using an array of points.
      */
     public Quad initFromPoints(Point[] points) {
         var RESULT = gtk_h.graphene_quad_init_from_points(handle(), Interop.allocateNativeArray(points).handle());
@@ -80,8 +80,8 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quad_t using the four corners of the
-     * given #graphene_rect_t.
+     * Initializes a {@link org.gtk.graphene.Quad} using the four corners of the
+     * given {@link org.gtk.graphene.Rect}
      */
     public Quad initFromRect(Rect r) {
         var RESULT = gtk_h.graphene_quad_init_from_rect(handle(), r.handle());

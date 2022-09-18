@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GList struct is used for each element in a doubly-linked list.
+ * The {@link org.gtk.glib.List} struct is used for each element in a doubly-linked list.
  */
 public class List extends io.github.jwharm.javagi.ResourceBase {
 
@@ -17,7 +17,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates space for one #GList element. It is called by
+     * Allocates space for one {@link org.gtk.glib.List} element. It is called by
      * g_list_append(), g_list_prepend(), g_list_insert() and
      * g_list_insert_sorted() and so is rarely used on its own.
      */
@@ -37,13 +37,13 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * to avoid the inefficiency is to use g_list_prepend() and reverse
      * the list with g_list_reverse() when all elements have been added.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * // Notice that these are initialized to the empty list.
      * GList *string_list = NULL, *number_list = NULL;
      * 
      * // This is a list of strings.
-     * string_list = g_list_append (string_list, &#34;first&#34;);
-     * string_list = g_list_append (string_list, &#34;second&#34;);
+     * string_list = g_list_append (string_list, &<code>#34</code> first&<code>#34</code> );
+     * string_list = g_list_append (string_list, &<code>#34</code> second&<code>#34</code> );
      * 
      * // This is a list of integers.
      * number_list = g_list_append (number_list, GINT_TO_POINTER (27));
@@ -56,13 +56,13 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds the second #GList onto the end of the first #GList.
-     * Note that the elements of the second #GList are not copied.
+     * Adds the second {@link org.gtk.glib.List} onto the end of the first {@link org.gtk.glib.List} 
+     * Note that the elements of the second {@link org.gtk.glib.List} are not copied.
      * They are used directly.
      * 
      * This function is for example used to move an element in the list.
      * The following example moves an element to the top of the list:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * list = g_list_remove_link (list, llink);
      * list = g_list_concat (llink, list);
      * ]}|
@@ -73,9 +73,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a #GList.
+     * Copies a {@link org.gtk.glib.List} 
      * 
-     * Note that this is a &#34;shallow&#34; copy. If the list elements
+     * Note that this is a &<code>#34</code> shallow&<code>#34</code>  copy. If the list elements
      * consist of pointers to data, the pointers are copied but
      * the actual data is not. See g_list_copy_deep() if you need
      * to copy the data as well.
@@ -86,24 +86,24 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Makes a full (deep) copy of a #GList.
+     * Makes a full (deep) copy of a {@link org.gtk.glib.List} 
      * <p>
      * In contrast with g_list_copy(), this function uses @func to make
      * a copy of each list element, in addition to copying the list
      * container itself.
      * <p>
-     * @func, as a #GCopyFunc, takes two arguments, the data to be copied
-     * and a @user_data pointer. On common processor architectures, it&#39;s safe to
+     * @func, as a {@link org.gtk.glib.CopyFunc}  takes two arguments, the data to be copied
+     * and a @user_data pointer. On common processor architectures, it&<code>#39</code> s safe to
      * pass <code>null</code> as @user_data if the copy function takes only one argument. You
-     * may get compiler warnings from this though if compiling with GCC&#8217;s<code>-Wcast-function-type</code> warning.
+     * may get compiler warnings from this though if compiling with GCC&<code>#8217</code> s<code>-Wcast-function-type</code> warning.
      * 
      * For instance, if @list holds a list of GObjects, you can do:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * another_list = g_list_copy_deep (list, (GCopyFunc) g_object_ref, NULL);
      * ]}|
      * 
      * And, to entirely free the new list, you could do:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * g_list_free_full (another_list, g_object_unref);
      * ]}|
      */
@@ -133,7 +133,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds the element in a #GList which contains the given data.
+     * Finds the element in a {@link org.gtk.glib.List} which contains the given data.
      */
     public static org.gtk.glib.List find(org.gtk.glib.List list, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_find(list.handle(), data);
@@ -141,11 +141,11 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds an element in a #GList, using a supplied function to
+     * Finds an element in a {@link org.gtk.glib.List}  using a supplied function to
      * find the desired element. It iterates over the list, calling
      * the given function which should return 0 when the desired
-     * element is found. The function takes two #gconstpointer arguments,
-     * the #GList element&#39;s data as the first argument and the
+     * element is found. The function takes two <code>#gconstpointer</code> arguments,
+     * the {@link org.gtk.glib.List} element&<code>#39</code> s data as the first argument and the
      * given user data.
      */
     public static org.gtk.glib.List findCustom(org.gtk.glib.List list, CompareFunc func) {
@@ -164,7 +164,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the first element in a #GList.
+     * Gets the first element in a {@link org.gtk.glib.List}
      */
     public static org.gtk.glib.List first(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_first(list.handle());
@@ -172,7 +172,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls a function for each element of a #GList.
+     * Calls a function for each element of a {@link org.gtk.glib.List} 
      * 
      * It is safe for @func to remove the element from @list, but it must
      * not modify any part of the list after that element.
@@ -192,7 +192,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees all of the memory used by a #GList.
+     * Frees all of the memory used by a {@link org.gtk.glib.List} 
      * The freed elements are returned to the slice allocator.
      * 
      * If list elements contain dynamically-allocated memory, you should
@@ -200,9 +200,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * 
      * It can be combined with g_steal_pointer() to ensure the list head pointer
      * is not left dangling:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
-     * GList *list_of_borrowed_things = &#8230;;  /&#60;!-- --&#62;* (transfer container) *&#60;!-- --&#62;/
-     * g_list_free (g_steal_pointer (&#38;list_of_borrowed_things));
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * GList *list_of_borrowed_things = &<code>#8230</code> ;  /&<code>#60</code> !-- --&<code>#62</code> * (transfer container) *&<code>#60</code> !-- --&<code>#62</code> /
+     * g_list_free (g_steal_pointer (&<code>#38</code> list_of_borrowed_things));
      * ]}|
      */
     public static void free(org.gtk.glib.List list) {
@@ -210,7 +210,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees one #GList element, but does not update links from the next and
+     * Frees one {@link org.gtk.glib.List} element, but does not update links from the next and
      * previous elements in the list, so you should not call this function on an
      * element that is currently part of a list.
      * 
@@ -303,7 +303,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the last element in a #GList.
+     * Gets the last element in a {@link org.gtk.glib.List}
      */
     public static org.gtk.glib.List last(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_last(list.handle());
@@ -311,25 +311,12 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the number of elements in a #GList.
+     * Gets the number of elements in a {@link org.gtk.glib.List} 
      * 
      * This function iterates over the whole list to count its elements.
-     * Use a #GQueue instead of a GList if you regularly need the number
+     * Use a {@link org.gtk.glib.Queue} instead of a GList if you regularly need the number
      * of items. To check whether the list is non-empty, it is faster to check
-     * @list against 
-     *             
-     *               
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Gets the number of elements in a #GList.
-     * 
-     * This function iterates over the whole list to count its elements.
-     * Use a #GQueue instead of a GList if you regularly need the number
-     * of items. To check whether the list is non-empty, it is faster to check
-     * @list against %NULL.
+     * @list against <code>null</code>
      */
     public static int length(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_length(list.handle());
@@ -337,11 +324,11 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the element at the given position in a #GList.
+     * Gets the element at the given position in a {@link org.gtk.glib.List} 
      * 
      * This iterates over the list until it reaches the @n-th position. If you
      * intend to iterate over every element, it is better to use a for-loop as
-     * described in the #GList introduction.
+     * described in the {@link org.gtk.glib.List} introduction.
      */
     public static org.gtk.glib.List nth(org.gtk.glib.List list, int n) {
         var RESULT = gtk_h.g_list_nth(list.handle(), n);
@@ -353,7 +340,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * 
      * This iterates over the list until it reaches the @n-th position. If you
      * intend to iterate over every element, it is better to use a for-loop as
-     * described in the #GList introduction.
+     * described in the {@link org.gtk.glib.List} introduction.
      */
     public static jdk.incubator.foreign.MemoryAddress nthData(org.gtk.glib.List list, int n) {
         var RESULT = gtk_h.g_list_nth_data(list.handle(), n);
@@ -370,7 +357,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the position of the given element
-     * in the #GList (starting from 0).
+     * in the {@link org.gtk.glib.List} (starting from 0).
      */
     public static int position(org.gtk.glib.List list, org.gtk.glib.List llink) {
         var RESULT = gtk_h.g_list_position(list.handle(), llink.handle());
@@ -383,12 +370,12 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Note that the return value is the new start of the list,
      * which will have changed, so make sure you store the new value.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * // Notice that it is initialized to the empty list.
      * GList *list = NULL;
      * 
-     * list = g_list_prepend (list, &#34;last&#34;);
-     * list = g_list_prepend (list, &#34;first&#34;);
+     * list = g_list_prepend (list, &<code>#34</code> last&<code>#34</code> );
+     * list = g_list_prepend (list, &<code>#34</code> first&<code>#34</code> );
      * ]}|
      * 
      * Do not use this function to prepend a new element to a different
@@ -400,9 +387,9 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes an element from a #GList.
+     * Removes an element from a {@link org.gtk.glib.List} 
      * If two elements contain the same data, only the first is removed.
-     * If none of the elements contain the data, the #GList is unchanged.
+     * If none of the elements contain the data, the {@link org.gtk.glib.List} is unchanged.
      */
     public static org.gtk.glib.List remove(org.gtk.glib.List list, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_remove(list.handle(), data);
@@ -421,16 +408,16 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes an element from a #GList, without freeing the element.
-     * The removed element&#39;s prev and next links are set to <code>NULL,</code> so
+     * Removes an element from a {@link org.gtk.glib.List}  without freeing the element.
+     * The removed element&<code>#39</code> s prev and next links are set to <code>null</code>  so
      * that it becomes a self-contained list with one element.
      * 
      * This function is for example used to move an element in the list
      * (see the example for g_list_concat()) or to remove an element in
      * the list before freeing its data:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * list = g_list_remove_link (list, llink);
-     * free_some_data_that_may_access_the_list_again (llink-&#62;data);
+     * free_some_data_that_may_access_the_list_again (llink-&<code>#62</code> data);
      * g_list_free (llink);
      * ]}|
      */
@@ -440,7 +427,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Reverses a #GList.
+     * Reverses a {@link org.gtk.glib.List} 
      * It simply switches the next and prev pointers of each element.
      */
     public static org.gtk.glib.List reverse(org.gtk.glib.List list) {

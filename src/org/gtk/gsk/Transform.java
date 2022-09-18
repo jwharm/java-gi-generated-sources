@@ -52,10 +52,9 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * Inverts the given transform.
      * 
      * If @self is not invertible, <code>null</code> is returned.
-     * Note that inverting <code>null</code> also returns <code>NULL,</code> which is
-     * the correct inverse of <code>NULL.</code> If you need to differentiate
-     * between those cases, you should check @self is not <code>NULL
-     * before</code> calling this function.
+     * Note that inverting <code>null</code> also returns <code>null</code>  which is
+     * the correct inverse of <code>null</code>  If you need to differentiate
+     * between those cases, you should check @self is not <code>null</code> before calling this function.
      */
     public Transform invert() {
         var RESULT = gtk_h.gsk_transform_invert(handle());
@@ -88,7 +87,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * for printing.
      * 
      * The result of this function can later be parsed with
-     * {@link Gsk#Transform}.
+     * {@link Gsk<code>#Transform</code> .
      */
     public void print(org.gtk.glib.String string) {
         gtk_h.gsk_transform_print(handle(), string.handle());
@@ -113,7 +112,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Rotates @next @angle degrees around @axis.
      * 
-     * For a rotation in 2D space, use {@link org.gtk.gsk.Transform#rotate}
+     * For a rotation in 2D space, use {@link org.gtk.gsk.Transform<code>#rotate</code>
      */
     public Transform rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
         var RESULT = gtk_h.gsk_transform_rotate_3d(handle(), angle, axis.handle());
@@ -123,7 +122,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Scales @next in 2-dimensional space by the given factors.
      * 
-     * Use {@link org.gtk.gsk.Transform#scale3d} to scale in all 3 dimensions.
+     * Use {@link org.gtk.gsk.Transform<code>#scale3d</code>  to scale in all 3 dimensions.
      */
     public Transform scale(float factorX, float factorY) {
         var RESULT = gtk_h.gsk_transform_scale(handle(), factorX, factorY);
@@ -158,9 +157,9 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Converts a matrix into a string that is suitable for printing.
      * 
-     * The resulting string can be parsed with {@link Gsk#Transform}.
+     * The resulting string can be parsed with {@link Gsk<code>#Transform</code> .
      * 
-     * This is a wrapper around {@link org.gtk.gsk.Transform#print}.
+     * This is a wrapper around {@link org.gtk.gsk.Transform<code>#print</code> .
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.gsk_transform_to_string(handle());
@@ -221,7 +220,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * Parses the given @string into a transform and puts it in
      * @out_transform.
      * 
-     * Strings printed via {@link org.gtk.gsk.Transform#toString}
+     * Strings printed via {@link org.gtk.gsk.Transform<code>#toString</code> 
      * can be read in again successfully using this function.
      * 
      * If @string does not describe a valid transform, <code>false</code> is

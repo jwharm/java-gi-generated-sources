@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GApplication is the foundation of an application.  It wraps some
+ * A {@link org.gtk.gio.Application} is the foundation of an application.  It wraps some
  * low-level platform-specific services and is intended to act as the
  * foundation for higher-level application classes such as
- * <h1>kApplication or #MxApplication.  In general, you should not use</h1>
+ * {@link org.gtk.gtk.Application} or <code>#MxApplication</code>   In general, you should not use
  * this class outside of a higher level framework.
  * <p>
  * GApplication provides convenient life cycle management by maintaining
- * a &#34;use count&#34; for the primary application instance. The use count can
+ * a &<code>#34</code> use count&<code>#34</code>  for the primary application instance. The use count can
  * be changed using g_application_hold() and g_application_release(). If
  * it drops to zero, the application exits. Higher-level classes such as
- * <h1>kApplication employ the use count to ensure that the application</h1>
+ * {@link org.gtk.gtk.Application} employ the use count to ensure that the application
  * stays alive as long as it has any opened windows.
  * <p>
  * Another feature that GApplication (optionally) provides is process
@@ -29,15 +29,15 @@ import java.lang.invoke.*;
  * desktop login. When your application is launched again, its
  * arguments are passed through platform communication to the already
  * running program. The already running instance of the program is
- * called the &#34;primary instance&#34;; for non-unique applications this is
+ * called the &<code>#34</code> primary instance&<code>#34</code> ; for non-unique applications this is
  * always the current instance. On Linux, the D-Bus session bus
  * is used for communication.
  * <p>
- * The use of #GApplication differs from some other commonly-used
+ * The use of {@link org.gtk.gio.Application} differs from some other commonly-used
  * uniqueness libraries (such as libunique) in important ways. The
  * application is not expected to manually register itself and check
  * if it is the primary instance. Instead, the main() function of a
- * <h1>pplication should do very little more than instantiating the</h1>
+ * {@link org.gtk.gio.Application} should do very little more than instantiating the
  * application instance, possibly connecting signal handlers, then
  * calling g_application_run(). All checks for uniqueness are done
  * internally. If the application is the primary instance then the
@@ -48,68 +48,66 @@ import java.lang.invoke.*;
  * <p>
  * If used, the expected form of an application identifier is the same as
  * that of of a
- * {@link [D-Bus well-known bus name]}(https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus).
+ * {@link [D-Bus well-known bus name]}(https://dbus.freedesktop.org/doc/dbus-specification.html<code>#message</code> protocol-names-bus).
  * Examples include: <code>com.example.MyApp</code>, <code>org.example.internal_apps.Calculator</code>,<code>org._7_zip.Archiver</code>.
  * For details on valid application identifiers, see g_application_id_is_valid().
  * 
  * On Linux, the application identifier is claimed as a well-known bus name
- * on the user&#39;s session bus.  This means that the uniqueness of your
+ * on the user&<code>#39</code> s session bus.  This means that the uniqueness of your
  * application is scoped to the current session.  It also means that your
  * application may provide additional services (through registration of other
  * object paths) at that bus name.  The registration of these object paths
  * should be done with the shared GDBus session bus.  Note that due to the
  * internal architecture of GDBus, method calls can be dispatched at any time
  * (even if a main loop is not running).  For this reason, you must ensure that
- * any object paths that you wish to register are registered before #GApplication
- * attempts to acquire the bus name of your application (which happens in
+ * any object paths that you wish to register are registered before {@link org.gtk.gio.Application} attempts to acquire the bus name of your application (which happens in
  * g_application_register()).  Unfortunately, this means that you cannot use
  * g_application_get_is_remote() to decide if you want to register object paths.
  * 
- * GApplication also implements the #GActionGroup and #GActionMap
- * interfaces and lets you easily export actions by adding them with
+ * GApplication also implements the {@link org.gtk.gio.ActionGroup} and {@link org.gtk.gio.ActionMap} interfaces and lets you easily export actions by adding them with
  * g_action_map_add_action(). When invoking an action by calling
  * g_action_group_activate_action() on the application, it is always
  * invoked in the primary instance. The actions are also exported on
- * the session bus, and GIO provides the #GDBusActionGroup wrapper to
- * conveniently access them remotely. GIO provides a #GDBusMenuModel wrapper
- * for remote access to exported #GMenuModels.
+ * the session bus, and GIO provides the {@link org.gtk.gio.DBusActionGroup} wrapper to
+ * conveniently access them remotely. GIO provides a {@link org.gtk.gio.DBusMenuModel} wrapper
+ * for remote access to exported <code>#GMenuModels</code> 
  * 
  * There is a number of different entry points into a GApplication:
  * 
- * - via &#39;Activate&#39; (i.e. just starting the application)
+ * - via &<code>#39</code> Activate&<code>#39</code>  (i.e. just starting the application)
  * 
- * - via &#39;Open&#39; (i.e. opening some files)
+ * - via &<code>#39</code> Open&<code>#39</code>  (i.e. opening some files)
  * 
  * - by handling a command-line
  * 
  * - via activating an action
  * 
- * The #GApplication::startup signal lets you handle the application
+ * The {@link org.gtk.gio.Application} :startup signal lets you handle the application
  * initialization for all of these in a single place.
  * 
  * Regardless of which of these entry points is used to start the
- * application, GApplication passes some &#8216;platform data&#8217; from the
+ * application, GApplication passes some &<code>#8216</code> platform data&<code>#8217</code>  from the
  * launching instance to the primary instance, in the form of a
- * #GVariant dictionary mapping strings to variants. To use platform
+ * {@link org.gtk.glib.Variant} dictionary mapping strings to variants. To use platform
  * data, override the @before_emit or @after_emit virtual functions
- * in your #GApplication subclass. When dealing with
- * #GApplicationCommandLine objects, the platform data is
+ * in your {@link org.gtk.gio.Application} subclass. When dealing with
+ * {@link org.gtk.gio.ApplicationCommandLine} objects, the platform data is
  * directly available via g_application_command_line_get_cwd(),
  * g_application_command_line_get_environ() and
  * g_application_command_line_get_platform_data().
  * 
  * As the name indicates, the platform data may vary depending on the
  * operating system, but it always includes the current directory (key
- * &#34;cwd&#34;), and optionally the environment (ie the set of environment
- * variables and their values) of the calling process (key &#34;environ&#34;).
+ * &<code>#34</code> cwd&<code>#34</code> ), and optionally the environment (ie the set of environment
+ * variables and their values) of the calling process (key &<code>#34</code> environ&<code>#34</code> ).
  * The environment is only added to the platform data if the
- * {@link org.gtk.gio.ApplicationFlags#SEND_ENVIRONMENT} flag is set. #GApplication subclasses
+ * {@link org.gtk.gio.ApplicationFlags<code>#SEND_ENVIRONMENT</code>  flag is set. {@link org.gtk.gio.Application} subclasses
  * can add their own platform data by overriding the @add_platform_data
- * virtual function. For instance, #GtkApplication adds startup notification
+ * virtual function. For instance, {@link org.gtk.gtk.Application} adds startup notification
  * data in this way.
  * 
  * To parse commandline arguments you may handle the
- * #GApplication::command-line signal or override the local_command_line()
+ * {@link org.gtk.gio.Application} :command-line signal or override the local_command_line()
  * vfunc, to parse them in either the primary instance or the local instance,
  * respectively.
  * 
@@ -139,13 +137,12 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     /**
-     * Creates a new #GApplication instance.
+     * Creates a new {@link org.gtk.gio.Application} instance.
      * 
-     * If non-<code>NULL,</code> the application id must be valid.  See
+     * If non-<code>null</code>  the application id must be valid.  See
      * g_application_id_is_valid().
      * 
-     * If no application ID is given then some features of #GApplication
-     * (most notably application uniqueness) will be disabled.
+     * If no application ID is given then some features of {@link org.gtk.gio.Application} (most notably application uniqueness) will be disabled.
      */
     public Application(java.lang.String applicationId, int flags) {
         super(constructNew(applicationId, flags));
@@ -154,7 +151,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     /**
      * Activates the application.
      * 
-     * In essence, this results in the #GApplication::activate signal being
+     * In essence, this results in the {@link org.gtk.gio.Application} :activate signal being
      * emitted in the primary instance.
      * 
      * The application must be registered before calling this function.
@@ -167,16 +164,15 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * Add an option to be handled by @application.
      * 
      * Calling this function is the equivalent of calling
-     * g_application_add_main_option_entries() with a single #GOptionEntry
-     * that has its arg_data member set to <code>NULL.
+     * g_application_add_main_option_entries() with a single {@link org.gtk.glib.OptionEntry} that has its arg_data member set to <code>null</code> 
      * 
-     * The</code> parsed arguments will be packed into a #GVariantDict which
-     * is passed to #GApplication::handle-local-options. If
-     * {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} is set, then it will also
+     * The parsed arguments will be packed into a {@link org.gtk.glib.VariantDict} which
+     * is passed to {@link org.gtk.gio.Application} :handle-local-options. If
+     * {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  is set, then it will also
      * be sent to the primary instance. See
      * g_application_add_main_option_entries() for more details.
      * 
-     * See #GOptionEntry for more documentation of the arguments.
+     * See {@link org.gtk.glib.OptionEntry} for more documentation of the arguments.
      */
     public void addMainOption(java.lang.String longName, byte shortName, int flags, org.gtk.glib.OptionArg arg, java.lang.String description, java.lang.String argDescription) {
         gtk_h.g_application_add_main_option(handle(), Interop.allocateNativeString(longName).handle(), shortName, flags, arg.getValue(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(argDescription).handle());
@@ -188,21 +184,20 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * This function is comparable to g_option_context_add_main_entries().
      * <p>
      * After the commandline arguments are parsed, the
-     * <h1>pplication::handle-local-options signal will be emitted.  At this</h1>
+     * {@link org.gtk.gio.Application} :handle-local-options signal will be emitted.  At this
      * point, the application can inspect the values pointed to by @arg_data
-     * in the given #GOptionEntrys.
+     * in the given <code>#GOptionEntrys</code> 
      * <p>
-     * Unlike #GOptionContext, #GApplication supports giving a <code>NULL
-     * @arg_data</code> for a non-callback #GOptionEntry.  This results in the
-     * argument in question being packed into a #GVariantDict which is also
-     * passed to #GApplication::handle-local-options, where it can be
-     * inspected and modified.  If {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} is
+     * Unlike {@link org.gtk.glib.OptionContext}  {@link org.gtk.gio.Application} supports giving a <code>null</code> @arg_data for a non-callback {@link org.gtk.glib.OptionEntry}   This results in the
+     * argument in question being packed into a {@link org.gtk.glib.VariantDict} which is also
+     * passed to {@link org.gtk.gio.Application} :handle-local-options, where it can be
+     * inspected and modified.  If {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  is
      * set, then the resulting dictionary is sent to the primary instance,
      * where g_application_command_line_get_options_dict() will return it.
-     * This &#34;packing&#34; is done according to the type of the argument --
+     * This &<code>#34</code> packing&<code>#34</code>  is done according to the type of the argument --
      * booleans for normal flags, strings for strings, bytestrings for
      * filenames, etc.  The packing only occurs if the flag is given (ie: we
-     * do not pack a &#34;false&#34; #GVariant in the case that a flag is missing).
+     * do not pack a &<code>#34</code> false&<code>#34</code>  {@link org.gtk.glib.Variant} in the case that a flag is missing).
      * <p>
      * In general, it is recommended that all commandline arguments are
      * parsed locally.  The options dictionary should then be used to
@@ -213,13 +208,13 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * This function is new in GLib 2.40.  Before then, the only real choice
      * was to send all of the commandline arguments (options and all) to the
-     * primary instance for handling.  #GApplication ignored them completely
-     * on the local side.  Calling this function &#34;opts in&#34; to the new
+     * primary instance for handling.  {@link org.gtk.gio.Application} ignored them completely
+     * on the local side.  Calling this function &<code>#34</code> opts in&<code>#34</code>  to the new
      * behaviour, and in particular, means that unrecognised options will be
      * treated as errors.  Unrecognised options have never been ignored when
-     * {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} is unset.
+     * {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  is unset.
      * <p>
-     * If #GApplication::handle-local-options needs to see the list of
+     * If {@link org.gtk.gio.Application} :handle-local-options needs to see the list of
      * filenames, then the use of <code>G_OPTION_REMAINING</code> is recommended.  If
      * @arg_data is <code>null</code> then <code>G_OPTION_REMAINING</code> can be used as a key into
      * the options dictionary.  If you do use <code>G_OPTION_REMAINING</code> then you
@@ -229,21 +224,21 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * It is important to use the proper GVariant format when retrieving
      * the options with g_variant_dict_lookup():
-     * <li>for <code>G_OPTION_ARG_NONE,</code> use <code>b</code>
-     * <li>for <code>G_OPTION_ARG_STRING,</code> use <code>&#38;s</code>
-     * <li>for <code>G_OPTION_ARG_INT,</code> use <code>i</code>
-     * <li>for <code>G_OPTION_ARG_INT64,</code> use <code>x</code>
-     * <li>for <code>G_OPTION_ARG_DOUBLE,</code> use <code>d</code>
-     * <li>for <code>G_OPTION_ARG_FILENAME,</code> use <code>^&#38;ay</code>
-     * <li>for <code>G_OPTION_ARG_STRING_ARRAY,</code> use <code>^a&#38;s</code>
-     * <li>for <code>G_OPTION_ARG_FILENAME_ARRAY,</code> use <code>^a&#38;ay</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#NONE</code>   use <code>b</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#STRING</code>   use <code>&<code>#38</code> s</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#INT</code>   use <code>i</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#INT64</code>   use <code>x</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#DOUBLE</code>   use <code>d</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#FILENAME</code>   use <code>^&<code>#38</code> ay</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#STRING_ARRAY</code>   use <code>^a&<code>#38</code> s</code>
+     * <li>for {@link org.gtk.glib.OptionArg<code>#FILENAME_ARRAY</code>   use <code>^a&<code>#38</code> ay</code>
      */
     public void addMainOptionEntries(org.gtk.glib.OptionEntry[] entries) {
         gtk_h.g_application_add_main_option_entries(handle(), Interop.allocateNativeArray(entries).handle());
     }
     
     /**
-     * Adds a #GOptionGroup to the commandline handling of @application.
+     * Adds a {@link org.gtk.glib.OptionGroup} to the commandline handling of @application.
      * <p>
      * This function is comparable to g_option_context_add_group().
      * <p>
@@ -254,20 +249,20 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * The reason for that is because, by the time the options arrive at the
      * primary instance, it is typically too late to do anything with them.
      * Taking the GTK option group as an example: GTK will already have been
-     * initialised by the time the #GApplication::command-line handler runs.
+     * initialised by the time the {@link org.gtk.gio.Application} :command-line handler runs.
      * In the case that this is not the first-running instance of the
      * application, the existing instance may already have been running for
      * a very long time.
      * <p>
-     * This means that the options from #GOptionGroup are only really usable
+     * This means that the options from {@link org.gtk.glib.OptionGroup} are only really usable
      * in the case that the instance of the application being run is the
      * first instance.  Passing options like <code>--display=</code> or <code>--gdk-debug=</code>
      * on future runs will have no effect on the existing primary instance.
      * 
      * Calling this function will cause the options in the supplied option
-     * group to be parsed, but it does not cause you to be &#34;opted in&#34; to the
+     * group to be parsed, but it does not cause you to be &<code>#34</code> opted in&<code>#34</code>  to the
      * new functionality whereby unrecognised options are rejected even if
-     * {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} was given.
+     * {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  was given.
      */
     public void addOptionGroup(org.gtk.glib.OptionGroup group) {
         gtk_h.g_application_add_option_group(handle(), group.handle());
@@ -275,9 +270,9 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     
     /**
      * Marks @application as busy (see g_application_mark_busy()) while
-     * @property on @object is <code>TRUE.
+     * @property on @object is <code>true</code> 
      * 
-     * The</code> binding holds a reference to @application while it is active, but
+     * The binding holds a reference to @application while it is active, but
      * not to @object. Instead, the binding is destroyed when @object is
      * finalized.
      */
@@ -294,15 +289,15 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     /**
-     * Gets the #GDBusConnection being used by the application, or <code>NULL.
+     * Gets the {@link org.gtk.gio.DBusConnection} being used by the application, or <code>null</code> 
      * 
-     * If</code> #GApplication is using its D-Bus backend then this function will
-     * return the #GDBusConnection being used for uniqueness and
+     * If {@link org.gtk.gio.Application} is using its D-Bus backend then this function will
+     * return the {@link org.gtk.gio.DBusConnection} being used for uniqueness and
      * communication with the desktop environment and other instances of the
      * application.
      * 
-     * If #GApplication is not using D-Bus then this function will return
-     * <code>NULL.</code>  This includes the situation where the D-Bus backend would
+     * If {@link org.gtk.gio.Application} is not using D-Bus then this function will return
+     * <code>null</code>   This includes the situation where the D-Bus backend would
      * normally be in use but we were unable to connect to the bus.
      * 
      * This function must not be called before the application has been
@@ -314,16 +309,16 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     /**
-     * Gets the D-Bus object path being used by the application, or <code>NULL.
+     * Gets the D-Bus object path being used by the application, or <code>null</code> 
      * 
-     * If</code> #GApplication is using its D-Bus backend then this function will
-     * return the D-Bus object path that #GApplication is using.  If the
+     * If {@link org.gtk.gio.Application} is using its D-Bus backend then this function will
+     * return the D-Bus object path that {@link org.gtk.gio.Application} is using.  If the
      * application is the primary instance then there is an object published
      * at this path.  If the application is not the primary instance then
      * the result of this function is undefined.
      * 
-     * If #GApplication is not using D-Bus then this function will return
-     * <code>NULL.</code>  This includes the situation where the D-Bus backend would
+     * If {@link org.gtk.gio.Application} is not using D-Bus then this function will return
+     * <code>null</code>   This includes the situation where the D-Bus backend would
      * normally be in use but we were unable to connect to the bus.
      * 
      * This function must not be called before the application has been
@@ -337,7 +332,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     /**
      * Gets the flags for @application.
      * 
-     * See #GApplicationFlags.
+     * See {@link org.gtk.gio.ApplicationFlags}
      */
     public int getFlags() {
         var RESULT = gtk_h.g_application_get_flags(handle());
@@ -356,7 +351,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     /**
-     * Gets the application&#39;s current busy state, as set through
+     * Gets the application&<code>#39</code> s current busy state, as set through
      * g_application_mark_busy() or g_application_bind_busy_property().
      */
     public boolean getIsBusy() {
@@ -379,7 +374,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * Checks if @application is remote.
      * 
      * If @application is remote then it means that another instance of
-     * application already exists (the &#39;primary&#39; instance).  Calls to
+     * application already exists (the &<code>#39</code> primary&<code>#39</code>  instance).  Calls to
      * perform actions on @application will result in the actions being
      * performed by the primary instance.
      * 
@@ -436,18 +431,18 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     /**
      * Opens the given files.
      * 
-     * In essence, this results in the #GApplication::open signal being emitted
+     * In essence, this results in the {@link org.gtk.gio.Application} :open signal being emitted
      * in the primary instance.
      * 
      * @n_files must be greater than zero.
      * 
      * @hint is simply passed through to the ::open signal.  It is
      * intended to be used by applications that have multiple modes for
-     * opening files (eg: &#34;view&#34; vs &#34;edit&#34;, etc).  Unless you have a need
-     * for this functionality, you should use &#34;&#34;.
+     * opening files (eg: &<code>#34</code> view&<code>#34</code>  vs &<code>#34</code> edit&<code>#34</code> , etc).  Unless you have a need
+     * for this functionality, you should use &<code>#34</code> &<code>#34</code> .
      * 
      * The application must be registered before calling this function
-     * and it must have the {@link org.gtk.gio.ApplicationFlags#HANDLES_OPEN} flag set.
+     * and it must have the {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_OPEN</code>  flag set.
      */
     public void open(File[] files, int nFiles, java.lang.String hint) {
         gtk_h.g_application_open(handle(), Interop.allocateNativeArray(files).handle(), nFiles, Interop.allocateNativeString(hint).handle());
@@ -457,7 +452,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * Immediately quits the application.
      * 
      * Upon return to the mainloop, g_application_run() will return,
-     * calling only the &#39;shutdown&#39; function before doing so.
+     * calling only the &<code>#39</code> shutdown&<code>#39</code>  function before doing so.
      * 
      * The hold count is ignored.
      * Take care if your code has called g_application_hold() on the application and
@@ -481,7 +476,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * application identifier as a unique bus name on the session bus using
      * GDBus.
      * 
-     * If there is no application ID or if {@link org.gtk.gio.ApplicationFlags#NON_UNIQUE} was
+     * If there is no application ID or if {@link org.gtk.gio.ApplicationFlags<code>#NON_UNIQUE</code>  was
      * given, then this process will always become the primary instance.
      * 
      * Due to the internal architecture of GDBus, method calls can be
@@ -492,7 +487,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * If the application has already been registered then <code>true</code> is
      * returned with no work performed.
      * 
-     * The #GApplication::startup signal is emitted if registration succeeds
+     * The {@link org.gtk.gio.Application} :startup signal is emitted if registration succeeds
      * and @application is the primary instance (including the non-unique
      * case).
      * 
@@ -536,31 +531,31 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_win32_get_command_line() is called internally (for proper support
      * of Unicode commandline arguments).
      * <p>
-     * <h1>pplication will attempt to parse the commandline arguments.  You</h1>
+     * {@link org.gtk.gio.Application} will attempt to parse the commandline arguments.  You
      * can add commandline flags to the list of recognised options by way of
      * g_application_add_main_option_entries().  After this, the
-     * <h1>pplication::handle-local-options signal is emitted, from which the</h1>
-     * application can inspect the values of its #GOptionEntrys.
+     * {@link org.gtk.gio.Application} :handle-local-options signal is emitted, from which the
+     * application can inspect the values of its <code>#GOptionEntrys</code> 
      * <p>
-     * <h1>pplication::handle-local-options is a good place to handle options</h1>
+     * {@link org.gtk.gio.Application} :handle-local-options is a good place to handle options
      * such as <code>--version</code>, where an immediate reply from the local process is
      * desired (instead of communicating with an already-running instance).
-     * A #GApplication::handle-local-options handler can stop further processing
+     * A {@link org.gtk.gio.Application} :handle-local-options handler can stop further processing
      * by returning a non-negative value, which then becomes the exit status of
      * the process.
      * 
      * What happens next depends on the flags: if
-     * {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} was specified then the remaining
+     * {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  was specified then the remaining
      * commandline arguments are sent to the primary instance, where a
-     * #GApplication::command-line signal is emitted.  Otherwise, the
+     * {@link org.gtk.gio.Application} :command-line signal is emitted.  Otherwise, the
      * remaining commandline arguments are assumed to be a list of files.
      * If there are no files listed, the application is activated via the
-     * #GApplication::activate signal.  If there are one or more files, and
-     * {@link org.gtk.gio.ApplicationFlags#HANDLES_OPEN} was specified then the files are opened
-     * via the #GApplication::open signal.
+     * {@link org.gtk.gio.Application} :activate signal.  If there are one or more files, and
+     * {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_OPEN</code>  was specified then the files are opened
+     * via the {@link org.gtk.gio.Application} :open signal.
      * 
      * If you are interested in doing more complicated local handling of the
-     * commandline then you should implement your own #GApplication subclass
+     * commandline then you should implement your own {@link org.gtk.gio.Application} subclass
      * and override local_command_line(). In this case, you most likely want
      * to return <code>true</code> from your local_command_line() implementation to
      * suppress the default handling. See
@@ -572,7 +567,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * non-zero then the default main context is iterated until the use count
      * falls to zero, at which point 0 is returned.
      * 
-     * If the {@link org.gtk.gio.ApplicationFlags#IS_SERVICE} flag is set, then the service will
+     * If the {@link org.gtk.gio.ApplicationFlags<code>#IS_SERVICE</code>  flag is set, then the service will
      * run for as much as 10 seconds with a use count of zero while waiting
      * for the message that caused the activation to arrive.  After that,
      * if the use count falls to zero the application will exit immediately,
@@ -586,17 +581,17 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * for the duration that the application is running.
      * 
      * Since 2.40, applications that are not explicitly flagged as services
-     * or launchers (ie: neither {@link org.gtk.gio.ApplicationFlags#IS_SERVICE} or
-     * {@link org.gtk.gio.ApplicationFlags#IS_LAUNCHER} are given as flags) will check (from the
-     * default handler for local_command_line) if &#34;--gapplication-service&#34;
+     * or launchers (ie: neither {@link org.gtk.gio.ApplicationFlags<code>#IS_SERVICE</code>  or
+     * {@link org.gtk.gio.ApplicationFlags<code>#IS_LAUNCHER</code>  are given as flags) will check (from the
+     * default handler for local_command_line) if &<code>#34</code> --gapplication-service&<code>#34</code> 
      * was given in the command line.  If this flag is present then normal
      * commandline processing is interrupted and the
-     * {@link org.gtk.gio.ApplicationFlags#IS_SERVICE} flag is set.  This provides a &#34;compromise&#34;
+     * {@link org.gtk.gio.ApplicationFlags<code>#IS_SERVICE</code>  flag is set.  This provides a &<code>#34</code> compromise&<code>#34</code> 
      * solution whereby running an application directly from the commandline
      * will invoke it in the normal way (which can be useful for debugging)
      * while still allowing applications to be D-Bus activated in service
      * mode.  The D-Bus service file should invoke the executable with
-     * &#34;--gapplication-service&#34; as the sole commandline argument.  This
+     * &<code>#34</code> --gapplication-service&<code>#34</code>  as the sole commandline argument.  This
      * approach is suitable for use by most graphical applications but
      * should not be used from applications like editors that need precise
      * control over when processes invoked via the commandline will exit and
@@ -621,7 +616,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * 
      * @id may be any string that uniquely identifies the event for the
      * application. It does not need to be in any special format. For
-     * example, &#34;new-message&#34; might be appropriate for a notification about
+     * example, &<code>#34</code> new-message&<code>#34</code>  might be appropriate for a notification about
      * new messages.
      * 
      * If a previous notification was sent with the same @id, it will be
@@ -629,7 +624,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * notification. This works even for notifications sent from a previous
      * execution of the application, as long as @id is the same string.
      * 
-     * @id may be <code>NULL,</code> but it is impossible to replace or withdraw
+     * @id may be <code>null</code>  but it is impossible to replace or withdraw
      * notifications without an id.
      * 
      * If @notification is no longer relevant, it can be withdrawn with
@@ -645,7 +640,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * The application id can only be modified if @application has not yet
      * been registered.
      * 
-     * If non-<code>NULL,</code> the application id must be valid.  See
+     * If non-<code>null</code>  the application id must be valid.  See
      * g_application_id_is_valid().
      */
     public void setApplicationId(java.lang.String applicationId) {
@@ -658,18 +653,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * 
      * This function does not take its own reference on @application.  If
      * @application is destroyed then the default application will revert
-     * back to 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets or unsets the default application for the process, as returned
-     * by g_application_get_default().
-     * 
-     * This function does not take its own reference on @application.  If
-     * @application is destroyed then the default application will revert
-     * back to %NULL.
+     * back to <code>null</code>
      */
     public void setDefault() {
         gtk_h.g_application_set_default(handle());
@@ -681,7 +665,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * The flags can only be modified if @application has not yet been
      * registered.
      * 
-     * See #GApplicationFlags.
+     * See {@link org.gtk.gio.ApplicationFlags}
      */
     public void setFlags(int flags) {
         gtk_h.g_application_set_flags(handle(), flags);
@@ -714,7 +698,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * Sets the parameter string to be used by the commandline handling of @application.
      * 
      * This function registers the argument to be passed to g_option_context_new()
-     * when the internal #GOptionContext of @application is created.
+     * when the internal {@link org.gtk.glib.OptionContext} of @application is created.
      * 
      * See g_option_context_new() for more information about @parameter_string.
      */
@@ -740,30 +724,30 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * to the given base path.
      * 
      * By default, the resource base path is determined from the application
-     * ID by prefixing &#39;/&#39; and replacing each &#39;.&#39; with &#39;/&#39;.  This is done at
-     * the time that the #GApplication object is constructed.  Changes to
+     * ID by prefixing &<code>#39</code> /&<code>#39</code>  and replacing each &<code>#39</code> .&<code>#39</code>  with &<code>#39</code> /&<code>#39</code> .  This is done at
+     * the time that the {@link org.gtk.gio.Application} object is constructed.  Changes to
      * the application ID after that point will not have an impact on the
      * resource base path.
      * 
-     * As an example, if the application has an ID of &#34;org.example.app&#34; then
-     * the default resource base path will be &#34;/org/example/app&#34;.  If this
-     * is a #GtkApplication (and you have not manually changed the path)
+     * As an example, if the application has an ID of &<code>#34</code> org.example.app&<code>#34</code>  then
+     * the default resource base path will be &<code>#34</code> /org/example/app&<code>#34</code> .  If this
+     * is a {@link org.gtk.gtk.Application} (and you have not manually changed the path)
      * then Gtk will then search for the menus of the application at
-     * &#34;/org/example/app/gtk/menus.ui&#34;.
+     * &<code>#34</code> /org/example/app/gtk/menus.ui&<code>#34</code> .
      * 
-     * See #GResource for more information about adding resources to your
+     * See {@link org.gtk.gio.Resource} for more information about adding resources to your
      * application.
      * 
      * You can disable automatic resource loading functionality by setting
-     * the path to <code>NULL.
+     * the path to <code>null</code> 
      * 
-     * Changing</code> the resource base path once the application is running is
+     * Changing the resource base path once the application is running is
      * not recommended.  The point at which the resource path is consulted
      * for forming paths for various purposes is unspecified.  When writing
-     * a sub-class of #GApplication you should either set the
-     * #GApplication:resource-base-path property at construction time, or call
+     * a sub-class of {@link org.gtk.gio.Application} you should either set the
+     * {@link org.gtk.gio.Application} resource-base-path property at construction time, or call
      * this function during the instance initialization. Alternatively, you
-     * can call this function in the #GApplicationClass.startup virtual function,
+     * can call this function in the {@link org.gtk.gio.ApplicationClass} startup virtual function,
      * before chaining up to the parent implementation.
      */
     public void setResourceBasePath(java.lang.String resourcePath) {
@@ -796,7 +780,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * Withdraws a notification that was sent with
      * g_application_send_notification().
      * 
-     * This call does nothing if a notification with @id doesn&#39;t exist or
+     * This call does nothing if a notification with @id doesn&<code>#39</code> t exist or
      * the notification was never sent.
      * 
      * This function works even for notifications sent in previous
@@ -812,9 +796,9 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     /**
-     * Returns the default #GApplication instance for this process.
+     * Returns the default {@link org.gtk.gio.Application} instance for this process.
      * 
-     * Normally there is only one #GApplication per process and it becomes
+     * Normally there is only one {@link org.gtk.gio.Application} per process and it becomes
      * the default when it is created.  You can exercise more control over
      * this by using g_application_set_default().
      * 
@@ -832,7 +816,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_set_application_id().
      * <p>
      * Application identifiers follow the same format as
-     * {@link [D-Bus well-known bus names]}(https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus).
+     * {@link [D-Bus well-known bus names]}(https://dbus.freedesktop.org/doc/dbus-specification.html<code>#message</code> protocol-names-bus).
      * For convenience, the restrictions on application identifiers are
      * reproduced here:
      * <p>
@@ -853,10 +837,10 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * Note that the hyphen (<code>-</code>) character is allowed in application identifiers,
      * but is problematic or not allowed in various specifications and APIs that
      * refer to D-Bus, such as
-     * {@link [Flatpak application IDs]}(http://docs.flatpak.org/en/latest/introduction.html#identifiers),
+     * {@link [Flatpak application IDs]}(http://docs.flatpak.org/en/latest/introduction.html<code>#identifiers</code> ,
      * the
-     * {@link [<code>DBusActivatable</code> interface in the Desktop Entry Specification]}(https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#dbus),
-     * and the convention that an application&#39;s &#34;main&#34; interface and object path
+     * {@link [<code>DBusActivatable</code> interface in the Desktop Entry Specification]}(https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html<code>#dbus</code> ,
+     * and the convention that an application&<code>#39</code> s &<code>#34</code> main&<code>#34</code>  interface and object path
      * resemble its application identifier and bus name. To avoid situations that
      * require special-case handling, it is recommended that new application
      * identifiers consistently replace hyphens with underscores.
@@ -866,7 +850,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * it is conventional for the rest of the application identifier to consist of
      * words run together, with initial capital letters.
      * <p>
-     * As with D-Bus interface names, if the author&#39;s DNS domain name contains
+     * As with D-Bus interface names, if the author&<code>#39</code> s DNS domain name contains
      * hyphen/minus characters they should be replaced by underscores, and if it
      * contains leading digits they should be escaped by prepending an underscore.
      * For example, if the owner of 7-zip.org used an application identifier for an
@@ -909,7 +893,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     /**
      * The ::command-line signal is emitted on the primary instance when
      * a commandline is not handled locally. See g_application_run() and
-     * the #GApplicationCommandLine documentation for more information.
+     * the {@link org.gtk.gio.ApplicationCommandLine} documentation for more information.
      */
     public SignalHandle onCommandLine(CommandLineHandler handler) {
         try {
@@ -940,19 +924,19 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * g_application_add_option_group().
      * <p>
      * Signal handlers can inspect @options (along with values pointed to
-     * from the @arg_data of an installed #GOptionEntrys) in order to
+     * from the @arg_data of an installed <code>#GOptionEntrys</code>  in order to
      * decide to perform certain actions, including direct local handling
      * (which may be useful for options like --version).
      * <p>
      * In the event that the application is marked
-     * {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} the &#34;normal processing&#34; will
+     * {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  the &<code>#34</code> normal processing&<code>#34</code>  will
      * send the @options dictionary to the primary instance where it can be
      * read with g_application_command_line_get_options_dict().  The signal
      * handler can modify the dictionary before returning, and the
      * modified dictionary will be sent.
      * <p>
-     * In the event that {@link org.gtk.gio.ApplicationFlags#HANDLES_COMMAND_LINE} is not set,
-     * &#34;normal processing&#34; will treat the remaining uncollected command
+     * In the event that {@link org.gtk.gio.ApplicationFlags<code>#HANDLES_COMMAND_LINE</code>  is not set,
+     * &<code>#34</code> normal processing&<code>#34</code>  will treat the remaining uncollected command
      * line arguments as filenames or URIs.  If there are no arguments,
      * the application is activated by g_application_activate().  One or
      * more arguments results in a call to g_application_open().
@@ -967,7 +951,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * in that case).
      * 
      * Note that this signal is emitted from the default implementation of
-     * local_command_line().  If you override that function and don&#39;t
+     * local_command_line().  If you override that function and don&<code>#39</code> t
      * chain up then this signal will never be emitted.
      * 
      * You can override local_command_line() if you need more powerful
@@ -997,7 +981,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     /**
      * The ::name-lost signal is emitted only on the registered primary instance
      * when a new instance has taken over. This can only happen if the application
-     * is using the {@link org.gtk.gio.ApplicationFlags#ALLOW_REPLACEMENT} flag.
+     * is using the {@link org.gtk.gio.ApplicationFlags<code>#ALLOW_REPLACEMENT</code>  flag.
      * 
      * The default handler for this signal calls g_application_quit().
      */

@@ -8,31 +8,31 @@ package org.pango;
  * the layout is rotated using a non-identity {@link [struct@Pango.Matrix] (ref=struct)}, and then
  * glyph orientation is controlled using <code>PangoGravity</code>.
  * <p>
- * Not every value in this enumeration makes sense for every usage of<code>PangoGravity</code>; for example, {@link org.pango.Gravity#AUTO} only can be passed to
- * {@link org.pango.Context#setBaseGravity} and can only be returned by
- * {@link org.pango.Context#getBaseGravity}.
+ * Not every value in this enumeration makes sense for every usage of<code>PangoGravity</code>; for example, {@link org.pango.Gravity<code>#AUTO</code>  only can be passed to
+ * {@link org.pango.Context<code>#setBaseGravity</code>  and can only be returned by
+ * {@link org.pango.Context<code>#getBaseGravity</code> .
  * 
  * See also: {@link [enum@Pango.GravityHint] (ref=enum)}
  */
 public enum Gravity {
 
     /**
-     * Glyphs stand upright (default) &#60;img align=&#34;right&#34; valign=&#34;center&#34; src=&#34;m-south.png&#34;&#62;
+     * Glyphs stand upright (default) &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> center&<code>#34</code>  src=&<code>#34</code> m-south.png&<code>#34</code> &<code>#62</code>
      */
     SOUTH,
     
     /**
-     * Glyphs are rotated 90 degrees counter-clockwise. &#60;img align=&#34;right&#34; valign=&#34;center&#34; src=&#34;m-east.png&#34;&#62;
+     * Glyphs are rotated 90 degrees counter-clockwise. &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> center&<code>#34</code>  src=&<code>#34</code> m-east.png&<code>#34</code> &<code>#62</code>
      */
     EAST,
     
     /**
-     * Glyphs are upside-down. &#60;img align=&#34;right&#34; valign=&#34;cener&#34; src=&#34;m-north.png&#34;&#62;
+     * Glyphs are upside-down. &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> cener&<code>#34</code>  src=&<code>#34</code> m-north.png&<code>#34</code> &<code>#62</code>
      */
     NORTH,
     
     /**
-     * Glyphs are rotated 90 degrees clockwise. &#60;img align=&#34;right&#34; valign=&#34;center&#34; src=&#34;m-west.png&#34;&#62;
+     * Glyphs are rotated 90 degrees clockwise. &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> center&<code>#34</code>  src=&<code>#34</code> m-west.png&<code>#34</code> &<code>#62</code>
      */
     WEST,
     

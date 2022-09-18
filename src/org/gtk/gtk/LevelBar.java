@@ -15,11 +15,11 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [An example GtkLevelBar]}(levelbar.png)
  * <p>
- * Use {@link org.gtk.gtk.LevelBar#setValue} to set the current value, and
- * {@link org.gtk.gtk.LevelBar#addOffsetValue} to set the value offsets at which
+ * Use {@link org.gtk.gtk.LevelBar<code>#setValue</code>  to set the current value, and
+ * {@link org.gtk.gtk.LevelBar<code>#addOffsetValue</code>  to set the value offsets at which
  * the bar will be considered in a different state. GTK will add a few
- * offsets by default on the level bar: <code>GTK_LEVEL_BAR_OFFSET_LOW,
- * %GTK_LEVEL_BAR_OFFSET_HIGH</code> and <code>GTK_LEVEL_BAR_OFFSET_FULL,</code> with
+ * offsets by default on the level bar: <code>GTK_LEVEL_BAR_OFFSET_LOW</code> 
+ * <code>GTK_LEVEL_BAR_OFFSET_HIGH</code> and <code>GTK_LEVEL_BAR_OFFSET_FULL</code>  with
  * values 0.25, 0.75 and 1.0 respectively.
  * <p>
  * Note that it is your responsibility to update preexisting offsets
@@ -53,40 +53,40 @@ import java.lang.invoke.*;
  *   //   border-style: 1px;
  *   // }
  * <p>
- *   gtk_level_bar_add_offset_value (bar, &#34;my-offset&#34;, 0.60);
+ *   gtk_level_bar_add_offset_value (bar, &<code>#34</code> my-offset&<code>#34</code> , 0.60);
  * <p>
  *   return widget;
  * }
  * </pre>
  * <p>
- * The default interval of values is between zero and one, but it&#8217;s possible
- * to modify the interval using {@link org.gtk.gtk.LevelBar#setMinValue} and
- * {@link org.gtk.gtk.LevelBar#setMaxValue}. The value will be always drawn in
+ * The default interval of values is between zero and one, but it&<code>#8217</code> s possible
+ * to modify the interval using {@link org.gtk.gtk.LevelBar<code>#setMinValue</code>  and
+ * {@link org.gtk.gtk.LevelBar<code>#setMaxValue</code> . The value will be always drawn in
  * proportion to the admissible interval, i.e. a value of 15 with a specified
  * interval between 10 and 20 is equivalent to a value of 0.5 with an interval
- * between 0 and 1. When {@link org.gtk.gtk.LevelBarMode#DISCRETE} is used, the bar level
+ * between 0 and 1. When {@link org.gtk.gtk.LevelBarMode<code>#DISCRETE</code>  is used, the bar level
  * is rendered as a finite number of separated blocks instead of a single one.
  * The number of blocks that will be rendered is equal to the number of units
  * specified by the admissible interval.
  * <p>
- * For instance, to build a bar rendered with five blocks, it&#8217;s sufficient to
+ * For instance, to build a bar rendered with five blocks, it&<code>#8217</code> s sufficient to
  * set the minimum value to 0 and the maximum value to 5 after changing the
  * indicator mode to discrete.
  * <p>
- * <h1>tkLevelBar as GtkBuildable</h1>
+ * <h1>GtkLevelBar as GtkBuildable</h1>
  * <p>
  * The <code>GtkLevelBar</code> implementation of the <code>GtkBuildable</code> interface supports a
- * custom &#60;offsets&#62; element, which can contain any number of &#60;offset&#62; elements,
+ * custom &<code>#60</code> offsets&<code>#62</code>  element, which can contain any number of &<code>#60</code> offset&<code>#62</code>  elements,
  * each of which must have name and value attributes.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * levelbar{@link [.discrete]}
- * &#9584;&#9472;&#9472; trough
- *     &#9500;&#9472;&#9472; block.filled.level-name
- *     &#9482;
- *     &#9500;&#9472;&#9472; block.empty
- *     &#9482;
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  trough
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  block.filled.level-name
+ *     &<code>#9482</code> 
+ *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  block.empty
+ *     &<code>#9482</code> 
  * </pre>
  * <p><code>GtkLevelBar</code> has a main CSS node with name levelbar and one of the style
  * classes .discrete or .continuous and a subnode with name trough. Below the
@@ -99,8 +99,8 @@ import java.lang.invoke.*;
  * In horizontal orientation, the nodes are always arranged from left to right,
  * regardless of text direction.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkLevelBar</code> uses the {@link org.gtk.gtk.AccessibleRole#METER} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkLevelBar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#METER</code>  role.
  */
 public class LevelBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -196,7 +196,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Removes an offset marker from a <code>GtkLevelBar</code>.
      * 
      * The marker must have been previously added with
-     * {@link org.gtk.gtk.LevelBar#addOffsetValue}.
+     * {@link org.gtk.gtk.LevelBar<code>#addOffsetValue</code> .
      */
     public void removeOffsetValue(java.lang.String name) {
         gtk_h.gtk_level_bar_remove_offset_value(handle(), Interop.allocateNativeString(name).handle());
@@ -251,12 +251,12 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Emitted when an offset specified on the bar changes value.
      * 
-     * This typically is the result of a {@link org.gtk.gtk.LevelBar#addOffsetValue}
+     * This typically is the result of a {@link org.gtk.gtk.LevelBar<code>#addOffsetValue</code> 
      * call.
      * 
      * The signal supports detailed connections; you can connect to the
-     * detailed signal &#34;changed::x&#34; in order to only receive callbacks when
-     * the value of offset &#34;x&#34; changes.
+     * detailed signal &<code>#34</code> changed::x&<code>#34</code>  in order to only receive callbacks when
+     * the value of offset &<code>#34</code> x&<code>#34</code>  changes.
      */
     public SignalHandle onOffsetChanged(OffsetChangedHandler handler) {
         try {

@@ -63,16 +63,7 @@ public class StringSorter extends Sorter {
     /**
      * Sets the expression that is evaluated to obtain strings from items.
      * 
-     * The expression must have the type 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets the expression that is evaluated to obtain strings from items.
-     * 
-     * The expression must have the type %G_TYPE_STRING.
+     * The expression must have the type <code>G_TYPE_STRING</code>
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_string_sorter_set_expression(handle(), expression.handle());

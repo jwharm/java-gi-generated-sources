@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * <code>GtkGestureLongPress</code> is a <code>GtkGesture</code> for long presses.
  * 
- * This gesture is also known as &#8220;Press and Hold&#8221;.
+ * This gesture is also known as &<code>#8220</code> Press and Hold&<code>#8221</code> .
  * 
  * When the timeout is exceeded, the gesture is triggering the
  * {@link [signal@Gtk.GestureLongPress::pressed] (ref=signal)} signal.

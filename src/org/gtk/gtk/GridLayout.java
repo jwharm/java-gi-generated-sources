@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * <code>GtkGridLayout</code> is a layout manager which arranges child widgets in
  * rows and columns.
  * <p>
- * Children have an &#34;attach point&#34; defined by the horizontal and vertical
+ * Children have an &<code>#34</code> attach point&<code>#34</code>  defined by the horizontal and vertical
  * index of the cell they occupy; children can span multiple rows or columns.
  * The layout properties for setting the attach points and spans are set
  * using the {@link org.gtk.gtk.GridLayoutChild} associated to each child widget.
@@ -73,9 +73,8 @@ public class GridLayout extends LayoutManager {
      * Returns the baseline position of @row.
      * 
      * If no value has been set with
-     * {@link org.gtk.gtk.GridLayout#setRowBaselinePosition},
-     * the default value of <code>GTK_BASELINE_POSITION_CENTER
-     * is</code> returned.
+     * {@link org.gtk.gtk.GridLayout<code>#setRowBaselinePosition</code> ,
+     * the default value of {@link org.gtk.gtk.BaselinePosition<code>#CENTER</code>  is returned.
      */
     public BaselinePosition getRowBaselinePosition(int row) {
         var RESULT = gtk_h.gtk_grid_layout_get_row_baseline_position(handle(), row);

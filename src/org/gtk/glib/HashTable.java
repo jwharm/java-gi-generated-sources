@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GHashTable struct is an opaque data structure to represent a
+ * The {@link org.gtk.glib.HashTable} struct is an opaque data structure to represent a
  * {@link [Hash Table]}{@link [glib-Hash-Tables]}. It should only be accessed via the
  * following functions.
  */
@@ -19,7 +19,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * This is a convenience function for using a #GHashTable as a set.  It
+     * This is a convenience function for using a {@link org.gtk.glib.HashTable} as a set.  It
      * is equivalent to calling g_hash_table_replace() with @key as both the
      * key and the value.
      * 
@@ -49,9 +49,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Destroys all keys and values in the #GHashTable and decrements its
+     * Destroys all keys and values in the {@link org.gtk.glib.HashTable} and decrements its
      * reference count by 1. If keys and/or values are dynamically allocated,
-     * you should either free them first or create the #GHashTable with destroy
+     * you should either free them first or create the {@link org.gtk.glib.HashTable} with destroy
      * notifiers using g_hash_table_new_full(). In the latter case the destroy
      * functions you supplied will be called on all keys and values during the
      * destruction phase.
@@ -61,10 +61,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls the given function for key/value pairs in the #GHashTable
-     * until @predicate returns <code>TRUE.</code> The function is passed the key
+     * Calls the given function for key/value pairs in the {@link org.gtk.glib.HashTable} until @predicate returns <code>true</code>  The function is passed the key
      * and value of each pair, and the given @user_data parameter. The
-     * hash table may not be modified while iterating over it (you can&#39;t
+     * hash table may not be modified while iterating over it (you can&<code>#39</code> t
      * add/remove items).
      * 
      * Note, that hash tables are really only optimized for forward
@@ -92,9 +91,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls the given function for each of the key/value pairs in the
-     * #GHashTable.  The function is passed the key and value of each
+     * {@link org.gtk.glib.HashTable}   The function is passed the key and value of each
      * pair, and the given @user_data parameter.  The hash table may not
-     * be modified while iterating over it (you can&#39;t add/remove
+     * be modified while iterating over it (you can&<code>#39</code> t add/remove
      * items). To remove all items matching a predicate, use
      * g_hash_table_foreach_remove().
      * 
@@ -120,12 +119,12 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls the given function for each key/value pair in the
-     * #GHashTable. If the function returns <code>TRUE,</code> then the key/value
-     * pair is removed from the #GHashTable. If you supplied key or
-     * value destroy functions when creating the #GHashTable, they are
+     * {@link org.gtk.glib.HashTable}  If the function returns <code>true</code>  then the key/value
+     * pair is removed from the {@link org.gtk.glib.HashTable}  If you supplied key or
+     * value destroy functions when creating the {@link org.gtk.glib.HashTable}  they are
      * used to free the memory allocated for the removed keys and values.
      * 
-     * See #GHashTableIter for an alternative way to loop over the
+     * See {@link org.gtk.glib.HashTableIter} for an alternative way to loop over the
      * key/value pairs in the hash table.
      */
     public static int foreachRemove(org.gtk.glib.HashTable hashTable, HRFunc func) {
@@ -145,11 +144,11 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls the given function for each key/value pair in the
-     * #GHashTable. If the function returns <code>TRUE,</code> then the key/value
-     * pair is removed from the #GHashTable, but no key or value
+     * {@link org.gtk.glib.HashTable}  If the function returns <code>true</code>  then the key/value
+     * pair is removed from the {@link org.gtk.glib.HashTable}  but no key or value
      * destroy functions are called.
      * 
-     * See #GHashTableIter for an alternative way to loop over the
+     * See {@link org.gtk.glib.HashTableIter} for an alternative way to loop over the
      * key/value pairs in the hash table.
      */
     public static int foreachSteal(org.gtk.glib.HashTable hashTable, HRFunc func) {
@@ -172,8 +171,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * until changes to the hash release those keys.
      * 
      * This iterates over every entry in the hash table to build its return value.
-     * To iterate over the entries in a #GHashTable more efficiently, use a
-     * #GHashTableIter.
+     * To iterate over the entries in a {@link org.gtk.glib.HashTable} more efficiently, use a
+     * {@link org.gtk.glib.HashTableIter}
      */
     public static org.gtk.glib.List getKeys(org.gtk.glib.HashTable hashTable) {
         var RESULT = gtk_h.g_hash_table_get_keys(hashTable.handle());
@@ -185,8 +184,8 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * is valid until @hash_table is modified.
      * 
      * This iterates over every entry in the hash table to build its return value.
-     * To iterate over the entries in a #GHashTable more efficiently, use a
-     * #GHashTableIter.
+     * To iterate over the entries in a {@link org.gtk.glib.HashTable} more efficiently, use a
+     * {@link org.gtk.glib.HashTableIter}
      */
     public static org.gtk.glib.List getValues(org.gtk.glib.HashTable hashTable) {
         var RESULT = gtk_h.g_hash_table_get_values(hashTable.handle());
@@ -194,13 +193,13 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a new key and value into a #GHashTable.
+     * Inserts a new key and value into a {@link org.gtk.glib.HashTable} 
      * 
-     * If the key already exists in the #GHashTable its current
+     * If the key already exists in the {@link org.gtk.glib.HashTable} its current
      * value is replaced with the new value. If you supplied a
-     * @value_destroy_func when creating the #GHashTable, the old
+     * @value_destroy_func when creating the {@link org.gtk.glib.HashTable}  the old
      * value is freed using that function. If you supplied a
-     * @key_destroy_func when creating the #GHashTable, the passed
+     * @key_destroy_func when creating the {@link org.gtk.glib.HashTable}  the passed
      * key is freed using that function.
      * 
      * Starting from GLib 2.40, this function returns a boolean value to
@@ -213,9 +212,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Looks up a key in a #GHashTable. Note that this function cannot
+     * Looks up a key in a {@link org.gtk.glib.HashTable}  Note that this function cannot
      * distinguish between a key that is not present and one which is present
-     * and has the value <code>NULL.</code> If you need this distinction, use
+     * and has the value <code>null</code>  If you need this distinction, use
      * g_hash_table_lookup_extended().
      */
     public static jdk.incubator.foreign.MemoryAddress lookup(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
@@ -224,15 +223,14 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Looks up a key in the #GHashTable, returning the original key and the
-     * associated value and a #gboolean which is <code>true</code> if the key was found. This
+     * Looks up a key in the {@link org.gtk.glib.HashTable}  returning the original key and the
+     * associated value and a <code>#gboolean</code> which is <code>true</code> if the key was found. This
      * is useful if you need to free the memory allocated for the original key,
      * for example before calling g_hash_table_remove().
      * 
      * You can actually pass <code>null</code> for @lookup_key to test
      * whether the <code>null</code> key exists, provided the hash and equal functions
-     * of @hash_table are key exists, provided the hash and equal functions
-     * of @hash_table are %NULL-safe.
+     * of @hash_table are <code>null</code> safe.
      */
     public static boolean lookupExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress origKey, jdk.incubator.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_lookup_extended(hashTable.handle(), lookupKey, origKey, value);
@@ -240,7 +238,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GHashTable like g_hash_table_new_full() with a reference
+     * Creates a new {@link org.gtk.glib.HashTable} like g_hash_table_new_full() with a reference
      * count of 1.
      * 
      * It inherits the hash function, the key equal function, the key destroy function,
@@ -264,9 +262,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes a key and its associated value from a #GHashTable.
+     * Removes a key and its associated value from a {@link org.gtk.glib.HashTable} 
      * 
-     * If the #GHashTable was created using g_hash_table_new_full(), the
+     * If the {@link org.gtk.glib.HashTable} was created using g_hash_table_new_full(), the
      * key and value are freed using the supplied destroy functions, otherwise
      * you have to make sure that any dynamically allocated values are freed
      * yourself.
@@ -277,9 +275,9 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes all keys and their associated values from a #GHashTable.
+     * Removes all keys and their associated values from a {@link org.gtk.glib.HashTable} 
      * 
-     * If the #GHashTable was created using g_hash_table_new_full(),
+     * If the {@link org.gtk.glib.HashTable} was created using g_hash_table_new_full(),
      * the keys and values are freed using the supplied destroy functions,
      * otherwise you have to make sure that any dynamically allocated
      * values are freed yourself.
@@ -289,13 +287,13 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a new key and value into a #GHashTable similar to
+     * Inserts a new key and value into a {@link org.gtk.glib.HashTable} similar to
      * g_hash_table_insert(). The difference is that if the key
-     * already exists in the #GHashTable, it gets replaced by the
+     * already exists in the {@link org.gtk.glib.HashTable}  it gets replaced by the
      * new key. If you supplied a @value_destroy_func when creating
-     * the #GHashTable, the old value is freed using that function.
+     * the {@link org.gtk.glib.HashTable}  the old value is freed using that function.
      * If you supplied a @key_destroy_func when creating the
-     * #GHashTable, the old key is freed using that function.
+     * {@link org.gtk.glib.HashTable}  the old key is freed using that function.
      * 
      * Starting from GLib 2.40, this function returns a boolean value to
      * indicate whether the newly added value was already in the hash table
@@ -307,7 +305,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the number of elements contained in the #GHashTable.
+     * Returns the number of elements contained in the {@link org.gtk.glib.HashTable}
      */
     public static int size(org.gtk.glib.HashTable hashTable) {
         var RESULT = gtk_h.g_hash_table_size(hashTable.handle());
@@ -315,7 +313,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes a key and its associated value from a #GHashTable without
+     * Removes a key and its associated value from a {@link org.gtk.glib.HashTable} without
      * calling the key and value destroy functions.
      */
     public static boolean steal(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
@@ -324,15 +322,14 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes all keys and their associated values from a #GHashTable
-     * without calling the key and value destroy functions.
+     * Removes all keys and their associated values from a {@link org.gtk.glib.HashTable} without calling the key and value destroy functions.
      */
     public static void stealAll(org.gtk.glib.HashTable hashTable) {
         gtk_h.g_hash_table_steal_all(hashTable.handle());
     }
     
     /**
-     * Looks up a key in the #GHashTable, stealing the original key and the
+     * Looks up a key in the {@link org.gtk.glib.HashTable}  stealing the original key and the
      * associated value and returning <code>true</code> if the key was found. If the key was
      * not found, <code>false</code> is returned.
      * 
@@ -341,8 +338,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * the caller of this method; as with g_hash_table_steal().
      * 
      * You can pass <code>null</code> for @lookup_key, provided the hash and equal functions
-     * of @hash_table are for @lookup_key, provided the hash and equal functions
-     * of @hash_table are %NULL-safe.
+     * of @hash_table are <code>null</code> safe.
      */
     public static boolean stealExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress stolenKey, jdk.incubator.foreign.MemoryAddress stolenValue) {
         var RESULT = gtk_h.g_hash_table_steal_extended(hashTable.handle(), lookupKey, stolenKey, stolenValue);

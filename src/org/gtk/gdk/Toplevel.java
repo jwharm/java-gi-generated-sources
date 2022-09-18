@@ -28,7 +28,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Begins an interactive resize operation.
      * 
-     * You might use this function to implement a &#8220;window resize grip.&#8221;
+     * You might use this function to implement a &<code>#8220</code> window resize grip.&<code>#8221</code>
      */
     public default void beginResize(SurfaceEdge edge, Device device, int button, double x, double y, int timestamp) {
         gtk_h.gdk_toplevel_begin_resize(handle(), edge.getValue(), device.handle(), button, x, y, timestamp);
@@ -37,7 +37,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets keyboard focus to @surface.
      * 
-     * In most cases, {@link org.gtk.gtk.Window#presentWithTime} should be
+     * In most cases, {@link org.gtk.gtk.Window<code>#presentWithTime</code>  should be
      * used on a {@link org.gtk.gtk.Window}, rather than calling this function.
      */
     public default void focus(int timestamp) {
@@ -61,7 +61,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * of triggering system actions.
      * 
      * If granted, the rerouting remains active until the default shortcuts
-     * processing is restored with {@link org.gtk.gdk.Toplevel#restoreSystemShortcuts},
+     * processing is restored with {@link org.gtk.gdk.Toplevel<code>#restoreSystemShortcuts</code> ,
      * or the request is revoked by the desktop environment, windowing system
      * or the user.
      * 
@@ -121,7 +121,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * Restore default system keyboard shortcuts which were previously
      * inhibited.
      * 
-     * This undoes the effect of {@link org.gtk.gdk.Toplevel#inhibitSystemShortcuts}.
+     * This undoes the effect of {@link org.gtk.gdk.Toplevel<code>#inhibitSystemShortcuts</code> .
      */
     public default void restoreSystemShortcuts() {
         gtk_h.gdk_toplevel_restore_system_shortcuts(handle());
@@ -157,7 +157,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * can scale the icon but setting several size icons can give better
      * image quality.
      * 
-     * Note that some platforms don&#39;t support surface icons.
+     * Note that some platforms don&<code>#39</code> t support surface icons.
      */
     public default void setIconList(org.gtk.glib.List surfaces) {
         gtk_h.gdk_toplevel_set_icon_list(handle(), surfaces.handle());
@@ -172,7 +172,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * to handle modal surfaces in a special way.
      * 
      * You should only use this on surfaces for which you have
-     * previously called {@link org.gtk.gdk.Toplevel#setTransientFor}.
+     * previously called {@link org.gtk.gdk.Toplevel<code>#setTransientFor</code> .
      */
     public default void setModal(boolean modal) {
         gtk_h.gdk_toplevel_set_modal(handle(), modal ? 1 : 0);
@@ -182,7 +182,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * Sets the startup notification ID.
      * 
      * When using GTK, typically you should use
-     * {@link org.gtk.gtk.Window#setStartupId} instead of this
+     * {@link org.gtk.gtk.Window<code>#setStartupId</code>  instead of this
      * low-level function.
      */
     public default void setStartupId(java.lang.String startupId) {
@@ -207,7 +207,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * allows the window manager to do things like center @surface
      * on @parent and keep @surface above @parent.
      * 
-     * See {@link org.gtk.gtk.Window#setTransientFor} if you&#8217;re using
+     * See {@link org.gtk.gtk.Window<code>#setTransientFor</code>  if you&<code>#8217</code> re using
      * {@link org.gtk.gtk.Window} or {@link org.gtk.gtk.Dialog}.
      */
     public default void setTransientFor(Surface parent) {
@@ -250,7 +250,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * Emitted when the size for the surface needs to be computed, when
      * it is present.
      * 
-     * It will normally be emitted during or after {@link org.gtk.gdk.Toplevel#present},
+     * It will normally be emitted during or after {@link org.gtk.gdk.Toplevel<code>#present</code> ,
      * depending on the configuration received by the windowing system.
      * It may also be emitted at any other point in time, in response
      * to the windowing system spontaneously changing the configuration.

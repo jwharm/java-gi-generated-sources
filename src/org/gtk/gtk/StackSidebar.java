@@ -12,10 +12,10 @@ import java.lang.invoke.*;
  * <p>
  * In order to use a <code>GtkStackSidebar</code>, you simply use a <code>GtkStack</code> to
  * organize your UI flow, and add the sidebar to your sidebar area. You
- * can use {@link org.gtk.gtk.StackSidebar#setStack} to connect the <code>GtkStackSidebar</code>
+ * can use {@link org.gtk.gtk.StackSidebar<code>#setStack</code>  to connect the <code>GtkStackSidebar</code>
  * to the <code>GtkStack</code>.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkStackSidebar</code> has a single CSS node with name stacksidebar and
  * style class .sidebar.
  * <p>

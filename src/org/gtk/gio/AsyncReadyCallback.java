@@ -2,12 +2,11 @@ package org.gtk.gio;
 
 /**
  * Type definition for a function that will be called back when an asynchronous
- * operation within GIO has been completed. #GAsyncReadyCallback
- * callbacks from #GTask are guaranteed to be invoked in a later
+ * operation within GIO has been completed. {@link org.gtk.gio.AsyncReadyCallback} callbacks from {@link org.gtk.gio.Task} are guaranteed to be invoked in a later
  * iteration of the
  * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
- * where the #GTask was created. All other users of
- * <h1>syncReadyCallback must likewise call it asynchronously in a</h1>
+ * where the {@link org.gtk.gio.Task} was created. All other users of
+ * {@link org.gtk.gio.AsyncReadyCallback} must likewise call it asynchronously in a
  * later iteration of the main context.
  * <p>
  * The asynchronous operation is guaranteed to have held a reference to

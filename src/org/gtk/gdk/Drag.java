@@ -11,13 +11,13 @@ import java.lang.invoke.*;
  * The <code>GdkDrag</code> object represents the source of an ongoing DND operation.
  * <p>
  * A <code>GdkDrag</code> is created when a drag is started, and stays alive for duration of
- * the DND operation. After a drag has been started with {@link Gdk#Drag},
+ * the DND operation. After a drag has been started with {@link Gdk<code>#Drag</code> ,
  * the caller gets informed about the status of the ongoing drag operation
  * with signals on the <code>GdkDrag</code> object.
  * 
  * GTK provides a higher level abstraction based on top of these functions,
  * and so they are not normally needed in GTK applications. See the
- * &#34;Drag and Drop&#34; section of the GTK documentation for more information.
+ * &<code>#34</code> Drag and Drop&<code>#34</code>  section of the GTK documentation for more information.
  */
 public class Drag extends org.gtk.gobject.Object {
 
@@ -39,7 +39,7 @@ public class Drag extends org.gtk.gobject.Object {
      * This function is called by the drag source, and should be the
      * last call before dropping the reference to the @drag.
      * <p>
-     * The <code>GdkDrag</code> will only take the first {@link org.gtk.gdk.Drag#dropDone}
+     * The <code>GdkDrag</code> will only take the first {@link org.gtk.gdk.Drag<code>#dropDone</code> 
      * call as effective, if this function is called multiple times,
      * all subsequent calls will be ignored.
      */
@@ -132,19 +132,16 @@ public class Drag extends org.gtk.gobject.Object {
      * 
      * This function is called by the drag source. After this call, you
      * probably want to set up the drag icon using the surface returned
-     * by {@link org.gtk.gdk.Drag#getDragSurface}.
+     * by {@link org.gtk.gdk.Drag<code>#getDragSurface</code> .
      * 
      * This function returns a reference to the {@link org.gtk.gdk.Drag} object,
      * but GTK keeps its own reference as well, as long as the DND operation
      * is going on.
      * 
-     * Note: if @actions include <code>GDK_ACTION_MOVE,</code> you need to listen for
+     * Note: if @actions include {@link org.gtk.gdk.DragAction<code>#MOVE</code>   you need to listen for
      * the {@link [signal@Gdk.Drag::dnd-finished] (ref=signal)} signal and delete the data at
-     * the source if {@link org.gtk.gdk.Drag#getSelectedAction} returns
-     * you need to listen for
-     * the {@link [signal@Gdk.Drag::dnd-finished] (ref=signal)} signal and delete the data at
-     * the source if {@link org.gtk.gdk.Drag#getSelectedAction} returns
-     * %GDK_ACTION_MOVE.
+     * the source if {@link org.gtk.gdk.Drag<code>#getSelectedAction</code>  returns
+     * {@link org.gtk.gdk.DragAction<code>#MOVE</code>
      */
     public static Drag begin(Surface surface, Device device, ContentProvider content, int actions, double dx, double dy) {
         var RESULT = gtk_h.gdk_drag_begin(surface.handle(), device.handle(), content.handle(), actions, dx, dy);

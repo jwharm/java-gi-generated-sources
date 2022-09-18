@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for #GProxyAddress.
+ * Class structure for {@link org.gtk.gio.ProxyAddress}
  */
 public class ProxyAddressClass extends io.github.jwharm.javagi.ResourceBase {
 

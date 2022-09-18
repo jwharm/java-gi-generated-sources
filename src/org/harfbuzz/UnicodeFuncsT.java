@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * accessing various Unicode character properties.
  * 
  * HarfBuzz provides a default function for each of the
- * methods in #hb_unicode_funcs_t. Client programs can implement
+ * methods in {@link org.harfbuzz.unicode_funcs_t}  Client programs can implement
  * their own replacements for the individual Unicode functions, as
  * needed, and replace the default by calling the setter for a
  * method.

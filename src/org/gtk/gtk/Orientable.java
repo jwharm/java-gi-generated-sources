@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * The <code>GtkOrientable</code> interface is implemented by all widgets that can be
  * oriented horizontally or vertically.
  * <p><code>GtkOrientable</code> is more flexible in that it allows the orientation to be
- * changed at runtime, allowing the widgets to &#8220;flip&#8221;.
+ * changed at runtime, allowing the widgets to &<code>#8220</code> flip&<code>#8221</code> .
  */
 public interface Orientable extends io.github.jwharm.javagi.NativeAddress {
 

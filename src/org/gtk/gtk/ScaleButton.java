@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * applications, and GTK provides a {@link org.gtk.gtk.VolumeButton} subclass that
  * is tailored for this use case.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkScaleButton</code> has a single CSS node with name button. To differentiate
  * it from a plain <code>GtkButton</code>, it gets the .scale style class.
  */
@@ -45,9 +45,9 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Gets the <code>GtkAdjustment</code> associated with the <code>GtkScaleButton</code>&#8217;s scale.
+     * Gets the <code>GtkAdjustment</code> associated with the <code>GtkScaleButton</code>&<code>#8217</code> s scale.
      * 
-     * See {@link org.gtk.gtk.Range#getAdjustment} for details.
+     * See {@link org.gtk.gtk.Range<code>#getAdjustment</code>  for details.
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_scale_button_get_adjustment(handle());
@@ -88,9 +88,9 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Sets the <code>GtkAdjustment</code> to be used as a model
-     * for the <code>GtkScaleButton</code>&#8217;s scale.
+     * for the <code>GtkScaleButton</code>&<code>#8217</code> s scale.
      * 
-     * See {@link org.gtk.gtk.Range#setAdjustment} for details.
+     * See {@link org.gtk.gtk.Range<code>#setAdjustment</code>  for details.
      */
     public void setAdjustment(Adjustment adjustment) {
         gtk_h.gtk_scale_button_set_adjustment(handle(), adjustment.handle());
@@ -126,7 +126,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default binding for this signal is &#60;kbd&#62;Escape&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Escape&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onPopdown(PopdownHandler handler) {
         try {
@@ -153,8 +153,8 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default bindings for this signal are &#60;kbd&#62;Space&#60;/kbd&#62;,
-     * &#60;kbd&#62;Enter&#60;/kbd&#62; and &#60;kbd&#62;Return&#60;/kbd&#62;.
+     * The default bindings for this signal are &<code>#60</code> kbd&<code>#62</code> Space&<code>#60</code> /kbd&<code>#62</code> ,
+     * &<code>#60</code> kbd&<code>#62</code> Enter&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Return&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onPopup(PopupHandler handler) {
         try {

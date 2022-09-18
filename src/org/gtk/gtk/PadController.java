@@ -20,14 +20,14 @@ import java.lang.invoke.*;
  * semantic meaning.
  * <p>
  * Buttons and sensors are not constrained to triggering a single action,
- * some {@link org.gtk.gdk.InputSource#TABLET_PAD} devices feature multiple &#34;modes&#34;. All these
+ * some {@link org.gtk.gdk.InputSource<code>#TABLET_PAD</code>  devices feature multiple &<code>#34</code> modes&<code>#34</code> . All these
  * input elements have one current mode, which may determine the final action
  * being triggered.
  * <p>
  * Pad devices often divide buttons and sensors into groups. All elements
  * in a group share the same current mode, but different groups may have
- * different modes. See {@link org.gtk.gdk.DevicePad#getNGroups} and
- * {@link org.gtk.gdk.DevicePad#getGroupNModes}.
+ * different modes. See {@link org.gtk.gdk.DevicePad<code>#getNGroups</code>  and
+ * {@link org.gtk.gdk.DevicePad<code>#getGroupNModes</code> .
  * <p>
  * Each of the actions that a given button/strip/ring performs for a given mode
  * is defined by a {@link [struct@Gtk.PadActionEntry] (ref=struct)}. It contains an action name that
@@ -35,19 +35,19 @@ import java.lang.invoke.*;
  * the specified input element and mode are triggered.
  * <p>
  * A simple example of <code>GtkPadController</code> usage: Assigning button 1 in all
- * modes and pad devices to an &#34;invert-selection&#34; action:
+ * modes and pad devices to an &<code>#34</code> invert-selection&<code>#34</code>  action:
  * <p><pre>c
  * GtkPadActionEntry *pad_actions{@link []} = {
- *   { GTK_PAD_ACTION_BUTTON, 1, -1, &#34;Invert selection&#34;, &#34;pad-actions.invert-selection&#34; },
- *   &#8230;
+ *   { GTK_PAD_ACTION_BUTTON, 1, -1, &<code>#34</code> Invert selection&<code>#34</code> , &<code>#34</code> pad-actions.invert-selection&<code>#34</code>  },
+ *   &<code>#8230</code> 
  * };
  * <p>
- * &#8230;
+ * &<code>#8230</code> 
  * action_group = g_simple_action_group_new ();
- * action = g_simple_action_new (&#34;pad-actions.invert-selection&#34;, NULL);
- * g_signal_connect (action, &#34;activate&#34;, on_invert_selection_activated, NULL);
+ * action = g_simple_action_new (&<code>#34</code> pad-actions.invert-selection&<code>#34</code> , NULL);
+ * g_signal_connect (action, &<code>#34</code> activate&<code>#34</code> , on_invert_selection_activated, NULL);
  * g_action_map_add_action (G_ACTION_MAP (action_group), action);
- * &#8230;
+ * &<code>#8230</code> 
  * pad_controller = gtk_pad_controller_new (action_group, NULL);
  * </pre>
  * <p>
@@ -81,8 +81,8 @@ public class PadController extends EventController {
      * order is not guaranteed.
      * <p>
      * The <code>GtkPadController</code> is created with no mapped actions. In order to
-     * map pad events to actions, use {@link org.gtk.gtk.PadController#setActionEntries}
-     * or {@link org.gtk.gtk.PadController#setAction}.
+     * map pad events to actions, use {@link org.gtk.gtk.PadController<code>#setActionEntries</code> 
+     * or {@link org.gtk.gtk.PadController<code>#setAction</code> .
      * <p>
      * Be aware that pad events will only be delivered to <code>GtkWindow</code>s, so adding
      * a pad controller to any other type of widget will not have an effect.
@@ -110,7 +110,7 @@ public class PadController extends EventController {
      * A convenience function to add a group of action entries on
      * @controller.
      * 
-     * See {@link [struct@Gtk.PadActionEntry] (ref=struct)} and {@link org.gtk.gtk.PadController#setAction}.
+     * See {@link [struct@Gtk.PadActionEntry] (ref=struct)} and {@link org.gtk.gtk.PadController<code>#setAction</code> .
      */
     public void setActionEntries(PadActionEntry[] entries, int nEntries) {
         gtk_h.gtk_pad_controller_set_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries);

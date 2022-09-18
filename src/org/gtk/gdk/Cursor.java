@@ -15,17 +15,17 @@ import java.lang.invoke.*;
  * something about it.
  * 
  * Cursors by themselves are not very interesting: they must be bound to a
- * window for users to see them. This is done with {@link org.gtk.gdk.Surface#setCursor}
- * or {@link org.gtk.gdk.Surface#setDeviceCursor}. Applications will typically
- * use higher-level GTK functions such as {@link org.gtk.gtk.Widget#setCursor} instead.
+ * window for users to see them. This is done with {@link org.gtk.gdk.Surface<code>#setCursor</code> 
+ * or {@link org.gtk.gdk.Surface<code>#setDeviceCursor</code> . Applications will typically
+ * use higher-level GTK functions such as {@link org.gtk.gtk.Widget<code>#setCursor</code>  instead.
  * 
  * Cursors are not bound to a given {@link org.gtk.gdk.Display}, so they can be shared.
  * However, the appearance of cursors may vary when used on different
  * platforms.
  * 
- * ## Named and texture cursors
+ * <code>#</code>  Named and texture cursors
  * 
- * There are multiple ways to create cursors. The platform&#39;s own cursors
+ * There are multiple ways to create cursors. The platform&<code>#39</code> s own cursors
  * can be created with {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)}. That function lists
  * the commonly available names that are shared with the CSS specification.
  * Other names may be available, depending on the platform in use. On some
@@ -67,15 +67,15 @@ public class Cursor extends org.gtk.gobject.Object {
      * 
      * | | | | |
      * | --- | --- | ---- | --- |
-     * | &#34;none&#34; | !{@link []}(default_cursor.png) &#34;default&#34; | !{@link []}(help_cursor.png) &#34;help&#34; | !{@link []}(pointer_cursor.png) &#34;pointer&#34; |
-     * | !{@link []}(context_menu_cursor.png) &#34;context-menu&#34; | !{@link []}(progress_cursor.png) &#34;progress&#34; | !{@link []}(wait_cursor.png) &#34;wait&#34; | !{@link []}(cell_cursor.png) &#34;cell&#34; |
-     * | !{@link []}(crosshair_cursor.png) &#34;crosshair&#34; | !{@link []}(text_cursor.png) &#34;text&#34; | !{@link []}(vertical_text_cursor.png) &#34;vertical-text&#34; | !{@link []}(alias_cursor.png) &#34;alias&#34; |
-     * | !{@link []}(copy_cursor.png) &#34;copy&#34; | !{@link []}(no_drop_cursor.png) &#34;no-drop&#34; | !{@link []}(move_cursor.png) &#34;move&#34; | !{@link []}(not_allowed_cursor.png) &#34;not-allowed&#34; |
-     * | !{@link []}(grab_cursor.png) &#34;grab&#34; | !{@link []}(grabbing_cursor.png) &#34;grabbing&#34; | !{@link []}(all_scroll_cursor.png) &#34;all-scroll&#34; | !{@link []}(col_resize_cursor.png) &#34;col-resize&#34; |
-     * | !{@link []}(row_resize_cursor.png) &#34;row-resize&#34; | !{@link []}(n_resize_cursor.png) &#34;n-resize&#34; | !{@link []}(e_resize_cursor.png) &#34;e-resize&#34; | !{@link []}(s_resize_cursor.png) &#34;s-resize&#34; |
-     * | !{@link []}(w_resize_cursor.png) &#34;w-resize&#34; | !{@link []}(ne_resize_cursor.png) &#34;ne-resize&#34; | !{@link []}(nw_resize_cursor.png) &#34;nw-resize&#34; | !{@link []}(sw_resize_cursor.png) &#34;sw-resize&#34; |
-     * | !{@link []}(se_resize_cursor.png) &#34;se-resize&#34; | !{@link []}(ew_resize_cursor.png) &#34;ew-resize&#34; | !{@link []}(ns_resize_cursor.png) &#34;ns-resize&#34; | !{@link []}(nesw_resize_cursor.png) &#34;nesw-resize&#34; |
-     * | !{@link []}(nwse_resize_cursor.png) &#34;nwse-resize&#34; | !{@link []}(zoom_in_cursor.png) &#34;zoom-in&#34; | !{@link []}(zoom_out_cursor.png) &#34;zoom-out&#34; | |
+     * | &<code>#34</code> none&<code>#34</code>  | !{@link []}(default_cursor.png) &<code>#34</code> default&<code>#34</code>  | !{@link []}(help_cursor.png) &<code>#34</code> help&<code>#34</code>  | !{@link []}(pointer_cursor.png) &<code>#34</code> pointer&<code>#34</code>  |
+     * | !{@link []}(context_menu_cursor.png) &<code>#34</code> context-menu&<code>#34</code>  | !{@link []}(progress_cursor.png) &<code>#34</code> progress&<code>#34</code>  | !{@link []}(wait_cursor.png) &<code>#34</code> wait&<code>#34</code>  | !{@link []}(cell_cursor.png) &<code>#34</code> cell&<code>#34</code>  |
+     * | !{@link []}(crosshair_cursor.png) &<code>#34</code> crosshair&<code>#34</code>  | !{@link []}(text_cursor.png) &<code>#34</code> text&<code>#34</code>  | !{@link []}(vertical_text_cursor.png) &<code>#34</code> vertical-text&<code>#34</code>  | !{@link []}(alias_cursor.png) &<code>#34</code> alias&<code>#34</code>  |
+     * | !{@link []}(copy_cursor.png) &<code>#34</code> copy&<code>#34</code>  | !{@link []}(no_drop_cursor.png) &<code>#34</code> no-drop&<code>#34</code>  | !{@link []}(move_cursor.png) &<code>#34</code> move&<code>#34</code>  | !{@link []}(not_allowed_cursor.png) &<code>#34</code> not-allowed&<code>#34</code>  |
+     * | !{@link []}(grab_cursor.png) &<code>#34</code> grab&<code>#34</code>  | !{@link []}(grabbing_cursor.png) &<code>#34</code> grabbing&<code>#34</code>  | !{@link []}(all_scroll_cursor.png) &<code>#34</code> all-scroll&<code>#34</code>  | !{@link []}(col_resize_cursor.png) &<code>#34</code> col-resize&<code>#34</code>  |
+     * | !{@link []}(row_resize_cursor.png) &<code>#34</code> row-resize&<code>#34</code>  | !{@link []}(n_resize_cursor.png) &<code>#34</code> n-resize&<code>#34</code>  | !{@link []}(e_resize_cursor.png) &<code>#34</code> e-resize&<code>#34</code>  | !{@link []}(s_resize_cursor.png) &<code>#34</code> s-resize&<code>#34</code>  |
+     * | !{@link []}(w_resize_cursor.png) &<code>#34</code> w-resize&<code>#34</code>  | !{@link []}(ne_resize_cursor.png) &<code>#34</code> ne-resize&<code>#34</code>  | !{@link []}(nw_resize_cursor.png) &<code>#34</code> nw-resize&<code>#34</code>  | !{@link []}(sw_resize_cursor.png) &<code>#34</code> sw-resize&<code>#34</code>  |
+     * | !{@link []}(se_resize_cursor.png) &<code>#34</code> se-resize&<code>#34</code>  | !{@link []}(ew_resize_cursor.png) &<code>#34</code> ew-resize&<code>#34</code>  | !{@link []}(ns_resize_cursor.png) &<code>#34</code> ns-resize&<code>#34</code>  | !{@link []}(nesw_resize_cursor.png) &<code>#34</code> nesw-resize&<code>#34</code>  |
+     * | !{@link []}(nwse_resize_cursor.png) &<code>#34</code> nwse-resize&<code>#34</code>  | !{@link []}(zoom_in_cursor.png) &<code>#34</code> zoom-in&<code>#34</code>  | !{@link []}(zoom_out_cursor.png) &<code>#34</code> zoom-out&<code>#34</code>  | |
      */
     public static Cursor newFromName(java.lang.String name, Cursor fallback) {
         return new Cursor(constructNewFromName(name, fallback));

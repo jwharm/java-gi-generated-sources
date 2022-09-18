@@ -11,8 +11,8 @@ import java.lang.invoke.*;
  * <code>GdkMonitor</code> objects represent the individual outputs that are
  * associated with a <code>GdkDisplay</code>.
  * <p><code>GdkDisplay</code> keeps a <code>GListModel</code> to enumerate and monitor
- * monitors with {@link org.gtk.gdk.Display#getMonitors}. You can use
- * {@link org.gtk.gdk.Display#getMonitorAtSurface} to find a particular
+ * monitors with {@link org.gtk.gdk.Display<code>#getMonitors</code> . You can use
+ * {@link org.gtk.gdk.Display<code>#getMonitorAtSurface</code>  to find a particular
  * monitor.
  */
 public class Monitor extends org.gtk.gobject.Object {
@@ -27,7 +27,7 @@ public class Monitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the name of the monitor&#39;s connector, if available.
+     * Gets the name of the monitor&<code>#39</code> s connector, if available.
      */
     public java.lang.String getConnector() {
         var RESULT = gtk_h.gdk_monitor_get_connector(handle());
@@ -46,8 +46,8 @@ public class Monitor extends org.gtk.gobject.Object {
      * Retrieves the size and position of the monitor within the
      * display coordinate space.
      * 
-     * The returned geometry is in  &#8221;application pixels&#8221;, not in
-     * &#8221;device pixels&#8221; (see {@link org.gtk.gdk.Monitor#getScaleFactor}).
+     * The returned geometry is in  &<code>#8221</code> application pixels&<code>#8221</code> , not in
+     * &<code>#8221</code> device pixels&<code>#8221</code>  (see {@link org.gtk.gdk.Monitor<code>#getScaleFactor</code> ).
      */
     public void getGeometry(Rectangle geometry) {
         gtk_h.gdk_monitor_get_geometry(handle(), geometry.handle());
@@ -62,7 +62,7 @@ public class Monitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the name or PNP ID of the monitor&#39;s manufacturer.
+     * Gets the name or PNP ID of the monitor&<code>#39</code> s manufacturer.
      * 
      * Note that this value might also vary depending on actual
      * display backend.
@@ -102,8 +102,8 @@ public class Monitor extends org.gtk.gobject.Object {
      * it can be a higher value (often 2).
      * 
      * This can be used if you want to create pixel based data for a
-     * particular monitor, but most of the time you&#8217;re drawing to a surface
-     * where it is better to use {@link org.gtk.gdk.Surface#getScaleFactor} instead.
+     * particular monitor, but most of the time you&<code>#8217</code> re drawing to a surface
+     * where it is better to use {@link org.gtk.gdk.Surface<code>#getScaleFactor</code>  instead.
      */
     public int getScaleFactor() {
         var RESULT = gtk_h.gdk_monitor_get_scale_factor(handle());

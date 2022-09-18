@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags describing the behavior of a #GDBusInterfaceSkeleton instance.
+ * Flags describing the behavior of a {@link org.gtk.gio.DBusInterfaceSkeleton} instance.
  */
 public class DBusInterfaceSkeletonFlags {
 

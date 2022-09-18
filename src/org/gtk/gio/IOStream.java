@@ -13,43 +13,42 @@ import java.lang.invoke.*;
  * but they share some common resources and state. For instance, for
  * seekable streams, both streams may use the same position.
  * 
- * Examples of #GIOStream objects are #GSocketConnection, which represents
- * a two-way network connection; and #GFileIOStream, which represents a
+ * Examples of {@link org.gtk.gio.IOStream} objects are {@link org.gtk.gio.SocketConnection}  which represents
+ * a two-way network connection; and {@link org.gtk.gio.FileIOStream}  which represents a
  * file handle opened in read-write mode.
  * 
  * To do the actual reading and writing you need to get the substreams
  * with g_io_stream_get_input_stream() and g_io_stream_get_output_stream().
  * 
- * The #GIOStream object owns the input and the output streams, not the other
- * way around, so keeping the substreams alive will not keep the #GIOStream
- * object alive. If the #GIOStream object is freed it will be closed, thus
+ * The {@link org.gtk.gio.IOStream} object owns the input and the output streams, not the other
+ * way around, so keeping the substreams alive will not keep the {@link org.gtk.gio.IOStream} object alive. If the {@link org.gtk.gio.IOStream} object is freed it will be closed, thus
  * closing the substreams, so even if the substreams stay alive they will
- * always return {@link org.gtk.gio.IOErrorEnum#CLOSED} for all operations.
+ * always return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  for all operations.
  * 
  * To close a stream use g_io_stream_close() which will close the common
  * stream object and also the individual substreams. You can also close
  * the substreams themselves. In most cases this only marks the
  * substream as closed, so further I/O on it fails but common state in the
- * #GIOStream may still be open. However, some streams may support
- * &#34;half-closed&#34; states where one direction of the stream is actually shut down.
+ * {@link org.gtk.gio.IOStream} may still be open. However, some streams may support
+ * &<code>#34</code> half-closed&<code>#34</code>  states where one direction of the stream is actually shut down.
  * 
- * Operations on #GIOStreams cannot be started while another operation on the
- * #GIOStream or its substreams is in progress. Specifically, an application can
- * read from the #GInputStream and write to the #GOutputStream simultaneously
+ * Operations on <code>#GIOStreams</code> cannot be started while another operation on the
+ * {@link org.gtk.gio.IOStream} or its substreams is in progress. Specifically, an application can
+ * read from the {@link org.gtk.gio.InputStream} and write to the {@link org.gtk.gio.OutputStream} simultaneously
  * (either in separate threads, or as asynchronous operations in the same
- * thread), but an application cannot start any #GIOStream operation while there
- * is a #GIOStream, #GInputStream or #GOutputStream operation in progress, and
- * an application can&#8217;t start any #GInputStream or #GOutputStream operation
- * while there is a #GIOStream operation in progress.
+ * thread), but an application cannot start any {@link org.gtk.gio.IOStream} operation while there
+ * is a {@link org.gtk.gio.IOStream}  {@link org.gtk.gio.InputStream} or {@link org.gtk.gio.OutputStream} operation in progress, and
+ * an application can&<code>#8217</code> t start any {@link org.gtk.gio.InputStream} or {@link org.gtk.gio.OutputStream} operation
+ * while there is a {@link org.gtk.gio.IOStream} operation in progress.
  * 
  * This is a product of individual stream operations being associated with a
- * given #GMainContext (the thread-default context at the time the operation was
+ * given {@link org.gtk.glib.MainContext} (the thread-default context at the time the operation was
  * started), rather than entire streams being associated with a single
- * #GMainContext.
+ * {@link org.gtk.glib.MainContext} 
  * 
- * GIO may run operations on #GIOStreams from other (worker) threads, and this
+ * GIO may run operations on <code>#GIOStreams</code> from other (worker) threads, and this
  * may be exposed to application code in the behaviour of wrapper streams, such
- * as #GBufferedInputStream or #GTlsConnection. With such wrapper APIs,
+ * as {@link org.gtk.gio.BufferedInputStream} or {@link org.gtk.gio.TlsConnection}  With such wrapper APIs,
  * application code may only run operations on the base (wrapped) stream when
  * the wrapper stream is idle. Note that the semantics of such operations may
  * not be well-defined due to the state the wrapper stream leaves the base
@@ -79,7 +78,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * closed.
      * 
      * Once the stream is closed, all other operations will return
-     * <code>G_IO_ERROR_CLOSED.</code> Closing a stream multiple times will not
+     * {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>   Closing a stream multiple times will not
      * return an error.
      * 
      * Closing a stream will automatically flush any outstanding buffers
@@ -95,15 +94,15 @@ public class IOStream extends org.gtk.gobject.Object {
      * 
      * On failure the first error that happened will be reported, but the
      * close operation will finish as much as possible. A stream that failed
-     * to close will still return {@link org.gtk.gio.IOErrorEnum#CLOSED} for all operations.
+     * to close will still return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  for all operations.
      * Still, it is important to check and report the error to the user,
      * otherwise there might be a loss of data as all data might not be written.
      * 
      * If @cancellable is not NULL, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned.
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
      * Cancelling a close will still leave the stream closed, but some streams
-     * can use a faster close that doesn&#39;t block to e.g. check errors.
+     * can use a faster close that doesn&<code>#39</code> t block to e.g. check errors.
      * 
      * The default implementation of this method just calls close on the
      * individual input/output streams.

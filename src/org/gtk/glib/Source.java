@@ -23,12 +23,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GSource structure. The size is specified to
-     * allow creating structures derived from #GSource that contain
+     * Creates a new {@link org.gtk.glib.Source} structure. The size is specified to
+     * allow creating structures derived from {@link org.gtk.glib.Source} that contain
      * additional data. The size passed in must be at least<code>sizeof (GSource)</code>.
      * 
-     * The source will not initially be associated with any #GMainContext
-     * and must be added to one with g_source_attach() before it will be
+     * The source will not initially be associated with any {@link org.gtk.glib.MainContext} and must be added to one with g_source_attach() before it will be
      * executed.
      */
     public Source(SourceFuncs sourceFuncs, int structSize) {
@@ -36,23 +35,23 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds @child_source to @source as a &#34;polled&#34; source; when @source is
-     * added to a #GMainContext, @child_source will be automatically added
+     * Adds @child_source to @source as a &<code>#34</code> polled&<code>#34</code>  source; when @source is
+     * added to a {@link org.gtk.glib.MainContext}  @child_source will be automatically added
      * with the same priority, when @child_source is triggered, it will
      * cause @source to dispatch (in addition to calling its own
      * callback), and when @source is destroyed, it will destroy
      * @child_source as well. (@source will also still be dispatched if
      * its own prepare/check functions indicate that it is ready.)
      * 
-     * If you don&#39;t need @child_source to do anything on its own when it
+     * If you don&<code>#39</code> t need @child_source to do anything on its own when it
      * triggers, you can call g_source_set_dummy_callback() on it to set a
      * callback that does nothing (except return <code>true</code> if appropriate).
      * 
      * @source will hold a reference on @child_source while @child_source
      * is attached to it.
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      */
     public void addChildSource(Source childSource) {
         gtk_h.g_source_add_child_source(handle(), childSource.handle());
@@ -61,12 +60,12 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a file descriptor to the set of file descriptors polled for
      * this source. This is usually combined with g_source_new() to add an
-     * event source. The event source&#39;s check function will typically test
-     * the @revents field in the #GPollFD struct and return <code>true</code> if events need
+     * event source. The event source&<code>#39</code> s check function will typically test
+     * the @revents field in the {@link org.gtk.glib.PollFD} struct and return <code>true</code> if events need
      * to be processed.
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      * 
      * Using this API forces the linear scanning of event sources on each
      * main loop iteration.  Newly-written event sources should try to use
@@ -86,8 +85,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * It is not necessary to remove the fd before destroying the source; it
      * will be cleaned up automatically.
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      * 
      * As the name suggests, this function is not available on Windows.
      */
@@ -97,7 +96,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a #GSource to a @context so that it will be executed within
+     * Adds a {@link org.gtk.glib.Source} to a @context so that it will be executed within
      * that context. Remove it by calling g_source_destroy().
      * 
      * This function is safe to call from any thread, regardless of which thread
@@ -109,20 +108,20 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes a source from its #GMainContext, if any, and mark it as
+     * Removes a source from its {@link org.gtk.glib.MainContext}  if any, and mark it as
      * destroyed.  The source cannot be subsequently added to another
      * context. It is safe to call this on sources which have already been
      * removed from their context.
      * 
-     * This does not unref the #GSource: if you still hold a reference, use
+     * This does not unref the {@link org.gtk.glib.Source}  if you still hold a reference, use
      * g_source_unref() to drop it.
      * 
      * This function is safe to call from any thread, regardless of which thread
-     * the #GMainContext is running in.
+     * the {@link org.gtk.glib.MainContext} is running in.
      * 
-     * If the source is currently attached to a #GMainContext, destroying it
+     * If the source is currently attached to a {@link org.gtk.glib.MainContext}  destroying it
      * will effectively unset the callback similar to calling g_source_set_callback().
-     * This can mean, that the data&#39;s #GDestroyNotify gets called right away.
+     * This can mean, that the data&<code>#39</code> s {@link org.gtk.glib.DestroyNotify} gets called right away.
      */
     public void destroy() {
         gtk_h.g_source_destroy(handle());
@@ -138,14 +137,14 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the #GMainContext with which the source is associated.
+     * Gets the {@link org.gtk.glib.MainContext} with which the source is associated.
      * 
      * You can call this on a source that has been destroyed, provided
-     * that the #GMainContext it was attached to still exists (in which
-     * case it will return that #GMainContext). In particular, you can
+     * that the {@link org.gtk.glib.MainContext} it was attached to still exists (in which
+     * case it will return that {@link org.gtk.glib.MainContext} . In particular, you can
      * always call this function on the source returned from
      * g_main_current_source(). But calling this function on a source
-     * whose #GMainContext has been destroyed is an error.
+     * whose {@link org.gtk.glib.MainContext} has been destroyed is an error.
      */
     public MainContext getContext() {
         var RESULT = gtk_h.g_source_get_context(handle());
@@ -159,9 +158,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * mapping from ID to source is done by g_main_context_find_source_by_id().
      * 
      * You can only call this function while the source is associated to a
-     * #GMainContext instance; calling this function before g_source_attach()
+     * {@link org.gtk.glib.MainContext} instance; calling this function before g_source_attach()
      * or after g_source_destroy() yields undefined behavior. The ID returned
-     * is unique within the #GMainContext instance passed to g_source_attach().
+     * is unique within the {@link org.gtk.glib.MainContext} instance passed to g_source_attach().
      */
     public int getId() {
         var RESULT = gtk_h.g_source_get_id(handle());
@@ -170,7 +169,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets a name for the source, used in debugging and profiling.  The
-     * name may be #NULL if it has never been set with g_source_set_name().
+     * name may be <code>#NULL</code> if it has never been set with g_source_set_name().
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.g_source_get_name(handle());
@@ -186,7 +185,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the &#34;ready time&#34; of @source, as set by
+     * Gets the &<code>#34</code> ready time&<code>#34</code>  of @source, as set by
      * g_source_set_ready_time().
      * 
      * Any time before the current monotonic time (including 0) is an
@@ -218,16 +217,16 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * from within idle handlers, but may have freed the object
      * before the dispatch of your idle handler.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * static gboolean
      * idle_callback (gpointer data)
      * {
      *   SomeWidget *self = data;
      *    
-     *   g_mutex_lock (&#38;self-&#62;idle_id_mutex);
+     *   g_mutex_lock (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
      *   // do stuff with self
-     *   self-&#62;idle_id = 0;
-     *   g_mutex_unlock (&#38;self-&#62;idle_id_mutex);
+     *   self-&<code>#62</code> idle_id = 0;
+     *   g_mutex_unlock (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
      *    
      *   return G_SOURCE_REMOVE;
      * }
@@ -235,15 +234,15 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * static void
      * some_widget_do_stuff_later (SomeWidget *self)
      * {
-     *   g_mutex_lock (&#38;self-&#62;idle_id_mutex);
-     *   self-&#62;idle_id = g_idle_add (idle_callback, self);
-     *   g_mutex_unlock (&#38;self-&#62;idle_id_mutex);
+     *   g_mutex_lock (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
+     *   self-&<code>#62</code> idle_id = g_idle_add (idle_callback, self);
+     *   g_mutex_unlock (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
      * }
      *  
      * static void
      * some_widget_init (SomeWidget *self)
      * {
-     *   g_mutex_init (&#38;self-&#62;idle_id_mutex);
+     *   g_mutex_init (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
      * 
      *   // ...
      * }
@@ -253,12 +252,12 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * {
      *   SomeWidget *self = SOME_WIDGET (object);
      *    
-     *   if (self-&#62;idle_id)
-     *     g_source_remove (self-&#62;idle_id);
+     *   if (self-&<code>#62</code> idle_id)
+     *     g_source_remove (self-&<code>#62</code> idle_id);
      *    
-     *   g_mutex_clear (&#38;self-&#62;idle_id_mutex);
+     *   g_mutex_clear (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
      * 
-     *   G_OBJECT_CLASS (parent_class)-&#62;finalize (object);
+     *   G_OBJECT_CLASS (parent_class)-&<code>#62</code> finalize (object);
      * }
      * ]}|
      * 
@@ -268,25 +267,25 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * this particular problem, is to check to if the source
      * has already been destroy within the callback.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * static gboolean
      * idle_callback (gpointer data)
      * {
      *   SomeWidget *self = data;
      *   
-     *   g_mutex_lock (&#38;self-&#62;idle_id_mutex);
+     *   g_mutex_lock (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
      *   if (!g_source_is_destroyed (g_main_current_source ()))
      *     {
      *       // do stuff with self
      *     }
-     *   g_mutex_unlock (&#38;self-&#62;idle_id_mutex);
+     *   g_mutex_unlock (&<code>#38</code> self-&<code>#62</code> idle_id_mutex);
      *   
      *   return FALSE;
      * }
      * ]}|
      * 
      * Calls to this function from a thread other than the one acquired by the
-     * #GMainContext the #GSource is attached to are typically redundant, as the
+     * {@link org.gtk.glib.MainContext} the {@link org.gtk.glib.Source} is attached to are typically redundant, as the
      * source could be destroyed immediately after this function returns. However,
      * once a source is destroyed it cannot be un-destroyed, so this function can be
      * used for opportunistic checks from any thread.
@@ -301,11 +300,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * 
      * @tag is the tag returned from g_source_add_unix_fd().
      * 
-     * If you want to remove a fd, don&#39;t set its event mask to zero.
+     * If you want to remove a fd, don&<code>#39</code> t set its event mask to zero.
      * Instead, call g_source_remove_unix_fd().
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      * 
      * As the name suggests, this function is not available on Windows.
      */
@@ -320,8 +319,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * The return value of this function is only defined when the function
      * is called from the check or dispatch functions for @source.
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      * 
      * As the name suggests, this function is not available on Windows.
      */
@@ -341,8 +340,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Detaches @child_source from @source and destroys it.
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      */
     public void removeChildSource(Source childSource) {
         gtk_h.g_source_remove_child_source(handle(), childSource.handle());
@@ -352,8 +351,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Removes a file descriptor from the set of file descriptors polled for
      * this source.
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      */
     public void removePoll(PollFD fd) {
         gtk_h.g_source_remove_poll(handle(), fd.handle());
@@ -366,8 +365,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * watched while keeping the same source around.  In the normal case you
      * will just want to destroy the source.
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      * 
      * As the name suggests, this function is not available on Windows.
      */
@@ -377,7 +376,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the callback function for a source. The callback for a source is
-     * called from the source&#39;s dispatch function.
+     * called from the source&<code>#39</code> s dispatch function.
      * 
      * The exact type of @func depends on the type of source; ie. you
      * should not count on @func being called with @data as its first
@@ -387,7 +386,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * See {@link [memory management of sources]}{@link [mainloop-memory-management]} for details
      * on how to handle memory management of @data.
      * 
-     * Typically, you won&#39;t use this function. Instead use functions specific
+     * Typically, you won&<code>#39</code> t use this function. Instead use functions specific
      * to the type of source you are using, such as g_idle_add() or g_timeout_add().
      * 
      * It is safe to call this function multiple times on a source which has already
@@ -414,11 +413,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the callback function storing the data as a refcounted callback
-     * &#34;object&#34;. This is used internally. Note that calling
+     * &<code>#34</code> object&<code>#34</code> . This is used internally. Note that calling
      * g_source_set_callback_indirect() assumes
      * an initial reference count on @callback_data, and thus
-     * @callback_funcs-&#62;unref will eventually be called once more
-     * than @callback_funcs-&#62;ref.
+     * @callback_funcs-&<code>#62</code> unref will eventually be called once more
+     * than @callback_funcs-&<code>#62</code> ref.
      * 
      * It is safe to call this function multiple times on a source which has already
      * been attached to a context. The changes will take effect for the next time
@@ -430,7 +429,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets whether a source can be called recursively. If @can_recurse is
-     * <code>TRUE,</code> then while the source is being dispatched then this source
+     * <code>true</code>  then while the source is being dispatched then this source
      * will be processed normally. Otherwise, all processing of this
      * source is blocked until the dispatch function returns.
      */
@@ -448,16 +447,15 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets a name for the source, used in debugging and profiling.
-     * The name defaults to #NULL.
+     * The name defaults to <code>#NULL</code> 
      * 
      * The source name should describe in a human-readable way
-     * what the source does. For example, &#34;X11 event queue&#34;
-     * or &#34;GTK+ repaint idle handler&#34; or whatever it is.
+     * what the source does. For example, &<code>#34</code> X11 event queue&<code>#34</code> 
+     * or &<code>#34</code> GTK+ repaint idle handler&<code>#34</code>  or whatever it is.
      * 
      * It is permitted to call this function multiple times, but is not
      * recommended due to the potential performance impact.  For example,
-     * one could change the name in the &#34;check&#34; function of a #GSourceFuncs
-     * to include details like the event type in the source name.
+     * one could change the name in the &<code>#34</code> check&<code>#34</code>  function of a {@link org.gtk.glib.SourceFuncs} to include details like the event type in the source name.
      * 
      * Use caution if changing the name while another thread may be
      * accessing it with g_source_get_name(); that function does not copy
@@ -485,7 +483,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets a #GSource to be dispatched when the given monotonic time is
+     * Sets a {@link org.gtk.glib.Source} to be dispatched when the given monotonic time is
      * reached (or passed).  If the monotonic time is in the past (as it
      * always will be if @ready_time is 0) then the source will be
      * dispatched immediately.
@@ -502,11 +500,11 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * for both sources is reached during the same main context iteration,
      * then the order of dispatch is undefined.
      * 
-     * It is a no-op to call this function on a #GSource which has already been
+     * It is a no-op to call this function on a {@link org.gtk.glib.Source} which has already been
      * destroyed with g_source_destroy().
      * 
-     * This API is only intended to be used by implementations of #GSource.
-     * Do not call this API on a #GSource that you did not create.
+     * This API is only intended to be used by implementations of {@link org.gtk.glib.Source} 
+     * Do not call this API on a {@link org.gtk.glib.Source} that you did not create.
      */
     public void setReadyTime(long readyTime) {
         gtk_h.g_source_set_ready_time(handle(), readyTime);
@@ -534,7 +532,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Removes the source with the given ID from the default main context. You must
      * use g_source_destroy() for sources added to a non-default main context.
      * 
-     * The ID of a #GSource is given by g_source_get_id(), or will be
+     * The ID of a {@link org.gtk.glib.Source} is given by g_source_get_id(), or will be
      * returned by the functions g_source_attach(), g_idle_add(),
      * g_idle_add_full(), g_timeout_add(), g_timeout_add_full(),
      * g_child_watch_add(), g_child_watch_add_full(), g_io_add_watch(), and

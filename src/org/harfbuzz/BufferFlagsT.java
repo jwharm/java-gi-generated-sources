@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Flags for #hb_buffer_t.
+ * Flags for {@link org.harfbuzz.buffer_t}
  */
 public class BufferFlagsT {
 
@@ -48,7 +48,7 @@ public class BufferFlagsT {
     /**
      * flag indicating that a dotted circle should
      *                      not be inserted in the rendering of incorrect
-     *                      character sequences (such at &#60;0905 093E&#62;). Since: 2.4.0
+     *                      character sequences (such at &<code>#60</code> 0905 093E&<code>#62</code> ). Since: 2.4.0
      */
     public static final int DO_NOT_INSERT_DOTTED_CIRCLE = 16;
     

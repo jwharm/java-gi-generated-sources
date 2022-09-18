@@ -6,39 +6,39 @@ package org.gtk.gtk;
 public enum AccessibleState {
 
     /**
-     * A &#8220;busy&#8221; state. This state has boolean values
+     * A &<code>#8220</code> busy&<code>#8221</code>  state. This state has boolean values
      */
     BUSY,
     
     /**
-     * A &#8220;checked&#8221; state; indicates the current
+     * A &<code>#8220</code> checked&<code>#8221</code>  state; indicates the current
      *   state of a {@link [class@CheckButton]}. Value type: {@link [enum@AccessibleTristate] (ref=enum)}
      */
     CHECKED,
     
     /**
-     * A &#8220;disabled&#8221; state; corresponds to the
+     * A &<code>#8220</code> disabled&<code>#8221</code>  state; corresponds to the
      *   {@link [property@Widget:sensitive] (ref=property)} property. It indicates a UI element
      *   that is perceivable, but not editable or operable. Value type: boolean
      */
     DISABLED,
     
     /**
-     * An &#8220;expanded&#8221; state; corresponds to the
+     * An &<code>#8220</code> expanded&<code>#8221</code>  state; corresponds to the
      *   {@link [property@Expander:expanded] (ref=property)} property. Value type: boolean
      *   or undefined
      */
     EXPANDED,
     
     /**
-     * A &#8220;hidden&#8221; state; corresponds to the
+     * A &<code>#8220</code> hidden&<code>#8221</code>  state; corresponds to the
      *   {@link [property@Widget:visible] (ref=property)} property. You can use this state
      *   explicitly on UI elements that should not be exposed to an assistive
      *   technology. Value type: boolean
      *   See also: 
      *       
      *       
-     *         A &#8220;hidden&#8221; state; corresponds to the
+     *         A &<code>#8220</code> hidden&<code>#8221</code>  state; corresponds to the
      *   {@link [property@Widget:visible] (ref=property)} property. You can use this state
      *   explicitly on UI elements that should not be exposed to an assistive
      *   technology. Value type: boolean
@@ -47,20 +47,20 @@ public enum AccessibleState {
     HIDDEN,
     
     /**
-     * An &#8220;invalid&#8221; state; set when a widget
+     * An &<code>#8220</code> invalid&<code>#8221</code>  state; set when a widget
      *   is showing an error. Value type: {@link [enum@AccessibleInvalidState] (ref=enum)}
      */
     INVALID,
     
     /**
-     * A &#8220;pressed&#8221; state; indicates the current
+     * A &<code>#8220</code> pressed&<code>#8221</code>  state; indicates the current
      *   state of a {@link [class@ToggleButton]}. Value type: {@link [enum@AccessibleTristate] (ref=enum)}
      *   enumeration
      */
     PRESSED,
     
     /**
-     * A &#8220;selected&#8221; state; set when a widget
+     * A &<code>#8220</code> selected&<code>#8221</code>  state; set when a widget
      *   is selected. Value type: boolean or undefined
      */
     SELECTED;

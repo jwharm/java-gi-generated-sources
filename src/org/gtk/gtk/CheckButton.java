@@ -16,21 +16,21 @@ import java.lang.invoke.*;
  * or {@link [ctor@Gtk.CheckButton.new_with_label] (ref=ctor)}.
  * <p>
  * The state of a <code>GtkCheckButton</code> can be set specifically using
- * {@link org.gtk.gtk.CheckButton#setActive}, and retrieved using
- * {@link org.gtk.gtk.CheckButton#getActive}.
+ * {@link org.gtk.gtk.CheckButton<code>#setActive</code> , and retrieved using
+ * {@link org.gtk.gtk.CheckButton<code>#getActive</code> .
  * <p>
- * <h1>nconsistent state</h1>
+ * <h1>Inconsistent state</h1>
  * <p>
- * In addition to &#34;on&#34; and &#34;off&#34;, check buttons can be an
- * &#34;in between&#34; state that is neither on nor off. This can be used
+ * In addition to &<code>#34</code> on&<code>#34</code>  and &<code>#34</code> off&<code>#34</code> , check buttons can be an
+ * &<code>#34</code> in between&<code>#34</code>  state that is neither on nor off. This can be used
  * e.g. when the user has selected a range of elements (such as some
  * text or spreadsheet cells) that are affected by a check button,
  * and the current values in that range are inconsistent.
  * <p>
  * To set a <code>GtkCheckButton</code> to inconsistent state, use
- * {@link org.gtk.gtk.CheckButton#setInconsistent}.
+ * {@link org.gtk.gtk.CheckButton<code>#setInconsistent</code> .
  * <p>
- * <h1>rouping</h1>
+ * <h1>Grouping</h1>
  * <p>
  * Check buttons can be grouped together, to form mutually exclusive
  * groups - only one of the buttons can be toggled at a time, and toggling
@@ -41,13 +41,13 @@ import java.lang.invoke.*;
  * <p>
  * !{@link [Example GtkCheckButtons]}(radio-button.png)
  * <p>
- * To add a <code>GtkCheckButton</code> to a group, use {@link org.gtk.gtk.CheckButton#setGroup}.
+ * To add a <code>GtkCheckButton</code> to a group, use {@link org.gtk.gtk.CheckButton<code>#setGroup</code> .
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * checkbutton{@link [.text-button]}
- * &#9500;&#9472;&#9472; check
- * &#9584;&#9472;&#9472; {@link [label]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  check
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [label]}
  * </pre>
  * <p>
  * A <code>GtkCheckButton</code> has a main node with name checkbutton. If the
@@ -55,8 +55,8 @@ import java.lang.invoke.*;
  * child. The indicator node is named check when no group is set, and
  * radio if the checkbutton is grouped together with other checkbuttons.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkCheckButton</code> uses the {@link org.gtk.gtk.AccessibleRole#CHECKBOX} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkCheckButton</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#CHECKBOX</code>  role.
  */
 public class CheckButton extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -152,12 +152,12 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * known as a *radio button*.
      * 
      * Setting the group of a check button also changes the css name of the
-     * indicator widget&#39;s CSS node to &#39;radio&#39;.
+     * indicator widget&<code>#39</code> s CSS node to &<code>#39</code> radio&<code>#39</code> .
      * 
      * Setting up groups in a cycle leads to undefined behavior.
      * 
      * Note that the same effect can be achieved via the {@link [iface@Gtk.Actionable] (ref=iface)}
-     * API, by using the same action with parameter type and state type &#39;s&#39;
+     * API, by using the same action with parameter type and state type &<code>#39</code> s&<code>#39</code> 
      * for all buttons in the group, and giving each button its own target
      * value.
      */
@@ -178,9 +178,9 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     /**
      * Sets the text of @self.
      * 
-     * If {@link [property@Gtk.CheckButton:use-underline] (ref=property)} is <code>TRUE,</code> an underscore
+     * If {@link [property@Gtk.CheckButton:use-underline] (ref=property)} is <code>true</code>  an underscore
      * in @label is interpreted as mnemonic indicator, see
-     * {@link org.gtk.gtk.CheckButton#setUseUnderline} for details on this behavior.
+     * {@link org.gtk.gtk.CheckButton<code>#setUseUnderline</code>  for details on this behavior.
      */
     public void setLabel(java.lang.String label) {
         gtk_h.gtk_check_button_set_label(handle(), Interop.allocateNativeString(label).handle());
@@ -189,7 +189,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     /**
      * Sets whether underlines in the label indicate mnemonics.
      * 
-     * If @setting is <code>TRUE,</code> an underscore character in @self&#39;s label
+     * If @setting is <code>true</code>  an underscore character in @self&<code>#39</code> s label
      * indicates a mnemonic accelerator key. This behavior is similar
      * to {@link [property@Gtk.Label:use-underline] (ref=property)}.
      */
@@ -232,7 +232,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Emitted when the buttons&#39;s {@link [property@Gtk.CheckButton:active] (ref=property)}
+     * Emitted when the buttons&<code>#39</code> s {@link [property@Gtk.CheckButton:active] (ref=property)}
      * property changes.
      */
     public SignalHandle onToggled(ToggledHandler handler) {

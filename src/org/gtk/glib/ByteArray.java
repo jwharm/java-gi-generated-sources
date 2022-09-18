@@ -17,10 +17,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transfers the data from the #GByteArray into a new immutable #GBytes.
+     * Transfers the data from the {@link org.gtk.glib.ByteArray} into a new immutable {@link org.gtk.glib.Bytes} 
      * 
-     * The #GByteArray is freed unless the reference count of @array is greater
-     * than one, the #GByteArray wrapper is preserved but the size of @array
+     * The {@link org.gtk.glib.ByteArray} is freed unless the reference count of @array is greater
+     * than one, the {@link org.gtk.glib.ByteArray} wrapper is preserved but the size of @array
      * will be set to zero.
      * 
      * This is identical to using g_bytes_new_take() and g_byte_array_free()

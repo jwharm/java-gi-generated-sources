@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * <code>GtkPrintOperation</code> is the high-level, portable printing API.
  * <p>
- * It looks a bit different than other GTK dialogs such as the<code>GtkFileChooser</code>, since some platforms don&#8217;t expose enough
+ * It looks a bit different than other GTK dialogs such as the<code>GtkFileChooser</code>, since some platforms don&<code>#8217</code> t expose enough
  * infrastructure to implement a good print dialog. On such
  * platforms, <code>GtkPrintOperation</code> uses the native print dialog.
  * On platforms which do not provide a native print dialog, GTK
@@ -22,14 +22,14 @@ import java.lang.invoke.*;
  * e.g. the page size, any {@link org.gtk.gtk.PrintSettings} from previous print
  * operations, the number of pages, the current page, etc.
  * <p>
- * Then you start the print operation by calling {@link org.gtk.gtk.PrintOperation#run}.
+ * Then you start the print operation by calling {@link org.gtk.gtk.PrintOperation<code>#run</code> .
  * It will then show a dialog, let the user select a printer and options.
  * When the user finished the dialog, various signals will be emitted on
  * the <code>GtkPrintOperation</code>, the main one being
  * {@link [signal@Gtk.PrintOperation::draw-page] (ref=signal)}, which you are supposed to handle
  * and render the page on the provided {@link org.gtk.gtk.PrintContext} using Cairo.
  * <p>
- * <h1>he high-level printing API</h1>
+ * <h1>The high-level printing API</h1>
  * <p><pre>c
  * static GtkPrintSettings *settings = NULL;
  * <p>
@@ -44,8 +44,8 @@ import java.lang.invoke.*;
  *   if (settings != NULL)
  *     gtk_print_operation_set_print_settings (print, settings);
  * <p>
- *   g_signal_connect (print, &#34;begin_print&#34;, G_CALLBACK (begin_print), NULL);
- *   g_signal_connect (print, &#34;draw_page&#34;, G_CALLBACK (draw_page), NULL);
+ *   g_signal_connect (print, &<code>#34</code> begin_print&<code>#34</code> , G_CALLBACK (begin_print), NULL);
+ *   g_signal_connect (print, &<code>#34</code> draw_page&<code>#34</code> , G_CALLBACK (draw_page), NULL);
  * <p>
  *   res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
  *                                  GTK_WINDOW (main_window), NULL);
@@ -64,9 +64,9 @@ import java.lang.invoke.*;
  * By default <code>GtkPrintOperation</code> uses an external application to do
  * print preview. To implement a custom print preview, an application
  * must connect to the preview signal. The functions
- * {@link org.gtk.gtk.PrintOperationPreview#renderPage},
- * {@link org.gtk.gtk.PrintOperationPreview#endPreview} and
- * {@link org.gtk.gtk.PrintOperationPreview#isSelected}
+ * {@link org.gtk.gtk.PrintOperationPreview<code>#renderPage</code> ,
+ * {@link org.gtk.gtk.PrintOperationPreview<code>#endPreview</code>  and
+ * {@link org.gtk.gtk.PrintOperationPreview<code>#isSelected</code> 
  * are useful when implementing a print preview.
  */
 public class PrintOperation extends org.gtk.gobject.Object implements PrintOperationPreview {
@@ -107,7 +107,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Signal that drawing of particular page is complete.
      * 
      * It is called after completion of page drawing (e.g. drawing
-     * in another thread). If {@link org.gtk.gtk.PrintOperation#setDeferDrawing}
+     * in another thread). If {@link org.gtk.gtk.PrintOperation<code>#setDeferDrawing</code> 
      * was called before, then this function has to be called by application.
      * Otherwise it is called by GTK itself.
      */
@@ -133,9 +133,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     
     /**
      * Call this when the result of a print operation is
-     * <code>GTK_PRINT_OPERATION_RESULT_ERROR.
+     * {@link org.gtk.gtk.PrintOperationResult<code>#ERROR</code>  
      * <p>
-     * It</code> can be called either after {@link org.gtk.gtk.PrintOperation#run}
+     * It can be called either after {@link org.gtk.gtk.PrintOperation<code>#run</code> 
      * returns, or in the {@link [signal@Gtk.PrintOperation::done] (ref=signal)} signal
      * handler.
      * <p>
@@ -161,13 +161,13 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Returns the number of pages that will be printed.
      * 
      * Note that this value is set during print preparation phase
-     * (<code>GTK_PRINT_STATUS_PREPARING),</code> so this function should never be
-     * called before the data generation phase (<code>GTK_PRINT_STATUS_GENERATING_DATA).
-     * You</code> can connect to the {@link [signal@Gtk.PrintOperation::status-changed] (ref=signal)}
+     * ({@link org.gtk.gtk.PrintStatus<code>#PREPARING</code>  , so this function should never be
+     * called before the data generation phase ({@link org.gtk.gtk.PrintStatus<code>#GENERATING_DATA</code>  .
+     * You can connect to the {@link [signal@Gtk.PrintOperation::status-changed] (ref=signal)}
      * signal and call gtk_print_operation_get_n_pages_to_print() when
-     * print status is <code>GTK_PRINT_STATUS_GENERATING_DATA.
+     * print status is {@link org.gtk.gtk.PrintStatus<code>#GENERATING_DATA</code>  
      * 
-     * This</code> is typically used to track the progress of print operation.
+     * This is typically used to track the progress of print operation.
      */
     public int getNPagesToPrint() {
         var RESULT = gtk_h.gtk_print_operation_get_n_pages_to_print(handle());
@@ -178,8 +178,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Returns the current print settings.
      * 
      * Note that the return value is <code>null</code> until either
-     * {@link org.gtk.gtk.PrintOperation#setPrintSettings} or
-     * {@link org.gtk.gtk.PrintOperation#run} have been called.
+     * {@link org.gtk.gtk.PrintOperation<code>#setPrintSettings</code>  or
+     * {@link org.gtk.gtk.PrintOperation<code>#run</code>  have been called.
      */
     public PrintSettings getPrintSettings() {
         var RESULT = gtk_h.gtk_print_operation_get_print_settings(handle());
@@ -189,7 +189,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     /**
      * Returns the status of the print operation.
      * 
-     * Also see {@link org.gtk.gtk.PrintOperation#getStatusString}.
+     * Also see {@link org.gtk.gtk.PrintOperation<code>#getStatusString</code> .
      */
     public PrintStatus getStatus() {
         var RESULT = gtk_h.gtk_print_operation_get_status(handle());
@@ -203,7 +203,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * The string is translated and suitable for displaying
      * the print status e.g. in a <code>GtkStatusbar</code>.
      * 
-     * Use {@link org.gtk.gtk.PrintOperation#getStatus} to obtain
+     * Use {@link org.gtk.gtk.PrintOperation<code>#getStatus</code>  to obtain
      * a status value that is suitable for programmatic use.
      */
     public java.lang.String getStatusString() {
@@ -224,9 +224,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * is finished.
      * 
      * a print operation is finished if its status is either
-     * {@link org.gtk.gtk.PrintStatus#FINISHED} or <code>GTK_PRINT_STATUS_FINISHED_ABORTED.
+     * {@link org.gtk.gtk.PrintStatus<code>#FINISHED</code>  or {@link org.gtk.gtk.PrintStatus<code>#FINISHED_ABORTED</code>  
      * 
-     * Note:</code> when you enable print status tracking the print operation
+     * Note: when you enable print status tracking the print operation
      * can be in a non-finished state even after done has been called, as
      * the operation status then tracks the print job status on the printer.
      */
@@ -257,15 +257,15 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * if (page_setup != NULL)
      *   gtk_print_operation_set_default_page_setup (print, page_setup);
      * <p>
-     * g_signal_connect (print, &#34;begin-print&#34;,
-     *                   G_CALLBACK (begin_print), &#38;data);
-     * g_signal_connect (print, &#34;draw-page&#34;,
-     *                   G_CALLBACK (draw_page), &#38;data);
+     * g_signal_connect (print, &<code>#34</code> begin-print&<code>#34</code> ,
+     *                   G_CALLBACK (begin_print), &<code>#38</code> data);
+     * g_signal_connect (print, &<code>#34</code> draw-page&<code>#34</code> ,
+     *                   G_CALLBACK (draw_page), &<code>#38</code> data);
      * <p>
      * res = gtk_print_operation_run (print,
      *                                GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
      *                                parent,
-     *                                &#38;error);
+     *                                &<code>#38</code> error);
      * <p>
      * if (res == GTK_PRINT_OPERATION_RESULT_ERROR)
      *  {
@@ -273,9 +273,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      *   			                     GTK_DIALOG_DESTROY_WITH_PARENT,
      * 					     GTK_MESSAGE_ERROR,
      * 					     GTK_BUTTONS_CLOSE,
-     * 					     &#34;Error printing file:\\n<code>s&#34;,
-     * 					</code>     error-&#62;message);
-     *    g_signal_connect (error_dialog, &#34;response&#34;,
+     * 					     &<code>#34</code> Error printing file:\\n<code>s</code> <code>#34</code> ,
+     * 					     error-&<code>#62</code> message);
+     *    g_signal_connect (error_dialog, &<code>#34</code> response&<code>#34</code> ,
      *                      G_CALLBACK (gtk_window_destroy), NULL);
      *    gtk_widget_show (error_dialog);
      *    g_error_free (error);
@@ -314,7 +314,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     /**
      * Sets the current page.
      * 
-     * If this is called before {@link org.gtk.gtk.PrintOperation#run},
+     * If this is called before {@link org.gtk.gtk.PrintOperation<code>#run</code> ,
      * the user will be able to select to print only the current page.
      * 
      * Note that this only makes sense for pre-paginated documents.
@@ -333,7 +333,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     /**
      * Makes @default_page_setup the default page setup for @op.
      * 
-     * This page setup will be used by {@link org.gtk.gtk.PrintOperation#run},
+     * This page setup will be used by {@link org.gtk.gtk.PrintOperation<code>#run</code> ,
      * but it can be overridden on a per-page basis by connecting
      * to the {@link [signal@Gtk.PrintOperation::request-page-setup] (ref=signal)} signal.
      */
@@ -343,7 +343,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     
     /**
      * Sets up the <code>GtkPrintOperation</code> to wait for calling of
-     * {@link org.gtk.gtk.PrintOperation#drawPageFinish from application} signal.
+     * {@link org.gtk.gtk.PrintOperation<code>#drawPageFinish</code> from application} signal.
      */
     public void setDeferDrawing() {
         gtk_h.gtk_print_operation_set_defer_drawing(handle());
@@ -363,11 +363,11 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * of showing the print dialog.
      * 
      * The intended use of this function is for implementing
-     * &#8220;Export to PDF&#8221; actions. Currently, PDF is the only supported
+     * &<code>#8220</code> Export to PDF&<code>#8221</code>  actions. Currently, PDF is the only supported
      * format.
      * 
-     * &#8220;Print to PDF&#8221; support is independent of this and is done
-     * by letting the user pick the &#8220;Print to PDF&#8221; item from the list
+     * &<code>#8220</code> Print to PDF&<code>#8221</code>  support is independent of this and is done
+     * by letting the user pick the &<code>#8220</code> Print to PDF&<code>#8221</code>  item from the list
      * of printers in the print dialog.
      */
     public void setExportFilename(java.lang.String filename) {
@@ -378,7 +378,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Sets whether there is a selection to print.
      * 
      * Application has to set number of pages to which the selection
-     * will draw by {@link org.gtk.gtk.PrintOperation#setNPages} in a handler
+     * will draw by {@link org.gtk.gtk.PrintOperation<code>#setNPages</code>  in a handler
      * for the {@link [signal@Gtk.PrintOperation::begin-print] (ref=signal)} signal.
      */
     public void setHasSelection(boolean hasSelection) {
@@ -391,7 +391,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * The name is used to identify the job (e.g. in monitoring
      * applications like eggcups).
      * 
-     * If you don&#8217;t set a job name, GTK picks a default one by
+     * If you don&<code>#8217</code> t set a job name, GTK picks a default one by
      * numbering successive print jobs.
      */
     public void setJobName(java.lang.String jobName) {
@@ -419,14 +419,14 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Sets the print settings for @op.
      * 
      * This is typically used to re-establish print settings
-     * from a previous print operation, see {@link org.gtk.gtk.PrintOperation#run}.
+     * from a previous print operation, see {@link org.gtk.gtk.PrintOperation<code>#run</code> .
      */
     public void setPrintSettings(PrintSettings printSettings) {
         gtk_h.gtk_print_operation_set_print_settings(handle(), printSettings.handle());
     }
     
     /**
-     * If @show_progress is <code>TRUE,</code> the print operation will show
+     * If @show_progress is <code>true</code>  the print operation will show
      * a progress dialog during the print operation.
      */
     public void setShowProgress(boolean showProgress) {
@@ -441,10 +441,10 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     /**
-     * If track_status is <code>TRUE,</code> the print operation will try to continue
+     * If track_status is <code>true</code>  the print operation will try to continue
      * report on the status of the print job in the printer queues and printer.
      * 
-     * This can allow your application to show things like &#8220;out of paper&#8221;
+     * This can allow your application to show things like &<code>#8220</code> out of paper&<code>#8221</code> 
      * issues, and when the print job actually reaches the printer.
      * 
      * This function is often implemented using some form of polling,
@@ -463,7 +463,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     /**
-     * If @full_page is <code>TRUE,</code> the transformation for the cairo context
+     * If @full_page is <code>true</code>  the transformation for the cairo context
      * obtained from <code>GtkPrintContext</code> puts the origin at the top left
      * corner of the page.
      * 
@@ -487,7 +487,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * A typical use for ::begin-print is to use the parameters from the
      * {@link org.gtk.gtk.PrintContext} and paginate the document accordingly,
      * and then set the number of pages with
-     * {@link org.gtk.gtk.PrintOperation#setNPages}.
+     * {@link org.gtk.gtk.PrintOperation<code>#setNPages</code> .
      */
     public SignalHandle onBeginPrint(BeginPrintHandler handler) {
         try {
@@ -575,12 +575,11 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * everything required for printing.
      * 
      * @result gives you information about what happened during the run.
-     * If @result is {@link org.gtk.gtk.PrintOperationResult#ERROR} then you can call
-     * {@link org.gtk.gtk.PrintOperation#getError} for more information.
+     * If @result is {@link org.gtk.gtk.PrintOperationResult<code>#ERROR</code>  then you can call
+     * {@link org.gtk.gtk.PrintOperation<code>#getError</code>  for more information.
      * 
      * If you enabled print status tracking then
-     * {@link org.gtk.gtk.PrintOperation#isFinished} may still return <code>FALSE
-     * after</code> the ::done signal was emitted.
+     * {@link org.gtk.gtk.PrintOperation<code>#isFinished</code>  may still return <code>false</code> after the ::done signal was emitted.
      */
     public SignalHandle onDone(DoneHandler handler) {
         try {
@@ -605,9 +604,9 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     /**
      * Emitted for every page that is printed.
      * <p>
-     * The signal handler must render the @page_nr&#39;s page onto the cairo
+     * The signal handler must render the @page_nr&<code>#39</code> s page onto the cairo
      * context obtained from @context using
-     * {@link org.gtk.gtk.PrintContext#getCairoContext}.
+     * {@link org.gtk.gtk.PrintContext<code>#getCairoContext</code> .
      * <p><pre>c
      * static void
      * draw_page (GtkPrintOperation *operation,
@@ -631,15 +630,15 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      *   
      *   layout = gtk_print_context_create_pango_layout (context);
      *   
-     *   desc = pango_font_description_from_string (&#34;sans 14&#34;);
+     *   desc = pango_font_description_from_string (&<code>#34</code> sans 14&<code>#34</code> );
      *   pango_layout_set_font_description (layout, desc);
      *   pango_font_description_free (desc);
      *   
-     *   pango_layout_set_text (layout, &#34;some text&#34;, -1);
+     *   pango_layout_set_text (layout, &<code>#34</code> some text&<code>#34</code> , -1);
      *   pango_layout_set_width (layout, width * PANGO_SCALE);
      *   pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
      *      		      
-     *   pango_layout_get_size (layout, NULL, &#38;layout_height);
+     *   pango_layout_get_size (layout, NULL, &<code>#38</code> layout_height);
      *   text_height = (double)layout_height / PANGO_SCALE;
      *   
      *   cairo_move_to (cr, width / 2,  (HEADER_HEIGHT - text_height) / 2);
@@ -649,8 +648,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * }
      * </pre>
      * 
-     * Use {@link org.gtk.gtk.PrintOperation#setUseFullPage} and
-     * {@link org.gtk.gtk.PrintOperation#setUnit} before starting the print
+     * Use {@link org.gtk.gtk.PrintOperation<code>#setUseFullPage</code>  and
+     * {@link org.gtk.gtk.PrintOperation<code>#setUnit</code>  before starting the print
      * operation to set up the transformation of the cairo context
      * according to your needs.
      */
@@ -704,15 +703,15 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Emitted after the ::begin-print signal, but before the actual rendering
      * starts.
      * 
-     * It keeps getting emitted until a connected signal handler returns <code>TRUE.
+     * It keeps getting emitted until a connected signal handler returns <code>true</code> 
      * 
-     * The</code> ::paginate signal is intended to be used for paginating a document
+     * The ::paginate signal is intended to be used for paginating a document
      * in small chunks, to avoid blocking the user interface for a long
      * time. The signal handler should update the number of pages using
-     * {@link org.gtk.gtk.PrintOperation#setNPages}, and return <code>true</code> if the document
+     * {@link org.gtk.gtk.PrintOperation<code>#setNPages</code> , and return <code>true</code> if the document
      * has been completely paginated.
      * 
-     * If you don&#39;t need to do pagination in chunks, you can simply do
+     * If you don&<code>#39</code> t need to do pagination in chunks, you can simply do
      * it all in the ::begin-print handler, and set the number of pages
      * from there.
      */
@@ -746,13 +745,13 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * <code>true</code> from its handler for this signal. In order to use the
      * provided @context for the preview implementation, it must be
      * given a suitable cairo context with
-     * {@link org.gtk.gtk.PrintContext#setCairoContext}.
+     * {@link org.gtk.gtk.PrintContext<code>#setCairoContext</code> .
      * 
      * The custom preview implementation can use
-     * {@link org.gtk.gtk.PrintOperationPreview#isSelected} and
-     * {@link org.gtk.gtk.PrintOperationPreview#renderPage} to find pages which
+     * {@link org.gtk.gtk.PrintOperationPreview<code>#isSelected</code>  and
+     * {@link org.gtk.gtk.PrintOperationPreview<code>#renderPage</code>  to find pages which
      * are selected for print and render them. The preview must be
-     * finished by calling {@link org.gtk.gtk.PrintOperationPreview#endPreview}
+     * finished by calling {@link org.gtk.gtk.PrintOperationPreview<code>#endPreview</code> 
      * (typically in response to the user clicking a close button).
      */
     public SignalHandle onPreview(PreviewHandler handler) {
@@ -806,7 +805,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Emitted at between the various phases of the print operation.
      * 
      * See {@link [enum@Gtk.PrintStatus] (ref=enum)} for the phases that are being discriminated.
-     * Use {@link org.gtk.gtk.PrintOperation#getStatus} to find out the current
+     * Use {@link org.gtk.gtk.PrintOperation<code>#getStatus</code>  to find out the current
      * status.
      */
     public SignalHandle onStatusChanged(StatusChangedHandler handler) {

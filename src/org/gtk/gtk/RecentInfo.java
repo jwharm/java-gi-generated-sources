@@ -105,7 +105,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the value of the &#8220;private&#8221; flag.
+     * Gets the value of the &<code>#8220</code> private&<code>#8221</code>  flag.
      * 
      * Resources in the recently used list that have this flag
      * set to <code>true</code> should only be displayed by the applications
@@ -121,7 +121,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * name of the item in a menu or list.
      * 
      * For example, calling this function on an item that refers
-     * to &#8220;file:///foo/bar.txt&#8221; will yield &#8220;bar.txt&#8221;.
+     * to &<code>#8220</code> file:///foo/bar.txt&<code>#8221</code>  will yield &<code>#8220</code> bar.txt&<code>#8221</code> .
      */
     public java.lang.String getShortName() {
         var RESULT = gtk_h.gtk_recent_info_get_short_name(handle());
@@ -137,11 +137,11 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets a displayable version of the resource&#8217;s URI.
+     * Gets a displayable version of the resource&<code>#8217</code> s URI.
      * 
      * If the resource is local, it returns a local path; if the
      * resource is not local, it returns the UTF-8 encoded content
-     * of {@link org.gtk.gtk.RecentInfo#getUri}.
+     * of {@link org.gtk.gtk.RecentInfo<code>#getUri</code> .
      */
     public java.lang.String getUriDisplay() {
         var RESULT = gtk_h.gtk_recent_info_get_uri_display(handle());

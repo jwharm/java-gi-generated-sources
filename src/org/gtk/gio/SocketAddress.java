@@ -8,9 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GSocketAddress is the equivalent of struct sockaddr in the BSD
- * sockets API. This is an abstract class; use #GInetSocketAddress
- * for internet sockets, or #GUnixSocketAddress for UNIX domain sockets.
+ * {@link org.gtk.gio.SocketAddress} is the equivalent of struct sockaddr in the BSD
+ * sockets API. This is an abstract class; use {@link org.gtk.gio.InetSocketAddress} for internet sockets, or {@link org.gtk.gio.UnixSocketAddress} for UNIX domain sockets.
  */
 public class SocketAddress extends org.gtk.gobject.Object implements SocketConnectable {
 
@@ -29,7 +28,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
     }
     
     /**
-     * Creates a #GSocketAddress subclass corresponding to the native
+     * Creates a {@link org.gtk.gio.SocketAddress} subclass corresponding to the native
      * struct sockaddr @native.
      */
     public static SocketAddress newFromNative(jdk.incubator.foreign.MemoryAddress native_, long len) {
@@ -45,7 +44,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
     }
     
     /**
-     * Gets the size of @address&#39;s native struct sockaddr.
+     * Gets the size of @address&<code>#39</code> s native struct sockaddr.
      * You can use this to allocate memory to pass to
      * g_socket_address_to_native().
      */
@@ -55,12 +54,12 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
     }
     
     /**
-     * Converts a #GSocketAddress to a native struct sockaddr, which can
+     * Converts a {@link org.gtk.gio.SocketAddress} to a native struct sockaddr, which can
      * be passed to low-level functions like connect() or bind().
      * 
-     * If not enough space is available, a {@link org.gtk.gio.IOErrorEnum#NO_SPACE} error
+     * If not enough space is available, a {@link org.gtk.gio.IOErrorEnum<code>#NO_SPACE</code>  error
      * is returned. If the address type is not known on the system
-     * then a {@link org.gtk.gio.IOErrorEnum#NOT_SUPPORTED} error is returned.
+     * then a {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  error is returned.
      */
     public boolean toNative(jdk.incubator.foreign.MemoryAddress dest, long destlen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

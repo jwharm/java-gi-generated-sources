@@ -11,17 +11,16 @@ import java.lang.invoke.*;
  * SRV (service) records are used by some network protocols to provide
  * service-specific aliasing and load-balancing. For example, XMPP
  * (Jabber) uses SRV records to locate the XMPP server for a domain;
- * rather than connecting directly to &#34;example.com&#34; or assuming a
- * specific server hostname like &#34;xmpp.example.com&#34;, an XMPP client
- * would look up the &#34;xmpp-client&#34; SRV record for &#34;example.com&#34;, and
+ * rather than connecting directly to &<code>#34</code> example.com&<code>#34</code>  or assuming a
+ * specific server hostname like &<code>#34</code> xmpp.example.com&<code>#34</code> , an XMPP client
+ * would look up the &<code>#34</code> xmpp-client&<code>#34</code>  SRV record for &<code>#34</code> example.com&<code>#34</code> , and
  * then connect to whatever host was pointed to by that record.
  * 
  * You can use g_resolver_lookup_service() or
- * g_resolver_lookup_service_async() to find the #GSrvTargets
- * for a given service. However, if you are simply planning to connect
- * to the remote service, you can use #GNetworkService&#39;s
- * #GSocketConnectable interface and not need to worry about
- * #GSrvTarget at all.
+ * g_resolver_lookup_service_async() to find the <code>#GSrvTargets</code> for a given service. However, if you are simply planning to connect
+ * to the remote service, you can use {@link org.gtk.gio.NetworkService} <code>#39</code> s
+ * {@link org.gtk.gio.SocketConnectable} interface and not need to worry about
+ * {@link org.gtk.gio.SrvTarget} at all.
  */
 public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
 
@@ -35,10 +34,10 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GSrvTarget with the given parameters.
+     * Creates a new {@link org.gtk.gio.SrvTarget} with the given parameters.
      * 
-     * You should not need to use this; normally #GSrvTargets are
-     * created by #GResolver.
+     * You should not need to use this; normally <code>#GSrvTargets</code> are
+     * created by {@link org.gtk.gio.Resolver}
      */
     public SrvTarget(java.lang.String hostname, short port, short priority, short weight) {
         super(constructNew(hostname, port, priority, weight));
@@ -60,7 +59,7 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets @target&#39;s hostname (in ASCII form; if you are going to present
+     * Gets @target&<code>#39</code> s hostname (in ASCII form; if you are going to present
      * this to the user, you should use g_hostname_is_ascii_encoded() to
      * check if it contains encoded Unicode segments, and use
      * g_hostname_to_unicode() to convert it if it does.)
@@ -71,7 +70,7 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets @target&#39;s port
+     * Gets @target&<code>#39</code> s port
      */
     public short getPort() {
         var RESULT = gtk_h.g_srv_target_get_port(handle());
@@ -79,8 +78,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets @target&#39;s priority. You should not need to look at this;
-     * #GResolver already sorts the targets according to the algorithm in
+     * Gets @target&<code>#39</code> s priority. You should not need to look at this;
+     * {@link org.gtk.gio.Resolver} already sorts the targets according to the algorithm in
      * RFC 2782.
      */
     public short getPriority() {
@@ -89,8 +88,8 @@ public class SrvTarget extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets @target&#39;s weight. You should not need to look at this;
-     * #GResolver already sorts the targets according to the algorithm in
+     * Gets @target&<code>#39</code> s weight. You should not need to look at this;
+     * {@link org.gtk.gio.Resolver} already sorts the targets according to the algorithm in
      * RFC 2782.
      */
     public short getWeight() {

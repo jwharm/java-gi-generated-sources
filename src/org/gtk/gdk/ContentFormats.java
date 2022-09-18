@@ -27,12 +27,12 @@ import java.lang.invoke.*;
  * exchanged in. It is assumed that this set is ordered. <code>GTypes</code> are more
  * important than mime types. Order between different <code>GTypes</code> or mime types
  * is the order they were added in, most important first. Functions that
- * care about order, such as {@link org.gtk.gdk.ContentFormats#union}, will describe
+ * care about order, such as {@link org.gtk.gdk.ContentFormats<code>#union</code> , will describe
  * in their documentation how they interpret that order, though in general the
  * order of the first argument is considered the primary order of the result,
  * followed by the order of further arguments.
  * <p>
- * For debugging purposes, the function {@link org.gtk.gdk.ContentFormats#toString}
+ * For debugging purposes, the function {@link org.gtk.gdk.ContentFormats<code>#toString</code> 
  * exists. It will print a comma-separated list of formats from most important
  * to least important.
  * <p><code>GdkContentFormats</code> is an immutable struct. After creation, you cannot change
@@ -124,7 +124,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Prints the given @formats into a string for human consumption.
      * 
      * The result of this function can later be parsed with
-     * {@link Gdk#ContentFormats}.
+     * {@link Gdk<code>#ContentFormats</code> .
      */
     public void print(org.gtk.glib.String string) {
         gtk_h.gdk_content_formats_print(handle(), string.handle());
@@ -141,9 +141,9 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Prints the given @formats into a human-readable string.
      * 
-     * The resulting string can be parsed with {@link Gdk#ContentFormats}.
+     * The resulting string can be parsed with {@link Gdk<code>#ContentFormats</code> .
      * 
-     * This is a small wrapper around {@link org.gtk.gdk.ContentFormats#print}
+     * This is a small wrapper around {@link org.gtk.gdk.ContentFormats<code>#print</code> 
      * to help when debugging.
      */
     public java.lang.String toString() {
@@ -209,11 +209,10 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Parses the given @string into <code>GdkContentFormats</code> and
      * returns the formats.
      * 
-     * Strings printed via {@link org.gtk.gdk.ContentFormats#toString}
+     * Strings printed via {@link org.gtk.gdk.ContentFormats<code>#toString</code> 
      * can be read in again successfully using this function.
      * 
-     * If @string does not describe valid content formats, <code>NULL
-     * is</code> returned.
+     * If @string does not describe valid content formats, <code>null</code> is returned.
      */
     public static ContentFormats parse(java.lang.String string) {
         var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());

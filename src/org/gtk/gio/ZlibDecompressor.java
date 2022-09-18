@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GZlibDecompressor is an implementation of #GConverter that
+ * {@link org.gtk.gio.ZlibDecompressor} is an implementation of {@link org.gtk.gio.Converter} that
  * decompresses data compressed with zlib.
  */
 public class ZlibDecompressor extends org.gtk.gobject.Object implements Converter {
@@ -28,17 +28,17 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
     }
     
     /**
-     * Creates a new #GZlibDecompressor.
+     * Creates a new {@link org.gtk.gio.ZlibDecompressor}
      */
     public ZlibDecompressor(ZlibCompressorFormat format) {
         super(constructNew(format));
     }
     
     /**
-     * Retrieves the #GFileInfo constructed from the GZIP header data
-     * of compressed data processed by @compressor, or <code>null</code> if @decompressor&#39;s
-     * #GZlibDecompressor:format property is not <code>G_ZLIB_COMPRESSOR_FORMAT_GZIP,
-     * or</code> the header data was not fully processed yet, or it not present in the
+     * Retrieves the {@link org.gtk.gio.FileInfo} constructed from the GZIP header data
+     * of compressed data processed by @compressor, or <code>null</code> if @decompressor&<code>#39</code> s
+     * {@link org.gtk.gio.ZlibDecompressor} format property is not {@link org.gtk.gio.ZlibCompressorFormat<code>#GZIP</code>  
+     * or the header data was not fully processed yet, or it not present in the
      * data stream at all.
      */
     public FileInfo getFileInfo() {

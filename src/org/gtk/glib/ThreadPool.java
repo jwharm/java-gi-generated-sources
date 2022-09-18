@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GThreadPool struct represents a thread pool. It has three
+ * The {@link org.gtk.glib.ThreadPool} struct represents a thread pool. It has three
  * public read-only members, but the underlying struct is bigger,
  * so you must not copy this struct.
  */
@@ -21,13 +21,13 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees all resources allocated for @pool.
      * 
-     * If @immediate is <code>TRUE,</code> no new task is processed for @pool.
+     * If @immediate is <code>true</code>  no new task is processed for @pool.
      * Otherwise @pool is not freed before the last task is processed.
      * Note however, that no thread of this pool is interrupted while
      * processing a task. Instead at least all still running threads
      * can finish their tasks before the @pool is freed.
      * 
-     * If @wait_ is <code>TRUE,</code> this function does not return before all
+     * If @wait_ is <code>true</code>  this function does not return before all
      * tasks to be processed (dependent on @immediate, whether all
      * or only the currently running) are ready.
      * Otherwise this function returns immediately.
@@ -73,7 +73,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * finishes its previous task and processes @data.
      * 
      * @error can be <code>null</code> to ignore errors, or non-<code>null</code> to report
-     * errors. An error can only occur when a new thread couldn&#39;t be
+     * errors. An error can only occur when a new thread couldn&<code>#39</code> t be
      * created. In that case @data is simply appended to the queue of
      * work to do.
      * 
@@ -105,7 +105,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * running threads in @pool is smaller than the maximal number.
      * 
      * @error can be <code>null</code> to ignore errors, or non-<code>null</code> to report
-     * errors. An error can only occur when a new thread couldn&#39;t be
+     * errors. An error can only occur when a new thread couldn&<code>#39</code> t be
      * created.
      * 
      * Before version 2.32, this function did not return a success status.
@@ -125,7 +125,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * just in the order in which they were added to the pool.
      * 
      * Note, if the maximum number of threads is more than 1, the order
-     * that threads are executed cannot be guaranteed 100<code>.</code> Threads are
+     * that threads are executed cannot be guaranteed 100<code></code>  Threads are
      * scheduled by the operating system and are executed at random. It
      * cannot be assumed that threads are executed in the order they are
      * created.
@@ -198,10 +198,10 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The parameter @exclusive determines whether the thread pool owns
      * all threads exclusive or shares them with other thread pools.
-     * If @exclusive is <code>TRUE,</code> @max_threads threads are started
+     * If @exclusive is <code>true</code>  @max_threads threads are started
      * immediately and they will run exclusively for this thread pool
      * until it is destroyed by g_thread_pool_free(). If @exclusive is
-     * <code>FALSE,</code> threads are created when needed and shared between all
+     * <code>false</code>  threads are created when needed and shared between all
      * non-exclusive thread pools. This implies that @max_threads may
      * not be -1 for exclusive thread pools. Besides, exclusive thread
      * pools are not affected by g_thread_pool_set_max_idle_time()
@@ -209,10 +209,9 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * global pool.
      * 
      * @error can be <code>null</code> to ignore errors, or non-<code>null</code> to report
-     * errors. An error can only occur when @exclusive is set to <code>TRUE
-     * and</code> not all @max_threads threads could be created.
-     * See #GThreadError for possible errors that may occur.
-     * Note, even in case of error a valid #GThreadPool is returned.
+     * errors. An error can only occur when @exclusive is set to <code>true</code> and not all @max_threads threads could be created.
+     * See {@link org.gtk.glib.ThreadError} for possible errors that may occur.
+     * Note, even in case of error a valid {@link org.gtk.glib.ThreadPool} is returned.
      */
     public static ThreadPool new_(Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -236,7 +235,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function creates a new thread pool similar to g_thread_pool_new()
      * but allowing @item_free_func to be specified to free the data passed
-     * to g_thread_pool_push() in the case that the #GThreadPool is stopped
+     * to g_thread_pool_push() in the case that the {@link org.gtk.glib.ThreadPool} is stopped
      * and freed before all tasks have been executed.
      */
     public static ThreadPool newFull(Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {

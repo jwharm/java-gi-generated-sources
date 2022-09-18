@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * vtable for a #GTlsClientConnection implementation.
+ * vtable for a {@link org.gtk.gio.TlsClientConnection} implementation.
  */
 public class TlsClientConnectionInterface extends io.github.jwharm.javagi.ResourceBase {
 

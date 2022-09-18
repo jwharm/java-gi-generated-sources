@@ -14,22 +14,8 @@ import java.lang.invoke.*;
  * Particular types of attributes include this structure as their initial
  * portion. The common portion of the attribute holds the range to which
  * the value in the type-specific part of the attribute applies and should
- * be initialized using {@link org.pango.Attribute#init}. By default, an attribute
- * will have an all-inclusive range of {@link [0,
- *             
- *           
- *         
- *       
- *     
- *     
- *       The <code>PangoAttribute</code> structure represents the common portions of all
- * attributes.
- * 
- * Particular types of attributes include this structure as their initial
- * portion. The common portion of the attribute holds the range to which
- * the value in the type-specific part of the attribute applies and should
- * be initialized using {@link org.pango.Attribute#init}. By default, an attribute
- * will have an all-inclusive range of {@link [0,%G_MAXUINT]}.
+ * be initialized using {@link org.pango.Attribute<code>#init</code> . By default, an attribute
+ * will have an all-inclusive range of {@link [0,<code>G_MAXUINT</code> }.
  */
 public class Attribute extends io.github.jwharm.javagi.ResourceBase {
 
@@ -155,7 +141,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @attr&#39;s klass to @klass, it&#39;s start_index to
+     * Initializes @attr&<code>#39</code> s klass to @klass, it&<code>#39</code> s start_index to
      * <code>PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING</code> and end_index to
      * <code>PANGO_ATTR_INDEX_TO_TEXT_END</code> such that the attribute applies
      * to the entire text by default.

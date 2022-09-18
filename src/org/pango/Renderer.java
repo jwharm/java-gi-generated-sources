@@ -29,12 +29,12 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Does initial setup before rendering operations on @renderer.
      * 
-     * {@link org.pango.Renderer#deactivate} should be called when done drawing.
-     * Calls such as {@link org.pango.Renderer#drawLayout} automatically
+     * {@link org.pango.Renderer<code>#deactivate</code>  should be called when done drawing.
+     * Calls such as {@link org.pango.Renderer<code>#drawLayout</code>  automatically
      * activate the layout before drawing on it.
      * 
-     * Calls to {@link org.pango.Renderer#activate} and
-     * {@link org.pango.Renderer#deactivate} can be nested and the
+     * Calls to {@link org.pango.Renderer<code>#activate</code>  and
+     * {@link org.pango.Renderer<code>#deactivate</code>  can be nested and the
      * renderer will only be initialized and deinitialized once.
      */
     public void activate() {
@@ -44,7 +44,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Cleans up after rendering operations on @renderer.
      * 
-     * See docs for {@link org.pango.Renderer#activate}.
+     * See docs for {@link org.pango.Renderer<code>#activate</code> .
      */
     public void deactivate() {
         gtk_h.pango_renderer_deactivate(handle());
@@ -59,7 +59,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * in the original rectangle.
      * 
      * This should be called while @renderer is already active.
-     * Use {@link org.pango.Renderer#activate} to activate a renderer.
+     * Use {@link org.pango.Renderer<code>#activate</code>  to activate a renderer.
      */
     public void drawErrorUnderline(int x, int y, int width, int height) {
         gtk_h.pango_renderer_draw_error_underline(handle(), x, y, width, height);
@@ -85,12 +85,12 @@ public class Renderer extends org.gtk.gobject.Object {
      * or pango_renderer_draw_layout().
      * <p>
      * Note that @text is the start of the text for layout, which is then
-     * indexed by <code>glyph_item-&#62;item-&#62;offset</code>.
+     * indexed by <code>glyph_item-&<code>#62</code> item-&<code>#62</code> offset</code>.
      * 
-     * If @text is <code>NULL,</code> this simply calls {@link org.pango.Renderer#drawGlyphs}.
+     * If @text is <code>null</code>  this simply calls {@link org.pango.Renderer<code>#drawGlyphs</code> .
      * 
      * The default implementation of this method simply falls back to
-     * {@link org.pango.Renderer#drawGlyphs}.
+     * {@link org.pango.Renderer<code>#drawGlyphs</code> .
      */
     public void drawGlyphItem(java.lang.String text, GlyphItem glyphItem, int x, int y) {
         gtk_h.pango_renderer_draw_glyph_item(handle(), Interop.allocateNativeString(text).handle(), glyphItem.handle(), x, y);
@@ -129,7 +129,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * specified <code>PangoRenderer</code>.
      * 
      * This should be called while @renderer is already active.
-     * Use {@link org.pango.Renderer#activate} to activate a renderer.
+     * Use {@link org.pango.Renderer<code>#activate</code>  to activate a renderer.
      */
     public void drawRectangle(RenderPart part, int x, int y, int width, int height) {
         gtk_h.pango_renderer_draw_rectangle(handle(), part.getValue(), x, y, width, height);
@@ -162,7 +162,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Gets the layout currently being rendered using @renderer.
      * 
-     * Calling this function only makes sense from inside a subclass&#39;s
+     * Calling this function only makes sense from inside a subclass&<code>#39</code> s
      * methods, like in its draw_shape vfunc, for example.
      * 
      * The returned layout should not be modified while still being
@@ -176,7 +176,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Gets the layout line currently being rendered using @renderer.
      * 
-     * Calling this function only makes sense from inside a subclass&#39;s
+     * Calling this function only makes sense from inside a subclass&<code>#39</code> s
      * methods, like in its draw_shape vfunc, for example.
      * 
      * The returned layout line should not be modified while still being
@@ -191,7 +191,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Gets the transformation matrix that will be applied when
      * rendering.
      * 
-     * See {@link org.pango.Renderer#setMatrix}.
+     * See {@link org.pango.Renderer<code>#setMatrix</code> .
      */
     public Matrix getMatrix() {
         var RESULT = gtk_h.pango_renderer_get_matrix(handle());
@@ -212,7 +212,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * 
      * When the stipple changes or underlines with different stipples
      * might be joined together. Pango automatically calls this for
-     * changes to colors. (See {@link org.pango.Renderer#setColor})
+     * changes to colors. (See {@link org.pango.Renderer<code>#setColor</code> )
      */
     public void partChanged(RenderPart part) {
         gtk_h.pango_renderer_part_changed(handle(), part.getValue());
@@ -231,7 +231,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Sets the color for part of the rendering.
      * 
-     * Also see {@link org.pango.Renderer#setAlpha}.
+     * Also see {@link org.pango.Renderer<code>#setAlpha</code> .
      */
     public void setColor(RenderPart part, Color color) {
         gtk_h.pango_renderer_set_color(handle(), part.getValue(), color.handle());

@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GPowerProfileMonitor makes it possible for applications as well as OS components
+ * {@link org.gtk.gio.PowerProfileMonitor} makes it possible for applications as well as OS components
  * to monitor system power profiles and act upon them. It currently only exports
- * whether the system is in &#8220;Power Saver&#8221; mode (known as &#8220;Low Power&#8221; mode on
+ * whether the system is in &<code>#8220</code> Power Saver&<code>#8221</code>  mode (known as &<code>#8220</code> Low Power&<code>#8221</code>  mode on
  * some systems).
  * <p>
- * When in &#8220;Low Power&#8221; mode, it is recommended that applications:
+ * When in &<code>#8220</code> Low Power&<code>#8221</code>  mode, it is recommended that applications:
  * <li>disabling automatic downloads
  * <li>reduce the rate of refresh from online sources such as calendar or
  *   email synchronisation
@@ -28,16 +28,16 @@ import java.lang.invoke.*;
  * or activity at all), <code>sysprof</code> to inspect CPU usage, and <code>intel_gpu_time</code> to
  * profile GPU usage.
  * 
- * Don&#39;t forget to disconnect the #GPowerProfileMonitor::notify::power-saver-enabled
- * signal, and unref the #GPowerProfileMonitor itself when exiting.
+ * Don&<code>#39</code> t forget to disconnect the {@link org.gtk.gio.PowerProfileMonitor} :notify::power-saver-enabled
+ * signal, and unref the {@link org.gtk.gio.PowerProfileMonitor} itself when exiting.
  */
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets whether the system is in &#8220;Power Saver&#8221; mode.
+     * Gets whether the system is in &<code>#8220</code> Power Saver&<code>#8221</code>  mode.
      * 
      * You are expected to listen to the
-     * #GPowerProfileMonitor::notify::power-saver-enabled signal to know when the profile has
+     * {@link org.gtk.gio.PowerProfileMonitor} :notify::power-saver-enabled signal to know when the profile has
      * changed.
      */
     public default boolean getPowerSaverEnabled() {
@@ -46,7 +46,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Gets a reference to the default #GPowerProfileMonitor for the system.
+     * Gets a reference to the default {@link org.gtk.gio.PowerProfileMonitor} for the system.
      */
     public static PowerProfileMonitor dupDefault() {
         var RESULT = gtk_h.g_power_profile_monitor_dup_default();

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A GPatternSpec struct is the &#39;compiled&#39; form of a pattern. This
+ * A GPatternSpec struct is the &<code>#39</code> compiled&<code>#39</code>  form of a pattern. This
  * structure is opaque and its fields cannot be accessed directly.
  */
 public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
@@ -23,14 +23,14 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compiles a pattern to a #GPatternSpec.
+     * Compiles a pattern to a {@link org.gtk.glib.PatternSpec}
      */
     public PatternSpec(java.lang.String pattern) {
         super(constructNew(pattern));
     }
     
     /**
-     * Copies @pspec in a new #GPatternSpec.
+     * Copies @pspec in a new {@link org.gtk.glib.PatternSpec}
      */
     public PatternSpec copy() {
         var RESULT = gtk_h.g_pattern_spec_copy(handle());
@@ -47,7 +47,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the memory allocated for the #GPatternSpec.
+     * Frees the memory allocated for the {@link org.gtk.glib.PatternSpec}
      */
     public void free() {
         gtk_h.g_pattern_spec_free(handle());
@@ -56,14 +56,14 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Matches a string against a compiled pattern. Passing the correct
      * length of the string given is mandatory. The reversed string can be
-     * omitted by passing <code>NULL,</code> this is more efficient if the reversed
+     * omitted by passing <code>null</code>  this is more efficient if the reversed
      * version of the string to be matched is not at hand, as
      * g_pattern_match() will only construct it if the compiled pattern
      * requires reverse matches.
      * 
      * Note that, if the user code will (possibly) match a string against a
      * multitude of patterns containing wildcards, chances are high that
-     * some patterns will require a reversed string. In this case, it&#39;s
+     * some patterns will require a reversed string. In this case, it&<code>#39</code> s
      * more efficient to provide the reversed string to avoid multiple
      * constructions thereof in the various calls to g_pattern_match().
      * 

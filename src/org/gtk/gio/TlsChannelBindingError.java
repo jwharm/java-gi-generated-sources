@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * An error code used with <code>G_TLS_CHANNEL_BINDING_ERROR</code> in a #GError to
+ * An error code used with <code>G_TLS_CHANNEL_BINDING_ERROR</code> in a {@link org.gtk.glib.Error} to
  * indicate a TLS channel binding retrieval error.
  */
 public enum TlsChannelBindingError {

@@ -12,7 +12,7 @@ public enum DeleteType {
     
     /**
      * Delete only the portion of the word to the
-     *   left/right of cursor if we&#8217;re in the middle of a word.
+     *   left/right of cursor if we&<code>#8217</code> re in the middle of a word.
      */
     WORD_ENDS,
     

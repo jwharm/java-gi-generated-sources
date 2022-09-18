@@ -18,11 +18,11 @@ public class FileCreateFlags {
     
     /**
      * Replace the destination
-     *    as if it didn&#39;t exist before. Don&#39;t try to keep any old
+     *    as if it didn&<code>#39</code> t exist before. Don&<code>#39</code> t try to keep any old
      *    permissions, replace instead of following links. This
-     *    is generally useful if you&#39;re doing a &#34;copy over&#34;
-     *    rather than a &#34;save new version of&#34; replace operation.
-     *    You can think of it as &#34;unlink destination&#34; before
+     *    is generally useful if you&<code>#39</code> re doing a &<code>#34</code> copy over&<code>#34</code> 
+     *    rather than a &<code>#34</code> save new version of&<code>#34</code>  replace operation.
+     *    You can think of it as &<code>#34</code> unlink destination&<code>#34</code>  before
      *    writing to it, although the implementation may not
      *    be exactly like that. This flag can only be used with
      *    g_file_replace() and its variants, including g_file_replace_contents().

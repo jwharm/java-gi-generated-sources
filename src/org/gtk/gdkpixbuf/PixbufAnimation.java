@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  * internally; for example, it may be stored as a sprite and
  * instructions for moving the sprite around a background.
  * <p>
- * To display an animation you don&#39;t need to understand its
+ * To display an animation you don&<code>#39</code> t need to understand its
  * representation, however; you just ask <code>GdkPixbuf</code> what should
  * be displayed at a given point in time.
  */
@@ -47,7 +47,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * <p>
      * The file format is detected automatically.
      * <p>
-     * If the file&#39;s format does not support multi-frame images, then an animation
+     * If the file&<code>#39</code> s format does not support multi-frame images, then an animation
      * with a single frame will be created.
      * <p>
      * Possible errors are in the <code>GDK_PIXBUF_ERROR</code> and <code>G_FILE_ERROR</code> domains.
@@ -112,7 +112,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     
     /**
      * Finishes an asynchronous pixbuf animation creation operation started with
-     * {@link GdkPixbuf#PixbufAnimation}.
+     * {@link GdkPixbuf<code>#PixbufAnimation</code> .
      */
     public static PixbufAnimation newFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         return new PixbufAnimation(constructNewFromStreamFinish(asyncResult));
@@ -137,7 +137,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * should immediately display the pixbuf returned by
      * gdk_pixbuf_animation_iter_get_pixbuf(). Then, you should install
      * a timeout (with g_timeout_add()) or by some other mechanism ensure
-     * that you&#39;ll update the image after
+     * that you&<code>#39</code> ll update the image after
      * gdk_pixbuf_animation_iter_get_delay_time() milliseconds. Each time
      * the image is updated, you should reinstall the timeout with the new,
      * possibly-changed delay time.
@@ -149,7 +149,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * gdk_pixbuf_animation_iter_get_pixbuf() to a new frame of the animation),
      * call gdk_pixbuf_animation_iter_advance().
      * <p>
-     * If you&#39;re using #GdkPixbufLoader, in addition to updating the image
+     * If you&<code>#39</code> re using {@link org.gtk.gdkpixbuf.PixbufLoader}  in addition to updating the image
      * after the delay time, you should also update it whenever you
      * receive the area_updated signal and
      * gdk_pixbuf_animation_iter_on_currently_loading_frame() returns<code>TRUE</code>. In this case, the frame currently being fed into the loader
@@ -159,7 +159,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * the frame itself. So your timeout should be reinstalled after any
      * area_updated signal.
      * 
-     * A delay time of -1 is possible, indicating &#34;infinite&#34;.
+     * A delay time of -1 is possible, indicating &<code>#34</code> infinite&<code>#34</code> .
      */
     public PixbufAnimationIter getIter(org.gtk.glib.TimeVal startTime) {
         var RESULT = gtk_h.gdk_pixbuf_animation_get_iter(handle(), startTime.handle());
@@ -176,7 +176,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * image to use as a static unanimated image, which might be the first
      * frame, or something more sophisticated depending on the file format.
      * <p>
-     * If an animation hasn&#39;t loaded any frames yet, this function will
+     * If an animation hasn&<code>#39</code> t loaded any frames yet, this function will
      * return <code>NULL</code>.
      */
     public Pixbuf getStaticImage() {

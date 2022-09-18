@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * The type of the @unuse_plugin function of #GTypePluginClass.
+ * The type of the @unuse_plugin function of {@link org.gtk.gobject.TypePluginClass}
  */
 @FunctionalInterface
 public interface TypePluginUnuse {

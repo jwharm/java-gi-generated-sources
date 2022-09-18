@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * Most applications should never use this layout manager; fixed positioning
  * and sizing requires constant recalculations on where children need to be
  * positioned and sized. Other layout managers perform this kind of work
- * internally so that application developers don&#39;t need to do it. Specifically,
+ * internally so that application developers don&<code>#39</code> t need to do it. Specifically,
  * widgets positioned in a fixed layout manager will need to take into account:
  * <p>
  * <li>Themes, which may change widget sizes.
@@ -33,7 +33,7 @@ import java.lang.invoke.*;
  * thus may produce unwanted results if your app is run under right-to-left
  * languages such as Hebrew or Arabic. That is: normally GTK will order
  * containers appropriately depending on the text direction, e.g. to put labels
- * to the right of the thing they label when using an RTL language;<code>GtkFixedLayout</code> won&#39;t be able to do that for you.
+ * to the right of the thing they label when using an RTL language;<code>GtkFixedLayout</code> won&<code>#39</code> t be able to do that for you.
  * 
  * Finally, fixed positioning makes it kind of annoying to add/remove UI
  * elements, since you have to reposition all the other  elements. This is a

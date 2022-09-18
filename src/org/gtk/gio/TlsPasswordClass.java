@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for #GTlsPassword.
+ * Class structure for {@link org.gtk.gio.TlsPassword}
  */
 public class TlsPasswordClass extends io.github.jwharm.javagi.ResourceBase {
 

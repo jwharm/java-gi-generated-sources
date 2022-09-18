@@ -26,7 +26,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * the <code>GdkToplevelSize</code> object.
      * 
      * The minimum size should be within the bounds (see
-     * {@link org.gtk.gdk.ToplevelSize#getBounds}).
+     * {@link org.gtk.gdk.ToplevelSize<code>#getBounds</code> ).
      */
     public void setMinSize(int minWidth, int minHeight) {
         gtk_h.gdk_toplevel_size_set_min_size(handle(), minWidth, minHeight);
@@ -47,7 +47,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * Sets the size the toplevel prefers to be resized to.
      * 
      * The size should be within the bounds (see
-     * {@link org.gtk.gdk.ToplevelSize#getBounds}). The set size should
+     * {@link org.gtk.gdk.ToplevelSize<code>#getBounds</code> ). The set size should
      * be considered as a hint, and should not be assumed to be
      * respected by the windowing system, or backend.
      */

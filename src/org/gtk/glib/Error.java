@@ -23,9 +23,9 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GError; unlike g_error_new(), @message is
+     * Creates a new {@link org.gtk.glib.Error}  unlike g_error_new(), @message is
      * not a printf()-style format string. Use this function if
-     * @message contains text you don&#39;t have control over,
+     * @message contains text you don&<code>#39</code> t have control over,
      * that could include printf() escape sequences.
      */
     public static Error newLiteral(Quark domain, int code, java.lang.String message) {
@@ -38,7 +38,7 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GError with the given @domain and @code,
+     * Creates a new {@link org.gtk.glib.Error} with the given @domain and @code,
      * and a message formatted with @format.
      */
     public static Error newValist(Quark domain, int code, java.lang.String format, VaList args) {
@@ -54,15 +54,14 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a #GError and associated resources.
+     * Frees a {@link org.gtk.glib.Error} and associated resources.
      */
     public void free() {
         gtk_h.g_error_free(handle());
     }
     
     /**
-     * Returns <code>true</code> if @error matches @domain and @code, <code>FALSE
-     * otherwise.</code> In particular, when @error is <code>NULL,</code> <code>false</code> will
+     * Returns <code>true</code> if @error matches @domain and @code, <code>false</code> otherwise. In particular, when @error is <code>null</code>  <code>false</code> will
      * be returned.
      * <p>
      * If @domain contains a <code>FAILED</code> (or otherwise generic) error code,

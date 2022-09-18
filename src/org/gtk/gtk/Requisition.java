@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A <code>GtkRequisition</code> represents the desired size of a widget. See
- * {@link [GtkWidget&#8217;s geometry management section]}(class.Widget.html#height-for-width-geometry-management) for
+ * {@link [GtkWidget&<code>#8217</code> s geometry management section]}(class.Widget.html<code>#height</code> for-width-geometry-management) for
  * more information.
  */
 public class Requisition extends io.github.jwharm.javagi.ResourceBase {

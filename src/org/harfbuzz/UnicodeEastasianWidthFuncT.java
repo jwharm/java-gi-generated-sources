@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the #hb_unicode_funcs_t structure.
+ * A virtual method for the {@link org.harfbuzz.unicode_funcs_t} structure.
  */
 @FunctionalInterface
 public interface UnicodeEastasianWidthFuncT {

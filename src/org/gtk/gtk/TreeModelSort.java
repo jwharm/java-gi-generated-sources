@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * <p>
  * <h2>Using a</h2><code>GtkTreeModelSort</code>
  * <p>
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * {
  *   GtkTreeView *tree_view1;
  *   GtkTreeView *tree_view2;
@@ -58,9 +58,9 @@ import java.lang.invoke.*;
  * from COLUMN_1 of the model.  We then modify the string, find the same
  * selected row on the child model, and change the row there.
  * 
- * ## Accessing the child model of in a selection changed callback
+ * <code>#</code>  Accessing the child model of in a selection changed callback
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * void
  * selection_changed (GtkTreeSelection *selection, gpointer data)
  * {
@@ -73,14 +73,14 @@ import java.lang.invoke.*;
  * 
  *   // Get the current selected row and the model.
  *   if (! gtk_tree_selection_get_selected (selection,
- *                                          &#38;sort_model,
- *                                          &#38;sort_iter))
+ *                                          &<code>#38</code> sort_model,
+ *                                          &<code>#38</code> sort_iter))
  *     return;
  * 
  *   // Look up the current value on the selected row and get
  *   // a new value to change it to.
- *   gtk_tree_model_get (GTK_TREE_MODEL (sort_model), &#38;sort_iter,
- *                       COLUMN_1, &#38;some_data,
+ *   gtk_tree_model_get (GTK_TREE_MODEL (sort_model), &<code>#38</code> sort_iter,
+ *                       COLUMN_1, &<code>#38</code> some_data,
  *                       -1);
  * 
  *   modified_data = change_the_data (some_data);
@@ -88,15 +88,15 @@ import java.lang.invoke.*;
  * 
  *   // Get an iterator on the child model, instead of the sort model.
  *   gtk_tree_model_sort_convert_iter_to_child_iter (GTK_TREE_MODEL_SORT (sort_model),
- *                                                   &#38;child_iter,
- *                                                   &#38;sort_iter);
+ *                                                   &<code>#38</code> child_iter,
+ *                                                   &<code>#38</code> sort_iter);
  * 
  *   // Get the child model and change the value of the row. In this
  *   // example, the child model is a GtkListStore. It could be any other
  *   // type of model, though.
  *   child_model = gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (sort_model));
- *   gtk_list_store_set (GTK_LIST_STORE (child_model), &#38;child_iter,
- *                       COLUMN_1, &#38;modified_data,
+ *   gtk_list_store_set (GTK_LIST_STORE (child_model), &<code>#38</code> child_iter,
+ *                       COLUMN_1, &<code>#38</code> modified_data,
  *                       -1);
  *   g_free (modified_data);
  * }
@@ -127,9 +127,9 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     
     /**
      * This function should almost never be called.  It clears the @tree_model_sort
-     * of any cached iterators that haven&#8217;t been reffed with
+     * of any cached iterators that haven&<code>#8217</code> t been reffed with
      * gtk_tree_model_ref_node().  This might be useful if the child model being
-     * sorted is static (and doesn&#8217;t change often) and there has been a lot of
+     * sorted is static (and doesn&<code>#8217</code> t change often) and there has been a lot of
      * unreffed access to nodes.  As a side effect of this function, all unreffed
      * iters will be invalid.
      */
@@ -139,8 +139,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     
     /**
      * Sets @sort_iter to point to the row in @tree_model_sort that corresponds to
-     * the row pointed at by @child_iter.  If @sort_iter was not set, <code>FALSE
-     * is</code> returned.  Note: a boolean is only returned since 2.14.
+     * the row pointed at by @child_iter.  If @sort_iter was not set, <code>false</code> is returned.  Note: a boolean is only returned since 2.14.
      */
     public boolean convertChildIterToIter(TreeIter sortIter, TreeIter childIter) {
         var RESULT = gtk_h.gtk_tree_model_sort_convert_child_iter_to_iter(handle(), sortIter.handle(), childIter.handle());
@@ -150,7 +149,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     /**
      * Converts @child_path to a path relative to @tree_model_sort.  That is,
      * @child_path points to a path in the child model.  The returned path will
-     * point to the same row in the sorted model.  If @child_path isn&#8217;t a valid
+     * point to the same row in the sorted model.  If @child_path isn&<code>#8217</code> t a valid
      * path on the child model, then <code>null</code> is returned.
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
@@ -186,8 +185,8 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     }
     
     /**
-     * &#62; This function is slow. Only use it for debugging and/or testing
-     * &#62; purposes.
+     * &<code>#62</code>  This function is slow. Only use it for debugging and/or testing
+     * &<code>#62</code>  purposes.
      * <p>
      * Checks if the given iter is a valid iter for this <code>GtkTreeModelSort</code>.
      */
@@ -197,10 +196,10 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     }
     
     /**
-     * This resets the default sort function to be in the &#8220;unsorted&#8221; state.  That
+     * This resets the default sort function to be in the &<code>#8220</code> unsorted&<code>#8221</code>  state.  That
      * is, it is in the same order as the child model. It will re-sort the model
      * to be in the same order as the child model only if the <code>GtkTreeModelSort</code>
-     * is in &#8220;unsorted&#8221; state.
+     * is in &<code>#8220</code> unsorted&<code>#8221</code>  state.
      */
     public void resetDefaultSortFunc() {
         gtk_h.gtk_tree_model_sort_reset_default_sort_func(handle());

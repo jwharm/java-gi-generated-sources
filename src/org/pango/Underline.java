@@ -26,7 +26,7 @@ public enum Underline {
      *   position beneath the ink extents of the text being
      *   underlined. This should be used only for underlining
      *   single characters, such as for keyboard accelerators.
-     *   {@link org.pango.Underline#SINGLE} should be used for extended
+     *   {@link org.pango.Underline<code>#SINGLE</code>  should be used for extended
      *   portions of text.
      */
     LOW,

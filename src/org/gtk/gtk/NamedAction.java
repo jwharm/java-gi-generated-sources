@@ -32,7 +32,7 @@ public class NamedAction extends ShortcutAction {
      * 
      * It also passes the given arguments to it.
      * 
-     * See {@link org.gtk.gtk.Widget#insertActionGroup} for
+     * See {@link org.gtk.gtk.Widget<code>#insertActionGroup</code>  for
      * how to add actions to widgets.
      */
     public NamedAction(java.lang.String name) {

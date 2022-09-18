@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GSignalGroup manages to simplify the process of connecting
- * many signals to a #GObject as a group. As such there is no API
+ * {@link org.gtk.gobject.SignalGroup} manages to simplify the process of connecting
+ * many signals to a {@link org.gtk.gobject.Object} as a group. As such there is no API
  * to disconnect a signal from the group.
  * 
  * In particular, this allows you to:
@@ -19,12 +19,12 @@ import java.lang.invoke.*;
  *  - Block and unblock signals as a group
  *  - Ensuring that blocked state transfers across target instances.
  * 
- * One place you might want to use such a structure is with #GtkTextView and
- * #GtkTextBuffer. Often times, you&#39;ll need to connect to many signals on
- * #GtkTextBuffer from a #GtkTextView subclass. This allows you to create a
+ * One place you might want to use such a structure is with {@link org.gtk.gtk.TextView} and
+ * {@link org.gtk.gtk.TextBuffer}  Often times, you&<code>#39</code> ll need to connect to many signals on
+ * {@link org.gtk.gtk.TextBuffer} from a {@link org.gtk.gtk.TextView} subclass. This allows you to create a
  * signal group during instance construction, simply bind the
- * #GtkTextView:buffer property to #GSignalGroup:target and connect
- * all the signals you need. When the #GtkTextView:buffer property changes
+ * {@link org.gtk.gtk.TextView} buffer property to {@link org.gtk.gobject.SignalGroup} target and connect
+ * all the signals you need. When the {@link org.gtk.gtk.TextView} buffer property changes
  * all of the signals will be transitioned correctly.
  */
 public class SignalGroup extends Object {
@@ -44,7 +44,7 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * Creates a new #GSignalGroup for target instances of @target_type.
+     * Creates a new {@link org.gtk.gobject.SignalGroup} for target instances of @target_type.
      */
     public SignalGroup(Type targetType) {
         super(constructNew(targetType));
@@ -65,7 +65,7 @@ public class SignalGroup extends Object {
      * Connects @c_handler to the signal @detailed_signal
      * on the target instance of @self.
      * 
-     * You cannot connect a signal handler after #GSignalGroup:target has been set.
+     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
      */
     public void connect(java.lang.String detailedSignal, Callback cHandler) {
         try {
@@ -87,7 +87,7 @@ public class SignalGroup extends Object {
      * 
      * The @c_handler will be called after the default handler of the signal.
      * 
-     * You cannot connect a signal handler after #GSignalGroup:target has been set.
+     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
      */
     public void connectAfter(java.lang.String detailedSignal, Callback cHandler) {
         try {
@@ -107,7 +107,7 @@ public class SignalGroup extends Object {
      * Connects @c_handler to the signal @detailed_signal
      * on the target instance of @self.
      * 
-     * You cannot connect a signal handler after #GSignalGroup:target has been set.
+     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
      */
     public void connectData(java.lang.String detailedSignal, Callback cHandler, ClosureNotify notify, int flags) {
         try {
@@ -135,7 +135,7 @@ public class SignalGroup extends Object {
      * The instance on which the signal is emitted and @data
      * will be swapped when calling @c_handler.
      * 
-     * You cannot connect a signal handler after #GSignalGroup:target has been set.
+     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
      */
     public void connectSwapped(java.lang.String detailedSignal, Callback cHandler) {
         try {
@@ -187,10 +187,10 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * This signal is emitted when #GSignalGroup:target is set to a new value
-     * other than <code>NULL.</code> It is similar to #GObject::notify on <code>target</code> except it
-     * will not emit when #GSignalGroup:target is <code>null</code> and also allows for
-     * receiving the #GObject without a data-race.
+     * This signal is emitted when {@link org.gtk.gobject.SignalGroup} target is set to a new value
+     * other than <code>null</code>  It is similar to {@link org.gtk.gobject.Object} :notify on <code>target</code> except it
+     * will not emit when {@link org.gtk.gobject.SignalGroup} target is <code>null</code> and also allows for
+     * receiving the {@link org.gtk.gobject.Object} without a data-race.
      */
     public SignalHandle onBind(BindHandler handler) {
         try {
@@ -214,20 +214,10 @@ public class SignalGroup extends Object {
     
     /**
      * This signal is emitted when the target instance of @self is set to a
-     * new #GObject.
+     * new {@link org.gtk.gobject.Object} 
      * 
      * This signal will only be emitted if the previous target of @self is
-     * non-
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         This signal is emitted when the target instance of @self is set to a
-     * new #GObject.
-     * 
-     * This signal will only be emitted if the previous target of @self is
-     * non-%NULL.
+     * non-<code>null</code>
      */
     public SignalHandle onUnbind(UnbindHandler handler) {
         try {

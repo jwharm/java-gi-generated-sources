@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  * It displays a line with a shadow to make it appear sunken into the
  * interface.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkSeparator</code> has a single CSS node with name separator. The node
  * gets one of the .horizontal or .vertical style classes.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkSeparator</code> uses the {@link org.gtk.gtk.AccessibleRole#SEPARATOR} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkSeparator</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SEPARATOR</code>  role.
  */
 public class Separator extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 

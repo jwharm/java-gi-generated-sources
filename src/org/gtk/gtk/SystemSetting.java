@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Values that can be passed to the {@link org.gtk.gtk.Widget#systemSettingChanged}
+ * Values that can be passed to the {@link org.gtk.gtk.Widget<code>#systemSettingChanged</code> 
  * vfunc.
  * 
  * The values indicate which system setting has changed.

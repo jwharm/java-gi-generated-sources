@@ -28,7 +28,7 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      * 
      * No copy is made of @text, so the caller needs to make
      * sure it remains valid until the iterator is freed with
-     * {@link org.pango.ScriptIter#free}.
+     * {@link org.pango.ScriptIter<code>#free</code> .
      */
     public ScriptIter(java.lang.String text, int length) {
         super(constructNew(text, length));

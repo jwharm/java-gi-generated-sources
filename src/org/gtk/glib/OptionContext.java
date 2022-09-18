@@ -19,7 +19,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a #GOptionGroup to the @context, so that parsing with @context
+     * Adds a {@link org.gtk.glib.OptionGroup} to the @context, so that parsing with @context
      * will recognize the options in the group. Note that this will take
      * ownership of the @group and thus the @group should not be freed.
      */
@@ -28,7 +28,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A convenience function which creates a main group if it doesn&#39;t
+     * A convenience function which creates a main group if it doesn&<code>#39</code> t
      * exist, adds the @entries to it and sets the translation domain.
      */
     public void addMainEntries(OptionEntry[] entries, java.lang.String translationDomain) {
@@ -40,7 +40,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * added to it.
      * 
      * Please note that parsed arguments need to be freed separately (see
-     * #GOptionEntry).
+     * {@link org.gtk.glib.OptionEntry} .
      */
     public void free() {
         gtk_h.g_option_context_free(handle());
@@ -124,8 +124,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * system codepage, which is how they are passed as @argv to main().
      * See g_win32_get_command_line() for a solution.
      * 
-     * This function is useful if you are trying to use #GOptionContext with
-     * #GApplication.
+     * This function is useful if you are trying to use {@link org.gtk.glib.OptionContext} with
+     * {@link org.gtk.gio.Application}
      */
     public boolean parseStrv(java.lang.String[] arguments) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -162,7 +162,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * g_option_context_parse() treats unknown options as error.
      * 
      * This setting does not affect non-option arguments (i.e. arguments
-     * which don&#39;t start with a dash). But note that GOption cannot reliably
+     * which don&<code>#39</code> t start with a dash). But note that GOption cannot reliably
      * determine whether a non-option belongs to a preceding unknown option.
      */
     public void setIgnoreUnknownOptions(boolean ignoreUnknown) {
@@ -170,7 +170,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets a #GOptionGroup as main group of the @context.
+     * Sets a {@link org.gtk.glib.OptionGroup} as main group of the @context.
      * This has the same effect as calling g_option_context_add_group(),
      * the only difference is that the options in the main group are
      * treated differently when generating <code>--help</code> output.
@@ -191,14 +191,14 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * If strict POSIX mode is disabled then parsing is done in the GNU way
      * where option arguments can be freely mixed with non-options.
      * 
-     * As an example, consider &#34;ls foo -l&#34;.  With GNU style parsing, this
-     * will list &#34;foo&#34; in long mode.  In strict POSIX style, this will list
-     * the files named &#34;foo&#34; and &#34;-l&#34;.
+     * As an example, consider &<code>#34</code> ls foo -l&<code>#34</code> .  With GNU style parsing, this
+     * will list &<code>#34</code> foo&<code>#34</code>  in long mode.  In strict POSIX style, this will list
+     * the files named &<code>#34</code> foo&<code>#34</code>  and &<code>#34</code> -l&<code>#34</code> .
      * 
-     * It may be useful to force strict POSIX mode when creating &#34;verb
-     * style&#34; command line tools.  For example, the &#34;gsettings&#34; command line
-     * tool supports the global option &#34;--schemadir&#34; as well as many
-     * subcommands (&#34;get&#34;, &#34;set&#34;, etc.) which each have their own set of
+     * It may be useful to force strict POSIX mode when creating &<code>#34</code> verb
+     * style&<code>#34</code>  command line tools.  For example, the &<code>#34</code> gsettings&<code>#34</code>  command line
+     * tool supports the global option &<code>#34</code> --schemadir&<code>#34</code>  as well as many
+     * subcommands (&<code>#34</code> get&<code>#34</code> , &<code>#34</code> set&<code>#34</code> , etc.) which each have their own set of
      * arguments.  Using strict POSIX mode will allow parsing the global
      * options up to the verb name while leaving the remaining options to be
      * parsed by the relevant subcommand (which can be determined by
@@ -223,8 +223,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the function which is used to translate the contexts
-     * user-visible strings, for <code>--help</code> output. If @func is <code>NULL,
-     * strings</code> are not translated.
+     * user-visible strings, for <code>--help</code> output. If @func is <code>null</code> 
+     * strings are not translated.
      * 
      * Note that option groups have their own translation functions,
      * this function only affects the @parameter_string (see g_option_context_new()),
@@ -261,15 +261,15 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new option context.
      * 
      * The @parameter_string can serve multiple purposes. It can be used
-     * to add descriptions for &#34;rest&#34; arguments, which are not parsed by
-     * the #GOptionContext, typically something like &#34;FILES&#34; or
-     * &#34;FILE1 FILE2...&#34;. If you are using <code>G_OPTION_REMAINING</code> for
-     * collecting &#34;rest&#34; arguments, GLib handles this automatically by
-     * using the @arg_description of the corresponding #GOptionEntry in
+     * to add descriptions for &<code>#34</code> rest&<code>#34</code>  arguments, which are not parsed by
+     * the {@link org.gtk.glib.OptionContext}  typically something like &<code>#34</code> FILES&<code>#34</code>  or
+     * &<code>#34</code> FILE1 FILE2...&<code>#34</code> . If you are using <code>G_OPTION_REMAINING</code> for
+     * collecting &<code>#34</code> rest&<code>#34</code>  arguments, GLib handles this automatically by
+     * using the @arg_description of the corresponding {@link org.gtk.glib.OptionEntry} in
      * the usage summary.
      * 
      * Another usage is to give a short summary of the program
-     * functionality, like &#34; - frob the strings&#34;, which will be displayed
+     * functionality, like &<code>#34</code>  - frob the strings&<code>#34</code> , which will be displayed
      * in the same line as the usage. For a longer description of the
      * program functionality that should be displayed as a paragraph
      * below the usage line, use g_option_context_set_summary().

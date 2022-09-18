@@ -18,10 +18,10 @@ import java.lang.invoke.*;
  * 
  * For an overview of the most important metrics, see:
  * 
- * &#60;picture&#62;
- *   &#60;source srcset=&#34;fontmetrics-dark.png&#34; media=&#34;(prefers-color-scheme: dark)&#34;&#62;
- *   &#60;img alt=&#34;Font metrics&#34; src=&#34;fontmetrics-light.png&#34;&#62;
- * &#60;/picture&#62;
+ * &<code>#60</code> picture&<code>#62</code> 
+ *   &<code>#60</code> source srcset=&<code>#34</code> fontmetrics-dark.png&<code>#34</code>  media=&<code>#34</code> (prefers-color-scheme: dark)&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> img alt=&<code>#34</code> Font metrics&<code>#34</code>  src=&<code>#34</code> fontmetrics-light.png&<code>#34</code> &<code>#62</code> 
+ * &<code>#60</code> /picture&<code>#62</code>
  */
 public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
 

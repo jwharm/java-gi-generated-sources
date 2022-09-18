@@ -32,15 +32,15 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * must be greater than or equal to the time passed to
      * gdk_pixbuf_animation_get_iter(), and must increase or remain
      * unchanged each time gdk_pixbuf_animation_iter_get_pixbuf() is
-     * called. That is, you can&#39;t go backward in time; animations only
+     * called. That is, you can&<code>#39</code> t go backward in time; animations only
      * play forward.
      * <p>
      * As a shortcut, pass <code>NULL</code> for the current time and g_get_current_time()
      * will be invoked on your behalf. So you only need to explicitly pass
-     * @current_time if you&#39;re doing something odd like playing the animation
+     * @current_time if you&<code>#39</code> re doing something odd like playing the animation
      * at double speed.
      * <p>
-     * If this function returns <code>FALSE</code>, there&#39;s no need to update the animation
+     * If this function returns <code>FALSE</code>, there&<code>#39</code> s no need to update the animation
      * display, assuming the display had been rendered prior to advancing;
      * if <code>TRUE</code>, you need to call gdk_pixbuf_animation_iter_get_pixbuf()
      * and update the display with the new pixbuf.
@@ -80,7 +80,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * advances to the next frame, which may happen anytime you call
      * gdk_pixbuf_animation_iter_advance().
      * 
-     * Copy the pixbuf to keep it (don&#39;t just add a reference), as it may get
+     * Copy the pixbuf to keep it (don&<code>#39</code> t just add a reference), as it may get
      * recycled as you advance the iterator.
      */
     public Pixbuf getPixbuf() {
@@ -90,10 +90,10 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     
     /**
      * Used to determine how to respond to the area_updated signal on
-     * <h1>kPixbufLoader when loading an animation.</h1>
+     * {@link org.gtk.gdkpixbuf.PixbufLoader} when loading an animation.
      * <p>
      * The <code>::area_updated</code> signal is emitted for an area of the frame currently
-     * streaming in to the loader. So if you&#39;re on the currently loading frame,
+     * streaming in to the loader. So if you&<code>#39</code> re on the currently loading frame,
      * you will need to redraw the screen for the updated area.
      */
     public boolean onCurrentlyLoadingFrame() {

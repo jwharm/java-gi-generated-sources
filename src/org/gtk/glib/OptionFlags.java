@@ -11,7 +11,7 @@ public class OptionFlags {
     public static final int NONE = 0;
     
     /**
-     * The option doesn&#39;t appear in <code>--help</code> output.
+     * The option doesn&<code>#39</code> t appear in <code>--help</code> output.
      */
     public static final int HIDDEN = 1;
     
@@ -22,28 +22,26 @@ public class OptionFlags {
     public static final int IN_MAIN = 2;
     
     /**
-     * For options of the {@link org.gtk.glib.OptionArg#NONE} kind, this
+     * For options of the {@link org.gtk.glib.OptionArg<code>#NONE</code>  kind, this
      *     flag indicates that the sense of the option is reversed.
      */
     public static final int REVERSE = 4;
     
     /**
-     * For options of the {@link org.gtk.glib.OptionArg#CALLBACK} kind,
+     * For options of the {@link org.gtk.glib.OptionArg<code>#CALLBACK</code>  kind,
      *     this flag indicates that the callback does not take any argument
-     *     (like a {@link org.gtk.glib.OptionArg#NONE} option). Since 2.8
+     *     (like a {@link org.gtk.glib.OptionArg<code>#NONE</code>  option). Since 2.8
      */
     public static final int NO_ARG = 8;
     
     /**
-     * For options of the <code>G_OPTION_ARG_CALLBACK
-     * </code>    kind, this flag indicates that the argument should be passed to the
+     * For options of the {@link org.gtk.glib.OptionArg<code>#CALLBACK</code>      kind, this flag indicates that the argument should be passed to the
      *     callback in the GLib filename encoding rather than UTF-8. Since 2.8
      */
     public static final int FILENAME = 16;
     
     /**
-     * For options of the <code>G_OPTION_ARG_CALLBACK
-     * </code>    kind, this flag indicates that the argument supply is optional.
+     * For options of the {@link org.gtk.glib.OptionArg<code>#CALLBACK</code>      kind, this flag indicates that the argument supply is optional.
      *     If no argument is given then data of <code>GOptionParseFunc</code> will be
      *     set to NULL. Since 2.8
      */

@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GCond struct is an opaque data structure that represents a
- * condition. Threads can block on a #GCond if they find a certain
+ * The {@link org.gtk.glib.Cond} struct is an opaque data structure that represents a
+ * condition. Threads can block on a {@link org.gtk.glib.Cond} if they find a certain
  * condition to be false. If other threads change the state of this
- * condition they signal the #GCond, and that causes the waiting
+ * condition they signal the {@link org.gtk.glib.Cond}  and that causes the waiting
  * threads to be woken up.
  * 
  * Consider the following example of a shared variable.  One or more
@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * 
  * Here is an example for using GCond to block a thread until a condition
  * is satisfied:
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  *   gpointer current_data = NULL;
  *   GMutex data_mutex;
  *   GCond data_cond;
@@ -29,10 +29,10 @@ import java.lang.invoke.*;
  *   void
  *   push_data (gpointer data)
  *   {
- *     g_mutex_lock (&#38;data_mutex);
+ *     g_mutex_lock (&<code>#38</code> data_mutex);
  *     current_data = data;
- *     g_cond_signal (&#38;data_cond);
- *     g_mutex_unlock (&#38;data_mutex);
+ *     g_cond_signal (&<code>#38</code> data_cond);
+ *     g_mutex_unlock (&<code>#38</code> data_mutex);
  *   }
  * 
  *   gpointer
@@ -40,18 +40,18 @@ import java.lang.invoke.*;
  *   {
  *     gpointer data;
  * 
- *     g_mutex_lock (&#38;data_mutex);
+ *     g_mutex_lock (&<code>#38</code> data_mutex);
  *     while (!current_data)
- *       g_cond_wait (&#38;data_cond, &#38;data_mutex);
+ *       g_cond_wait (&<code>#38</code> data_cond, &<code>#38</code> data_mutex);
  *     data = current_data;
  *     current_data = NULL;
- *     g_mutex_unlock (&#38;data_mutex);
+ *     g_mutex_unlock (&<code>#38</code> data_mutex);
  * 
  *     return data;
  *   }
  * ]}|
  * Whenever a thread calls pop_data() now, it will wait until
- * current_data is non-<code>NULL,</code> i.e. until some other thread
+ * current_data is non-<code>null</code>  i.e. until some other thread
  * has called push_data().
  * 
  * The example shows that use of a condition variable must always be
@@ -59,7 +59,7 @@ import java.lang.invoke.*;
  * race between the check of @current_data by the while loop in
  * pop_data() and waiting. Specifically, another thread could set
  * @current_data after the check, and signal the cond (with nobody
- * waiting on it) before the first thread goes to sleep. #GCond is
+ * waiting on it) before the first thread goes to sleep. {@link org.gtk.glib.Cond} is
  * specifically useful for its ability to release the mutex and go
  * to sleep atomically.
  * 
@@ -68,11 +68,11 @@ import java.lang.invoke.*;
  * true.  See g_cond_wait() for an explanation of why the condition may
  * not be true even after it returns.
  * 
- * If a #GCond is allocated in static storage then it can be used
+ * If a {@link org.gtk.glib.Cond} is allocated in static storage then it can be used
  * without initialisation.  Otherwise, you should call g_cond_init()
  * on it and g_cond_clear() when done.
  * 
- * A #GCond should only be accessed via the g_cond_ functions.
+ * A {@link org.gtk.glib.Cond} should only be accessed via the g_cond_ functions.
  */
 public class Cond extends io.github.jwharm.javagi.ResourceBase {
 
@@ -91,12 +91,12 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the resources allocated to a #GCond with g_cond_init().
+     * Frees the resources allocated to a {@link org.gtk.glib.Cond} with g_cond_init().
      * 
-     * This function should not be used with a #GCond that has been
+     * This function should not be used with a {@link org.gtk.glib.Cond} that has been
      * statically allocated.
      * 
-     * Calling g_cond_clear() for a #GCond on which threads are
+     * Calling g_cond_clear() for a {@link org.gtk.glib.Cond} on which threads are
      * blocking leads to undefined behaviour.
      */
     public void clear() {
@@ -104,16 +104,16 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initialises a #GCond so that it can be used.
+     * Initialises a {@link org.gtk.glib.Cond} so that it can be used.
      * 
-     * This function is useful to initialise a #GCond that has been
+     * This function is useful to initialise a {@link org.gtk.glib.Cond} that has been
      * allocated as part of a larger structure.  It is not necessary to
-     * initialise a #GCond that has been statically allocated.
+     * initialise a {@link org.gtk.glib.Cond} that has been statically allocated.
      * 
-     * To undo the effect of g_cond_init() when a #GCond is no longer
+     * To undo the effect of g_cond_init() when a {@link org.gtk.glib.Cond} is no longer
      * needed, use g_cond_clear().
      * 
-     * Calling g_cond_init() on an already-initialised #GCond leads
+     * Calling g_cond_init() on an already-initialised {@link org.gtk.glib.Cond} leads
      * to undefined behaviour.
      */
     public void init() {
@@ -137,14 +137,14 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * 
      * When using condition variables, it is possible that a spurious wakeup
      * may occur (ie: g_cond_wait() returns even though g_cond_signal() was
-     * not called).  It&#39;s also possible that a stolen wakeup may occur.
+     * not called).  It&<code>#39</code> s also possible that a stolen wakeup may occur.
      * This is when g_cond_signal() is called, but another thread acquires
      * @mutex before this thread and modifies the state of the program in
      * such a way that when g_cond_wait() is able to return, the expected
      * condition is no longer met.
      * 
      * For this reason, g_cond_wait() must always be used in a loop.  See
-     * the documentation for #GCond for a complete example.
+     * the documentation for {@link org.gtk.glib.Cond} for a complete example.
      */
     public void wait(Mutex mutex) {
         gtk_h.g_cond_wait(handle(), mutex.handle());
@@ -163,23 +163,23 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The following code shows how to correctly perform a timed wait on a
      * condition variable (extending the example presented in the
-     * documentation for #GCond):
+     * documentation for {@link org.gtk.glib.Cond} :
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * gpointer
      * pop_data_timed (void)
      * {
      *   gint64 end_time;
      *   gpointer data;
      * 
-     *   g_mutex_lock (&#38;data_mutex);
+     *   g_mutex_lock (&<code>#38</code> data_mutex);
      * 
      *   end_time = g_get_monotonic_time () + 5 * G_TIME_SPAN_SECOND;
      *   while (!current_data)
-     *     if (!g_cond_wait_until (&#38;data_cond, &#38;data_mutex, end_time))
+     *     if (!g_cond_wait_until (&<code>#38</code> data_cond, &<code>#38</code> data_mutex, end_time))
      *       {
      *         // timeout has passed.
-     *         g_mutex_unlock (&#38;data_mutex);
+     *         g_mutex_unlock (&<code>#38</code> data_mutex);
      *         return NULL;
      *       }
      * 
@@ -187,7 +187,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      *   data = current_data;
      *   current_data = NULL;
      * 
-     *   g_mutex_unlock (&#38;data_mutex);
+     *   g_mutex_unlock (&<code>#38</code> data_mutex);
      * 
      *   return data;
      * }

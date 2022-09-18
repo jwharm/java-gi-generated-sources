@@ -10,16 +10,16 @@ import java.lang.invoke.*;
 /**
  * A <code>GtkBuilderScope</code> implementation for the C language.
  * <p><code>GtkBuilderCScope</code> instances use symbols explicitly added to @builder
- * with prior calls to {@link org.gtk.gtk.BuilderCScope#addCallbackSymbol}.
+ * with prior calls to {@link org.gtk.gtk.BuilderCScope<code>#addCallbackSymbol</code> .
  * If developers want to do that, they are encouraged to create their
  * own scopes for that purpose.
  * <p>
- * In the case that symbols are not explicitly added; GTK will uses<code>GModule</code>&#8217;s introspective features (by opening the module <code>NULL)</code> to
- * look at the application&#8217;s symbol table. From here it tries to match
+ * In the case that symbols are not explicitly added; GTK will uses<code>GModule</code>&<code>#8217</code> s introspective features (by opening the module <code>null</code>  to
+ * look at the application&<code>#8217</code> s symbol table. From here it tries to match
  * the signal function names given in the interface description with
  * symbols in the application.
  * <p>
- * Note that unless {@link org.gtk.gtk.BuilderCScope#addCallbackSymbol} is
+ * Note that unless {@link org.gtk.gtk.BuilderCScope<code>#addCallbackSymbol</code>  is
  * called for all signal callbacks which are referenced by the loaded XML,
  * this functionality will require that <code>GModule</code> be supported on the platform.
  */
@@ -43,7 +43,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScop
      * Creates a new <code>GtkBuilderCScope</code> object to use with future<code>GtkBuilder</code> instances.
      * 
      * Calling this function is only necessary if you want to add
-     * custom callbacks via {@link org.gtk.gtk.BuilderCScope#addCallbackSymbol}.
+     * custom callbacks via {@link org.gtk.gtk.BuilderCScope<code>#addCallbackSymbol</code> .
      */
     public BuilderCScope() {
         super(constructNew());

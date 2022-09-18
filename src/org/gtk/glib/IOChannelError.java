@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * Error codes returned by #GIOChannel operations.
+ * Error codes returned by {@link org.gtk.glib.IOChannel} operations.
  */
 public enum IOChannelError {
 

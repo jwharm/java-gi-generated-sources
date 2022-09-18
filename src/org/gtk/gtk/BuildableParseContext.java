@@ -64,8 +64,8 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * 
      * The end tag matching the start tag for which this call was made is
      * handled by the previous parser (which is given its own user_data)
-     * which is why gtk_buildable_parse_context_pop() is provided to allow &#34;one
-     * last access&#34; to the @user_data provided to this function. In the
+     * which is why gtk_buildable_parse_context_pop() is provided to allow &<code>#34</code> one
+     * last access&<code>#34</code>  to the @user_data provided to this function. In the
      * case of error, the @user_data provided here is passed directly to
      * the error callback of the subparser and gtk_buildable_parse_context_pop()
      * should not be called. In either case, if @user_data was allocated

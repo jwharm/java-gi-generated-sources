@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GMemoryInputStream is a class for using arbitrary
+ * {@link org.gtk.gio.MemoryInputStream} is a class for using arbitrary
  * memory chunks as input for GIO streaming input operations.
  * 
- * As of GLib 2.34, #GMemoryInputStream implements
- * #GPollableInputStream.
+ * As of GLib 2.34, {@link org.gtk.gio.MemoryInputStream} implements
+ * {@link org.gtk.gio.PollableInputStream}
  */
 public class MemoryInputStream extends InputStream implements PollableInputStream, Seekable {
 
@@ -31,7 +31,7 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
     }
     
     /**
-     * Creates a new empty #GMemoryInputStream.
+     * Creates a new empty {@link org.gtk.gio.MemoryInputStream}
      */
     public MemoryInputStream() {
         super(constructNew());
@@ -43,7 +43,7 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
     }
     
     /**
-     * Creates a new #GMemoryInputStream with data from the given @bytes.
+     * Creates a new {@link org.gtk.gio.MemoryInputStream} with data from the given @bytes.
      */
     public static MemoryInputStream newFromBytes(org.gtk.glib.Bytes bytes) {
         return new MemoryInputStream(constructNewFromBytes(bytes));

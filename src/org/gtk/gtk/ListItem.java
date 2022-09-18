@@ -12,16 +12,15 @@ import java.lang.invoke.*;
  * <p>
  * The <code>GtkListItem</code>s are managed by the list widget (with its factory)
  * and cannot be created by applications, but they need to be populated
- * by application code. This is done by calling {@link org.gtk.gtk.ListItem#setChild}.
+ * by application code. This is done by calling {@link org.gtk.gtk.ListItem<code>#setChild</code> .
  * <p><code>GtkListItem</code>s exist in 2 stages:
  * 
  * 1. The unbound stage where the listitem is not currently connected to
  *    an item in the list. In that case, the {@link [property@Gtk.ListItem:item] (ref=property)}
- *    property is set to <code>NULL.
+ *    property is set to <code>null</code> 
  * 
- * 2.</code> The bound stage where the listitem references an item from the list.
- *    The {@link [property@Gtk.ListItem:item] (ref=property)} property is not The bound stage where the listitem references an item from the list.
- *    The {@link [property@Gtk.ListItem:item] (ref=property)} property is not %NULL.
+ * 2. The bound stage where the listitem references an item from the list.
+ *    The {@link [property@Gtk.ListItem:item] (ref=property)} property is not <code>null</code>
  */
 public class ListItem extends org.gtk.gobject.Object {
 
@@ -55,16 +54,7 @@ public class ListItem extends org.gtk.gobject.Object {
     /**
      * Gets the model item that associated with @self.
      * 
-     * If @self is unbound, this function returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Gets the model item that associated with @self.
-     * 
-     * If @self is unbound, this function returns %NULL.
+     * If @self is unbound, this function returns <code>null</code>
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_list_item_get_item(handle());
@@ -85,7 +75,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * Checks if a list item has been set to be selectable via
      * gtk_list_item_set_selectable().
      * 
-     * Do not confuse this function with {@link org.gtk.gtk.ListItem#getSelected}.
+     * Do not confuse this function with {@link org.gtk.gtk.ListItem<code>#getSelected</code> .
      */
     public boolean getSelectable() {
         var RESULT = gtk_h.gtk_list_item_get_selectable(handle());

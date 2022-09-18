@@ -4,10 +4,10 @@ package org.pango;
  * <code>PangoAlignment</code> describes how to align the lines of a <code>PangoLayout</code>
  * within the available space.
  * <p>
- * If the <code>PangoLayout</code> is set to justify using {@link org.pango.Layout#setJustify},
+ * If the <code>PangoLayout</code> is set to justify using {@link org.pango.Layout<code>#setJustify</code> ,
  * this only affects partial lines.
  * <p>
- * See {@link org.pango.Layout#setAutoDir} for how text direction affects
+ * See {@link org.pango.Layout<code>#setAutoDir</code>  for how text direction affects
  * the interpretation of <code>PangoAlignment</code> values.
  */
 public enum Alignment {

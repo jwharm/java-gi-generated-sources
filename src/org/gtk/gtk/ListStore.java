@@ -18,11 +18,11 @@ import java.lang.invoke.*;
  * interfaces.
  * <p>
  * The <code>GtkListStore</code> can accept most <code>GType</code>s as a column type, though
- * it can&#8217;t accept all custom types.  Internally, it will keep a copy of
+ * it can&<code>#8217</code> t accept all custom types.  Internally, it will keep a copy of
  * data passed in (such as a string or a boxed pointer).  Columns that
  * accept <code>GObject</code>s are handled a little differently.  The<code>GtkListStore</code> will keep a reference to the object instead of copying the
  * value.  As a result, if the object is modified, it is up to the
- * application writer to call {@link org.gtk.gtk.TreeModel#rowChanged} to emit the
+ * application writer to call {@link org.gtk.gtk.TreeModel<code>#rowChanged</code>  to emit the
  * {@link [signal@Gtk.TreeModel::row_changed] (ref=signal)} signal. This most commonly affects lists
  * with {@link org.gtk.gdk.Texture}s stored.
  * <p>
@@ -46,15 +46,15 @@ import java.lang.invoke.*;
  *                                    G_TYPE_INT,
  *                                    G_TYPE_BOOLEAN);
  * <p>
- *   for (i = 0; i &#60; 10; i++)
+ *   for (i = 0; i &<code>#60</code>  10; i++)
  *     {
  *       char *some_data;
  * <p>
  *       some_data = get_some_data (i);
  * <p>
  *       // Add a new row to the model
- *       gtk_list_store_append (list_store, &#38;iter);
- *       gtk_list_store_set (list_store, &#38;iter,
+ *       gtk_list_store_append (list_store, &<code>#38</code> iter);
+ *       gtk_list_store_set (list_store, &<code>#38</code> iter,
  *                           COLUMN_STRING, some_data,
  *                           COLUMN_INT, i,
  *                           COLUMN_BOOLEAN,  FALSE,
@@ -66,18 +66,18 @@ import java.lang.invoke.*;
  *     }
  * <p>
  *   // Modify a particular row
- *   path = gtk_tree_path_new_from_string (&#34;4&#34;);
+ *   path = gtk_tree_path_new_from_string (&<code>#34</code> 4&<code>#34</code> );
  *   gtk_tree_model_get_iter (GTK_TREE_MODEL (list_store),
- *                            &#38;iter,
+ *                            &<code>#38</code> iter,
  *                            path);
  *   gtk_tree_path_free (path);
- *   gtk_list_store_set (list_store, &#38;iter,
+ *   gtk_list_store_set (list_store, &<code>#38</code> iter,
  *                       COLUMN_BOOLEAN, TRUE,
  *                       -1);
  * }
  * </pre>
  * <p>
- * <h1>erformance Considerations</h1>
+ * <h1>Performance Considerations</h1>
  * <p>
  * Internally, the <code>GtkListStore</code> was originally implemented with a linked list
  * with a tail pointer.  As a result, it was fast at data insertion and deletion,
@@ -86,7 +86,7 @@ import java.lang.invoke.*;
  * often and your code is expected to run on older versions of GTK, it is worth
  * keeping the iter around.
  * <p>
- * <h1>tomic Operations</h1>
+ * <h1>Atomic Operations</h1>
  * <p>
  * It is important to note that only the methods
  * gtk_list_store_insert_with_values() and gtk_list_store_insert_with_valuesv()
@@ -102,16 +102,16 @@ import java.lang.invoke.*;
  * to append rows to the <code>GtkListStore</code> will cause the<code>GtkTreeModel</code>FilterVisibleFunc to be visited with an empty row first; the
  * function must be prepared for that.
  * <p>
- * <h1>tkListStore as GtkBuildable</h1>
+ * <h1>GtkListStore as GtkBuildable</h1>
  * <p>
  * The GtkListStore implementation of the {@link [iface@Gtk.Buildable] (ref=iface)} interface allows
- * to specify the model columns with a <code>&#60;columns&#62;</code> element that may contain
- * multiple <code>&#60;column&#62;</code> elements, each specifying one model column. The &#8220;type&#8221;
+ * to specify the model columns with a <code>&<code>#60</code> columns&<code>#62</code> </code> element that may contain
+ * multiple <code>&<code>#60</code> column&<code>#62</code> </code> elements, each specifying one model column. The &<code>#8220</code> type&<code>#8221</code> 
  * attribute specifies the data type for the column.
  * <p>
  * Additionally, it is possible to specify content for the list store
- * in the UI definition, with the <code>&#60;data&#62;</code> element. It can contain multiple<code>&#60;row&#62;</code> elements, each specifying to content for one row of the list model.
- * Inside a <code>&#60;row&#62;</code>, the <code>&#60;col&#62;</code> elements specify the content for individual cells.
+ * in the UI definition, with the <code>&<code>#60</code> data&<code>#62</code> </code> element. It can contain multiple<code>&<code>#60</code> row&<code>#62</code> </code> elements, each specifying to content for one row of the list model.
+ * Inside a <code>&<code>#60</code> row&<code>#62</code> </code>, the <code>&<code>#60</code> col&<code>#62</code> </code> elements specify the content for individual cells.
  * <p>
  * Note that it is probably more common to define your models in the code,
  * and one might consider it a layering violation to specify the content of
@@ -120,25 +120,25 @@ import java.lang.invoke.*;
  * <p>
  * An example of a UI Definition fragment for a list store:
  * <p><pre>xml
- * &#60;object class=&#34;GtkListStore&#34;&#62;
- *   &#60;columns&#62;
- *     &#60;column type=&#34;gchararray&#34;/&#62;
- *     &#60;column type=&#34;gchararray&#34;/&#62;
- *     &#60;column type=&#34;gint&#34;/&#62;
- *   &#60;/columns&#62;
- *   &#60;data&#62;
- *     &#60;row&#62;
- *       &#60;col id=&#34;0&#34;&#62;John&#60;/col&#62;
- *       &#60;col id=&#34;1&#34;&#62;Doe&#60;/col&#62;
- *       &#60;col id=&#34;2&#34;&#62;25&#60;/col&#62;
- *     &#60;/row&#62;
- *     &#60;row&#62;
- *       &#60;col id=&#34;0&#34;&#62;Johan&#60;/col&#62;
- *       &#60;col id=&#34;1&#34;&#62;Dahlin&#60;/col&#62;
- *       &#60;col id=&#34;2&#34;&#62;50&#60;/col&#62;
- *     &#60;/row&#62;
- *   &#60;/data&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkListStore&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> columns&<code>#62</code> 
+ *     &<code>#60</code> column type=&<code>#34</code> gchararray&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> column type=&<code>#34</code> gchararray&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> column type=&<code>#34</code> gint&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /columns&<code>#62</code> 
+ *   &<code>#60</code> data&<code>#62</code> 
+ *     &<code>#60</code> row&<code>#62</code> 
+ *       &<code>#60</code> col id=&<code>#34</code> 0&<code>#34</code> &<code>#62</code> John&<code>#60</code> /col&<code>#62</code> 
+ *       &<code>#60</code> col id=&<code>#34</code> 1&<code>#34</code> &<code>#62</code> Doe&<code>#60</code> /col&<code>#62</code> 
+ *       &<code>#60</code> col id=&<code>#34</code> 2&<code>#34</code> &<code>#62</code> 25&<code>#60</code> /col&<code>#62</code> 
+ *     &<code>#60</code> /row&<code>#62</code> 
+ *     &<code>#60</code> row&<code>#62</code> 
+ *       &<code>#60</code> col id=&<code>#34</code> 0&<code>#34</code> &<code>#62</code> Johan&<code>#60</code> /col&<code>#62</code> 
+ *       &<code>#60</code> col id=&<code>#34</code> 1&<code>#34</code> &<code>#62</code> Dahlin&<code>#60</code> /col&<code>#62</code> 
+ *       &<code>#60</code> col id=&<code>#34</code> 2&<code>#34</code> &<code>#62</code> 50&<code>#60</code> /col&<code>#62</code> 
+ *     &<code>#60</code> /row&<code>#62</code> 
+ *   &<code>#60</code> /data&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  */
 public class ListStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
@@ -192,7 +192,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row after @sibling. If @sibling is <code>NULL,</code> then the row will be
+     * Inserts a new row after @sibling. If @sibling is <code>null</code>  then the row will be
      * prepended to the beginning of the list. @iter will be changed to point to
      * this new row. The row will be empty after this function is called. To fill
      * in values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
@@ -202,7 +202,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row before @sibling. If @sibling is <code>NULL,</code> then the row will
+     * Inserts a new row before @sibling. If @sibling is <code>null</code>  then the row will
      * be appended to the end of the list. @iter will be changed to point to this
      * new row. The row will be empty after this function is called. To fill in
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
@@ -235,7 +235,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     
     /**
      * Moves @iter in @store to the position after @position. Note that this
-     * function only works with unsorted stores. If @position is <code>NULL,</code> @iter
+     * function only works with unsorted stores. If @position is <code>null</code>  @iter
      * will be moved to the start of the list.
      */
     public void moveAfter(TreeIter iter, TreeIter position) {
@@ -244,7 +244,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     
     /**
      * Moves @iter in @store to the position before @position. Note that this
-     * function only works with unsorted stores. If @position is <code>NULL,</code> @iter
+     * function only works with unsorted stores. If @position is <code>null</code>  @iter
      * will be moved to the end of the list.
      */
     public void moveBefore(TreeIter iter, TreeIter position) {

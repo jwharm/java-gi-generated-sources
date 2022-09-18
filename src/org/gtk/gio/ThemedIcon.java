@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GThemedIcon is an implementation of #GIcon that supports icon themes.
- * #GThemedIcon contains a list of all of the icons present in an icon
- * theme, so that icons can be looked up quickly. #GThemedIcon does
+ * {@link org.gtk.gio.ThemedIcon} is an implementation of {@link org.gtk.gio.Icon} that supports icon themes.
+ * {@link org.gtk.gio.ThemedIcon} contains a list of all of the icons present in an icon
+ * theme, so that icons can be looked up quickly. {@link org.gtk.gio.ThemedIcon} does
  * not provide actual pixmaps for icons, just the icon names.
  * Ideally something like gtk_icon_theme_choose_icon() should be used to
  * resolve the list of names so that fallback icons work nicely with
@@ -58,19 +58,19 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     
     /**
      * Creates a new themed icon for @iconname, and all the names
-     * that can be created by shortening @iconname at &#39;-&#39; characters.
+     * that can be created by shortening @iconname at &<code>#39</code> -&<code>#39</code>  characters.
      * 
      * In the following example, @icon1 and @icon2 are equivalent:
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * const char *names[]} = {
-     *   &#34;gnome-dev-cdrom-audio&#34;,
-     *   &#34;gnome-dev-cdrom&#34;,
-     *   &#34;gnome-dev&#34;,
-     *   &#34;gnome&#34;
+     *   &<code>#34</code> gnome-dev-cdrom-audio&<code>#34</code> ,
+     *   &<code>#34</code> gnome-dev-cdrom&<code>#34</code> ,
+     *   &<code>#34</code> gnome-dev&<code>#34</code> ,
+     *   &<code>#34</code> gnome&<code>#34</code> 
      * };
      * 
      * icon1 = g_themed_icon_new_from_names (names, 4);
-     * icon2 = g_themed_icon_new_with_default_fallbacks (&#34;gnome-dev-cdrom-audio&#34;);
+     * icon2 = g_themed_icon_new_with_default_fallbacks (&<code>#34</code> gnome-dev-cdrom-audio&<code>#34</code> );
      * ]|
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {

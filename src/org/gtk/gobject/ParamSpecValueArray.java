@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GParamSpec derived structure that contains the meta data for #GValueArray properties.
+ * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for {@link org.gtk.gobject.ValueArray} properties.
  */
 public class ParamSpecValueArray extends ParamSpec {
 

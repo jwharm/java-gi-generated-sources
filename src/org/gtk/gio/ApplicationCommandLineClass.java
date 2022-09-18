@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GApplicationCommandLineClass-struct
+ * The {@link org.gtk.gio.ApplicationCommandLineClass} struct
  * contains private data only.
  */
 public class ApplicationCommandLineClass extends io.github.jwharm.javagi.ResourceBase {

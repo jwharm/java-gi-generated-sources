@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This is the subclass of #GSocketConnection that is created
+ * This is the subclass of {@link org.gtk.gio.SocketConnection} that is created
  * for UNIX domain sockets.
  * <p>
  * It contains functions to do some of the UNIX socket specific
  * functionality like passing file descriptors.
  * <p>
- * Since GLib 2.72, #GUnixConnection is available on all platforms. It requires
+ * Since GLib 2.72, {@link org.gtk.gio.UnixConnection} is available on all platforms. It requires
  * underlying system support (such as Windows 10 with <code>AF_UNIX</code>) at run time.
  * <p>
- * Before GLib 2.72, <code>&#60;gio/gunixconnection.h&#62;</code> belonged to the UNIX-specific GIO
+ * Before GLib 2.72, <code>&<code>#60</code> gio/gunixconnection.h&<code>#62</code> </code> belonged to the UNIX-specific GIO
  * interfaces, thus you had to use the <code>gio-unix-2.0.pc</code> pkg-config file when
  * using it. This is no longer necessary since GLib 2.72.
  */
@@ -50,7 +50,7 @@ public class UnixConnection extends SocketConnection {
      * - GNU/Hurd since GLib 2.40
      * 
      * Other ways to exchange credentials with a foreign peer includes the
-     * #GUnixCredentialsMessage type and g_socket_get_credentials() function.
+     * {@link org.gtk.gio.UnixCredentialsMessage} type and g_socket_get_credentials() function.
      */
     public Credentials receiveCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -134,7 +134,7 @@ public class UnixConnection extends SocketConnection {
      * - GNU/Hurd since GLib 2.40
      * 
      * Other ways to exchange credentials with a foreign peer includes the
-     * #GUnixCredentialsMessage type and g_socket_get_credentials() function.
+     * {@link org.gtk.gio.UnixCredentialsMessage} type and g_socket_get_credentials() function.
      */
     public boolean sendCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

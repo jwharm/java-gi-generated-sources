@@ -14,22 +14,22 @@ import java.lang.invoke.*;
  * !{@link [An example GtkDialog]}(dialog.png)
  * <p>
  * Typical uses are to display a message, ask a question, or anything else
- * that does not require extensive effort on the user&#8217;s part.
+ * that does not require extensive effort on the user&<code>#8217</code> s part.
  * <p>
- * The main area of a <code>GtkDialog</code> is called the &#34;content area&#34;, and is yours
+ * The main area of a <code>GtkDialog</code> is called the &<code>#34</code> content area&<code>#34</code> , and is yours
  * to populate with widgets such a <code>GtkLabel</code> or <code>GtkEntry</code>, to present
  * your information, questions, or tasks to the user.
  * <p>
- * In addition, dialogs allow you to add &#34;action widgets&#34;. Most commonly,
+ * In addition, dialogs allow you to add &<code>#34</code> action widgets&<code>#34</code> . Most commonly,
  * action widgets are buttons. Depending on the platform, action widgets may
  * be presented in the header bar at the top of the window, or at the bottom
  * of the window. To add action widgets, create your <code>GtkDialog</code> using
  * {@link [ctor@Gtk.Dialog.new_with_buttons] (ref=ctor)}, or use
- * {@link org.gtk.gtk.Dialog#addButton}, {@link org.gtk.gtk.Dialog#addButtons},
- * or {@link org.gtk.gtk.Dialog#addActionWidget}.
+ * {@link org.gtk.gtk.Dialog<code>#addButton</code> , {@link org.gtk.gtk.Dialog<code>#addButtons</code> ,
+ * or {@link org.gtk.gtk.Dialog<code>#addActionWidget</code> .
  * <p><code>GtkDialogs</code> uses some heuristics to decide whether to add a close
  * button to the window decorations. If any of the action buttons use
- * the response ID {@link org.gtk.gtk.ResponseType#CLOSE} or <code>GTK_RESPONSE_CANCEL,</code> the
+ * the response ID {@link org.gtk.gtk.ResponseType<code>#CLOSE</code>  or {@link org.gtk.gtk.ResponseType<code>#CANCEL</code>   the
  * close button is omitted.
  * <p>
  * Clicking a button that was added as an action widget will emit the
@@ -39,19 +39,19 @@ import java.lang.invoke.*;
  * IDs in the {@link [enum@Gtk.ResponseType] (ref=enum)} enumeration (these all have values
  * less than zero). If a dialog receives a delete event, the
  * {@link [signal@Gtk.Dialog::response] (ref=signal)} signal will be emitted with the
- * {@link org.gtk.gtk.ResponseType#DELETE_EVENT} response ID.
+ * {@link org.gtk.gtk.ResponseType<code>#DELETE_EVENT</code>  response ID.
  * <p>
  * Dialogs are created with a call to {@link [ctor@Gtk.Dialog.new] (ref=ctor)} or
  * {@link [ctor@Gtk.Dialog.new_with_buttons] (ref=ctor)}. The latter is recommended; it allows
  * you to set the dialog title, some convenient flags, and add buttons.
  * <p>
- * A &#8220;modal&#8221; dialog (that is, one which freezes the rest of the application
- * from user input), can be created by calling {@link org.gtk.gtk.Window#setModal}
+ * A &<code>#8220</code> modal&<code>#8221</code>  dialog (that is, one which freezes the rest of the application
+ * from user input), can be created by calling {@link org.gtk.gtk.Window<code>#setModal</code> 
  * on the dialog. When using {@link [ctor@Gtk.Dialog.new_with_buttons] (ref=ctor)}, you can also
- * pass the {@link org.gtk.gtk.DialogFlags#MODAL} flag to make a dialog modal.
+ * pass the {@link org.gtk.gtk.DialogFlags<code>#MODAL</code>  flag to make a dialog modal.
  * <p>
  * For the simple dialog in the following example, a {@link org.gtk.gtk.MessageDialog}
- * would save some effort. But you&#8217;d need to create the dialog contents manually
+ * would save some effort. But you&<code>#8217</code> d need to create the dialog contents manually
  * if you had more than a simple message in the dialog.
  * <p>
  * An example for simple <code>GtkDialog</code> usage:
@@ -65,10 +65,10 @@ import java.lang.invoke.*;
  * <p>
  *  // Create the widgets
  *  flags = GTK_DIALOG_DESTROY_WITH_PARENT;
- *  dialog = gtk_dialog_new_with_buttons (&#34;Message&#34;,
+ *  dialog = gtk_dialog_new_with_buttons (&<code>#34</code> Message&<code>#34</code> ,
  *                                        parent,
  *                                        flags,
- *                                        _(&#34;_OK&#34;),
+ *                                        _(&<code>#34</code> _OK&<code>#34</code> ),
  *                                        GTK_RESPONSE_NONE,
  *                                        NULL);
  *  content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -77,52 +77,52 @@ import java.lang.invoke.*;
  *  // Ensure that the dialog box is destroyed when the user responds
  * <p>
  *  g_signal_connect_swapped (dialog,
- *                            &#34;response&#34;,
+ *                            &<code>#34</code> response&<code>#34</code> ,
  *                            G_CALLBACK (gtk_window_destroy),
  *                            dialog);
  * <p>
- *  // Add the label, and show everything we&#8217;ve added
+ *  // Add the label, and show everything we&<code>#8217</code> ve added
  * <p>
  *  gtk_box_append (GTK_BOX (content_area), label);
  *  gtk_widget_show (dialog);
  * }
  * </pre>
  * <p>
- * <h1>tkDialog as GtkBuildable</h1>
+ * <h1>GtkDialog as GtkBuildable</h1>
  * <p>
  * The <code>GtkDialog</code> implementation of the <code>GtkBuildable</code> interface exposes the
- * @content_area as an internal child with the name &#8220;content_area&#8221;.
- * <p><code>GtkDialog</code> supports a custom <code>&#60;action-widgets&#62;</code> element, which can contain
- * multiple <code>&#60;action-widget&#62;</code> elements. The &#8220;response&#8221; attribute specifies a
+ * @content_area as an internal child with the name &<code>#8220</code> content_area&<code>#8221</code> .
+ * <p><code>GtkDialog</code> supports a custom <code>&<code>#60</code> action-widgets&<code>#62</code> </code> element, which can contain
+ * multiple <code>&<code>#60</code> action-widget&<code>#62</code> </code> elements. The &<code>#8220</code> response&<code>#8221</code>  attribute specifies a
  * numeric response, and the content of the element is the id of widget
  * (which should be a child of the dialogs @action_area). To mark a response
- * as default, set the &#8220;default&#8221; attribute of the <code>&#60;action-widget&#62;</code> element
+ * as default, set the &<code>#8220</code> default&<code>#8221</code>  attribute of the <code>&<code>#60</code> action-widget&<code>#62</code> </code> element
  * to true.
- * <p><code>GtkDialog</code> supports adding action widgets by specifying &#8220;action&#8221; as
- * the &#8220;type&#8221; attribute of a <code>&#60;child&#62;</code> element. The widget will be added
+ * <p><code>GtkDialog</code> supports adding action widgets by specifying &<code>#8220</code> action&<code>#8221</code>  as
+ * the &<code>#8220</code> type&<code>#8221</code>  attribute of a <code>&<code>#60</code> child&<code>#62</code> </code> element. The widget will be added
  * either to the action area or the headerbar of the dialog, depending
- * on the &#8220;use-header-bar&#8221; property. The response id has to be associated
- * with the action widget using the <code>&#60;action-widgets&#62;</code> element.
+ * on the &<code>#8220</code> use-header-bar&<code>#8221</code>  property. The response id has to be associated
+ * with the action widget using the <code>&<code>#60</code> action-widgets&<code>#62</code> </code> element.
  * <p>
  * An example of a <code>GtkDialog</code> UI definition fragment:
  * <p><pre>xml
- * &#60;object class=&#34;GtkDialog&#34; id=&#34;dialog1&#34;&#62;
- *   &#60;child type=&#34;action&#34;&#62;
- *     &#60;object class=&#34;GtkButton&#34; id=&#34;button_cancel&#34;/&#62;
- *   &#60;/child&#62;
- *   &#60;child type=&#34;action&#34;&#62;
- *     &#60;object class=&#34;GtkButton&#34; id=&#34;button_ok&#34;&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- *   &#60;action-widgets&#62;
- *     &#60;action-widget response=&#34;cancel&#34;&#62;button_cancel&#60;/action-widget&#62;
- *     &#60;action-widget response=&#34;ok&#34; default=&#34;true&#34;&#62;button_ok&#60;/action-widget&#62;
- *   &#60;/action-widgets&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkDialog&<code>#34</code>  id=&<code>#34</code> dialog1&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> child type=&<code>#34</code> action&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button_cancel&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> child type=&<code>#34</code> action&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button_ok&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> action-widgets&<code>#62</code> 
+ *     &<code>#60</code> action-widget response=&<code>#34</code> cancel&<code>#34</code> &<code>#62</code> button_cancel&<code>#60</code> /action-widget&<code>#62</code> 
+ *     &<code>#60</code> action-widget response=&<code>#34</code> ok&<code>#34</code>  default=&<code>#34</code> true&<code>#34</code> &<code>#62</code> button_ok&<code>#60</code> /action-widget&<code>#62</code> 
+ *   &<code>#60</code> /action-widgets&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkDialog</code> uses the {@link org.gtk.gtk.AccessibleRole#DIALOG} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkDialog</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#DIALOG</code>  role.
  */
 public class Dialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -156,7 +156,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * <p>
      * GTK connects a signal handler that will emit the
      * {@link [signal@Gtk.Dialog::response] (ref=signal)} signal on the dialog when the widget
-     * is activated. The widget is appended to the end of the dialog&#8217;s action
+     * is activated. The widget is appended to the end of the dialog&<code>#8217</code> s action
      * area.
      * <p>
      * If you want to add a non-activatable widget, simply pack it into
@@ -171,8 +171,8 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * 
      * GTK arranges things so that clicking the button will emit the
      * {@link [signal@Gtk.Dialog::response] (ref=signal)} signal with the given @response_id.
-     * The button is appended to the end of the dialog&#8217;s action area.
-     * The button widget is returned, but usually you don&#8217;t need it.
+     * The button is appended to the end of the dialog&<code>#8217</code> s action area.
+     * The button widget is returned, but usually you don&<code>#8217</code> t need it.
      */
     public Widget addButton(java.lang.String buttonText, int responseId) {
         var RESULT = gtk_h.gtk_dialog_add_button(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
@@ -191,16 +191,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Returns the header bar of @dialog.
      * 
      * Note that the headerbar is only used by the dialog if the
-     * {@link [property@Gtk.Dialog:use-header-bar] (ref=property)} property is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Returns the header bar of @dialog.
-     * 
-     * Note that the headerbar is only used by the dialog if the
-     * {@link [property@Gtk.Dialog:use-header-bar] (ref=property)} property is %TRUE.
+     * {@link [property@Gtk.Dialog:use-header-bar] (ref=property)} property is <code>true</code>
      */
     public HeaderBar getHeaderBar() {
         var RESULT = gtk_h.gtk_dialog_get_header_bar(handle());
@@ -237,7 +228,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
     /**
      * Sets the default widget for the dialog based on the response ID.
      * 
-     * Pressing &#8220;Enter&#8221; normally activates the default widget.
+     * Pressing &<code>#8220</code> Enter&<code>#8221</code>  normally activates the default widget.
      */
     public void setDefaultResponse(int responseId) {
         gtk_h.gtk_dialog_set_default_response(handle(), responseId);
@@ -247,7 +238,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * A convenient way to sensitize/desensitize dialog buttons.
      * <p>
      * Calls <code>gtk_widget_set_sensitive (widget, @setting)</code>
-     * for each widget in the dialog&#8217;s action area with the given @response_id.
+     * for each widget in the dialog&<code>#8217</code> s action area with the given @response_id.
      */
     public void setResponseSensitive(int responseId, boolean setting) {
         gtk_h.gtk_dialog_set_response_sensitive(handle(), responseId, setting ? 1 : 0);
@@ -289,9 +280,9 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Emitted when an action widget is clicked.
      * 
      * The signal is also emitted when the dialog receives a
-     * delete event, and when {@link org.gtk.gtk.Dialog#response} is called.
-     * On a delete event, the response ID is <code>GTK_RESPONSE_DELETE_EVENT.
-     * Otherwise,</code> it depends on which action widget was clicked.
+     * delete event, and when {@link org.gtk.gtk.Dialog<code>#response</code>  is called.
+     * On a delete event, the response ID is {@link org.gtk.gtk.ResponseType<code>#DELETE_EVENT</code>  
+     * Otherwise, it depends on which action widget was clicked.
      */
     public SignalHandle onResponse(ResponseHandler handler) {
         try {

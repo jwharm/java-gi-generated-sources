@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GParamSpec derived structure that contains the meta data for integer properties.
+ * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for integer properties.
  */
 public class ParamSpecInt extends ParamSpec {
 

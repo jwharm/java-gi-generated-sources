@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * <code>GtkPrintUnixDialog</code> implements a print dialog for platforms
- * which don&#8217;t provide a native print dialog, like Unix.
+ * which don&<code>#8217</code> t provide a native print dialog, like Unix.
  * <p>
  * !{@link [An example GtkPrintUnixDialog]}(printdialog.png)
  * <p>
@@ -18,47 +18,47 @@ import java.lang.invoke.*;
  * {@link org.gtk.gtk.PrintOperation}.
  * <p>
  * In order to print something with <code>GtkPrintUnixDialog</code>, you need to
- * use {@link org.gtk.gtk.PrintUnixDialog#getSelectedPrinter} to obtain a
+ * use {@link org.gtk.gtk.PrintUnixDialog<code>#getSelectedPrinter</code>  to obtain a
  * {@link org.gtk.gtk.Printer} object and use it to construct a {@link org.gtk.gtk.PrintJob}
  * using {@link [ctor@Gtk.PrintJob.new] (ref=ctor)}.
  * <p><code>GtkPrintUnixDialog</code> uses the following response values:
  * <p>
- * <li><code>GTK_RESPONSE_OK:</code> for the &#8220;Print&#8221; button
- * <li><code>GTK_RESPONSE_APPLY:</code> for the &#8220;Preview&#8221; button
- * <li><code>GTK_RESPONSE_CANCEL:</code> for the &#8220;Cancel&#8221; button
+ * <li>{@link org.gtk.gtk.ResponseType<code>#OK</code>   for the &<code>#8220</code> Print&<code>#8221</code>  button
+ * <li>{@link org.gtk.gtk.ResponseType<code>#APPLY</code>   for the &<code>#8220</code> Preview&<code>#8221</code>  button
+ * <li>{@link org.gtk.gtk.ResponseType<code>#CANCEL</code>   for the &<code>#8220</code> Cancel&<code>#8221</code>  button
  * <p>
- * <h1>tkPrintUnixDialog as GtkBuildable</h1>
+ * <h1>GtkPrintUnixDialog as GtkBuildable</h1>
  * <p>
  * The <code>GtkPrintUnixDialog</code> implementation of the <code>GtkBuildable</code> interface
- * exposes its @notebook internal children with the name &#8220;notebook&#8221;.
+ * exposes its @notebook internal children with the name &<code>#8220</code> notebook&<code>#8221</code> .
  * <p>
  * An example of a <code>GtkPrintUnixDialog</code> UI definition fragment:
  * <p><pre>xml
- * &#60;object class=&#34;GtkPrintUnixDialog&#34; id=&#34;dialog1&#34;&#62;
- *   &#60;child internal-child=&#34;notebook&#34;&#62;
- *     &#60;object class=&#34;GtkNotebook&#34; id=&#34;notebook&#34;&#62;
- *       &#60;child&#62;
- *         &#60;object type=&#34;GtkNotebookPage&#34;&#62;
- *           &#60;property name=&#34;tab_expand&#34;&#62;False&#60;/property&#62;
- *           &#60;property name=&#34;tab_fill&#34;&#62;False&#60;/property&#62;
- *           &#60;property name=&#34;tab&#34;&#62;
- *             &#60;object class=&#34;GtkLabel&#34; id=&#34;tablabel&#34;&#62;
- *               &#60;property name=&#34;label&#34;&#62;Tab label&#60;/property&#62;
- *             &#60;/object&#62;
- *           &#60;/property&#62;
- *           &#60;property name=&#34;child&#34;&#62;
- *             &#60;object class=&#34;GtkLabel&#34; id=&#34;tabcontent&#34;&#62;
- *               &#60;property name=&#34;label&#34;&#62;Content on notebook tab&#60;/property&#62;
- *             &#60;/object&#62;
- *           &#60;/property&#62;
- *         &#60;/object&#62;
- *       &#60;/child&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkPrintUnixDialog&<code>#34</code>  id=&<code>#34</code> dialog1&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> child internal-child=&<code>#34</code> notebook&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkNotebook&<code>#34</code>  id=&<code>#34</code> notebook&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> child&<code>#62</code> 
+ *         &<code>#60</code> object type=&<code>#34</code> GtkNotebookPage&<code>#34</code> &<code>#62</code> 
+ *           &<code>#60</code> property name=&<code>#34</code> tab_expand&<code>#34</code> &<code>#62</code> False&<code>#60</code> /property&<code>#62</code> 
+ *           &<code>#60</code> property name=&<code>#34</code> tab_fill&<code>#34</code> &<code>#62</code> False&<code>#60</code> /property&<code>#62</code> 
+ *           &<code>#60</code> property name=&<code>#34</code> tab&<code>#34</code> &<code>#62</code> 
+ *             &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code>  id=&<code>#34</code> tablabel&<code>#34</code> &<code>#62</code> 
+ *               &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Tab label&<code>#60</code> /property&<code>#62</code> 
+ *             &<code>#60</code> /object&<code>#62</code> 
+ *           &<code>#60</code> /property&<code>#62</code> 
+ *           &<code>#60</code> property name=&<code>#34</code> child&<code>#34</code> &<code>#62</code> 
+ *             &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code>  id=&<code>#34</code> tabcontent&<code>#34</code> &<code>#62</code> 
+ *               &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Content on notebook tab&<code>#60</code> /property&<code>#62</code> 
+ *             &<code>#60</code> /object&<code>#62</code> 
+ *           &<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> /object&<code>#62</code> 
+ *       &<code>#60</code> /child&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkPrintUnixDialog</code> has a single CSS node with name window. The style classes
  * dialog and print are added.
  */
@@ -153,7 +153,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * current values in the print dialog.
      * 
      * Note that this creates a new object, and you need to unref
-     * it if don&#8217;t want to keep it.
+     * it if don&<code>#8217</code> t want to keep it.
      */
     public PrintSettings getPrintSettings() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_settings(handle());
@@ -197,7 +197,7 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * supports.
      * 
      * For instance, if you can handle scaling the output then you pass
-     * <code>GTK_PRINT_CAPABILITY_SCALE.</code> If you don&#8217;t pass that, then the dialog
+     * {@link org.gtk.gtk.PrintCapabilities<code>#SCALE</code>   If you don&<code>#8217</code> t pass that, then the dialog
      * will only let you select the scale if the printing system automatically
      * handles scaling.
      */

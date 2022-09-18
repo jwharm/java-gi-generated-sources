@@ -8,25 +8,23 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GDtlsConnection is the base DTLS connection class type, which wraps
- * a #GDatagramBased and provides DTLS encryption on top of it. Its
- * subclasses, #GDtlsClientConnection and #GDtlsServerConnection,
+ * {@link org.gtk.gio.DtlsConnection} is the base DTLS connection class type, which wraps
+ * a {@link org.gtk.gio.DatagramBased} and provides DTLS encryption on top of it. Its
+ * subclasses, {@link org.gtk.gio.DtlsClientConnection} and {@link org.gtk.gio.DtlsServerConnection} 
  * implement client-side and server-side DTLS, respectively.
  * 
- * For TLS support, see #GTlsConnection.
+ * For TLS support, see {@link org.gtk.gio.TlsConnection} 
  * 
- * As DTLS is datagram based, #GDtlsConnection implements #GDatagramBased,
+ * As DTLS is datagram based, {@link org.gtk.gio.DtlsConnection} implements {@link org.gtk.gio.DatagramBased} 
  * presenting a datagram-socket-like API for the encrypted connection. This
- * operates over a base datagram connection, which is also a #GDatagramBased
- * (#GDtlsConnection:base-socket).
+ * operates over a base datagram connection, which is also a {@link org.gtk.gio.DatagramBased} ({@link org.gtk.gio.DtlsConnection} base-socket).
  * 
  * To close a DTLS connection, use g_dtls_connection_close().
  * 
- * Neither #GDtlsServerConnection or #GDtlsClientConnection set the peer address
- * on their base #GDatagramBased if it is a #GSocket &#8212; it is up to the caller to
+ * Neither {@link org.gtk.gio.DtlsServerConnection} or {@link org.gtk.gio.DtlsClientConnection} set the peer address
+ * on their base {@link org.gtk.gio.DatagramBased} if it is a {@link org.gtk.gio.Socket} &<code>#8212</code>  it is up to the caller to
  * do that if they wish. If they do not, and g_socket_close() is called on the
- * base socket, the #GDtlsConnection will not raise a <code>G_IO_ERROR_NOT_CONNECTED
- * error</code> on further I/O.
+ * base socket, the {@link org.gtk.gio.DtlsConnection} will not raise a {@link org.gtk.gio.IOErrorEnum<code>#NOT_CONNECTED</code>  error on further I/O.
  */
 public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
 
@@ -34,22 +32,22 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * Close the DTLS connection. This is equivalent to calling
      * g_dtls_connection_shutdown() to shut down both sides of the connection.
      * <p>
-     * Closing a #GDtlsConnection waits for all buffered but untransmitted data to
+     * Closing a {@link org.gtk.gio.DtlsConnection} waits for all buffered but untransmitted data to
      * be sent before it completes. It then sends a <code>close_notify</code> DTLS alert to the
      * peer and may wait for a <code>close_notify</code> to be received from the peer. It does
-     * not close the underlying #GDtlsConnection:base-socket; that must be closed
+     * not close the underlying {@link org.gtk.gio.DtlsConnection} base-socket; that must be closed
      * separately.
      * 
-     * Once @conn is closed, all other operations will return <code>G_IO_ERROR_CLOSED.
-     * Closing</code> a #GDtlsConnection multiple times will not return an error.
+     * Once @conn is closed, all other operations will return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  
+     * Closing a {@link org.gtk.gio.DtlsConnection} multiple times will not return an error.
      * 
-     * #GDtlsConnections will be automatically closed when the last reference is
+     * <code>#GDtlsConnections</code> will be automatically closed when the last reference is
      * dropped, but you might want to call this function to make sure resources are
      * released as early as possible.
      * 
-     * If @cancellable is cancelled, the #GDtlsConnection may be left
+     * If @cancellable is cancelled, the {@link org.gtk.gio.DtlsConnection} may be left
      * partially-closed and any pending untransmitted data may be lost. Call
-     * g_dtls_connection_close() again to complete closing the #GDtlsConnection.
+     * g_dtls_connection_close() again to complete closing the {@link org.gtk.gio.DtlsConnection}
      */
     public default boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -92,8 +90,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Used by #GDtlsConnection implementations to emit the
-     * #GDtlsConnection::accept-certificate signal.
+     * Used by {@link org.gtk.gio.DtlsConnection} implementations to emit the
+     * {@link org.gtk.gio.DtlsConnection} :accept-certificate signal.
      */
     public default boolean emitAcceptCertificate(TlsCertificate peerCert, int errors) {
         var RESULT = gtk_h.g_dtls_connection_emit_accept_certificate(handle(), peerCert.handle(), errors);
@@ -101,7 +99,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets @conn&#39;s certificate, as set by
+     * Gets @conn&<code>#39</code> s certificate, as set by
      * g_dtls_connection_set_certificate().
      */
     public default TlsCertificate getCertificate() {
@@ -116,8 +114,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * {@link [5056]}(https://tools.ietf.org/html/rfc5056), RFC
      * {@link [5929]}(https://tools.ietf.org/html/rfc5929), and related RFCs.  The
      * binding data is returned in @data.  The @data is resized by the callee
-     * using #GByteArray buffer management and will be freed when the @data
-     * is destroyed by g_byte_array_unref(). If @data is <code>NULL,</code> it will only
+     * using {@link org.gtk.glib.ByteArray} buffer management and will be freed when the @data
+     * is destroyed by g_byte_array_unref(). If @data is <code>null</code>  it will only
      * check whether TLS backend is able to fetch the data (e.g. whether @type
      * is supported by the TLS backend). It does not guarantee that the data
      * will be available though.  That could happen if TLS connection does not
@@ -172,8 +170,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * the handshake.
      * 
      * If the peer did not use the ALPN extension, or did not advertise a
-     * protocol that matched one of @conn&#39;s protocols, or the TLS backend
-     * does not support ALPN, then this will be <code>NULL.</code> See
+     * protocol that matched one of @conn&<code>#39</code> s protocols, or the TLS backend
+     * does not support ALPN, then this will be <code>null</code>  See
      * g_dtls_connection_set_advertised_protocols().
      */
     public default java.lang.String getNegotiatedProtocol() {
@@ -182,9 +180,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets @conn&#39;s peer&#39;s certificate after the handshake has completed
+     * Gets @conn&<code>#39</code> s peer&<code>#39</code> s certificate after the handshake has completed
      * or failed. (It is not set during the emission of
-     * #GDtlsConnection::accept-certificate.)
+     * {@link org.gtk.gio.DtlsConnection} :accept-certificate.)
      */
     public default TlsCertificate getPeerCertificate() {
         var RESULT = gtk_h.g_dtls_connection_get_peer_certificate(handle());
@@ -192,9 +190,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the errors associated with validating @conn&#39;s peer&#39;s
+     * Gets the errors associated with validating @conn&<code>#39</code> s peer&<code>#39</code> s
      * certificate, after the handshake has completed or failed. (It is
-     * not set during the emission of #GDtlsConnection::accept-certificate.)
+     * not set during the emission of {@link org.gtk.gio.DtlsConnection} :accept-certificate.)
      */
     public default int getPeerCertificateErrors() {
         var RESULT = gtk_h.g_dtls_connection_get_peer_certificate_errors(handle());
@@ -203,9 +201,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Returns the current DTLS protocol version, which may be
-     * {@link org.gtk.gio.TlsProtocolVersion#UNKNOWN} if the connection has not handshaked, or
+     * {@link org.gtk.gio.TlsProtocolVersion<code>#UNKNOWN</code>  if the connection has not handshaked, or
      * has been closed, or if the TLS backend has implemented a protocol version
-     * that is not a recognized #GTlsProtocolVersion.
+     * that is not a recognized {@link org.gtk.gio.TlsProtocolVersion}
      */
     public default TlsProtocolVersion getProtocolVersion() {
         var RESULT = gtk_h.g_dtls_connection_get_protocol_version(handle());
@@ -227,7 +225,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * 
      * On the client side, it is never necessary to call this method;
      * although the connection needs to perform a handshake after
-     * connecting, #GDtlsConnection will handle this for you automatically
+     * connecting, {@link org.gtk.gio.DtlsConnection} will handle this for you automatically
      * when you try to send or receive data on the connection. You can call
      * g_dtls_connection_handshake() manually if you want to know whether
      * the initial handshake succeeded or failed (as opposed to just
@@ -247,7 +245,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * TLS protocol in TLS 1.3. Since GLib 2.64, calling this function after
      * the initial handshake will no longer do anything.
      * 
-     * #GDtlsConnection::accept_certificate may be emitted during the
+     * {@link org.gtk.gio.DtlsConnection} :accept_certificate may be emitted during the
      * handshake.
      */
     public default boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -299,7 +297,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * protocol after the handshake.  Specifying <code>null</code> for the the value
      * of @protocols will disable ALPN negotiation.
      * 
-     * See {@link [IANA TLS ALPN Protocol IDs]}(https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids)
+     * See {@link [IANA TLS ALPN Protocol IDs]}(https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml<code>#alpn</code> protocol-ids)
      * for a list of registered protocol IDs.
      */
     public default void setAdvertisedProtocols(java.lang.String[] protocols) {
@@ -308,12 +306,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * This sets the certificate that @conn will present to its peer
-     * during the TLS handshake. For a #GDtlsServerConnection, it is
+     * during the TLS handshake. For a {@link org.gtk.gio.DtlsServerConnection}  it is
      * mandatory to set this, and that will normally be done at construct
      * time.
      * 
-     * For a #GDtlsClientConnection, this is optional. If a handshake fails
-     * with <code>G_TLS_ERROR_CERTIFICATE_REQUIRED,</code> that means that the server
+     * For a {@link org.gtk.gio.DtlsClientConnection}  this is optional. If a handshake fails
+     * with {@link org.gtk.gio.TlsError<code>#CERTIFICATE_REQUIRED</code>   that means that the server
      * requires a certificate, and if you try connecting again, you should
      * call this method first. You can call
      * g_dtls_client_connection_get_accepted_cas() on the failed connection
@@ -321,21 +319,10 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * accept certificates from.
      * 
      * (It is also possible that a server will allow the connection with
-     * or without a certificate; in that case, if you don&#39;t provide a
+     * or without a certificate; in that case, if you don&<code>#39</code> t provide a
      * certificate, you can tell that the server requested one by the fact
      * that g_dtls_client_connection_get_accepted_cas() will return
-     * non-that means that the server
-     * requires a certificate, and if you try connecting again, you should
-     * call this method first. You can call
-     * g_dtls_client_connection_get_accepted_cas() on the failed connection
-     * to get a list of Certificate Authorities that the server will
-     * accept certificates from.
-     * 
-     * (It is also possible that a server will allow the connection with
-     * or without a certificate; in that case, if you don&#39;t provide a
-     * certificate, you can tell that the server requested one by the fact
-     * that g_dtls_client_connection_get_accepted_cas() will return
-     * non-%NULL.)
+     * non-<code>null</code> )
      */
     public default void setCertificate(TlsCertificate certificate) {
         gtk_h.g_dtls_connection_set_certificate(handle(), certificate.handle());
@@ -344,15 +331,15 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the certificate database that is used to verify peer certificates.
      * This is set to the default database by default. See
-     * g_tls_backend_get_default_database(). If set to <code>NULL,</code> then
+     * g_tls_backend_get_default_database(). If set to <code>null</code>  then
      * peer certificate validation will always set the
-     * {@link org.gtk.gio.TlsCertificateFlags#UNKNOWN_CA} error (meaning
-     * #GDtlsConnection::accept-certificate will always be emitted on
+     * {@link org.gtk.gio.TlsCertificateFlags<code>#UNKNOWN_CA</code>  error (meaning
+     * {@link org.gtk.gio.DtlsConnection} :accept-certificate will always be emitted on
      * client-side connections, unless that bit is not set in
-     * #GDtlsClientConnection:validation-flags).
+     * {@link org.gtk.gio.DtlsClientConnection} validation-flags).
      * 
      * There are nonintuitive security implications when using a non-default
-     * database. See #GDtlsConnection:database for details.
+     * database. See {@link org.gtk.gio.DtlsConnection} database for details.
      */
     public default void setDatabase(TlsDatabase database) {
         gtk_h.g_dtls_connection_set_database(handle(), database.handle());
@@ -363,7 +350,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * for things like prompting the user for passwords.
      * 
      * The @interaction argument will normally be a derived subclass of
-     * #GTlsInteraction. <code>null</code> can also be provided if no user interaction
+     * {@link org.gtk.gio.TlsInteraction}  <code>null</code> can also be provided if no user interaction
      * should occur for this connection.
      */
     public default void setInteraction(TlsInteraction interaction) {
@@ -375,7 +362,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * before the connection is closed. If this is <code>true</code> (the default),
      * then @conn will expect to receive a TLS close notification from its
      * peer before the connection is closed, and will return a
-     * {@link org.gtk.gio.TlsError#EOF} error if the connection is closed without proper
+     * {@link org.gtk.gio.TlsError<code>#EOF</code>  error if the connection is closed without proper
      * notification (since this may indicate a network error, or
      * man-in-the-middle attack).
      * 
@@ -385,16 +372,16 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * somehow self-delimiting); in this case, the close notify is
      * redundant and may be omitted. You
      * can use g_dtls_connection_set_require_close_notify() to tell @conn
-     * to allow an &#34;unannounced&#34; connection close, in which case the close
+     * to allow an &<code>#34</code> unannounced&<code>#34</code>  connection close, in which case the close
      * will show up as a 0-length read, as in a non-TLS
-     * #GDatagramBased, and it is up to the application to check that
+     * {@link org.gtk.gio.DatagramBased}  and it is up to the application to check that
      * the data has been fully received.
      * 
      * Note that this only affects the behavior when the peer closes the
      * connection; when the application calls g_dtls_connection_close_async() on
      * @conn itself, this will send a close notification regardless of the
      * setting of this property. If you explicitly want to do an unclean
-     * close, you can close @conn&#39;s #GDtlsConnection:base-socket rather
+     * close, you can close @conn&<code>#39</code> s {@link org.gtk.gio.DtlsConnection} base-socket rather
      * than closing @conn itself.
      */
     public default void setRequireCloseNotify(boolean requireCloseNotify) {
@@ -406,18 +393,18 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * 
      * If @shutdown_read is <code>true</code> then the receiving side of the connection is shut
      * down, and further reading is disallowed. Subsequent calls to
-     * g_datagram_based_receive_messages() will return <code>G_IO_ERROR_CLOSED.
+     * g_datagram_based_receive_messages() will return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  
      * 
-     * If</code> @shutdown_write is <code>true</code> then the sending side of the connection is shut
+     * If @shutdown_write is <code>true</code> then the sending side of the connection is shut
      * down, and further writing is disallowed. Subsequent calls to
-     * g_datagram_based_send_messages() will return <code>G_IO_ERROR_CLOSED.
+     * g_datagram_based_send_messages() will return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  
      * 
-     * It</code> is allowed for both @shutdown_read and @shutdown_write to be TRUE &#8212; this
+     * It is allowed for both @shutdown_read and @shutdown_write to be TRUE &<code>#8212</code>  this
      * is equivalent to calling g_dtls_connection_close().
      * 
-     * If @cancellable is cancelled, the #GDtlsConnection may be left
+     * If @cancellable is cancelled, the {@link org.gtk.gio.DtlsConnection} may be left
      * partially-closed and any pending untransmitted data may be lost. Call
-     * g_dtls_connection_shutdown() again to complete closing the #GDtlsConnection.
+     * g_dtls_connection_shutdown() again to complete closing the {@link org.gtk.gio.DtlsConnection}
      */
     public default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -466,40 +453,40 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Emitted during the TLS handshake after the peer certificate has
-     * been received. You can examine @peer_cert&#39;s certification path by
+     * been received. You can examine @peer_cert&<code>#39</code> s certification path by
      * calling g_tls_certificate_get_issuer() on it.
      * 
-     * For a client-side connection, @peer_cert is the server&#39;s
+     * For a client-side connection, @peer_cert is the server&<code>#39</code> s
      * certificate, and the signal will only be emitted if the
-     * certificate was not acceptable according to @conn&#39;s
-     * #GDtlsClientConnection:validation_flags. If you would like the
+     * certificate was not acceptable according to @conn&<code>#39</code> s
+     * {@link org.gtk.gio.DtlsClientConnection} validation_flags. If you would like the
      * certificate to be accepted despite @errors, return <code>true</code> from the
      * signal handler. Otherwise, if no handler accepts the certificate,
-     * the handshake will fail with <code>G_TLS_ERROR_BAD_CERTIFICATE.
+     * the handshake will fail with {@link org.gtk.gio.TlsError<code>#BAD_CERTIFICATE</code>  
      * 
-     * GLib</code> guarantees that if certificate verification fails, this signal
+     * GLib guarantees that if certificate verification fails, this signal
      * will be emitted with at least one error will be set in @errors, but
      * it does not guarantee that all possible errors will be set.
      * Accordingly, you may not safely decide to ignore any particular
      * type of error. For example, it would be incorrect to ignore
-     * {@link org.gtk.gio.TlsCertificateFlags#EXPIRED} if you want to allow expired
+     * {@link org.gtk.gio.TlsCertificateFlags<code>#EXPIRED</code>  if you want to allow expired
      * certificates, because this could potentially be the only error flag
      * set even if other problems exist with the certificate.
      * 
      * For a server-side connection, @peer_cert is the certificate
-     * presented by the client, if this was requested via the server&#39;s
-     * #GDtlsServerConnection:authentication_mode. On the server side,
+     * presented by the client, if this was requested via the server&<code>#39</code> s
+     * {@link org.gtk.gio.DtlsServerConnection} authentication_mode. On the server side,
      * the signal is always emitted when the client presents a
      * certificate, and the certificate will only be accepted if a
-     * handler returns <code>TRUE.
+     * handler returns <code>true</code> 
      * 
-     * Note</code> that if this signal is emitted as part of asynchronous I/O
+     * Note that if this signal is emitted as part of asynchronous I/O
      * in the main thread, then you should not attempt to interact with
      * the user before returning from the signal handler. If you want to
      * let the user decide whether or not to accept the certificate, you
      * would have to return <code>false</code> from the signal handler on the first
      * attempt, and then after the connection attempt returns a
-     * <code>G_TLS_ERROR_BAD_CERTIFICATE,</code> you can interact with the user, and
+     * {@link org.gtk.gio.TlsError<code>#BAD_CERTIFICATE</code>   you can interact with the user, and
      * if the user decides to accept the certificate, remember that fact,
      * create a new connection, and return <code>true</code> from the signal handler
      * the next time.

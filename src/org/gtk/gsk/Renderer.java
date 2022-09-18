@@ -12,11 +12,11 @@ import java.lang.invoke.*;
  * tree of {@link org.gtk.gsk.RenderNode} instances.
  * <p>
  * Typically you will use a <code>GskRenderer</code> instance to repeatedly call
- * {@link org.gtk.gsk.Renderer#render} to update the contents of its associated
+ * {@link org.gtk.gsk.Renderer<code>#render</code>  to update the contents of its associated
  * {@link org.gtk.gdk.Surface}.
  * <p>
  * It is necessary to realize a <code>GskRenderer</code> instance using
- * {@link org.gtk.gsk.Renderer#realize} before calling {@link org.gtk.gsk.Renderer#render},
+ * {@link org.gtk.gsk.Renderer<code>#realize</code>  before calling {@link org.gtk.gsk.Renderer<code>#render</code> ,
  * in order to create the appropriate windowing system resources needed
  * to render the scene.
  */
@@ -74,7 +74,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Since GTK 4.6, the surface may be <code>NULL</code>, which allows using
      * renderers without having to create a surface.
      * 
-     * Note that it is mandatory to call {@link org.gtk.gsk.Renderer#unrealize} before
+     * Note that it is mandatory to call {@link org.gtk.gsk.Renderer<code>#unrealize</code>  before
      * destroying the renderer.
      */
     public boolean realize(org.gtk.gdk.Surface surface) throws io.github.jwharm.javagi.GErrorException {
@@ -88,14 +88,14 @@ public class Renderer extends org.gtk.gobject.Object {
     
     /**
      * Renders the scene graph, described by a tree of <code>GskRenderNode</code> instances
-     * to the renderer&#39;s surface,  ensuring that the given @region gets redrawn.
+     * to the renderer&<code>#39</code> s surface,  ensuring that the given @region gets redrawn.
      * <p>
      * If the renderer has no associated surface, this function does nothing.
      * <p>
      * Renderers must ensure that changes of the contents given by the @root
      * node as well as the area given by @region are redrawn. They are however
      * free to not redraw any pixel outside of @region if they can guarantee that
-     * it didn&#39;t change.
+     * it didn&<code>#39</code> t change.
      * <p>
      * The @renderer will acquire a reference on the <code>GskRenderNode</code> tree while
      * the rendering is in progress.

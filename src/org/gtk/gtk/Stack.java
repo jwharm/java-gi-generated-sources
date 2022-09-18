@@ -17,39 +17,39 @@ import java.lang.invoke.*;
  * be used with <code>GtkStack</code> to provide this functionality.
  * <p>
  * Transitions between pages can be animated as slides or fades. This
- * can be controlled with {@link org.gtk.gtk.Stack#setTransitionType}.
+ * can be controlled with {@link org.gtk.gtk.Stack<code>#setTransitionType</code> .
  * These animations respect the {@link [property@Gtk.Settings:gtk-enable-animations] (ref=property)}
  * setting.
  * <p><code>GtkStack</code> maintains a {@link org.gtk.gtk.StackPage} object for each added
  * child, which holds additional per-child properties. You
- * obtain the <code>GtkStackPage</code> for a child with {@link org.gtk.gtk.Stack#getPage}
+ * obtain the <code>GtkStackPage</code> for a child with {@link org.gtk.gtk.Stack<code>#getPage</code> 
  * and you can obtain a <code>GtkSelectionModel</code> containing all the pages
- * with {@link org.gtk.gtk.Stack#getPages}.
+ * with {@link org.gtk.gtk.Stack<code>#getPages</code> .
  * <p>
- * <h1>tkStack as GtkBuildable</h1>
+ * <h1>GtkStack as GtkBuildable</h1>
  * <p>
  * To set child-specific properties in a .ui file, create <code>GtkStackPage</code>
  * objects explicitly, and set the child widget as a property on it:
  * <p><pre>xml
- *   &#60;object class=&#34;GtkStack&#34; id=&#34;stack&#34;&#62;
- *     &#60;child&#62;
- *       &#60;object class=&#34;GtkStackPage&#34;&#62;
- *         &#60;property name=&#34;name&#34;&#62;page1&#60;/property&#62;
- *         &#60;property name=&#34;title&#34;&#62;In the beginning&#8230;&#60;/property&#62;
- *         &#60;property name=&#34;child&#34;&#62;
- *           &#60;object class=&#34;GtkLabel&#34;&#62;
- *             &#60;property name=&#34;label&#34;&#62;It was dark&#60;/property&#62;
- *           &#60;/object&#62;
- *         &#60;/property&#62;
- *       &#60;/object&#62;
- *     &#60;/child&#62;
+ *   &<code>#60</code> object class=&<code>#34</code> GtkStack&<code>#34</code>  id=&<code>#34</code> stack&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> child&<code>#62</code> 
+ *       &<code>#60</code> object class=&<code>#34</code> GtkStackPage&<code>#34</code> &<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> name&<code>#34</code> &<code>#62</code> page1&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> title&<code>#34</code> &<code>#62</code> In the beginning&<code>#8230</code> &<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> child&<code>#34</code> &<code>#62</code> 
+ *           &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code> &<code>#62</code> 
+ *             &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> It was dark&<code>#60</code> /property&<code>#62</code> 
+ *           &<code>#60</code> /object&<code>#62</code> 
+ *         &<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /object&<code>#62</code> 
+ *     &<code>#60</code> /child&<code>#62</code> 
  * </pre>
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkStack</code> has a single CSS node named stack.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkStack</code> uses the {@link org.gtk.gtk.AccessibleRole#TAB_PANEL} for the stack
+ * <h1>Accessibility</h1>
+ * <p><code>GtkStack</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#TAB_PANEL</code>  for the stack
  * pages, which are the accessible parent objects of the child widgets.
  */
 public class Stack extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -220,7 +220,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets the <code>GtkStack</code> to be horizontally homogeneous or not.
      * <p>
      * If it is homogeneous, the <code>GtkStack</code> will request the same
-     * width for all its children. If it isn&#39;t, the stack
+     * width for all its children. If it isn&<code>#39</code> t, the stack
      * may change width when a different child becomes visible.
      */
     public void setHhomogeneous(boolean hhomogeneous) {
@@ -232,8 +232,8 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * changing the visible child.
      * 
      * If the {@link [property@Gtk.Stack:interpolate-size] (ref=property)} property is set
-     * to <code>TRUE,</code> @stack will interpolate its size between the current
-     * one and the one it&#39;ll take after changing the visible child,
+     * to <code>true</code>  @stack will interpolate its size between the current
+     * one and the one it&<code>#39</code> ll take after changing the visible child,
      * according to the set transition duration.
      */
     public void setInterpolateSize(boolean interpolateSize) {
@@ -266,7 +266,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets the <code>GtkStack</code> to be vertically homogeneous or not.
      * <p>
      * If it is homogeneous, the <code>GtkStack</code> will request the same
-     * height for all its children. If it isn&#39;t, the stack
+     * height for all its children. If it isn&<code>#39</code> t, the stack
      * may change height when a different child becomes visible.
      */
     public void setVhomogeneous(boolean vhomogeneous) {
@@ -281,7 +281,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * current transition type of @stack.
      * 
      * Note that the @child widget has to be visible itself
-     * (see {@link org.gtk.gtk.Widget#show}) in order to become the visible
+     * (see {@link org.gtk.gtk.Widget<code>#show</code> ) in order to become the visible
      * child of @stack.
      */
     public void setVisibleChild(Widget child) {
@@ -292,7 +292,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Makes the child with the given name visible.
      * 
      * Note that the child widget has to be visible itself
-     * (see {@link org.gtk.gtk.Widget#show}) in order to become the visible
+     * (see {@link org.gtk.gtk.Widget<code>#show</code> ) in order to become the visible
      * child of @stack.
      */
     public void setVisibleChildFull(java.lang.String name, StackTransitionType transition) {
@@ -307,7 +307,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * current transition type of @stack.
      * 
      * Note that the child widget has to be visible itself
-     * (see {@link org.gtk.gtk.Widget#show}) in order to become the visible
+     * (see {@link org.gtk.gtk.Widget<code>#show</code> ) in order to become the visible
      * child of @stack.
      */
     public void setVisibleChildName(java.lang.String name) {

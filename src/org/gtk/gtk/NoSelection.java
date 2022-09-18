@@ -48,7 +48,7 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
     /**
      * Sets the model that @self should wrap.
      * 
-     * If @model is <code>NULL,</code> this model will be empty.
+     * If @model is <code>null</code>  this model will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_no_selection_set_model(handle(), model.handle());

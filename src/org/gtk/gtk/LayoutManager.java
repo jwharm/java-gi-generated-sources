@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  * <p>
  * Each <code>GtkWidget</code> can only have a <code>GtkLayoutManager</code> instance associated
  * to it at any given time; it is possible, though, to replace the layout
- * manager instance using {@link org.gtk.gtk.Widget#setLayoutManager}.
+ * manager instance using {@link org.gtk.gtk.Widget<code>#setLayoutManager</code> .
  * <p>
  * <h2>Layout properties</h2>
  * <p>
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * and installing the properties on it as normal <code>GObject</code> properties.
  * <p>
  * Each <code>GtkLayoutChild</code> instance storing the layout properties for a
- * specific child is created through the {@link org.gtk.gtk.LayoutManager#getLayoutChild}
+ * specific child is created through the {@link org.gtk.gtk.LayoutManager<code>#getLayoutChild</code> 
  * method; a <code>GtkLayoutManager</code> controls the creation of its <code>GtkLayoutChild</code>
  * instances by overriding the GtkLayoutManagerClass.create_layout_child()
  * virtual function. The typical implementation should look like:
@@ -37,8 +37,8 @@ import java.lang.invoke.*;
  *                      GtkWidget        *child)
  * {
  *   return g_object_new (your_layout_child_get_type (),
- *                        &#34;layout-manager&#34;, manager,
- *                        &#34;child-widget&#34;, child,
+ *                        &<code>#34</code> layout-manager&<code>#34</code> , manager,
+ *                        &<code>#34</code> child-widget&<code>#34</code> , child,
  *                        NULL);
  * }
  * </pre>
@@ -50,9 +50,9 @@ import java.lang.invoke.*;
  * layout manager.
  * <p>
  * Each <code>GtkLayoutManager</code> instance creating a <code>GtkLayoutChild</code> should use
- * {@link org.gtk.gtk.LayoutManager#getLayoutChild} every time it needs to query
+ * {@link org.gtk.gtk.LayoutManager<code>#getLayoutChild</code>  every time it needs to query
  * the layout properties; each <code>GtkLayoutChild</code> instance should call
- * {@link org.gtk.gtk.LayoutManager#layoutChanged} every time a property is
+ * {@link org.gtk.gtk.LayoutManager<code>#layoutChanged</code>  every time a property is
  * updated, in order to queue a new size measuring and allocation.
  */
 public class LayoutManager extends org.gtk.gobject.Object {

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkListBase</code> is the abstract base class for GTK&#39;s list widgets.
+ * <code>GtkListBase</code> is the abstract base class for GTK&<code>#39</code> s list widgets.
  */
 public class ListBase extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 

@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GInetAddress represents an IPv4 or IPv6 internet address. Use
+ * {@link org.gtk.gio.InetAddress} represents an IPv4 or IPv6 internet address. Use
  * g_resolver_lookup_by_name() or g_resolver_lookup_by_name_async() to
- * look up the #GInetAddress for a hostname. Use
+ * look up the {@link org.gtk.gio.InetAddress} for a hostname. Use
  * g_resolver_lookup_by_address() or
  * g_resolver_lookup_by_address_async() to look up the hostname for a
- * #GInetAddress.
+ * {@link org.gtk.gio.InetAddress} 
  * 
  * To actually connect to a remote host, you will need a
- * #GInetSocketAddress (which includes a #GInetAddress as well as a
+ * {@link org.gtk.gio.InetSocketAddress} (which includes a {@link org.gtk.gio.InetAddress} as well as a
  * port number).
  */
 public class InetAddress extends org.gtk.gobject.Object {
@@ -36,8 +36,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a #GInetAddress for the &#34;any&#34; address (unassigned/&#34;don&#39;t
-     * care&#34;) for @family.
+     * Creates a {@link org.gtk.gio.InetAddress} for the &<code>#34</code> any&<code>#34</code>  address (unassigned/&<code>#34</code> don&<code>#39</code> t
+     * care&<code>#34</code> ) for @family.
      */
     public static InetAddress newAny(SocketFamily family) {
         return new InetAddress(constructNewAny(family));
@@ -49,10 +49,9 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GInetAddress from the given @family and @bytes.
-     * @bytes should be 4 bytes for {@link org.gtk.gio.SocketFamily#IPV4} and 16 bytes for
-     * and 16 bytes for
-     * %G_SOCKET_FAMILY_IPV6.
+     * Creates a new {@link org.gtk.gio.InetAddress} from the given @family and @bytes.
+     * @bytes should be 4 bytes for {@link org.gtk.gio.SocketFamily<code>#IPV4</code>  and 16 bytes for
+     * {@link org.gtk.gio.SocketFamily<code>#IPV6</code>
      */
     public static InetAddress newFromBytes(byte[] bytes, SocketFamily family) {
         return new InetAddress(constructNewFromBytes(bytes, family));
@@ -64,7 +63,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Parses @string as an IP address and creates a new #GInetAddress.
+     * Parses @string as an IP address and creates a new {@link org.gtk.gio.InetAddress}
      */
     public static InetAddress newFromString(java.lang.String string) {
         return new InetAddress(constructNewFromString(string));
@@ -76,14 +75,14 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a #GInetAddress for the loopback address for @family.
+     * Creates a {@link org.gtk.gio.InetAddress} for the loopback address for @family.
      */
     public static InetAddress newLoopback(SocketFamily family) {
         return new InetAddress(constructNewLoopback(family));
     }
     
     /**
-     * Checks if two #GInetAddress instances are equal, e.g. the same address.
+     * Checks if two {@link org.gtk.gio.InetAddress} instances are equal, e.g. the same address.
      */
     public boolean equal(InetAddress otherAddress) {
         var RESULT = gtk_h.g_inet_address_equal(handle(), otherAddress.handle());
@@ -91,7 +90,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets @address&#39;s family
+     * Gets @address&<code>#39</code> s family
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_get_family(handle());
@@ -99,7 +98,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is the &#34;any&#34; address for its family.
+     * Tests whether @address is the &<code>#34</code> any&<code>#34</code>  address for its family.
      */
     public boolean getIsAny() {
         var RESULT = gtk_h.g_inet_address_get_is_any(handle());

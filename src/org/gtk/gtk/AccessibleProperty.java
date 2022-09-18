@@ -7,7 +7,7 @@ public enum AccessibleProperty {
 
     /**
      * Indicates whether inputting text
-     *    could trigger display of one or more predictions of the user&#39;s intended
+     *    could trigger display of one or more predictions of the user&<code>#39</code> s intended
      *    value for a combobox, searchbox, or textbox and specifies how predictions
      *    would be presented if they were made. Value type: {@link [enum@AccessibleAutocomplete] (ref=enum)}
      */
@@ -65,7 +65,7 @@ public enum AccessibleProperty {
     MULTI_SELECTABLE,
     
     /**
-     * Indicates whether the element&#39;s
+     * Indicates whether the element&<code>#39</code> s
      *    orientation is horizontal, vertical, or unknown/ambiguous. Value type:
      *    {@link [enum@Orientation] (ref=enum)}
      */

@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  * influence on the new order. If you want that, consider using a<code>GtkMultiSorter</code> and appending the previous sorter to it.
  * <p>
  * The model can be set up to do incremental sorting, so that
- * sorting long lists doesn&#39;t block the UI. See
- * {@link org.gtk.gtk.SortListModel#setIncremental} for details.
+ * sorting long lists doesn&<code>#39</code> t block the UI. See
+ * {@link org.gtk.gtk.SortListModel<code>#setIncremental</code>  for details.
  * <p><code>GtkSortListModel</code> is a generic model and because of that it
  * cannot take advantage of any external knowledge when sorting.
  * If you run into performance issues with <code>GtkSortListModel</code>,
@@ -52,7 +52,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Returns whether incremental sorting is enabled.
      * 
-     * See {@link org.gtk.gtk.SortListModel#setIncremental}.
+     * See {@link org.gtk.gtk.SortListModel<code>#setIncremental</code> .
      */
     public boolean getIncremental() {
         var RESULT = gtk_h.gtk_sort_list_model_get_incremental(handle());
@@ -113,7 +113,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * 
      * By default, incremental sorting is disabled.
      * 
-     * See {@link org.gtk.gtk.SortListModel#getPending} for progress information
+     * See {@link org.gtk.gtk.SortListModel<code>#getPending</code>  for progress information
      * about an ongoing incremental sorting operation.
      */
     public void setIncremental(boolean incremental) {
@@ -123,7 +123,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets the model to be sorted.
      * 
-     * The @model&#39;s item type must conform to the item type of @self.
+     * The @model&<code>#39</code> s item type must conform to the item type of @self.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_sort_list_model_set_model(handle(), model.handle());

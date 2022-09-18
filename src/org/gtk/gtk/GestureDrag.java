@@ -15,8 +15,8 @@ import java.lang.invoke.*;
  * {@link [signal@Gtk.GestureDrag::drag-update] (ref=signal)} and
  * {@link [signal@Gtk.GestureDrag::drag-end] (ref=signal)} signals, and the relevant
  * coordinates can be extracted through
- * {@link org.gtk.gtk.GestureDrag#getOffset} and
- * {@link org.gtk.gtk.GestureDrag#getStartPoint}.
+ * {@link org.gtk.gtk.GestureDrag<code>#getOffset</code>  and
+ * {@link org.gtk.gtk.GestureDrag<code>#getStartPoint</code> .
  */
 public class GestureDrag extends GestureSingle {
 

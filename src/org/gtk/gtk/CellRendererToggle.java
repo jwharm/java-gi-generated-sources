@@ -34,7 +34,7 @@ public class CellRendererToggle extends CellRenderer {
      * parameters using object properties. Object properties can be set
      * globally (with g_object_set()). Also, with <code>GtkTreeViewColumn</code>, you
      * can bind a property to a value in a <code>GtkTreeModel</code>. For example, you
-     * can bind the &#8220;active&#8221; property on the cell renderer to a boolean value
+     * can bind the &<code>#8220</code> active&<code>#8221</code>  property on the cell renderer to a boolean value
      * in the model, thus causing the check button to reflect the state of
      * the model.
      */
@@ -61,7 +61,7 @@ public class CellRendererToggle extends CellRenderer {
     }
     
     /**
-     * Returns whether we&#8217;re rendering radio toggles rather than checkboxes.
+     * Returns whether we&<code>#8217</code> re rendering radio toggles rather than checkboxes.
      */
     public boolean getRadio() {
         var RESULT = gtk_h.gtk_cell_renderer_toggle_get_radio(handle());
@@ -83,9 +83,9 @@ public class CellRendererToggle extends CellRenderer {
     }
     
     /**
-     * If @radio is <code>TRUE,</code> the cell renderer renders a radio toggle
+     * If @radio is <code>true</code>  the cell renderer renders a radio toggle
      * (i.e. a toggle in a group of mutually-exclusive toggles).
-     * If <code>FALSE,</code> it renders a check toggle (a standalone boolean option).
+     * If <code>false</code>  it renders a check toggle (a standalone boolean option).
      * This can be set globally for the cell renderer, or changed just
      * before rendering each cell in the model (for <code>GtkTreeView</code>, you set
      * up a per-row setting using <code>GtkTreeViewColumn</code> to associate model

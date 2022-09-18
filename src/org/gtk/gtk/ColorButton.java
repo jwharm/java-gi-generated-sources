@@ -15,11 +15,11 @@ import java.lang.invoke.*;
  * <p>
  * It is suitable widget for selecting a color in a preference dialog.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * colorbutton
- * &#9584;&#9472;&#9472; button.color
- *     &#9584;&#9472;&#9472; {@link [content]}
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.color
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [content]}
  * </pre>
  * <p><code>GtkColorButton</code> has a single CSS node with name colorbutton which
  * contains a button node. To differentiate it from a plain <code>GtkButton</code>,
@@ -130,7 +130,7 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
     /**
      * Emitted when the user selects a color.
      * 
-     * When handling this signal, use {@link org.gtk.gtk.ColorChooser#getRgba}
+     * When handling this signal, use {@link org.gtk.gtk.ColorChooser<code>#getRgba</code> 
      * to find out which color was just selected.
      * 
      * Note that this signal is only emitted when the user changes the color.

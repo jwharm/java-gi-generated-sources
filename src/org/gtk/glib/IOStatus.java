@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * Statuses returned by most of the #GIOFuncs functions.
+ * Statuses returned by most of the {@link org.gtk.glib.IOFuncs} functions.
  */
 public enum IOStatus {
 

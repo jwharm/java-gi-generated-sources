@@ -17,14 +17,14 @@ import java.lang.invoke.*;
  * {@link [property@Gtk.DirectoryList:file] (ref=property)} property is set.
  * <p>
  * While the <code>GtkDirectoryList</code> is being filled, the
- * {@link [property@Gtk.DirectoryList:loading] (ref=property)} property will be set to <code>TRUE.</code> You can
+ * {@link [property@Gtk.DirectoryList:loading] (ref=property)} property will be set to <code>true</code>  You can
  * listen to that property if you want to show information like a <code>GtkSpinner</code>
- * or a &#34;Loading...&#34; text.
+ * or a &<code>#34</code> Loading...&<code>#34</code>  text.
  * <p>
  * If loading fails at any point, the {@link [property@Gtk.DirectoryList:error] (ref=property)}
  * property will be set to give more indication about the failure.
  * <p>
- * The <code>GFileInfo</code>s returned from a <code>GtkDirectoryList</code> have the &#34;standard::file&#34;
+ * The <code>GFileInfo</code>s returned from a <code>GtkDirectoryList</code> have the &<code>#34</code> standard::file&<code>#34</code> 
  * attribute set to the <code>GFile</code> they refer to. This way you can get at the file
  * that is referred to in the same way you would via g_file_enumerator_get_child().
  * This means you do not need access to the <code>GtkDirectoryList</code>, but can access
@@ -121,7 +121,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets the @attributes to be enumerated and starts the enumeration.
      * <p>
-     * If @attributes is <code>NULL,</code> no attributes will be queried, but a list
+     * If @attributes is <code>null</code>  no attributes will be queried, but a list
      * of <code>GFileInfo</code>s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
@@ -131,7 +131,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets the @file to be enumerated and starts the enumeration.
      * 
-     * If @file is <code>NULL,</code> the result will be an empty list.
+     * If @file is <code>null</code>  the result will be an empty list.
      */
     public void setFile(org.gtk.gio.File file) {
         gtk_h.gtk_directory_list_set_file(handle(), file.handle());
@@ -143,10 +143,9 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * Setting the priority while @self is loading will reprioritize the
      * ongoing load as soon as possible.
      * 
-     * The default IO priority is <code>G_PRIORITY_DEFAULT,</code> which is higher than
+     * The default IO priority is <code>G_PRIORITY_DEFAULT</code>  which is higher than
      * the GTK redraw priority. If you are loading a lot of directories in
-     * parallel, lowering it to something like <code>G_PRIORITY_DEFAULT_IDLE
-     * may</code> increase responsiveness.
+     * parallel, lowering it to something like <code>G_PRIORITY_DEFAULT_IDLE</code> may increase responsiveness.
      */
     public void setIoPriority(int ioPriority) {
         gtk_h.gtk_directory_list_set_io_priority(handle(), ioPriority);

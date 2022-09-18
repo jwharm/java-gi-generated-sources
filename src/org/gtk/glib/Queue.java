@@ -53,10 +53,10 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds an element in a #GQueue, using a supplied function to find the
+     * Finds an element in a {@link org.gtk.glib.Queue}  using a supplied function to find the
      * desired element. It iterates over the queue, calling the given function
      * which should return 0 when the desired element is found. The function
-     * takes two gconstpointer arguments, the #GQueue element&#39;s data as the
+     * takes two gconstpointer arguments, the {@link org.gtk.glib.Queue} element&<code>#39</code> s data as the
      * first argument and the given user data as the second argument.
      */
     public org.gtk.glib.List findCustom(CompareFunc func) {
@@ -96,7 +96,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the memory allocated for the #GQueue. Only call this function
+     * Frees the memory allocated for the {@link org.gtk.glib.Queue}  Only call this function
      * if @queue was created with g_queue_new(). If queue elements contain
      * dynamically-allocated memory, they should be freed first.
      * 
@@ -124,9 +124,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A statically-allocated #GQueue must be initialized with this function
+     * A statically-allocated {@link org.gtk.glib.Queue} must be initialized with this function
      * before it can be used. Alternatively you can initialize it with
-     * <code>G_QUEUE_INIT.</code> It is not necessary to initialize queues created with
+     * <code>G_QUEUE_INIT</code>  It is not necessary to initialize queues created with
      * g_queue_new().
      */
     public void init() {
@@ -222,7 +222,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the @n&#39;th element of @queue.
+     * Returns the @n&<code>#39</code> th element of @queue.
      */
     public jdk.incubator.foreign.MemoryAddress peekNth(int n) {
         var RESULT = gtk_h.g_queue_peek_nth(handle(), n);
@@ -270,7 +270,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes the @n&#39;th element of @queue and returns its data.
+     * Removes the @n&<code>#39</code> th element of @queue and returns its data.
      */
     public jdk.incubator.foreign.MemoryAddress popNth(int n) {
         var RESULT = gtk_h.g_queue_pop_nth(handle(), n);
@@ -394,7 +394,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GQueue.
+     * Creates a new {@link org.gtk.glib.Queue}
      */
     public static Queue new_() {
         var RESULT = gtk_h.g_queue_new();

@@ -14,10 +14,10 @@ import java.lang.invoke.*;
  * It is able to parse CSS-like input in order to style widgets.
  * <p>
  * An application can make GTK parse a specific CSS style sheet by calling
- * {@link org.gtk.gtk.CssProvider#loadFromFile} or
- * {@link org.gtk.gtk.CssProvider#loadFromResource}
- * and adding the provider with {@link org.gtk.gtk.StyleContext#addProvider} or
- * {@link Gtk#StyleContext}.
+ * {@link org.gtk.gtk.CssProvider<code>#loadFromFile</code>  or
+ * {@link org.gtk.gtk.CssProvider<code>#loadFromResource</code> 
+ * and adding the provider with {@link org.gtk.gtk.StyleContext<code>#addProvider</code>  or
+ * {@link Gtk<code>#StyleContext</code> .
  * <p>
  * In addition, certain files will be read when GTK is initialized.
  * First, the file <code>$XDG_CONFIG_HOME/gtk-4.0/gtk.css</code> is loaded if it
@@ -107,7 +107,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
      * Converts the @provider into a string representation in CSS
      * format.
      * 
-     * Using {@link org.gtk.gtk.CssProvider#loadFromData} with the return
+     * Using {@link org.gtk.gtk.CssProvider<code>#loadFromData</code>  with the return
      * value from this function on a new provider created with
      * {@link [ctor@Gtk.CssProvider.new] (ref=ctor)} will basically create a duplicate
      * of this @provider.

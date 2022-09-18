@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  * It functions in a similar way to a cairo context, and maintains a stack
  * of render nodes and their associated transformations.
  * <p>
- * The node at the top of the stack is the one that <code>gtk_snapshot_append_&#8230;()</code>
- * functions operate on. Use the <code>gtk_snapshot_push_&#8230;()</code> functions and
+ * The node at the top of the stack is the one that <code>gtk_snapshot_append_&<code>#8230</code> ()</code>
+ * functions operate on. Use the <code>gtk_snapshot_push_&<code>#8230</code> ()</code> functions and
  * {@link [method@Snapshot.pop]} to change the current node.
  * <p>
  * The typical way to obtain a <code>GtkSnapshot</code> object is as an argument to
- * the {@link org.gtk.gtk.Widget#snapshot} vfunc. If you need to create your own<code>GtkSnapshot</code>, use {@link [ctor@Gtk.Snapshot.new] (ref=ctor)}.
+ * the {@link org.gtk.gtk.Widget<code>#snapshot</code>  vfunc. If you need to create your own<code>GtkSnapshot</code>, use {@link [ctor@Gtk.Snapshot.new] (ref=ctor)}.
  */
 public class Snapshot extends org.gtk.gdk.Snapshot {
 
@@ -170,7 +170,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * 
      * This must be called the same number of times as the number
      * of textures is needed for the shader in
-     * {@link org.gtk.gtk.Snapshot#pushGlShader}.
+     * {@link org.gtk.gtk.Snapshot<code>#pushGlShader</code> .
      */
     public void glShaderPopTexture() {
         gtk_h.gtk_snapshot_gl_shader_pop_texture(handle());
@@ -179,7 +179,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Applies a perspective projection transform.
      * 
-     * See {@link org.gtk.gsk.Transform#perspective} for a discussion on the details.
+     * See {@link org.gtk.gsk.Transform<code>#perspective</code>  for a discussion on the details.
      */
     public void perspective(float depth) {
         gtk_h.gtk_snapshot_perspective(handle(), depth);
@@ -196,13 +196,13 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Blends together two images with the given blend mode.
      * 
-     * Until the first call to {@link org.gtk.gtk.Snapshot#pop}, the
+     * Until the first call to {@link org.gtk.gtk.Snapshot<code>#pop</code> , the
      * bottom image for the blend operation will be recorded.
      * After that call, the top image to be blended will be
-     * recorded until the second call to {@link org.gtk.gtk.Snapshot#pop}.
+     * recorded until the second call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      * 
      * Calling this function requires two subsequent calls
-     * to {@link org.gtk.gtk.Snapshot#pop}.
+     * to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushBlend(org.gtk.gsk.BlendMode blendMode) {
         gtk_h.gtk_snapshot_push_blend(handle(), blendMode.getValue());
@@ -211,7 +211,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Blurs an image.
      * 
-     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot#pop}.
+     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushBlur(double radius) {
         gtk_h.gtk_snapshot_push_blur(handle(), radius);
@@ -220,7 +220,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Clips an image to a rectangle.
      * 
-     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot#pop}.
+     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushClip(org.gtk.graphene.Rect bounds) {
         gtk_h.gtk_snapshot_push_clip(handle(), bounds.handle());
@@ -230,7 +230,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Modifies the colors of an image by applying an affine transformation
      * in RGB space.
      * 
-     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot#pop}.
+     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushColorMatrix(org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
         gtk_h.gtk_snapshot_push_color_matrix(handle(), colorMatrix.handle(), colorOffset.handle());
@@ -240,12 +240,12 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Snapshots a cross-fade operation between two images with the
      * given @progress.
      * 
-     * Until the first call to {@link org.gtk.gtk.Snapshot#pop}, the start image
+     * Until the first call to {@link org.gtk.gtk.Snapshot<code>#pop</code> , the start image
      * will be snapshot. After that call, the end image will be recorded
-     * until the second call to {@link org.gtk.gtk.Snapshot#pop}.
+     * until the second call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      * 
      * Calling this function requires two subsequent calls
-     * to {@link org.gtk.gtk.Snapshot#pop}.
+     * to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushCrossFade(double progress) {
         gtk_h.gtk_snapshot_push_cross_fade(handle(), progress);
@@ -260,28 +260,28 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The @take_args argument is a block of data to use for uniform
      * arguments, as per types and offsets defined by the @shader.
-     * Normally this is generated by {@link org.gtk.gsk.GLShader#formatArgs}
+     * Normally this is generated by {@link org.gtk.gsk.GLShader<code>#formatArgs</code> 
      * or {@link [struct@Gsk.ShaderArgsBuilder] (ref=struct)}.
      * <p>
      * The snapshotter takes ownership of @take_args, so the caller should
      * not free it after this.
      * <p>
-     * If the renderer doesn&#39;t support GL shaders, or if there is any
+     * If the renderer doesn&<code>#39</code> t support GL shaders, or if there is any
      * problem when compiling the shader, then the node will draw pink.
-     * You should use {@link org.gtk.gsk.GLShader#compile} to ensure the @shader
+     * You should use {@link org.gtk.gsk.GLShader<code>#compile</code>  to ensure the @shader
      * will work for the renderer before using it.
      * <p>
-     * If the shader requires textures (see {@link org.gtk.gsk.GLShader#getNTextures}),
-     * then it is expected that you call {@link org.gtk.gtk.Snapshot#glShaderPopTexture}
+     * If the shader requires textures (see {@link org.gtk.gsk.GLShader<code>#getNTextures</code> ),
+     * then it is expected that you call {@link org.gtk.gtk.Snapshot<code>#glShaderPopTexture</code> 
      * the number of times that are required. Each of these calls will generate
      * a node that is added as a child to the <code>GskGLShaderNode</code>, which in turn
      * will render these offscreen and pass as a texture to the shader.
      * 
      * Once all textures (if any) are pop:ed, you must call the regular
-     * {@link org.gtk.gtk.Snapshot#pop}.
+     * {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      * 
      * If you want to use pre-existing textures as input to the shader rather
-     * than rendering new ones, use {@link org.gtk.gtk.Snapshot#appendTexture} to
+     * than rendering new ones, use {@link org.gtk.gtk.Snapshot<code>#appendTexture</code>  to
      * push a texture node. These will be used directly rather than being
      * re-rendered.
      * 
@@ -294,7 +294,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Modifies the opacity of an image.
      * 
-     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot#pop}.
+     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushOpacity(double opacity) {
         gtk_h.gtk_snapshot_push_opacity(handle(), opacity);
@@ -303,7 +303,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Creates a node that repeats the child node.
      * 
-     * The child is recorded until the next call to {@link org.gtk.gtk.Snapshot#pop}.
+     * The child is recorded until the next call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushRepeat(org.gtk.graphene.Rect bounds, org.gtk.graphene.Rect childBounds) {
         gtk_h.gtk_snapshot_push_repeat(handle(), bounds.handle(), childBounds.handle());
@@ -312,7 +312,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Clips an image to a rounded rectangle.
      * 
-     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot#pop}.
+     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushRoundedClip(org.gtk.gsk.RoundedRect bounds) {
         gtk_h.gtk_snapshot_push_rounded_clip(handle(), bounds.handle());
@@ -321,7 +321,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Applies a shadow to an image.
      * 
-     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot#pop}.
+     * The image is recorded until the next call to {@link org.gtk.gtk.Snapshot<code>#pop</code> .
      */
     public void pushShadow(org.gtk.gsk.Shadow[] shadow, long nShadows) {
         gtk_h.gtk_snapshot_push_shadow(handle(), Interop.allocateNativeArray(shadow).handle(), nShadows);
@@ -380,19 +380,19 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     }
     
     /**
-     * Rotates @@snapshot&#39;s coordinate system by @angle degrees in 2D space -
+     * Rotates @@snapshot&<code>#39</code> s coordinate system by @angle degrees in 2D space -
      * or in 3D speak, rotates around the Z axis.
      * 
-     * To rotate around other axes, use {@link org.gtk.gsk.Transform#rotate3d}.
+     * To rotate around other axes, use {@link org.gtk.gsk.Transform<code>#rotate3d</code> .
      */
     public void rotate(float angle) {
         gtk_h.gtk_snapshot_rotate(handle(), angle);
     }
     
     /**
-     * Rotates @snapshot&#39;s coordinate system by @angle degrees around @axis.
+     * Rotates @snapshot&<code>#39</code> s coordinate system by @angle degrees around @axis.
      * 
-     * For a rotation in 2D space, use {@link org.gtk.gsk.Transform#rotate}.
+     * For a rotation in 2D space, use {@link org.gtk.gsk.Transform<code>#rotate</code> .
      */
     public void rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
         gtk_h.gtk_snapshot_rotate_3d(handle(), angle, axis.handle());
@@ -402,7 +402,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Makes a copy of the current state of @snapshot and saves it
      * on an internal stack.
      * <p>
-     * When {@link org.gtk.gtk.Snapshot#restore} is called, @snapshot will
+     * When {@link org.gtk.gtk.Snapshot<code>#restore</code>  is called, @snapshot will
      * be restored to the saved state. Multiple calls to
      * {@link [method@Snapshot.save]} and {@link snapshot.restore} can be nested;
      * each call to <code>gtk_snapshot_restore()</code> restores the state from
@@ -416,17 +416,17 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     }
     
     /**
-     * Scales @snapshot&#39;s coordinate system in 2-dimensional space by
+     * Scales @snapshot&<code>#39</code> s coordinate system in 2-dimensional space by
      * the given factors.
      * 
-     * Use {@link org.gtk.gtk.Snapshot#scale3d} to scale in all 3 dimensions.
+     * Use {@link org.gtk.gtk.Snapshot<code>#scale3d</code>  to scale in all 3 dimensions.
      */
     public void scale(float factorX, float factorY) {
         gtk_h.gtk_snapshot_scale(handle(), factorX, factorY);
     }
     
     /**
-     * Scales @snapshot&#39;s coordinate system by the given factors.
+     * Scales @snapshot&<code>#39</code> s coordinate system by the given factors.
      */
     public void scale3d(float factorX, float factorY, float factorZ) {
         gtk_h.gtk_snapshot_scale_3d(handle(), factorX, factorY, factorZ);
@@ -438,7 +438,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * 
      * After calling this function, it is no longer possible to
      * add more nodes to @snapshot. The only function that should
-     * be called after this is {@link org.gtk.gobject.Object#unref}.
+     * be called after this is {@link org.gtk.gobject.Object<code>#unref</code> .
      */
     public org.gtk.gsk.RenderNode toNode() {
         var RESULT = gtk_h.gtk_snapshot_to_node(handle());
@@ -451,7 +451,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * 
      * After calling this function, it is no longer possible to
      * add more nodes to @snapshot. The only function that should
-     * be called after this is {@link org.gtk.gobject.Object#unref}.
+     * be called after this is {@link org.gtk.gobject.Object<code>#unref</code> .
      */
     public org.gtk.gdk.Paintable toPaintable(org.gtk.graphene.Size size) {
         var RESULT = gtk_h.gtk_snapshot_to_paintable(handle(), size.handle());
@@ -459,28 +459,28 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     }
     
     /**
-     * Transforms @snapshot&#39;s coordinate system with the given @transform.
+     * Transforms @snapshot&<code>#39</code> s coordinate system with the given @transform.
      */
     public void transform(org.gtk.gsk.Transform transform) {
         gtk_h.gtk_snapshot_transform(handle(), transform.handle());
     }
     
     /**
-     * Transforms @snapshot&#39;s coordinate system with the given @matrix.
+     * Transforms @snapshot&<code>#39</code> s coordinate system with the given @matrix.
      */
     public void transformMatrix(org.gtk.graphene.Matrix matrix) {
         gtk_h.gtk_snapshot_transform_matrix(handle(), matrix.handle());
     }
     
     /**
-     * Translates @snapshot&#39;s coordinate system by @point in 2-dimensional space.
+     * Translates @snapshot&<code>#39</code> s coordinate system by @point in 2-dimensional space.
      */
     public void translate(org.gtk.graphene.Point point) {
         gtk_h.gtk_snapshot_translate(handle(), point.handle());
     }
     
     /**
-     * Translates @snapshot&#39;s coordinate system by @point.
+     * Translates @snapshot&<code>#39</code> s coordinate system by @point.
      */
     public void translate3d(org.gtk.graphene.Point3D point) {
         gtk_h.gtk_snapshot_translate_3d(handle(), point.handle());

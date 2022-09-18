@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  * <p>
  * The action will be looked up in action groups that are found among
  * the widgets ancestors. Most commonly, these will be the actions with
- * the &#8220;win.&#8221; or &#8220;app.&#8221; prefix that are associated with the<code>GtkApplicationWindow</code> or <code>GtkApplication</code>, but other action groups that
- * are added with {@link org.gtk.gtk.Widget#insertActionGroup} will be consulted
+ * the &<code>#8220</code> win.&<code>#8221</code>  or &<code>#8220</code> app.&<code>#8221</code>  prefix that are associated with the<code>GtkApplicationWindow</code> or <code>GtkApplication</code>, but other action groups that
+ * are added with {@link org.gtk.gtk.Widget<code>#insertActionGroup</code>  will be consulted
  * as well.
  */
 public interface Actionable extends io.github.jwharm.javagi.NativeAddress {
@@ -49,7 +49,7 @@ public interface Actionable extends io.github.jwharm.javagi.NativeAddress {
      * Usually this function is used when the widget is located (or will be
      * located) within the hierarchy of a <code>GtkApplicationWindow</code>.
      * 
-     * Names are of the form &#8220;win.save&#8221; or &#8220;app.quit&#8221; for actions on the
+     * Names are of the form &<code>#8220</code> win.save&<code>#8221</code>  or &<code>#8220</code> app.quit&<code>#8221</code>  for actions on the
      * containing {@link [class@ApplicationWindow]} or its associated {@link [class@Application]},
      * respectively. This is the same form used for actions in the {@link org.gtk.gio.Menu}
      * associated with the window.
@@ -66,14 +66,14 @@ public interface Actionable extends io.github.jwharm.javagi.NativeAddress {
      * The target value has two purposes. First, it is used as the parameter
      * to activation of the action associated with the <code>GtkActionable</code> widget.
      * Second, it is used to determine if the widget should be rendered as
-     * &#8220;active&#8221; &#8212; the widget is active if the state is equal to the given target.
+     * &<code>#8220</code> active&<code>#8221</code>  &<code>#8212</code>  the widget is active if the state is equal to the given target.
      * 
      * Consider the example of associating a set of buttons with a {@link [iface@Gio.Action] (ref=iface)}
-     * with string state in a typical &#8220;radio button&#8221; situation. Each button
+     * with string state in a typical &<code>#8220</code> radio button&<code>#8221</code>  situation. Each button
      * will be associated with the same action, but with a different target
      * value for that action. Clicking on a particular button will activate
      * the action with the target of that button, which will typically cause
-     * the action&#8217;s state to change to that value. Since the action&#8217;s state
+     * the action&<code>#8217</code> s state to change to that value. Since the action&<code>#8217</code> s state
      * is now equal to the target value of the button, the button will now
      * be rendered as active (and the other buttons, with different targets,
      * rendered inactive).
@@ -87,7 +87,7 @@ public interface Actionable extends io.github.jwharm.javagi.NativeAddress {
      * actionable widget.
      * 
      * @detailed_action_name is a string in the format accepted by
-     * {@link Gio#Action}.
+     * {@link Gio<code>#Action</code> .
      */
     public default void setDetailedActionName(java.lang.String detailedActionName) {
         gtk_h.gtk_actionable_set_detailed_action_name(handle(), Interop.allocateNativeString(detailedActionName).handle());

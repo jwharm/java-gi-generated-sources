@@ -9,12 +9,11 @@ import java.lang.invoke.*;
 
 /**
  * Objects that describe one or more potential socket endpoints
- * implement #GSocketConnectable. Callers can then use
- * g_socket_connectable_enumerate() to get a #GSocketAddressEnumerator
- * to try out each socket address in turn until one succeeds, as shown
+ * implement {@link org.gtk.gio.SocketConnectable}  Callers can then use
+ * g_socket_connectable_enumerate() to get a {@link org.gtk.gio.SocketAddressEnumerator} to try out each socket address in turn until one succeeds, as shown
  * in the sample code below.
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * MyConnectionType *
  * connect_to_host (const char    *hostname,
  *                  guint16        port,
@@ -32,11 +31,11 @@ import java.lang.invoke.*;
  *   g_object_unref (addr);
  * 
  *   // Try each sockaddr until we succeed. Record the first connection error,
- *   // but not any further ones (since they&#39;ll probably be basically the same
+ *   // but not any further ones (since they&<code>#39</code> ll probably be basically the same
  *   // as the first).
- *   while (!conn &#38;&#38; (sockaddr = g_socket_address_enumerator_next (enumerator, cancellable, error))
+ *   while (!conn &<code>#38</code> &<code>#38</code>  (sockaddr = g_socket_address_enumerator_next (enumerator, cancellable, error))
  *     {
- *       conn = connect_to_sockaddr (sockaddr, conn_error ? NULL : &#38;conn_error);
+ *       conn = connect_to_sockaddr (sockaddr, conn_error ? NULL : &<code>#38</code> conn_error);
  *       g_object_unref (sockaddr);
  *     }
  *   g_object_unref (enumerator);
@@ -45,7 +44,7 @@ import java.lang.invoke.*;
  *     {
  *       if (conn_error)
  *         {
- *           // We couldn&#39;t connect to the first address, but we succeeded
+ *           // We couldn&<code>#39</code> t connect to the first address, but we succeeded
  *           // in connecting to a later address.
  *           g_error_free (conn_error);
  *         }
@@ -69,7 +68,7 @@ import java.lang.invoke.*;
 public interface SocketConnectable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Creates a #GSocketAddressEnumerator for @connectable.
+     * Creates a {@link org.gtk.gio.SocketAddressEnumerator} for @connectable.
      */
     public default SocketAddressEnumerator enumerate() {
         var RESULT = gtk_h.g_socket_connectable_enumerate(handle());
@@ -77,8 +76,8 @@ public interface SocketConnectable extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Creates a #GSocketAddressEnumerator for @connectable that will
-     * return a #GProxyAddress for each of its addresses that you must connect
+     * Creates a {@link org.gtk.gio.SocketAddressEnumerator} for @connectable that will
+     * return a {@link org.gtk.gio.ProxyAddress} for each of its addresses that you must connect
      * to via a proxy.
      * 
      * If @connectable does not implement
@@ -91,13 +90,13 @@ public interface SocketConnectable extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Format a #GSocketConnectable as a string. This is a human-readable format for
+     * Format a {@link org.gtk.gio.SocketConnectable} as a string. This is a human-readable format for
      * use in debugging output, and is not a stable serialization format. It is not
      * suitable for use in user interfaces as it exposes too much information for a
      * user.
      * 
-     * If the #GSocketConnectable implementation does not support string formatting,
-     * the implementation&#8217;s type name will be returned as a fallback.
+     * If the {@link org.gtk.gio.SocketConnectable} implementation does not support string formatting,
+     * the implementation&<code>#8217</code> s type name will be returned as a fallback.
      */
     public default java.lang.String toString_() {
         var RESULT = gtk_h.g_socket_connectable_to_string(handle());

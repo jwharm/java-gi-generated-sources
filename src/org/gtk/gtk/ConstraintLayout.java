@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  * class to have a more in depth definition.
  * <p>
  * By taking multiple constraints and applying them to the children of
- * a widget using <code>GtkConstraintLayout</code>, it&#39;s possible to describe
+ * a widget using <code>GtkConstraintLayout</code>, it&<code>#39</code> s possible to describe
  * complex layout policies; each constraint applied to a child or to the parent
  * widgets contributes to the full description of the layout, in terms of
  * parameters for resolving the value of each attribute.
@@ -30,85 +30,85 @@ import java.lang.invoke.*;
  * without changing the remaining constraints may result in an unstable
  * or unsolvable layout.
  * <p>
- * Constraints have an implicit &#34;reading order&#34;; you should start describing
+ * Constraints have an implicit &<code>#34</code> reading order&<code>#34</code> ; you should start describing
  * each edge of each child, as well as their relationship with the parent
  * container, from the top left (or top right, in RTL languages), horizontally
  * first, and then vertically.
  * <p>
- * A constraint-based layout with too few constraints can become &#34;unstable&#34;,
+ * A constraint-based layout with too few constraints can become &<code>#34</code> unstable&<code>#34</code> ,
  * that is: have more than one solution. The behavior of an unstable layout
  * is undefined.
  * <p>
  * A constraint-based layout with conflicting constraints may be unsolvable,
  * and lead to an unstable layout. You can use the {@link [property@Gtk.Constraint:strength] (ref=property)}
- * property of {@link org.gtk.gtk.Constraint} to &#34;nudge&#34; the layout towards a solution.
+ * property of {@link org.gtk.gtk.Constraint} to &<code>#34</code> nudge&<code>#34</code>  the layout towards a solution.
  * <p>
  * <h3>GtkConstraintLayout as GtkBuildable</h3>
  * <p><code>GtkConstraintLayout</code> implements the {@link [iface@Gtk.Buildable] (ref=iface)} interface and
- * has a custom &#34;constraints&#34; element which allows describing constraints in
+ * has a custom &<code>#34</code> constraints&<code>#34</code>  element which allows describing constraints in
  * a {@link org.gtk.gtk.Builder} UI file.
  * <p>
  * An example of a UI definition fragment specifying a constraint:
  * <p><pre>xml
- *   &#60;object class=&#34;GtkConstraintLayout&#34;&#62;
- *     &#60;constraints&#62;
- *       &#60;constraint target=&#34;button&#34; target-attribute=&#34;start&#34;
- *                   relation=&#34;eq&#34;
- *                   source=&#34;super&#34; source-attribute=&#34;start&#34;
- *                   constant=&#34;12&#34;
- *                   strength=&#34;required&#34; /&#62;
- *       &#60;constraint target=&#34;button&#34; target-attribute=&#34;width&#34;
- *                   relation=&#34;ge&#34;
- *                   constant=&#34;250&#34;
- *                   strength=&#34;strong&#34; /&#62;
- *     &#60;/constraints&#62;
- *   &#60;/object&#62;
+ *   &<code>#60</code> object class=&<code>#34</code> GtkConstraintLayout&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> constraints&<code>#62</code> 
+ *       &<code>#60</code> constraint target=&<code>#34</code> button&<code>#34</code>  target-attribute=&<code>#34</code> start&<code>#34</code> 
+ *                   relation=&<code>#34</code> eq&<code>#34</code> 
+ *                   source=&<code>#34</code> super&<code>#34</code>  source-attribute=&<code>#34</code> start&<code>#34</code> 
+ *                   constant=&<code>#34</code> 12&<code>#34</code> 
+ *                   strength=&<code>#34</code> required&<code>#34</code>  /&<code>#62</code> 
+ *       &<code>#60</code> constraint target=&<code>#34</code> button&<code>#34</code>  target-attribute=&<code>#34</code> width&<code>#34</code> 
+ *                   relation=&<code>#34</code> ge&<code>#34</code> 
+ *                   constant=&<code>#34</code> 250&<code>#34</code> 
+ *                   strength=&<code>#34</code> strong&<code>#34</code>  /&<code>#62</code> 
+ *     &<code>#60</code> /constraints&<code>#62</code> 
+ *   &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
  * The definition above will add two constraints to the GtkConstraintLayout:
  * <p>
- *  - a required constraint between the leading edge of &#34;button&#34; and
+ *  - a required constraint between the leading edge of &<code>#34</code> button&<code>#34</code>  and
  *    the leading edge of the widget using the constraint layout, plus
  *    12 pixels
- *  - a strong, constant constraint making the width of &#34;button&#34; greater
+ *  - a strong, constant constraint making the width of &<code>#34</code> button&<code>#34</code>  greater
  *    than, or equal to 250 pixels
  * <p>
- * The &#34;target&#34; and &#34;target-attribute&#34; attributes are required.
+ * The &<code>#34</code> target&<code>#34</code>  and &<code>#34</code> target-attribute&<code>#34</code>  attributes are required.
  * <p>
- * The &#34;source&#34; and &#34;source-attribute&#34; attributes of the &#34;constraint&#34;
+ * The &<code>#34</code> source&<code>#34</code>  and &<code>#34</code> source-attribute&<code>#34</code>  attributes of the &<code>#34</code> constraint&<code>#34</code> 
  * element are optional; if they are not specified, the constraint is
  * assumed to be a constant.
  * <p>
- * The &#34;relation&#34; attribute is optional; if not specified, the constraint
+ * The &<code>#34</code> relation&<code>#34</code>  attribute is optional; if not specified, the constraint
  * is assumed to be an equality.
  * <p>
- * The &#34;strength&#34; attribute is optional; if not specified, the constraint
+ * The &<code>#34</code> strength&<code>#34</code>  attribute is optional; if not specified, the constraint
  * is assumed to be required.
  * <p>
- * The &#34;source&#34; and &#34;target&#34; attributes can be set to &#34;super&#34; to indicate
+ * The &<code>#34</code> source&<code>#34</code>  and &<code>#34</code> target&<code>#34</code>  attributes can be set to &<code>#34</code> super&<code>#34</code>  to indicate
  * that the constraint target is the widget using the GtkConstraintLayout.
  * <p>
- * There can be &#34;constant&#34; and &#34;multiplier&#34; attributes.
+ * There can be &<code>#34</code> constant&<code>#34</code>  and &<code>#34</code> multiplier&<code>#34</code>  attributes.
  * <p>
- * Additionally, the &#34;constraints&#34; element can also contain a description
+ * Additionally, the &<code>#34</code> constraints&<code>#34</code>  element can also contain a description
  * of the <code>GtkConstraintGuides</code> used by the layout:
  * <p><pre>xml
- *   &#60;constraints&#62;
- *     &#60;guide min-width=&#34;100&#34; max-width=&#34;500&#34; name=&#34;hspace&#34;/&#62;
- *     &#60;guide min-height=&#34;64&#34; nat-height=&#34;128&#34; name=&#34;vspace&#34; strength=&#34;strong&#34;/&#62;
- *   &#60;/constraints&#62;
+ *   &<code>#60</code> constraints&<code>#62</code> 
+ *     &<code>#60</code> guide min-width=&<code>#34</code> 100&<code>#34</code>  max-width=&<code>#34</code> 500&<code>#34</code>  name=&<code>#34</code> hspace&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> guide min-height=&<code>#34</code> 64&<code>#34</code>  nat-height=&<code>#34</code> 128&<code>#34</code>  name=&<code>#34</code> vspace&<code>#34</code>  strength=&<code>#34</code> strong&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /constraints&<code>#62</code> 
  * </pre>
  * <p>
- * The &#34;guide&#34; element has the following optional attributes:
+ * The &<code>#34</code> guide&<code>#34</code>  element has the following optional attributes:
  * <p>
- *   - &#34;min-width&#34;, &#34;nat-width&#34;, and &#34;max-width&#34;, describe the minimum,
+ *   - &<code>#34</code> min-width&<code>#34</code> , &<code>#34</code> nat-width&<code>#34</code> , and &<code>#34</code> max-width&<code>#34</code> , describe the minimum,
  *     natural, and maximum width of the guide, respectively
- *   - &#34;min-height&#34;, &#34;nat-height&#34;, and &#34;max-height&#34;, describe the minimum,
+ *   - &<code>#34</code> min-height&<code>#34</code> , &<code>#34</code> nat-height&<code>#34</code> , and &<code>#34</code> max-height&<code>#34</code> , describe the minimum,
  *     natural, and maximum height of the guide, respectively
- *   - &#34;strength&#34; describes the strength of the constraint on the natural
+ *   - &<code>#34</code> strength&<code>#34</code>  describes the strength of the constraint on the natural
  *     size of the guide; if not specified, the constraint is assumed to
  *     have a medium strength
- *   - &#34;name&#34; describes a name for the guide, useful when debugging
+ *   - &<code>#34</code> name&<code>#34</code>  describes a name for the guide, useful when debugging
  * <p>
  * <h3>Using the Visual Format Language</h3>
  * <p>
@@ -117,7 +117,7 @@ import java.lang.invoke.*;
  * <p>
  * The Visual Format Language describes all the constraints on a row or
  * column, typically starting from the leading edge towards the trailing
- * one. Each element of the layout is composed by &#34;views&#34;, which identify
+ * one. Each element of the layout is composed by &<code>#34</code> views&<code>#34</code> , which identify
  * a {@link [iface@Gtk.ConstraintTarget] (ref=iface)}.
  * <p>
  * For instance:
@@ -125,14 +125,14 @@ import java.lang.invoke.*;
  *   {@link [button]}-{@link [textField]}
  * </pre>
  * <p>
- * Describes a constraint that binds the trailing edge of &#34;button&#34; to the
- * leading edge of &#34;textField&#34;, leaving a default space between the two.
+ * Describes a constraint that binds the trailing edge of &<code>#34</code> button&<code>#34</code>  to the
+ * leading edge of &<code>#34</code> textField&<code>#34</code> , leaving a default space between the two.
  * <p>
  * Using VFL is also possible to specify predicates that describe constraints
  * on attributes like width and height:
  * <p><pre>
  *   // Width must be greater than, or equal to 50
- *   {@link [button(&#62;=50)]}
+ *   {@link [button(&<code>#62</code> =50)]}
  * 
  *   // Width of button1 must be equal to width of button2
  *   {@link [button1(==button2)]}
@@ -142,21 +142,21 @@ import java.lang.invoke.*;
  * otherwise specified:
  * <p><pre>
  *   // horizontal orientation, default attribute: width
- *   H:{@link [button(&#62;=150)]}
+ *   H:{@link [button(&<code>#62</code> =150)]}
  * 
  *   // vertical orientation, default attribute: height
  *   V:{@link [button1(==button2)]}
  * </pre>
  * <p>
- * It&#39;s also possible to specify multiple predicates, as well as their
+ * It&<code>#39</code> s also possible to specify multiple predicates, as well as their
  * strength:
  * <p><pre>
  *   // minimum width of button must be 150
  *   // natural width of button can be 250
- *   {@link [button(&#62;=150@required, ==250@medium)] (ref=button(&#62;=150)}
+ *   {@link [button(&<code>#62</code> =150@required, ==250@medium)] (ref=button(&<code>#62</code> =150)}
  * </pre>
  * <p>
- * Finally, it&#39;s also possible to use simple arithmetic operators:
+ * Finally, it&<code>#39</code> s also possible to use simple arithmetic operators:
  * <p><pre>
  *   // width of button1 must be equal to width of button2
  *   // divided by 2 plus 12
@@ -208,41 +208,41 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
     /**
      * Creates a list of constraints from a VFL description.
      * <p>
-     * The Visual Format Language, VFL, is based on Apple&#39;s AutoLayout {@link [VFL]}(https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html).
+     * The Visual Format Language, VFL, is based on Apple&<code>#39</code> s AutoLayout {@link [VFL]}(https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html).
      * <p>
      * The <code>views</code> dictionary is used to match {@link [iface@Gtk.ConstraintTarget] (ref=iface)}
      * instances to the symbolic view name inside the VFL.
      * <p>
      * The VFL grammar is:
      * <p><pre>
-     *        &#60;visualFormatString&#62; = (&#60;orientation&#62;)?
-     *                               (&#60;superview&#62;&#60;connection&#62;)?
-     *                               &#60;view&#62;(&#60;connection&#62;&#60;view&#62;)*
-     *                               (&#60;connection&#62;&#60;superview&#62;)?
-     *               &#60;orientation&#62; = &#39;H&#39; | &#39;V&#39;
-     *                 &#60;superview&#62; = &#39;|&#39;
-     *                &#60;connection&#62; = &#39;&#39; | &#39;-&#39; &#60;predicateList&#62; &#39;-&#39; | &#39;-&#39;
-     *             &#60;predicateList&#62; = &#60;simplePredicate&#62; | &#60;predicateListWithParens&#62;
-     *           &#60;simplePredicate&#62; = &#60;metricName&#62; | &#60;positiveNumber&#62;
-     *   &#60;predicateListWithParens&#62; = &#39;(&#39; &#60;predicate&#62; (&#39;,&#39; &#60;predicate&#62;)* &#39;)&#39;
-     *                 &#60;predicate&#62; = (&#60;relation&#62;)? &#60;objectOfPredicate&#62; (&#60;operatorList&#62;)? (&#39;@&#39; &#60;priority&#62;)?
-     *                  &#60;relation&#62; = &#39;==&#39; | &#39;&#60;=&#39; | &#39;&#62;=&#39;
-     *         &#60;objectOfPredicate&#62; = &#60;constant&#62; | &#60;viewName&#62; | (&#39;.&#39; &#60;attributeName&#62;)?
-     *                  &#60;priority&#62; = &#60;positiveNumber&#62; | &#39;required&#39; | &#39;strong&#39; | &#39;medium&#39; | &#39;weak&#39;
-     *                  &#60;constant&#62; = &#60;number&#62;
-     *              &#60;operatorList&#62; = (&#60;multiplyOperator&#62;)? (&#60;addOperator&#62;)?
-     *          &#60;multiplyOperator&#62; = {@link [ &#39;*&#39; | &#39;/&#39; ]} &#60;positiveNumber&#62;
-     *               &#60;addOperator&#62; = {@link [ &#39;+&#39; | &#39;-&#39; ]} &#60;positiveNumber&#62;
-     *                  &#60;viewName&#62; = {@link [A-Za-z_]}({@link [A-Za-z0-9_]}*) // A C identifier
-     *                &#60;metricName&#62; = {@link [A-Za-z_]}({@link [A-Za-z0-9_]}*) // A C identifier
-     *             &#60;attributeName&#62; = &#39;top&#39; | &#39;bottom&#39; | &#39;left&#39; | &#39;right&#39; | &#39;width&#39; | &#39;height&#39; |
-     *                               &#39;start&#39; | &#39;end&#39; | &#39;centerX&#39; | &#39;centerY&#39; | &#39;baseline&#39;
-     *            &#60;positiveNumber&#62; // A positive real number parseable by g_ascii_strtod()
-     *                    &#60;number&#62; // A real number parseable by g_ascii_strtod()
+     *        &<code>#60</code> visualFormatString&<code>#62</code>  = (&<code>#60</code> orientation&<code>#62</code> )?
+     *                               (&<code>#60</code> superview&<code>#62</code> &<code>#60</code> connection&<code>#62</code> )?
+     *                               &<code>#60</code> view&<code>#62</code> (&<code>#60</code> connection&<code>#62</code> &<code>#60</code> view&<code>#62</code> )*
+     *                               (&<code>#60</code> connection&<code>#62</code> &<code>#60</code> superview&<code>#62</code> )?
+     *               &<code>#60</code> orientation&<code>#62</code>  = &<code>#39</code> H&<code>#39</code>  | &<code>#39</code> V&<code>#39</code> 
+     *                 &<code>#60</code> superview&<code>#62</code>  = &<code>#39</code> |&<code>#39</code> 
+     *                &<code>#60</code> connection&<code>#62</code>  = &<code>#39</code> &<code>#39</code>  | &<code>#39</code> -&<code>#39</code>  &<code>#60</code> predicateList&<code>#62</code>  &<code>#39</code> -&<code>#39</code>  | &<code>#39</code> -&<code>#39</code> 
+     *             &<code>#60</code> predicateList&<code>#62</code>  = &<code>#60</code> simplePredicate&<code>#62</code>  | &<code>#60</code> predicateListWithParens&<code>#62</code> 
+     *           &<code>#60</code> simplePredicate&<code>#62</code>  = &<code>#60</code> metricName&<code>#62</code>  | &<code>#60</code> positiveNumber&<code>#62</code> 
+     *   &<code>#60</code> predicateListWithParens&<code>#62</code>  = &<code>#39</code> (&<code>#39</code>  &<code>#60</code> predicate&<code>#62</code>  (&<code>#39</code> ,&<code>#39</code>  &<code>#60</code> predicate&<code>#62</code> )* &<code>#39</code> )&<code>#39</code> 
+     *                 &<code>#60</code> predicate&<code>#62</code>  = (&<code>#60</code> relation&<code>#62</code> )? &<code>#60</code> objectOfPredicate&<code>#62</code>  (&<code>#60</code> operatorList&<code>#62</code> )? (&<code>#39</code> @&<code>#39</code>  &<code>#60</code> priority&<code>#62</code> )?
+     *                  &<code>#60</code> relation&<code>#62</code>  = &<code>#39</code> ==&<code>#39</code>  | &<code>#39</code> &<code>#60</code> =&<code>#39</code>  | &<code>#39</code> &<code>#62</code> =&<code>#39</code> 
+     *         &<code>#60</code> objectOfPredicate&<code>#62</code>  = &<code>#60</code> constant&<code>#62</code>  | &<code>#60</code> viewName&<code>#62</code>  | (&<code>#39</code> .&<code>#39</code>  &<code>#60</code> attributeName&<code>#62</code> )?
+     *                  &<code>#60</code> priority&<code>#62</code>  = &<code>#60</code> positiveNumber&<code>#62</code>  | &<code>#39</code> required&<code>#39</code>  | &<code>#39</code> strong&<code>#39</code>  | &<code>#39</code> medium&<code>#39</code>  | &<code>#39</code> weak&<code>#39</code> 
+     *                  &<code>#60</code> constant&<code>#62</code>  = &<code>#60</code> number&<code>#62</code> 
+     *              &<code>#60</code> operatorList&<code>#62</code>  = (&<code>#60</code> multiplyOperator&<code>#62</code> )? (&<code>#60</code> addOperator&<code>#62</code> )?
+     *          &<code>#60</code> multiplyOperator&<code>#62</code>  = {@link [ &<code>#39</code> *&<code>#39</code>  | &<code>#39</code> /&<code>#39</code>  ]} &<code>#60</code> positiveNumber&<code>#62</code> 
+     *               &<code>#60</code> addOperator&<code>#62</code>  = {@link [ &<code>#39</code> +&<code>#39</code>  | &<code>#39</code> -&<code>#39</code>  ]} &<code>#60</code> positiveNumber&<code>#62</code> 
+     *                  &<code>#60</code> viewName&<code>#62</code>  = {@link [A-Za-z_]}({@link [A-Za-z0-9_]}*) // A C identifier
+     *                &<code>#60</code> metricName&<code>#62</code>  = {@link [A-Za-z_]}({@link [A-Za-z0-9_]}*) // A C identifier
+     *             &<code>#60</code> attributeName&<code>#62</code>  = &<code>#39</code> top&<code>#39</code>  | &<code>#39</code> bottom&<code>#39</code>  | &<code>#39</code> left&<code>#39</code>  | &<code>#39</code> right&<code>#39</code>  | &<code>#39</code> width&<code>#39</code>  | &<code>#39</code> height&<code>#39</code>  |
+     *                               &<code>#39</code> start&<code>#39</code>  | &<code>#39</code> end&<code>#39</code>  | &<code>#39</code> centerX&<code>#39</code>  | &<code>#39</code> centerY&<code>#39</code>  | &<code>#39</code> baseline&<code>#39</code> 
+     *            &<code>#60</code> positiveNumber&<code>#62</code>  // A positive real number parseable by g_ascii_strtod()
+     *                    &<code>#60</code> number&<code>#62</code>  // A real number parseable by g_ascii_strtod()
      * </pre>
      * <p>
      * **Note**: The VFL grammar used by GTK is slightly different than the one
-     * defined by Apple, as it can use symbolic values for the constraint&#39;s
+     * defined by Apple, as it can use symbolic values for the constraint&<code>#39</code> s
      * strength instead of numeric values; additionally, GTK allows adding
      * simple arithmetic operations inside predicates.
      * <p>
@@ -252,7 +252,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      *   {@link [button]}-{@link [textField]}
      * 
      *   // Width constraint
-     *   {@link [button(&#62;=50)]}
+     *   {@link [button(&<code>#62</code> =50)]}
      * 
      *   // Connection to super view
      *   |-50-{@link [purpleBox]}-50-|
@@ -270,10 +270,10 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      *   {@link [button1(==button2)]}
      * 
      *   // Multiple predicates
-     *   {@link [flexibleButton(&#62;=70,&#60;=100)]}
+     *   {@link [flexibleButton(&<code>#62</code> =70,&<code>#60</code> =100)]}
      * 
      *   // A complete line of layout
-     *   |-{@link [find]}-{@link [findNext]}-{@link [findField(&#62;=20)]}-|
+     *   |-{@link [find]}-{@link [findNext]}-{@link [findField(&<code>#62</code> =20)]}-|
      * 
      *   // Operators
      *   {@link [button1(button2 / 3 + 50)]}

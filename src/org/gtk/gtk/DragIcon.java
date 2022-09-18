@@ -14,8 +14,8 @@ import java.lang.invoke.*;
  * and is destroyed when the drag ends.
  * 
  * To set up a drag icon and associate it with an ongoing drag operation,
- * use {@link Gtk#DragIcon} to get the icon for a drag. You can
- * then use it like any other widget and use {@link org.gtk.gtk.DragIcon#setChild}
+ * use {@link Gtk<code>#DragIcon</code>  to get the icon for a drag. You can
+ * then use it like any other widget and use {@link org.gtk.gtk.DragIcon<code>#setChild</code> 
  * to set whatever widget should be used for the drag icon.
  * 
  * Keep in mind that drag icons do not allow user input.
@@ -52,10 +52,10 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Supported types include strings, <code>GdkRGBA</code> and <code>GtkTextBuffer</code>.
      * If GTK does not know how to create a widget for a given value,
-     * it will return <code>NULL.
+     * it will return <code>null</code> 
      * <p>
-     * This</code> method is used to set the default drag icon on drag-and-drop
-     * operations started by <code>GtkDragSource</code>, so you don&#39;t need to set
+     * This method is used to set the default drag icon on drag-and-drop
+     * operations started by <code>GtkDragSource</code>, so you don&<code>#39</code> t need to set
      * a drag icon using this function there.
      */
     public static Widget createWidgetForValue(org.gtk.gobject.Value value) {

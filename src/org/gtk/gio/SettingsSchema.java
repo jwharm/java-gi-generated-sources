@@ -8,25 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GSettingsSchemaSource and #GSettingsSchema APIs provide a
+ * The {@link org.gtk.gio.SettingsSchemaSource} and {@link org.gtk.gio.SettingsSchema} APIs provide a
  * mechanism for advanced control over the loading of schemas and a
  * mechanism for introspecting their content.
  * 
  * Plugin loading systems that wish to provide plugins a way to access
  * settings face the problem of how to make the schemas for these
  * settings visible to GSettings.  Typically, a plugin will want to ship
- * the schema along with itself and it won&#39;t be installed into the
+ * the schema along with itself and it won&<code>#39</code> t be installed into the
  * standard system directories for schemas.
  * 
- * #GSettingsSchemaSource provides a mechanism for dealing with this by
- * allowing the creation of a new &#39;schema source&#39; from which schemas can
+ * {@link org.gtk.gio.SettingsSchemaSource} provides a mechanism for dealing with this by
+ * allowing the creation of a new &<code>#39</code> schema source&<code>#39</code>  from which schemas can
  * be acquired.  This schema source can then become part of the metadata
  * associated with the plugin and queried whenever the plugin requires
  * access to some settings.
  * 
  * Consider the following example:
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * typedef struct
  * {
  *    ...
@@ -41,7 +41,7 @@ import java.lang.invoke.*;
  * 
  *   ...
  * 
- *   plugin-&#62;schema_source =
+ *   plugin-&<code>#62</code> schema_source =
  *     g_settings_schema_source_new_from_directory (dir,
  *       g_settings_schema_source_get_default (), FALSE, NULL);
  * 
@@ -59,9 +59,9 @@ import java.lang.invoke.*;
  *   GSettingsSchema *schema;
  * 
  *   if (schema_id == NULL)
- *     schema_id = plugin-&#62;identifier;
+ *     schema_id = plugin-&<code>#62</code> identifier;
  * 
- *   schema = g_settings_schema_source_lookup (plugin-&#62;schema_source,
+ *   schema = g_settings_schema_source_lookup (plugin-&<code>#62</code> schema_source,
  *                                             schema_id, FALSE);
  * 
  *   if (schema == NULL)
@@ -83,18 +83,18 @@ import java.lang.invoke.*;
  * ships a gschemas.compiled file as part of itself, and then simply do
  * the following:
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * {
  *   GSettings *settings;
  *   gint some_value;
  * 
  *   settings = plugin_get_settings (self, NULL);
- *   some_value = g_settings_get_int (settings, &#34;some-value&#34;);
+ *   some_value = g_settings_get_int (settings, &<code>#34</code> some-value&<code>#34</code> );
  *   ...
  * }
  * ]}|
  * 
- * It&#39;s also possible that the plugin system expects the schema source
+ * It&<code>#39</code> s also possible that the plugin system expects the schema source
  * files (ie: .gschema.xml files) instead of a gschemas.compiled file.
  * In that case, the plugin loading system must compile the schemas for
  * itself before attempting to create the settings source.
@@ -125,21 +125,15 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the path associated with @schema, or <code>NULL.
+     * Gets the path associated with @schema, or <code>null</code> 
      * 
-     * Schemas</code> may be single-instance or relocatable.  Single-instance
+     * Schemas may be single-instance or relocatable.  Single-instance
      * schemas correspond to exactly one set of keys in the backend
      * database: those located at the path returned by this function.
      * 
      * Relocatable schemas can be referenced by other schemas and can
      * therefore describe multiple sets of keys at different locations.  For
-     * relocatable schemas, this function will return may be single-instance or relocatable.  Single-instance
-     * schemas correspond to exactly one set of keys in the backend
-     * database: those located at the path returned by this function.
-     * 
-     * Relocatable schemas can be referenced by other schemas and can
-     * therefore describe multiple sets of keys at different locations.  For
-     * relocatable schemas, this function will return %NULL.
+     * relocatable schemas, this function will return <code>null</code>
      */
     public java.lang.String getPath() {
         var RESULT = gtk_h.g_settings_schema_get_path(handle());

@@ -8,25 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GAction represents a single named action.
+ * {@link org.gtk.gio.Action} represents a single named action.
  * 
  * The main interface to an action is that it can be activated with
- * g_action_activate().  This results in the &#39;activate&#39; signal being
- * emitted.  An activation has a #GVariant parameter (which may be
- * <code>NULL).</code>  The correct type for the parameter is determined by a static
+ * g_action_activate().  This results in the &<code>#39</code> activate&<code>#39</code>  signal being
+ * emitted.  An activation has a {@link org.gtk.glib.Variant} parameter (which may be
+ * <code>null</code> .  The correct type for the parameter is determined by a static
  * parameter type (which is given at construction time).
  * 
  * An action may optionally have a state, in which case the state may be
- * set with g_action_change_state().  This call takes a #GVariant.  The
+ * set with g_action_change_state().  This call takes a {@link org.gtk.glib.Variant}   The
  * correct type for the state is determined by a static state type
  * (which is given at construction time).
  * 
  * The state may have a hint associated with it, specifying its valid
  * range.
  * 
- * #GAction is merely the interface to the concept of an action, as
+ * {@link org.gtk.gio.Action} is merely the interface to the concept of an action, as
  * described above.  Various implementations of actions exist, including
- * #GSimpleAction.
+ * {@link org.gtk.gio.SimpleAction} 
  * 
  * In all cases, the implementing class is responsible for storing the
  * name of the action, the parameter type, the enabled state, the
@@ -35,8 +35,8 @@ import java.lang.invoke.*;
  * calls to g_action_activate() and g_action_change_state() for type
  * safety and for the state being enabled.
  * 
- * Probably the only useful thing to do with a #GAction is to put it
- * inside of a #GSimpleActionGroup.
+ * Probably the only useful thing to do with a {@link org.gtk.gio.Action} is to put it
+ * inside of a {@link org.gtk.gio.SimpleActionGroup}
  */
 public interface Action extends io.github.jwharm.javagi.NativeAddress {
 
@@ -45,9 +45,9 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * 
      * @parameter must be the correct type of parameter for the action (ie:
      * the parameter type given at construction time).  If the parameter
-     * type was <code>null</code> then @parameter must also be <code>NULL.
+     * type was <code>null</code> then @parameter must also be <code>null</code> 
      * 
-     * If</code> the @parameter GVariant is floating, it is consumed.
+     * If the @parameter GVariant is floating, it is consumed.
      */
     public default void activate(org.gtk.glib.Variant parameter) {
         gtk_h.g_action_activate(handle(), parameter.handle());
@@ -92,11 +92,10 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * Queries the type of the parameter that must be given when activating
      * @action.
      * 
-     * When activating the action using g_action_activate(), the #GVariant
-     * given to that function must be of the type returned by this function.
+     * When activating the action using g_action_activate(), the {@link org.gtk.glib.Variant} given to that function must be of the type returned by this function.
      * 
-     * In the case that this function returns <code>NULL,</code> you must not give any
-     * #GVariant, but <code>null</code> instead.
+     * In the case that this function returns <code>null</code>  you must not give any
+     * {@link org.gtk.glib.Variant}  but <code>null</code> instead.
      */
     public default org.gtk.glib.VariantType getParameterType() {
         var RESULT = gtk_h.g_action_get_parameter_type(handle());
@@ -110,7 +109,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * action is stateful then the type of the return value is the type
      * given by g_action_get_state_type().
      * 
-     * The return value (if non-<code>NULL)</code> should be freed with
+     * The return value (if non-<code>null</code>  should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getState() {
@@ -126,8 +125,8 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * or that there is no hint about the valid range of values for the
      * state of the action.
      * 
-     * If a #GVariant array is returned then each item in the array is a
-     * possible value for the state.  If a #GVariant pair (ie: two-tuple) is
+     * If a {@link org.gtk.glib.Variant} array is returned then each item in the array is a
+     * possible value for the state.  If a {@link org.gtk.glib.Variant} pair (ie: two-tuple) is
      * returned then the tuple specifies the inclusive lower and upper bound
      * of valid values for the state.
      * 
@@ -135,7 +134,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * have a state value outside of the hinted range and setting a value
      * within the range may fail.
      * 
-     * The return value (if non-<code>NULL)</code> should be freed with
+     * The return value (if non-<code>null</code>  should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getStateHint() {
@@ -148,13 +147,13 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * 
      * If the action is stateful (e.g. created with
      * g_simple_action_new_stateful()) then this function returns the
-     * #GVariantType of the state.  This is the type of the initial value
+     * {@link org.gtk.glib.VariantType} of the state.  This is the type of the initial value
      * given as the state. All calls to g_action_change_state() must give a
-     * #GVariant of this type and g_action_get_state() will return a
-     * #GVariant of the same type.
+     * {@link org.gtk.glib.Variant} of this type and g_action_get_state() will return a
+     * {@link org.gtk.glib.Variant} of the same type.
      * 
      * If the action is not stateful (e.g. created with g_simple_action_new())
-     * then this function will return <code>NULL.</code> In that case, g_action_get_state()
+     * then this function will return <code>null</code>  In that case, g_action_get_state()
      * will return <code>null</code> and you must not call g_action_change_state().
      */
     public default org.gtk.glib.VariantType getStateType() {
@@ -166,19 +165,10 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * Checks if @action_name is valid.
      * 
      * @action_name is valid if it consists only of alphanumeric characters,
-     * plus &#39;-&#39; and &#39;.&#39;.  The empty string is not a valid action name.
+     * plus &<code>#39</code> -&<code>#39</code>  and &<code>#39</code> .&<code>#39</code> .  The empty string is not a valid action name.
      * 
      * It is an error to call this function with a non-utf8 @action_name.
-     * @action_name must not be 
-     *       
-     *       
-     *         Checks if @action_name is valid.
-     * 
-     * @action_name is valid if it consists only of alphanumeric characters,
-     * plus &#39;-&#39; and &#39;.&#39;.  The empty string is not a valid action name.
-     * 
-     * It is an error to call this function with a non-utf8 @action_name.
-     * @action_name must not be %NULL.
+     * @action_name must not be <code>null</code>
      */
     public static boolean nameIsValid(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_name_is_valid(Interop.allocateNativeString(actionName).handle());
@@ -193,23 +183,23 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * 
      * The first format is used to represent an action name with no target
      * value and consists of just an action name containing no whitespace
-     * nor the characters &#39;:&#39;, &#39;(&#39; or &#39;)&#39;.  For example: &#34;app.action&#34;.
+     * nor the characters &<code>#39</code> :&<code>#39</code> , &<code>#39</code> (&<code>#39</code>  or &<code>#39</code> )&<code>#39</code> .  For example: &<code>#34</code> app.action&<code>#34</code> .
      * 
      * The second format is used to represent an action with a target value
-     * that is a non-empty string consisting only of alphanumerics, plus &#39;-&#39;
-     * and &#39;.&#39;.  In that case, the action name and target value are
-     * separated by a double colon (&#34;::&#34;).  For example:
-     * &#34;app.action::target&#34;.
+     * that is a non-empty string consisting only of alphanumerics, plus &<code>#39</code> -&<code>#39</code> 
+     * and &<code>#39</code> .&<code>#39</code> .  In that case, the action name and target value are
+     * separated by a double colon (&<code>#34</code> ::&<code>#34</code> ).  For example:
+     * &<code>#34</code> app.action::target&<code>#34</code> .
      * 
      * The third format is used to represent an action with any type of
      * target value, including strings.  The target value follows the action
-     * name, surrounded in parens.  For example: &#34;app.action(42)&#34;.  The
+     * name, surrounded in parens.  For example: &<code>#34</code> app.action(42)&<code>#34</code> .  The
      * target value is parsed using g_variant_parse().  If a tuple-typed
      * value is desired, it must be specified in the same way, resulting in
-     * two sets of parens, for example: &#34;app.action((1,2,3))&#34;.  A string
-     * target can be specified this way as well: &#34;app.action(&#39;target&#39;)&#34;.
+     * two sets of parens, for example: &<code>#34</code> app.action((1,2,3))&<code>#34</code> .  A string
+     * target can be specified this way as well: &<code>#34</code> app.action(&<code>#39</code> target&<code>#39</code> )&<code>#34</code> .
      * For strings, this third format must be used if * target value is
-     * empty or contains characters other than alphanumerics, &#39;-&#39; and &#39;.&#39;.
+     * empty or contains characters other than alphanumerics, &<code>#39</code> -&<code>#39</code>  and &<code>#39</code> .&<code>#39</code> .
      */
     public static boolean parseDetailedName(java.lang.String detailedName, java.lang.String[] actionName, org.gtk.glib.Variant[] targetValue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * #GDataStreamByteOrder is used to ensure proper endianness of streaming data sources
+ * {@link org.gtk.gio.DataStreamByteOrder} is used to ensure proper endianness of streaming data sources
  * across various machine architectures.
  */
 public enum DataStreamByteOrder {
@@ -17,7 +17,7 @@ public enum DataStreamByteOrder {
     LITTLE_ENDIAN,
     
     /**
-     * Selects endianness based on host machine&#39;s architecture.
+     * Selects endianness based on host machine&<code>#39</code> s architecture.
      */
     HOST_ENDIAN;
     

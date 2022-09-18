@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GSimpleActionGroup is a hash table filled with #GAction objects,
- * implementing the #GActionGroup and #GActionMap interfaces.
+ * {@link org.gtk.gio.SimpleActionGroup} is a hash table filled with {@link org.gtk.gio.Action} objects,
+ * implementing the {@link org.gtk.gio.ActionGroup} and {@link org.gtk.gio.ActionMap} interfaces.
  */
 public class SimpleActionGroup extends org.gtk.gobject.Object implements ActionGroup, ActionMap {
 
@@ -28,7 +28,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements ActionG
     }
     
     /**
-     * Creates a new, empty, #GSimpleActionGroup.
+     * Creates a new, empty, {@link org.gtk.gio.SimpleActionGroup}
      */
     public SimpleActionGroup() {
         super(constructNew());

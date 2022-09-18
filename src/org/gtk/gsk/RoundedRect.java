@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * A rectangular region with rounded corners.
  * <p>
  * Application code should normalize rectangles using
- * {@link org.gtk.gsk.RoundedRect#normalize}; this function will ensure that
+ * {@link org.gtk.gsk.RoundedRect<code>#normalize</code> ; this function will ensure that
  * the bounds of the rectangle are normalized and ensure that the corner
  * values are positive and the corners do not overlap.
  * <p>
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  * will always return a normalized one.
  * 
  * The algorithm used for normalizing corner sizes is described in
- * {@link [the CSS specification]}(https://drafts.csswg.org/css-backgrounds-3/#border-radius).
+ * {@link [the CSS specification]}(https://drafts.csswg.org/css-backgrounds-3/<code>#border</code> radius).
  */
 public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
 
@@ -108,7 +108,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Offsets the bound&#39;s origin by @dx and @dy.
+     * Offsets the bound&<code>#39</code> s origin by @dx and @dy.
      * 
      * The size and corners of the rectangle are unchanged.
      */

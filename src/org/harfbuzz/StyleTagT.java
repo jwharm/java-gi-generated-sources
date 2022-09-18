@@ -7,7 +7,7 @@ public enum StyleTagT {
 
     /**
      * Used to vary between non-italic and italic.
-     * A value of 0 can be interpreted as &#34;Roman&#34; (non-italic); a value of 1 can
+     * A value of 0 can be interpreted as &<code>#34</code> Roman&<code>#34</code>  (non-italic); a value of 1 can
      * be interpreted as (fully) italic.
      */
     ITALIC,
@@ -36,7 +36,7 @@ public enum StyleTagT {
     /**
      * Used to vary width of text from narrower to wider.
      * Non-zero. Values can be interpreted as a percentage of whatever the font
-     * designer considers &#8220;normal width&#8221; for that font design.
+     * designer considers &<code>#8220</code> normal width&<code>#8221</code>  for that font design.
      */
     WIDTH,
     

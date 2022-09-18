@@ -2,14 +2,7 @@ package org.gtk.glib;
 
 /**
  * The possible errors, used in the @v_error field
- * of #GTokenValue, when the token is a 
- *           
- *         
- *       
- *     
- *     
- *       The possible errors, used in the @v_error field
- * of #GTokenValue, when the token is a %G_TOKEN_ERROR.
+ * of {@link org.gtk.glib.TokenValue}  when the token is a {@link org.gtk.glib.TokenType<code>#ERROR</code>
  */
 public enum ErrorType {
 

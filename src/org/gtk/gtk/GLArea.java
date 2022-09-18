@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  * virtual function.
  * <p>
  * The <code>GtkGLArea</code> widget ensures that the <code>GdkGLContext</code> is associated with
- * the widget&#39;s drawing area, and it is kept updated when the size and
+ * the widget&<code>#39</code> s drawing area, and it is kept updated when the size and
  * position of the drawing area changes.
  * <p>
  * <h2>Drawing with GtkGLArea</h2>
@@ -34,7 +34,7 @@ import java.lang.invoke.*;
  * static gboolean
  * render (GtkGLArea *area, GdkGLContext *context)
  * {
- *   // inside this function it&#39;s safe to use GL; the given
+ *   // inside this function it&<code>#39</code> s safe to use GL; the given
  *   // GdkGLContext has been made current to the drawable
  *   // surface used by the <code>GtkGLArea</code> and the viewport has
  *   // already been set to be the size of the allocation
@@ -57,8 +57,8 @@ import java.lang.invoke.*;
  *   // create a GtkGLArea instance
  *   GtkWidget *gl_area = gtk_gl_area_new ();
  * <p>
- *   // connect to the &#34;render&#34; signal
- *   g_signal_connect (gl_area, &#34;render&#34;, G_CALLBACK (render), NULL);
+ *   // connect to the &<code>#34</code> render&<code>#34</code>  signal
+ *   g_signal_connect (gl_area, &<code>#34</code> render&<code>#34</code> , G_CALLBACK (render), NULL);
  * }
  * </pre>
  * <p>
@@ -66,7 +66,7 @@ import java.lang.invoke.*;
  * shaders, you should use the {@link [signal@Gtk.Widget::realize] (ref=signal)} signal;
  * you can use the {@link [signal@Gtk.Widget::unrealize] (ref=signal)} signal to clean up.
  * Since the <code>GdkGLContext</code> creation and initialization may fail, you
- * will need to check for errors, using {@link org.gtk.gtk.GLArea#getError}.
+ * will need to check for errors, using {@link org.gtk.gtk.GLArea<code>#getError</code> .
  * <p>
  * An example of how to safely initialize the GL state is:
  * <p><pre>c
@@ -87,7 +87,7 @@ import java.lang.invoke.*;
  *   // to show eventual initialization errors on the
  *   // GtkGLArea widget itself
  *   GError *internal_error = NULL;
- *   init_buffer_objects (&#38;error);
+ *   init_buffer_objects (&<code>#38</code> error);
  *   if (error != NULL)
  *     {
  *       gtk_gl_area_set_error (area, error);
@@ -95,7 +95,7 @@ import java.lang.invoke.*;
  *       return;
  *     }
  * <p>
- *   init_shaders (&#38;error);
+ *   init_shaders (&<code>#38</code> error);
  *   if (error != NULL)
  *     {
  *       gtk_gl_area_set_error (area, error);
@@ -139,7 +139,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * are created and bound to the framebuffer.
      * 
      * This function is automatically called before emitting the
-     * {@link [signal@Gtk.GLArea::render] (ref=signal)} signal, and doesn&#39;t normally need to be
+     * {@link [signal@Gtk.GLArea::render] (ref=signal)} signal, and doesn&<code>#39</code> t normally need to be
      * called by application code.
      */
     public void attachBuffers() {
@@ -189,7 +189,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Returns whether the <code>GtkGLArea</code> should use OpenGL ES.
      * 
-     * See {@link org.gtk.gtk.GLArea#setUseEs}.
+     * See {@link org.gtk.gtk.GLArea<code>#setUseEs</code> .
      */
     public boolean getUseEs() {
         var RESULT = gtk_h.gtk_gl_area_get_use_es(handle());
@@ -201,7 +201,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * the <code>GtkGLArea</code>.
      * 
      * This function is automatically called before emitting the
-     * {@link [signal@Gtk.GLArea::render] (ref=signal)} signal, and doesn&#39;t normally need
+     * {@link [signal@Gtk.GLArea::render] (ref=signal)} signal, and doesn&<code>#39</code> t normally need
      * to be called by application code.
      */
     public void makeCurrent() {
@@ -215,7 +215,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * This ensures that the {@link [signal@Gtk.GLArea::render] (ref=signal)} signal
      * is emitted during the draw.
      * 
-     * This is only needed when {@link org.gtk.gtk.GLArea#setAutoRender} has
+     * This is only needed when {@link org.gtk.gtk.GLArea<code>#setAutoRender</code>  has
      * been called with a <code>false</code> value. The default behaviour is to
      * emit {@link [signal@Gtk.GLArea::render] (ref=signal)} on each draw.
      */
@@ -233,7 +233,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * If @auto_render is <code>false</code> the data from previous rendering is kept
      * around and will be used for drawing the widget the next time,
      * unless the window is resized. In order to force a rendering
-     * {@link org.gtk.gtk.GLArea#queueRender} must be called. This mode is
+     * {@link org.gtk.gtk.GLArea<code>#queueRender</code>  must be called. This mode is
      * useful when the scene changes seldom, but takes a long time to redraw.
      */
     public void setAutoRender(boolean autoRender) {
@@ -306,7 +306,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * or if you want to try creating different kinds of GL options.
      * 
      * If context creation fails then the signal handler can use
-     * {@link org.gtk.gtk.GLArea#setError} to register a more detailed error
+     * {@link org.gtk.gtk.GLArea<code>#setError</code>  to register a more detailed error
      * of how the construction failed.
      */
     public SignalHandle onCreateContext(CreateContextHandler handler) {

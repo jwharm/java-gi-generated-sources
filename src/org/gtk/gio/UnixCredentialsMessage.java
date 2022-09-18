@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This #GSocketControlMessage contains a #GCredentials instance.  It
+ * This {@link org.gtk.gio.SocketControlMessage} contains a {@link org.gtk.gio.Credentials} instance.  It
  * may be sent using g_socket_send_message() and received using
  * g_socket_receive_message() over UNIX sockets (ie: sockets in the
- * {@link org.gtk.gio.SocketFamily#UNIX} family).
+ * {@link org.gtk.gio.SocketFamily<code>#UNIX</code>  family).
  * <p>
  * For an easier way to send and receive credentials over
  * stream-oriented UNIX sockets, see
@@ -20,11 +20,11 @@ import java.lang.invoke.*;
  * a foreign process connected to a socket, use
  * g_socket_get_credentials().
  * <p>
- * Since GLib 2.72, #GUnixCredentialMessage is available on all platforms. It
+ * Since GLib 2.72, <code>#GUnixCredentialMessage</code> is available on all platforms. It
  * requires underlying system support (such as Windows 10 with <code>AF_UNIX</code>) at run
  * time.
  * <p>
- * Before GLib 2.72, <code>&#60;gio/gunixcredentialsmessage.h&#62;</code> belonged to the UNIX-specific
+ * Before GLib 2.72, <code>&<code>#60</code> gio/gunixcredentialsmessage.h&<code>#62</code> </code> belonged to the UNIX-specific
  * GIO interfaces, thus you had to use the <code>gio-unix-2.0.pc</code> pkg-config file
  * when using it. This is no longer necessary since GLib 2.72.
  */
@@ -45,7 +45,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
     }
     
     /**
-     * Creates a new #GUnixCredentialsMessage with credentials matching the current processes.
+     * Creates a new {@link org.gtk.gio.UnixCredentialsMessage} with credentials matching the current processes.
      */
     public UnixCredentialsMessage() {
         super(constructNew());
@@ -57,7 +57,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
     }
     
     /**
-     * Creates a new #GUnixCredentialsMessage holding @credentials.
+     * Creates a new {@link org.gtk.gio.UnixCredentialsMessage} holding @credentials.
      */
     public static UnixCredentialsMessage newWithCredentials(Credentials credentials) {
         return new UnixCredentialsMessage(constructNewWithCredentials(credentials));
@@ -72,7 +72,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
     }
     
     /**
-     * Checks if passing #GCredentials on a #GSocket is supported on this platform.
+     * Checks if passing {@link org.gtk.gio.Credentials} on a {@link org.gtk.gio.Socket} is supported on this platform.
      */
     public static boolean isSupported() {
         var RESULT = gtk_h.g_unix_credentials_message_is_supported();

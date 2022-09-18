@@ -6,7 +6,7 @@ package org.gtk.gio;
  * used by a directory.
  * 
  * These calls are made on a best-effort basis and not all types of
- * #GFile will support them.  At the minimum, however, one call will
+ * {@link org.gtk.gio.File} will support them.  At the minimum, however, one call will
  * always be made immediately.
  * 
  * In the case that there is no support, @reporting will be set to
@@ -21,9 +21,9 @@ package org.gtk.gio;
  * final async result would be reported).
  * 
  * @current_size is in the same units as requested by the operation (see
- * <code>G_FILE_MEASURE_APPARENT_SIZE).
+ * {@link org.gtk.gio.FileMeasureFlags<code>#APPARENT_SIZE</code>  .
  * 
- * The</code> frequency of the updates is implementation defined, but is
+ * The frequency of the updates is implementation defined, but is
  * ideally about once every 200ms.
  * 
  * The last progress callback may or may not be equal to the final

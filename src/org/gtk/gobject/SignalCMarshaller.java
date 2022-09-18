@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * arrays of parameter values to signal emissions into C language callback
  * invocations.
  * 
- * It is merely an alias to #GClosureMarshal since the #GClosure mechanism
+ * It is merely an alias to {@link org.gtk.gobject.ClosureMarshal} since the {@link org.gtk.gobject.Closure} mechanism
  * takes over responsibility of actual function invocation for the signal
  * system.
  */

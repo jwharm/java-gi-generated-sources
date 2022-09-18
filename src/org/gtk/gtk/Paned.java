@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * by dragging a handle.
  * <p>
  * Child widgets are added to the panes of the widget with
- * {@link org.gtk.gtk.Paned#setStartChild} and {@link org.gtk.gtk.Paned#setEndChild}.
+ * {@link org.gtk.gtk.Paned<code>#setStartChild</code>  and {@link org.gtk.gtk.Paned<code>#setEndChild</code> .
  * The division between the two children is set by default from the size
  * requests of the children, but it can be adjusted by the user.
  * <p>
@@ -27,23 +27,23 @@ import java.lang.invoke.*;
  * each child inside a {@link org.gtk.gtk.Frame} so that the gutter appears as a
  * ridge. No separator is drawn if one of the children is missing.
  * <p>
- * Each child has two options that can be set, &#34;resize&#34; and &#34;shrink&#34;. If
- * &#34;resize&#34; is true then, when the <code>GtkPaned</code> is resized, that child will
- * expand or shrink along with the paned widget. If &#34;shrink&#34; is true, then
+ * Each child has two options that can be set, &<code>#34</code> resize&<code>#34</code>  and &<code>#34</code> shrink&<code>#34</code> . If
+ * &<code>#34</code> resize&<code>#34</code>  is true then, when the <code>GtkPaned</code> is resized, that child will
+ * expand or shrink along with the paned widget. If &<code>#34</code> shrink&<code>#34</code>  is true, then
  * that child can be made smaller than its requisition by the user.
- * Setting &#34;shrink&#34; to false allows the application to set a minimum size.
- * If &#34;resize&#34; is false for both children, then this is treated as if
- * &#34;resize&#34; is true for both children.
+ * Setting &<code>#34</code> shrink&<code>#34</code>  to false allows the application to set a minimum size.
+ * If &<code>#34</code> resize&<code>#34</code>  is false for both children, then this is treated as if
+ * &<code>#34</code> resize&<code>#34</code>  is true for both children.
  * <p>
  * The application can set the position of the slider as if it were set
- * by the user, by calling {@link org.gtk.gtk.Paned#setPosition}.
+ * by the user, by calling {@link org.gtk.gtk.Paned<code>#setPosition</code> .
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * paned
- * &#9500;&#9472;&#9472; &#60;child&#62;
- * &#9500;&#9472;&#9472; separator{@link [.wide]}
- * &#9584;&#9472;&#9472; &#60;child&#62;
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  separator{@link [.wide]}
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
  * </pre>
  * <p><code>GtkPaned</code> has a main CSS node with name paned, and a subnode for
  * the separator with name separator. The subnode gets a .wide style
@@ -231,8 +231,8 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default binding for this signal is &#60;kbd&#62;Return&#60;/kbd&#62; or
-     * &#60;kbd&#62;Space&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Return&<code>#60</code> /kbd&<code>#62</code>  or
+     * &<code>#60</code> kbd&<code>#62</code> Space&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onAcceptPosition(AcceptPositionHandler handler) {
         try {
@@ -263,7 +263,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default binding for this signal is &#60;kbd&#62;Escape&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Escape&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onCancelPosition(CancelPositionHandler handler) {
         try {
@@ -290,7 +290,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default binding is &#60;kbd&#62;F6&#60;/kbd&#62;.
+     * The default binding is &<code>#60</code> kbd&<code>#62</code> F6&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onCycleChildFocus(CycleChildFocusHandler handler) {
         try {
@@ -318,7 +318,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default binding for this signal is &#60;kbd&#62;F8&#60;/kbd&#62;.
+     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> F8&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onCycleHandleFocus(CycleHandleFocusHandler handler) {
         try {
@@ -371,7 +371,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * 
      * This is a {@link [keybinding signal]}(class.SignalAction.html).
      * 
-     * The default binding is &#60;kbd&#62;Tab&#60;/kbd&#62;.
+     * The default binding is &<code>#60</code> kbd&<code>#62</code> Tab&<code>#60</code> /kbd&<code>#62</code> .
      */
     public SignalHandle onToggleHandleFocus(ToggleHandleFocusHandler handler) {
         try {

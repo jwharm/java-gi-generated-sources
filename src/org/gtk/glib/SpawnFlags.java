@@ -11,7 +11,7 @@ public class SpawnFlags {
     public static final int DEFAULT = 0;
     
     /**
-     * the parent&#39;s open file descriptors will
+     * the parent&<code>#39</code> s open file descriptors will
      *     be inherited by the child; otherwise all descriptors except stdin,
      *     stdout and stderr will be closed before calling exec() in the child.
      */
@@ -26,24 +26,24 @@ public class SpawnFlags {
     
     /**
      * <code>argv{@link [0]}</code> need not be an absolute path, it will be
-     *     looked for in the user&#39;s <code>PATH</code>.
+     *     looked for in the user&<code>#39</code> s <code>PATH</code>.
      */
     public static final int SEARCH_PATH = 4;
     
     /**
-     * the child&#39;s standard output will be discarded,
-     *     instead of going to the same location as the parent&#39;s standard output.
+     * the child&<code>#39</code> s standard output will be discarded,
+     *     instead of going to the same location as the parent&<code>#39</code> s standard output.
      */
     public static final int STDOUT_TO_DEV_NULL = 8;
     
     /**
-     * the child&#39;s standard error will be discarded.
+     * the child&<code>#39</code> s standard error will be discarded.
      */
     public static final int STDERR_TO_DEV_NULL = 16;
     
     /**
-     * the child will inherit the parent&#39;s standard
-     *     input (by default, the child&#39;s standard input is attached to <code>/dev/null</code>).
+     * the child will inherit the parent&<code>#39</code> s standard
+     *     input (by default, the child&<code>#39</code> s standard input is attached to <code>/dev/null</code>).
      */
     public static final int CHILD_INHERITS_STDIN = 32;
     

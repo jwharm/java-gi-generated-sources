@@ -65,25 +65,25 @@ import java.lang.invoke.*;
  *   model = create_application_list ();
  * <p>
  *   factory = gtk_signal_list_item_factory_new ();
- *   g_signal_connect (factory, &#34;setup&#34;, G_CALLBACK (setup_listitem_cb), NULL);
- *   g_signal_connect (factory, &#34;bind&#34;, G_CALLBACK (bind_listitem_cb), NULL);
+ *   g_signal_connect (factory, &<code>#34</code> setup&<code>#34</code> , G_CALLBACK (setup_listitem_cb), NULL);
+ *   g_signal_connect (factory, &<code>#34</code> bind&<code>#34</code> , G_CALLBACK (bind_listitem_cb), NULL);
  * <p>
  *   list = gtk_list_view_new (GTK_SELECTION_MODEL (gtk_single_selection_new (model)), factory);
  * <p>
- *   g_signal_connect (list, &#34;activate&#34;, G_CALLBACK (activate_cb), NULL);
+ *   g_signal_connect (list, &<code>#34</code> activate&<code>#34</code> , G_CALLBACK (activate_cb), NULL);
  * <p>
  *   gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (sw), list);
  * </pre>
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * listview{@link [.separators]}{@link [.rich-list]}{@link [.navigation-sidebar]}{@link [.data-table]}
- * &#9500;&#9472;&#9472; row{@link [.activatable]}
- * &#9474;
- * &#9500;&#9472;&#9472; row{@link [.activatable]}
- * &#9474;
- * &#9482;
- * &#9584;&#9472;&#9472; {@link [rubberband]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  row{@link [.activatable]}
+ * &<code>#9474</code> 
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  row{@link [.activatable]}
+ * &<code>#9474</code> 
+ * &<code>#9482</code> 
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [rubberband]}
  * </pre>
  * <p><code>GtkListView</code> uses a single CSS node named <code>listview</code>. It may carry the<code>.separators</code> style class, when {@link [property@Gtk.ListView:show-separators] (ref=property)}
  * property is set. Each child widget uses a single CSS node named <code>row</code>.
@@ -92,12 +92,12 @@ import java.lang.invoke.*;
  * rubberband selection, a node with name <code>rubberband</code> is used.
  * <p>
  * The main listview node may also carry style classes to select
- * the style of {@link [list presentation]}(ListContainers.html#list-styles):
+ * the style of {@link [list presentation]}(ListContainers.html<code>#list</code> styles):
  * .rich-list, .navigation-sidebar or .data-table.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkListView</code> uses the {@link org.gtk.gtk.AccessibleRole#LIST} role, and the list
- * items use the {@link org.gtk.gtk.AccessibleRole#LIST_ITEM} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkListView</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#LIST</code>  role, and the list
+ * items use the {@link org.gtk.gtk.AccessibleRole<code>#LIST_ITEM</code>  role.
  */
 public class ListView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
@@ -122,7 +122,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * The function takes ownership of the
      * arguments, so you can write code like<pre>c
      * list_view = gtk_list_view_new (create_model (),
-     *   gtk_builder_list_item_factory_new_from_resource (&#34;/resource.ui&#34;));
+     *   gtk_builder_list_item_factory_new_from_resource (&<code>#34</code> /resource.ui&<code>#34</code> ));
      * </pre>
      */
     public ListView(SelectionModel model, ListItemFactory factory) {
@@ -138,7 +138,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Gets the factory that&#39;s currently used to populate list items.
+     * Gets the factory that&<code>#39</code> s currently used to populate list items.
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_list_view_get_factory(handle());
@@ -146,7 +146,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Gets the model that&#39;s currently used to read the items displayed.
+     * Gets the model that&<code>#39</code> s currently used to read the items displayed.
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_list_view_get_model(handle());
@@ -220,7 +220,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * usually via activating the GtkListView|list.activate-item action.
      * 
      * This allows for a convenient way to handle activation in a listview.
-     * See {@link org.gtk.gtk.ListItem#setActivatable} for details on how to use
+     * See {@link org.gtk.gtk.ListItem<code>#setActivatable</code>  for details on how to use
      * this signal.
      */
     public SignalHandle onActivate(ActivateHandler handler) {

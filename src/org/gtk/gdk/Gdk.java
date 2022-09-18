@@ -4612,7 +4612,7 @@ public final class Gdk {
     /**
      * Sets the given pixbuf as the source pattern for @cr.
      * 
-     * The pattern has an extend mode of {@link org.cairographics.Extend#NONE} and is aligned
+     * The pattern has an extend mode of {@link org.cairographics.Extend<code>#NONE</code>  and is aligned
      * so that the origin of @pixbuf is @pixbuf_x, @pixbuf_y.
      */
     public static void cairoSetSourcePixbuf(org.cairographics.Context cr, org.gtk.gdkpixbuf.Pixbuf pixbuf, double pixbufX, double pixbufY) {
@@ -4633,7 +4633,7 @@ public final class Gdk {
      * indicate a higher priority.
      * 
      * When the operation is finished, @callback will be called. You must then
-     * call {@link Gdk#contentDeserializeFinish} to get the result of the operation.
+     * call {@link Gdk<code>#contentDeserializeFinish</code>  to get the result of the operation.
      */
     public static void contentDeserializeAsync(org.gtk.gio.InputStream stream, java.lang.String mimeType, Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
@@ -4665,11 +4665,10 @@ public final class Gdk {
      * Parses the given @string into <code>GdkContentFormats</code> and
      * returns the formats.
      * 
-     * Strings printed via {@link org.gtk.gdk.ContentFormats#toString}
+     * Strings printed via {@link org.gtk.gdk.ContentFormats<code>#toString</code> 
      * can be read in again successfully using this function.
      * 
-     * If @string does not describe valid content formats, <code>NULL
-     * is</code> returned.
+     * If @string does not describe valid content formats, <code>null</code> is returned.
      */
     public static ContentFormats contentFormatsParse(java.lang.String string) {
         var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());
@@ -4719,7 +4718,7 @@ public final class Gdk {
      * indicate a higher priority.
      * 
      * When the operation is finished, @callback will be called. You must then
-     * call {@link Gdk#contentSerializeFinish} to get the result of the operation.
+     * call {@link Gdk<code>#contentSerializeFinish</code>  to get the result of the operation.
      */
     public static void contentSerializeAsync(org.gtk.gio.OutputStream stream, java.lang.String mimeType, org.gtk.gobject.Value value, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
@@ -4751,8 +4750,7 @@ public final class Gdk {
      * Checks if @action represents a single action or includes
      * multiple actions.
      * 
-     * When @action is 0 - ie no action was given, <code>TRUE
-     * is</code> returned.
+     * When @action is 0 - ie no action was given, <code>true</code> is returned.
      */
     public static boolean dragActionIsUnique(int action) {
         var RESULT = gtk_h.gdk_drag_action_is_unique(action);
@@ -4779,7 +4777,7 @@ public final class Gdk {
      * Converts a key name to a key value.
      * <p>
      * The names are the same as those in the<code>gdk/gdkkeysyms.h</code> header file
-     * but without the leading &#8220;GDK_KEY_&#8221;.
+     * but without the leading &<code>#8220</code> GDK_KEY_&<code>#8221</code> .
      */
     public static int keyvalFromName(java.lang.String keyvalName) {
         var RESULT = gtk_h.gdk_keyval_from_name(Interop.allocateNativeString(keyvalName).handle());
@@ -4806,7 +4804,7 @@ public final class Gdk {
      * Converts a key value into a symbolic name.
      * <p>
      * The names are the same as those in the<code>gdk/gdkkeysyms.h</code> header file
-     * but without the leading &#8220;GDK_KEY_&#8221;.
+     * but without the leading &<code>#8220</code> GDK_KEY_&<code>#8221</code> .
      */
     public static java.lang.String keyvalName(int keyval) {
         var RESULT = gtk_h.gdk_keyval_name(keyval);
@@ -4827,18 +4825,7 @@ public final class Gdk {
      * 
      * Note that the conversion does not take the current locale
      * into consideration, which might be expected for particular
-     * keyvals, such as 
-     *           
-     *         
-     *       
-     *     
-     *     
-     *       Convert from a GDK key symbol to the corresponding Unicode
-     * character.
-     * 
-     * Note that the conversion does not take the current locale
-     * into consideration, which might be expected for particular
-     * keyvals, such as %GDK_KEY_KP_Decimal.
+     * keyvals, such as <code>GDK_KEY_KP_Decimal</code>
      */
     public static int keyvalToUnicode(int keyval) {
         var RESULT = gtk_h.gdk_keyval_to_unicode(keyval);
@@ -4857,7 +4844,7 @@ public final class Gdk {
      * Returns a paintable that has the given intrinsic size and draws nothing.
      * 
      * This is often useful for implementing the
-     * {@link org.gtk.gdk.Paintable#getCurrentImage} virtual function
+     * {@link org.gtk.gdk.Paintable<code>#getCurrentImage</code>  virtual function
      * when the paintable is in an incomplete state (like a
      * {@link org.gtk.gtk.MediaStream} before receiving the first frame).
      */
@@ -4871,7 +4858,7 @@ public final class Gdk {
      * ranges of text would be drawn.
      * 
      * @x_origin and @y_origin are the top left position of the layout.
-     * @index_ranges should contain ranges of bytes in the layout&#8217;s text.
+     * @index_ranges should contain ranges of bytes in the layout&<code>#8217</code> s text.
      * The clip region will include space to the left or right of the line
      * (to the layout bounding box) if you have indexes above or below the
      * indexes contained inside the line. This is to draw the selection all
@@ -4924,7 +4911,7 @@ public final class Gdk {
      * <p>
      * For example:
      * <p><pre>c
-     * gdk_set_allowed_backends (&#34;wayland,macos,*&#34;);
+     * gdk_set_allowed_backends (&<code>#34</code> wayland,macos,*&<code>#34</code> );
      * </pre>
      * <p>
      * instructs GDK to try the Wayland backend first, followed by the
@@ -4945,7 +4932,7 @@ public final class Gdk {
      * You can also include a <code>*</code> in the list to try all remaining backends.
      * <p>
      * This call must happen prior to functions that open a display, such
-     * as {@link Gdk#Display}, <code>gtk_init()</code>, or <code>gtk_init_check()</code>
+     * as {@link Gdk<code>#Display</code> , <code>gtk_init()</code>, or <code>gtk_init_check()</code>
      * in order to take effect.
      */
     public static void setAllowedBackends(java.lang.String backends) {

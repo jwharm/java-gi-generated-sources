@@ -22,21 +22,21 @@ import java.lang.invoke.*;
  * or with mozRequestAnimationFrame in Firefox, for example.
  * <p>
  * A frame clock is idle until someone requests a frame with
- * {@link org.gtk.gdk.FrameClock#requestPhase}. At some later point that makes sense
+ * {@link org.gtk.gdk.FrameClock<code>#requestPhase</code> . At some later point that makes sense
  * for the synchronization being implemented, the clock will process a frame and
  * emit signals for each phase that has been requested. (See the signals of the<code>GdkFrameClock</code> class for documentation of the phases.
- * {@link org.gtk.gdk.FrameClockPhase#UPDATE} and the {@link [signal@GdkFrameClock::update] (ref=signal)} signal
+ * {@link org.gtk.gdk.FrameClockPhase<code>#UPDATE</code>  and the {@link [signal@GdkFrameClock::update] (ref=signal)} signal
  * are most interesting for application writers, and are used to update the
- * animations, using the frame time given by {@link org.gtk.gdk.FrameClock#getFrameTime}.
+ * animations, using the frame time given by {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code> .
  * 
  * The frame time is reported in microseconds and generally in the same
  * timescale as g_get_monotonic_time(), however, it is not the same
  * as g_get_monotonic_time(). The frame time does not advance during
  * the time a frame is being painted, and outside of a frame, an attempt
- * is made so that all calls to {@link org.gtk.gdk.FrameClock#getFrameTime} that
- * are called at a &#8220;similar&#8221; time get the same value. This means that
+ * is made so that all calls to {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code>  that
+ * are called at a &<code>#8220</code> similar&<code>#8221</code>  time get the same value. This means that
  * if different animations are timed by looking at the difference in
- * time between an initial value from {@link org.gtk.gdk.FrameClock#getFrameTime}
+ * time between an initial value from {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code> 
  * and the value inside the {@link [signal@GdkFrameClock::update] (ref=signal)} signal of the clock,
  * they will stay exactly synchronized.
  */
@@ -54,9 +54,9 @@ public class FrameClock extends org.gtk.gobject.Object {
     /**
      * Starts updates for an animation.
      * 
-     * Until a matching call to {@link org.gtk.gdk.FrameClock#endUpdating} is made,
+     * Until a matching call to {@link org.gtk.gdk.FrameClock<code>#endUpdating</code>  is made,
      * the frame clock will continually request a new frame with the
-     * {@link org.gtk.gdk.FrameClockPhase#UPDATE} phase. This function may be called multiple
+     * {@link org.gtk.gdk.FrameClockPhase<code>#UPDATE</code>  phase. This function may be called multiple
      * times and frames will be requested until gdk_frame_clock_end_updating()
      * is called the same number of times.
      */
@@ -67,7 +67,7 @@ public class FrameClock extends org.gtk.gobject.Object {
     /**
      * Stops updates for an animation.
      * 
-     * See the documentation for {@link org.gtk.gdk.FrameClock#beginUpdating}.
+     * See the documentation for {@link org.gtk.gdk.FrameClock<code>#beginUpdating</code> .
      */
     public void endUpdating() {
         gtk_h.gdk_frame_clock_end_updating(handle());
@@ -102,10 +102,10 @@ public class FrameClock extends org.gtk.gobject.Object {
     /**
      * Gets the time that should currently be used for animations.
      * 
-     * Inside the processing of a frame, it&#8217;s the time used to compute the
-     * animation position of everything in a frame. Outside of a frame, it&#39;s
-     * the time of the conceptual &#8220;previous frame,&#8221; which may be either
-     * the actual previous frame time, or if that&#8217;s too old, an updated
+     * Inside the processing of a frame, it&<code>#8217</code> s the time used to compute the
+     * animation position of everything in a frame. Outside of a frame, it&<code>#39</code> s
+     * the time of the conceptual &<code>#8220</code> previous frame,&<code>#8221</code>  which may be either
+     * the actual previous frame time, or if that&<code>#8217</code> s too old, an updated
      * time.
      */
     public long getFrameTime() {
@@ -117,10 +117,10 @@ public class FrameClock extends org.gtk.gobject.Object {
      * Returns the frame counter for the oldest frame available in history.
      * <p><code>GdkFrameClock</code> internally keeps a history of <code>GdkFrameTimings</code>
      * objects for recent frames that can be retrieved with
-     * {@link org.gtk.gdk.FrameClock#getTimings}. The set of stored frames
+     * {@link org.gtk.gdk.FrameClock<code>#getTimings</code> . The set of stored frames
      * is the set from the counter values given by
-     * {@link org.gtk.gdk.FrameClock#getHistoryStart} and
-     * {@link org.gtk.gdk.FrameClock#getFrameCounter}, inclusive.
+     * {@link org.gtk.gdk.FrameClock<code>#getHistoryStart</code>  and
+     * {@link org.gtk.gdk.FrameClock<code>#getFrameCounter</code> , inclusive.
      */
     public long getHistoryStart() {
         var RESULT = gtk_h.gdk_frame_clock_get_history_start(handle());
@@ -132,8 +132,8 @@ public class FrameClock extends org.gtk.gobject.Object {
      * for the current frame or a recent frame.
      * <p>
      * The <code>GdkFrameTimings</code> object may not yet be complete: see
-     * {@link org.gtk.gdk.FrameTimings#getComplete} and
-     * {@link org.gtk.gdk.FrameClock#getHistoryStart}.
+     * {@link org.gtk.gdk.FrameTimings<code>#getComplete</code>  and
+     * {@link org.gtk.gdk.FrameClock<code>#getHistoryStart</code> .
      */
     public FrameTimings getTimings(long frameCounter) {
         var RESULT = gtk_h.gdk_frame_clock_get_timings(handle(), frameCounter);
@@ -148,8 +148,8 @@ public class FrameClock extends org.gtk.gobject.Object {
      * gdk_frame_clock_request_phase() will be combined together
      * and only one frame processed. If you are displaying animated
      * content and want to continually request the
-     * {@link org.gtk.gdk.FrameClockPhase#UPDATE} phase for a period of time,
-     * you should use {@link org.gtk.gdk.FrameClock#beginUpdating} instead,
+     * {@link org.gtk.gdk.FrameClockPhase<code>#UPDATE</code>  phase for a period of time,
+     * you should use {@link org.gtk.gdk.FrameClock<code>#beginUpdating</code>  instead,
      * since this allows GTK to adjust system parameters to get maximally
      * smooth animations.
      */
@@ -323,9 +323,9 @@ public class FrameClock extends org.gtk.gobject.Object {
      * Emitted as the first step of toolkit and application processing
      * of the frame.
      * 
-     * Animations should be updated using {@link org.gtk.gdk.FrameClock#getFrameTime}.
+     * Animations should be updated using {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code> .
      * Applications can connect directly to this signal, or use
-     * {@link org.gtk.gtk.Widget#addTickCallback} as a more convenient interface.
+     * {@link org.gtk.gtk.Widget<code>#addTickCallback</code>  as a more convenient interface.
      */
     public SignalHandle onUpdate(UpdateHandler handler) {
         try {

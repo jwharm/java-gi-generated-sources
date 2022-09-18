@@ -55,7 +55,7 @@ public final class GObject {
     }
     
     /**
-     * A #GClosureMarshal function for use with signals with handlers that
+     * A {@link org.gtk.gobject.ClosureMarshal} function for use with signals with handlers that
      * take two boxed pointers as arguments and return a boolean.  If you
      * have such a signal, you will probably also need to use an
      * accumulator, such as g_signal_accumulator_true_handled().
@@ -65,7 +65,7 @@ public final class GObject {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>gboolean (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the #gint parameter
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>gboolean (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the <code>#gint</code> parameter
      * denotes a flags type.
      */
     public static void cclosureMarshalBOOLEANFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
@@ -73,140 +73,140 @@ public final class GObject {
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>gchar* (*callback) (gpointer instance, GObject *arg1, gpointer arg2, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>gchar* (*callback) (gpointer instance, GObject *arg1, gpointer arg2, gpointer user_data)</code>.
      */
     public static void cclosureMarshalSTRINGOBJECTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_STRING__OBJECT_POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gboolean arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gboolean arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDBOOLEAN(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__BOOLEAN(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GBoxed *arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, GBoxed *arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__BOXED(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gchar arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gchar arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__CHAR(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gdouble arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gdouble arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDDOUBLE(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__DOUBLE(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the #gint parameter denotes an enumeration type..
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the <code>#gint</code> parameter denotes an enumeration type..
      */
     public static void cclosureMarshalVOIDENUM(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__ENUM(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the #gint parameter denotes a flags type.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code> where the <code>#gint</code> parameter denotes a flags type.
      */
     public static void cclosureMarshalVOIDFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__FLAGS(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gfloat arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gfloat arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDFLOAT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__FLOAT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gint arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__INT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, glong arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, glong arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDLONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__LONG(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GObject *arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, GObject *arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDOBJECT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__OBJECT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GParamSpec *arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, GParamSpec *arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDPARAM(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__PARAM(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gpointer arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gpointer arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, const gchar *arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, const gchar *arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDSTRING(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__STRING(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, guchar arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, guchar arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDUCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UCHAR(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, guint arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, guint arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDUINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UINT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, guint arg1, gpointer arg2, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, guint arg1, gpointer arg2, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDUINTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UINT_POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gulong arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gulong arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDULONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__ULONG(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, GVariant *arg1, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, GVariant *arg1, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDVARIANT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__VARIANT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
     /**
-     * A marshaller for a #GCClosure with a callback of type<code>void (*callback) (gpointer instance, gpointer user_data)</code>.
+     * A marshaller for a {@link org.gtk.gobject.CClosure} with a callback of type<code>void (*callback) (gpointer instance, gpointer user_data)</code>.
      */
     public static void cclosureMarshalVOIDVOID(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__VOID(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -227,7 +227,7 @@ public final class GObject {
      * Creates a new closure which invokes @callback_func with @user_data as
      * the last parameter.
      * 
-     * @destroy_data will be called as a finalize notifier on the #GClosure.
+     * @destroy_data will be called as a finalize notifier on the {@link org.gtk.gobject.Closure}
      */
     public static Closure cclosureNew(Callback callbackFunc, ClosureNotify destroyData) {
         try {
@@ -253,7 +253,7 @@ public final class GObject {
      * Creates a new closure which invokes @callback_func with @user_data as
      * the first parameter.
      * 
-     * @destroy_data will be called as a finalize notifier on the #GClosure.
+     * @destroy_data will be called as a finalize notifier on the {@link org.gtk.gobject.Closure}
      */
     public static Closure cclosureNewSwap(Callback callbackFunc, ClosureNotify destroyData) {
         try {
@@ -276,15 +276,15 @@ public final class GObject {
     }
     
     /**
-     * Clears a reference to a #GObject.
+     * Clears a reference to a {@link org.gtk.gobject.Object} 
      * 
-     * @object_ptr must not be <code>NULL.
+     * @object_ptr must not be <code>null</code> 
      * 
-     * If</code> the reference is <code>null</code> then this function does nothing.
+     * If the reference is <code>null</code> then this function does nothing.
      * Otherwise, the reference count of the object is decreased and the
-     * pointer is set to <code>NULL.
+     * pointer is set to <code>null</code> 
      * 
-     * A</code> macro is also included that allows this function to be used without
+     * A macro is also included that allows this function to be used without
      * pointer casts.
      */
     public static void clearObject(Object[] objectPtr) {
@@ -293,10 +293,10 @@ public final class GObject {
     
     /**
      * This function is meant to be called from the <code>complete_type_info</code>
-     * function of a #GTypePlugin implementation, as in the following
+     * function of a {@link org.gtk.gobject.TypePlugin} implementation, as in the following
      * example:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * static void
      * my_enum_complete_type_info (GTypePlugin     *plugin,
      *                             GType            g_type,
@@ -304,8 +304,8 @@ public final class GObject {
      *                             GTypeValueTable *value_table)
      * {
      *   static const GEnumValue values[]} = {
-     *     { MY_ENUM_FOO, &#34;MY_ENUM_FOO&#34;, &#34;foo&#34; },
-     *     { MY_ENUM_BAR, &#34;MY_ENUM_BAR&#34;, &#34;bar&#34; },
+     *     { MY_ENUM_FOO, &<code>#34</code> MY_ENUM_FOO&<code>#34</code> , &<code>#34</code> foo&<code>#34</code>  },
+     *     { MY_ENUM_BAR, &<code>#34</code> MY_ENUM_BAR&<code>#34</code> , &<code>#34</code> bar&<code>#34</code>  },
      *     { 0, NULL, NULL }
      *   };
      * 
@@ -318,7 +318,7 @@ public final class GObject {
     }
     
     /**
-     * Returns the #GEnumValue for a value.
+     * Returns the {@link org.gtk.gobject.EnumValue} for a value.
      */
     public static EnumValue enumGetValue(EnumClass enumClass, int value) {
         var RESULT = gtk_h.g_enum_get_value(enumClass.handle(), value);
@@ -326,7 +326,7 @@ public final class GObject {
     }
     
     /**
-     * Looks up a #GEnumValue by name.
+     * Looks up a {@link org.gtk.gobject.EnumValue} by name.
      */
     public static EnumValue enumGetValueByName(EnumClass enumClass, java.lang.String name) {
         var RESULT = gtk_h.g_enum_get_value_by_name(enumClass.handle(), Interop.allocateNativeString(name).handle());
@@ -334,7 +334,7 @@ public final class GObject {
     }
     
     /**
-     * Looks up a #GEnumValue by nickname.
+     * Looks up a {@link org.gtk.gobject.EnumValue} by nickname.
      */
     public static EnumValue enumGetValueByNick(EnumClass enumClass, java.lang.String nick) {
         var RESULT = gtk_h.g_enum_get_value_by_nick(enumClass.handle(), Interop.allocateNativeString(nick).handle());
@@ -354,7 +354,7 @@ public final class GObject {
     }
     
     /**
-     * Pretty-prints @value in the form of the enum&#8217;s name.
+     * Pretty-prints @value in the form of the enum&<code>#8217</code> s name.
      * 
      * This is intended to be used for debugging purposes. The format of the output
      * may change in the future.
@@ -366,7 +366,7 @@ public final class GObject {
     
     /**
      * This function is meant to be called from the complete_type_info()
-     * function of a #GTypePlugin implementation, see the example for
+     * function of a {@link org.gtk.gobject.TypePlugin} implementation, see the example for
      * g_enum_complete_type_info() above.
      */
     public static void flagsCompleteTypeInfo(Type gFlagsType, TypeInfo info, FlagsValue constValues) {
@@ -374,7 +374,7 @@ public final class GObject {
     }
     
     /**
-     * Returns the first #GFlagsValue which is set in @value.
+     * Returns the first {@link org.gtk.gobject.FlagsValue} which is set in @value.
      */
     public static FlagsValue flagsGetFirstValue(FlagsClass flagsClass, int value) {
         var RESULT = gtk_h.g_flags_get_first_value(flagsClass.handle(), value);
@@ -382,7 +382,7 @@ public final class GObject {
     }
     
     /**
-     * Looks up a #GFlagsValue by name.
+     * Looks up a {@link org.gtk.gobject.FlagsValue} by name.
      */
     public static FlagsValue flagsGetValueByName(FlagsClass flagsClass, java.lang.String name) {
         var RESULT = gtk_h.g_flags_get_value_by_name(flagsClass.handle(), Interop.allocateNativeString(name).handle());
@@ -390,7 +390,7 @@ public final class GObject {
     }
     
     /**
-     * Looks up a #GFlagsValue by nickname.
+     * Looks up a {@link org.gtk.gobject.FlagsValue} by nickname.
      */
     public static FlagsValue flagsGetValueByNick(FlagsClass flagsClass, java.lang.String nick) {
         var RESULT = gtk_h.g_flags_get_value_by_nick(flagsClass.handle(), Interop.allocateNativeString(nick).handle());
@@ -427,8 +427,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecBoolean instance specifying a <code>G_TYPE_BOOLEAN
-     * property.</code> In many cases, it may be more appropriate to use an enum with
+     * Creates a new {@link org.gtk.gobject.ParamSpecBoolean} instance specifying a <code>G_TYPE_BOOLEAN</code> property. In many cases, it may be more appropriate to use an enum with
      * g_param_spec_enum(), both to improve code clarity by using explicitly named
      * values, and to allow for more values to be added in future without breaking
      * API.
@@ -441,8 +440,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecBoxed instance specifying a <code>G_TYPE_BOXED
-     * derived</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecBoxed} instance specifying a <code>G_TYPE_BOXED</code> derived property.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -452,7 +450,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecChar instance specifying a <code>G_TYPE_CHAR</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecChar} instance specifying a <code>G_TYPE_CHAR</code> property.
      */
     public static ParamSpec paramSpecChar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, int flags) {
         var RESULT = gtk_h.g_param_spec_char(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
@@ -460,10 +458,9 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecDouble instance specifying a <code>G_TYPE_DOUBLE
-     * property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecDouble} instance specifying a <code>G_TYPE_DOUBLE</code> property.
      * 
-     * See</code> g_param_spec_internal() for details on property names.
+     * See g_param_spec_internal() for details on property names.
      */
     public static ParamSpec paramSpecDouble(java.lang.String name, java.lang.String nick, java.lang.String blurb, double minimum, double maximum, double defaultValue, int flags) {
         var RESULT = gtk_h.g_param_spec_double(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
@@ -471,10 +468,9 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecEnum instance specifying a <code>G_TYPE_ENUM
-     * property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecEnum} instance specifying a <code>G_TYPE_ENUM</code> property.
      * 
-     * See</code> g_param_spec_internal() for details on property names.
+     * See g_param_spec_internal() for details on property names.
      */
     public static ParamSpec paramSpecEnum(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type enumType, int defaultValue, int flags) {
         var RESULT = gtk_h.g_param_spec_enum(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), enumType.getValue(), defaultValue, flags);
@@ -482,10 +478,9 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecFlags instance specifying a <code>G_TYPE_FLAGS
-     * property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecFlags} instance specifying a <code>G_TYPE_FLAGS</code> property.
      * 
-     * See</code> g_param_spec_internal() for details on property names.
+     * See g_param_spec_internal() for details on property names.
      */
     public static ParamSpec paramSpecFlags(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type flagsType, int defaultValue, int flags) {
         var RESULT = gtk_h.g_param_spec_flags(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flagsType.getValue(), defaultValue, flags);
@@ -493,7 +488,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecFloat instance specifying a <code>G_TYPE_FLOAT</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecFloat} instance specifying a <code>G_TYPE_FLOAT</code> property.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -503,7 +498,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecGType instance specifying a
+     * Creates a new {@link org.gtk.gobject.ParamSpecGType} instance specifying a
      * <code>G_TYPE_GTYPE</code> property.
      * 
      * See g_param_spec_internal() for details on property names.
@@ -514,7 +509,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecInt instance specifying a <code>G_TYPE_INT</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecInt} instance specifying a <code>G_TYPE_INT</code> property.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -524,7 +519,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecInt64 instance specifying a <code>G_TYPE_INT64</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecInt64} instance specifying a <code>G_TYPE_INT64</code> property.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -534,7 +529,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecLong instance specifying a <code>G_TYPE_LONG</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecLong} instance specifying a <code>G_TYPE_LONG</code> property.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -544,8 +539,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecBoxed instance specifying a <code>G_TYPE_OBJECT
-     * derived</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecBoxed} instance specifying a <code>G_TYPE_OBJECT</code> derived property.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -555,7 +549,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new property of type #GParamSpecOverride. This is used
+     * Creates a new property of type {@link org.gtk.gobject.ParamSpecOverride}  This is used
      * to direct operations to another paramspec, and will not be directly
      * useful unless you are implementing a new base type similar to GObject.
      */
@@ -565,10 +559,9 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecParam instance specifying a <code>G_TYPE_PARAM
-     * property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecParam} instance specifying a <code>G_TYPE_PARAM</code> property.
      * 
-     * See</code> g_param_spec_internal() for details on property names.
+     * See g_param_spec_internal() for details on property names.
      */
     public static ParamSpec paramSpecParam(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type paramType, int flags) {
         var RESULT = gtk_h.g_param_spec_param(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), paramType.getValue(), flags);
@@ -576,7 +569,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecPointer instance specifying a pointer property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecPointer} instance specifying a pointer property.
      * Where possible, it is better to use g_param_spec_object() or
      * g_param_spec_boxed() to expose memory management information.
      * 
@@ -588,7 +581,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecString instance.
+     * Creates a new {@link org.gtk.gobject.ParamSpecString} instance.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -598,7 +591,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecUChar instance specifying a <code>G_TYPE_UCHAR</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecUChar} instance specifying a <code>G_TYPE_UCHAR</code> property.
      */
     public static ParamSpec paramSpecUchar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, int flags) {
         var RESULT = gtk_h.g_param_spec_uchar(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
@@ -606,7 +599,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecUInt instance specifying a <code>G_TYPE_UINT</code> property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecUInt} instance specifying a <code>G_TYPE_UINT</code> property.
      * 
      * See g_param_spec_internal() for details on property names.
      */
@@ -616,10 +609,9 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecUInt64 instance specifying a <code>G_TYPE_UINT64
-     * property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecUInt64} instance specifying a <code>G_TYPE_UINT64</code> property.
      * 
-     * See</code> g_param_spec_internal() for details on property names.
+     * See g_param_spec_internal() for details on property names.
      */
     public static ParamSpec paramSpecUint64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, int flags) {
         var RESULT = gtk_h.g_param_spec_uint64(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
@@ -627,10 +619,9 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecULong instance specifying a <code>G_TYPE_ULONG
-     * property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecULong} instance specifying a <code>G_TYPE_ULONG</code> property.
      * 
-     * See</code> g_param_spec_internal() for details on property names.
+     * See g_param_spec_internal() for details on property names.
      */
     public static ParamSpec paramSpecUlong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, int flags) {
         var RESULT = gtk_h.g_param_spec_ulong(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
@@ -638,8 +629,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecUnichar instance specifying a <code>G_TYPE_UINT
-     * property.</code> #GValue structures for this property can be accessed with
+     * Creates a new {@link org.gtk.gobject.ParamSpecUnichar} instance specifying a <code>G_TYPE_UINT</code> property. {@link org.gtk.gobject.Value} structures for this property can be accessed with
      * g_value_set_uint() and g_value_get_uint().
      * 
      * See g_param_spec_internal() for details on property names.
@@ -650,9 +640,9 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecValueArray instance specifying a
+     * Creates a new {@link org.gtk.gobject.ParamSpecValueArray} instance specifying a
      * <code>G_TYPE_VALUE_ARRAY</code> property. <code>G_TYPE_VALUE_ARRAY</code> is a
-     * <code>G_TYPE_BOXED</code> type, as such, #GValue structures for this property
+     * <code>G_TYPE_BOXED</code> type, as such, {@link org.gtk.gobject.Value} structures for this property
      * can be accessed with g_value_set_boxed() and g_value_get_boxed().
      * 
      * See g_param_spec_internal() for details on property names.
@@ -663,8 +653,7 @@ public final class GObject {
     }
     
     /**
-     * Creates a new #GParamSpecVariant instance specifying a #GVariant
-     * property.
+     * Creates a new {@link org.gtk.gobject.ParamSpecVariant} instance specifying a {@link org.gtk.glib.Variant} property.
      * 
      * If @default_value is floating, it is consumed.
      * 
@@ -677,10 +666,9 @@ public final class GObject {
     
     /**
      * Registers @name as the name of a new static type derived
-     * from <code>G_TYPE_PARAM.
+     * from <code>G_TYPE_PARAM</code> 
      * 
-     * The</code> type system uses the information contained in the #GParamSpecTypeInfo
-     * structure pointed to by @info to manage the #GParamSpec type and its
+     * The type system uses the information contained in the {@link org.gtk.gobject.ParamSpecTypeInfo} structure pointed to by @info to manage the {@link org.gtk.gobject.ParamSpec} type and its
      * instances.
      */
     public static org.gtk.gobject.Type paramTypeRegisterStatic(java.lang.String name, ParamSpecTypeInfo pspecInfo) {
@@ -719,7 +707,7 @@ public final class GObject {
     
     /**
      * Ensures that the contents of @value comply with the specifications
-     * set out by @pspec. For example, a #GParamSpecInt might require
+     * set out by @pspec. For example, a {@link org.gtk.gobject.ParamSpecInt} might require
      * that integers stored in @value may not be smaller than -42 and not be
      * greater than +42. If @value contains an integer outside of this range,
      * it is modified accordingly, so the resulting value will fit into the
@@ -750,16 +738,16 @@ public final class GObject {
     }
     
     /**
-     * A predefined #GSignalAccumulator for signals intended to be used as a
+     * A predefined {@link org.gtk.gobject.SignalAccumulator} for signals intended to be used as a
      * hook for application code to provide a particular value.  Usually
      * only one such value is desired and multiple handlers for the same
-     * signal don&#39;t make much sense (except for the case of the default
+     * signal don&<code>#39</code> t make much sense (except for the case of the default
      * handler defined in the class structure, in which case you will
      * usually want the signal connection to override the class handler).
      * 
      * This accumulator will use the return value from the first signal
      * handler that is run as the return value for the signal and not run
-     * any further handlers (ie: the first handler &#34;wins&#34;).
+     * any further handlers (ie: the first handler &<code>#34</code> wins&<code>#34</code> ).
      */
     public static boolean signalAccumulatorFirstWins(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, jdk.incubator.foreign.MemoryAddress dummy) {
         var RESULT = gtk_h.g_signal_accumulator_first_wins(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
@@ -767,7 +755,7 @@ public final class GObject {
     }
     
     /**
-     * A predefined #GSignalAccumulator for signals that return a
+     * A predefined {@link org.gtk.gobject.SignalAccumulator} for signals that return a
      * boolean values. The behavior that this accumulator gives is
      * that a return of <code>true</code> stops the signal emission: no further
      * callbacks will be invoked, while a return of <code>false</code> allows
@@ -783,7 +771,7 @@ public final class GObject {
     /**
      * Adds an emission hook for a signal, which will get called for any emission
      * of that signal, independent of the instance. This is possible only
-     * for signals which don&#39;t have {@link org.gtk.gobject.SignalFlags#NO_HOOKS} flag set.
+     * for signals which don&<code>#39</code> t have {@link org.gtk.gobject.SignalFlags<code>#NO_HOOKS</code>  flag set.
      */
     public static long signalAddEmissionHook(int signalId, org.gtk.glib.Quark detail, SignalEmissionHook hookFunc) {
         try {
@@ -828,8 +816,8 @@ public final class GObject {
     }
     
     /**
-     * Connects a #GCallback function to a signal for a particular object. Similar
-     * to g_signal_connect(), but allows to provide a #GClosureNotify for the data
+     * Connects a {@link org.gtk.gobject.Callback} function to a signal for a particular object. Similar
+     * to g_signal_connect(), but allows to provide a {@link org.gtk.gobject.ClosureNotify} for the data
      * which will be called when the signal handler is disconnected and no longer
      * used. Specify @connect_flags if you need <code>..._after()</code> or<code>..._swapped()</code> variants of this function.
      */
@@ -868,7 +856,7 @@ public final class GObject {
      * Emits a signal. Signal emission is done synchronously.
      * The method will only return control after all handlers are called or signal emission was stopped.
      * 
-     * Note that g_signal_emitv() doesn&#39;t change @return_value if no handlers are
+     * Note that g_signal_emitv() doesn&<code>#39</code> t change @return_value if no handlers are
      * connected, in contrast to g_signal_emit() and g_signal_emit_valist().
      */
     public static void signalEmitv(Value[] instanceAndParams, int signalId, org.gtk.glib.Quark detail, Value returnValue) {
@@ -885,7 +873,7 @@ public final class GObject {
     
     /**
      * Blocks a handler of an instance so it will not be called during any
-     * signal emissions unless it is unblocked again. Thus &#34;blocking&#34; a
+     * signal emissions unless it is unblocked again. Thus &<code>#34</code> blocking&<code>#34</code>  a
      * signal handler means to temporarily deactivate it, a signal handler
      * has to be unblocked exactly the same amount of times it has been
      * blocked before to become active again.
@@ -911,8 +899,7 @@ public final class GObject {
     
     /**
      * Finds the first signal handler that matches certain selection criteria.
-     * The criteria mask is passed as an OR-ed combination of #GSignalMatchType
-     * flags, and the criteria values are passed as arguments.
+     * The criteria mask is passed as an OR-ed combination of {@link org.gtk.gobject.SignalMatchType} flags, and the criteria values are passed as arguments.
      * The match @mask has to be non-0 for successful matches.
      * If no handler was found, 0 is returned.
      */
@@ -933,7 +920,7 @@ public final class GObject {
      * Undoes the effect of a previous g_signal_handler_block() call.  A
      * blocked handler is skipped during signal emissions and will not be
      * invoked, unblocking it (for exactly the amount of times it has been
-     * blocked before) reverts its &#34;blocked&#34; state, so the handler will be
+     * blocked before) reverts its &<code>#34</code> blocked&<code>#34</code>  state, so the handler will be
      * recognized by the signal system and is called upon future or
      * currently ongoing signal emissions (since the order in which
      * handlers are called during signal emissions is deterministic,
@@ -950,10 +937,8 @@ public final class GObject {
     
     /**
      * Blocks all handlers on an instance that match a certain selection criteria.
-     * The criteria mask is passed as an OR-ed combination of #GSignalMatchType
-     * flags, and the criteria values are passed as arguments.
-     * Passing at least one of the <code>G_SIGNAL_MATCH_CLOSURE,</code> <code>G_SIGNAL_MATCH_FUNC
-     * or</code> {@link org.gtk.gobject.SignalMatchType#DATA} match flags is required for successful matches.
+     * The criteria mask is passed as an OR-ed combination of {@link org.gtk.gobject.SignalMatchType} flags, and the criteria values are passed as arguments.
+     * Passing at least one of the {@link org.gtk.gobject.SignalMatchType<code>#CLOSURE</code>   {@link org.gtk.gobject.SignalMatchType<code>#FUNC</code>  or {@link org.gtk.gobject.SignalMatchType<code>#DATA</code>  match flags is required for successful matches.
      * If no handlers were found, 0 is returned, the number of blocked handlers
      * otherwise.
      */
@@ -964,7 +949,7 @@ public final class GObject {
     
     /**
      * Destroy all signal handlers of a type instance. This function is
-     * an implementation detail of the #GObject dispose implementation,
+     * an implementation detail of the {@link org.gtk.gobject.Object} dispose implementation,
      * and should not be used outside of the type system.
      */
     public static void signalHandlersDestroy(Object instance) {
@@ -974,10 +959,10 @@ public final class GObject {
     /**
      * Disconnects all handlers on an instance that match a certain
      * selection criteria. The criteria mask is passed as an OR-ed
-     * combination of #GSignalMatchType flags, and the criteria values are
+     * combination of {@link org.gtk.gobject.SignalMatchType} flags, and the criteria values are
      * passed as arguments.  Passing at least one of the
-     * <code>G_SIGNAL_MATCH_CLOSURE,</code> {@link org.gtk.gobject.SignalMatchType#FUNC} or
-     * {@link org.gtk.gobject.SignalMatchType#DATA} match flags is required for successful
+     * {@link org.gtk.gobject.SignalMatchType<code>#CLOSURE</code>   {@link org.gtk.gobject.SignalMatchType<code>#FUNC</code>  or
+     * {@link org.gtk.gobject.SignalMatchType<code>#DATA</code>  match flags is required for successful
      * matches.  If no handlers were found, 0 is returned, the number of
      * disconnected handlers otherwise.
      */
@@ -989,9 +974,8 @@ public final class GObject {
     /**
      * Unblocks all handlers on an instance that match a certain selection
      * criteria. The criteria mask is passed as an OR-ed combination of
-     * #GSignalMatchType flags, and the criteria values are passed as arguments.
-     * Passing at least one of the <code>G_SIGNAL_MATCH_CLOSURE,</code> <code>G_SIGNAL_MATCH_FUNC
-     * or</code> {@link org.gtk.gobject.SignalMatchType#DATA} match flags is required for successful matches.
+     * {@link org.gtk.gobject.SignalMatchType} flags, and the criteria values are passed as arguments.
+     * Passing at least one of the {@link org.gtk.gobject.SignalMatchType<code>#CLOSURE</code>   {@link org.gtk.gobject.SignalMatchType<code>#FUNC</code>  or {@link org.gtk.gobject.SignalMatchType<code>#DATA</code>  match flags is required for successful matches.
      * If no handlers were found, 0 is returned, the number of unblocked handlers
      * otherwise. The match criteria should not apply to any handlers that are
      * not currently blocked.
@@ -1039,7 +1023,7 @@ public final class GObject {
     
     /**
      * Given the name of the signal and the type of object it connects to, gets
-     * the signal&#39;s identifying integer. Emitting the signal by number is
+     * the signal&<code>#39</code> s identifying integer. Emitting the signal by number is
      * somewhat faster than using the name each time.
      * 
      * Also tries the ancestors of the given type.
@@ -1056,7 +1040,7 @@ public final class GObject {
     }
     
     /**
-     * Given the signal&#39;s identifier, finds its name.
+     * Given the signal&<code>#39</code> s identifier, finds its name.
      * 
      * Two different signals may have the same name, if they have differing types.
      */
@@ -1082,8 +1066,7 @@ public final class GObject {
      * Queries the signal system for in-depth information about a
      * specific signal. This function will fill in a user-provided
      * structure to hold signal-specific information. If an invalid
-     * signal id is passed in, the @signal_id member of the #GSignalQuery
-     * is 0. All members filled into the #GSignalQuery structure should
+     * signal id is passed in, the @signal_id member of the {@link org.gtk.gobject.SignalQuery} is 0. All members filled into the {@link org.gtk.gobject.SignalQuery} structure should
      * be considered constant and have to be left untouched.
      */
     public static void signalQuery(int signalId, SignalQuery query) {
@@ -1098,20 +1081,20 @@ public final class GObject {
     }
     
     /**
-     * Stops a signal&#39;s current emission.
+     * Stops a signal&<code>#39</code> s current emission.
      * 
      * This will prevent the default method from running, if the signal was
-     * {@link org.gtk.gobject.SignalFlags#RUN_LAST} and you connected normally (i.e. without the &#34;after&#34;
+     * {@link org.gtk.gobject.SignalFlags<code>#RUN_LAST</code>  and you connected normally (i.e. without the &<code>#34</code> after&<code>#34</code> 
      * flag).
      * 
-     * Prints a warning if used on a signal which isn&#39;t being emitted.
+     * Prints a warning if used on a signal which isn&<code>#39</code> t being emitted.
      */
     public static void signalStopEmission(Object instance, int signalId, org.gtk.glib.Quark detail) {
         gtk_h.g_signal_stop_emission(instance.handle(), signalId, detail.getValue());
     }
     
     /**
-     * Stops a signal&#39;s current emission.
+     * Stops a signal&<code>#39</code> s current emission.
      * 
      * This is just like g_signal_stop_emission() except it will look up the
      * signal id for you.
@@ -1131,10 +1114,10 @@ public final class GObject {
     }
     
     /**
-     * Set the callback for a source as a #GClosure.
+     * Set the callback for a source as a {@link org.gtk.gobject.Closure} 
      * 
      * If the source is not one of the standard GLib types, the @closure_callback
-     * and @closure_marshal fields of the #GSourceFuncs structure must have been
+     * and @closure_marshal fields of the {@link org.gtk.glib.SourceFuncs} structure must have been
      * filled in with pointers to appropriate functions.
      */
     public static void sourceSetClosure(org.gtk.glib.Source source, Closure closure) {
@@ -1143,14 +1126,13 @@ public final class GObject {
     
     /**
      * Sets a dummy callback for @source. The callback will do nothing, and
-     * if the source expects a #gboolean return value, it will return <code>TRUE.
-     * (If</code> the source expects any other type of return value, it will return
-     * a 0/<code>null</code> value; whatever g_value_init() initializes a #GValue to for
+     * if the source expects a <code>#gboolean</code> return value, it will return <code>true</code> 
+     * (If the source expects any other type of return value, it will return
+     * a 0/<code>null</code> value; whatever g_value_init() initializes a {@link org.gtk.gobject.Value} to for
      * that type.)
      * 
      * If the source is not one of the standard GLib types, the
-     * @closure_callback and @closure_marshal fields of the #GSourceFuncs
-     * structure must have been filled in with pointers to appropriate
+     * @closure_callback and @closure_marshal fields of the {@link org.gtk.glib.SourceFuncs} structure must have been filled in with pointers to appropriate
      * functions.
      */
     public static void sourceSetDummyCallback(org.gtk.glib.Source source) {
@@ -1159,8 +1141,7 @@ public final class GObject {
     
     /**
      * Return a newly allocated string, which describes the contents of a
-     * #GValue.  The main purpose of this function is to describe #GValue
-     * contents for debugging output, the way in which the contents are
+     * {@link org.gtk.gobject.Value}   The main purpose of this function is to describe {@link org.gtk.gobject.Value} contents for debugging output, the way in which the contents are
      * described may change between different GLib versions.
      */
     public static java.lang.String strdupValueContents(Value value) {
@@ -1169,13 +1150,12 @@ public final class GObject {
     }
     
     /**
-     * Adds a #GTypeClassCacheFunc to be called before the reference count of a
+     * Adds a {@link org.gtk.gobject.TypeClassCacheFunc} to be called before the reference count of a
      * class goes from one to zero. This can be used to prevent premature class
-     * destruction. All installed #GTypeClassCacheFunc functions will be chained
-     * until one of them returns <code>TRUE.</code> The functions have to check the class id
+     * destruction. All installed {@link org.gtk.gobject.TypeClassCacheFunc} functions will be chained
+     * until one of them returns <code>true</code>  The functions have to check the class id
      * passed in to figure whether they actually want to cache the class of this
-     * type, since all classes are routed through the same #GTypeClassCacheFunc
-     * chain.
+     * type, since all classes are routed through the same {@link org.gtk.gobject.TypeClassCacheFunc} chain.
      */
     public static void typeAddClassCacheFunc(TypeClassCacheFunc cacheFunc) {
         try {
@@ -1199,7 +1179,7 @@ public final class GObject {
      * structures, and are zero-filled.
      * 
      * This function should be called in the
-     * type&#39;s get_type() function after the type is registered.
+     * type&<code>#39</code> s get_type() function after the type is registered.
      * The private structure can be retrieved using the
      * G_TYPE_CLASS_GET_PRIVATE() macro.
      */
@@ -1215,11 +1195,11 @@ public final class GObject {
     /**
      * Adds a function to be called after an interface vtable is
      * initialized for any class (i.e. after the @interface_init
-     * member of #GInterfaceInfo has been called).
+     * member of {@link org.gtk.gobject.InterfaceInfo} has been called).
      * 
      * This function is useful when you want to check an invariant
      * that depends on the interfaces of a class. For instance, the
-     * implementation of #GObject uses this facility to check that an
+     * implementation of {@link org.gtk.gobject.Object} uses this facility to check that an
      * object implements all of the properties that are defined on its
      * interfaces.
      */
@@ -1239,7 +1219,7 @@ public final class GObject {
     
     /**
      * Adds @interface_type to the dynamic @instance_type. The information
-     * contained in the #GTypePlugin structure pointed to by @plugin
+     * contained in the {@link org.gtk.gobject.TypePlugin} structure pointed to by @plugin
      * is used to manage the relationship.
      */
     public static void typeAddInterfaceDynamic(Type instanceType, Type interfaceType, TypePlugin plugin) {
@@ -1248,7 +1228,7 @@ public final class GObject {
     
     /**
      * Adds @interface_type to the static @instance_type.
-     * The information contained in the #GInterfaceInfo structure
+     * The information contained in the {@link org.gtk.gobject.InterfaceInfo} structure
      * pointed to by @info is used to manage the relationship.
      */
     public static void typeAddInterfaceStatic(Type instanceType, Type interfaceType, InterfaceInfo info) {
@@ -1306,9 +1286,9 @@ public final class GObject {
     
     /**
      * This function is essentially the same as g_type_class_ref(),
-     * except that the classes reference count isn&#39;t incremented.
+     * except that the classes reference count isn&<code>#39</code> t incremented.
      * As a consequence, this function may return <code>null</code> if the class
-     * of the type passed in does not currently exist (hasn&#39;t been
+     * of the type passed in does not currently exist (hasn&<code>#39</code> t been
      * referenced before).
      */
     public static TypeClass typeClassPeek(Type type) {
@@ -1327,7 +1307,7 @@ public final class GObject {
     
     /**
      * Increments the reference count of the class structure belonging to
-     * @type. This function will demand-create the class if it doesn&#39;t
+     * @type. This function will demand-create the class if it doesn&<code>#39</code> t
      * exist already.
      */
     public static TypeClass typeClassRef(Type type) {
@@ -1339,17 +1319,17 @@ public final class GObject {
      * Creates and initializes an instance of @type if @type is valid and
      * can be instantiated. The type system only performs basic allocation
      * and structure setups for instances: actual instance creation should
-     * happen through functions supplied by the type&#39;s fundamental type
+     * happen through functions supplied by the type&<code>#39</code> s fundamental type
      * implementation.  So use of g_type_create_instance() is reserved for
      * implementers of fundamental types only. E.g. instances of the
-     * #GObject hierarchy should be created via g_object_new() and never
-     * directly through g_type_create_instance() which doesn&#39;t handle things
+     * {@link org.gtk.gobject.Object} hierarchy should be created via g_object_new() and never
+     * directly through g_type_create_instance() which doesn&<code>#39</code> t handle things
      * like singleton objects or object construction.
      * 
      * The extended members of the returned instance are guaranteed to be filled
      * with zeros.
      * 
-     * Note: Do not use this function, unless you&#39;re implementing a
+     * Note: Do not use this function, unless you&<code>#39</code> re implementing a
      * fundamental type. Also language bindings should not use this
      * function, but g_object_new() instead.
      */
@@ -1374,7 +1354,7 @@ public final class GObject {
      * If the type is not currently in use, then the default vtable
      * for the type will be created and initialized by calling
      * the base interface init and default vtable init functions for
-     * the type (the @base_init and @class_init members of #GTypeInfo).
+     * the type (the @base_init and @class_init members of {@link org.gtk.gobject.TypeInfo} .
      * Calling g_type_default_interface_ref() is useful when you
      * want to make sure that signals and properties for an interface
      * have been installed.
@@ -1388,8 +1368,8 @@ public final class GObject {
      * Decrements the reference count for the type corresponding to the
      * interface default vtable @g_iface. If the type is dynamic, then
      * when no one is using the interface and all references have
-     * been released, the finalize function for the interface&#39;s default
-     * vtable (the @class_finalize member of #GTypeInfo) will be called.
+     * been released, the finalize function for the interface&<code>#39</code> s default
+     * vtable (the @class_finalize member of {@link org.gtk.gobject.TypeInfo}  will be called.
      */
     public static void typeDefaultInterfaceUnref(TypeInterface gIface) {
         gtk_h.g_type_default_interface_unref(gIface.handle());
@@ -1408,7 +1388,7 @@ public final class GObject {
      * Ensures that the indicated @type has been registered with the
      * type system, and its _class_init() method has been run.
      * 
-     * In theory, simply calling the type&#39;s _get_type() method (or using
+     * In theory, simply calling the type&<code>#39</code> s _get_type() method (or using
      * the corresponding macro) is supposed take care of this. However,
      * _get_type() methods are often marked <code>G_GNUC_CONST</code> for performance
      * reasons, even though this is technically incorrect (since
@@ -1416,7 +1396,7 @@ public final class GObject {
      * which _get_type() methods do on the first call). As a result, if
      * you write a bare call to a _get_type() macro, it may get optimized
      * out by the compiler. Using g_type_ensure() guarantees that the
-     * type&#39;s _get_type() method is called.
+     * type&<code>#39</code> s _get_type() method is called.
      */
     public static void typeEnsure(Type type) {
         gtk_h.g_type_ensure(type.getValue());
@@ -1476,7 +1456,7 @@ public final class GObject {
     }
     
     /**
-     * Returns the #GTypePlugin structure for @type.
+     * Returns the {@link org.gtk.gobject.TypePlugin} structure for @type.
      */
     public static TypePlugin typeGetPlugin(Type type) {
         var RESULT = gtk_h.g_type_get_plugin(type.getValue());
@@ -1512,7 +1492,7 @@ public final class GObject {
      * Adds @prerequisite_type to the list of prerequisites of @interface_type.
      * This means that any type implementing @interface_type must also implement
      * @prerequisite_type. Prerequisites can be thought of as an alternative to
-     * interface derivation (which GType doesn&#39;t support). An interface can have
+     * interface derivation (which GType doesn&<code>#39</code> t support). An interface can have
      * at most one instantiatable prerequisite type.
      */
     public static void typeInterfaceAddPrerequisite(Type interfaceType, Type prerequisiteType) {
@@ -1520,10 +1500,9 @@ public final class GObject {
     }
     
     /**
-     * Returns the #GTypePlugin structure for the dynamic interface
-     * @interface_type which has been added to @instance_type, or <code>NULL
-     * if</code> @interface_type has not been added to @instance_type or does
-     * not have a #GTypePlugin structure. See g_type_add_interface_dynamic().
+     * Returns the {@link org.gtk.gobject.TypePlugin} structure for the dynamic interface
+     * @interface_type which has been added to @instance_type, or <code>null</code> if @interface_type has not been added to @instance_type or does
+     * not have a {@link org.gtk.gobject.TypePlugin} structure. See g_type_add_interface_dynamic().
      */
     public static TypePlugin typeInterfaceGetPlugin(Type instanceType, Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_get_plugin(instanceType.getValue(), interfaceType.getValue());
@@ -1544,7 +1523,7 @@ public final class GObject {
     }
     
     /**
-     * Returns the #GTypeInterface structure of an interface to which the
+     * Returns the {@link org.gtk.gobject.TypeInterface} structure of an interface to which the
      * passed in class conforms.
      */
     public static TypeInterface typeInterfacePeek(TypeClass instanceClass, Type ifaceType) {
@@ -1618,9 +1597,9 @@ public final class GObject {
     /**
      * Queries the type system for information about a specific type.
      * This function will fill in a user-provided structure to hold
-     * type-specific information. If an invalid #GType is passed in, the
-     * @type member of the #GTypeQuery is 0. All members filled into the
-     * #GTypeQuery structure should be considered constant and have to be
+     * type-specific information. If an invalid {@link org.gtk.glib.Type} is passed in, the
+     * @type member of the {@link org.gtk.gobject.TypeQuery} is 0. All members filled into the
+     * {@link org.gtk.gobject.TypeQuery} structure should be considered constant and have to be
      * left untouched.
      */
     public static void typeQuery(Type type, TypeQuery query) {
@@ -1630,7 +1609,7 @@ public final class GObject {
     /**
      * Registers @type_name as the name of a new dynamic type derived from
      * @parent_type.  The type system uses the information contained in the
-     * #GTypePlugin structure pointed to by @plugin to manage the type and its
+     * {@link org.gtk.gobject.TypePlugin} structure pointed to by @plugin to manage the type and its
      * instances (if not abstract).  The value of @flags determines the nature
      * (e.g. abstract or not) of the type.
      */
@@ -1643,8 +1622,8 @@ public final class GObject {
      * Registers @type_id as the predefined identifier and @type_name as the
      * name of a fundamental type. If @type_id is already registered, or a
      * type named @type_name is already registered, the behaviour is undefined.
-     * The type system uses the information contained in the #GTypeInfo structure
-     * pointed to by @info and the #GTypeFundamentalInfo structure pointed to by
+     * The type system uses the information contained in the {@link org.gtk.gobject.TypeInfo} structure
+     * pointed to by @info and the {@link org.gtk.gobject.TypeFundamentalInfo} structure pointed to by
      * @finfo to manage the type and its instances. The value of @flags determines
      * additional characteristics of the fundamental type.
      */
@@ -1656,7 +1635,7 @@ public final class GObject {
     /**
      * Registers @type_name as the name of a new static type derived from
      * @parent_type. The type system uses the information contained in the
-     * #GTypeInfo structure pointed to by @info to manage the type and its
+     * {@link org.gtk.gobject.TypeInfo} structure pointed to by @info to manage the type and its
      * instances (if not abstract). The value of @flags determines the nature
      * (e.g. abstract or not) of the type.
      */
@@ -1666,7 +1645,7 @@ public final class GObject {
     }
     
     /**
-     * Removes a previously installed #GTypeClassCacheFunc. The cache
+     * Removes a previously installed {@link org.gtk.gobject.TypeClassCacheFunc}  The cache
      * maintained by @cache_func has to be empty when calling
      * g_type_remove_class_cache_func() to avoid leaks.
      */
@@ -1715,7 +1694,7 @@ public final class GObject {
     }
     
     /**
-     * Returns the location of the #GTypeValueTable associated with @type.
+     * Returns the location of the {@link org.gtk.gobject.TypeValueTable} associated with @type.
      * 
      * Note that this function should only be used from source code
      * that implements or has internal knowledge of the implementation of
@@ -1727,8 +1706,8 @@ public final class GObject {
     }
     
     /**
-     * Returns whether a #GValue of type @src_type can be copied into
-     * a #GValue of type @dest_type.
+     * Returns whether a {@link org.gtk.gobject.Value} of type @src_type can be copied into
+     * a {@link org.gtk.gobject.Value} of type @dest_type.
      */
     public static boolean valueTypeCompatible(Type srcType, Type destType) {
         var RESULT = gtk_h.g_value_type_compatible(srcType.getValue(), destType.getValue());

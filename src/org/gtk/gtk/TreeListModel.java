@@ -50,7 +50,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * that get added.
      * 
      * This can be either rows added by changes to the underlying
-     * models or via {@link org.gtk.gtk.TreeListRow#setExpanded}.
+     * models or via {@link org.gtk.gtk.TreeListRow<code>#setExpanded</code> .
      */
     public boolean getAutoexpand() {
         var RESULT = gtk_h.gtk_tree_list_model_get_autoexpand(handle());
@@ -59,12 +59,12 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     
     /**
      * Gets the row item corresponding to the child at index @position for
-     * @self&#39;s root model.
+     * @self&<code>#39</code> s root model.
      * 
      * If @position is greater than the number of children in the root model,
      * <code>null</code> is returned.
      * 
-     * Do not confuse this function with {@link org.gtk.gtk.TreeListModel#getRow}.
+     * Do not confuse this function with {@link org.gtk.gtk.TreeListModel<code>#getRow</code> .
      */
     public TreeListRow getChildRow(int position) {
         var RESULT = gtk_h.gtk_tree_list_model_get_child_row(handle(), position);
@@ -82,13 +82,13 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Gets whether the model is passing through original row items.
      * <p>
-     * If this function returns <code>FALSE,</code> the <code>GListModel</code> functions for @self
+     * If this function returns <code>false</code>  the <code>GListModel</code> functions for @self
      * return custom <code>GtkTreeListRow</code> objects. You need to call
-     * {@link org.gtk.gtk.TreeListRow#getItem} on these objects to get the original
+     * {@link org.gtk.gtk.TreeListRow<code>#getItem</code>  on these objects to get the original
      * item.
      * <p>
-     * If <code>TRUE,</code> the values of the child models are passed through in their
-     * original state. You then need to call {@link org.gtk.gtk.TreeListModel#getRow}
+     * If <code>true</code>  the values of the child models are passed through in their
+     * original state. You then need to call {@link org.gtk.gtk.TreeListModel<code>#getRow</code> 
      * to get the custom <code>GtkTreeListRow</code>s.
      */
     public boolean getPassthrough() {
@@ -113,7 +113,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * If @self is set to not be passthrough, this function is
      * equivalent to calling g_list_model_get_item().
      * 
-     * Do not confuse this function with {@link org.gtk.gtk.TreeListModel#getChildRow}.
+     * Do not confuse this function with {@link org.gtk.gtk.TreeListModel<code>#getChildRow</code> .
      */
     public TreeListRow getRow(int position) {
         var RESULT = gtk_h.gtk_tree_list_model_get_row(handle(), position);
@@ -123,9 +123,9 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets whether the model should autoexpand.
      * 
-     * If set to <code>TRUE,</code> the model will recursively expand all rows that
+     * If set to <code>true</code>  the model will recursively expand all rows that
      * get added to the model. This can be either rows added by changes
-     * to the underlying models or via {@link org.gtk.gtk.TreeListRow#setExpanded}.
+     * to the underlying models or via {@link org.gtk.gtk.TreeListRow<code>#setExpanded</code> .
      */
     public void setAutoexpand(boolean autoexpand) {
         gtk_h.gtk_tree_list_model_set_autoexpand(handle(), autoexpand ? 1 : 0);

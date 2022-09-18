@@ -27,7 +27,7 @@ import java.lang.invoke.*;
  * {@link [signal@Gtk.AppChooserWidget::application-selected] (ref=signal)} and
  * {@link [signal@Gtk.AppChooserWidget::application-activated] (ref=signal)} signals.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkAppChooserWidget</code> has a single CSS node with name appchooser.
  */
 public class AppChooserWidget extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
@@ -162,7 +162,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
     }
     
     /**
-     * Emitted when an application item is activated from the widget&#39;s list.
+     * Emitted when an application item is activated from the widget&<code>#39</code> s list.
      * 
      * This usually happens when the user double clicks an item, or an item
      * is selected and the user presses one of the keys Space, Shift+Space,
@@ -189,7 +189,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
     }
     
     /**
-     * Emitted when an application item is selected from the widget&#39;s list.
+     * Emitted when an application item is selected from the widget&<code>#39</code> s list.
      */
     public SignalHandle onApplicationSelected(ApplicationSelectedHandler handler) {
         try {

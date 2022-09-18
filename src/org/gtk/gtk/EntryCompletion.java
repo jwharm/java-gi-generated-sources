@@ -14,13 +14,13 @@ import java.lang.invoke.*;
  * It implements the {@link [iface@Gtk.CellLayout] (ref=iface)} interface, to allow the user
  * to add extra cells to the <code>GtkTreeView</code> with completion matches.
  * <p>
- * &#8220;Completion functionality&#8221; means that when the user modifies the text
+ * &<code>#8220</code> Completion functionality&<code>#8221</code>  means that when the user modifies the text
  * in the entry, <code>GtkEntryCompletion</code> checks which rows in the model match
  * the current content of the entry, and displays a list of matches.
  * By default, the matching is done by comparing the entry text
  * case-insensitively against the text column of the model (see
- * {@link org.gtk.gtk.EntryCompletion#setTextColumn}), but this can be overridden
- * with a custom match function (see {@link org.gtk.gtk.EntryCompletion#setMatchFunc}).
+ * {@link org.gtk.gtk.EntryCompletion<code>#setTextColumn</code> ), but this can be overridden
+ * with a custom match function (see {@link org.gtk.gtk.EntryCompletion<code>#setMatchFunc</code> ).
  * <p>
  * When the user selects a completion, the content of the entry is
  * updated. By default, the content of the entry is replaced by the
@@ -30,7 +30,7 @@ import java.lang.invoke.*;
  * the signal handler to suppress the default behaviour.
  * <p>
  * To add completion functionality to an entry, use
- * {@link org.gtk.gtk.Entry#setCompletion}.
+ * {@link org.gtk.gtk.Entry<code>#setCompletion</code> .
  * <p><code>GtkEntryCompletion</code> uses a {@link org.gtk.gtk.TreeModelFilter} model to
  * represent the subset of the entire model that is currently matching.
  * While the <code>GtkEntryCompletion</code> signals
@@ -40,10 +40,10 @@ import java.lang.invoke.*;
  * signals (such as <code>GtkCellLayoutDataFunc</code> or
  * {@link [signal@Gtk.CellArea::apply-attributes)] (ref=signal)}
  * will generally take the filter model as argument. As long as you are
- * only calling {@link org.gtk.gtk.TreeModel#get}, this will make no difference to
+ * only calling {@link org.gtk.gtk.TreeModel<code>#get</code> , this will make no difference to
  * you. If for some reason, you need the original model, use
- * {@link org.gtk.gtk.TreeModelFilter#getModel}. Don&#8217;t forget to use
- * {@link org.gtk.gtk.TreeModelFilter#convertIterToChildIter} to obtain a
+ * {@link org.gtk.gtk.TreeModelFilter<code>#getModel</code> . Don&<code>#8217</code> t forget to use
+ * {@link org.gtk.gtk.TreeModelFilter<code>#convertIterToChildIter</code>  to obtain a
  * matching iter.
  */
 public class EntryCompletion extends org.gtk.gobject.Object implements Buildable, CellLayout {
@@ -100,7 +100,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * 
      * If no row matches @key, <code>null</code> will be returned.
      * Note that a text column must have been set for this function to work,
-     * see {@link org.gtk.gtk.EntryCompletion#setTextColumn} for details.
+     * see {@link org.gtk.gtk.EntryCompletion<code>#setTextColumn</code>  for details.
      */
     public java.lang.String computePrefix(java.lang.String key) {
         var RESULT = gtk_h.gtk_entry_completion_compute_prefix(handle(), Interop.allocateNativeString(key).handle());
@@ -109,7 +109,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     
     /**
      * Get the original text entered by the user that triggered
-     * the completion or <code>null</code> if there&#8217;s no completion ongoing.
+     * the completion or <code>null</code> if there&<code>#8217</code> s no completion ongoing.
      */
     public java.lang.String getCompletionPrefix() {
         var RESULT = gtk_h.gtk_entry_completion_get_completion_prefix(handle());
@@ -253,7 +253,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Sets the model for a <code>GtkEntryCompletion</code>.
      * 
      * If @completion already has a model set, it will remove it
-     * before setting the new model. If model is <code>NULL,</code> then it
+     * before setting the new model. If model is <code>null</code>  then it
      * will unset the model.
      */
     public void setModel(TreeModel model) {
@@ -295,7 +295,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * and to get those strings from @column in the model of @completion.
      * <p>
      * This functions creates and adds a <code>GtkCellRendererText</code> for the selected
-     * column. If you need to set the text column, but don&#39;t want the cell
+     * column. If you need to set the text column, but don&<code>#39</code> t want the cell
      * renderer, use g_object_set() to set the
      * {@link [property@Gtk.EntryCompletion:text-column] (ref=property)} property directly.
      */
@@ -316,7 +316,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * pointed to by @iter.
      * 
      * Note that @model is the model that was passed to
-     * {@link org.gtk.gtk.EntryCompletion#setModel}.
+     * {@link org.gtk.gtk.EntryCompletion<code>#setModel</code> .
      */
     public SignalHandle onCursorOnMatch(CursorOnMatchHandler handler) {
         try {
@@ -347,7 +347,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Applications may connect to this signal in order to insert only a
      * smaller part of the @prefix into the entry - e.g. the entry used in
      * the <code>GtkFileChooser</code> inserts only the part of the prefix up to the
-     * next &#39;/&#39;.
+     * next &<code>#39</code> /&<code>#39</code> .
      */
     public SignalHandle onInsertPrefix(InsertPrefixHandler handler) {
         try {
@@ -377,7 +377,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * pointed to by @iter.
      * 
      * Note that @model is the model that was passed to
-     * {@link org.gtk.gtk.EntryCompletion#setModel}.
+     * {@link org.gtk.gtk.EntryCompletion<code>#setModel</code> .
      */
     public SignalHandle onMatchSelected(MatchSelectedHandler handler) {
         try {

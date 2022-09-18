@@ -13,17 +13,16 @@ import java.lang.invoke.*;
  * <p>
  * Every accessible implementation has:
  * <p>
- *  - a &#8220;role&#8221;, represented by a value of the {@link [enum@Gtk.AccessibleRole] (ref=enum)} enumeration
- *  - an &#8220;attribute&#8221;, represented by a set of {@link [enum@Gtk.AccessibleState] (ref=enum)},
+ *  - a &<code>#8220</code> role&<code>#8221</code> , represented by a value of the {@link [enum@Gtk.AccessibleRole] (ref=enum)} enumeration
+ *  - an &<code>#8220</code> attribute&<code>#8221</code> , represented by a set of {@link [enum@Gtk.AccessibleState] (ref=enum)},
  *    {@link [enum@Gtk.AccessibleProperty] (ref=enum)} and {@link [enum@Gtk.AccessibleRelation] (ref=enum)} values
  * <p>
  * The role cannot be changed after instantiating a <code>GtkAccessible</code>
  * implementation.
  * <p>
- * The attributes are updated every time a UI element&#39;s state changes in
+ * The attributes are updated every time a UI element&<code>#39</code> s state changes in
  * a way that should be reflected by assistive technologies. For instance,
- * if a <code>GtkWidget</code> visibility changes, the <code>GTK_ACCESSIBLE_STATE_HIDDEN
- * state</code> will also change to reflect the {@link [property@Gtk.Widget:visible] (ref=property)} property.
+ * if a <code>GtkWidget</code> visibility changes, the {@link org.gtk.gtk.AccessibleState<code>#HIDDEN</code>  state will also change to reflect the {@link [property@Gtk.Widget:visible] (ref=property)} property.
  */
 public interface Accessible extends io.github.jwharm.javagi.NativeAddress {
 

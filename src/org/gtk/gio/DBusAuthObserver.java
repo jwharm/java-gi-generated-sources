@@ -8,28 +8,28 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GDBusAuthObserver type provides a mechanism for participating
- * in how a #GDBusServer (or a #GDBusConnection) authenticates remote
- * peers. Simply instantiate a #GDBusAuthObserver and connect to the
+ * The {@link org.gtk.gio.DBusAuthObserver} type provides a mechanism for participating
+ * in how a {@link org.gtk.gio.DBusServer} (or a {@link org.gtk.gio.DBusConnection}  authenticates remote
+ * peers. Simply instantiate a {@link org.gtk.gio.DBusAuthObserver} and connect to the
  * signals you are interested in. Note that new signals may be added
  * in the future
  * <p>
  * <h2>Controlling Authentication Mechanisms</h2>
  * <p>
- * By default, a #GDBusServer or server-side #GDBusConnection will allow
+ * By default, a {@link org.gtk.gio.DBusServer} or server-side {@link org.gtk.gio.DBusConnection} will allow
  * any authentication mechanism to be used. If you only
  * want to allow D-Bus connections with the <code>EXTERNAL</code> mechanism,
  * which makes use of credentials passing and is the recommended
  * mechanism for modern Unix platforms such as Linux and the BSD family,
  * you would use a signal handler like this:
  * <p>
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * static gboolean
  * on_allow_mechanism (GDBusAuthObserver *observer,
  *                     const gchar       *mechanism,
  *                     gpointer           user_data)
  * {
- *   if (g_strcmp0 (mechanism, &#34;EXTERNAL&#34;) == 0)
+ *   if (g_strcmp0 (mechanism, &<code>#34</code> EXTERNAL&<code>#34</code> ) == 0)
  *     {
  *       return TRUE;
  *     }
@@ -38,17 +38,17 @@ import java.lang.invoke.*;
  * }
  * ]}|
  * <p>
- * <h2>Controlling Authorization # {#auth-observer}</h2>
+ * <h2>Controlling Authorization <code>#</code> {<code>#auth</code> observer}</h2>
  * <p>
- * By default, a #GDBusServer or server-side #GDBusConnection will accept
+ * By default, a {@link org.gtk.gio.DBusServer} or server-side {@link org.gtk.gio.DBusConnection} will accept
  * connections from any successfully authenticated user (but not from
  * anonymous connections using the <code>ANONYMOUS</code> mechanism). If you only
  * want to allow D-Bus connections from processes owned by the same uid
  * as the server, since GLib 2.68, you should use the
- * {@link org.gtk.gio.DBusServerFlags#AUTHENTICATION_REQUIRE_SAME_USER} flag. It&#8217;s equivalent
+ * {@link org.gtk.gio.DBusServerFlags<code>#AUTHENTICATION_REQUIRE_SAME_USER</code>  flag. It&<code>#8217</code> s equivalent
  * to the following signal handler:
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * static gboolean
  * on_authorize_authenticated_peer (GDBusAuthObserver *observer,
  *                                  GIOStream         *stream,
@@ -88,14 +88,14 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GDBusAuthObserver object.
+     * Creates a new {@link org.gtk.gio.DBusAuthObserver} object.
      */
     public DBusAuthObserver() {
         super(constructNew());
     }
     
     /**
-     * Emits the #GDBusAuthObserver::allow-mechanism signal on @observer.
+     * Emits the {@link org.gtk.gio.DBusAuthObserver} :allow-mechanism signal on @observer.
      */
     public boolean allowMechanism(java.lang.String mechanism) {
         var RESULT = gtk_h.g_dbus_auth_observer_allow_mechanism(handle(), Interop.allocateNativeString(mechanism).handle());
@@ -103,7 +103,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits the #GDBusAuthObserver::authorize-authenticated-peer signal on @observer.
+     * Emits the {@link org.gtk.gio.DBusAuthObserver} :authorize-authenticated-peer signal on @observer.
      */
     public boolean authorizeAuthenticatedPeer(IOStream stream, Credentials credentials) {
         var RESULT = gtk_h.g_dbus_auth_observer_authorize_authenticated_peer(handle(), stream.handle(), credentials.handle());

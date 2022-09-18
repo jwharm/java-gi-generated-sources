@@ -50,7 +50,7 @@ public class EventControllerKey extends EventController {
     /**
      * Gets the key group of the current event of this @controller.
      * 
-     * See {@link org.gtk.gdk.KeyEvent#getLayout}.
+     * See {@link org.gtk.gdk.KeyEvent<code>#getLayout</code> .
      */
     public int getGroup() {
         var RESULT = gtk_h.gtk_event_controller_key_get_group(handle());
@@ -81,8 +81,8 @@ public class EventControllerKey extends EventController {
      * Emitted whenever the input method context filters away
      * a keypress and prevents the @controller receiving it.
      * 
-     * See {@link org.gtk.gtk.EventControllerKey#setImContext} and
-     * {@link org.gtk.gtk.IMContext#filterKeypress}.
+     * See {@link org.gtk.gtk.EventControllerKey<code>#setImContext</code>  and
+     * {@link org.gtk.gtk.IMContext<code>#filterKeypress</code> .
      */
     public SignalHandle onImUpdate(ImUpdateHandler handler) {
         try {

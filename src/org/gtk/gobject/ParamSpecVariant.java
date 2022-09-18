@@ -8,13 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GParamSpec derived structure that contains the meta data for #GVariant properties.
+ * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for {@link org.gtk.glib.Variant} properties.
  * 
  * When comparing values with g_param_values_cmp(), scalar values with the same
  * type will be compared with g_variant_compare(). Other non-<code>null</code> variants will
  * be checked for equality with g_variant_equal(), and their sort order is
- * otherwise undefined. <code>null</code> is ordered before non-<code>null</code> variants. Two <code>NULL
- * values</code> compare equal.
+ * otherwise undefined. <code>null</code> is ordered before non-<code>null</code> variants. Two <code>null</code> values compare equal.
  */
 public class ParamSpecVariant extends ParamSpec {
 

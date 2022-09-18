@@ -35,15 +35,15 @@ public enum ConstraintAttribute {
     
     /**
      * The leading edge of a widget, depending
-     *   on text direction; equivalent to {@link org.gtk.gtk.ConstraintAttribute#LEFT} for LTR
-     *   languages, and {@link org.gtk.gtk.ConstraintAttribute#RIGHT} for RTL ones
+     *   on text direction; equivalent to {@link org.gtk.gtk.ConstraintAttribute<code>#LEFT</code>  for LTR
+     *   languages, and {@link org.gtk.gtk.ConstraintAttribute<code>#RIGHT</code>  for RTL ones
      */
     START,
     
     /**
      * The trailing edge of a widget, depending
-     *   on text direction; equivalent to {@link org.gtk.gtk.ConstraintAttribute#RIGHT} for LTR
-     *   languages, and {@link org.gtk.gtk.ConstraintAttribute#LEFT} for RTL ones
+     *   on text direction; equivalent to {@link org.gtk.gtk.ConstraintAttribute<code>#RIGHT</code>  for LTR
+     *   languages, and {@link org.gtk.gtk.ConstraintAttribute<code>#LEFT</code>  for RTL ones
      */
     END,
     

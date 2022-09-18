@@ -25,16 +25,16 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * Splits a shaped item (<code>PangoGlyphItem</code>) into multiple items based
      * on an attribute list.
      * 
-     * The idea is that if you have attributes that don&#39;t affect shaping,
+     * The idea is that if you have attributes that don&<code>#39</code> t affect shaping,
      * such as color or underline, to avoid affecting shaping, you filter
-     * them out ({@link org.pango.AttrList#filter}), apply the shaping process
+     * them out ({@link org.pango.AttrList<code>#filter</code> ), apply the shaping process
      * and then reapply them to the result using this function.
      * 
      * All attributes that start or end inside a cluster are applied
      * to that cluster; for instance, if half of a cluster is underlined
      * and the other-half strikethrough, then the cluster will end
      * up with both underline and strikethrough attributes. In these
-     * cases, it may happen that @item-&#62;extra_attrs for some of the
+     * cases, it may happen that @item-&<code>#62</code> extra_attrs for some of the
      * result items can have multiple attributes of the same type.
      * 
      * This function takes ownership of @glyph_item; it will be reused
@@ -67,7 +67,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * When multiple characters compose a single cluster, the width of the
      * entire cluster is divided equally among the characters.
      * 
-     * See also {@link org.pango.GlyphString#getLogicalWidths}.
+     * See also {@link org.pango.GlyphString<code>#getLogicalWidths</code> .
      */
     public void getLogicalWidths(java.lang.String text, int[] logicalWidths) {
         gtk_h.pango_glyph_item_get_logical_widths(handle(), Interop.allocateNativeString(text).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, logicalWidths)).handle());
@@ -89,7 +89,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * You can think of @split_index as the length of the returned item.
      * @split_index may not be 0, and it may not be greater than or equal
      * to the length of @orig (that is, there must be at least one byte
-     * assigned to each item, you can&#39;t create a zero-length item).
+     * assigned to each item, you can&<code>#39</code> t create a zero-length item).
      * 
      * This function is similar in function to pango_item_split() (and uses
      * it internally.)

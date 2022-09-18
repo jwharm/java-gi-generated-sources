@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This is the subclass of #GSocketConnection that is created
+ * This is the subclass of {@link org.gtk.gio.SocketConnection} that is created
  * for TCP/IP sockets.
  */
 public class TcpConnection extends SocketConnection {

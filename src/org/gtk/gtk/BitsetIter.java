@@ -12,8 +12,8 @@ import java.lang.invoke.*;
  * over the elements of a <code>GtkBitset</code>.
  * <p>
  * Before a <code>GtkBitsetIter</code> can be used, it needs to be initialized with
- * {@link Gtk#BitsetIter}, {@link Gtk#BitsetIter}
- * or {@link Gtk#BitsetIter}.
+ * {@link Gtk<code>#BitsetIter</code> , {@link Gtk<code>#BitsetIter</code> 
+ * or {@link Gtk<code>#BitsetIter</code> .
  */
 public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
 
@@ -24,8 +24,8 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the current value that @iter points to.
      * 
-     * If @iter is not valid and {@link org.gtk.gtk.BitsetIter#isValid}
-     * returns <code>FALSE,</code> this function returns 0.
+     * If @iter is not valid and {@link org.gtk.gtk.BitsetIter<code>#isValid</code> 
+     * returns <code>false</code>  this function returns 0.
      */
     public int getValue() {
         var RESULT = gtk_h.gtk_bitset_iter_get_value(handle());

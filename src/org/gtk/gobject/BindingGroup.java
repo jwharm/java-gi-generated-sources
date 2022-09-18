@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GBindingGroup can be used to bind multiple properties
+ * The {@link org.gtk.gobject.BindingGroup} can be used to bind multiple properties
  * from an object collectively.
  * 
  * Use the various methods to bind properties from a single source
@@ -33,7 +33,7 @@ public class BindingGroup extends Object {
     }
     
     /**
-     * Creates a new #GBindingGroup.
+     * Creates a new {@link org.gtk.gobject.BindingGroup}
      */
     public BindingGroup() {
         super(constructNew());
@@ -43,7 +43,7 @@ public class BindingGroup extends Object {
      * Creates a binding between @source_property on the source object
      * and @target_property on @target. Whenever the @source_property
      * is changed the @target_property is updated using the same value.
-     * The binding flag {@link org.gtk.gobject.BindingFlags#SYNC_CREATE} is automatically specified.
+     * The binding flag {@link org.gtk.gobject.BindingFlags<code>#SYNC_CREATE</code>  is automatically specified.
      * 
      * See g_object_bind_property() for more information.
      */
@@ -55,7 +55,7 @@ public class BindingGroup extends Object {
      * Creates a binding between @source_property on the source object and
      * @target_property on @target, allowing you to set the transformation
      * functions to be used by the binding. The binding flag
-     * {@link org.gtk.gobject.BindingFlags#SYNC_CREATE} is automatically specified.
+     * {@link org.gtk.gobject.BindingFlags<code>#SYNC_CREATE</code>  is automatically specified.
      * 
      * See g_object_bind_property_full() for more information.
      */
@@ -83,11 +83,10 @@ public class BindingGroup extends Object {
      * Creates a binding between @source_property on the source object and
      * @target_property on @target, allowing you to set the transformation
      * functions to be used by the binding. The binding flag
-     * {@link org.gtk.gobject.BindingFlags#SYNC_CREATE} is automatically specified.
+     * {@link org.gtk.gobject.BindingFlags<code>#SYNC_CREATE</code>  is automatically specified.
      * 
      * This function is the language bindings friendly version of
-     * g_binding_group_bind_property_full(), using #GClosures
-     * instead of function pointers.
+     * g_binding_group_bind_property_full(), using <code>#GClosures</code> instead of function pointers.
      * 
      * See g_object_bind_property_with_closures() for more information.
      */

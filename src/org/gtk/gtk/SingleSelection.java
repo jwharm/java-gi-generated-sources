@@ -49,7 +49,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * If <code>TRUE,</code> gtk_selection_model_unselect_item() is supported and allows
+     * If <code>true</code>  gtk_selection_model_unselect_item() is supported and allows
      * unselecting the selected item.
      */
     public boolean getCanUnselect() {
@@ -88,7 +88,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Enables or disables autoselect.
      * 
-     * If @autoselect is <code>TRUE,</code> @self will enforce that an item is always
+     * If @autoselect is <code>true</code>  @self will enforce that an item is always
      * selected. It will select a new item when the currently selected
      * item is deleted and it will disallow unselecting the current item.
      */
@@ -97,7 +97,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * If <code>TRUE,</code> unselecting the current item via
+     * If <code>true</code>  unselecting the current item via
      * gtk_selection_model_unselect_item() is supported.
      * 
      * Note that setting {@link [property@Gtk.SingleSelection:autoselect] (ref=property)} will
@@ -111,7 +111,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Sets the model that @self should wrap.
      * 
-     * If @model is <code>NULL,</code> @self will be empty.
+     * If @model is <code>null</code>  @self will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_single_selection_set_model(handle(), model.handle());

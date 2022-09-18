@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A quaternion.
  * 
- * The contents of the #graphene_quaternion_t structure are private
+ * The contents of the {@link org.gtk.graphene.Quaternion} structure are private
  * and should never be accessed directly.
  */
 public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
@@ -25,7 +25,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_quaternion_t.
+     * Allocates a new {@link org.gtk.graphene.Quaternion} 
      * 
      * The contents of the returned value are undefined.
      */
@@ -34,14 +34,14 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds two #graphene_quaternion_t @a and @b.
+     * Adds two {@link org.gtk.graphene.Quaternion} @a and @b.
      */
     public void add(Quaternion b, Quaternion res) {
         gtk_h.graphene_quaternion_add(handle(), b.handle(), res.handle());
     }
     
     /**
-     * Computes the dot product of two #graphene_quaternion_t.
+     * Computes the dot product of two {@link org.gtk.graphene.Quaternion}
      */
     public float dot(Quaternion b) {
         var RESULT = gtk_h.graphene_quaternion_dot(handle(), b.handle());
@@ -64,7 +64,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t using the given four values.
+     * Initializes a {@link org.gtk.graphene.Quaternion} using the given four values.
      */
     public Quaternion init(float x, float y, float z, float w) {
         var RESULT = gtk_h.graphene_quaternion_init(handle(), x, y, z, w);
@@ -72,7 +72,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t using an @angle on a
+     * Initializes a {@link org.gtk.graphene.Quaternion} using an @angle on a
      * specific @axis.
      */
     public Quaternion initFromAngleVec3(float angle, Vec3 axis) {
@@ -81,7 +81,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t using the values of
+     * Initializes a {@link org.gtk.graphene.Quaternion} using the values of
      * the {@link [Euler angles]}(http://en.wikipedia.org/wiki/Euler_angles)
      * on each axis.
      * 
@@ -93,7 +93,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t using the given #graphene_euler_t.
+     * Initializes a {@link org.gtk.graphene.Quaternion} using the given {@link org.gtk.graphene.Euler}
      */
     public Quaternion initFromEuler(Euler e) {
         var RESULT = gtk_h.graphene_quaternion_init_from_euler(handle(), e.handle());
@@ -101,7 +101,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t using the rotation components
+     * Initializes a {@link org.gtk.graphene.Quaternion} using the rotation components
      * of a transformation matrix.
      */
     public Quaternion initFromMatrix(Matrix m) {
@@ -110,7 +110,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t with the values from @src.
+     * Initializes a {@link org.gtk.graphene.Quaternion} with the values from @src.
      */
     public Quaternion initFromQuaternion(Quaternion src) {
         var RESULT = gtk_h.graphene_quaternion_init_from_quaternion(handle(), src.handle());
@@ -118,7 +118,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t using the values of
+     * Initializes a {@link org.gtk.graphene.Quaternion} using the values of
      * the {@link [Euler angles]}(http://en.wikipedia.org/wiki/Euler_angles)
      * on each axis.
      * 
@@ -130,7 +130,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t with the values from @src.
+     * Initializes a {@link org.gtk.graphene.Quaternion} with the values from @src.
      */
     public Quaternion initFromVec4(Vec4 src) {
         var RESULT = gtk_h.graphene_quaternion_init_from_vec4(handle(), src.handle());
@@ -138,7 +138,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_quaternion_t using the identity
+     * Initializes a {@link org.gtk.graphene.Quaternion} using the identity
      * transformation.
      */
     public Quaternion initIdentity() {
@@ -147,7 +147,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inverts a #graphene_quaternion_t, and returns the conjugate
+     * Inverts a {@link org.gtk.graphene.Quaternion}  and returns the conjugate
      * quaternion of @q.
      */
     public void invert(Quaternion res) {
@@ -155,21 +155,21 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Multiplies two #graphene_quaternion_t @a and @b.
+     * Multiplies two {@link org.gtk.graphene.Quaternion} @a and @b.
      */
     public void multiply(Quaternion b, Quaternion res) {
         gtk_h.graphene_quaternion_multiply(handle(), b.handle(), res.handle());
     }
     
     /**
-     * Normalizes a #graphene_quaternion_t.
+     * Normalizes a {@link org.gtk.graphene.Quaternion}
      */
     public void normalize(Quaternion res) {
         gtk_h.graphene_quaternion_normalize(handle(), res.handle());
     }
     
     /**
-     * Scales all the elements of a #graphene_quaternion_t @q using
+     * Scales all the elements of a {@link org.gtk.graphene.Quaternion} @q using
      * the given scalar factor.
      */
     public void scale(float factor, Quaternion res) {
@@ -187,15 +187,15 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Converts a quaternion into a transformation matrix expressing
-     * the rotation defined by the #graphene_quaternion_t.
+     * the rotation defined by the {@link org.gtk.graphene.Quaternion}
      */
     public void toMatrix(Matrix m) {
         gtk_h.graphene_quaternion_to_matrix(handle(), m.handle());
     }
     
     /**
-     * Copies the components of a #graphene_quaternion_t into a
-     * #graphene_vec4_t.
+     * Copies the components of a {@link org.gtk.graphene.Quaternion} into a
+     * {@link org.gtk.graphene.Vec4}
      */
     public void toVec4(Vec4 res) {
         gtk_h.graphene_quaternion_to_vec4(handle(), res.handle());

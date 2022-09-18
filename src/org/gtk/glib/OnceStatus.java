@@ -2,7 +2,7 @@ package org.gtk.glib;
 
 /**
  * The possible statuses of a one-time initialization function
- * controlled by a #GOnce struct.
+ * controlled by a {@link org.gtk.glib.Once} struct.
  */
 public enum OnceStatus {
 

@@ -30,7 +30,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     
     /**
      * Creates a new application launch context. This is not normally used,
-     * instead you instantiate a subclass of this, such as #GdkAppLaunchContext.
+     * instead you instantiate a subclass of this, such as {@link org.gtk.gdk.AppLaunchContext}
      */
     public AppLaunchContext() {
         super(constructNew());
@@ -66,7 +66,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Arranges for @variable to be set to @value in the child&#39;s
+     * Arranges for @variable to be set to @value in the child&<code>#39</code> s
      * environment when @context is used to launch an application.
      */
     public void setenv(java.lang.String variable, java.lang.String value) {
@@ -74,7 +74,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Arranges for @variable to be unset in the child&#39;s environment
+     * Arranges for @variable to be unset in the child&<code>#39</code> s environment
      * when @context is used to launch an application.
      */
     public void unsetenv(java.lang.String variable) {
@@ -87,7 +87,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * The #GAppLaunchContext::launch-failed signal is emitted when a #GAppInfo launch
+     * The {@link org.gtk.gio.AppLaunchContext} :launch-failed signal is emitted when a {@link org.gtk.gio.AppInfo} launch
      * fails. The startup notification id is provided, so that the launcher
      * can cancel the startup notification.
      */
@@ -112,7 +112,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * The #GAppLaunchContext::launch-started signal is emitted when a #GAppInfo is
+     * The {@link org.gtk.gio.AppLaunchContext} :launch-started signal is emitted when a {@link org.gtk.gio.AppInfo} is
      * about to be launched. If non-null the @platform_data is an
      * GVariant dictionary mapping strings to variants (ie <code>a{sv}</code>), which
      * contains additional, platform-specific data about this launch. On
@@ -124,8 +124,8 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * specification]}(https://specifications.freedesktop.org/startup-notification-spec/startup-notification-0.1.txt).
      * It allows tracking the progress of the launchee through startup.
      * 
-     * It is guaranteed that this signal is followed by either a #GAppLaunchContext::launched or
-     * #GAppLaunchContext::launch-failed signal.
+     * It is guaranteed that this signal is followed by either a {@link org.gtk.gio.AppLaunchContext} :launched or
+     * {@link org.gtk.gio.AppLaunchContext} :launch-failed signal.
      */
     public SignalHandle onLaunchStarted(LaunchStartedHandler handler) {
         try {
@@ -148,12 +148,12 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * The #GAppLaunchContext::launched signal is emitted when a #GAppInfo is successfully
+     * The {@link org.gtk.gio.AppLaunchContext} :launched signal is emitted when a {@link org.gtk.gio.AppInfo} is successfully
      * launched. The @platform_data is an GVariant dictionary mapping
      * strings to variants (ie <code>a{sv}</code>), which contains additional,
      * platform-specific data about this launch. On UNIX, at least the<code>pid</code> and <code>startup-notification-id</code> keys will be present.
      * <p>
-     * Since 2.72 the <code>pid</code> may be 0 if the process id wasn&#39;t known (for
+     * Since 2.72 the <code>pid</code> may be 0 if the process id wasn&<code>#39</code> t known (for
      * example if the process was launched via D-Bus). The <code>pid</code> may not be
      * set at all in subsequent releases.
      */

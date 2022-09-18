@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Watches #GUnixMounts for changes.
+ * Watches <code>#GUnixMounts</code> for changes.
  */
 public class UnixMountMonitor extends org.gtk.gobject.Object {
 
@@ -22,7 +22,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the #GUnixMountMonitor for the current thread-default main
+     * Gets the {@link org.gtk.gio.UnixMountMonitor} for the current thread-default main
      * context.
      * 
      * The mount monitor can be used to monitor for changes to the list of

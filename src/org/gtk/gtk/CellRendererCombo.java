@@ -40,7 +40,7 @@ public class CellRendererCombo extends CellRendererText {
      * Adjust how text is drawn using object properties.
      * Object properties can be set globally (with g_object_set()).
      * Also, with <code>GtkTreeViewColumn</code>, you can bind a property to a value
-     * in a <code>GtkTreeModel</code>. For example, you can bind the &#8220;text&#8221; property
+     * in a <code>GtkTreeModel</code>. For example, you can bind the &<code>#8220</code> text&<code>#8221</code>  property
      * on the cell renderer to a string value in the model, thus rendering
      * a different string in each row of the <code>GtkTreeView</code>.
      */

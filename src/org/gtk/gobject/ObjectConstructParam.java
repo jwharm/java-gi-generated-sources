@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * The GObjectConstructParam struct is an auxiliary structure used to hand
- * #GParamSpec/#GValue pairs to the @constructor of a #GObjectClass.
+ * {@link org.gtk.gobject.ParamSpec} {@link org.gtk.gobject.Value} pairs to the @constructor of a {@link org.gtk.gobject.ObjectClass}
  */
 public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
 

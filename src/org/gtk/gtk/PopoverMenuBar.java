@@ -16,13 +16,13 @@ import java.lang.invoke.*;
  * The only way to create instances of <code>GtkPopoverMenuBar</code> is
  * from a <code>GMenuModel</code>.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * menubar
- * &#9500;&#9472;&#9472; item{@link [.active]}
- * &#9482;   &#9584;&#9472;&#9472; popover
- * &#9584;&#9472;&#9472; item
- *     &#9584;&#9472;&#9472; popover
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  item{@link [.active]}
+ * &<code>#9482</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  popover
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  item
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  popover
  * </pre>
  * <p><code>GtkPopoverMenuBar</code> has a single CSS node with name menubar, below which
  * each item has its CSS node, and below that the corresponding popover.
@@ -30,10 +30,10 @@ import java.lang.invoke.*;
  * The item whose popover is currently open gets the .active
  * style class.
  * <p>
- * <h1>ccessibility</h1>
- * <p><code>GtkPopoverMenuBar</code> uses the {@link org.gtk.gtk.AccessibleRole#MENU_BAR} role,
- * the menu items use the {@link org.gtk.gtk.AccessibleRole#MENU_ITEM} role and
- * the menus use the {@link org.gtk.gtk.AccessibleRole#MENU} role.
+ * <h1>Accessibility</h1>
+ * <p><code>GtkPopoverMenuBar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#MENU_BAR</code>  role,
+ * the menu items use the {@link org.gtk.gtk.AccessibleRole<code>#MENU_ITEM</code>  role and
+ * the menus use the {@link org.gtk.gtk.AccessibleRole<code>#MENU</code>  role.
  */
 public class PopoverMenuBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 

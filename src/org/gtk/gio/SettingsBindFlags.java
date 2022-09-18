@@ -13,24 +13,24 @@ public class SettingsBindFlags {
     public static final int DEFAULT = 0;
     
     /**
-     * Update the #GObject property when the setting changes.
+     * Update the {@link org.gtk.gobject.Object} property when the setting changes.
      *     It is an error to use this flag if the property is not writable.
      */
     public static final int GET = 1;
     
     /**
-     * Update the setting when the #GObject property changes.
+     * Update the setting when the {@link org.gtk.gobject.Object} property changes.
      *     It is an error to use this flag if the property is not readable.
      */
     public static final int SET = 2;
     
     /**
-     * Do not try to bind a &#34;sensitivity&#34; property to the writability of the setting
+     * Do not try to bind a &<code>#34</code> sensitivity&<code>#34</code>  property to the writability of the setting
      */
     public static final int NO_SENSITIVITY = 4;
     
     /**
-     * When set in addition to <code>G_SETTINGS_BIND_GET,</code> set the #GObject property
+     * When set in addition to {@link org.gtk.gio.SettingsBindFlags<code>#GET</code>   set the {@link org.gtk.gobject.Object} property
      *     value initially from the setting, but do not listen for changes of the setting
      */
     public static final int GET_NO_CHANGES = 8;

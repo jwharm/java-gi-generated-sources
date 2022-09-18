@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * {@link org.gtk.gtk.Scale} and {@link org.gtk.gtk.Scrollbar}.
  * <p>
  * Apart from signals for monitoring the parameters of the adjustment,<code>GtkRange</code> provides properties and methods for setting a
- * &#8220;fill level&#8221; on range widgets. See {@link org.gtk.gtk.Range#setFillLevel}.
+ * &<code>#8220</code> fill level&<code>#8221</code>  on range widgets. See {@link org.gtk.gtk.Range<code>#setFillLevel</code> .
  */
 public class Range extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -29,7 +29,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Get the adjustment which is the &#8220;model&#8221; object for <code>GtkRange</code>.
+     * Get the adjustment which is the &<code>#8220</code> model&<code>#8221</code>  object for <code>GtkRange</code>.
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_range_get_adjustment(handle());
@@ -47,7 +47,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets whether the <code>GtkRange</code> respects text direction.
      * 
-     * See {@link org.gtk.gtk.Range#setFlippable}.
+     * See {@link org.gtk.gtk.Range<code>#setFlippable</code> .
      */
     public boolean getFlippable() {
         var RESULT = gtk_h.gtk_range_get_flippable(handle());
@@ -57,7 +57,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets whether the range is inverted.
      * 
-     * See {@link org.gtk.gtk.Range#setInverted}.
+     * See {@link org.gtk.gtk.Range<code>#setInverted</code> .
      */
     public boolean getInverted() {
         var RESULT = gtk_h.gtk_range_get_inverted(handle());
@@ -65,8 +65,8 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * This function returns the area that contains the range&#8217;s trough,
-     * in coordinates relative to @range&#39;s origin.
+     * This function returns the area that contains the range&<code>#8217</code> s trough,
+     * in coordinates relative to @range&<code>#39</code> s origin.
      * <p>
      * This function is useful mainly for <code>GtkRange</code> subclasses.
      */
@@ -104,7 +104,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * This function is useful mainly for <code>GtkRange</code> subclasses.
      * 
-     * See {@link org.gtk.gtk.Range#setSliderSizeFixed}.
+     * See {@link org.gtk.gtk.Range<code>#setSliderSizeFixed</code> .
      */
     public boolean getSliderSizeFixed() {
         var RESULT = gtk_h.gtk_range_get_slider_size_fixed(handle());
@@ -120,7 +120,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets the adjustment to be used as the &#8220;model&#8221; object for the <code>GtkRange</code>
+     * Sets the adjustment to be used as the &<code>#8220</code> model&<code>#8221</code>  object for the <code>GtkRange</code>
      * <p>
      * The adjustment indicates the current range value, the minimum and
      * maximum range values, the step/page increments used for keybindings
@@ -137,20 +137,20 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Set the new position of the fill level indicator.
      * 
-     * The &#8220;fill level&#8221; is probably best described by its most prominent
+     * The &<code>#8220</code> fill level&<code>#8221</code>  is probably best described by its most prominent
      * use case, which is an indicator for the amount of pre-buffering in
      * a streaming media player. In that use case, the value of the range
      * would indicate the current play position, and the fill level would
      * be the position up to which the file/stream has been downloaded.
      * 
-     * This amount of prebuffering can be displayed on the range&#8217;s trough
+     * This amount of prebuffering can be displayed on the range&<code>#8217</code> s trough
      * and is themeable separately from the trough. To enable fill level
-     * display, use {@link org.gtk.gtk.Range#setShowFillLevel}. The range defaults
+     * display, use {@link org.gtk.gtk.Range<code>#setShowFillLevel</code> . The range defaults
      * to not showing the fill level.
      * 
-     * Additionally, it&#8217;s possible to restrict the range&#8217;s slider position
+     * Additionally, it&<code>#8217</code> s possible to restrict the range&<code>#8217</code> s slider position
      * to values which are smaller than the fill level. This is controlled
-     * by {@link org.gtk.gtk.Range#setRestrictToFillLevel} and is by default
+     * by {@link org.gtk.gtk.Range<code>#setRestrictToFillLevel</code>  and is by default
      * enabled.
      */
     public void setFillLevel(double fillLevel) {
@@ -161,9 +161,9 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets whether the <code>GtkRange</code> respects text direction.
      * 
      * If a range is flippable, it will switch its direction
-     * if it is horizontal and its direction is <code>GTK_TEXT_DIR_RTL.
+     * if it is horizontal and its direction is {@link org.gtk.gtk.TextDirection<code>#RTL</code>  
      * 
-     * See</code> {@link org.gtk.gtk.Widget#getDirection}.
+     * See {@link org.gtk.gtk.Widget<code>#getDirection</code> .
      */
     public void setFlippable(boolean flippable) {
         gtk_h.gtk_range_set_flippable(handle(), flippable ? 1 : 0);
@@ -206,7 +206,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the slider is restricted to the fill level.
      * 
-     * See {@link org.gtk.gtk.Range#setFillLevel} for a general description
+     * See {@link org.gtk.gtk.Range<code>#setFillLevel</code>  for a general description
      * of the fill level concept.
      */
     public void setRestrictToFillLevel(boolean restrictToFillLevel) {
@@ -226,7 +226,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether a graphical fill level is show on the trough.
      * 
-     * See {@link org.gtk.gtk.Range#setFillLevel} for a general description
+     * See {@link org.gtk.gtk.Range<code>#setFillLevel</code>  for a general description
      * of the fill level concept.
      */
     public void setShowFillLevel(boolean showFillLevel) {
@@ -234,8 +234,8 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets whether the range&#8217;s slider has a fixed size, or a size that
-     * depends on its adjustment&#8217;s page size.
+     * Sets whether the range&<code>#8217</code> s slider has a fixed size, or a size that
+     * depends on its adjustment&<code>#8217</code> s page size.
      * <p>
      * This function is useful mainly for <code>GtkRange</code> subclasses.
      */
@@ -289,7 +289,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * It allows an application to determine the type of scroll event
      * that occurred and the resultant new value. The application can
      * handle the event itself and return <code>true</code> to prevent further
-     * processing. Or, by returning <code>FALSE,</code> it can pass the event to
+     * processing. Or, by returning <code>false</code>  it can pass the event to
      * other handlers until the default GTK handler is reached.
      * 
      * The value parameter is unrounded. An application that overrides

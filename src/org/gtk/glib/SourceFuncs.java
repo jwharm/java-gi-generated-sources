@@ -11,21 +11,19 @@ import java.lang.invoke.*;
  * The <code>GSourceFuncs</code> struct contains a table of
  * functions used to handle event sources in a generic manner.
  * 
- * For idle sources, the prepare and check functions always return <code>TRUE
- * to</code> indicate that the source is always ready to be processed. The prepare
+ * For idle sources, the prepare and check functions always return <code>true</code> to indicate that the source is always ready to be processed. The prepare
  * function also returns a timeout value of 0 to ensure that the poll() call
- * doesn&#39;t block (since that would be time wasted which could have been spent
+ * doesn&<code>#39</code> t block (since that would be time wasted which could have been spent
  * running the idle function).
  * 
- * For timeout sources, the prepare and check functions both return <code>TRUE
- * if</code> the timeout interval has expired. The prepare function also returns
- * a timeout value to ensure that the poll() call doesn&#39;t block too long
+ * For timeout sources, the prepare and check functions both return <code>true</code> if the timeout interval has expired. The prepare function also returns
+ * a timeout value to ensure that the poll() call doesn&<code>#39</code> t block too long
  * and miss the next timeout.
  * 
- * For file descriptor sources, the prepare function typically returns <code>FALSE,
- * since</code> it must wait until poll() has been called before it knows whether
+ * For file descriptor sources, the prepare function typically returns <code>false</code> 
+ * since it must wait until poll() has been called before it knows whether
  * any events need to be processed. It sets the returned timeout to -1 to
- * indicate that it doesn&#39;t mind how long the poll() call blocks. In the
+ * indicate that it doesn&<code>#39</code> t mind how long the poll() call blocks. In the
  * check function, it tests the results of the poll() call to see if the
  * required condition has been met, and returns <code>true</code> if so.
  */

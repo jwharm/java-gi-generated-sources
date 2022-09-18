@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * <p>
  * The attributes in a <code>PangoAttrList</code> are, in general, allowed to overlap in
  * an arbitrary fashion. However, if the attributes are manipulated only through
- * {@link org.pango.AttrList#change}, the overlap between properties will meet
+ * {@link org.pango.AttrList<code>#change</code> , the overlap between properties will meet
  * stricter criteria.
  * <p>
  * Since the <code>PangoAttrList</code> structure is stored as a linear list, it is not
@@ -46,10 +46,10 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * on that segment and be merged with any adjoining
      * attributes that are identical.
      * 
-     * This function is slower than {@link org.pango.AttrList#insert}
+     * This function is slower than {@link org.pango.AttrList<code>#insert</code> 
      * for creating an attribute list in order (potentially
      * much slower for large lists). However,
-     * {@link org.pango.AttrList#insert} is not suitable for
+     * {@link org.pango.AttrList<code>#insert</code>  is not suitable for
      * continually changing a set of attributes since it
      * never removes or combines existing attributes.
      */
@@ -152,7 +152,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * 
      * This operation is equivalent to stretching every attribute
      * that applies at position @pos in @list by an amount @len,
-     * and then calling {@link org.pango.AttrList#change} with a copy
+     * and then calling {@link org.pango.AttrList<code>#change</code>  with a copy
      * of each attribute in @other in sequence (offset in position
      * by @pos, and limited in length to @len).
      * 
@@ -218,7 +218,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Deserializes a <code>PangoAttrList</code> from a string.
      * 
-     * This is the counterpart to {@link org.pango.AttrList#toString}.
+     * This is the counterpart to {@link org.pango.AttrList<code>#toString</code> .
      * See that functions for details about the format.
      */
     public static AttrList fromString(java.lang.String text) {

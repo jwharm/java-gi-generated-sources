@@ -16,33 +16,33 @@ import java.lang.invoke.*;
  * A <code>GtkCalendar</code> can be created with {@link [ctor@Gtk.Calendar.new] (ref=ctor)}.
  * <p>
  * The date that is currently displayed can be altered with
- * {@link org.gtk.gtk.Calendar#selectDay}.
+ * {@link org.gtk.gtk.Calendar<code>#selectDay</code> .
  * <p>
  * To place a visual marker on a particular day, use
- * {@link org.gtk.gtk.Calendar#markDay} and to remove the marker,
- * {@link org.gtk.gtk.Calendar#unmarkDay}. Alternative, all
- * marks can be cleared with {@link org.gtk.gtk.Calendar#clearMarks}.
+ * {@link org.gtk.gtk.Calendar<code>#markDay</code>  and to remove the marker,
+ * {@link org.gtk.gtk.Calendar<code>#unmarkDay</code> . Alternative, all
+ * marks can be cleared with {@link org.gtk.gtk.Calendar<code>#clearMarks</code> .
  * <p>
  * The selected date can be retrieved from a <code>GtkCalendar</code> using
- * {@link org.gtk.gtk.Calendar#getDate}.
+ * {@link org.gtk.gtk.Calendar<code>#getDate</code> .
  * <p>
  * Users should be aware that, although the Gregorian calendar is the
  * legal calendar in most countries, it was adopted progressively
  * between 1582 and 1929. Display before these dates is likely to be
  * historically incorrect.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * calendar.view
- * &#9500;&#9472;&#9472; header
- * &#9474;   &#9500;&#9472;&#9472; button
- * &#9474;   &#9500;&#9472;&#9472; stack.month
- * &#9474;   &#9500;&#9472;&#9472; button
- * &#9474;   &#9500;&#9472;&#9472; button
- * &#9474;   &#9500;&#9472;&#9472; label.year
- * &#9474;   &#9584;&#9472;&#9472; button
- * &#9584;&#9472;&#9472; grid
- *     &#9584;&#9472;&#9472; label{@link [.day-name]}{@link [.week-number]}{@link [.day-number]}{@link [.other-month]}{@link [.today]}
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  header
+ * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button
+ * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  stack.month
+ * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button
+ * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button
+ * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  label.year
+ * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  grid
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  label{@link [.day-name]}{@link [.week-number]}{@link [.day-number]}{@link [.other-month]}{@link [.today]}
  * </pre>
  * <p><code>GtkCalendar</code> has a main node with name calendar. It contains a subnode
  * called header containing the widgets for switching between years and months.
@@ -148,7 +148,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Switches to @date&#39;s year and month and select its day.
+     * Switches to @date&<code>#39</code> s year and month and select its day.
      */
     public void selectDay(org.gtk.glib.DateTime date) {
         gtk_h.gtk_calendar_select_day(handle(), date.handle());

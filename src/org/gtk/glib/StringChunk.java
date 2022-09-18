@@ -18,7 +18,7 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees all strings contained within the #GStringChunk.
+     * Frees all strings contained within the {@link org.gtk.glib.StringChunk} 
      * After calling g_string_chunk_clear() it is not safe to
      * access any of the strings which were contained within it.
      */
@@ -27,7 +27,7 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees all memory allocated by the #GStringChunk.
+     * Frees all memory allocated by the {@link org.gtk.glib.StringChunk} 
      * After calling g_string_chunk_free() it is not safe to
      * access any of the strings which were contained within it.
      */
@@ -36,9 +36,9 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a copy of @string to the #GStringChunk.
+     * Adds a copy of @string to the {@link org.gtk.glib.StringChunk} 
      * It returns a pointer to the new copy of the string
-     * in the #GStringChunk. The characters in the string
+     * in the {@link org.gtk.glib.StringChunk}  The characters in the string
      * can be changed, if necessary, though you should not
      * change anything after the end of the string.
      * 
@@ -54,8 +54,8 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a copy of @string to the #GStringChunk, unless the same
-     * string has already been added to the #GStringChunk with
+     * Adds a copy of @string to the {@link org.gtk.glib.StringChunk}  unless the same
+     * string has already been added to the {@link org.gtk.glib.StringChunk} with
      * g_string_chunk_insert_const().
      * 
      * This function is useful if you need to copy a large number
@@ -74,10 +74,10 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a copy of the first @len bytes of @string to the #GStringChunk.
+     * Adds a copy of the first @len bytes of @string to the {@link org.gtk.glib.StringChunk} 
      * The copy is nul-terminated.
      * 
-     * Since this function does not stop at nul bytes, it is the caller&#39;s
+     * Since this function does not stop at nul bytes, it is the caller&<code>#39</code> s
      * responsibility to ensure that @string has at least @len addressable
      * bytes.
      * 
@@ -90,7 +90,7 @@ public class StringChunk extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GStringChunk.
+     * Creates a new {@link org.gtk.glib.StringChunk}
      */
     public static StringChunk new_(long size) {
         var RESULT = gtk_h.g_string_chunk_new(size);

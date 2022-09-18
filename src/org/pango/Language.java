@@ -28,15 +28,15 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * font feature requirements unique to the language. It is suitable for use
      * as sample text in a font selection dialog.
      * <p>
-     * If @language is <code>NULL,</code> the default language as found by
-     * {@link Pango#Language} is used.
+     * If @language is <code>null</code>  the default language as found by
+     * {@link Pango<code>#Language</code>  is used.
      * <p>
      * If Pango does not have a sample string for @language, the classic
-     * &#34;The quick brown fox...&#34; is returned.  This can be detected by
+     * &<code>#34</code> The quick brown fox...&<code>#34</code>  is returned.  This can be detected by
      * comparing the returned pointer value to that returned for (non-existent)
-     * language code &#34;xx&#34;.  That is, compare to:
+     * language code &<code>#34</code> xx&<code>#34</code> .  That is, compare to:
      * <p><pre>
-     * pango_language_get_sample_string (pango_language_from_string (&#34;xx&#34;))
+     * pango_language_get_sample_string (pango_language_from_string (&<code>#34</code> xx&<code>#34</code> ))
      * </pre>
      */
     public java.lang.String getSampleString() {
@@ -52,12 +52,12 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * the language tag @language, <code>true</code> will be returned, since, as
      * far as Pango knows, @script might be used to write @language.
      * 
-     * This routine is used in Pango&#39;s itemization process when
+     * This routine is used in Pango&<code>#39</code> s itemization process when
      * determining if a supplied language tag is relevant to
      * a particular section of text. It probably is not useful
      * for applications in most circumstances.
      * 
-     * This function uses {@link org.pango.Language#getScripts} internally.
+     * This function uses {@link org.pango.Language<code>#getScripts</code>  internally.
      */
     public boolean includesScript(Script script) {
         var RESULT = gtk_h.pango_language_includes_script(handle(), script.getValue());
@@ -69,8 +69,8 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * language ranges.
      * 
      * A language tag is considered to match a range in the list if the
-     * range is &#39;*&#39;, the range is exactly the tag, or the range is a prefix
-     * of the tag, and the character after it in the tag is &#39;-&#39;.
+     * range is &<code>#39</code> *&<code>#39</code> , the range is exactly the tag, or the range is a prefix
+     * of the tag, and the character after it in the tag is &<code>#39</code> -&<code>#39</code> .
      */
     public boolean matches(java.lang.String rangeList) {
         var RESULT = gtk_h.pango_language_matches(handle(), Interop.allocateNativeString(rangeList).handle());
@@ -95,10 +95,10 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * language tags (compare the pointer.)
      * <p>
      * This function first canonicalizes the string by converting it to
-     * lowercase, mapping &#39;_&#39; to &#39;-&#39;, and stripping all characters other
-     * than letters and &#39;-&#39;.
+     * lowercase, mapping &<code>#39</code> _&<code>#39</code>  to &<code>#39</code> -&<code>#39</code> , and stripping all characters other
+     * than letters and &<code>#39</code> -&<code>#39</code> .
      * <p>
-     * Use {@link Pango#Language} if you want to get the<code>PangoLanguage</code> for the current locale of the process.
+     * Use {@link Pango<code>#Language</code>  if you want to get the<code>PangoLanguage</code> for the current locale of the process.
      */
     public static Language fromString(java.lang.String language) {
         var RESULT = gtk_h.pango_language_from_string(Interop.allocateNativeString(language).handle());
@@ -117,16 +117,16 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * Brazil.
      * <p>
      * On Windows, the C library does not use any such environment
-     * variables, and setting them won&#39;t affect the behavior of functions
+     * variables, and setting them won&<code>#39</code> t affect the behavior of functions
      * like ctime(). The user sets the locale through the Regional Options
      * in the Control Panel. The C library (in the setlocale() function)
      * does not use country and language codes, but country and language
      * names spelled out in English.
      * However, this function does check the above environment
      * variables, and does return a Unix-style locale string based on
-     * either said environment variables or the thread&#39;s current locale.
+     * either said environment variables or the thread&<code>#39</code> s current locale.
      * <p>
-     * Your application should call <code>setlocale(LC_ALL, &#34;&#34;)</code> for the user
+     * Your application should call <code>setlocale(LC_ALL, &<code>#34</code> &<code>#34</code> )</code> for the user
      * settings to take effect. GTK does this in its initialization
      * functions automatically (by calling gtk_set_locale()).
      * See the setlocale() manpage for more details.
@@ -148,10 +148,10 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * The list is specified by the <code>PANGO_LANGUAGE</code> or <code>LANGUAGE</code>
      * environment variables, in order of preference. Note that this
      * list does not necessarily include the language returned by
-     * {@link Pango#Language}.
+     * {@link Pango<code>#Language</code> .
      * 
      * When choosing language-specific resources, such as the sample
-     * text returned by {@link org.pango.Language#getSampleString},
+     * text returned by {@link org.pango.Language<code>#getSampleString</code> ,
      * you should first try the default language, followed by the
      * languages returned by this function.
      */

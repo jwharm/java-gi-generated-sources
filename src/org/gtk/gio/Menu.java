@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GMenu is a simple implementation of #GMenuModel.
- * You populate a #GMenu by adding #GMenuItem instances to it.
+ * {@link org.gtk.gio.Menu} is a simple implementation of {@link org.gtk.gio.MenuModel} 
+ * You populate a {@link org.gtk.gio.Menu} by adding {@link org.gtk.gio.MenuItem} instances to it.
  * 
  * There are some convenience functions to allow you to directly
- * add items (avoiding #GMenuItem) for the common cases. To add
+ * add items (avoiding {@link org.gtk.gio.MenuItem}  for the common cases. To add
  * a regular item, use g_menu_insert(). To add a section, use
  * g_menu_insert_section(). To add a submenu, use
  * g_menu_insert_submenu().
@@ -34,7 +34,7 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Creates a new #GMenu.
+     * Creates a new {@link org.gtk.gio.Menu} 
      * 
      * The new menu has no items.
      */
@@ -82,11 +82,11 @@ public class Menu extends MenuModel {
      * Marks @menu as frozen.
      * 
      * After the menu is frozen, it is an error to attempt to make any
-     * changes to it.  In effect this means that the #GMenu API must no
+     * changes to it.  In effect this means that the {@link org.gtk.gio.Menu} API must no
      * longer be used.
      * 
      * This function causes g_menu_model_is_mutable() to begin returning
-     * <code>FALSE,</code> which has some positive performance implications.
+     * <code>false</code>  which has some positive performance implications.
      */
     public void freeze() {
         gtk_h.g_menu_freeze(handle());
@@ -104,7 +104,7 @@ public class Menu extends MenuModel {
     /**
      * Inserts @item into @menu.
      * 
-     * The &#34;insertion&#34; is actually done by copying all of the attribute and
+     * The &<code>#34</code> insertion&<code>#34</code>  is actually done by copying all of the attribute and
      * link values of @item and using them to form a new item within @menu.
      * As such, @item itself is not really inserted, but rather, a menu item
      * that is exactly the same as the one presently described by @item.
@@ -113,11 +113,11 @@ public class Menu extends MenuModel {
      * occurs.  Any changes you make to it are ignored unless it is inserted
      * again (at which point its updated values will be copied).
      * 
-     * You should probably just free @item once you&#39;re done.
+     * You should probably just free @item once you&<code>#39</code> re done.
      * 
      * There are many convenience functions to take care of common cases.
      * See g_menu_insert(), g_menu_insert_section() and
-     * g_menu_insert_submenu() as well as &#34;prepend&#34; and &#34;append&#34; variants of
+     * g_menu_insert_submenu() as well as &<code>#34</code> prepend&<code>#34</code>  and &<code>#34</code> append&<code>#34</code>  variants of
      * each of these functions.
      */
     public void insertItem(int position, MenuItem item) {

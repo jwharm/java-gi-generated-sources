@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * A protocol identifier is specified when creating a #GSocket, which is a
+ * A protocol identifier is specified when creating a {@link org.gtk.gio.Socket}  which is a
  * family/type specific identifier, where 0 means the default protocol for
  * the particular family/type.
  * 

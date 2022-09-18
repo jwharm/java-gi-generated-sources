@@ -18,7 +18,7 @@ public final class Gsk {
      * Parses the given @string into a transform and puts it in
      * @out_transform.
      * 
-     * Strings printed via {@link org.gtk.gsk.Transform#toString}
+     * Strings printed via {@link org.gtk.gsk.Transform<code>#toString</code> 
      * can be read in again successfully using this function.
      * 
      * If @string does not describe a valid transform, <code>false</code> is

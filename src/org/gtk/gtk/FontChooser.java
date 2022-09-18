@@ -21,12 +21,12 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * Gets the currently-selected font name.
      * 
      * Note that this can be a different string than what you set with
-     * {@link org.gtk.gtk.FontChooser#setFont}, as the font chooser widget may
+     * {@link org.gtk.gtk.FontChooser<code>#setFont</code> , as the font chooser widget may
      * normalize font names and thus return a string with a different
-     * structure. For example, &#8220;Helvetica Italic Bold 12&#8221; could be
-     * normalized to &#8220;Helvetica Bold Italic 12&#8221;.
+     * structure. For example, &<code>#8220</code> Helvetica Italic Bold 12&<code>#8221</code>  could be
+     * normalized to &<code>#8220</code> Helvetica Bold Italic 12&<code>#8221</code> .
      * 
-     * Use {@link org.pango.FontDescription#equal} if you want to compare two
+     * Use {@link org.pango.FontDescription<code>#equal</code>  if you want to compare two
      * font descriptions.
      */
     public default java.lang.String getFont() {
@@ -38,12 +38,12 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * Gets the currently-selected font.
      * 
      * Note that this can be a different string than what you set with
-     * {@link org.gtk.gtk.FontChooser#setFont}, as the font chooser widget may
+     * {@link org.gtk.gtk.FontChooser<code>#setFont</code> , as the font chooser widget may
      * normalize font names and thus return a string with a different
-     * structure. For example, &#8220;Helvetica Italic Bold 12&#8221; could be
-     * normalized to &#8220;Helvetica Bold Italic 12&#8221;.
+     * structure. For example, &<code>#8220</code> Helvetica Italic Bold 12&<code>#8221</code>  could be
+     * normalized to &<code>#8220</code> Helvetica Bold Italic 12&<code>#8221</code> .
      * 
-     * Use {@link org.pango.FontDescription#equal} if you want to compare two
+     * Use {@link org.pango.FontDescription<code>#equal</code>  if you want to compare two
      * font descriptions.
      */
     public default org.pango.FontDescription getFontDesc() {
@@ -55,16 +55,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * Gets the <code>PangoFontFace</code> representing the selected font group
      * details (i.e. family, slant, weight, width, etc).
      * 
-     * If the selected font is not installed, returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Gets the <code>PangoFontFace</code> representing the selected font group
-     * details (i.e. family, slant, weight, width, etc).
-     * 
-     * If the selected font is not installed, returns %NULL.
+     * If the selected font is not installed, returns <code>null</code>
      */
     public default org.pango.FontFace getFontFace() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_face(handle());
@@ -76,17 +67,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * 
      * Font families are a collection of font faces.
      * 
-     * If the selected font is not installed, returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Gets the <code>PangoFontFamily</code> representing the selected font family.
-     * 
-     * Font families are a collection of font faces.
-     * 
-     * If the selected font is not installed, returns %NULL.
+     * If the selected font is not installed, returns <code>null</code>
      */
     public default org.pango.FontFamily getFontFamily() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_family(handle());

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GListStore is a simple implementation of #GListModel that stores all
+ * {@link org.gtk.gio.ListStore} is a simple implementation of {@link org.gtk.gio.ListModel} that stores all
  * items in memory.
  * 
  * It provides insertions, deletions, and lookups in logarithmic time
@@ -31,15 +31,15 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
-     * Creates a new #GListStore with items of type @item_type. @item_type
-     * must be a subclass of #GObject.
+     * Creates a new {@link org.gtk.gio.ListStore} with items of type @item_type. @item_type
+     * must be a subclass of {@link org.gtk.gobject.Object}
      */
     public ListStore(Type itemType) {
         super(constructNew(itemType));
     }
     
     /**
-     * Appends @item to @store. @item must be of type #GListStore:item-type.
+     * Appends @item to @store. @item must be of type {@link org.gtk.gio.ListStore} item-type.
      * 
      * This function takes a ref on @item.
      * 
@@ -52,7 +52,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     
     /**
      * Inserts @item into @store at @position. @item must be of type
-     * #GListStore:item-type or derived from it. @position must be smaller
+     * {@link org.gtk.gio.ListStore} item-type or derived from it. @position must be smaller
      * than the length of the list, or equal to it to append.
      * 
      * This function takes a ref on @item.
@@ -127,11 +127,11 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     /**
      * Changes @store by removing @n_removals items and adding @n_additions
      * items to it. @additions must contain @n_additions items of type
-     * #GListStore:item-type.  <code>null</code> is not permitted.
+     * {@link org.gtk.gio.ListStore} item-type.  <code>null</code> is not permitted.
      * 
      * This function is more efficient than g_list_store_insert() and
      * g_list_store_remove(), because it only emits
-     * #GListModel::items-changed once for the change.
+     * {@link org.gtk.gio.ListModel} :items-changed once for the change.
      * 
      * This function takes a ref on each item in @additions.
      * 

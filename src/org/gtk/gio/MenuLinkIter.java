@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GMenuLinkIter is an opaque structure type.  You must access it using
+ * {@link org.gtk.gio.MenuLinkIter} is an opaque structure type.  You must access it using
  * the functions below.
  */
 public class MenuLinkIter extends org.gtk.gobject.Object {
@@ -39,8 +39,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * First the iterator is advanced to the next (possibly first) link.
      * If that fails, then <code>false</code> is returned and there are no other effects.
      * 
-     * If successful, @out_link and @value are set to the name and #GMenuModel
-     * of the link that has just been advanced to.  At this point,
+     * If successful, @out_link and @value are set to the name and {@link org.gtk.gio.MenuModel} of the link that has just been advanced to.  At this point,
      * g_menu_link_iter_get_name() and g_menu_link_iter_get_value() will return the
      * same values again.
      * 
@@ -54,7 +53,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the linked #GMenuModel at the current iterator position.
+     * Gets the linked {@link org.gtk.gio.MenuModel} at the current iterator position.
      * 
      * The iterator is not advanced.
      */

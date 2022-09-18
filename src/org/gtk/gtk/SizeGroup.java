@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  * <code>GtkSizeGroup</code> groups widgets together so they all request the same size.
  * <p>
  * This is typically useful when you want a column of widgets to have the
- * same size, but you can&#8217;t use a <code>GtkGrid</code>.
+ * same size, but you can&<code>#8217</code> t use a <code>GtkGrid</code>.
  * <p>
  * In detail, the size requested for each widget in a <code>GtkSizeGroup</code> is
  * the maximum of the sizes that would have been requested for each
  * widget in the size group if they were not in the size group. The mode
- * of the size group (see {@link org.gtk.gtk.SizeGroup#setMode}) determines whether
+ * of the size group (see {@link org.gtk.gtk.SizeGroup<code>#setMode</code> ) determines whether
  * this applies to the horizontal size, the vertical size, or both sizes.
  * <p>
  * Note that size groups only affect the amount of space requested, not
@@ -34,17 +34,17 @@ import java.lang.invoke.*;
  * Widgets can be part of multiple size groups; GTK will compute the
  * horizontal size of a widget from the horizontal requisition of all
  * widgets that can be reached from the widget by a chain of size groups
- * of type {@link org.gtk.gtk.SizeGroupMode#HORIZONTAL} or <code>GTK_SIZE_GROUP_BOTH,</code> and the
+ * of type {@link org.gtk.gtk.SizeGroupMode<code>#HORIZONTAL</code>  or {@link org.gtk.gtk.SizeGroupMode<code>#BOTH</code>   and the
  * vertical size from the vertical requisition of all widgets that can be
  * reached from the widget by a chain of size groups of type
- * {@link org.gtk.gtk.SizeGroupMode#VERTICAL} or <code>GTK_SIZE_GROUP_BOTH.
+ * {@link org.gtk.gtk.SizeGroupMode<code>#VERTICAL</code>  or {@link org.gtk.gtk.SizeGroupMode<code>#BOTH</code>  
  * <p>
- * Note</code> that only non-contextual sizes of every widget are ever consulted
+ * Note that only non-contextual sizes of every widget are ever consulted
  * by size groups (since size groups have no knowledge of what size a widget
  * will be allocated in one dimension, it cannot derive how much height
  * a widget will receive for a given width). When grouping widgets that
- * trade height for width in mode {@link org.gtk.gtk.SizeGroupMode#VERTICAL} or <code>GTK_SIZE_GROUP_BOTH:
- * the</code> height for the minimum width will be the requested height for all
+ * trade height for width in mode {@link org.gtk.gtk.SizeGroupMode<code>#VERTICAL</code>  or {@link org.gtk.gtk.SizeGroupMode<code>#BOTH</code>  
+ * the height for the minimum width will be the requested height for all
  * widgets in the group. The same is of course true when horizontally grouping
  * width for height widgets.
  * <p>
@@ -53,22 +53,22 @@ import java.lang.invoke.*;
  * static sizes as well as widgets that grow (such as ellipsizing text) need no
  * such considerations.
  * <p>
- * <h1>tkSizeGroup as GtkBuildable</h1>
+ * <h1>GtkSizeGroup as GtkBuildable</h1>
  * <p>
- * Size groups can be specified in a UI definition by placing an &#60;object&#62;
- * element with <code>class=&#34;GtkSizeGroup&#34;</code> somewhere in the UI definition. The
- * widgets that belong to the size group are specified by a &#60;widgets&#62; element
- * that may contain multiple &#60;widget&#62; elements, one for each member of the
- * size group. The &#8221;name&#8221; attribute gives the id of the widget.
+ * Size groups can be specified in a UI definition by placing an &<code>#60</code> object&<code>#62</code> 
+ * element with <code>class=&<code>#34</code> GtkSizeGroup&<code>#34</code> </code> somewhere in the UI definition. The
+ * widgets that belong to the size group are specified by a &<code>#60</code> widgets&<code>#62</code>  element
+ * that may contain multiple &<code>#60</code> widget&<code>#62</code>  elements, one for each member of the
+ * size group. The &<code>#8221</code> name&<code>#8221</code>  attribute gives the id of the widget.
  * <p>
  * An example of a UI definition fragment with <code>GtkSizeGroup</code>:<pre>xml
- * &#60;object class=&#34;GtkSizeGroup&#34;&#62;
- *   &#60;property name=&#34;mode&#34;&#62;horizontal&#60;/property&#62;
- *   &#60;widgets&#62;
- *     &#60;widget name=&#34;radio1&#34;/&#62;
- *     &#60;widget name=&#34;radio2&#34;/&#62;
- *   &#60;/widgets&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkSizeGroup&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> property name=&<code>#34</code> mode&<code>#34</code> &<code>#62</code> horizontal&<code>#60</code> /property&<code>#62</code> 
+ *   &<code>#60</code> widgets&<code>#62</code> 
+ *     &<code>#60</code> widget name=&<code>#34</code> radio1&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> widget name=&<code>#34</code> radio2&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /widgets&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  */
 public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
@@ -102,7 +102,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * and the requisition of the other widgets in the size group.
      * Whether this applies horizontally, vertically, or in both directions
      * depends on the mode of the size group.
-     * See {@link org.gtk.gtk.SizeGroup#setMode}.
+     * See {@link org.gtk.gtk.SizeGroup<code>#setMode</code> .
      * 
      * When the widget is destroyed or no longer referenced elsewhere, it
      * will be removed from the size group.
@@ -139,10 +139,9 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * 
      * The mode of the size group determines whether the widgets in the
      * size group should all have the same horizontal requisition
-     * (<code>GTK_SIZE_GROUP_HORIZONTAL)</code> all have the same vertical requisition
-     * (<code>GTK_SIZE_GROUP_VERTICAL),</code> or should all have the same requisition
-     * in both directions (or should all have the same requisition
-     * in both directions (%GTK_SIZE_GROUP_BOTH).
+     * ({@link org.gtk.gtk.SizeGroupMode<code>#HORIZONTAL</code>   all have the same vertical requisition
+     * ({@link org.gtk.gtk.SizeGroupMode<code>#VERTICAL</code>  , or should all have the same requisition
+     * in both directions ({@link org.gtk.gtk.SizeGroupMode<code>#BOTH</code>  .
      */
     public void setMode(SizeGroupMode mode) {
         gtk_h.gtk_size_group_set_mode(handle(), mode.getValue());

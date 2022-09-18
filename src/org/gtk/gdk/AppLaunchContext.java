@@ -21,8 +21,8 @@ import java.lang.invoke.*;
  * 
  * gdk_app_launch_context_set_timestamp (gdk_event_get_time (event));
  * 
- * if (!g_app_info_launch_default_for_uri (&#34;http://www.gtk.org&#34;, context, &#38;error))
- *   g_warning (&#34;Launching failed: <code>s\\n&#34;,</code> error-&#62;message);
+ * if (!g_app_info_launch_default_for_uri (&<code>#34</code> http://www.gtk.org&<code>#34</code> , context, &<code>#38</code> error))
+ *   g_warning (&<code>#34</code> Launching failed: <code>s</code> n&<code>#34</code> , error-&<code>#62</code> message);
  * 
  * g_object_unref (context);
  * </pre>
@@ -72,7 +72,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * Window Managers can use this information when displaying startup
      * notification.
      * 
-     * See also {@link org.gtk.gdk.AppLaunchContext#setIconName}.
+     * See also {@link org.gtk.gdk.AppLaunchContext<code>#setIconName</code> .
      */
     public void setIcon(org.gtk.gio.Icon icon) {
         gtk_h.gdk_app_launch_context_set_icon(handle(), icon.handle());
@@ -82,7 +82,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * Sets the icon for applications that are launched with this context.
      * <p>
      * The @icon_name will be interpreted in the same way as the Icon field
-     * in desktop files. See also {@link org.gtk.gdk.AppLaunchContext#setIcon}.
+     * in desktop files. See also {@link org.gtk.gdk.AppLaunchContext<code>#setIcon</code> .
      * <p>
      * If both @icon and @icon_name are set, the @icon_name takes priority.
      * If neither @icon or @icon_name is set, the icon is taken from either
@@ -101,8 +101,8 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * 
      * Window managers can use this information to avoid moving the
      * focus to the newly launched application when the user is busy
-     * typing in another window. This is also known as &#39;focus stealing
-     * prevention&#39;.
+     * typing in another window. This is also known as &<code>#39</code> focus stealing
+     * prevention&<code>#39</code> .
      */
     public void setTimestamp(int timestamp) {
         gtk_h.gdk_app_launch_context_set_timestamp(handle(), timestamp);

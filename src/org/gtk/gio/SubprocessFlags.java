@@ -1,16 +1,15 @@
 package org.gtk.gio;
 
 /**
- * Flags to define the behaviour of a #GSubprocess.
+ * Flags to define the behaviour of a {@link org.gtk.gio.Subprocess} 
  * <p>
  * Note that the default for stdin is to redirect from <code>/dev/null</code>.  For
  * stdout and stderr the default are for them to inherit the
  * corresponding descriptor from the calling process.
  * 
- * Note that it is a programmer error to mix &#39;incompatible&#39; flags.  For
- * example, you may not request both {@link org.gtk.gio.SubprocessFlags#STDOUT_PIPE} and
- * and
- * %G_SUBPROCESS_FLAGS_STDOUT_SILENCE.
+ * Note that it is a programmer error to mix &<code>#39</code> incompatible&<code>#39</code>  flags.  For
+ * example, you may not request both {@link org.gtk.gio.SubprocessFlags<code>#STDOUT_PIPE</code>  and
+ * {@link org.gtk.gio.SubprocessFlags<code>#STDOUT_SILENCE</code>
  */
 public class SubprocessFlags {
 
@@ -69,7 +68,7 @@ public class SubprocessFlags {
      * spawned processes will inherit the
      *   file descriptors of their parent, unless those descriptors have
      *   been explicitly marked as close-on-exec.  This flag has no effect
-     *   over the &#34;standard&#34; file descriptors (stdin, stdout, stderr).
+     *   over the &<code>#34</code> standard&<code>#34</code>  file descriptors (stdin, stdout, stderr).
      */
     public static final int INHERIT_FDS = 128;
     

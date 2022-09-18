@@ -45,7 +45,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * Gets the first of the two alternative triggers that may
      * trigger @self.
      * 
-     * {@link org.gtk.gtk.AlternativeTrigger#getSecond} will return
+     * {@link org.gtk.gtk.AlternativeTrigger<code>#getSecond</code>  will return
      * the other one.
      */
     public ShortcutTrigger getFirst() {
@@ -57,7 +57,7 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * Gets the second of the two alternative triggers that may
      * trigger @self.
      * 
-     * {@link org.gtk.gtk.AlternativeTrigger#getFirst} will return
+     * {@link org.gtk.gtk.AlternativeTrigger<code>#getFirst</code>  will return
      * the other one.
      */
     public ShortcutTrigger getSecond() {

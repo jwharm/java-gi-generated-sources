@@ -10,9 +10,9 @@ import java.lang.invoke.*;
 /**
  * A <code>PangoAttrIterator</code> is used to iterate through a <code>PangoAttrList</code>.
  * 
- * A new iterator is created with {@link org.pango.AttrList#getIterator}.
+ * A new iterator is created with {@link org.pango.AttrList<code>#getIterator</code> .
  * Once the iterator is created, it can be advanced through the style
- * changes in the text using {@link org.pango.AttrIterator#next}. At each
+ * changes in the text using {@link org.pango.AttrIterator<code>#next</code> . At each
  * style change, the range of the current style segment and the attributes
  * currently in effect can be queried.
  */

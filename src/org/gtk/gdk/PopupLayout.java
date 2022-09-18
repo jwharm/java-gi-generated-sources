@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  * For cases where placing the anchors next to each other would make
  * the popup extend offscreen, the layout includes some hints for how
  * to resolve this problem. The hints may suggest to flip the anchor
- * position to the other side, or to &#39;slide&#39; the popup along a side,
+ * position to the other side, or to &<code>#39</code> slide&<code>#39</code>  the popup along a side,
  * or to resize it.
  * 
  * !{@link [Flipping popups]}(popup-flip.png)
@@ -35,8 +35,8 @@ import java.lang.invoke.*;
  * 
  * Ultimatively, it is up to the windowing system to determine the position
  * and size of the popup. You can learn about the result by calling
- * {@link org.gtk.gdk.Popup#getPositionX}, {@link org.gtk.gdk.Popup#getPositionY},
- * {@link org.gtk.gdk.Popup#getRectAnchor} and {@link org.gtk.gdk.Popup#getSurfaceAnchor}
+ * {@link org.gtk.gdk.Popup<code>#getPositionX</code> , {@link org.gtk.gdk.Popup<code>#getPositionY</code> ,
+ * {@link org.gtk.gdk.Popup<code>#getRectAnchor</code>  and {@link org.gtk.gdk.Popup<code>#getSurfaceAnchor</code> 
  * after the popup has been presented. This can be used to adjust the rendering.
  * For example, {@link org.gtk.gtk.Popover} changes its arrow position accordingly.
  * But you have to be careful avoid changing the size of the popover, or it
@@ -56,15 +56,15 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Create a popup layout description.
      * 
-     * Used together with {@link org.gtk.gdk.Popup#present} to describe how a popup
+     * Used together with {@link org.gtk.gdk.Popup<code>#present</code>  to describe how a popup
      * surface should be placed and behave on-screen.
      * 
-     * @anchor_rect is relative to the top-left corner of the surface&#39;s parent.
+     * @anchor_rect is relative to the top-left corner of the surface&<code>#39</code> s parent.
      * @rect_anchor and @surface_anchor determine anchor points on @anchor_rect
      * and surface to pin together.
      * 
-     * The position of @anchor_rect&#39;s anchor point can optionally be offset using
-     * {@link org.gtk.gdk.PopupLayout#setOffset}, which is equivalent to offsetting the
+     * The position of @anchor_rect&<code>#39</code> s anchor point can optionally be offset using
+     * {@link org.gtk.gdk.PopupLayout<code>#setOffset</code> , which is equivalent to offsetting the
      * position of surface.
      */
     public PopupLayout(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
@@ -132,8 +132,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The set @anchor_hints determines how @surface will be moved
      * if the anchor points cause it to move off-screen. For example,
-     * {@link org.gtk.gdk.AnchorHints#FLIP_X} will replace {@link org.gtk.gdk.Gravity#NORTH_WEST} with
-     * {@link org.gtk.gdk.Gravity#NORTH_EAST} and vice versa if @surface extends
+     * {@link org.gtk.gdk.AnchorHints<code>#FLIP_X</code>  will replace {@link org.gtk.gdk.Gravity<code>#NORTH_WEST</code>  with
+     * {@link org.gtk.gdk.Gravity<code>#NORTH_EAST</code>  and vice versa if @surface extends
      * beyond the left or right edges of the monitor.
      */
     public void setAnchorHints(int anchorHints) {

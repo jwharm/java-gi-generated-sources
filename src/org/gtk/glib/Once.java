@@ -8,9 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GOnce struct controls a one-time initialization function. Any
- * one-time initialization function must have its own unique #GOnce
- * struct.
+ * A {@link org.gtk.glib.Once} struct controls a one-time initialization function. Any
+ * one-time initialization function must have its own unique {@link org.gtk.glib.Once} struct.
  */
 public class Once extends io.github.jwharm.javagi.ResourceBase {
 
@@ -25,18 +24,18 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * the end of the initialization section. In combination with
      * g_once_init_leave() and the unique address @value_location, it can
      * be ensured that an initialization section will be executed only once
-     * during a program&#39;s life time, and that concurrent threads are
+     * during a program&<code>#39</code> s life time, and that concurrent threads are
      * blocked until initialization completed. To be used in constructs
      * like this:
      * <p>
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      *   static gsize initialization_value = 0;
      * <p>
-     *   if (g_once_init_enter (&#38;initialization_value))
+     *   if (g_once_init_enter (&<code>#38</code> initialization_value))
      *     {
      *       gsize setup_value = 42; // initialization code here
      * <p>
-     *       g_once_init_leave (&#38;initialization_value, setup_value);
+     *       g_once_init_leave (&<code>#38</code> initialization_value, setup_value);
      *     }
      * <p>
      *   // use initialization_value here

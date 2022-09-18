@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * more <code>GtkShortcutsSection</code> objects, which contain <code>GtkShortcutsGroups</code>
  * that in turn contain objects of class <code>GtkShortcutsShortcut</code>.
  * <p>
- * <h1>simple example:</h1>
+ * <h1>A simple example:</h1>
  * <p>
  * !{@link []}(gedit-shortcuts.png)
  * <p>
@@ -32,21 +32,21 @@ import java.lang.invoke.*;
  * <p>
  * The .ui file for this example can be found {@link [here]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-gedit.ui).
  * <p>
- * <h1>n example with multiple views:</h1>
+ * <h1>An example with multiple views:</h1>
  * <p>
  * !{@link []}(clocks-shortcuts.png)
  * <p>
  * This example shows a <code>GtkShortcutsWindow</code> that has been configured to show only
- * the shortcuts relevant to the &#34;stopwatch&#34; view.
+ * the shortcuts relevant to the &<code>#34</code> stopwatch&<code>#34</code>  view.
  * <p>
  * The .ui file for this example can be found {@link [here]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-clocks.ui).
  * <p>
- * <h1>n example with multiple sections:</h1>
+ * <h1>An example with multiple sections:</h1>
  * <p>
  * !{@link []}(builder-shortcuts.png)
  * <p>
- * This example shows a <code>GtkShortcutsWindow</code> with two sections, &#34;Editor Shortcuts&#34;
- * and &#34;Terminal Shortcuts&#34;.
+ * This example shows a <code>GtkShortcutsWindow</code> with two sections, &<code>#34</code> Editor Shortcuts&<code>#34</code> 
+ * and &<code>#34</code> Terminal Shortcuts&<code>#34</code> .
  * 
  * The .ui file for this example can be found {@link [here]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-builder.ui).
  */

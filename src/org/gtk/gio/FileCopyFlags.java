@@ -21,17 +21,17 @@ public class FileCopyFlags {
     public static final int BACKUP = 2;
     
     /**
-     * Don&#39;t follow symlinks.
+     * Don&<code>#39</code> t follow symlinks.
      */
     public static final int NOFOLLOW_SYMLINKS = 4;
     
     /**
-     * Copy all file metadata instead of just default set used for copy (see #GFileInfo).
+     * Copy all file metadata instead of just default set used for copy (see {@link org.gtk.gio.FileInfo} .
      */
     public static final int ALL_METADATA = 8;
     
     /**
-     * Don&#39;t use copy and delete fallback if native move not supported.
+     * Don&<code>#39</code> t use copy and delete fallback if native move not supported.
      */
     public static final int NO_FALLBACK_FOR_MOVE = 16;
     

@@ -8,20 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GSocketListener is an object that keeps track of a set
+ * A {@link org.gtk.gio.SocketListener} is an object that keeps track of a set
  * of server sockets and helps you accept sockets from any of the
  * socket, either sync or async.
  * 
  * Add addresses and ports to listen on using g_socket_listener_add_address()
  * and g_socket_listener_add_inet_port(). These will be listened on until
  * g_socket_listener_close() is called. Dropping your final reference to the
- * #GSocketListener will not cause g_socket_listener_close() to be called
- * implicitly, as some references to the #GSocketListener may be held
+ * {@link org.gtk.gio.SocketListener} will not cause g_socket_listener_close() to be called
+ * implicitly, as some references to the {@link org.gtk.gio.SocketListener} may be held
  * internally.
  * 
- * If you want to implement a network server, also look at #GSocketService
- * and #GThreadedSocketService which are subclasses of #GSocketListener
- * that make this even easier.
+ * If you want to implement a network server, also look at {@link org.gtk.gio.SocketService} and {@link org.gtk.gio.ThreadedSocketService} which are subclasses of {@link org.gtk.gio.SocketListener} that make this even easier.
  */
 public class SocketListener extends org.gtk.gobject.Object {
 
@@ -40,7 +38,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GSocketListener with no sockets to listen for.
+     * Creates a new {@link org.gtk.gio.SocketListener} with no sockets to listen for.
      * New listeners can be added with e.g. g_socket_listener_add_address()
      * or g_socket_listener_add_inet_port().
      */
@@ -50,16 +48,16 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     /**
      * Blocks waiting for a client to connect to any of the sockets added
-     * to the listener. Returns a #GSocketConnection for the socket that was
+     * to the listener. Returns a {@link org.gtk.gio.SocketConnection} for the socket that was
      * accepted.
      * 
      * If @source_object is not <code>null</code> it will be filled out with the source
      * object specified when the corresponding socket or address was added
      * to the listener.
      * 
-     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
+     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned.
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
      */
     public SocketConnection accept(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -105,9 +103,9 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     /**
      * Blocks waiting for a client to connect to any of the sockets added
-     * to the listener. Returns the #GSocket that was accepted.
+     * to the listener. Returns the {@link org.gtk.gio.Socket} that was accepted.
      * 
-     * If you want to accept the high-level #GSocketConnection, not a #GSocket,
+     * If you want to accept the high-level {@link org.gtk.gio.SocketConnection}  not a {@link org.gtk.gio.Socket} 
      * which is often the case, then you should use g_socket_listener_accept()
      * instead.
      * 
@@ -115,9 +113,9 @@ public class SocketListener extends org.gtk.gobject.Object {
      * object specified when the corresponding socket or address was added
      * to the listener.
      * 
-     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
+     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned.
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
      */
     public Socket acceptSocket(org.gtk.gobject.Object[] sourceObject, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -163,7 +161,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     /**
      * Creates a socket of type @type and protocol @protocol, binds
-     * it to @address and adds it to the set of sockets we&#39;re accepting
+     * it to @address and adds it to the set of sockets we&<code>#39</code> re accepting
      * sockets from.
      * 
      * Note that adding an IPv6 address, depending on the platform,
@@ -173,13 +171,13 @@ public class SocketListener extends org.gtk.gobject.Object {
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you&#39;re listening on multiple addresses and do
+     * useful if you&<code>#39</code> re listening on multiple addresses and do
      * different things depending on what address is connected to.
      * 
      * If successful and @effective_address is non-<code>null</code> then it will
      * be set to the address that the binding actually occurred at.  This
      * is helpful for determining the port number that was used for when
-     * requesting a binding to port 0 (ie: &#34;any port&#34;).  This address, if
+     * requesting a binding to port 0 (ie: &<code>#34</code> any port&<code>#34</code> ).  This address, if
      * requested, belongs to the caller and must be freed.
      * 
      * Call g_socket_listener_close() to stop listening on @address; this will not
@@ -200,11 +198,11 @@ public class SocketListener extends org.gtk.gobject.Object {
      * IPv6 and IPv4 (if each is available).
      * 
      * This is useful if you need to have a socket for incoming connections
-     * but don&#39;t care about the specific port number.
+     * but don&<code>#39</code> t care about the specific port number.
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you&#39;re listening on multiple addresses and do
+     * useful if you&<code>#39</code> re listening on multiple addresses and do
      * different things depending on what address is connected to.
      */
     public short addAnyInetPort(org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
@@ -223,7 +221,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you&#39;re listening on multiple addresses and do
+     * useful if you&<code>#39</code> re listening on multiple addresses and do
      * different things depending on what address is connected to.
      * 
      * Call g_socket_listener_close() to stop listening on @port; this will not
@@ -246,7 +244,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * 
      * @source_object will be passed out in the various calls
      * to accept to identify this particular source, which is
-     * useful if you&#39;re listening on multiple addresses and do
+     * useful if you&<code>#39</code> re listening on multiple addresses and do
      * different things depending on what address is connected to.
      * 
      * The @socket will not be automatically closed when the @listener is finalized
@@ -272,7 +270,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     
     /**
      * Sets the listen backlog on the sockets in the listener. This must be called
-     * before adding any sockets, addresses or ports to the #GSocketListener (for
+     * before adding any sockets, addresses or ports to the {@link org.gtk.gio.SocketListener} (for
      * example, by calling g_socket_listener_add_inet_port()) to be effective.
      * 
      * See g_socket_set_listen_backlog() for details
@@ -287,7 +285,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when @listener&#39;s activity on @socket changes state.
+     * Emitted when @listener&<code>#39</code> s activity on @socket changes state.
      * Note that when @listener is used to listen on both IPv4 and
      * IPv6, a separate set of signals will be emitted for each, and
      * the order they happen in is undefined.

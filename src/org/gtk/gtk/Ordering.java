@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * These values can be used with a {@link [callback@GLib.CompareFunc] (ref=callback)}. However,
  * a <code>GCompareFunc</code> is allowed to return any integer values.
  * For converting such a value to a <code>GtkOrdering</code> value, use
- * {@link Gtk#Ordering}.
+ * {@link Gtk<code>#Ordering</code> .
  */
 public enum Ordering {
 

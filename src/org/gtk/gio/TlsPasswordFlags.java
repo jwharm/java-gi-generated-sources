@@ -28,19 +28,19 @@ public class TlsPasswordFlags {
     public static final int FINAL_TRY = 8;
     
     /**
-     * For PKCS #11, the user PIN is required.
+     * For PKCS <code>#11</code>  the user PIN is required.
      *    Since: 2.70.
      */
     public static final int PKCS11_USER = 16;
     
     /**
-     * For PKCS #11, the security officer
+     * For PKCS <code>#11</code>  the security officer
      *    PIN is required. Since: 2.70.
      */
     public static final int PKCS11_SECURITY_OFFICER = 32;
     
     /**
-     * For PKCS #11, the context-specific
+     * For PKCS <code>#11</code>  the context-specific
      *    PIN is required. Since: 2.70.
      */
     public static final int PKCS11_CONTEXT_SPECIFIC = 64;

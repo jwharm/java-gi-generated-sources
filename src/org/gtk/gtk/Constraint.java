@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * <p>
  * The typical equation for a constraint is:
  * <p><pre>
- *   target.target_attr = source.source_attr &#215; multiplier + constant
+ *   target.target_attr = source.source_attr &<code>#215</code>  multiplier + constant
  * </pre>
  * <p>
  * Each <code>GtkConstraint</code> is part of a system that will be solved by a
@@ -61,7 +61,7 @@ public class Constraint extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the constant factor added to the source attributes&#39; value.
+     * Retrieves the constant factor added to the source attributes&<code>#39</code>  value.
      */
     public double getConstant() {
         var RESULT = gtk_h.gtk_constraint_get_constant(handle());
@@ -70,7 +70,7 @@ public class Constraint extends org.gtk.gobject.Object {
     
     /**
      * Retrieves the multiplication factor applied to the source
-     * attribute&#39;s value.
+     * attribute&<code>#39</code> s value.
      */
     public double getMultiplier() {
         var RESULT = gtk_h.gtk_constraint_get_multiplier(handle());

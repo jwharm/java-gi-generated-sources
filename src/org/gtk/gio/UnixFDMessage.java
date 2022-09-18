@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This #GSocketControlMessage contains a #GUnixFDList.
+ * This {@link org.gtk.gio.SocketControlMessage} contains a {@link org.gtk.gio.UnixFDList} 
  * It may be sent using g_socket_send_message() and received using
  * g_socket_receive_message() over UNIX sockets (ie: sockets in the
- * {@link org.gtk.gio.SocketFamily#UNIX} family). The file descriptors are copied
+ * {@link org.gtk.gio.SocketFamily<code>#UNIX</code>  family). The file descriptors are copied
  * between processes by the kernel.
  * <p>
  * For an easier way to send and receive file descriptors over
  * stream-oriented UNIX sockets, see g_unix_connection_send_fd() and
  * g_unix_connection_receive_fd().
  * <p>
- * Note that <code>&#60;gio/gunixfdmessage.h&#62;</code> belongs to the UNIX-specific GIO
+ * Note that <code>&<code>#60</code> gio/gunixfdmessage.h&<code>#62</code> </code> belongs to the UNIX-specific GIO
  * interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
  * file when using it.
  */
@@ -39,7 +39,7 @@ public class UnixFDMessage extends SocketControlMessage {
     }
     
     /**
-     * Creates a new #GUnixFDMessage containing an empty file descriptor
+     * Creates a new {@link org.gtk.gio.UnixFDMessage} containing an empty file descriptor
      * list.
      */
     public UnixFDMessage() {
@@ -52,7 +52,7 @@ public class UnixFDMessage extends SocketControlMessage {
     }
     
     /**
-     * Creates a new #GUnixFDMessage containing @list.
+     * Creates a new {@link org.gtk.gio.UnixFDMessage} containing @list.
      */
     public static UnixFDMessage newWithFdList(UnixFDList fdList) {
         return new UnixFDMessage(constructNewWithFdList(fdList));
@@ -78,7 +78,7 @@ public class UnixFDMessage extends SocketControlMessage {
     }
     
     /**
-     * Gets the #GUnixFDList contained in @message.  This function does not
+     * Gets the {@link org.gtk.gio.UnixFDList} contained in @message.  This function does not
      * return a reference to the caller, but the returned list is valid for
      * the lifetime of @message.
      */

@@ -48,7 +48,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * Returns information about the license of the image loader for the format.
      * 
      * The returned string should be a shorthand for a well known license, e.g.
-     * &#34;LGPL&#34;, &#34;GPL&#34;, &#34;QPL&#34;, &#34;GPL/QPL&#34;, or &#34;other&#34; to indicate some other license.
+     * &<code>#34</code> LGPL&<code>#34</code> , &<code>#34</code> GPL&<code>#34</code> , &<code>#34</code> QPL&<code>#34</code> , &<code>#34</code> GPL/QPL&<code>#34</code> , or &<code>#34</code> other&<code>#34</code>  to indicate some other license.
      */
     public java.lang.String getLicense() {
         var RESULT = gtk_h.gdk_pixbuf_format_get_license(handle());
@@ -107,7 +107,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Disables or enables an image format.
      * 
-     * If a format is disabled, GdkPixbuf won&#39;t use the image loader for
+     * If a format is disabled, GdkPixbuf won&<code>#39</code> t use the image loader for
      * this format to load images.
      * 
      * Applications can use this to avoid using image loaders with an

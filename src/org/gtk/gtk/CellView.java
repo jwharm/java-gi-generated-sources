@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * individual heights (left-to-right menus should be allocated vertically since
  * they all share the same height but may have variable widths).
  * 
- * # CSS nodes
+ * <code>#</code> CSS nodes
  * 
  * GtkCellView has a single CSS node with name cellview.
  */
@@ -147,7 +147,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the row of the model that is currently displayed
      * by the <code>GtkCellView</code>. If the path is unset, then the
-     * contents of the cellview &#8220;stick&#8221; at their last value;
+     * contents of the cellview &<code>#8220</code> stick&<code>#8221</code>  at their last value;
      * this is not normally a desired result, but may be
      * a needed intermediate state if say, the model for
      * the <code>GtkCellView</code> becomes temporarily empty.
@@ -170,7 +170,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
      * Sets whether @cell_view should request space to fit the entire <code>GtkTreeModel</code>.
      * <p>
      * This is used by <code>GtkComboBox</code> to ensure that the cell view displayed on
-     * the combo box&#8217;s button always gets enough space and does not resize
+     * the combo box&<code>#8217</code> s button always gets enough space and does not resize
      * when selection changes.
      */
     public void setFitModel(boolean fitModel) {
@@ -180,7 +180,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the model for @cell_view.  If @cell_view already has a model
      * set, it will remove it before setting the new model.  If @model is
-     * <code>NULL,</code> then it will unset the old model.
+     * <code>null</code>  then it will unset the old model.
      */
     public void setModel(TreeModel model) {
         gtk_h.gtk_cell_view_set_model(handle(), model.handle());

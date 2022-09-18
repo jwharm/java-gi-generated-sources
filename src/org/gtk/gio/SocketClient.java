@@ -8,18 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GSocketClient is a lightweight high-level utility class for connecting to
+ * {@link org.gtk.gio.SocketClient} is a lightweight high-level utility class for connecting to
  * a network host using a connection oriented socket type.
  * 
- * You create a #GSocketClient object, set any options you want, and then
- * call a sync or async connect operation, which returns a #GSocketConnection
- * subclass on success.
+ * You create a {@link org.gtk.gio.SocketClient} object, set any options you want, and then
+ * call a sync or async connect operation, which returns a {@link org.gtk.gio.SocketConnection} subclass on success.
  * 
- * The type of the #GSocketConnection object returned depends on the type of
+ * The type of the {@link org.gtk.gio.SocketConnection} object returned depends on the type of
  * the underlying socket that is in use. For instance, for a TCP/IP connection
- * it will be a #GTcpConnection.
+ * it will be a {@link org.gtk.gio.TcpConnection} 
  * 
- * As #GSocketClient is a lightweight object, you don&#39;t need to cache it. You
+ * As {@link org.gtk.gio.SocketClient} is a lightweight object, you don&<code>#39</code> t need to cache it. You
  * can just create a new one any time you need one.
  */
 public class SocketClient extends org.gtk.gobject.Object {
@@ -39,7 +38,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GSocketClient with the default options.
+     * Creates a new {@link org.gtk.gio.SocketClient} with the default options.
      */
     public SocketClient() {
         super(constructNew());
@@ -47,12 +46,12 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Enable proxy protocols to be handled by the application. When the
-     * indicated proxy protocol is returned by the #GProxyResolver,
-     * #GSocketClient will consider this protocol as supported but will
-     * not try to find a #GProxy instance to handle handshaking. The
+     * indicated proxy protocol is returned by the {@link org.gtk.gio.ProxyResolver} 
+     * {@link org.gtk.gio.SocketClient} will consider this protocol as supported but will
+     * not try to find a {@link org.gtk.gio.Proxy} instance to handle handshaking. The
      * application must check for this case by calling
      * g_socket_connection_get_remote_address() on the returned
-     * #GSocketConnection, and seeing if it&#39;s a #GProxyAddress of the
+     * {@link org.gtk.gio.SocketConnection}  and seeing if it&<code>#39</code> s a {@link org.gtk.gio.ProxyAddress} of the
      * appropriate type, to determine whether or not it needs to handle
      * the proxy handshaking itself.
      * 
@@ -73,18 +72,18 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Tries to resolve the @connectable and make a network connection to it.
      * 
-     * Upon a successful connection, a new #GSocketConnection is constructed
+     * Upon a successful connection, a new {@link org.gtk.gio.SocketConnection} is constructed
      * and returned.  The caller owns this new object and must drop their
      * reference to it when finished with it.
      * 
-     * The type of the #GSocketConnection object returned depends on the type of
+     * The type of the {@link org.gtk.gio.SocketConnection} object returned depends on the type of
      * the underlying socket that is used. For instance, for a TCP/IP connection
-     * it will be a #GTcpConnection.
+     * it will be a {@link org.gtk.gio.TcpConnection} 
      * 
      * The socket created will be the same family as the address that the
      * @connectable resolves to, unless family is set with g_socket_client_set_family()
      * or indirectly via g_socket_client_set_local_address(). The socket type
-     * defaults to {@link org.gtk.gio.SocketType#STREAM} but can be set with
+     * defaults to {@link org.gtk.gio.SocketType<code>#STREAM</code>  but can be set with
      * g_socket_client_set_socket_type().
      * 
      * If a local address is specified with g_socket_client_set_local_address() the
@@ -104,7 +103,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * 
      * You may wish to prefer the asynchronous version even in synchronous
      * command line programs because, since 2.60, it implements
-     * {@link [RFC 8305]}(https://tools.ietf.org/html/rfc8305) &#34;Happy Eyeballs&#34;
+     * {@link [RFC 8305]}(https://tools.ietf.org/html/rfc8305) &<code>#34</code> Happy Eyeballs&<code>#34</code> 
      * recommendations to work around long connection timeouts in networks
      * where IPv6 is broken by performing an IPv4 connection simultaneously
      * without waiting for IPv6 to time out, which is not supported by the
@@ -165,12 +164,12 @@ public class SocketClient extends org.gtk.gobject.Object {
      * connection attempts may be made, in turn and according to the
      * number of address records in DNS, until a connection succeeds.
      * 
-     * Upon a successful connection, a new #GSocketConnection is constructed
+     * Upon a successful connection, a new {@link org.gtk.gio.SocketConnection} is constructed
      * and returned.  The caller owns this new object and must drop their
      * reference to it when finished with it.
      * 
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) <code>null</code> is returned and @error (if non-<code>NULL)</code> is set
+     * connectable) <code>null</code> is returned and @error (if non-<code>null</code>  is set
      * accordingly.
      */
     public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -219,16 +218,16 @@ public class SocketClient extends org.gtk.gobject.Object {
      * Attempts to create a TCP connection to a service.
      * 
      * This call looks up the SRV record for @service at @domain for the
-     * &#34;tcp&#34; protocol.  It then attempts to connect, in turn, to each of
+     * &<code>#34</code> tcp&<code>#34</code>  protocol.  It then attempts to connect, in turn, to each of
      * the hosts providing the service until either a connection succeeds
      * or there are no hosts remaining.
      * 
-     * Upon a successful connection, a new #GSocketConnection is constructed
+     * Upon a successful connection, a new {@link org.gtk.gio.SocketConnection} is constructed
      * and returned.  The caller owns this new object and must drop their
      * reference to it when finished with it.
      * 
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) <code>null</code> is returned and @error (if non-<code>NULL)</code> is set
+     * connectable) <code>null</code> is returned and @error (if non-<code>null</code>  is set
      * accordingly.
      */
     public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -275,22 +274,22 @@ public class SocketClient extends org.gtk.gobject.Object {
      * 
      * Attempts to create a TCP connection with a network URI.
      * 
-     * @uri may be any valid URI containing an &#34;authority&#34; (hostname/port)
+     * @uri may be any valid URI containing an &<code>#34</code> authority&<code>#34</code>  (hostname/port)
      * component. If a port is not specified in the URI, @default_port
-     * will be used. TLS will be negotiated if #GSocketClient:tls is <code>TRUE.
-     * (#GSocketClient</code> does not know to automatically assume TLS for
+     * will be used. TLS will be negotiated if {@link org.gtk.gio.SocketClient} tls is <code>true</code> 
+     * ({@link org.gtk.gio.SocketClient} does not know to automatically assume TLS for
      * certain URI schemes.)
      * 
      * Using this rather than g_socket_client_connect() or
-     * g_socket_client_connect_to_host() allows #GSocketClient to
+     * g_socket_client_connect_to_host() allows {@link org.gtk.gio.SocketClient} to
      * determine when to use application-specific proxy protocols.
      * 
-     * Upon a successful connection, a new #GSocketConnection is constructed
+     * Upon a successful connection, a new {@link org.gtk.gio.SocketConnection} is constructed
      * and returned.  The caller owns this new object and must drop their
      * reference to it when finished with it.
      * 
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) <code>null</code> is returned and @error (if non-<code>NULL)</code> is set
+     * connectable) <code>null</code> is returned and @error (if non-<code>null</code>  is set
      * accordingly.
      */
     public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -374,7 +373,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the #GProxyResolver being used by @client. Normally, this will
+     * Gets the {@link org.gtk.gio.ProxyResolver} being used by @client. Normally, this will
      * be the resolver returned by g_proxy_resolver_get_default(), but you
      * can override it with g_socket_client_set_proxy_resolver().
      */
@@ -414,8 +413,8 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Sets whether or not @client attempts to make connections via a
-     * proxy server. When enabled (the default), #GSocketClient will use a
-     * #GProxyResolver to determine if a proxy protocol such as SOCKS is
+     * proxy server. When enabled (the default), {@link org.gtk.gio.SocketClient} will use a
+     * {@link org.gtk.gio.ProxyResolver} to determine if a proxy protocol such as SOCKS is
      * needed, and automatically do the necessary proxy negotiation.
      * 
      * See also g_socket_client_set_proxy_resolver().
@@ -426,8 +425,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Sets the socket family of the socket client.
-     * If this is set to something other than <code>G_SOCKET_FAMILY_INVALID
-     * then</code> the sockets created by this object will be of the specified
+     * If this is set to something other than {@link org.gtk.gio.SocketFamily<code>#INVALID</code>  then the sockets created by this object will be of the specified
      * family.
      * 
      * This might be useful for instance if you want to force the local
@@ -441,7 +439,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Sets the local address of the socket client.
      * The sockets created by this object will bound to the
-     * specified address (if not <code>NULL)</code> before connecting.
+     * specified address (if not <code>null</code>  before connecting.
      * 
      * This is useful if you want to ensure that the local
      * side of the connection is on a specific port, or on
@@ -456,7 +454,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * The sockets created by this object will use of the specified
      * protocol.
      * 
-     * If @protocol is {@link org.gtk.gio.SocketProtocol#DEFAULT} that means to use the default
+     * If @protocol is {@link org.gtk.gio.SocketProtocol<code>#DEFAULT</code>  that means to use the default
      * protocol for the socket family and type.
      */
     public void setProtocol(SocketProtocol protocol) {
@@ -464,12 +462,12 @@ public class SocketClient extends org.gtk.gobject.Object {
     }
     
     /**
-     * Overrides the #GProxyResolver used by @client. You can call this if
+     * Overrides the {@link org.gtk.gio.ProxyResolver} used by @client. You can call this if
      * you want to use specific proxies, rather than using the system
      * default proxy settings.
      * 
      * Note that whether or not the proxy resolver is actually used
-     * depends on the setting of #GSocketClient:enable-proxy, which is not
+     * depends on the setting of {@link org.gtk.gio.SocketClient} enable-proxy, which is not
      * changed by this function (but which is <code>true</code> by default)
      */
     public void setProxyResolver(ProxyResolver proxyResolver) {
@@ -481,8 +479,8 @@ public class SocketClient extends org.gtk.gobject.Object {
      * The sockets created by this object will be of the specified
      * type.
      * 
-     * It doesn&#39;t make sense to specify a type of <code>G_SOCKET_TYPE_DATAGRAM,
-     * as</code> GSocketClient is used for connection oriented services.
+     * It doesn&<code>#39</code> t make sense to specify a type of {@link org.gtk.gio.SocketType<code>#DATAGRAM</code>  
+     * as GSocketClient is used for connection oriented services.
      */
     public void setSocketType(SocketType type) {
         gtk_h.g_socket_client_set_socket_type(handle(), type.getValue());
@@ -494,18 +492,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * 
      * The timeout value affects the initial connection attempt as well,
      * so setting this may cause calls to g_socket_client_connect(), etc,
-     * to fail with 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Sets the I/O timeout for sockets created by @client. @timeout is a
-     * time in seconds, or 0 for no timeout (the default).
-     * 
-     * The timeout value affects the initial connection attempt as well,
-     * so setting this may cause calls to g_socket_client_connect(), etc,
-     * to fail with %G_IO_ERROR_TIMED_OUT.
+     * to fail with {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>
      */
     public void setTimeout(int timeout) {
         gtk_h.g_socket_client_set_timeout(handle(), timeout);
@@ -513,22 +500,21 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Sets whether @client creates TLS (aka SSL) connections. If @tls is
-     * <code>TRUE,</code> @client will wrap its connections in a #GTlsClientConnection
-     * and perform a TLS handshake when connecting.
+     * <code>true</code>  @client will wrap its connections in a {@link org.gtk.gio.TlsClientConnection} and perform a TLS handshake when connecting.
      * 
-     * Note that since #GSocketClient must return a #GSocketConnection,
-     * but #GTlsClientConnection is not a #GSocketConnection, this
-     * actually wraps the resulting #GTlsClientConnection in a
-     * #GTcpWrapperConnection when returning it. You can use
+     * Note that since {@link org.gtk.gio.SocketClient} must return a {@link org.gtk.gio.SocketConnection} 
+     * but {@link org.gtk.gio.TlsClientConnection} is not a {@link org.gtk.gio.SocketConnection}  this
+     * actually wraps the resulting {@link org.gtk.gio.TlsClientConnection} in a
+     * {@link org.gtk.gio.TcpWrapperConnection} when returning it. You can use
      * g_tcp_wrapper_connection_get_base_io_stream() on the return value
-     * to extract the #GTlsClientConnection.
+     * to extract the {@link org.gtk.gio.TlsClientConnection} 
      * 
      * If you need to modify the behavior of the TLS handshake (eg, by
      * setting a client-side certificate to use, or connecting to the
-     * #GTlsConnection::accept-certificate signal), you can connect to
-     * @client&#39;s #GSocketClient::event signal and wait for it to be
-     * emitted with <code>G_SOCKET_CLIENT_TLS_HANDSHAKING,</code> which will give you
-     * a chance to see the #GTlsClientConnection before the handshake
+     * {@link org.gtk.gio.TlsConnection} :accept-certificate signal), you can connect to
+     * @client&<code>#39</code> s {@link org.gtk.gio.SocketClient} :event signal and wait for it to be
+     * emitted with {@link org.gtk.gio.SocketClientEvent<code>#TLS_HANDSHAKING</code>   which will give you
+     * a chance to see the {@link org.gtk.gio.TlsClientConnection} before the handshake
      * starts.
      */
     public void setTls(boolean tls) {
@@ -541,54 +527,53 @@ public class SocketClient extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when @client&#39;s activity on @connectable changes state.
+     * Emitted when @client&<code>#39</code> s activity on @connectable changes state.
      * Among other things, this can be used to provide progress
      * information about a network connection in the UI. The meanings of
      * the different @event values are as follows:
      * 
-     * - <code>G_SOCKET_CLIENT_RESOLVING:</code> @client is about to look up @connectable
-     *   in DNS. @connection will be <code>NULL.
+     * - {@link org.gtk.gio.SocketClientEvent<code>#RESOLVING</code>   @client is about to look up @connectable
+     *   in DNS. @connection will be <code>null</code> 
      * 
-     * -</code> <code>G_SOCKET_CLIENT_RESOLVED:</code>  @client has successfully resolved
-     *   @connectable in DNS. @connection will be <code>NULL.
+     * - {@link org.gtk.gio.SocketClientEvent<code>#RESOLVED</code>    @client has successfully resolved
+     *   @connectable in DNS. @connection will be <code>null</code> 
      * 
-     * -</code> <code>G_SOCKET_CLIENT_CONNECTING:</code> @client is about to make a connection
+     * - {@link org.gtk.gio.SocketClientEvent<code>#CONNECTING</code>   @client is about to make a connection
      *   to a remote host; either a proxy server or the destination server
-     *   itself. @connection is the #GSocketConnection, which is not yet
+     *   itself. @connection is the {@link org.gtk.gio.SocketConnection}  which is not yet
      *   connected.  Since GLib 2.40, you can access the remote
      *   address via g_socket_connection_get_remote_address().
      * 
-     * - <code>G_SOCKET_CLIENT_CONNECTED:</code> @client has successfully connected
-     *   to a remote host. @connection is the connected #GSocketConnection.
+     * - {@link org.gtk.gio.SocketClientEvent<code>#CONNECTED</code>   @client has successfully connected
+     *   to a remote host. @connection is the connected {@link org.gtk.gio.SocketConnection} 
      * 
-     * - <code>G_SOCKET_CLIENT_PROXY_NEGOTIATING:</code> @client is about to negotiate
+     * - {@link org.gtk.gio.SocketClientEvent<code>#PROXY_NEGOTIATING</code>   @client is about to negotiate
      *   with a proxy to get it to connect to @connectable. @connection is
-     *   the #GSocketConnection to the proxy server.
+     *   the {@link org.gtk.gio.SocketConnection} to the proxy server.
      * 
-     * - <code>G_SOCKET_CLIENT_PROXY_NEGOTIATED:</code> @client has negotiated a
+     * - {@link org.gtk.gio.SocketClientEvent<code>#PROXY_NEGOTIATED</code>   @client has negotiated a
      *   connection to @connectable through a proxy server. @connection is
      *   the stream returned from g_proxy_connect(), which may or may not
-     *   be a #GSocketConnection.
+     *   be a {@link org.gtk.gio.SocketConnection} 
      * 
-     * - <code>G_SOCKET_CLIENT_TLS_HANDSHAKING:</code> @client is about to begin a TLS
-     *   handshake. @connection is a #GTlsClientConnection.
+     * - {@link org.gtk.gio.SocketClientEvent<code>#TLS_HANDSHAKING</code>   @client is about to begin a TLS
+     *   handshake. @connection is a {@link org.gtk.gio.TlsClientConnection} 
      * 
-     * - <code>G_SOCKET_CLIENT_TLS_HANDSHAKED:</code> @client has successfully completed
-     *   the TLS handshake. @connection is a #GTlsClientConnection.
+     * - {@link org.gtk.gio.SocketClientEvent<code>#TLS_HANDSHAKED</code>   @client has successfully completed
+     *   the TLS handshake. @connection is a {@link org.gtk.gio.TlsClientConnection} 
      * 
-     * - <code>G_SOCKET_CLIENT_COMPLETE:</code> @client has either successfully connected
-     *   to @connectable (in which case @connection is the #GSocketConnection
-     *   that it will be returning to the caller) or has failed (in which
+     * - {@link org.gtk.gio.SocketClientEvent<code>#COMPLETE</code>   @client has either successfully connected
+     *   to @connectable (in which case @connection is the {@link org.gtk.gio.SocketConnection}   that it will be returning to the caller) or has failed (in which
      *   case @connection is <code>null</code> and the client is about to return an error).
      * 
-     * Each event except {@link org.gtk.gio.SocketClientEvent#COMPLETE} may be emitted
+     * Each event except {@link org.gtk.gio.SocketClientEvent<code>#COMPLETE</code>  may be emitted
      * multiple times (or not at all) for a given connectable (in
      * particular, if @client ends up attempting to connect to more than
-     * one address). However, if @client emits the #GSocketClient::event
+     * one address). However, if @client emits the {@link org.gtk.gio.SocketClient} :event
      * signal at all for a given connectable, then it will always emit
-     * it with {@link org.gtk.gio.SocketClientEvent#COMPLETE} when it is done.
+     * it with {@link org.gtk.gio.SocketClientEvent<code>#COMPLETE</code>  when it is done.
      * 
-     * Note that there may be additional #GSocketClientEvent values in
+     * Note that there may be additional {@link org.gtk.gio.SocketClientEvent} values in
      * the future; unrecognized @event values should be ignored.
      */
     public SignalHandle onEvent(EventHandler handler) {

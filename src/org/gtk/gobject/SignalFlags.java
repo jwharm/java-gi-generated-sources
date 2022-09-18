@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * The signal flags are used to specify a signal&#39;s behaviour.
+ * The signal flags are used to specify a signal&<code>#39</code> s behaviour.
  */
 public class SignalFlags {
 
@@ -28,7 +28,7 @@ public class SignalFlags {
     public static final int NO_RECURSE = 8;
     
     /**
-     * This signal supports &#34;::detail&#34; appendices to the signal name
+     * This signal supports &<code>#34</code> ::detail&<code>#34</code>  appendices to the signal name
      *  upon handler connections and emissions.
      */
     public static final int DETAILED = 16;
@@ -62,8 +62,8 @@ public class SignalFlags {
     public static final int DEPRECATED = 256;
     
     /**
-     * Only used in #GSignalAccumulator accumulator
-     *   functions for the #GSignalInvocationHint::run_type field to mark the first
+     * Only used in {@link org.gtk.gobject.SignalAccumulator} accumulator
+     *   functions for the {@link org.gtk.gobject.SignalInvocationHint} :run_type field to mark the first
      *   call to the accumulator function for a signal emission.  Since 2.68.
      */
     public static final int ACCUMULATOR_FIRST_RUN = 131072;

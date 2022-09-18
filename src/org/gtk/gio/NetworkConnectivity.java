@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * The host&#39;s network connectivity state, as reported by #GNetworkMonitor.
+ * The host&<code>#39</code> s network connectivity state, as reported by {@link org.gtk.gio.NetworkMonitor}
  */
 public enum NetworkConnectivity {
 

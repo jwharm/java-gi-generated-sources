@@ -76,15 +76,15 @@ public class Printer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the printer&#8217;s capabilities.
+     * Returns the printer&<code>#8217</code> s capabilities.
      * <p>
-     * This is useful when you&#8217;re using <code>GtkPrintUnixDialog</code>&#8217;s
+     * This is useful when you&<code>#8217</code> re using <code>GtkPrintUnixDialog</code>&<code>#8217</code> s
      * manual-capabilities setting and need to know which settings
      * the printer can handle and which you must handle yourself.
      * 
-     * This will return 0 unless the printer&#8217;s details are
-     * available, see {@link org.gtk.gtk.Printer#hasDetails} and
-     * {@link org.gtk.gtk.Printer#requestDetails}.
+     * This will return 0 unless the printer&<code>#8217</code> s details are
+     * available, see {@link org.gtk.gtk.Printer<code>#hasDetails</code>  and
+     * {@link org.gtk.gtk.Printer<code>#requestDetails</code> .
      */
     public int getCapabilities() {
         var RESULT = gtk_h.gtk_printer_get_capabilities(handle());
@@ -205,9 +205,9 @@ public class Printer extends org.gtk.gobject.Object {
     /**
      * Lists all the paper sizes @printer supports.
      * 
-     * This will return and empty list unless the printer&#8217;s details
-     * are available, see {@link org.gtk.gtk.Printer#hasDetails} and
-     * {@link org.gtk.gtk.Printer#requestDetails}.
+     * This will return and empty list unless the printer&<code>#8217</code> s details
+     * are available, see {@link org.gtk.gtk.Printer<code>#hasDetails</code>  and
+     * {@link org.gtk.gtk.Printer<code>#requestDetails</code> .
      */
     public org.gtk.glib.List listPapers() {
         var RESULT = gtk_h.gtk_printer_list_papers(handle());

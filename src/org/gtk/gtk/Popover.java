@@ -15,16 +15,16 @@ import java.lang.invoke.*;
  * It is primarily meant to provide context-dependent information
  * or options. Popovers are attached to a parent widget. By default,
  * they point to the whole widget area, although this behavior can be
- * changed with {@link org.gtk.gtk.Popover#setPointingTo}.
+ * changed with {@link org.gtk.gtk.Popover<code>#setPointingTo</code> .
  * <p>
  * The position of a popover relative to the widget it is attached to
- * can also be changed with {@link org.gtk.gtk.Popover#setPosition}
+ * can also be changed with {@link org.gtk.gtk.Popover<code>#setPosition</code> 
  * <p>
  * By default, <code>GtkPopover</code> performs a grab, in order to ensure input
  * events get redirected to it while it is shown, and also so the popover
  * is dismissed in the expected situations (clicks outside the popover,
  * or the Escape key being pressed). If no such modal behavior is desired
- * on a popover, {@link org.gtk.gtk.Popover#setAutohide} may be called on it to
+ * on a popover, {@link org.gtk.gtk.Popover<code>#setAutohide</code>  may be called on it to
  * tweak its behavior.
  * <p>
  * <h2>GtkPopover as menu replacement</h2>
@@ -32,32 +32,32 @@ import java.lang.invoke.*;
  * is to use the {@link org.gtk.gtk.PopoverMenu} subclass which supports being
  * populated from a <code>GMenuModel</code> with {@link [ctor@Gtk.PopoverMenu.new_from_model] (ref=ctor)}.
  * <p><pre>xml
- * &#60;section&#62;
- *   &#60;attribute name=&#34;display-hint&#34;&#62;horizontal-buttons&#60;/attribute&#62;
- *   &#60;item&#62;
- *     &#60;attribute name=&#34;label&#34;&#62;Cut&#60;/attribute&#62;
- *     &#60;attribute name=&#34;action&#34;&#62;app.cut&#60;/attribute&#62;
- *     &#60;attribute name=&#34;verb-icon&#34;&#62;edit-cut-symbolic&#60;/attribute&#62;
- *   &#60;/item&#62;
- *   &#60;item&#62;
- *     &#60;attribute name=&#34;label&#34;&#62;Copy&#60;/attribute&#62;
- *     &#60;attribute name=&#34;action&#34;&#62;app.copy&#60;/attribute&#62;
- *     &#60;attribute name=&#34;verb-icon&#34;&#62;edit-copy-symbolic&#60;/attribute&#62;
- *   &#60;/item&#62;
- *   &#60;item&#62;
- *     &#60;attribute name=&#34;label&#34;&#62;Paste&#60;/attribute&#62;
- *     &#60;attribute name=&#34;action&#34;&#62;app.paste&#60;/attribute&#62;
- *     &#60;attribute name=&#34;verb-icon&#34;&#62;edit-paste-symbolic&#60;/attribute&#62;
- *   &#60;/item&#62;
- * &#60;/section&#62;
+ * &<code>#60</code> section&<code>#62</code> 
+ *   &<code>#60</code> attribute name=&<code>#34</code> display-hint&<code>#34</code> &<code>#62</code> horizontal-buttons&<code>#60</code> /attribute&<code>#62</code> 
+ *   &<code>#60</code> item&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Cut&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> action&<code>#34</code> &<code>#62</code> app.cut&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> verb-icon&<code>#34</code> &<code>#62</code> edit-cut-symbolic&<code>#60</code> /attribute&<code>#62</code> 
+ *   &<code>#60</code> /item&<code>#62</code> 
+ *   &<code>#60</code> item&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Copy&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> action&<code>#34</code> &<code>#62</code> app.copy&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> verb-icon&<code>#34</code> &<code>#62</code> edit-copy-symbolic&<code>#60</code> /attribute&<code>#62</code> 
+ *   &<code>#60</code> /item&<code>#62</code> 
+ *   &<code>#60</code> item&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Paste&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> action&<code>#34</code> &<code>#62</code> app.paste&<code>#60</code> /attribute&<code>#62</code> 
+ *     &<code>#60</code> attribute name=&<code>#34</code> verb-icon&<code>#34</code> &<code>#62</code> edit-paste-symbolic&<code>#60</code> /attribute&<code>#62</code> 
+ *   &<code>#60</code> /item&<code>#62</code> 
+ * &<code>#60</code> /section&<code>#62</code> 
  * </pre>
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><pre>
  * popover{@link [.menu]}
- * &#9500;&#9472;&#9472; arrow
- * &#9584;&#9472;&#9472; contents.background
- *     &#9584;&#9472;&#9472; &#60;child&#62;
+ * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  arrow
+ * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  contents.background
+ *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
  * </pre>
  * <p>
  * The contents child node always gets the .background style class
@@ -76,7 +76,7 @@ import java.lang.invoke.*;
  * uses custom drawing for the arrow node. This makes it possible for the
  * arrow to change its shape dynamically, but it also limits the possibilities
  * of styling it using CSS. In particular, the arrow gets drawn over the
- * content node&#39;s border and shadow, so they look like one shape, which
+ * content node&<code>#39</code> s border and shadow, so they look like one shape, which
  * means that the border width of the content node and the arrow node should
  * be the same. The arrow also does not support any border shape other than
  * solid, no border-radius, only one border width (border-bottom-width is
@@ -108,7 +108,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     /**
      * Returns whether the popover is modal.
      * 
-     * See {@link org.gtk.gtk.Popover#setAutohide} for the
+     * See {@link org.gtk.gtk.Popover<code>#setAutohide</code>  for the
      * implications of this.
      */
     public boolean getAutohide() {
@@ -210,10 +210,10 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If @cascade_popdown is <code>TRUE,</code> the popover will be
+     * If @cascade_popdown is <code>true</code>  the popover will be
      * closed when a child modal popover is closed.
      * 
-     * If <code>FALSE,</code> @popover will stay visible.
+     * If <code>false</code>  @popover will stay visible.
      */
     public void setCascadePopdown(boolean cascadePopdown) {
         gtk_h.gtk_popover_set_cascade_popdown(handle(), cascadePopdown ? 1 : 0);
@@ -229,7 +229,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     /**
      * Sets the default widget of a <code>GtkPopover</code>.
      * <p>
-     * The default widget is the widget that&#8217;s activated when the user
+     * The default widget is the widget that&<code>#8217</code> s activated when the user
      * presses Enter in a dialog (for example). This function sets or
      * unsets the default widget for a <code>GtkPopover</code>.
      */

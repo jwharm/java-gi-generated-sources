@@ -2,7 +2,7 @@ package org.gtk.glib;
 
 /**
  * Flags modifying the way parameters are handled by g_uri_parse_params() and
- * #GUriParamsIter.
+ * {@link org.gtk.glib.UriParamsIter}
  */
 public class UriParamsFlags {
 
@@ -23,10 +23,7 @@ public class UriParamsFlags {
     public static final int WWW_FORM = 2;
     
     /**
-     * See 
-     *       
-     *       
-     *         See %G_URI_FLAGS_PARSE_RELAXED.
+     * See {@link org.gtk.glib.UriFlags<code>#PARSE_RELAXED</code>
      */
     public static final int PARSE_RELAXED = 4;
     

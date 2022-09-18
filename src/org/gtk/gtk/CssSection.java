@@ -44,7 +44,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * Gets the file that @section was parsed from.
      * <p>
      * If no such file exists, for example because the CSS was loaded via
-     * {@link org.gtk.gtk.CssProvider#loadFromData}, then <code>NULL</code> is returned.
+     * {@link org.gtk.gtk.CssProvider<code>#loadFromData</code> , then <code>NULL</code> is returned.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_css_section_get_file(handle());
@@ -57,7 +57,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * The parent section is the section that contains this <code>section</code>. A special
      * case are sections of  type <code>GTK_CSS_SECTION_DOCUMEN</code>T. Their parent will
      * either be <code>NULL</code> if they are the original CSS document that was loaded by
-     * {@link org.gtk.gtk.CssProvider#loadFromFile} or a section of type<code>GTK_CSS_SECTION_IMPORT</code> if it was loaded with an <code>@import</code> rule from
+     * {@link org.gtk.gtk.CssProvider<code>#loadFromFile</code>  or a section of type<code>GTK_CSS_SECTION_IMPORT</code> if it was loaded with an <code>@import</code> rule from
      * a different file.
      */
     public CssSection getParent() {
@@ -93,7 +93,7 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Prints the section into a human-readable text form using
-     * {@link org.gtk.gtk.CssSection#print}.
+     * {@link org.gtk.gtk.CssSection<code>#print</code> .
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.gtk_css_section_to_string(handle());

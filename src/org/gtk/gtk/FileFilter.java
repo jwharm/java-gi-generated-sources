@@ -10,8 +10,8 @@ import java.lang.invoke.*;
 /**
  * <code>GtkFileFilter</code> filters files by name or mime type.
  * <p><code>GtkFileFilter</code> can be used to restrict the files being shown in a<code>GtkFileChooser</code>. Files can be filtered based on their name (with
- * {@link org.gtk.gtk.FileFilter#addPattern} or {@link org.gtk.gtk.FileFilter#addSuffix})
- * or on their mime type (with {@link org.gtk.gtk.FileFilter#addMimeType}).
+ * {@link org.gtk.gtk.FileFilter<code>#addPattern</code>  or {@link org.gtk.gtk.FileFilter<code>#addSuffix</code> )
+ * or on their mime type (with {@link org.gtk.gtk.FileFilter<code>#addMimeType</code> ).
  * <p>
  * Filtering by mime types handles aliasing and subclassing of mime
  * types; e.g. a filter for text/plain also matches a file with mime
@@ -20,33 +20,33 @@ import java.lang.invoke.*;
  * subtype of a mime type, so you can e.g. filter for image/\\*.
  * <p>
  * Normally, file filters are used by adding them to a <code>GtkFileChooser</code>
- * (see {@link org.gtk.gtk.FileChooser#addFilter}), but it is also possible to
+ * (see {@link org.gtk.gtk.FileChooser<code>#addFilter</code> ), but it is also possible to
  * manually use a file filter on any {@link org.gtk.gtk.FilterListModel} containing<code>GFileInfo</code> objects.
  * <p>
- * <h1>tkFileFilter as GtkBuildable</h1>
+ * <h1>GtkFileFilter as GtkBuildable</h1>
  * <p>
  * The <code>GtkFileFilter</code> implementation of the <code>GtkBuildable</code> interface
- * supports adding rules using the <code>&#60;mime-types&#62;</code> and <code>&#60;patterns&#62;</code> and<code>&#60;suffixes&#62;</code> elements and listing the rules within. Specifying a<code>&#60;mime-type&#62;</code> or <code>&#60;pattern&#62;</code> or <code>&#60;suffix&#62;</code> has the same effect as
+ * supports adding rules using the <code>&<code>#60</code> mime-types&<code>#62</code> </code> and <code>&<code>#60</code> patterns&<code>#62</code> </code> and<code>&<code>#60</code> suffixes&<code>#62</code> </code> elements and listing the rules within. Specifying a<code>&<code>#60</code> mime-type&<code>#62</code> </code> or <code>&<code>#60</code> pattern&<code>#62</code> </code> or <code>&<code>#60</code> suffix&<code>#62</code> </code> has the same effect as
  * as calling
- * {@link org.gtk.gtk.FileFilter#addMimeType} or
- * {@link org.gtk.gtk.FileFilter#addPattern} or
- * {@link org.gtk.gtk.FileFilter#addSuffix}.
+ * {@link org.gtk.gtk.FileFilter<code>#addMimeType</code>  or
+ * {@link org.gtk.gtk.FileFilter<code>#addPattern</code>  or
+ * {@link org.gtk.gtk.FileFilter<code>#addSuffix</code> .
  * <p>
  * An example of a UI definition fragment specifying <code>GtkFileFilter</code>
  * rules:<pre>xml
- * &#60;object class=&#34;GtkFileFilter&#34;&#62;
- *   &#60;property name=&#34;name&#34; translatable=&#34;yes&#34;&#62;Text and Images&#60;/property&#62;
- *   &#60;mime-types&#62;
- *     &#60;mime-type&#62;text/plain&#60;/mime-type&#62;
- *     &#60;mime-type&#62;image/ *&#60;/mime-type&#62;
- *   &#60;/mime-types&#62;
- *   &#60;patterns&#62;
- *     &#60;pattern&#62;*.txt&#60;/pattern&#62;
- *   &#60;/patterns&#62;
- *   &#60;suffixes&#62;
- *     &#60;suffix&#62;png&#60;/suffix&#62;
- *   &#60;/suffixes&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkFileFilter&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> property name=&<code>#34</code> name&<code>#34</code>  translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Text and Images&<code>#60</code> /property&<code>#62</code> 
+ *   &<code>#60</code> mime-types&<code>#62</code> 
+ *     &<code>#60</code> mime-type&<code>#62</code> text/plain&<code>#60</code> /mime-type&<code>#62</code> 
+ *     &<code>#60</code> mime-type&<code>#62</code> image/ *&<code>#60</code> /mime-type&<code>#62</code> 
+ *   &<code>#60</code> /mime-types&<code>#62</code> 
+ *   &<code>#60</code> patterns&<code>#62</code> 
+ *     &<code>#60</code> pattern&<code>#62</code> *.txt&<code>#60</code> /pattern&<code>#62</code> 
+ *   &<code>#60</code> /patterns&<code>#62</code> 
+ *   &<code>#60</code> suffixes&<code>#62</code> 
+ *     &<code>#60</code> suffix&<code>#62</code> png&<code>#60</code> /suffix&<code>#62</code> 
+ *   &<code>#60</code> /suffixes&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  */
 public class FileFilter extends Filter implements Buildable {
@@ -68,16 +68,16 @@ public class FileFilter extends Filter implements Buildable {
     /**
      * Creates a new <code>GtkFileFilter</code> with no rules added to it.
      * <p>
-     * Such a filter doesn&#8217;t accept any files, so is not
+     * Such a filter doesn&<code>#8217</code> t accept any files, so is not
      * particularly useful until you add rules with
-     * {@link org.gtk.gtk.FileFilter#addMimeType},
-     * {@link org.gtk.gtk.FileFilter#addPattern},
-     * {@link org.gtk.gtk.FileFilter#addSuffix} or
-     * {@link org.gtk.gtk.FileFilter#addPixbufFormats}.
+     * {@link org.gtk.gtk.FileFilter<code>#addMimeType</code> ,
+     * {@link org.gtk.gtk.FileFilter<code>#addPattern</code> ,
+     * {@link org.gtk.gtk.FileFilter<code>#addSuffix</code>  or
+     * {@link org.gtk.gtk.FileFilter<code>#addPixbufFormats</code> .
      * <p>
      * To create a filter that accepts any file, use:<pre>c
      * GtkFileFilter *filter = gtk_file_filter_new ();
-     * gtk_file_filter_add_pattern (filter, &#34;*&#34;);
+     * gtk_file_filter_add_pattern (filter, &<code>#34</code> *&<code>#34</code> );
      * </pre>
      */
     public FileFilter() {
@@ -93,7 +93,7 @@ public class FileFilter extends Filter implements Buildable {
      * Deserialize a file filter from a <code>GVariant</code>.
      * 
      * The variant must be in the format produced by
-     * {@link org.gtk.gtk.FileFilter#toGvariant}.
+     * {@link org.gtk.gtk.FileFilter<code>#toGvariant</code> .
      */
     public static FileFilter newFromGvariant(org.gtk.glib.Variant variant) {
         return new FileFilter(constructNewFromGvariant(variant));
@@ -111,7 +111,7 @@ public class FileFilter extends Filter implements Buildable {
      * 
      * Note that it depends on the platform whether pattern
      * matching ignores case or not. On Windows, it does, on
-     * other platforms, it doesn&#39;t.
+     * other platforms, it doesn&<code>#39</code> t.
      */
     public void addPattern(java.lang.String pattern) {
         gtk_h.gtk_file_filter_add_pattern(handle(), Interop.allocateNativeString(pattern).handle());
@@ -121,7 +121,7 @@ public class FileFilter extends Filter implements Buildable {
      * Adds a rule allowing image files in the formats supported
      * by GdkPixbuf.
      * 
-     * This is equivalent to calling {@link org.gtk.gtk.FileFilter#addMimeType}
+     * This is equivalent to calling {@link org.gtk.gtk.FileFilter<code>#addMimeType</code> 
      * for all the supported mime types.
      */
     public void addPixbufFormats() {
@@ -132,7 +132,7 @@ public class FileFilter extends Filter implements Buildable {
      * Adds a suffix match rule to a filter.
      * 
      * This is similar to adding a match for the pattern
-     * &#34;*.@suffix&#34;.
+     * &<code>#34</code> *.@suffix&<code>#34</code> .
      * 
      * In contrast to pattern matches, suffix matches
      * are *always* case-insensitive.
@@ -144,7 +144,7 @@ public class FileFilter extends Filter implements Buildable {
     /**
      * Gets the human-readable name for the filter.
      * 
-     * See {@link org.gtk.gtk.FileFilter#setName}.
+     * See {@link org.gtk.gtk.FileFilter<code>#setName</code> .
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gtk_file_filter_get_name(handle());

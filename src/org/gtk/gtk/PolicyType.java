@@ -25,7 +25,7 @@ public enum PolicyType {
     NEVER,
     
     /**
-     * Don&#39;t show a scrollbar, but don&#39;t force the
+     * Don&<code>#39</code> t show a scrollbar, but don&<code>#39</code> t force the
      *   size to follow the content. This can be used e.g. to make multiple
      *   scrolled windows share a scrollbar.
      */

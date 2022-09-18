@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A #GDBusObjectSkeleton instance is essentially a group of D-Bus
+ * A {@link org.gtk.gio.DBusObjectSkeleton} instance is essentially a group of D-Bus
  * interfaces. The set of exported interfaces on the object may be
  * dynamic and change at runtime.
  * 
- * This type is intended to be used with #GDBusObjectManager.
+ * This type is intended to be used with {@link org.gtk.gio.DBusObjectManager}
  */
 public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusObject {
 
@@ -31,7 +31,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     }
     
     /**
-     * Creates a new #GDBusObjectSkeleton.
+     * Creates a new {@link org.gtk.gio.DBusObjectSkeleton}
      */
     public DBusObjectSkeleton(java.lang.String objectPath) {
         super(constructNew(objectPath));
@@ -40,7 +40,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     /**
      * Adds @interface_ to @object.
      * 
-     * If @object already contains a #GDBusInterfaceSkeleton with the same
+     * If @object already contains a {@link org.gtk.gio.DBusInterfaceSkeleton} with the same
      * interface name, it is removed before @interface_ is added.
      * 
      * Note that @object takes its own reference on @interface_ and holds
@@ -67,7 +67,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     }
     
     /**
-     * Removes the #GDBusInterface with @interface_name from @object.
+     * Removes the {@link org.gtk.gio.DBusInterface} with @interface_name from @object.
      * 
      * If no D-Bus interface of the given interface exists, this function
      * does nothing.
@@ -92,28 +92,11 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * Emitted when a method is invoked by a remote caller and used to
      * determine if the method call is authorized.
      * 
-     * This signal is like #GDBusInterfaceSkeleton&#39;s
-     * #GDBusInterfaceSkeleton::g-authorize-method signal,
+     * This signal is like {@link org.gtk.gio.DBusInterfaceSkeleton} <code>#39</code> s
+     * {@link org.gtk.gio.DBusInterfaceSkeleton} :g-authorize-method signal,
      * except that it is for the enclosing object.
      * 
-     * The default class handler just returns 
-     *         
-     *       
-     *       
-     *         
-     *       
-     *       
-     *         
-     *       
-     *       
-     *         Emitted when a method is invoked by a remote caller and used to
-     * determine if the method call is authorized.
-     * 
-     * This signal is like #GDBusInterfaceSkeleton&#39;s
-     * #GDBusInterfaceSkeleton::g-authorize-method signal,
-     * except that it is for the enclosing object.
-     * 
-     * The default class handler just returns %TRUE.
+     * The default class handler just returns <code>true</code>
      */
     public SignalHandle onAuthorizeMethod(AuthorizeMethodHandler handler) {
         try {

@@ -16,11 +16,11 @@ import java.lang.invoke.*;
  * <p>
  * To create a <code>GtkFontChooserDialog</code>, use {@link [ctor@Gtk.FontChooserDialog.new] (ref=ctor)}.
  * <p>
- * <h1>tkFontChooserDialog as GtkBuildable</h1>
+ * <h1>GtkFontChooserDialog as GtkBuildable</h1>
  * <p>
  * The <code>GtkFontChooserDialog</code> implementation of the <code>GtkBuildable</code>
- * interface exposes the buttons with the names &#8220;select_button&#8221;
- * and &#8220;cancel_button&#8221;.
+ * interface exposes the buttons with the names &<code>#8220</code> select_button&<code>#8221</code> 
+ * and &<code>#8220</code> cancel_button&<code>#8221</code> .
  */
 public class FontChooserDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, FontChooser, Native, Root, ShortcutManager {
 

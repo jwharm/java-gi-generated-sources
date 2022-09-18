@@ -22,7 +22,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GString, initialized with the given string.
+     * Creates a new {@link org.gtk.glib.String}  initialized with the given string.
      */
     public String(java.lang.String init) {
         super(constructNew(init));
@@ -34,11 +34,11 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GString with @len bytes of the @init buffer.
+     * Creates a new {@link org.gtk.glib.String} with @len bytes of the @init buffer.
      * Because a length is provided, @init need not be nul-terminated,
      * and can contain embedded nul bytes.
      * 
-     * Since this function does not stop at nul bytes, it is the caller&#39;s
+     * Since this function does not stop at nul bytes, it is the caller&<code>#39</code> s
      * responsibility to ensure that @init has at least @len addressable
      * bytes.
      */
@@ -52,9 +52,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new #GString, with enough space for @dfl_size
+     * Creates a new {@link org.gtk.glib.String}  with enough space for @dfl_size
      * bytes. This is useful if you are going to add a lot of
-     * text to the string and don&#39;t want it to be reallocated
+     * text to the string and don&<code>#39</code> t want it to be reallocated
      * too often.
      */
     public static String sizedNew(long dflSize) {
@@ -62,7 +62,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a string onto the end of a #GString, expanding
+     * Adds a string onto the end of a {@link org.gtk.glib.String}  expanding
      * it if necessary.
      */
     public String append(java.lang.String val) {
@@ -71,7 +71,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a byte onto the end of a #GString, expanding
+     * Adds a byte onto the end of a {@link org.gtk.glib.String}  expanding
      * it if necessary.
      */
     public String appendC(byte c) {
@@ -83,7 +83,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * Appends @len bytes of @val to @string.
      * 
      * If @len is positive, @val may contain embedded nuls and need
-     * not be nul-terminated. It is the caller&#39;s responsibility to
+     * not be nul-terminated. It is the caller&<code>#39</code> s responsibility to
      * ensure that @val has at least @len addressable bytes.
      * 
      * If @len is negative, @val must be nul-terminated and @len
@@ -114,7 +114,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Appends a formatted string onto the end of a #GString.
+     * Appends a formatted string onto the end of a {@link org.gtk.glib.String} 
      * This function is similar to g_string_append_printf()
      * except that the arguments to the format string are passed
      * as a va_list.
@@ -140,7 +140,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies the bytes from a string into a #GString,
+     * Copies the bytes from a string into a {@link org.gtk.glib.String} 
      * destroying any previous contents. It is rather like
      * the standard strcpy() function, except that you do not
      * have to worry about having enough space to copy the string.
@@ -152,7 +152,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Compares two strings for equality, returning <code>true</code> if they are equal.
-     * For use with #GHashTable.
+     * For use with {@link org.gtk.glib.HashTable}
      */
     public boolean equal(String v2) {
         var RESULT = gtk_h.g_string_equal(handle(), v2.handle());
@@ -160,8 +160,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes @len bytes from a #GString, starting at position @pos.
-     * The rest of the #GString is shifted down to fill the gap.
+     * Removes @len bytes from a {@link org.gtk.glib.String}  starting at position @pos.
+     * The rest of the {@link org.gtk.glib.String} is shifted down to fill the gap.
      */
     public String erase(long pos, long len) {
         var RESULT = gtk_h.g_string_erase(handle(), pos, len);
@@ -169,9 +169,9 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the memory allocated for the #GString.
+     * Frees the memory allocated for the {@link org.gtk.glib.String} 
      * If @free_segment is <code>true</code> it also frees the character data.  If
-     * it&#39;s <code>FALSE,</code> the caller gains ownership of the buffer and must
+     * it&<code>#39</code> s <code>false</code>  the caller gains ownership of the buffer and must
      * free it after use with g_free().
      */
     public java.lang.String free(boolean freeSegment) {
@@ -181,13 +181,13 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Transfers ownership of the contents of @string to a newly allocated
-     * #GBytes.  The #GString structure itself is deallocated, and it is
+     * {@link org.gtk.glib.Bytes}   The {@link org.gtk.glib.String} structure itself is deallocated, and it is
      * therefore invalid to use @string after invoking this function.
      * 
-     * Note that while #GString ensures that its buffer always has a
-     * trailing nul character (not reflected in its &#34;len&#34;), the returned
-     * #GBytes does not include this extra nul; i.e. it has length exactly
-     * equal to the &#34;len&#34; member.
+     * Note that while {@link org.gtk.glib.String} ensures that its buffer always has a
+     * trailing nul character (not reflected in its &<code>#34</code> len&<code>#34</code> ), the returned
+     * {@link org.gtk.glib.Bytes} does not include this extra nul; i.e. it has length exactly
+     * equal to the &<code>#34</code> len&<code>#34</code>  member.
      */
     public Bytes freeToBytes() {
         var RESULT = gtk_h.g_string_free_to_bytes(handle());
@@ -195,7 +195,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a hash code for @str; for use with #GHashTable.
+     * Creates a hash code for @str; for use with {@link org.gtk.glib.HashTable}
      */
     public int hash() {
         var RESULT = gtk_h.g_string_hash(handle());
@@ -203,7 +203,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a copy of a string into a #GString,
+     * Inserts a copy of a string into a {@link org.gtk.glib.String} 
      * expanding it if necessary.
      */
     public String insert(long pos, java.lang.String val) {
@@ -212,7 +212,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a byte into a #GString, expanding it if necessary.
+     * Inserts a byte into a {@link org.gtk.glib.String}  expanding it if necessary.
      */
     public String insertC(long pos, byte c) {
         var RESULT = gtk_h.g_string_insert_c(handle(), pos, c);
@@ -223,7 +223,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * Inserts @len bytes of @val into @string at @pos.
      * 
      * If @len is positive, @val may contain embedded nuls and need
-     * not be nul-terminated. It is the caller&#39;s responsibility to
+     * not be nul-terminated. It is the caller&<code>#39</code> s responsibility to
      * ensure that @val has at least @len addressable bytes.
      * 
      * If @len is negative, @val must be nul-terminated and @len
@@ -263,7 +263,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a string on to the start of a #GString,
+     * Adds a string on to the start of a {@link org.gtk.glib.String} 
      * expanding it if necessary.
      */
     public String prepend(java.lang.String val) {
@@ -272,7 +272,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a byte onto the start of a #GString,
+     * Adds a byte onto the start of a {@link org.gtk.glib.String} 
      * expanding it if necessary.
      */
     public String prependC(byte c) {
@@ -284,7 +284,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
      * Prepends @len bytes of @val to @string.
      * 
      * If @len is positive, @val may contain embedded nuls and need
-     * not be nul-terminated. It is the caller&#39;s responsibility to
+     * not be nul-terminated. It is the caller&<code>#39</code> s responsibility to
      * ensure that @val has at least @len addressable bytes.
      * 
      * If @len is negative, @val must be nul-terminated and @len
@@ -306,8 +306,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Replaces the string @find with the string @replace in a #GString up to
-     * @limit times. If the number of instances of @find in the #GString is
+     * Replaces the string @find with the string @replace in a {@link org.gtk.glib.String} up to
+     * @limit times. If the number of instances of @find in the {@link org.gtk.glib.String} is
      * less than @limit, all instances are replaced. If @limit is <code>0</code>,
      * all instances of @find are replaced.
      * 
@@ -322,11 +322,11 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the length of a #GString. If the length is less than
+     * Sets the length of a {@link org.gtk.glib.String}  If the length is less than
      * the current length, the string will be truncated. If the
      * length is greater than the current length, the contents
      * of the newly added area are undefined. (However, as
-     * always, string-&#62;str{@link [string-&#62;len]} will be a nul byte.)
+     * always, string-&<code>#62</code> str{@link [string-&<code>#62</code> len]} will be a nul byte.)
      */
     public String setSize(long len) {
         var RESULT = gtk_h.g_string_set_size(handle(), len);
@@ -342,7 +342,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Writes a formatted string into a #GString.
+     * Writes a formatted string into a {@link org.gtk.glib.String} 
      * This function is similar to g_string_printf() except that
      * the arguments to the format string are passed as a va_list.
      */

@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GTlsServerConnection is the server-side subclass of #GTlsConnection,
+ * {@link org.gtk.gio.TlsServerConnection} is the server-side subclass of {@link org.gtk.gio.TlsConnection} 
  * representing a server-side TLS connection.
  */
 public interface TlsServerConnection extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Creates a new #GTlsServerConnection wrapping @base_io_stream (which
+     * Creates a new {@link org.gtk.gio.TlsServerConnection} wrapping @base_io_stream (which
      * must have pollable input and output streams).
      * 
-     * See the documentation for #GTlsConnection:base-io-stream for restrictions
+     * See the documentation for {@link org.gtk.gio.TlsConnection} base-io-stream for restrictions
      * on when application code can run operations on the @base_io_stream after
      * this function has returned.
      */

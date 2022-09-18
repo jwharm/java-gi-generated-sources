@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * The <code>PangoRectangle</code> structure represents a rectangle.
  * <p><code>PangoRectangle</code> is frequently used to represent the logical or ink
  * extents of a single glyph or section of text. (See, for instance,
- * {@link org.pango.Font#getGlyphExtents}.)
+ * {@link org.pango.Font<code>#getGlyphExtents</code> .)
  */
 public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
 

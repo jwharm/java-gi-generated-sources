@@ -14,15 +14,15 @@ import java.lang.invoke.*;
  * dialog for selecting fonts.
  * <p>
  * To set the font which is initially selected, use
- * {@link org.gtk.gtk.FontChooser#setFont} or {@link org.gtk.gtk.FontChooser#setFontDesc}.
+ * {@link org.gtk.gtk.FontChooser<code>#setFont</code>  or {@link org.gtk.gtk.FontChooser<code>#setFontDesc</code> .
  * <p>
- * To get the selected font use {@link org.gtk.gtk.FontChooser#getFont} or
- * {@link org.gtk.gtk.FontChooser#getFontDesc}.
+ * To get the selected font use {@link org.gtk.gtk.FontChooser<code>#getFont</code>  or
+ * {@link org.gtk.gtk.FontChooser<code>#getFontDesc</code> .
  * <p>
  * To change the text which is shown in the preview area, use
- * {@link org.gtk.gtk.FontChooser#setPreviewText}.
+ * {@link org.gtk.gtk.FontChooser<code>#setPreviewText</code> .
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkFontChooserWidget</code> has a single CSS node with name fontchooser.
  */
 public class FontChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {

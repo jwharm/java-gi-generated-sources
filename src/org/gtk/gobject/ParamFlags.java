@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * Through the #GParamFlags flag values, certain aspects of parameters
+ * Through the {@link org.gtk.gobject.ParamFlags} flag values, certain aspects of parameters
  * can be configured.
  * 
  * See also: 
@@ -9,7 +9,7 @@ package org.gtk.gobject;
  *       
  *     
  *     
- *       Through the #GParamFlags flag values, certain aspects of parameters
+ *       Through the {@link org.gtk.gobject.ParamFlags} flag values, certain aspects of parameters
  * can be configured.
  * 
  * See also: %G_PARAM_STATIC_STRINGS
@@ -27,7 +27,7 @@ public class ParamFlags {
     public static final int WRITABLE = 2;
     
     /**
-     * alias for {@link org.gtk.gobject.ParamFlags#READABLE} | | %G_PARAM_WRITABLE
+     * alias for {@link org.gtk.gobject.ParamFlags<code>#READABLE</code>  | | %G_PARAM_WRITABLE
      */
     public static final int READWRITE = 3;
     
@@ -78,7 +78,7 @@ public class ParamFlags {
     
     /**
      * calls to g_object_set_property() for this
-     *   property will not automatically result in a &#34;notify&#34; signal being
+     *   property will not automatically result in a &<code>#34</code> notify&<code>#34</code>  signal being
      *   emitted: the implementation must call g_object_notify() themselves
      *   in case the property actually changes.  Since: 2.42.
      */

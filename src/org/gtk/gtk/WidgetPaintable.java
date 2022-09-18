@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * <code>GtkWidgetPaintable</code> is a <code>GdkPaintable</code> that displays the contents
  * of a widget.
  * <p><code>GtkWidgetPaintable</code> will also take care of the widget not being in a
- * state where it can be drawn (like when it isn&#39;t shown) and just draw
+ * state where it can be drawn (like when it isn&<code>#39</code> t shown) and just draw
  * nothing or where it does not have a size (like when it is hidden) and
  * report no size in that case.
  * <p>

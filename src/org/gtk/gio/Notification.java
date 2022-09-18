@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GNotification is a mechanism for creating a notification to be shown
+ * {@link org.gtk.gio.Notification} is a mechanism for creating a notification to be shown
  * to the user -- typically as a pop-up notification presented by the
  * desktop environment shell.
  * <p>
- * The key difference between #GNotification and other similar APIs is
+ * The key difference between {@link org.gtk.gio.Notification} and other similar APIs is
  * that, if supported by the desktop environment, notifications sent
- * with #GNotification will persist after the application has exited,
+ * with {@link org.gtk.gio.Notification} will persist after the application has exited,
  * and even across system reboots.
  * <p>
  * Since the user may click on a notification while the application is
- * not running, applications using #GNotification should be able to be
- * started as a D-Bus service, using #GApplication.
+ * not running, applications using {@link org.gtk.gio.Notification} should be able to be
+ * started as a D-Bus service, using {@link org.gtk.gio.Application} 
  * <p>
- * In order for #GNotification to work, the application must have installed
+ * In order for {@link org.gtk.gio.Notification} to work, the application must have installed
  * a <code>.desktop</code> file. For example:
  * |{@link [
  *  [Desktop Entry]}
@@ -39,14 +39,14 @@ import java.lang.invoke.*;
  * <p>
  * The <code>X-GNOME-UsesNotifications</code> key indicates to GNOME Control Center
  * that this application uses notifications, so it can be listed in the
- * Control Center&#8217;s &#8216;Notifications&#8217; panel.
+ * Control Center&<code>#8217</code> s &<code>#8216</code> Notifications&<code>#8217</code>  panel.
  * <p>
  * The <code>.desktop</code> file must be named as <code>org.gnome.TestApplication.desktop</code>,
  * where <code>org.gnome.TestApplication</code> is the ID passed to g_application_new().
  * 
  * User interaction with a notification (either the default action, or
  * buttons) must be associated with actions on the application (ie:
- * &#34;app.&#34; actions).  It is not possible to route user interaction
+ * &<code>#34</code> app.&<code>#34</code>  actions).  It is not possible to route user interaction
  * through the notification itself, because the object will not exist if
  * the application is autostarted as a result of a notification being
  * clicked.
@@ -70,7 +70,7 @@ public class Notification extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GNotification with @title as its title.
+     * Creates a new {@link org.gtk.gio.Notification} with @title as its title.
      * 
      * After populating @notification with more details, it can be sent to
      * the desktop shell with g_application_send_notification(). Changing
@@ -84,7 +84,7 @@ public class Notification extends org.gtk.gobject.Object {
     /**
      * Adds a button to @notification that activates the action in
      * @detailed_action when clicked. That action must be an
-     * application-wide action (starting with &#34;app.&#34;). If @detailed_action
+     * application-wide action (starting with &<code>#34</code> app.&<code>#34</code> ). If @detailed_action
      * contains a target, the action will be activated with that target as
      * its parameter.
      * 
@@ -97,9 +97,9 @@ public class Notification extends org.gtk.gobject.Object {
     
     /**
      * Adds a button to @notification that activates @action when clicked.
-     * @action must be an application-wide action (it must start with &#34;app.&#34;).
+     * @action must be an application-wide action (it must start with &<code>#34</code> app.&<code>#34</code> ).
      * 
-     * If @target is non-<code>NULL,</code> @action will be activated with @target as
+     * If @target is non-<code>null</code>  @action will be activated with @target as
      * its parameter.
      */
     public void addButtonWithTargetValue(java.lang.String label, java.lang.String action, org.gtk.glib.Variant target) {
@@ -130,7 +130,7 @@ public class Notification extends org.gtk.gobject.Object {
      * action is activated when the notification is clicked on.
      * 
      * The action in @detailed_action must be an application-wide action (it
-     * must start with &#34;app.&#34;). If @detailed_action contains a target, the
+     * must start with &<code>#34</code> app.&<code>#34</code> ). If @detailed_action contains a target, the
      * given action will be activated with that target as its parameter.
      * See g_action_parse_detailed_name() for a description of the format
      * for @detailed_action.
@@ -145,9 +145,9 @@ public class Notification extends org.gtk.gobject.Object {
     /**
      * Sets the default action of @notification to @action. This action is
      * activated when the notification is clicked on. It must be an
-     * application-wide action (start with &#34;app.&#34;).
+     * application-wide action (start with &<code>#34</code> app.&<code>#34</code> ).
      * 
-     * If @target is non-<code>NULL,</code> @action will be activated with @target as
+     * If @target is non-<code>null</code>  @action will be activated with @target as
      * its parameter.
      * 
      * When no default action is set, the application that the notification
@@ -166,7 +166,7 @@ public class Notification extends org.gtk.gobject.Object {
     
     /**
      * Sets the priority of @notification to @priority. See
-     * #GNotificationPriority for possible values.
+     * {@link org.gtk.gio.NotificationPriority} for possible values.
      */
     public void setPriority(NotificationPriority priority) {
         gtk_h.g_notification_set_priority(handle(), priority.getValue());

@@ -9,14 +9,14 @@ import java.lang.invoke.*;
 
 /**
  * The GRWLock struct is an opaque data structure to represent a
- * reader-writer lock. It is similar to a #GMutex in that it allows
+ * reader-writer lock. It is similar to a {@link org.gtk.glib.Mutex} in that it allows
  * multiple threads to coordinate access to a shared resource.
  * 
  * The difference to a mutex is that a reader-writer lock discriminates
- * between read-only (&#39;reader&#39;) and full (&#39;writer&#39;) access. While only
- * one thread at a time is allowed write access (by holding the &#39;writer&#39;
+ * between read-only (&<code>#39</code> reader&<code>#39</code> ) and full (&<code>#39</code> writer&<code>#39</code> ) access. While only
+ * one thread at a time is allowed write access (by holding the &<code>#39</code> writer&<code>#39</code> 
  * lock via g_rw_lock_writer_lock()), multiple threads can gain
- * simultaneous read-only access (by holding the &#39;reader&#39; lock via
+ * simultaneous read-only access (by holding the &<code>#39</code> reader&<code>#39</code>  lock via
  * g_rw_lock_reader_lock()).
  * 
  * It is unspecified whether readers or writers have priority in acquiring the
@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  * it.
  * 
  * Here is an example for an array with access functions:
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  *   GRWLock lock;
  *   GPtrArray *array;
  * 
@@ -36,10 +36,10 @@ import java.lang.invoke.*;
  *     if (!array)
  *       return NULL;
  * 
- *     g_rw_lock_reader_lock (&#38;lock);
- *     if (index &#60; array-&#62;len)
+ *     g_rw_lock_reader_lock (&<code>#38</code> lock);
+ *     if (index &<code>#60</code>  array-&<code>#62</code> len)
  *       retval = g_ptr_array_index (array, index);
- *     g_rw_lock_reader_unlock (&#38;lock);
+ *     g_rw_lock_reader_unlock (&<code>#38</code> lock);
  * 
  *     return retval;
  *   }
@@ -47,16 +47,16 @@ import java.lang.invoke.*;
  *   void
  *   my_array_set (guint index, gpointer data)
  *   {
- *     g_rw_lock_writer_lock (&#38;lock);
+ *     g_rw_lock_writer_lock (&<code>#38</code> lock);
  * 
  *     if (!array)
  *       array = g_ptr_array_new ();
  * 
- *     if (index &#62;= array-&#62;len)
+ *     if (index &<code>#62</code> = array-&<code>#62</code> len)
  *       g_ptr_array_set_size (array, index+1);
  *     g_ptr_array_index (array, index) = data;
  * 
- *     g_rw_lock_writer_unlock (&#38;lock);
+ *     g_rw_lock_writer_unlock (&<code>#38</code> lock);
  *   }
  *  ]}|
  * This example shows an array which can be accessed by many readers
@@ -66,7 +66,7 @@ import java.lang.invoke.*;
  * of the potentially dangerous resizing of the array. Using these
  * functions is fully multi-thread safe now.
  * 
- * If a #GRWLock is allocated in static storage then it can be used
+ * If a {@link org.gtk.glib.RWLock} is allocated in static storage then it can be used
  * without initialisation.  Otherwise, you should call
  * g_rw_lock_init() on it and g_rw_lock_clear() when done.
  * 
@@ -81,7 +81,7 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated to a lock with g_rw_lock_init().
      * 
-     * This function should not be used with a #GRWLock that has been
+     * This function should not be used with a {@link org.gtk.glib.RWLock} that has been
      * statically allocated.
      * 
      * Calling g_rw_lock_clear() when any thread holds the lock
@@ -94,14 +94,14 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #GRWLock so that it can be used.
+     * Initializes a {@link org.gtk.glib.RWLock} so that it can be used.
      * 
      * This function is useful to initialize a lock that has been
      * allocated on the stack, or as part of a larger structure.  It is not
      * necessary to initialise a reader-writer lock that has been statically
      * allocated.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      *   typedef struct {
      *     GRWLock l;
      *     ...
@@ -110,13 +110,13 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Blob *b;
      * 
      * b = g_new (Blob, 1);
-     * g_rw_lock_init (&#38;b-&#62;l);
+     * g_rw_lock_init (&<code>#38</code> b-&<code>#62</code> l);
      * ]}|
      * 
      * To undo the effect of g_rw_lock_init() when a lock is no longer
      * needed, use g_rw_lock_clear().
      * 
-     * Calling g_rw_lock_init() on an already initialized #GRWLock leads
+     * Calling g_rw_lock_init() on an already initialized {@link org.gtk.glib.RWLock} leads
      * to undefined behaviour.
      */
     public void init() {
@@ -147,9 +147,7 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Tries to obtain a read lock on @rw_lock and returns <code>true</code> if
      * the read lock was successfully obtained. Otherwise it
-     * returns if
-     * the read lock was successfully obtained. Otherwise it
-     * returns %FALSE.
+     * returns <code>false</code>
      */
     public boolean readerTrylock() {
         var RESULT = gtk_h.g_rw_lock_reader_trylock(handle());
@@ -181,8 +179,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Tries to obtain a write lock on @rw_lock. If another thread
      * currently holds a read or write lock on @rw_lock, it immediately
-     * returns <code>FALSE.
-     * Otherwise</code> it locks @rw_lock and returns it locks @rw_lock and returns %TRUE.
+     * returns <code>false</code> 
+     * Otherwise it locks @rw_lock and returns <code>true</code>
      */
     public boolean writerTrylock() {
         var RESULT = gtk_h.g_rw_lock_writer_trylock(handle());

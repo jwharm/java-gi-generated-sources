@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GSettings class provides a convenient API for storing and retrieving
+ * The {@link org.gtk.gio.Settings} class provides a convenient API for storing and retrieving
  * application settings.
  * <p>
  * Reads and writes can be considered to be non-blocking.  Reading
- * settings with #GSettings is typically extremely fast: on
+ * settings with {@link org.gtk.gio.Settings} is typically extremely fast: on
  * approximately the same order of magnitude (but slower than) a
- * <h1>ashTable lookup.  Writing settings is also extremely fast in terms</h1>
+ * {@link org.gtk.glib.HashTable} lookup.  Writing settings is also extremely fast in terms
  * of time to return to your application, but can be extremely expensive
  * for other threads and other processes.  Many settings backends
  * (including dconf) have lazy initialisation which means in the common
  * case of the user using their computer without modifying any settings
- * a lot of work can be avoided.  For dconf, the D-Bus service doesn&#39;t
+ * a lot of work can be avoided.  For dconf, the D-Bus service doesn&<code>#39</code> t
  * even need to be started in this case.  For this reason, you should
- * only ever modify #GSettings keys in response to explicit user action.
+ * only ever modify {@link org.gtk.gio.Settings} keys in response to explicit user action.
  * Particular care should be paid to ensure that modifications are not
  * made during startup -- for example, when setting the initial value
  * of preferences widgets.  The built-in g_settings_bind() functionality
@@ -34,54 +34,54 @@ import java.lang.invoke.*;
  * <p>
  * Normally, a schema has a fixed path that determines where the settings
  * are stored in the conceptual global tree of settings. However, schemas
- * can also be &#39;{@link [relocatable]}{@link [gsettings-relocatable]}&#39;, i.e. not equipped with
+ * can also be &<code>#39</code> {@link [relocatable]}{@link [gsettings-relocatable]}&<code>#39</code> , i.e. not equipped with
  * a fixed path. This is
- * useful e.g. when the schema describes an &#39;account&#39;, and you want to be
+ * useful e.g. when the schema describes an &<code>#39</code> account&<code>#39</code> , and you want to be
  * able to store a arbitrary number of accounts.
  * <p>
- * Paths must start with and end with a forward slash character (&#39;/&#39;)
+ * Paths must start with and end with a forward slash character (&<code>#39</code> /&<code>#39</code> )
  * and must not contain two sequential slash characters.  Paths should
  * be chosen based on a domain name associated with the program or
  * library to which the settings belong.  Examples of paths are
- * &#34;/org/gtk/settings/file-chooser/&#34; and &#34;/ca/desrt/dconf-editor/&#34;.
- * Paths should not start with &#34;/apps/&#34;, &#34;/desktop/&#34; or &#34;/system/&#34; as
+ * &<code>#34</code> /org/gtk/settings/file-chooser/&<code>#34</code>  and &<code>#34</code> /ca/desrt/dconf-editor/&<code>#34</code> .
+ * Paths should not start with &<code>#34</code> /apps/&<code>#34</code> , &<code>#34</code> /desktop/&<code>#34</code>  or &<code>#34</code> /system/&<code>#34</code>  as
  * they often did in GConf.
  * <p>
  * Unlike other configuration systems (like GConf), GSettings does not
  * restrict keys to basic types like strings and numbers. GSettings stores
- * values as #GVariant, and allows any #GVariantType for keys. Key names
- * are restricted to lowercase characters, numbers and &#39;-&#39;. Furthermore,
+ * values as {@link org.gtk.glib.Variant}  and allows any {@link org.gtk.glib.VariantType} for keys. Key names
+ * are restricted to lowercase characters, numbers and &<code>#39</code> -&<code>#39</code> . Furthermore,
  * the names must begin with a lowercase character, must not end
- * with a &#39;-&#39;, and must not contain consecutive dashes.
+ * with a &<code>#39</code> -&<code>#39</code> , and must not contain consecutive dashes.
  * <p>
  * Similar to GConf, the default values in GSettings schemas can be
  * localized, but the localized values are stored in gettext catalogs
- * and looked up with the domain that is specified in the<code>gettext-domain</code> attribute of the &#60;schemalist&#62; or &#60;schema&#62;
+ * and looked up with the domain that is specified in the<code>gettext-domain</code> attribute of the &<code>#60</code> schemalist&<code>#62</code>  or &<code>#60</code> schema&<code>#62</code> 
  * elements and the category that is specified in the <code>l10n</code> attribute of
- * the &#60;default&#62; element. The string which is translated includes all text in
- * the &#60;default&#62; element, including any surrounding quotation marks.
+ * the &<code>#60</code> default&<code>#62</code>  element. The string which is translated includes all text in
+ * the &<code>#60</code> default&<code>#62</code>  element, including any surrounding quotation marks.
  * <p>
  * The <code>l10n</code> attribute must be set to <code>messages</code> or <code>time</code>, and sets the
  * {@link [locale category for
- * translation]}(https://www.gnu.org/software/gettext/manual/html_node/Aspects.html#index-locale-categories-1).
+ * translation]}(https://www.gnu.org/software/gettext/manual/html_node/Aspects.html<code>#index</code> locale-categories-1).
  * The <code>messages</code> category should be used by default; use <code>time</code> for
  * translatable date or time formats. A translation comment can be added as an
- * XML comment immediately above the &#60;default&#62; element &#8212; it is recommended to
+ * XML comment immediately above the &<code>#60</code> default&<code>#62</code>  element &<code>#8212</code>  it is recommended to
  * add these comments to aid translators understand the meaning and
  * implications of the default value. An optional translation <code>context</code>
- * attribute can be set on the &#60;default&#62; element to disambiguate multiple
+ * attribute can be set on the &<code>#60</code> default&<code>#62</code>  element to disambiguate multiple
  * defaults which use the same string.
  * <p>
  * For example:
  * |{@link [
- *  &#60;!-- Translators: A list of words which are not allowed to be typed, in
+ *  &<code>#60</code> !-- Translators: A list of words which are not allowed to be typed, in
  *       GVariant serialization syntax.
- *       See: https://developer.gnome.org/glib/stable/gvariant-text.html --&#62;
- *  &#60;default l10n=&#39;messages&#39; context=&#39;Banned words&#39;&#62;[&#39;bad&#39;, &#39;words&#39;]}&#60;/default&#62;
+ *       See: https://developer.gnome.org/glib/stable/gvariant-text.html --&<code>#62</code> 
+ *  &<code>#60</code> default l10n=&<code>#39</code> messages&<code>#39</code>  context=&<code>#39</code> Banned words&<code>#39</code> &<code>#62</code> [&<code>#39</code> bad&<code>#39</code> , &<code>#39</code> words&<code>#39</code> ]}&<code>#60</code> /default&<code>#62</code> 
  * ]|
  * <p>
  * Translations of default values must remain syntactically valid serialized
- * <h1>ariants (e.g. retaining any surrounding quotation marks) or runtime</h1>
+ * <code>#GVariants</code> (e.g. retaining any surrounding quotation marks) or runtime
  * errors will occur.
  * <p>
  * GSettings uses schemas in a compact binary form that is created
@@ -95,17 +95,17 @@ import java.lang.invoke.*;
  * files to have the extension <code>.gschema.xml</code>.
  * <p>
  * At runtime, schemas are identified by their id (as specified in the
- * id attribute of the &#60;schema&#62; element). The convention for schema
+ * id attribute of the &<code>#60</code> schema&<code>#62</code>  element). The convention for schema
  * ids is to use a dotted name, similar in style to a D-Bus bus name,
- * e.g. &#34;org.gnome.SessionManager&#34;. In particular, if the settings are
+ * e.g. &<code>#34</code> org.gnome.SessionManager&<code>#34</code> . In particular, if the settings are
  * for a specific service that owns a D-Bus bus name, the D-Bus bus name
  * and schema id should match. For schemas which deal with settings not
  * associated with one named application, the id should not use
- * StudlyCaps, e.g. &#34;org.gnome.font-rendering&#34;.
+ * StudlyCaps, e.g. &<code>#34</code> org.gnome.font-rendering&<code>#34</code> .
  * <p>
- * In addition to #GVariant types, keys can have types that have
- * enumerated types. These can be described by a &#60;choice&#62;,
- * &#60;enum&#62; or &#60;flags&#62; element, as seen in the
+ * In addition to {@link org.gtk.glib.Variant} types, keys can have types that have
+ * enumerated types. These can be described by a &<code>#60</code> choice&<code>#62</code> ,
+ * &<code>#60</code> enum&<code>#62</code>  or &<code>#60</code> flags&<code>#62</code>  element, as seen in the
  * {@link [example]}{@link [schema-enumerated]}. The underlying type of such a key
  * is string, but you can use g_settings_get_enum(), g_settings_set_enum(),
  * g_settings_get_flags(), g_settings_set_flags() access the numeric values
@@ -113,74 +113,74 @@ import java.lang.invoke.*;
  * <p>
  * An example for default value:
  * |{@link [
- * &#60;schemalist&#62;
- *   &#60;schema id=&#34;org.gtk.Test&#34; path=&#34;/org/gtk/Test/&#34; gettext-domain=&#34;test&#34;&#62;
+ * &<code>#60</code> schemalist&<code>#62</code> 
+ *   &<code>#60</code> schema id=&<code>#34</code> org.gtk.Test&<code>#34</code>  path=&<code>#34</code> /org/gtk/Test/&<code>#34</code>  gettext-domain=&<code>#34</code> test&<code>#34</code> &<code>#62</code> 
  * <p>
- *     &#60;key name=&#34;greeting&#34; type=&#34;s&#34;&#62;
- *       &#60;default l10n=&#34;messages&#34;&#62;&#34;Hello, earthlings&#34;&#60;/default&#62;
- *       &#60;summary&#62;A greeting&#60;/summary&#62;
- *       &#60;description&#62;
+ *     &<code>#60</code> key name=&<code>#34</code> greeting&<code>#34</code>  type=&<code>#34</code> s&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> default l10n=&<code>#34</code> messages&<code>#34</code> &<code>#62</code> &<code>#34</code> Hello, earthlings&<code>#34</code> &<code>#60</code> /default&<code>#62</code> 
+ *       &<code>#60</code> summary&<code>#62</code> A greeting&<code>#60</code> /summary&<code>#62</code> 
+ *       &<code>#60</code> description&<code>#62</code> 
  *         Greeting of the invading martians
- *       &#60;/description&#62;
- *     &#60;/key&#62;
+ *       &<code>#60</code> /description&<code>#62</code> 
+ *     &<code>#60</code> /key&<code>#62</code> 
  * <p>
- *     &#60;key name=&#34;box&#34; type=&#34;(ii)&#34;&#62;
- *       &#60;default&#62;(20,30)&#60;/default&#62;
- *     &#60;/key&#62;
+ *     &<code>#60</code> key name=&<code>#34</code> box&<code>#34</code>  type=&<code>#34</code> (ii)&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> default&<code>#62</code> (20,30)&<code>#60</code> /default&<code>#62</code> 
+ *     &<code>#60</code> /key&<code>#62</code> 
  * <p>
- *     &#60;key name=&#34;empty-string&#34; type=&#34;s&#34;&#62;
- *       &#60;default&#62;&#34;&#34;&#60;/default&#62;
- *       &#60;summary&#62;Empty strings have to be provided in GVariant form&#60;/summary&#62;
- *     &#60;/key&#62;
+ *     &<code>#60</code> key name=&<code>#34</code> empty-string&<code>#34</code>  type=&<code>#34</code> s&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> default&<code>#62</code> &<code>#34</code> &<code>#34</code> &<code>#60</code> /default&<code>#62</code> 
+ *       &<code>#60</code> summary&<code>#62</code> Empty strings have to be provided in GVariant form&<code>#60</code> /summary&<code>#62</code> 
+ *     &<code>#60</code> /key&<code>#62</code> 
  * <p>
- *   &#60;/schema&#62;
- * &#60;/schemalist&#62;
+ *   &<code>#60</code> /schema&<code>#62</code> 
+ * &<code>#60</code> /schemalist&<code>#62</code> 
  * ]}|
  * <p>
  * An example for ranges, choices and enumerated types:
  * |{@link [
- * &#60;schemalist&#62;
+ * &<code>#60</code> schemalist&<code>#62</code> 
  * <p>
- *   &#60;enum id=&#34;org.gtk.Test.myenum&#34;&#62;
- *     &#60;value nick=&#34;first&#34; value=&#34;1&#34;/&#62;
- *     &#60;value nick=&#34;second&#34; value=&#34;2&#34;/&#62;
- *   &#60;/enum&#62;
+ *   &<code>#60</code> enum id=&<code>#34</code> org.gtk.Test.myenum&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> value nick=&<code>#34</code> first&<code>#34</code>  value=&<code>#34</code> 1&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> value nick=&<code>#34</code> second&<code>#34</code>  value=&<code>#34</code> 2&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /enum&<code>#62</code> 
  * <p>
- *   &#60;flags id=&#34;org.gtk.Test.myflags&#34;&#62;
- *     &#60;value nick=&#34;flag1&#34; value=&#34;1&#34;/&#62;
- *     &#60;value nick=&#34;flag2&#34; value=&#34;2&#34;/&#62;
- *     &#60;value nick=&#34;flag3&#34; value=&#34;4&#34;/&#62;
- *   &#60;/flags&#62;
+ *   &<code>#60</code> flags id=&<code>#34</code> org.gtk.Test.myflags&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> value nick=&<code>#34</code> flag1&<code>#34</code>  value=&<code>#34</code> 1&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> value nick=&<code>#34</code> flag2&<code>#34</code>  value=&<code>#34</code> 2&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> value nick=&<code>#34</code> flag3&<code>#34</code>  value=&<code>#34</code> 4&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /flags&<code>#62</code> 
  * <p>
- *   &#60;schema id=&#34;org.gtk.Test&#34;&#62;
+ *   &<code>#60</code> schema id=&<code>#34</code> org.gtk.Test&<code>#34</code> &<code>#62</code> 
  * <p>
- *     &#60;key name=&#34;key-with-range&#34; type=&#34;i&#34;&#62;
- *       &#60;range min=&#34;1&#34; max=&#34;100&#34;/&#62;
- *       &#60;default&#62;10&#60;/default&#62;
- *     &#60;/key&#62;
+ *     &<code>#60</code> key name=&<code>#34</code> key-with-range&<code>#34</code>  type=&<code>#34</code> i&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> range min=&<code>#34</code> 1&<code>#34</code>  max=&<code>#34</code> 100&<code>#34</code> /&<code>#62</code> 
+ *       &<code>#60</code> default&<code>#62</code> 10&<code>#60</code> /default&<code>#62</code> 
+ *     &<code>#60</code> /key&<code>#62</code> 
  * <p>
- *     &#60;key name=&#34;key-with-choices&#34; type=&#34;s&#34;&#62;
- *       &#60;choices&#62;
- *         &#60;choice value=&#39;Elisabeth&#39;/&#62;
- *         &#60;choice value=&#39;Annabeth&#39;/&#62;
- *         &#60;choice value=&#39;Joe&#39;/&#62;
- *       &#60;/choices&#62;
- *       &#60;aliases&#62;
- *         &#60;alias value=&#39;Anna&#39; target=&#39;Annabeth&#39;/&#62;
- *         &#60;alias value=&#39;Beth&#39; target=&#39;Elisabeth&#39;/&#62;
- *       &#60;/aliases&#62;
- *       &#60;default&#62;&#39;Joe&#39;&#60;/default&#62;
- *     &#60;/key&#62;
+ *     &<code>#60</code> key name=&<code>#34</code> key-with-choices&<code>#34</code>  type=&<code>#34</code> s&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> choices&<code>#62</code> 
+ *         &<code>#60</code> choice value=&<code>#39</code> Elisabeth&<code>#39</code> /&<code>#62</code> 
+ *         &<code>#60</code> choice value=&<code>#39</code> Annabeth&<code>#39</code> /&<code>#62</code> 
+ *         &<code>#60</code> choice value=&<code>#39</code> Joe&<code>#39</code> /&<code>#62</code> 
+ *       &<code>#60</code> /choices&<code>#62</code> 
+ *       &<code>#60</code> aliases&<code>#62</code> 
+ *         &<code>#60</code> alias value=&<code>#39</code> Anna&<code>#39</code>  target=&<code>#39</code> Annabeth&<code>#39</code> /&<code>#62</code> 
+ *         &<code>#60</code> alias value=&<code>#39</code> Beth&<code>#39</code>  target=&<code>#39</code> Elisabeth&<code>#39</code> /&<code>#62</code> 
+ *       &<code>#60</code> /aliases&<code>#62</code> 
+ *       &<code>#60</code> default&<code>#62</code> &<code>#39</code> Joe&<code>#39</code> &<code>#60</code> /default&<code>#62</code> 
+ *     &<code>#60</code> /key&<code>#62</code> 
  * <p>
- *     &#60;key name=&#39;enumerated-key&#39; enum=&#39;org.gtk.Test.myenum&#39;&#62;
- *       &#60;default&#62;&#39;first&#39;&#60;/default&#62;
- *     &#60;/key&#62;
+ *     &<code>#60</code> key name=&<code>#39</code> enumerated-key&<code>#39</code>  enum=&<code>#39</code> org.gtk.Test.myenum&<code>#39</code> &<code>#62</code> 
+ *       &<code>#60</code> default&<code>#62</code> &<code>#39</code> first&<code>#39</code> &<code>#60</code> /default&<code>#62</code> 
+ *     &<code>#60</code> /key&<code>#62</code> 
  * <p>
- *     &#60;key name=&#39;flags-key&#39; flags=&#39;org.gtk.Test.myflags&#39;&#62;
- *       &#60;default&#62;[&#34;flag1&#34;,&#34;flag2&#34;]}&#60;/default&#62;
- *     &#60;/key&#62;
- *   &#60;/schema&#62;
- * &#60;/schemalist&#62;
+ *     &<code>#60</code> key name=&<code>#39</code> flags-key&<code>#39</code>  flags=&<code>#39</code> org.gtk.Test.myflags&<code>#39</code> &<code>#62</code> 
+ *       &<code>#60</code> default&<code>#62</code> [&<code>#34</code> flag1&<code>#34</code> ,&<code>#34</code> flag2&<code>#34</code> ]}&<code>#60</code> /default&<code>#62</code> 
+ *     &<code>#60</code> /key&<code>#62</code> 
+ *   &<code>#60</code> /schema&<code>#62</code> 
+ * &<code>#60</code> /schemalist&<code>#62</code> 
  * ]|
  * <p>
  * <h2>Vendor overrides</h2>
@@ -190,13 +190,13 @@ import java.lang.invoke.*;
  * to adjust these defaults. Since patching the XML source for the schema
  * is inconvenient and error-prone,
  * {@link [glib-compile-schemas]}{@link [glib-compile-schemas]} reads so-called vendor
- * override&#39; files. These are keyfiles in the same directory as the XML
+ * override&<code>#39</code>  files. These are keyfiles in the same directory as the XML
  * schema sources which can override default values. The schema id serves
  * as the group name in the key file, and the values are expected in
  * serialized GVariant form, as in the following example:
  * |{@link [
  *     [org.gtk.Example]}
- *     key1=&#39;string&#39;
+ *     key1=&<code>#39</code> string&<code>#39</code> 
  *     key2=1.5
  * ]|
  * <p>
@@ -204,7 +204,7 @@ import java.lang.invoke.*;
  * <p>
  * <h2>Binding</h2>
  * <p>
- * A very convenient feature of GSettings lets you bind #GObject properties
+ * A very convenient feature of GSettings lets you bind {@link org.gtk.gobject.Object} properties
  * directly to settings, using g_settings_bind(). Once a GObject property
  * has been bound to a setting, changes on either side are automatically
  * propagated to the other side. GSettings handles details like mapping
@@ -212,15 +212,15 @@ import java.lang.invoke.*;
  * <p>
  * This makes it very easy to hook up a preferences dialog to the
  * underlying settings. To make this even more convenient, GSettings
- * looks for a boolean property with the name &#34;sensitivity&#34; and
+ * looks for a boolean property with the name &<code>#34</code> sensitivity&<code>#34</code>  and
  * automatically binds it to the writability of the bound setting.
- * If this &#39;magic&#39; gets in the way, it can be suppressed with the
- * {@link org.gtk.gio.SettingsBindFlags#NO_SENSITIVITY} flag.
+ * If this &<code>#39</code> magic&<code>#39</code>  gets in the way, it can be suppressed with the
+ * {@link org.gtk.gio.SettingsBindFlags<code>#NO_SENSITIVITY</code>  flag.
  * <p>
- * <h2>Relocatable schemas # {#gsettings-relocatable}</h2>
+ * <h2>Relocatable schemas <code>#</code> {<code>#gsettings</code> relocatable}</h2>
  * <p>
  * A relocatable schema is one with no <code>path</code> attribute specified on its
- * &#60;schema&#62; element. By using g_settings_new_with_path(), a #GSettings object
+ * &<code>#60</code> schema&<code>#62</code>  element. By using g_settings_new_with_path(), a {@link org.gtk.gio.Settings} object
  * can be instantiated for a relocatable schema, assigning a path to the
  * instance. Paths passed to g_settings_new_with_path() will typically be
  * constructed dynamically from a constant prefix plus some form of instance
@@ -230,14 +230,14 @@ import java.lang.invoke.*;
  * <p>
  * For example, a relocatable schema could be used to store geometry information
  * for different windows in an application. If the schema ID was<code>org.foo.MyApp.Window</code>, it could be instantiated for paths<code>/org/foo/MyApp/main/</code>, <code>/org/foo/MyApp/document-1/</code>,<code>/org/foo/MyApp/document-2/</code>, etc. If any of the paths are well-known
- * they can be specified as &#60;child&#62; elements in the parent schema, e.g.:
+ * they can be specified as &<code>#60</code> child&<code>#62</code>  elements in the parent schema, e.g.:
  * |{@link [
- * &#60;schema id=&#34;org.foo.MyApp&#34; path=&#34;/org/foo/MyApp/&#34;&#62;
- *   &#60;child name=&#34;main&#34; schema=&#34;org.foo.MyApp.Window&#34;/&#62;
- * &#60;/schema&#62;
+ * &<code>#60</code> schema id=&<code>#34</code> org.foo.MyApp&<code>#34</code>  path=&<code>#34</code> /org/foo/MyApp/&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> child name=&<code>#34</code> main&<code>#34</code>  schema=&<code>#34</code> org.foo.MyApp.Window&<code>#34</code> /&<code>#62</code> 
+ * &<code>#60</code> /schema&<code>#62</code> 
  * ]}|
  * <p>
- * <h2>Build system integration # {#gsettings-build-system}</h2>
+ * <h2>Build system integration <code>#</code> {<code>#gsettings</code> build-system}</h2>
  * <p>
  * GSettings comes with autotools integration to simplify compiling and
  * installing schemas. To add GSettings support to an application, add the
@@ -272,13 +272,13 @@ import java.lang.invoke.*;
  * [type: gettext/gsettings]}data/org.foo.MyApp.gschema.xml
  * ]|
  * <p>
- * GSettings will use gettext to look up translations for the &#60;summary&#62; and
- * &#60;description&#62; elements, and also any &#60;default&#62; elements which have a <code>l10n</code>
+ * GSettings will use gettext to look up translations for the &<code>#60</code> summary&<code>#62</code>  and
+ * &<code>#60</code> description&<code>#62</code>  elements, and also any &<code>#60</code> default&<code>#62</code>  elements which have a <code>l10n</code>
  * attribute set. Translations must not be included in the <code>.gschema.xml</code> file
  * by the build system, for example by using intltool XML rules with a<code>.gschema.xml.in</code> template.
  * <p>
  * If an enumerated type defined in a C header file is to be used in a GSettings
- * schema, it can either be defined manually using an &#60;enum&#62; element in the
+ * schema, it can either be defined manually using an &<code>#60</code> enum&<code>#62</code>  element in the
  * schema XML, or it can be extracted automatically from the C header. This
  * approach is preferred, as it ensures the two representations are always
  * synchronised. To do so, add the following to the relevant <code>Makefile.am</code>:
@@ -308,7 +308,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GSettings object with the schema specified by
+     * Creates a new {@link org.gtk.gio.Settings} object with the schema specified by
      * @schema_id.
      * 
      * It is an error for the schema to not exist: schemas are an
@@ -317,9 +317,9 @@ public class Settings extends org.gtk.gobject.Object {
      * optional runtime dependency), g_settings_schema_source_lookup()
      * can be used to test for their existence before loading them.
      * 
-     * Signals on the newly created #GSettings object will be dispatched
-     * via the thread-default #GMainContext in effect at the time of the
-     * call to g_settings_new().  The new #GSettings will hold a reference
+     * Signals on the newly created {@link org.gtk.gio.Settings} object will be dispatched
+     * via the thread-default {@link org.gtk.glib.MainContext} in effect at the time of the
+     * call to g_settings_new().  The new {@link org.gtk.gio.Settings} will hold a reference
      * on the context.  See g_main_context_push_thread_default().
      */
     public Settings(java.lang.String schemaId) {
@@ -332,7 +332,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GSettings object with a given schema, backend and
+     * Creates a new {@link org.gtk.gio.Settings} object with a given schema, backend and
      * path.
      * 
      * It should be extremely rare that you ever want to use this function.
@@ -340,12 +340,12 @@ public class Settings extends org.gtk.gobject.Object {
      * that want to provide access to schemas loaded from custom locations,
      * etc).
      * 
-     * At the most basic level, a #GSettings object is a pure composition of
-     * 4 things: a #GSettingsSchema, a #GSettingsBackend, a path within that
-     * backend, and a #GMainContext to which signals are dispatched.
+     * At the most basic level, a {@link org.gtk.gio.Settings} object is a pure composition of
+     * 4 things: a {@link org.gtk.gio.SettingsSchema}  a {@link org.gtk.gio.SettingsBackend}  a path within that
+     * backend, and a {@link org.gtk.glib.MainContext} to which signals are dispatched.
      * 
      * This constructor therefore gives you full control over constructing
-     * #GSettings instances.  The first 3 parameters are given directly as
+     * {@link org.gtk.gio.Settings} instances.  The first 3 parameters are given directly as
      * @schema, @backend and @path, and the main context is taken from the
      * thread-default (as per g_settings_new()).
      * 
@@ -366,12 +366,12 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GSettings object with the schema specified by
-     * @schema_id and a given #GSettingsBackend.
+     * Creates a new {@link org.gtk.gio.Settings} object with the schema specified by
+     * @schema_id and a given {@link org.gtk.gio.SettingsBackend} 
      * 
-     * Creating a #GSettings object with a different backend allows accessing
+     * Creating a {@link org.gtk.gio.Settings} object with a different backend allows accessing
      * settings from a database other than the usual one. For example, it may make
-     * sense to pass a backend corresponding to the &#34;defaults&#34; settings database on
+     * sense to pass a backend corresponding to the &<code>#34</code> defaults&<code>#34</code>  settings database on
      * the system to get a settings object that modifies the system default
      * settings instead of the settings for this user.
      */
@@ -385,8 +385,8 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GSettings object with the schema specified by
-     * @schema_id and a given #GSettingsBackend and path.
+     * Creates a new {@link org.gtk.gio.Settings} object with the schema specified by
+     * @schema_id and a given {@link org.gtk.gio.SettingsBackend} and path.
      * 
      * This is a mix of g_settings_new_with_backend() and
      * g_settings_new_with_path().
@@ -401,18 +401,18 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new #GSettings object with the relocatable schema specified
+     * Creates a new {@link org.gtk.gio.Settings} object with the relocatable schema specified
      * by @schema_id and a given path.
      * 
      * You only need to do this if you want to directly create a settings
-     * object with a schema that doesn&#39;t have a specified path of its own.
-     * That&#39;s quite rare.
+     * object with a schema that doesn&<code>#39</code> t have a specified path of its own.
+     * That&<code>#39</code> s quite rare.
      * 
      * It is a programmer error to call this function for a schema that
      * has an explicitly specified path.
      * 
      * It is a programmer error if @path is not a valid path.  A valid path
-     * begins and ends with &#39;/&#39; and does not contain two consecutive &#39;/&#39;
+     * begins and ends with &<code>#39</code> /&<code>#39</code>  and does not contain two consecutive &<code>#39</code> /&<code>#39</code> 
      * characters.
      */
     public static Settings newWithPath(java.lang.String schemaId, java.lang.String path) {
@@ -421,7 +421,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     /**
      * Applies any changes that have been made to the settings.  This
-     * function does nothing unless @settings is in &#39;delay-apply&#39; mode;
+     * function does nothing unless @settings is in &<code>#39</code> delay-apply&<code>#39</code>  mode;
      * see g_settings_delay().  In the normal case settings are always
      * applied immediately.
      */
@@ -440,9 +440,9 @@ public class Settings extends org.gtk.gobject.Object {
      * you need a custom mapping, or map between types that are not
      * supported by the default mapping functions.
      * 
-     * Unless the @flags include <code>G_SETTINGS_BIND_NO_SENSITIVITY,</code> this
+     * Unless the @flags include {@link org.gtk.gio.SettingsBindFlags<code>#NO_SENSITIVITY</code>   this
      * function also establishes a binding between the writability of
-     * @key and the &#34;sensitive&#34; property of @object (if @object has
+     * @key and the &<code>#34</code> sensitive&<code>#34</code>  property of @object (if @object has
      * a boolean property by that name). See g_settings_bind_writable()
      * for more details about writable bindings.
      * 
@@ -490,14 +490,14 @@ public class Settings extends org.gtk.gobject.Object {
     /**
      * Create a binding between the writability of @key in the
      * @settings object and the property @property of @object.
-     * The property must be boolean; &#34;sensitive&#34; or &#34;visible&#34;
+     * The property must be boolean; &<code>#34</code> sensitive&<code>#34</code>  or &<code>#34</code> visible&<code>#34</code> 
      * properties of widgets are the most likely candidates.
      * 
      * Writable bindings are always uni-directional; changes of the
      * writability of the setting will be propagated to the object
      * property, not the other way.
      * 
-     * When the @inverted argument is <code>TRUE,</code> the binding inverts the
+     * When the @inverted argument is <code>true</code>  the binding inverts the
      * value as it passes from the setting to the object, i.e. @property
      * will be set to <code>true</code> if the key is not writable.
      * 
@@ -511,7 +511,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a #GAction corresponding to a given #GSettings key.
+     * Creates a {@link org.gtk.gio.Action} corresponding to a given {@link org.gtk.gio.Settings} key.
      * 
      * The action has the same name as the key.
      * 
@@ -532,7 +532,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Changes the #GSettings object into &#39;delay-apply&#39; mode. In this
+     * Changes the {@link org.gtk.gio.Settings} object into &<code>#39</code> delay-apply&<code>#39</code>  mode. In this
      * mode, changes to @settings are not immediately propagated to the
      * backend, but kept locally until g_settings_apply() is called.
      */
@@ -545,7 +545,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_get() for booleans.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a boolean type in the schema for @settings.
      */
     public boolean getBoolean(java.lang.String key) {
@@ -558,9 +558,9 @@ public class Settings extends org.gtk.gobject.Object {
      * @settings.
      * <p>
      * The schema for the child settings object must have been declared
-     * in the schema of @settings using a <code>&#60;child&#62;</code> element.
+     * in the schema of @settings using a <code>&<code>#60</code> child&<code>#62</code> </code> element.
      * 
-     * The created child settings object will inherit the #GSettings:delay-apply
+     * The created child settings object will inherit the {@link org.gtk.gio.Settings} delay-apply
      * mode from @settings.
      */
     public Settings getChild(java.lang.String name) {
@@ -569,7 +569,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the &#34;default value&#34; of a key.
+     * Gets the &<code>#34</code> default value&<code>#34</code>  of a key.
      * 
      * This is the value that would be read if g_settings_reset() were to be
      * called on the key.
@@ -582,13 +582,13 @@ public class Settings extends org.gtk.gobject.Object {
      * g_settings_get_value() is not sufficient for determining if a value
      * has been set because the user may have explicitly set the value to
      * something that happens to be equal to the default.  The difference
-     * here is that if the default changes in the future, the user&#39;s key
+     * here is that if the default changes in the future, the user&<code>#39</code> s key
      * will still be set.
      * 
      * This function may be useful for adding an indication to a UI of what
      * the default value was before the user set it.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings.
      */
     public org.gtk.glib.Variant getDefaultValue(java.lang.String key) {
@@ -601,8 +601,8 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_get() for doubles.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
-     * having a &#39;double&#39; type in the schema for @settings.
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
+     * having a &<code>#39</code> double&<code>#39</code>  type in the schema for @settings.
      */
     public double getDouble(java.lang.String key) {
         var RESULT = gtk_h.g_settings_get_double(handle(), Interop.allocateNativeString(key).handle());
@@ -616,7 +616,7 @@ public class Settings extends org.gtk.gobject.Object {
      * In order to use this function the type of the value must be a string
      * and it must be marked in the schema file as an enumerated type.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings or is not marked as an enumerated type.
      * 
      * If the value stored in the configuration database is not a valid
@@ -635,7 +635,7 @@ public class Settings extends org.gtk.gobject.Object {
      * In order to use this function the type of the value must be an array
      * of strings and it must be marked in the schema file as a flags type.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings or is not marked as a flags type.
      * 
      * If the value stored in the configuration database is not a valid
@@ -648,8 +648,8 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns whether the #GSettings object has any unapplied
-     * changes.  This can only be the case if it is in &#39;delayed-apply&#39; mode.
+     * Returns whether the {@link org.gtk.gio.Settings} object has any unapplied
+     * changes.  This can only be the case if it is in &<code>#39</code> delayed-apply&<code>#39</code>  mode.
      */
     public boolean getHasUnapplied() {
         var RESULT = gtk_h.g_settings_get_has_unapplied(handle());
@@ -661,7 +661,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_get() for 32-bit integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a int32 type in the schema for @settings.
      */
     public int getInt(java.lang.String key) {
@@ -674,7 +674,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_get() for 64-bit integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a int64 type in the schema for @settings.
      */
     public long getInt64(java.lang.String key) {
@@ -692,10 +692,10 @@ public class Settings extends org.gtk.gobject.Object {
      * indicates that the processing was unsuccessful (due to a parse error,
      * for example) then the mapping is tried again with another value.
      * 
-     * This allows a robust &#39;fall back to defaults&#39; behaviour to be
+     * This allows a robust &<code>#39</code> fall back to defaults&<code>#39</code>  behaviour to be
      * implemented somewhat automatically.
      * 
-     * The first value that is tried is the user&#39;s setting for the key.  If
+     * The first value that is tried is the user&<code>#39</code> s setting for the key.  If
      * the mapping function fails to map this value, other values may be
      * tried in an unspecified order (system or site defaults, translated
      * schema default values, untranslated schema default values, etc).
@@ -706,8 +706,8 @@ public class Settings extends org.gtk.gobject.Object {
      * the application will be aborted.
      * 
      * The result parameter for the @mapping function is pointed to a
-     * #gpointer which is initially set to <code>NULL.</code>  The same pointer is given
-     * to each invocation of @mapping.  The final value of that #gpointer is
+     * <code>#gpointer</code> which is initially set to <code>null</code>   The same pointer is given
+     * to each invocation of @mapping.  The final value of that <code>#gpointer</code> is
      * what is returned by this function.  <code>null</code> is valid; it is returned
      * just as any other value would be.
      */
@@ -731,7 +731,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_get() for strings.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a string type in the schema for @settings.
      */
     public java.lang.String getString(java.lang.String key) {
@@ -745,7 +745,7 @@ public class Settings extends org.gtk.gobject.Object {
      * A convenience variant of g_settings_get() for 32-bit unsigned
      * integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a uint32 type in the schema for @settings.
      */
     public int getUint(java.lang.String key) {
@@ -759,7 +759,7 @@ public class Settings extends org.gtk.gobject.Object {
      * A convenience variant of g_settings_get() for 64-bit unsigned
      * integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a uint64 type in the schema for @settings.
      */
     public long getUint64(java.lang.String key) {
@@ -768,7 +768,7 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Checks the &#34;user value&#34; of a key, if there is one.
+     * Checks the &<code>#34</code> user value&<code>#34</code>  of a key, if there is one.
      * 
      * The user value of a key is the last value that was set by the user.
      * 
@@ -779,12 +779,12 @@ public class Settings extends org.gtk.gobject.Object {
      * It is possible that g_settings_get_value() will return a different
      * value than this function.  This can happen in the case that the user
      * set a value for a key that was subsequently locked down by the system
-     * administrator -- this function will return the user&#39;s old value.
+     * administrator -- this function will return the user&<code>#39</code> s old value.
      * 
-     * This function may be useful for adding a &#34;reset&#34; option to a UI or
+     * This function may be useful for adding a &<code>#34</code> reset&<code>#34</code>  option to a UI or
      * for providing indication that a particular value has been changed.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings.
      */
     public org.gtk.glib.Variant getUserValue(java.lang.String key) {
@@ -795,7 +795,7 @@ public class Settings extends org.gtk.gobject.Object {
     /**
      * Gets the value that is stored in @settings for @key.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings.
      */
     public org.gtk.glib.Variant getValue(java.lang.String key) {
@@ -824,7 +824,7 @@ public class Settings extends org.gtk.gobject.Object {
     
     /**
      * Reverts all non-applied changes to the settings.  This function
-     * does nothing unless @settings is in &#39;delay-apply&#39; mode; see
+     * does nothing unless @settings is in &<code>#39</code> delay-apply&<code>#39</code>  mode; see
      * g_settings_delay().  In the normal case settings are always applied
      * immediately.
      * 
@@ -839,7 +839,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_set() for booleans.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a boolean type in the schema for @settings.
      */
     public boolean setBoolean(java.lang.String key, boolean value) {
@@ -852,8 +852,8 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_set() for doubles.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
-     * having a &#39;double&#39; type in the schema for @settings.
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
+     * having a &<code>#39</code> double&<code>#39</code>  type in the schema for @settings.
      */
     public boolean setDouble(java.lang.String key, double value) {
         var RESULT = gtk_h.g_settings_set_double(handle(), Interop.allocateNativeString(key).handle(), value);
@@ -864,12 +864,12 @@ public class Settings extends org.gtk.gobject.Object {
      * Looks up the enumerated type nick for @value and writes it to @key,
      * within @settings.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings or is not marked as an enumerated type, or for
      * @value not to be a valid value for the named type.
      * 
      * After performing the write, accessing @key directly with
-     * g_settings_get_string() will return the &#39;nick&#39; associated with
+     * g_settings_get_string() will return the &<code>#39</code> nick&<code>#39</code>  associated with
      * @value.
      */
     public boolean setEnum(java.lang.String key, int value) {
@@ -882,12 +882,12 @@ public class Settings extends org.gtk.gobject.Object {
      * them in an array of strings and writes the array to @key, within
      * @settings.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings or is not marked as a flags type, or for @value
      * to contain any bits that are not value for the named type.
      * 
      * After performing the write, accessing @key directly with
-     * g_settings_get_strv() will return an array of &#39;nicks&#39;; one for each
+     * g_settings_get_strv() will return an array of &<code>#39</code> nicks&<code>#39</code> ; one for each
      * bit in @value.
      */
     public boolean setFlags(java.lang.String key, int value) {
@@ -900,7 +900,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_set() for 32-bit integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a int32 type in the schema for @settings.
      */
     public boolean setInt(java.lang.String key, int value) {
@@ -913,7 +913,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_set() for 64-bit integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a int64 type in the schema for @settings.
      */
     public boolean setInt64(java.lang.String key, long value) {
@@ -926,7 +926,7 @@ public class Settings extends org.gtk.gobject.Object {
      * 
      * A convenience variant of g_settings_set() for strings.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a string type in the schema for @settings.
      */
     public boolean setString(java.lang.String key, java.lang.String value) {
@@ -938,9 +938,9 @@ public class Settings extends org.gtk.gobject.Object {
      * Sets @key in @settings to @value.
      * 
      * A convenience variant of g_settings_set() for string arrays.  If
-     * @value is <code>NULL,</code> then @key is set to be the empty array.
+     * @value is <code>null</code>  then @key is set to be the empty array.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having an array of strings type in the schema for @settings.
      */
     public boolean setStrv(java.lang.String key, java.lang.String[] value) {
@@ -954,7 +954,7 @@ public class Settings extends org.gtk.gobject.Object {
      * A convenience variant of g_settings_set() for 32-bit unsigned
      * integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a uint32 type in the schema for @settings.
      */
     public boolean setUint(java.lang.String key, int value) {
@@ -968,7 +968,7 @@ public class Settings extends org.gtk.gobject.Object {
      * A convenience variant of g_settings_set() for 64-bit unsigned
      * integers.
      * 
-     * It is a programmer error to give a @key that isn&#39;t specified as
+     * It is a programmer error to give a @key that isn&<code>#39</code> t specified as
      * having a uint64 type in the schema for @settings.
      */
     public boolean setUint64(java.lang.String key, long value) {
@@ -979,7 +979,7 @@ public class Settings extends org.gtk.gobject.Object {
     /**
      * Sets @key in @settings to @value.
      * 
-     * It is a programmer error to give a @key that isn&#39;t contained in the
+     * It is a programmer error to give a @key that isn&<code>#39</code> t contained in the
      * schema for @settings or for @value to have the incorrect type, per
      * the schema.
      * 
@@ -993,7 +993,7 @@ public class Settings extends org.gtk.gobject.Object {
     /**
      * Ensures that all pending operations are complete for the default backend.
      * 
-     * Writes made to a #GSettings are handled asynchronously.  For this
+     * Writes made to a {@link org.gtk.gio.Settings} are handled asynchronously.  For this
      * reason, it is very unlikely that the changes have it to disk by the
      * time g_settings_set() returns.
      * 
@@ -1023,19 +1023,19 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * The &#34;change-event&#34; signal is emitted once per change event that
+     * The &<code>#34</code> change-event&<code>#34</code>  signal is emitted once per change event that
      * affects this settings object.  You should connect to this signal
      * only if you are interested in viewing groups of changes before they
-     * are split out into multiple emissions of the &#34;changed&#34; signal.
-     * For most use cases it is more appropriate to use the &#34;changed&#34; signal.
+     * are split out into multiple emissions of the &<code>#34</code> changed&<code>#34</code>  signal.
+     * For most use cases it is more appropriate to use the &<code>#34</code> changed&<code>#34</code>  signal.
      * 
      * In the event that the change event applies to one or more specified
-     * keys, @keys will be an array of #GQuark of length @n_keys.  In the
-     * event that the change event applies to the #GSettings object as a
+     * keys, @keys will be an array of {@link org.gtk.glib.Quark} of length @n_keys.  In the
+     * event that the change event applies to the {@link org.gtk.gio.Settings} object as a
      * whole (ie: potentially every key has been changed) then @keys will
      * be <code>null</code> and @n_keys will be 0.
      * 
-     * The default handler for this signal invokes the &#34;changed&#34; signal
+     * The default handler for this signal invokes the &<code>#34</code> changed&<code>#34</code>  signal
      * for each affected key.  If any other connected handler returns
      * <code>true</code> then this default functionality will be suppressed.
      */
@@ -1060,13 +1060,13 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * The &#34;changed&#34; signal is emitted when a key has potentially changed.
+     * The &<code>#34</code> changed&<code>#34</code>  signal is emitted when a key has potentially changed.
      * You should call one of the g_settings_get() calls to check the new
      * value.
      * 
      * This signal supports detailed connections.  You can connect to the
-     * detailed signal &#34;changed::x&#34; in order to only receive callbacks
-     * when key &#34;x&#34; changes.
+     * detailed signal &<code>#34</code> changed::x&<code>#34</code>  in order to only receive callbacks
+     * when key &<code>#34</code> x&<code>#34</code>  changes.
      * 
      * Note that @settings only emits this signal if you have read @key at
      * least once while a signal handler was already connected for @key.
@@ -1092,20 +1092,20 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * The &#34;writable-change-event&#34; signal is emitted once per writability
+     * The &<code>#34</code> writable-change-event&<code>#34</code>  signal is emitted once per writability
      * change event that affects this settings object.  You should connect
      * to this signal if you are interested in viewing groups of changes
      * before they are split out into multiple emissions of the
-     * &#34;writable-changed&#34; signal.  For most use cases it is more
-     * appropriate to use the &#34;writable-changed&#34; signal.
+     * &<code>#34</code> writable-changed&<code>#34</code>  signal.  For most use cases it is more
+     * appropriate to use the &<code>#34</code> writable-changed&<code>#34</code>  signal.
      * 
      * In the event that the writability change applies only to a single
-     * key, @key will be set to the #GQuark for that key.  In the event
+     * key, @key will be set to the {@link org.gtk.glib.Quark} for that key.  In the event
      * that the writability change affects the entire settings object,
      * @key will be 0.
      * 
-     * The default handler for this signal invokes the &#34;writable-changed&#34;
-     * and &#34;changed&#34; signals for each affected key.  This is done because
+     * The default handler for this signal invokes the &<code>#34</code> writable-changed&<code>#34</code> 
+     * and &<code>#34</code> changed&<code>#34</code>  signals for each affected key.  This is done because
      * changes in writability might also imply changes in value (if for
      * example, a new mandatory setting is introduced).  If any other
      * connected handler returns <code>true</code> then this default functionality
@@ -1132,13 +1132,13 @@ public class Settings extends org.gtk.gobject.Object {
     }
     
     /**
-     * The &#34;writable-changed&#34; signal is emitted when the writability of a
+     * The &<code>#34</code> writable-changed&<code>#34</code>  signal is emitted when the writability of a
      * key has potentially changed.  You should call
      * g_settings_is_writable() in order to determine the new status.
      * 
      * This signal supports detailed connections.  You can connect to the
-     * detailed signal &#34;writable-changed::x&#34; in order to only receive
-     * callbacks when the writability of &#34;x&#34; changes.
+     * detailed signal &<code>#34</code> writable-changed::x&<code>#34</code>  in order to only receive
+     * callbacks when the writability of &<code>#34</code> x&<code>#34</code>  changes.
      */
     public SignalHandle onWritableChanged(WritableChangedHandler handler) {
         try {

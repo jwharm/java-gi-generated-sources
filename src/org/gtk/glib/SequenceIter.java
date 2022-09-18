@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The #GSequenceIter struct is an opaque data type representing an
- * iterator pointing into a #GSequence.
+ * The {@link org.gtk.glib.SequenceIter} struct is an opaque data type representing an
+ * iterator pointing into a {@link org.gtk.glib.Sequence}
  */
 public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
 
@@ -37,7 +37,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the #GSequence that @iter points into.
+     * Returns the {@link org.gtk.glib.Sequence} that @iter points into.
      */
     public Sequence getSequence() {
         var RESULT = gtk_h.g_sequence_iter_get_sequence(handle());
@@ -61,7 +61,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the #GSequenceIter which is @delta positions away from @iter.
+     * Returns the {@link org.gtk.glib.SequenceIter} which is @delta positions away from @iter.
      * If @iter is closer than -@delta positions to the beginning of the sequence,
      * the begin iterator is returned. If @iter is closer than @delta positions
      * to the end of the sequence, the end iterator is returned.

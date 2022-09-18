@@ -20,25 +20,25 @@ import java.lang.invoke.*;
  * page in addition to state information like the *completed* and *committed*
  * page statuses.
  * <p>
- * If you have a case that doesn&#8217;t quite fit in <code>GtkAssistant</code>s way of
- * handling buttons, you can use the {@link org.gtk.gtk.AssistantPageType#CUSTOM} page
+ * If you have a case that doesn&<code>#8217</code> t quite fit in <code>GtkAssistant</code>s way of
+ * handling buttons, you can use the {@link org.gtk.gtk.AssistantPageType<code>#CUSTOM</code>  page
  * type and handle buttons yourself.
  * <p><code>GtkAssistant</code> maintains a <code>GtkAssistantPage</code> object for each added
  * child, which holds additional per-child properties. You
- * obtain the <code>GtkAssistantPage</code> for a child with {@link org.gtk.gtk.Assistant#getPage}.
+ * obtain the <code>GtkAssistantPage</code> for a child with {@link org.gtk.gtk.Assistant<code>#getPage</code> .
  * <p>
- * <h1>tkAssistant as GtkBuildable</h1>
+ * <h1>GtkAssistant as GtkBuildable</h1>
  * <p>
  * The <code>GtkAssistant</code> implementation of the <code>GtkBuildable</code> interface
  * exposes the @action_area as internal children with the name
- * &#8220;action_area&#8221;.
+ * &<code>#8220</code> action_area&<code>#8221</code> .
  * <p>
  * To add pages to an assistant in <code>GtkBuilder</code>, simply add it as a
  * child to the <code>GtkAssistant</code> object. If you need to set per-object
  * properties, create a <code>GtkAssistantPage</code> object explicitly, and
  * set the child widget as a property on it.
  * <p>
- * <h1>SS nodes</h1>
+ * <h1>CSS nodes</h1>
  * <p><code>GtkAssistant</code> has a single CSS node with the name window and style
  * class .assistant.
  */
@@ -175,7 +175,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * there is no next page.
      * 
      * This function is for use when creating pages of the
-     * {@link org.gtk.gtk.AssistantPageType#CUSTOM} type.
+     * {@link org.gtk.gtk.AssistantPageType<code>#CUSTOM</code>  type.
      */
     public void nextPage() {
         gtk_h.gtk_assistant_next_page(handle());
@@ -196,7 +196,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * no previous page is available.
      * 
      * This function is for use when creating pages of the
-     * {@link org.gtk.gtk.AssistantPageType#CUSTOM} type.
+     * {@link org.gtk.gtk.AssistantPageType<code>#CUSTOM</code>  type.
      */
     public void previousPage() {
         gtk_h.gtk_assistant_previous_page(handle());
@@ -210,7 +210,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Removes the @page_num&#8217;s page from @assistant.
+     * Removes the @page_num&<code>#8217</code> s page from @assistant.
      */
     public void removePage(int pageNum) {
         gtk_h.gtk_assistant_remove_page(handle(), pageNum);
@@ -309,7 +309,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * A handler for the ::apply signal should carry out the actions for
      * which the wizard has collected data. If the action takes a long time
      * to complete, you might consider putting a page of type
-     * {@link org.gtk.gtk.AssistantPageType#PROGRESS} after the confirmation page and handle
+     * {@link org.gtk.gtk.AssistantPageType<code>#PROGRESS</code>  after the confirmation page and handle
      * this operation within the {@link [signal@Gtk.Assistant::prepare] (ref=signal)} signal of
      * the progress page.
      */
@@ -359,7 +359,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Emitted either when the close button of a summary page is clicked,
      * or when the apply button in the last page in the flow (of type
-     * <code>GTK_ASSISTANT_PAGE_CONFIRM)</code> is clicked.
+     * {@link org.gtk.gtk.AssistantPageType<code>#CONFIRM</code>   is clicked.
      */
     public SignalHandle onClose(CloseHandler handler) {
         try {
@@ -405,7 +405,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Emitted when a new page is set as the assistant&#39;s current page,
+     * Emitted when a new page is set as the assistant&<code>#39</code> s current page,
      * before making the new page visible.
      * 
      * A handler for this signal can do any preparations which are

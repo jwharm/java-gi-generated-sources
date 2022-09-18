@@ -90,7 +90,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * and must return the item to use for the given input item.
      * <p>
      * Note that <code>GtkMapListModel</code> may call this function multiple times
-     * on the same item, because it may delete items it doesn&#39;t need anymore.
+     * on the same item, because it may delete items it doesn&<code>#39</code> t need anymore.
      * 
      * GTK makes no effort to ensure that @map_func conforms to the item type
      * of @self. It assumes that the caller knows what they are doing and the map

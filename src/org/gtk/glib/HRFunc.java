@@ -5,7 +5,7 @@ package org.gtk.glib;
  * g_hash_table_foreach_remove(). It is called with each key/value
  * pair, together with the @user_data parameter passed to
  * g_hash_table_foreach_remove(). It should return <code>true</code> if the
- * key/value pair should be removed from the #GHashTable.
+ * key/value pair should be removed from the {@link org.gtk.glib.HashTable}
  */
 @FunctionalInterface
 public interface HRFunc {

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for #GSettingsBackend.
+ * Class structure for {@link org.gtk.gio.SettingsBackend}
  */
 public class SettingsBackendClass extends io.github.jwharm.javagi.ResourceBase {
 

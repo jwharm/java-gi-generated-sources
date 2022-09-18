@@ -7,18 +7,18 @@ public enum OptionError {
 
     /**
      * An option was not known to the parser.
-     *  This error will only be reported, if the parser hasn&#39;t been instructed
+     *  This error will only be reported, if the parser hasn&<code>#39</code> t been instructed
      *  to ignore unknown options, see g_option_context_set_ignore_unknown_options().
      */
     UNKNOWN_OPTION,
     
     /**
-     * A value couldn&#39;t be parsed.
+     * A value couldn&<code>#39</code> t be parsed.
      */
     BAD_VALUE,
     
     /**
-     * A #GOptionArgFunc callback failed.
+     * A {@link org.gtk.glib.OptionArgFunc} callback failed.
      */
     FAILED;
     

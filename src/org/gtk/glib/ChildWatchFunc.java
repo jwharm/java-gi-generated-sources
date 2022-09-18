@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * Prototype of a #GChildWatchSource callback, called when a child
+ * Prototype of a <code>#GChildWatchSource</code> callback, called when a child
  * process has exited.
  * <p>
  * To interpret @wait_status, see the documentation

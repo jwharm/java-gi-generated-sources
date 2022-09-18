@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * A parse context is used to parse a stream of bytes that
  * you expect to contain marked-up text.
  * 
- * See g_markup_parse_context_new(), #GMarkupParser, and so
+ * See g_markup_parse_context_new(), {@link org.gtk.glib.MarkupParser}  and so
  * on for more details.
  */
 public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
@@ -30,7 +30,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new parse context. A parse context is used to parse
      * marked-up documents. You can feed any number of documents into
      * a context, as long as no errors occur; once an error occurs,
-     * the parse context can&#39;t continue to parse text (you have to
+     * the parse context can&<code>#39</code> t continue to parse text (you have to
      * free it and create a new parse context).
      */
     public MarkupParseContext(MarkupParser parser, int flags, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
@@ -38,10 +38,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Signals to the #GMarkupParseContext that all data has been
+     * Signals to the {@link org.gtk.glib.MarkupParseContext} that all data has been
      * fed into the parse context with g_markup_parse_context_parse().
      * 
-     * This function reports an error if the document isn&#39;t complete,
+     * This function reports an error if the document isn&<code>#39</code> t complete,
      * for example if elements are still open.
      */
     public boolean endParse() throws io.github.jwharm.javagi.GErrorException {
@@ -54,10 +54,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a #GMarkupParseContext.
+     * Frees a {@link org.gtk.glib.MarkupParseContext} 
      * 
-     * This function can&#39;t be called from inside one of the
-     * #GMarkupParser functions or while a subparser is pushed.
+     * This function can&<code>#39</code> t be called from inside one of the
+     * {@link org.gtk.glib.MarkupParser} functions or while a subparser is pushed.
      */
     public void free() {
         gtk_h.g_markup_parse_context_free(handle());
@@ -78,7 +78,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the element stack from the internal state of the parser.
      * 
-     * The returned #GSList is a list of strings where the first item is
+     * The returned {@link org.gtk.glib.SList} is a list of strings where the first item is
      * the currently open tag (as would be returned by
      * g_markup_parse_context_get_element()) and the next item is its
      * immediate parent.
@@ -106,15 +106,15 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Feed some data to the #GMarkupParseContext.
+     * Feed some data to the {@link org.gtk.glib.MarkupParseContext} 
      * 
      * The data need not be valid UTF-8; an error will be signaled if
-     * it&#39;s invalid. The data need not be an entire document; you can
+     * it&<code>#39</code> s invalid. The data need not be an entire document; you can
      * feed a document into the parser incrementally, via multiple calls
      * to this function. Typically, as you receive data from a network
      * connection or file, you feed each received chunk of data into this
      * function, aborting the process if an error occurs. Once an error
-     * is reported, no further data may be fed to the #GMarkupParseContext;
+     * is reported, no further data may be fed to the {@link org.gtk.glib.MarkupParseContext} 
      * all errors are fatal.
      */
     public boolean parse(java.lang.String text, long textLen) throws io.github.jwharm.javagi.GErrorException {
@@ -150,7 +150,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * Temporarily redirects markup data to a sub-parser.
      * 
      * This function may only be called from the start_element handler of
-     * a #GMarkupParser. It must be matched with a corresponding call to
+     * a {@link org.gtk.glib.MarkupParser}  It must be matched with a corresponding call to
      * g_markup_parse_context_pop() in the matching end_element handler
      * (except in the case that the parser aborts due to an error).
      * 
@@ -162,8 +162,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The end tag matching the start tag for which this call was made is
      * handled by the previous parser (which is given its own user_data)
-     * which is why g_markup_parse_context_pop() is provided to allow &#34;one
-     * last access&#34; to the @user_data provided to this function. In the
+     * which is why g_markup_parse_context_pop() is provided to allow &<code>#34</code> one
+     * last access&<code>#34</code>  to the @user_data provided to this function. In the
      * case of error, the @user_data provided here is passed directly to
      * the error callback of the subparser and g_markup_parse_context_pop()
      * should not be called. In either case, if @user_data was allocated
@@ -177,7 +177,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * As an example, see the following implementation of a simple
      * parser that counts the number of tags encountered.
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * typedef struct
      * {
      *   gint tag_count;
@@ -193,7 +193,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * {
      *   CounterData *data = user_data;
      * 
-     *   data-&#62;tag_count++;
+     *   data-&<code>#62</code> tag_count++;
      * }
      * 
      * static void
@@ -219,14 +219,14 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * In order to allow this parser to be easily used as a subparser, the
      * following interface is provided:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * void
      * start_counting (GMarkupParseContext *context)
      * {
      *   CounterData *data = g_slice_new (CounterData);
      * 
-     *   data-&#62;tag_count = 0;
-     *   g_markup_parse_context_push (context, &#38;counter_subparser, data);
+     *   data-&<code>#62</code> tag_count = 0;
+     *   g_markup_parse_context_push (context, &<code>#38</code> counter_subparser, data);
      * }
      * 
      * gint
@@ -235,7 +235,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      *   CounterData *data = g_markup_parse_context_pop (context);
      *   int result;
      * 
-     *   result = data-&#62;tag_count;
+     *   result = data-&<code>#62</code> tag_count;
      *   g_slice_free (CounterData, data);
      * 
      *   return result;
@@ -244,10 +244,10 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * 
      * The subparser would then be used as follows:
      * 
-     * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
      * static void start_element (context, element_name, ...)
      * {
-     *   if (strcmp (element_name, &#34;count-these&#34;) == 0)
+     *   if (strcmp (element_name, &<code>#34</code> count-these&<code>#34</code> ) == 0)
      *     start_counting (context);
      * 
      *   // else, handle other tags...
@@ -255,8 +255,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * 
      * static void end_element (context, element_name, ...)
      * {
-     *   if (strcmp (element_name, &#34;count-these&#34;) == 0)
-     *     g_print (&#34;Counted <code>d</code> tags\\n&#34;, end_counting (context));
+     *   if (strcmp (element_name, &<code>#34</code> count-these&<code>#34</code> ) == 0)
+     *     g_print (&<code>#34</code> Counted <code>d</code> tags\\n&<code>#34</code> , end_counting (context));
      * 
      *   // else, handle other tags...
      * }

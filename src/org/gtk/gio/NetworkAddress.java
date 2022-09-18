@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GNetworkAddress provides an easy way to resolve a hostname and
+ * {@link org.gtk.gio.NetworkAddress} provides an easy way to resolve a hostname and
  * then attempt to connect to that host, handling the possibility of
  * multiple IP addresses and multiple address families.
  * 
@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * as this object is kept alive which may have unexpected results if
  * alive for too long.
  * 
- * See #GSocketConnectable for an example of using the connectable
+ * See {@link org.gtk.gio.SocketConnectable} for an example of using the connectable
  * interface.
  */
 public class NetworkAddress extends org.gtk.gobject.Object implements SocketConnectable {
@@ -36,13 +36,13 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Creates a new #GSocketConnectable for connecting to the given
+     * Creates a new {@link org.gtk.gio.SocketConnectable} for connecting to the given
      * @hostname and @port.
      * <p>
      * Note that depending on the configuration of the machine, a
      * @hostname of <code>localhost</code> may refer to the IPv4 loopback address
      * only, or to both IPv4 and IPv6; use
-     * g_network_address_new_loopback() to create a #GNetworkAddress that
+     * g_network_address_new_loopback() to create a {@link org.gtk.gio.NetworkAddress} that
      * is guaranteed to resolve to both addresses.
      */
     public NetworkAddress(java.lang.String hostname, short port) {
@@ -55,7 +55,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Creates a new #GSocketConnectable for connecting to the local host
+     * Creates a new {@link org.gtk.gio.SocketConnectable} for connecting to the local host
      * over a loopback connection to the given @port. This is intended for
      * use in connecting to local services which may be running on IPv4 or
      * IPv6.
@@ -66,14 +66,14 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * resolving <code>localhost</code>, and an IPv6 address for <code>localhost6</code>.
      * <p>
      * g_network_address_get_hostname() will always return <code>localhost</code> for
-     * a #GNetworkAddress created with this constructor.
+     * a {@link org.gtk.gio.NetworkAddress} created with this constructor.
      */
     public static NetworkAddress newLoopback(short port) {
         return new NetworkAddress(constructNewLoopback(port));
     }
     
     /**
-     * Gets @addr&#39;s hostname. This might be either UTF-8 or ASCII-encoded,
+     * Gets @addr&<code>#39</code> s hostname. This might be either UTF-8 or ASCII-encoded,
      * depending on what @addr was created with.
      */
     public java.lang.String getHostname() {
@@ -82,7 +82,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Gets @addr&#39;s port number
+     * Gets @addr&<code>#39</code> s port number
      */
     public short getPort() {
         var RESULT = gtk_h.g_network_address_get_port(handle());
@@ -90,7 +90,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Gets @addr&#39;s scheme
+     * Gets @addr&<code>#39</code> s scheme
      */
     public java.lang.String getScheme() {
         var RESULT = gtk_h.g_network_address_get_scheme(handle());
@@ -98,7 +98,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Creates a new #GSocketConnectable for connecting to the given
+     * Creates a new {@link org.gtk.gio.SocketConnectable} for connecting to the given
      * @hostname and @port. May fail and return <code>null</code> in case
      * parsing @host_and_port fails.
      * 
@@ -130,11 +130,11 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     }
     
     /**
-     * Creates a new #GSocketConnectable for connecting to the given
+     * Creates a new {@link org.gtk.gio.SocketConnectable} for connecting to the given
      * @uri. May fail and return <code>null</code> in case parsing @uri fails.
      * 
      * Using this rather than g_network_address_new() or
-     * g_network_address_parse() allows #GSocketClient to determine
+     * g_network_address_parse() allows {@link org.gtk.gio.SocketClient} to determine
      * when to use application-specific proxy protocols.
      */
     public static NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.GErrorException {

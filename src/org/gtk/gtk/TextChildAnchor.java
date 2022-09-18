@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A <code>GtkTextChildAnchor</code> is a spot in a <code>GtkTextBuffer</code> where child widgets can
- * be &#8220;anchored&#8221;.
+ * be &<code>#8220</code> anchored&<code>#8221</code> .
  * 
  * The anchor can have multiple widgets anchored, to allow for multiple views.
  */
@@ -33,9 +33,9 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * Creates a new <code>GtkTextChildAnchor</code>.
      * <p>
      * Usually you would then insert it into a <code>GtkTextBuffer</code> with
-     * {@link org.gtk.gtk.TextBuffer#insertChildAnchor}. To perform the
+     * {@link org.gtk.gtk.TextBuffer<code>#insertChildAnchor</code> . To perform the
      * creation and insertion in one step, use the convenience
-     * function {@link org.gtk.gtk.TextBuffer#createChildAnchor}.
+     * function {@link org.gtk.gtk.TextBuffer<code>#createChildAnchor</code> .
      */
     public TextChildAnchor() {
         super(constructNew());
@@ -50,7 +50,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * Creates a new <code>GtkTextChildAnchor</code> with the given replacement character.
      * <p>
      * Usually you would then insert it into a <code>GtkTextBuffer</code> with
-     * {@link org.gtk.gtk.TextBuffer#insertChildAnchor}.
+     * {@link org.gtk.gtk.TextBuffer<code>#insertChildAnchor</code> .
      */
     public static TextChildAnchor newWithReplacement(java.lang.String character) {
         return new TextChildAnchor(constructNewWithReplacement(character));
@@ -63,7 +63,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * Keep in mind that the child anchor will be unreferenced
      * when removed from the buffer, so you need to hold your own
      * reference (with g_object_ref()) if you plan to use this
-     * function &#8212; otherwise all deleted child anchors will also
+     * function &<code>#8212</code>  otherwise all deleted child anchors will also
      * be finalized.
      */
     public boolean getDeleted() {

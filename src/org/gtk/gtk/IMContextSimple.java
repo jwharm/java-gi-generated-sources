@@ -26,21 +26,21 @@ import java.lang.invoke.*;
  * <p>
  * <h2>Unicode characters</h2>
  * <p><code>GtkIMContextSimple</code> also supports numeric entry of Unicode characters
- * by typing &#60;kbd&#62;Ctrl&#60;/kbd&#62;-&#60;kbd&#62;Shift&#60;/kbd&#62;-&#60;kbd&#62;u&#60;/kbd&#62;, followed by a
+ * by typing &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> u&<code>#60</code> /kbd&<code>#62</code> , followed by a
  * hexadecimal Unicode codepoint.
  * <p>
  * For example,
  * <p>
  *     Ctrl-Shift-u 1 2 3 Enter
  * <p>
- * yields U+0123 LATIN SMALL LETTER G WITH CEDILLA, i.e. &#291;.
+ * yields U+0123 LATIN SMALL LETTER G WITH CEDILLA, i.e. &<code>#291</code> .
  * <p>
  * <h2>Dead keys</h2>
  * <p><code>GtkIMContextSimple</code> supports dead keys. For example, typing
  * 
  *     dead_acute a
  * 
- *  yields U+00E! LATIN SMALL LETTER_A WITH ACUTE, i.e. &#225;. Note that this
+ *  yields U+00E! LATIN SMALL LETTER_A WITH ACUTE, i.e. &<code>#225</code> . Note that this
  *  depends on the keyboard layout including dead keys.
  */
 public class IMContextSimple extends IMContext {

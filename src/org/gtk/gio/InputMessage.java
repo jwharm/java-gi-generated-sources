@@ -10,9 +10,9 @@ import java.lang.invoke.*;
 /**
  * Structure used for scatter/gather data input when receiving multiple
  * messages or packets in one go. You generally pass in an array of empty
- * <h1>nputVectors and the operation will use all the buffers as if they</h1>
+ * <code>#GInputVectors</code> and the operation will use all the buffers as if they
  * were one buffer, and will set @bytes_received to the total number of bytes
- * received across all #GInputVectors.
+ * received across all <code>#GInputVectors</code> 
  * <p>
  * This structure closely mirrors <code>struct mmsghdr</code> and <code>struct msghdr</code> from
  * the POSIX sockets API (see <code>man 2 recvmmsg</code>).

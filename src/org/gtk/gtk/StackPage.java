@@ -46,7 +46,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Returns whether the page is marked as &#8220;needs attention&#8221;.
+     * Returns whether the page is marked as &<code>#8220</code> needs attention&<code>#8221</code> .
      */
     public boolean getNeedsAttention() {
         var RESULT = gtk_h.gtk_stack_page_get_needs_attention(handle());
@@ -95,7 +95,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Sets whether the page is marked as &#8220;needs attention&#8221;.
+     * Sets whether the page is marked as &<code>#8220</code> needs attention&<code>#8221</code> .
      */
     public void setNeedsAttention(boolean setting) {
         gtk_h.gtk_stack_page_set_needs_attention(handle(), setting ? 1 : 0);

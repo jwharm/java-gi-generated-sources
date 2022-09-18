@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * An integral type representing an OpenType &#39;name&#39; table name identifier.
+ * An integral type representing an OpenType &<code>#39</code> name&<code>#39</code>  table name identifier.
  * There are predefined name IDs, as well as name IDs return from other
  * API.  These can be used to fetch name strings from a font face.
  * 
  * For more information on these fields, see the
- * {@link [OpenType spec]}(https://docs.microsoft.com/en-us/typography/opentype/spec/name#name-ids).
+ * {@link [OpenType spec]}(https://docs.microsoft.com/en-us/typography/opentype/spec/name<code>#name</code> ids).
  */
 public class OtNameIdT {
 

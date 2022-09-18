@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This is the asynchronous version of #GInitable; it behaves the same
+ * This is the asynchronous version of {@link org.gtk.gio.Initable}  it behaves the same
  * in all ways except that initialization is asynchronous. For more details
- * see the descriptions on #GInitable.
+ * see the descriptions on {@link org.gtk.gio.Initable} 
  * 
- * A class may implement both the #GInitable and #GAsyncInitable interfaces.
+ * A class may implement both the {@link org.gtk.gio.Initable} and {@link org.gtk.gio.AsyncInitable} interfaces.
  * 
  * Users of objects implementing this are not intended to use the interface
  * method directly; instead it will be used automatically in various ways.
@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  * 
  * A typical implementation might look something like this:
  * 
- * |{@link [&#60;!-- language=&#34;C&#34; --&#62;
+ * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
  * enum {
  *    NOT_INITIALIZED,
  *    INITIALIZING,
@@ -35,21 +35,21 @@ import java.lang.invoke.*;
  * {
  *   GList *l;
  * 
- *   self-&#62;priv-&#62;state = INITIALIZED;
+ *   self-&<code>#62</code> priv-&<code>#62</code> state = INITIALIZED;
  * 
- *   for (l = self-&#62;priv-&#62;init_results; l != NULL; l = l-&#62;next)
+ *   for (l = self-&<code>#62</code> priv-&<code>#62</code> init_results; l != NULL; l = l-&<code>#62</code> next)
  *     {
- *       GTask *task = l-&#62;data;
+ *       GTask *task = l-&<code>#62</code> data;
  * 
- *       if (self-&#62;priv-&#62;success)
+ *       if (self-&<code>#62</code> priv-&<code>#62</code> success)
  *         g_task_return_boolean (task, TRUE);
  *       else
  *         g_task_return_new_error (task, ...);
  *       g_object_unref (task);
  *     }
  * 
- *   g_list_free (self-&#62;priv-&#62;init_results);
- *   self-&#62;priv-&#62;init_results = NULL;
+ *   g_list_free (self-&<code>#62</code> priv-&<code>#62</code> init_results);
+ *   self-&<code>#62</code> priv-&<code>#62</code> init_results = NULL;
  * }
  * 
  * static void
@@ -65,20 +65,20 @@ import java.lang.invoke.*;
  *   task = g_task_new (initable, cancellable, callback, user_data);
  *   g_task_set_name (task, G_STRFUNC);
  * 
- *   switch (self-&#62;priv-&#62;state)
+ *   switch (self-&<code>#62</code> priv-&<code>#62</code> state)
  *     {
  *       case NOT_INITIALIZED:
  *         _foo_get_ready (self);
- *         self-&#62;priv-&#62;init_results = g_list_append (self-&#62;priv-&#62;init_results,
+ *         self-&<code>#62</code> priv-&<code>#62</code> init_results = g_list_append (self-&<code>#62</code> priv-&<code>#62</code> init_results,
  *                                                   task);
- *         self-&#62;priv-&#62;state = INITIALIZING;
+ *         self-&<code>#62</code> priv-&<code>#62</code> state = INITIALIZING;
  *         break;
  *       case INITIALIZING:
- *         self-&#62;priv-&#62;init_results = g_list_append (self-&#62;priv-&#62;init_results,
+ *         self-&<code>#62</code> priv-&<code>#62</code> init_results = g_list_append (self-&<code>#62</code> priv-&<code>#62</code> init_results,
  *                                                   task);
  *         break;
  *       case INITIALIZED:
- *         if (!self-&#62;priv-&#62;success)
+ *         if (!self-&<code>#62</code> priv-&<code>#62</code> success)
  *           g_task_return_new_error (task, ...);
  *         else
  *           g_task_return_boolean (task, TRUE);
@@ -103,8 +103,8 @@ import java.lang.invoke.*;
  * {
  *   GAsyncInitableIface *iface = g_iface;
  * 
- *   iface-&#62;init_async = foo_init_async;
- *   iface-&#62;init_finish = foo_init_finish;
+ *   iface-&<code>#62</code> init_async = foo_init_async;
+ *   iface-&<code>#62</code> init_finish = foo_init_finish;
  * }
  * ]}|
  */
@@ -113,7 +113,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Starts asynchronous initialization of the object implementing the
      * interface. This must be done before any real use of the object after
-     * initial construction. If the object also implements #GInitable you can
+     * initial construction. If the object also implements {@link org.gtk.gio.Initable} you can
      * optionally call g_initable_init() instead.
      * 
      * This method is intended for language bindings. If writing in C,
@@ -124,28 +124,28 @@ public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
      * initialization.
      * 
      * Implementations may also support cancellation. If @cancellable is not
-     * <code>NULL,</code> then initialization can be cancelled by triggering the cancellable
+     * <code>null</code>  then initialization can be cancelled by triggering the cancellable
      * object from another thread. If the operation was cancelled, the error
-     * {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be returned. If @cancellable is not <code>NULL,</code> and
-     * the object doesn&#39;t support cancellable initialization, the error
-     * {@link org.gtk.gio.IOErrorEnum#NOT_SUPPORTED} will be returned.
+     * {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If @cancellable is not <code>null</code>  and
+     * the object doesn&<code>#39</code> t support cancellable initialization, the error
+     * {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  will be returned.
      * 
-     * As with #GInitable, if the object is not initialized, or initialization
+     * As with {@link org.gtk.gio.Initable}  if the object is not initialized, or initialization
      * returns with an error, then all operations on the object except
      * g_object_ref() and g_object_unref() are considered to be invalid, and
      * have undefined behaviour. They will often fail with g_critical() or
      * g_warning(), but this must not be relied on.
      * 
-     * Callers should not assume that a class which implements #GAsyncInitable can
+     * Callers should not assume that a class which implements {@link org.gtk.gio.AsyncInitable} can
      * be initialized multiple times; for more information, see g_initable_init().
      * If a class explicitly supports being initialized multiple times,
      * implementation requires yielding all subsequent calls to init_async() on the
      * results of the first call.
      * 
-     * For classes that also support the #GInitable interface, the default
+     * For classes that also support the {@link org.gtk.gio.Initable} interface, the default
      * implementation of this method will run the g_initable_init() function
      * in a thread, so if you want to support asynchronous initialization via
-     * threads, just implement the #GAsyncInitable interface without overriding
+     * threads, just implement the {@link org.gtk.gio.AsyncInitable} interface without overriding
      * any interface methods.
      */
     public default void initAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -176,7 +176,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Helper function for constructing #GAsyncInitable object. This is
+     * Helper function for constructing {@link org.gtk.gio.AsyncInitable} object. This is
      * similar to g_object_new_valist() but also initializes the object
      * asynchronously.
      * 

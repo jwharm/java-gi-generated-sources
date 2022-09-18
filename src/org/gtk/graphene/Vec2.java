@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A structure capable of holding a vector with two dimensions, x and y.
  * 
- * The contents of the #graphene_vec2_t structure are private and should
+ * The contents of the {@link org.gtk.graphene.Vec2} structure are private and should
  * never be accessed directly.
  */
 public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
@@ -25,7 +25,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new #graphene_vec2_t structure.
+     * Allocates a new {@link org.gtk.graphene.Vec2} structure.
      * 
      * The contents of the returned structure are undefined.
      * 
@@ -61,7 +61,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given #graphene_vec2_t are equal.
+     * Checks whether the two given {@link org.gtk.graphene.Vec2} are equal.
      */
     public boolean equal(Vec2 v2) {
         var RESULT = gtk_h.graphene_vec2_equal(handle(), v2.handle());
@@ -76,7 +76,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the X component of the #graphene_vec2_t.
+     * Retrieves the X component of the {@link org.gtk.graphene.Vec2}
      */
     public float getX() {
         var RESULT = gtk_h.graphene_vec2_get_x(handle());
@@ -84,7 +84,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the Y component of the #graphene_vec2_t.
+     * Retrieves the Y component of the {@link org.gtk.graphene.Vec2}
      */
     public float getY() {
         var RESULT = gtk_h.graphene_vec2_get_y(handle());
@@ -92,7 +92,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a #graphene_vec2_t using the given values.
+     * Initializes a {@link org.gtk.graphene.Vec2} using the given values.
      * 
      * This function can be called multiple times.
      */
@@ -157,7 +157,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares the two given #graphene_vec2_t vectors and checks
+     * Compares the two given {@link org.gtk.graphene.Vec2} vectors and checks
      * whether their values are within the given @epsilon.
      */
     public boolean near(Vec2 v2, float epsilon) {
@@ -166,7 +166,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Negates the given #graphene_vec2_t.
+     * Negates the given {@link org.gtk.graphene.Vec2}
      */
     public void negate(Vec2 res) {
         gtk_h.graphene_vec2_negate(handle(), res.handle());

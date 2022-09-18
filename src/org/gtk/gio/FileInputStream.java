@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * GFileInputStream provides input streams that take their
  * content from a file.
  * 
- * GFileInputStream implements #GSeekable, which allows the input
+ * GFileInputStream implements {@link org.gtk.gio.Seekable}  which allows the input
  * stream to jump to arbitrary positions in the file, provided the
  * filesystem of the file allows it. To find the position of a file
  * input stream, use g_seekable_tell(). To find out if a file input
@@ -34,48 +34,7 @@ public class FileInputStream extends InputStream implements Seekable {
      * while querying the stream. For the asynchronous (non-blocking) version
      * of this function, see g_file_input_stream_query_info_async(). While the
      * stream is blocked, the stream will set the pending flag internally, and
-     * any other operations on the stream will fail with 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         
-     *           
-     *         
-     *         
-     *           
-     *             
-     *           
-     *           
-     *             
-     *           
-     *           
-     *             
-     *           
-     *           
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         
-     *           
-     *         
-     *         
-     *           
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Queries a file input stream the given @attributes. This function blocks
-     * while querying the stream. For the asynchronous (non-blocking) version
-     * of this function, see g_file_input_stream_query_info_async(). While the
-     * stream is blocked, the stream will set the pending flag internally, and
-     * any other operations on the stream will fail with %G_IO_ERROR_PENDING.
+     * any other operations on the stream will fail with {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>
      */
     public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -95,9 +54,9 @@ public class FileInputStream extends InputStream implements Seekable {
      * For the synchronous version of this function,
      * see g_file_input_stream_query_info().
      * 
-     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
+     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be set
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be set
      */
     public void queryInfoAsync(java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {

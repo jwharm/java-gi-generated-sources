@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * A singleton object that offers notification when displays appear or
  * disappear.
  * <p>
- * You can use {@link Gdk#DisplayManager} to obtain the <code>GdkDisplayManager</code>
+ * You can use {@link Gdk<code>#DisplayManager</code>  to obtain the <code>GdkDisplayManager</code>
  * singleton, but that should be rarely necessary. Typically, initializing
  * GTK opens a display that you can work with without ever accessing the<code>GdkDisplayManager</code>.
  * <p>
@@ -20,7 +20,7 @@ import java.lang.invoke.*;
  * at runtime.
  * <p>
  * In the rare case that you need to influence which of the backends
- * is being used, you can use {@link Gdk#setAllowedBackends}. Note
+ * is being used, you can use {@link Gdk<code>#setAllowedBackends</code> . Note
  * that you need to call this function before initializing GTK.
  * <p>
  * <h2>Backend-specific code</h2>
@@ -32,21 +32,19 @@ import java.lang.invoke.*;
  * you are building your application against. At runtime, use type-check
  * macros like GDK_IS_X11_DISPLAY() to find out which backend is in use:
  * <p><pre>c
- * #ifdef GDK_WINDOWING_X11
+ * <code>#ifdef</code> GDK_WINDOWING_X11
  *   if (GDK_IS_X11_DISPLAY (display))
  *     {
  *       // make X11-specific calls here
  *     }
  *   else
- * #endif
- * #ifdef GDK_WINDOWING_MACOS
+ * <code>#endif</code> <code>#ifdef</code> GDK_WINDOWING_MACOS
  *   if (GDK_IS_MACOS_DISPLAY (display))
  *     {
  *       // make Quartz-specific calls here
  *     }
  *   else
- * #endif
- *   g_error (&#34;Unsupported GDK backend&#34;);
+ * <code>#endif</code>   g_error (&<code>#34</code> Unsupported GDK backend&<code>#34</code> );
  * </pre>
  */
 public class DisplayManager extends org.gtk.gobject.Object {

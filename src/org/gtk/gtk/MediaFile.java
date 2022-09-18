@@ -139,7 +139,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * Sets the <code>GtkMediaFile to play the given file.
      * 
      * This is a utility function that converts the given @filename
-     * to a </code>GFile<code> and calls {@link org.gtk.gtk.MediaFile#setFile}.
+     * to a </code>GFile<code> and calls {@link org.gtk.gtk.MediaFile<code>#setFile</code> .
      */
     public void setFilename(java.lang.String filename) {
         gtk_h.gtk_media_file_set_filename(handle(), Interop.allocateNativeString(filename).handle());
@@ -161,7 +161,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * Sets the <code>GtkMediaFile to play the given resource.
      * 
      * This is a utility function that converts the given @resource_path
-     * to a </code>GFile<code> and calls {@link org.gtk.gtk.MediaFile#setFile}.
+     * to a </code>GFile<code> and calls {@link org.gtk.gtk.MediaFile<code>#setFile</code> .
      */
     public void setResource(java.lang.String resourcePath) {
         gtk_h.gtk_media_file_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());

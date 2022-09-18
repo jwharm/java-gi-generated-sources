@@ -52,25 +52,10 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * When an icon looked up in the icon theme was not available, the
      * icon theme may use fallback icons - either those specified to
      * gtk_icon_theme_lookup_icon() or the always-available
-     * &#34;image-missing&#34;. The icon chosen is returned by this function.
+     * &<code>#34</code> image-missing&<code>#34</code> . The icon chosen is returned by this function.
      * 
      * If the icon was created without an icon theme, this function
-     * returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Get the icon name being used for this icon.
-     * 
-     * When an icon looked up in the icon theme was not available, the
-     * icon theme may use fallback icons - either those specified to
-     * gtk_icon_theme_lookup_icon() or the always-available
-     * &#34;image-missing&#34;. The icon chosen is returned by this function.
-     * 
-     * If the icon was created without an icon theme, this function
-     * returns %NULL.
+     * returns <code>null</code>
      */
     public java.lang.String getIconName() {
         var RESULT = gtk_h.gtk_icon_paintable_get_icon_name(handle());

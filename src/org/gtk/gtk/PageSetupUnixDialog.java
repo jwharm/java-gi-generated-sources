@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * <code>GtkPageSetupUnixDialog</code> implements a page setup dialog for platforms
- * which don&#8217;t provide a native page setup dialog, like Unix.
+ * which don&<code>#8217</code> t provide a native page setup dialog, like Unix.
  * 
  * !{@link [An example GtkPageSetupUnixDialog]}(pagesetupdialog.png)
  * 

@@ -8,10 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * #GTypeModule provides a simple implementation of the #GTypePlugin
- * interface.
+ * {@link org.gtk.gobject.TypeModule} provides a simple implementation of the {@link org.gtk.gobject.TypePlugin} interface.
  * 
- * The model of #GTypeModule is a dynamically loaded module which
+ * The model of {@link org.gtk.gobject.TypeModule} is a dynamically loaded module which
  * implements some number of types and interface implementations.
  * 
  * When the module is loaded, it registers its types and interfaces
@@ -21,7 +20,7 @@ import java.lang.invoke.*;
  * are gone, the module may be unloaded. If the types and interfaces
  * become used again, the module will be reloaded. Note that the last
  * reference cannot be released from within the module code, since that
- * would lead to the caller&#39;s code being unloaded before g_object_unref()
+ * would lead to the caller&<code>#39</code> s code being unloaded before g_object_unref()
  * returns to it.
  * 
  * Keeping track of whether the module should be loaded or not is done by
@@ -34,10 +33,10 @@ import java.lang.invoke.*;
  * module no longer needs to be loaded except for the type
  * implementations it contains, g_type_module_unuse() is called.
  * 
- * #GTypeModule does not actually provide any implementation of module
+ * {@link org.gtk.gobject.TypeModule} does not actually provide any implementation of module
  * loading and unloading. To create a particular module type you must
- * derive from #GTypeModule and implement the load and unload functions
- * in #GTypeModuleClass.
+ * derive from {@link org.gtk.gobject.TypeModule} and implement the load and unload functions
+ * in {@link org.gtk.gobject.TypeModuleClass}
  */
 public class TypeModule extends Object implements TypePlugin {
 
@@ -68,8 +67,8 @@ public class TypeModule extends Object implements TypePlugin {
     /**
      * Looks up or registers an enumeration that is implemented with a particular
      * type plugin. If a type with name @type_name was previously registered,
-     * the #GType identifier for the type is returned, otherwise the type
-     * is newly registered, and the resulting #GType identifier returned.
+     * the {@link org.gtk.glib.Type} identifier for the type is returned, otherwise the type
+     * is newly registered, and the resulting {@link org.gtk.glib.Type} identifier returned.
      * 
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
@@ -85,8 +84,8 @@ public class TypeModule extends Object implements TypePlugin {
     /**
      * Looks up or registers a flags type that is implemented with a particular
      * type plugin. If a type with name @type_name was previously registered,
-     * the #GType identifier for the type is returned, otherwise the type
-     * is newly registered, and the resulting #GType identifier returned.
+     * the {@link org.gtk.glib.Type} identifier for the type is returned, otherwise the type
+     * is newly registered, and the resulting {@link org.gtk.glib.Type} identifier returned.
      * 
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
@@ -102,8 +101,8 @@ public class TypeModule extends Object implements TypePlugin {
     /**
      * Looks up or registers a type that is implemented with a particular
      * type plugin. If a type with name @type_name was previously registered,
-     * the #GType identifier for the type is returned, otherwise the type
-     * is newly registered, and the resulting #GType identifier returned.
+     * the {@link org.gtk.glib.Type} identifier for the type is returned, otherwise the type
+     * is newly registered, and the resulting {@link org.gtk.glib.Type} identifier returned.
      * 
      * When reregistering a type (typically because a module is unloaded
      * then reloaded, and reinitialized), @module and @parent_type must
@@ -121,17 +120,23 @@ public class TypeModule extends Object implements TypePlugin {
     }
     
     /**
-     * Sets the name for a #GTypeModule
+     * Sets the name for a 
+     *             
+     *           
+     *         
+     *       
+     *       
+     *         Sets the name for a #GTypeModule
      */
     public void setName(java.lang.String name) {
         gtk_h.g_type_module_set_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
-     * Decreases the use count of a #GTypeModule by one. If the
+     * Decreases the use count of a {@link org.gtk.gobject.TypeModule} by one. If the
      * result is zero, the module will be unloaded. (However, the
-     * #GTypeModule will not be freed, and types associated with the
-     * #GTypeModule are not unregistered. Once a #GTypeModule is
+     * {@link org.gtk.gobject.TypeModule} will not be freed, and types associated with the
+     * {@link org.gtk.gobject.TypeModule} are not unregistered. Once a {@link org.gtk.gobject.TypeModule} is
      * initialized, it must exist forever.)
      */
     public void unuse() {
@@ -139,7 +144,7 @@ public class TypeModule extends Object implements TypePlugin {
     }
     
     /**
-     * Increases the use count of a #GTypeModule by one. If the
+     * Increases the use count of a {@link org.gtk.gobject.TypeModule} by one. If the
      * use count was zero before, the plugin will be loaded.
      * If loading the plugin fails, the use count is reset to
      * its prior value.

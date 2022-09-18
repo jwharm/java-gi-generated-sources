@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * Error codes returned by #GUri methods.
+ * Error codes returned by {@link org.gtk.glib.Uri} methods.
  */
 public enum UriError {
 

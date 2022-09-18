@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * GFileOutputStream provides output streams that write their
  * content to a file.
  * 
- * GFileOutputStream implements #GSeekable, which allows the output
+ * GFileOutputStream implements {@link org.gtk.gio.Seekable}  which allows the output
  * stream to jump to arbitrary positions in the file and to truncate
  * the file, provided the filesystem of the file supports these
  * operations.
@@ -50,17 +50,17 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * version of this function, see g_file_output_stream_query_info_async().
      * While the stream is blocked, the stream will set the pending flag
      * internally, and any other operations on the stream will fail with
-     * <code>G_IO_ERROR_PENDING.
+     * {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  
      * 
-     * Can</code> fail if the stream was already closed (with @error being set to
-     * <code>G_IO_ERROR_CLOSED),</code> the stream has pending operations (with @error being
-     * set to <code>G_IO_ERROR_PENDING),</code> or if querying info is not supported for
-     * the stream&#39;s interface (with @error being set to <code>G_IO_ERROR_NOT_SUPPORTED).</code> In
+     * Can fail if the stream was already closed (with @error being set to
+     * {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  , the stream has pending operations (with @error being
+     * set to {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  , or if querying info is not supported for
+     * the stream&<code>#39</code> s interface (with @error being set to {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  . In
      * all cases of failure, <code>null</code> will be returned.
      * 
-     * If @cancellable is not <code>NULL,</code> then the operation can be cancelled by
+     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum#CANCELLED} will be set, and <code>null</code> will
+     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be set, and <code>null</code> will
      * be returned.
      */
     public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -73,8 +73,8 @@ public class FileOutputStream extends OutputStream implements Seekable {
     }
     
     /**
-     * Asynchronously queries the @stream for a #GFileInfo. When completed,
-     * @callback will be called with a #GAsyncResult which can be used to
+     * Asynchronously queries the @stream for a {@link org.gtk.gio.FileInfo}  When completed,
+     * @callback will be called with a {@link org.gtk.gio.AsyncResult} which can be used to
      * finish the operation with g_file_output_stream_query_info_finish().
      * 
      * For the synchronous version of this function, see

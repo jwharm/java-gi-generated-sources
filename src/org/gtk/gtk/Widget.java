@@ -24,48 +24,48 @@ import java.lang.invoke.*;
  * Height-for-width geometry management is implemented in GTK by way
  * of two virtual methods:
  * <p>
- * <li>{@link org.gtk.gtk.Widget#getRequestMode}
- * <li>{@link org.gtk.gtk.Widget#measure}
+ * <li>{@link org.gtk.gtk.Widget<code>#getRequestMode</code> 
+ * <li>{@link org.gtk.gtk.Widget<code>#measure</code> 
  * <p>
  * There are some important things to keep in mind when implementing
  * height-for-width and when using it in widget implementations.
  * <p>
  * If you implement a direct <code>GtkWidget</code> subclass that supports
  * height-for-width or width-for-height geometry management for itself
- * or its child widgets, the {@link org.gtk.gtk.Widget#getRequestMode} virtual
- * function must be implemented as well and return the widget&#39;s preferred
+ * or its child widgets, the {@link org.gtk.gtk.Widget<code>#getRequestMode</code>  virtual
+ * function must be implemented as well and return the widget&<code>#39</code> s preferred
  * request mode. The default implementation of this virtual function
- * returns <code>GTK_SIZE_REQUEST_CONSTANT_SIZE,</code> which means that the widget will
+ * returns {@link org.gtk.gtk.SizeRequestMode<code>#CONSTANT_SIZE</code>   which means that the widget will
  * only ever get -1 passed as the for_size value to its
- * {@link org.gtk.gtk.Widget#measure} implementation.
+ * {@link org.gtk.gtk.Widget<code>#measure</code>  implementation.
  * <p>
  * The geometry management system will query a widget hierarchy in
  * only one orientation at a time. When widgets are initially queried
  * for their minimum sizes it is generally done in two initial passes
  * in the {@link [enum@Gtk.SizeRequestMode] (ref=enum)} chosen by the toplevel.
  * <p>
- * For example, when queried in the normal {@link org.gtk.gtk.SizeRequestMode#HEIGHT_FOR_WIDTH} mode:
+ * For example, when queried in the normal {@link org.gtk.gtk.SizeRequestMode<code>#HEIGHT_FOR_WIDTH</code>  mode:
  * <p>
  * First, the default minimum and natural width for each widget
- * in the interface will be computed using {@link org.gtk.gtk.Widget#measure} with an
- * orientation of {@link org.gtk.gtk.Orientation#HORIZONTAL} and a for_size of -1.
+ * in the interface will be computed using {@link org.gtk.gtk.Widget<code>#measure</code>  with an
+ * orientation of {@link org.gtk.gtk.Orientation<code>#HORIZONTAL</code>  and a for_size of -1.
  * Because the preferred widths for each widget depend on the preferred
  * widths of their children, this information propagates up the hierarchy,
  * and finally a minimum and natural width is determined for the entire
  * toplevel. Next, the toplevel will use the minimum width to query for the
- * minimum height contextual to that width using {@link org.gtk.gtk.Widget#measure} with an
- * orientation of {@link org.gtk.gtk.Orientation#VERTICAL} and a for_size of the just computed
+ * minimum height contextual to that width using {@link org.gtk.gtk.Widget<code>#measure</code>  with an
+ * orientation of {@link org.gtk.gtk.Orientation<code>#VERTICAL</code>  and a for_size of the just computed
  * width. This will also be a highly recursive operation. The minimum height
  * for the minimum width is normally used to set the minimum size constraint
  * on the toplevel.
  * <p>
  * After the toplevel window has initially requested its size in both
  * dimensions it can go on to allocate itself a reasonable size (or a size
- * previously specified with {@link org.gtk.gtk.Window#setDefaultSize}). During the
- * recursive allocation process it&#8217;s important to note that request cycles
+ * previously specified with {@link org.gtk.gtk.Window<code>#setDefaultSize</code> ). During the
+ * recursive allocation process it&<code>#8217</code> s important to note that request cycles
  * will be recursively executed while widgets allocate their children.
  * Each widget, once allocated a size, will go on to first share the
- * space in one orientation among its children and then request each child&#39;s
+ * space in one orientation among its children and then request each child&<code>#39</code> s
  * height for its target allocated width or its width for allocated height,
  * depending. In this way a <code>GtkWidget</code> will typically be requested its size
  * a number of times before actually being allocated a size. The size a
@@ -78,14 +78,14 @@ import java.lang.invoke.*;
  * trades sizes in a single orientation.
  * <p>
  * For instance, a {@link org.gtk.gtk.Label} that does height-for-width word wrapping
- * will not expect to have {@link org.gtk.gtk.Widget#measure} with an orientation of
- * {@link org.gtk.gtk.Orientation#VERTICAL} called because that call is specific to a
+ * will not expect to have {@link org.gtk.gtk.Widget<code>#measure</code>  with an orientation of
+ * {@link org.gtk.gtk.Orientation<code>#VERTICAL</code>  called because that call is specific to a
  * width-for-height request. In this case the label must return the height
  * required for its own minimum possible width. By following this rule any
  * widget that handles height-for-width or width-for-height requests will
  * always be allocated at least enough space to fit its own content.
  * <p>
- * Here are some examples of how a {@link org.gtk.gtk.SizeRequestMode#HEIGHT_FOR_WIDTH} widget
+ * Here are some examples of how a {@link org.gtk.gtk.SizeRequestMode<code>#HEIGHT_FOR_WIDTH</code>  widget
  * generally deals with width-for-height requests:
  * <p><pre>c
  * static void
@@ -108,13 +108,13 @@ import java.lang.invoke.*;
  *           int min_width, dummy;
  * <p>
  *           // First, get the minimum width of our widget
- *           GTK_WIDGET_GET_CLASS (widget)-&#62;measure (widget, GTK_ORIENTATION_HORIZONTAL, -1,
- *                                                   &#38;min_width, &#38;dummy, &#38;dummy, &#38;dummy);
+ *           GTK_WIDGET_GET_CLASS (widget)-&<code>#62</code> measure (widget, GTK_ORIENTATION_HORIZONTAL, -1,
+ *                                                   &<code>#38</code> min_width, &<code>#38</code> dummy, &<code>#38</code> dummy, &<code>#38</code> dummy);
  * <p>
  *           // Now use the minimum width to retrieve the minimum and natural height to display
  *           // that width.
- *           GTK_WIDGET_GET_CLASS (widget)-&#62;measure (widget, GTK_ORIENTATION_VERTICAL, min_width,
- *                                                   minimum_size, natural_size, &#38;dummy, &#38;dummy);
+ *           GTK_WIDGET_GET_CLASS (widget)-&<code>#62</code> measure (widget, GTK_ORIENTATION_VERTICAL, min_width,
+ *                                                   minimum_size, natural_size, &<code>#38</code> dummy, &<code>#38</code> dummy);
  *         }
  *       else
  *         {
@@ -131,9 +131,9 @@ import java.lang.invoke.*;
  * be careful to call its virtual methods directly, like in the code
  * example above.
  * <p>
- * It will not work to use the wrapper function {@link org.gtk.gtk.Widget#measure}
- * inside your own {@link org.gtk.gtk.Widget#sizeAllocate} implementation.
- * These return a request adjusted by {@link org.gtk.gtk.SizeGroup}, the widget&#39;s
+ * It will not work to use the wrapper function {@link org.gtk.gtk.Widget<code>#measure</code> 
+ * inside your own {@link org.gtk.gtk.Widget<code>#sizeAllocate</code>  implementation.
+ * These return a request adjusted by {@link org.gtk.gtk.SizeGroup}, the widget&<code>#39</code> s
  * align and expand flags, as well as its CSS style.
  * <p>
  * If a widget used the wrappers inside its virtual method implementations,
@@ -142,24 +142,24 @@ import java.lang.invoke.*;
  * to do it.
  * <p>
  * Of course if you are getting the size request for another widget, such
- * as a child widget, you must use {@link org.gtk.gtk.Widget#measure}; otherwise, you
+ * as a child widget, you must use {@link org.gtk.gtk.Widget<code>#measure</code> ; otherwise, you
  * would not properly consider widget margins, {@link org.gtk.gtk.SizeGroup}, and
  * so forth.
  * <p>
  * GTK also supports baseline vertical alignment of widgets. This
  * means that widgets are positioned such that the typographical baseline of
  * widgets in the same row are aligned. This happens if a widget supports
- * baselines, has a vertical alignment of <code>GTK_ALIGN_BASELINE,</code> and is inside
- * a widget that supports baselines and has a natural &#8220;row&#8221; that it aligns to
+ * baselines, has a vertical alignment of {@link org.gtk.gtk.Align<code>#BASELINE</code>   and is inside
+ * a widget that supports baselines and has a natural &<code>#8220</code> row&<code>#8221</code>  that it aligns to
  * the baseline, or a baseline assigned to it by the grandparent.
  * <p>
  * Baseline alignment support for a widget is also done by the
- * {@link org.gtk.gtk.Widget#measure} virtual function. It allows you to report
+ * {@link org.gtk.gtk.Widget<code>#measure</code>  virtual function. It allows you to report
  * both a minimum and natural size.
  * <p>
  * If a widget ends up baseline aligned it will be allocated all the space in
- * the parent as if it was <code>GTK_ALIGN_FILL,</code> but the selected baseline can be
- * found via {@link org.gtk.gtk.Widget#getAllocatedBaseline}. If the baseline has a
+ * the parent as if it was {@link org.gtk.gtk.Align<code>#FILL</code>   but the selected baseline can be
+ * found via {@link org.gtk.gtk.Widget<code>#getAllocatedBaseline</code> . If the baseline has a
  * value other than -1 you need to align the widget such that the baseline
  * appears at the position.
  * <p>
@@ -170,106 +170,106 @@ import java.lang.invoke.*;
  * that are not directly expressed as properties.
  * <p>
  * If the widget uses a {@link org.gtk.gtk.LayoutManager}, <code>GtkWidget</code> supports
- * a custom <code>&#60;layout&#62;</code> element, used to define layout properties:
+ * a custom <code>&<code>#60</code> layout&<code>#62</code> </code> element, used to define layout properties:
  * <p><pre>xml
- * &#60;object class=&#34;GtkGrid&#34; id=&#34;my_grid&#34;&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkLabel&#34; id=&#34;label1&#34;&#62;
- *       &#60;property name=&#34;label&#34;&#62;Description&#60;/property&#62;
- *       &#60;layout&#62;
- *         &#60;property name=&#34;column&#34;&#62;0&#60;/property&#62;
- *         &#60;property name=&#34;row&#34;&#62;0&#60;/property&#62;
- *         &#60;property name=&#34;row-span&#34;&#62;1&#60;/property&#62;
- *         &#60;property name=&#34;column-span&#34;&#62;1&#60;/property&#62;
- *       &#60;/layout&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- *   &#60;child&#62;
- *     &#60;object class=&#34;GtkEntry&#34; id=&#34;description_entry&#34;&#62;
- *       &#60;layout&#62;
- *         &#60;property name=&#34;column&#34;&#62;1&#60;/property&#62;
- *         &#60;property name=&#34;row&#34;&#62;0&#60;/property&#62;
- *         &#60;property name=&#34;row-span&#34;&#62;1&#60;/property&#62;
- *         &#60;property name=&#34;column-span&#34;&#62;1&#60;/property&#62;
- *       &#60;/layout&#62;
- *     &#60;/object&#62;
- *   &#60;/child&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkGrid&<code>#34</code>  id=&<code>#34</code> my_grid&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code>  id=&<code>#34</code> label1&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Description&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> layout&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row-span&<code>#34</code> &<code>#62</code> 1&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column-span&<code>#34</code> &<code>#62</code> 1&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /layout&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> child&<code>#62</code> 
+ *     &<code>#60</code> object class=&<code>#34</code> GtkEntry&<code>#34</code>  id=&<code>#34</code> description_entry&<code>#34</code> &<code>#62</code> 
+ *       &<code>#60</code> layout&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column&<code>#34</code> &<code>#62</code> 1&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> row-span&<code>#34</code> &<code>#62</code> 1&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> column-span&<code>#34</code> &<code>#62</code> 1&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /layout&<code>#62</code> 
+ *     &<code>#60</code> /object&<code>#62</code> 
+ *   &<code>#60</code> /child&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p><code>GtkWidget</code> allows style information such as style classes to
- * be associated with widgets, using the custom <code>&#60;style&#62;</code> element:
+ * be associated with widgets, using the custom <code>&<code>#60</code> style&<code>#62</code> </code> element:
  * <p><pre>xml
- * &#60;object class=&#34;GtkButton&#34; id=&#34;button1&#34;&#62;
- *   &#60;style&#62;
- *     &#60;class name=&#34;my-special-button-class&#34;/&#62;
- *     &#60;class name=&#34;dark-button&#34;/&#62;
- *   &#60;/style&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button1&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> style&<code>#62</code> 
+ *     &<code>#60</code> class name=&<code>#34</code> my-special-button-class&<code>#34</code> /&<code>#62</code> 
+ *     &<code>#60</code> class name=&<code>#34</code> dark-button&<code>#34</code> /&<code>#62</code> 
+ *   &<code>#60</code> /style&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p><code>GtkWidget</code> allows defining accessibility information, such as properties,
- * relations, and states, using the custom <code>&#60;accessibility&#62;</code> element:
+ * relations, and states, using the custom <code>&<code>#60</code> accessibility&<code>#62</code> </code> element:
  * <p><pre>xml
- * &#60;object class=&#34;GtkButton&#34; id=&#34;button1&#34;&#62;
- *   &#60;accessibility&#62;
- *     &#60;property name=&#34;label&#34;&#62;Download&#60;/property&#62;
- *     &#60;relation name=&#34;labelled-by&#34;&#62;label1&#60;/relation&#62;
- *   &#60;/accessibility&#62;
- * &#60;/object&#62;
+ * &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> button1&<code>#34</code> &<code>#62</code> 
+ *   &<code>#60</code> accessibility&<code>#62</code> 
+ *     &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Download&<code>#60</code> /property&<code>#62</code> 
+ *     &<code>#60</code> relation name=&<code>#34</code> labelled-by&<code>#34</code> &<code>#62</code> label1&<code>#60</code> /relation&<code>#62</code> 
+ *   &<code>#60</code> /accessibility&<code>#62</code> 
+ * &<code>#60</code> /object&<code>#62</code> 
  * </pre>
  * <p>
  * <h3>Building composite widgets from template XML</h3>
  * <p><code>GtkWidget </code>exposes some facilities to automate the procedure
- * of creating composite widgets using &#34;templates&#34;.
+ * of creating composite widgets using &<code>#34</code> templates&<code>#34</code> .
  * <p>
  * To create composite widgets with <code>GtkBuilder</code> XML, one must associate
  * the interface description with the widget class at class initialization
- * time using {@link org.gtk.gtk.WidgetClass#setTemplate}.
+ * time using {@link org.gtk.gtk.WidgetClass<code>#setTemplate</code> .
  * <p>
  * The interface description semantics expected in composite template descriptions
  * is slightly different from regular {@link org.gtk.gtk.Builder} XML.
  * <p>
- * Unlike regular interface descriptions, {@link org.gtk.gtk.WidgetClass#setTemplate} will
- * expect a <code>&#60;template&#62;</code> tag as a direct child of the toplevel <code>&#60;interface&#62;</code>
- * tag. The <code>&#60;template&#62;</code> tag must specify the &#8220;class&#8221; attribute which must be
- * the type name of the widget. Optionally, the &#8220;parent&#8221; attribute may be
+ * Unlike regular interface descriptions, {@link org.gtk.gtk.WidgetClass<code>#setTemplate</code>  will
+ * expect a <code>&<code>#60</code> template&<code>#62</code> </code> tag as a direct child of the toplevel <code>&<code>#60</code> interface&<code>#62</code> </code>
+ * tag. The <code>&<code>#60</code> template&<code>#62</code> </code> tag must specify the &<code>#8220</code> class&<code>#8221</code>  attribute which must be
+ * the type name of the widget. Optionally, the &<code>#8220</code> parent&<code>#8221</code>  attribute may be
  * specified to specify the direct parent type of the widget type, this is
  * ignored by <code>GtkBuilder</code> but required for UI design tools like
  * {@link [Glade]}(https://glade.gnome.org/) to introspect what kind of properties and
  * internal children exist for a given type when the actual type does not exist.
  * <p>
- * The XML which is contained inside the <code>&#60;template&#62;</code> tag behaves as if it were
- * added to the <code>&#60;object&#62;</code> tag defining the widget itself. You may set properties
- * on a widget by inserting <code>&#60;property&#62;</code> tags into the <code>&#60;template&#62;</code> tag, and also
- * add <code>&#60;child&#62;</code> tags to add children and extend a widget in the normal way you
- * would with <code>&#60;object&#62;</code> tags.
+ * The XML which is contained inside the <code>&<code>#60</code> template&<code>#62</code> </code> tag behaves as if it were
+ * added to the <code>&<code>#60</code> object&<code>#62</code> </code> tag defining the widget itself. You may set properties
+ * on a widget by inserting <code>&<code>#60</code> property&<code>#62</code> </code> tags into the <code>&<code>#60</code> template&<code>#62</code> </code> tag, and also
+ * add <code>&<code>#60</code> child&<code>#62</code> </code> tags to add children and extend a widget in the normal way you
+ * would with <code>&<code>#60</code> object&<code>#62</code> </code> tags.
  * <p>
- * Additionally, <code>&#60;object&#62;</code> tags can also be added before and after the initial<code>&#60;template&#62;</code> tag in the normal way, allowing one to define auxiliary objects
- * which might be referenced by other widgets declared as children of the<code>&#60;template&#62;</code> tag.
+ * Additionally, <code>&<code>#60</code> object&<code>#62</code> </code> tags can also be added before and after the initial<code>&<code>#60</code> template&<code>#62</code> </code> tag in the normal way, allowing one to define auxiliary objects
+ * which might be referenced by other widgets declared as children of the<code>&<code>#60</code> template&<code>#62</code> </code> tag.
  * <p>
  * An example of a template definition:
  * <p><pre>xml
- * &#60;interface&#62;
- *   &#60;template class=&#34;FooWidget&#34; parent=&#34;GtkBox&#34;&#62;
- *     &#60;property name=&#34;orientation&#34;&#62;horizontal&#60;/property&#62;
- *     &#60;property name=&#34;spacing&#34;&#62;4&#60;/property&#62;
- *     &#60;child&#62;
- *       &#60;object class=&#34;GtkButton&#34; id=&#34;hello_button&#34;&#62;
- *         &#60;property name=&#34;label&#34;&#62;Hello World&#60;/property&#62;
- *         &#60;signal name=&#34;clicked&#34; handler=&#34;hello_button_clicked&#34; object=&#34;FooWidget&#34; swapped=&#34;yes&#34;/&#62;
- *       &#60;/object&#62;
- *     &#60;/child&#62;
- *     &#60;child&#62;
- *       &#60;object class=&#34;GtkButton&#34; id=&#34;goodbye_button&#34;&#62;
- *         &#60;property name=&#34;label&#34;&#62;Goodbye World&#60;/property&#62;
- *       &#60;/object&#62;
- *     &#60;/child&#62;
- *   &#60;/template&#62;
- * &#60;/interface&#62;
+ * &<code>#60</code> interface&<code>#62</code> 
+ *   &<code>#60</code> template class=&<code>#34</code> FooWidget&<code>#34</code>  parent=&<code>#34</code> GtkBox&<code>#34</code> &<code>#62</code> 
+ *     &<code>#60</code> property name=&<code>#34</code> orientation&<code>#34</code> &<code>#62</code> horizontal&<code>#60</code> /property&<code>#62</code> 
+ *     &<code>#60</code> property name=&<code>#34</code> spacing&<code>#34</code> &<code>#62</code> 4&<code>#60</code> /property&<code>#62</code> 
+ *     &<code>#60</code> child&<code>#62</code> 
+ *       &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> hello_button&<code>#34</code> &<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Hello World&<code>#60</code> /property&<code>#62</code> 
+ *         &<code>#60</code> signal name=&<code>#34</code> clicked&<code>#34</code>  handler=&<code>#34</code> hello_button_clicked&<code>#34</code>  object=&<code>#34</code> FooWidget&<code>#34</code>  swapped=&<code>#34</code> yes&<code>#34</code> /&<code>#62</code> 
+ *       &<code>#60</code> /object&<code>#62</code> 
+ *     &<code>#60</code> /child&<code>#62</code> 
+ *     &<code>#60</code> child&<code>#62</code> 
+ *       &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> goodbye_button&<code>#34</code> &<code>#62</code> 
+ *         &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Goodbye World&<code>#60</code> /property&<code>#62</code> 
+ *       &<code>#60</code> /object&<code>#62</code> 
+ *     &<code>#60</code> /child&<code>#62</code> 
+ *   &<code>#60</code> /template&<code>#62</code> 
+ * &<code>#60</code> /interface&<code>#62</code> 
  * </pre>
  * <p>
- * Typically, you&#39;ll place the template fragment into a file that is
+ * Typically, you&<code>#39</code> ll place the template fragment into a file that is
  * bundled with your project, using <code>GResource</code>. In order to load the
- * template, you need to call {@link org.gtk.gtk.WidgetClass#setTemplateFromResource}
+ * template, you need to call {@link org.gtk.gtk.WidgetClass<code>#setTemplateFromResource</code> 
  * from the class initialization of your <code>GtkWidget</code> type:
  * <p><pre>c
  * static void
@@ -278,11 +278,11 @@ import java.lang.invoke.*;
  *   // ...
  * 
  *   gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
- *                                                &#34;/com/example/ui/foowidget.ui&#34;);
+ *                                                &<code>#34</code> /com/example/ui/foowidget.ui&<code>#34</code> );
  * }
  * </pre>
  * <p>
- * You will also need to call {@link org.gtk.gtk.Widget#initTemplate} from the
+ * You will also need to call {@link org.gtk.gtk.Widget<code>#initTemplate</code>  from the
  * instance initialization function:
  * <p><pre>c
  * static void
@@ -294,11 +294,11 @@ import java.lang.invoke.*;
  * </pre>
  * <p>
  * You can access widgets defined in the template using the
- * {@link org.gtk.gtk.Widget#getTemplateChild} function, but you will typically declare
+ * {@link org.gtk.gtk.Widget<code>#getTemplateChild</code>  function, but you will typically declare
  * a pointer in the instance private data structure of your type using the same
  * name as the widget in the template definition, and call
- * {@link org.gtk.gtk.WidgetClass#bindTemplateChildFull} (or one of its wrapper macros
- * {@link Gtk#widgetClassBindTemplateChild} and {@link Gtk#widgetClassBindTemplateChildPrivate})
+ * {@link org.gtk.gtk.WidgetClass<code>#bindTemplateChildFull</code>  (or one of its wrapper macros
+ * {@link Gtk<code>#widgetClassBindTemplateChild</code>  and {@link Gtk<code>#widgetClassBindTemplateChildPrivate</code> )
  * with that name, e.g.
  * <p><pre>c
  * typedef struct {
@@ -313,7 +313,7 @@ import java.lang.invoke.*;
  * {
  *   // ...
  *   gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
- *                                                &#34;/com/example/ui/foowidget.ui&#34;);
+ *                                                &<code>#34</code> /com/example/ui/foowidget.ui&<code>#34</code> );
  *   gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
  *                                                 FooWidget, hello_button);
  *   gtk_widget_class_bind_template_child_private (GTK_WIDGET_CLASS (klass),
@@ -327,18 +327,18 @@ import java.lang.invoke.*;
  * }
  * </pre>
  * <p>
- * You can also use {@link org.gtk.gtk.WidgetClass#bindTemplateCallbackFull} (or
- * is wrapper macro {@link Gtk#widgetClassBindTemplateCallback}) to connect
+ * You can also use {@link org.gtk.gtk.WidgetClass<code>#bindTemplateCallbackFull</code>  (or
+ * is wrapper macro {@link Gtk<code>#widgetClassBindTemplateCallback</code> ) to connect
  * a signal callback defined in the template with a function visible in the
  * scope of the class, e.g.
  * <p><pre>c
  * // the signal handler has the instance and user data swapped
- * // because of the swapped=&#34;yes&#34; attribute in the template XML
+ * // because of the swapped=&<code>#34</code> yes&<code>#34</code>  attribute in the template XML
  * static void
  * hello_button_clicked (FooWidget *self,
  *                       GtkButton *button)
  * {
- *   g_print (&#34;Hello, world!\\n&#34;);
+ *   g_print (&<code>#34</code> Hello, world!\\n&<code>#34</code> );
  * }
  * 
  * static void
@@ -346,7 +346,7 @@ import java.lang.invoke.*;
  * {
  *   // ...
  *   gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (klass),
- *                                                &#34;/com/example/ui/foowidget.ui&#34;);
+ *                                                &<code>#34</code> /com/example/ui/foowidget.ui&<code>#34</code> );
  *   gtk_widget_class_bind_template_callback (GTK_WIDGET_CLASS (klass), hello_button_clicked);
  * }
  * </pre>
@@ -371,39 +371,20 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * For widgets that can be &#8220;activated&#8221; (buttons, menu items, etc.),
+     * For widgets that can be &<code>#8220</code> activated&<code>#8221</code>  (buttons, menu items, etc.),
      * this function activates them.
      * 
      * The activation will emit the signal set using
-     * {@link org.gtk.gtk.WidgetClass#setActivateSignal} during class initialization.
+     * {@link org.gtk.gtk.WidgetClass<code>#setActivateSignal</code>  during class initialization.
      * 
-     * Activation is what happens when you press &#60;kbd&#62;Enter&#60;/kbd&#62;
+     * Activation is what happens when you press &<code>#60</code> kbd&<code>#62</code> Enter&<code>#60</code> /kbd&<code>#62</code> 
      * on a widget during key navigation.
      * 
      * If you wish to handle the activation keybinding yourself, it is
-     * recommended to use {@link org.gtk.gtk.WidgetClass#addShortcut} with an action
+     * recommended to use {@link org.gtk.gtk.WidgetClass<code>#addShortcut</code>  with an action
      * created with {@link [ctor@Gtk.SignalAction.new] (ref=ctor)}.
      * 
-     * If @widget isn&#39;t activatable, the function returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         For widgets that can be &#8220;activated&#8221; (buttons, menu items, etc.),
-     * this function activates them.
-     * 
-     * The activation will emit the signal set using
-     * {@link org.gtk.gtk.WidgetClass#setActivateSignal} during class initialization.
-     * 
-     * Activation is what happens when you press &#60;kbd&#62;Enter&#60;/kbd&#62;
-     * on a widget during key navigation.
-     * 
-     * If you wish to handle the activation keybinding yourself, it is
-     * recommended to use {@link org.gtk.gtk.WidgetClass#addShortcut} with an action
-     * created with {@link [ctor@Gtk.SignalAction.new] (ref=ctor)}.
-     * 
-     * If @widget isn&#39;t activatable, the function returns %FALSE.
+     * If @widget isn&<code>#39</code> t activatable, the function returns <code>false</code>
      */
     public boolean activate() {
         var RESULT = gtk_h.gtk_widget_activate(handle());
@@ -415,7 +396,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * @widget and its ancestors, and activates it.
      * <p>
      * If the action is in an action group added with
-     * {@link org.gtk.gtk.Widget#insertActionGroup}, the @name is expected
+     * {@link org.gtk.gtk.Widget<code>#insertActionGroup</code> , the @name is expected
      * to be prefixed with the prefix that was used when the group was
      * inserted.
      * <p>
@@ -450,7 +431,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * After calling this function, the widgets style will match
      * for @css_class, according to CSS matching rules.
      * 
-     * Use {@link org.gtk.gtk.Widget#removeCssClass} to remove the
+     * Use {@link org.gtk.gtk.Widget<code>#removeCssClass</code>  to remove the
      * style again.
      */
     public void addCssClass(java.lang.String cssClass) {
@@ -460,7 +441,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Adds a widget to the list of mnemonic labels for this widget.
      * 
-     * See {@link org.gtk.gtk.Widget#listMnemonicLabels}. Note the
+     * See {@link org.gtk.gtk.Widget<code>#listMnemonicLabels</code> . Note the
      * list of mnemonic labels for the widget is cleared when the
      * widget is destroyed, so the caller must make sure to update
      * its internal state at this point as well.
@@ -479,19 +460,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * reason, is most suitable for handling graphics that change every
      * frame or every few frames. The tick callback does not automatically
      * imply a relayout or repaint. If you want a repaint or relayout, and
-     * aren&#8217;t changing widget properties that would trigger that (for example,
+     * aren&<code>#8217</code> t changing widget properties that would trigger that (for example,
      * changing the text of a <code>GtkLabel</code>), then you will have to call
-     * {@link org.gtk.gtk.Widget#queueResize} or {@link org.gtk.gtk.Widget#queueDraw}
+     * {@link org.gtk.gtk.Widget<code>#queueResize</code>  or {@link org.gtk.gtk.Widget<code>#queueDraw</code> 
      * yourself.
      * <p>
-     * {@link org.gtk.gdk.FrameClock#getFrameTime} should generally be used
+     * {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code>  should generally be used
      * for timing continuous animations and
-     * {@link org.gtk.gdk.FrameTimings#getPredictedPresentationTime} if you are
+     * {@link org.gtk.gdk.FrameTimings<code>#getPredictedPresentationTime</code>  if you are
      * trying to display isolated frames at particular times.
      * <p>
      * This is a more convenient alternative to connecting directly to the
      * {@link [signal@Gdk.FrameClock::update] (ref=signal)} signal of <code>GdkFrameClock</code>, since you
-     * don&#39;t have to worry about when a <code>GdkFrameClock</code> is assigned to a widget.
+     * don&<code>#39</code> t have to worry about when a <code>GdkFrameClock</code> is assigned to a widget.
      */
     public int addTickCallback(TickCallback callback) {
         try {
@@ -516,10 +497,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * In this function, the allocation and baseline may be adjusted.
      * The given allocation will be forced to be bigger than the
-     * widget&#39;s minimum size, as well as at least 0&#215;0 in size.
+     * widget&<code>#39</code> s minimum size, as well as at least 0&<code>#215</code> 0 in size.
      * 
      * For a version that does not take a transform, see
-     * {@link org.gtk.gtk.Widget#sizeAllocate}.
+     * {@link org.gtk.gtk.Widget<code>#sizeAllocate</code> .
      */
     public void allocate(int width, int height, int baseline, org.gtk.gsk.Transform transform) {
         gtk_h.gtk_widget_allocate(handle(), width, height, baseline, transform.handle());
@@ -532,19 +513,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * The @direction argument indicates what kind of motion is taking place (up,
      * down, left, right, tab forward, tab backward).
      * <p>
-     * This function calls the {@link org.gtk.gtk.Widget#focus} virtual function; widgets
+     * This function calls the {@link org.gtk.gtk.Widget<code>#focus</code>  virtual function; widgets
      * can override the virtual function in order to implement appropriate focus
      * behavior.
      * <p>
      * The default <code>focus()</code> virtual function for a widget should return <code>TRUE</code> if
      * moving in @direction left the focus on a focusable location inside that
      * widget, and <code>FALSE</code> if moving in @direction moved the focus outside the
-     * widget. When returning <code>TRUE</code>, widgets normallycall {@link org.gtk.gtk.Widget#grabFocus}
-     * to place the focus accordingly; when returning <code>FALSE</code>, they don&#8217;t modify
+     * widget. When returning <code>TRUE</code>, widgets normallycall {@link org.gtk.gtk.Widget<code>#grabFocus</code> 
+     * to place the focus accordingly; when returning <code>FALSE</code>, they don&<code>#8217</code> t modify
      * the current focus location.
      * 
-     * This function is used by custom widget implementations; if you&#39;re
-     * writing an app, you&#8217;d use {@link org.gtk.gtk.Widget#grabFocus} to move
+     * This function is used by custom widget implementations; if you&<code>#39</code> re
+     * writing an app, you&<code>#8217</code> d use {@link org.gtk.gtk.Widget<code>#grabFocus</code>  to move
      * the focus to a particular widget.
      */
     public boolean childFocus(DirectionType direction) {
@@ -555,10 +536,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Computes the bounds for @widget in the coordinate space of @target.
      * 
-     * FIXME: Explain what &#34;bounds&#34; are.
+     * FIXME: Explain what &<code>#34</code> bounds&<code>#34</code>  are.
      * 
      * If the operation is successful, <code>true</code> is returned. If @widget has no
-     * bounds or the bounds cannot be expressed in @target&#39;s coordinate space
+     * bounds or the bounds cannot be expressed in @target&<code>#39</code> s coordinate space
      * (for example if both widgets are in different windows), <code>false</code> is
      * returned and @bounds is set to the zero rectangle.
      * 
@@ -574,7 +555,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * extra space when possible.
      * 
      * Containers should check this, rather than looking at
-     * {@link org.gtk.gtk.Widget#getHexpand} or {@link org.gtk.gtk.Widget#getVexpand}.
+     * {@link org.gtk.gtk.Widget<code>#getHexpand</code>  or {@link org.gtk.gtk.Widget<code>#getVexpand</code> .
      * 
      * This function already checks whether the widget is visible, so
      * visibility does not need to be checked separately. Non-visible
@@ -590,8 +571,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Translates the given @point in @widget&#39;s coordinates to coordinates
-     * relative to @target&#8217;s coordinate system.
+     * Translates the given @point in @widget&<code>#39</code> s coordinates to coordinates
+     * relative to @target&<code>#8217</code> s coordinate system.
      * 
      * In order to perform this operation, both widgets must share a
      * common ancestor.
@@ -603,7 +584,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     
     /**
      * Computes a matrix suitable to describe a transformation from
-     * @widget&#39;s coordinate system into @target&#39;s coordinate system.
+     * @widget&<code>#39</code> s coordinate system into @target&<code>#39</code> s coordinate system.
      * 
      * The transform can not be computed in certain cases, for example
      * when @widget and @target do not share a common ancestor. In that
@@ -618,7 +599,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Tests if the point at (@x, @y) is contained in @widget.
      * 
      * The coordinates for (@x, @y) must be in widget coordinates, so
-     * (0, 0) is assumed to be the top left of @widget&#39;s content area.
+     * (0, 0) is assumed to be the top left of @widget&<code>#39</code> s content area.
      */
     public boolean contains(double x, double y) {
         var RESULT = gtk_h.gtk_widget_contains(handle(), x, y);
@@ -630,7 +611,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * font options, font description, and base direction for drawing
      * text for this widget.
      * 
-     * See also {@link org.gtk.gtk.Widget#getPangoContext}.
+     * See also {@link org.gtk.gtk.Widget<code>#getPangoContext</code> .
      */
     public org.pango.Context createPangoContext() {
         var RESULT = gtk_h.gtk_widget_create_pango_context(handle());
@@ -663,10 +644,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Notifies the user about an input-related error on this widget.
      * 
-     * If the {@link [property@Gtk.Settings:gtk-error-bell] (ref=property)} setting is <code>TRUE,
-     * it</code> calls {@link org.gtk.gdk.Surface#beep}, otherwise it does nothing.
+     * If the {@link [property@Gtk.Settings:gtk-error-bell] (ref=property)} setting is <code>true</code> 
+     * it calls {@link org.gtk.gdk.Surface<code>#beep</code> , otherwise it does nothing.
      * 
-     * Note that the effect of {@link org.gtk.gdk.Surface#beep} can be configured
+     * Note that the effect of {@link org.gtk.gdk.Surface<code>#beep</code>  can be configured
      * in many ways, depending on the windowing backend and the desktop
      * environment or window manager that is used.
      */
@@ -703,17 +684,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Retrieves the widget&#8217;s allocation.
+     * Retrieves the widget&<code>#8217</code> s allocation.
      * 
-     * Note, when implementing a layout container: a widget&#8217;s allocation
-     * will be its &#8220;adjusted&#8221; allocation, that is, the widget&#8217;s parent
-     * typically calls {@link org.gtk.gtk.Widget#sizeAllocate} with an allocation,
+     * Note, when implementing a layout container: a widget&<code>#8217</code> s allocation
+     * will be its &<code>#8220</code> adjusted&<code>#8221</code>  allocation, that is, the widget&<code>#8217</code> s parent
+     * typically calls {@link org.gtk.gtk.Widget<code>#sizeAllocate</code>  with an allocation,
      * and that allocation is then adjusted (to handle margin
      * and alignment for example) before assignment to the widget.
-     * {@link org.gtk.gtk.Widget#getAllocation} returns the adjusted allocation that
+     * {@link org.gtk.gtk.Widget<code>#getAllocation</code>  returns the adjusted allocation that
      * was actually assigned to the widget. The adjusted allocation is
      * guaranteed to be completely contained within the
-     * {@link org.gtk.gtk.Widget#sizeAllocate} allocation, however.
+     * {@link org.gtk.gtk.Widget<code>#sizeAllocate</code>  allocation, however.
      * 
      * So a layout container is guaranteed that its children stay inside
      * the assigned bounds, but not that they have exactly the bounds the
@@ -727,11 +708,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the first ancestor of @widget with type @widget_type.
      * <p>
      * For example, <code>gtk_widget_get_ancestor (widget, GTK_TYPE_BOX)</code>
-     * gets the first <code>GtkBox</code> that&#8217;s an ancestor of @widget. No
+     * gets the first <code>GtkBox</code> that&<code>#8217</code> s an ancestor of @widget. No
      * reference will be added to the returned widget; it should
      * not be unreferenced.
      * 
-     * Note that unlike {@link org.gtk.gtk.Widget#isAncestor}, this function
+     * Note that unlike {@link org.gtk.gtk.Widget<code>#isAncestor</code> , this function
      * considers @widget to be an ancestor of itself.
      */
     public Widget getAncestor(Type widgetType) {
@@ -743,7 +724,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Determines whether the input focus can enter @widget or any
      * of its children.
      * 
-     * See {@link org.gtk.gtk.Widget#setFocusable}.
+     * See {@link org.gtk.gtk.Widget<code>#setFocusable</code> .
      */
     public boolean getCanFocus() {
         var RESULT = gtk_h.gtk_widget_get_can_focus(handle());
@@ -796,7 +777,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Queries the cursor set on @widget.
      * 
-     * See {@link org.gtk.gtk.Widget#setCursor} for details.
+     * See {@link org.gtk.gtk.Widget<code>#setCursor</code>  for details.
      */
     public org.gtk.gdk.Cursor getCursor() {
         var RESULT = gtk_h.gtk_widget_get_cursor(handle());
@@ -806,7 +787,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Gets the reading direction for a particular widget.
      * 
-     * See {@link org.gtk.gtk.Widget#setDirection}.
+     * See {@link org.gtk.gtk.Widget<code>#setDirection</code> .
      */
     public TextDirection getDirection() {
         var RESULT = gtk_h.gtk_widget_get_direction(handle());
@@ -851,7 +832,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns whether the widget should grab focus when it is clicked
      * with the mouse.
      * 
-     * See {@link org.gtk.gtk.Widget#setFocusOnClick}.
+     * See {@link org.gtk.gtk.Widget<code>#setFocusOnClick</code> .
      */
     public boolean getFocusOnClick() {
         var RESULT = gtk_h.gtk_widget_get_focus_on_click(handle());
@@ -861,7 +842,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Determines whether @widget can own the input focus.
      * 
-     * See {@link org.gtk.gtk.Widget#setFocusable}.
+     * See {@link org.gtk.gtk.Widget<code>#setFocusable</code> .
      */
     public boolean getFocusable() {
         var RESULT = gtk_h.gtk_widget_get_focusable(handle());
@@ -871,7 +852,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Gets the font map of @widget.
      * 
-     * See {@link org.gtk.gtk.Widget#setFontMap}.
+     * See {@link org.gtk.gtk.Widget<code>#setFontMap</code> .
      */
     public org.pango.FontMap getFontMap() {
         var RESULT = gtk_h.gtk_widget_get_font_map(handle());
@@ -881,7 +862,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Returns the <code>cairo_font_options_t</code> of widget.
      * 
-     * Seee {@link org.gtk.gtk.Widget#setFontOptions}.
+     * Seee {@link org.gtk.gtk.Widget<code>#setFontOptions</code> .
      */
     public org.cairographics.FontOptions getFontOptions() {
         var RESULT = gtk_h.gtk_widget_get_font_options(handle());
@@ -891,24 +872,24 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Obtains the frame clock for a widget.
      * 
-     * The frame clock is a global &#8220;ticker&#8221; that can be used to drive
+     * The frame clock is a global &<code>#8220</code> ticker&<code>#8221</code>  that can be used to drive
      * animations and repaints. The most common reason to get the frame
-     * clock is to call {@link org.gtk.gdk.FrameClock#getFrameTime}, in order
+     * clock is to call {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code> , in order
      * to get a time to use for animating. For example you might record
      * the start of the animation with an initial value from
-     * {@link org.gtk.gdk.FrameClock#getFrameTime}, and then update the animation
-     * by calling {@link org.gtk.gdk.FrameClock#getFrameTime} again during each repaint.
+     * {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code> , and then update the animation
+     * by calling {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code>  again during each repaint.
      * 
-     * {@link org.gtk.gdk.FrameClock#requestPhase} will result in a new frame on the
-     * clock, but won&#8217;t necessarily repaint any widgets. To repaint a
-     * widget, you have to use {@link org.gtk.gtk.Widget#queueDraw} which invalidates
+     * {@link org.gtk.gdk.FrameClock<code>#requestPhase</code>  will result in a new frame on the
+     * clock, but won&<code>#8217</code> t necessarily repaint any widgets. To repaint a
+     * widget, you have to use {@link org.gtk.gtk.Widget<code>#queueDraw</code>  which invalidates
      * the widget (thus scheduling it to receive a draw on the next
      * frame). gtk_widget_queue_draw() will also end up requesting a frame
      * on the appropriate frame clock.
      * 
-     * A widget&#8217;s frame clock will not change while the widget is
+     * A widget&<code>#8217</code> s frame clock will not change while the widget is
      * mapped. Reparenting a widget (which implies a temporary unmap) can
-     * change the widget&#8217;s frame clock.
+     * change the widget&<code>#8217</code> s frame clock.
      * 
      * Unrealized widgets do not have a frame clock.
      */
@@ -921,8 +902,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the horizontal alignment of @widget.
      * 
      * For backwards compatibility reasons this method will never return
-     * <code>GTK_ALIGN_BASELINE,</code> but instead it will convert it to
-     * <code>GTK_ALIGN_FILL.</code> Baselines are not supported for horizontal
+     * {@link org.gtk.gtk.Align<code>#BASELINE</code>   but instead it will convert it to
+     * {@link org.gtk.gtk.Align<code>#FILL</code>   Baselines are not supported for horizontal
      * alignment.
      */
     public Align getHalign() {
@@ -943,9 +924,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This function returns the height passed to its
      * size-allocate implementation, which is the height you
-     * should be using in {@link org.gtk.gtk.Widget#snapshot}.
+     * should be using in {@link org.gtk.gtk.Widget<code>#snapshot</code> .
      * 
-     * For pointer events, see {@link org.gtk.gtk.Widget#contains}.
+     * For pointer events, see {@link org.gtk.gtk.Widget<code>#contains</code> .
      */
     public int getHeight() {
         var RESULT = gtk_h.gtk_widget_get_height(handle());
@@ -961,12 +942,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * scrollable area or document in your window would often be set to
      * expand.
      * 
-     * Containers should use {@link org.gtk.gtk.Widget#computeExpand} rather
+     * Containers should use {@link org.gtk.gtk.Widget<code>#computeExpand</code>  rather
      * than this function, to see whether a widget, or any of its children,
      * has the expand flag set. If any child of a widget wants to
      * expand, the parent may ask to expand also.
      * 
-     * This function only looks at the widget&#8217;s own hexpand flag, rather
+     * This function only looks at the widget&<code>#8217</code> s own hexpand flag, rather
      * than computing whether the entire widget tree rooted at this widget
      * wants to expand.
      */
@@ -984,7 +965,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * If <code>hexpand</code> is not set, then the expand value depends on
      * whether any children of the widget would like to expand.
      * 
-     * There are few reasons to use this function, but it&#8217;s here
+     * There are few reasons to use this function, but it&<code>#8217</code> s here
      * for completeness and consistency.
      */
     public boolean getHexpandSet() {
@@ -1005,7 +986,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Retrieves the layout manager used by @widget.
      * 
-     * See {@link org.gtk.gtk.Widget#setLayoutManager}.
+     * See {@link org.gtk.gtk.Widget<code>#setLayoutManager</code> .
      */
     public LayoutManager getLayoutManager() {
         var RESULT = gtk_h.gtk_widget_get_layout_manager(handle());
@@ -1055,7 +1036,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Retrieves the name of a widget.
      * 
-     * See {@link org.gtk.gtk.Widget#setName} for the significance of widget names.
+     * See {@link org.gtk.gtk.Widget<code>#setName</code>  for the significance of widget names.
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gtk_widget_get_name(handle());
@@ -1085,9 +1066,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * #Fetches the requested opacity for this widget.
+     * <code>#Fetches</code> the requested opacity for this widget.
      * 
-     * See {@link org.gtk.gtk.Widget#setOpacity}.
+     * See {@link org.gtk.gtk.Widget<code>#setOpacity</code> .
      */
     public double getOpacity() {
         var RESULT = gtk_h.gtk_widget_get_opacity(handle());
@@ -1106,10 +1087,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets a <code>PangoContext</code> with the appropriate font map, font description,
      * and base direction for this widget.
      * 
-     * Unlike the context returned by {@link org.gtk.gtk.Widget#createPangoContext},
+     * Unlike the context returned by {@link org.gtk.gtk.Widget<code>#createPangoContext</code> ,
      * this context is owned by the widget (it can be used until the screen
      * for the widget changes or the widget is removed from its toplevel),
-     * and will be updated to match any changes to the widget&#8217;s attributes.
+     * and will be updated to match any changes to the widget&<code>#8217</code> s attributes.
      * This can be tracked by listening to changes of the
      * {@link [property@Gtk.Widget:root] (ref=property)} property on the widget.
      */
@@ -1128,7 +1109,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     
     /**
      * Retrieves the minimum and natural size of a widget, taking
-     * into account the widget&#8217;s preference for height-for-width management.
+     * into account the widget&<code>#8217</code> s preference for height-for-width management.
      * <p>
      * This is used to retrieve a suitable size by container widgets which do
      * not impose any restrictions on the child placement. It can be used
@@ -1140,7 +1121,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the required height for the natural width is generally smaller than the
      * required height for the minimum width.
      * 
-     * Use {@link org.gtk.gtk.Widget#measure} if you want to support baseline alignment.
+     * Use {@link org.gtk.gtk.Widget<code>#measure</code>  if you want to support baseline alignment.
      */
     public void getPreferredSize(Requisition minimumSize, Requisition naturalSize) {
         gtk_h.gtk_widget_get_preferred_size(handle(), minimumSize.handle(), naturalSize.handle());
@@ -1183,7 +1164,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * within its toplevel when it has the focus, even if another widget
      * is the default.
      * 
-     * See {@link org.gtk.gtk.Widget#setReceivesDefault}.
+     * See {@link org.gtk.gtk.Widget<code>#setReceivesDefault</code> .
      */
     public boolean getReceivesDefault() {
         var RESULT = gtk_h.gtk_widget_get_receives_default(handle());
@@ -1223,7 +1204,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * On traditional systems this is 1, on high density outputs,
      * it can be a higher value (typically 2).
      * 
-     * See {@link org.gtk.gdk.Surface#getScaleFactor}.
+     * See {@link org.gtk.gdk.Surface<code>#getScaleFactor</code> .
      */
     public int getScaleFactor() {
         var RESULT = gtk_h.gtk_widget_get_scale_factor(handle());
@@ -1231,14 +1212,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Returns the widget&#8217;s sensitivity.
+     * Returns the widget&<code>#8217</code> s sensitivity.
      * 
      * This function returns the value that has been set using
-     * {@link org.gtk.gtk.Widget#setSensitive}).
+     * {@link org.gtk.gtk.Widget<code>#setSensitive</code> ).
      * 
      * The effective sensitivity of a widget is however determined
-     * by both its own and its parent widget&#8217;s sensitivity.
-     * See {@link org.gtk.gtk.Widget#isSensitive}.
+     * by both its own and its parent widget&<code>#8217</code> s sensitivity.
+     * See {@link org.gtk.gtk.Widget<code>#isSensitive</code> .
      */
     public boolean getSensitive() {
         var RESULT = gtk_h.gtk_widget_get_sensitive(handle());
@@ -1263,9 +1244,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * Which dimension is returned depends on @orientation.
      * 
-     * This is equivalent to calling {@link org.gtk.gtk.Widget#getWidth}
-     * for {@link org.gtk.gtk.Orientation#HORIZONTAL} or {@link org.gtk.gtk.Widget#getHeight}
-     * for <code>GTK_ORIENTATION_VERTICAL,</code> but can be used when
+     * This is equivalent to calling {@link org.gtk.gtk.Widget<code>#getWidth</code> 
+     * for {@link org.gtk.gtk.Orientation<code>#HORIZONTAL</code>  or {@link org.gtk.gtk.Widget<code>#getHeight</code> 
+     * for {@link org.gtk.gtk.Orientation<code>#VERTICAL</code>   but can be used when
      * writing orientation-independent code, such as when
      * implementing {@link [iface@Gtk.Orientable] (ref=iface)} widgets.
      */
@@ -1277,13 +1258,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Returns the widget state as a flag set.
      * 
-     * It is worth mentioning that the effective <code>GTK_STATE_FLAG_INSENSITIVE
-     * state</code> will be returned, that is, also based on parent insensitivity,
+     * It is worth mentioning that the effective {@link org.gtk.gtk.StateFlags<code>#INSENSITIVE</code>  state will be returned, that is, also based on parent insensitivity,
      * even if @widget itself is sensitive.
      * 
      * Also note that if you are looking for a way to obtain the
      * {@link [flags@Gtk.StateFlags] (ref=flags)} to pass to a {@link org.gtk.gtk.StyleContext}
-     * method, you should look at {@link org.gtk.gtk.StyleContext#getState}.
+     * method, you should look at {@link org.gtk.gtk.StyleContext<code>#getState</code> .
      */
     public int getStateFlags() {
         var RESULT = gtk_h.gtk_widget_get_state_flags(handle());
@@ -1306,7 +1286,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * this @widget instance.
      * 
      * This will only report children which were previously declared
-     * with {@link org.gtk.gtk.WidgetClass#bindTemplateChildFull} or one of its
+     * with {@link org.gtk.gtk.WidgetClass<code>#bindTemplateChildFull</code>  or one of its
      * variants.
      * 
      * This function is only meant to be called for code which is private
@@ -1322,19 +1302,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets the contents of the tooltip for @widget.
      * 
      * If the tooltip has not been set using
-     * {@link org.gtk.gtk.Widget#setTooltipMarkup}, this
-     * function returns 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Gets the contents of the tooltip for @widget.
-     * 
-     * If the tooltip has not been set using
-     * {@link org.gtk.gtk.Widget#setTooltipMarkup}, this
-     * function returns %NULL.
+     * {@link org.gtk.gtk.Widget<code>#setTooltipMarkup</code> , this
+     * function returns <code>null</code>
      */
     public java.lang.String getTooltipMarkup() {
         var RESULT = gtk_h.gtk_widget_get_tooltip_markup(handle());
@@ -1344,8 +1313,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Gets the contents of the tooltip for @widget.
      * 
-     * If the @widget&#39;s tooltip was set using
-     * {@link org.gtk.gtk.Widget#setTooltipMarkup},
+     * If the @widget&<code>#39</code> s tooltip was set using
+     * {@link org.gtk.gtk.Widget<code>#setTooltipMarkup</code> ,
      * this function will return the escaped text.
      */
     public java.lang.String getTooltipText() {
@@ -1365,7 +1334,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets whether the widget would like any available extra vertical
      * space.
      * 
-     * See {@link org.gtk.gtk.Widget#getHexpand} for more detail.
+     * See {@link org.gtk.gtk.Widget<code>#getHexpand</code>  for more detail.
      */
     public boolean getVexpand() {
         var RESULT = gtk_h.gtk_widget_get_vexpand(handle());
@@ -1376,7 +1345,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Gets whether gtk_widget_set_vexpand() has been used to
      * explicitly set the expand flag on this widget.
      * 
-     * See {@link org.gtk.gtk.Widget#getHexpandSet} for more detail.
+     * See {@link org.gtk.gtk.Widget<code>#getHexpandSet</code>  for more detail.
      */
     public boolean getVexpandSet() {
         var RESULT = gtk_h.gtk_widget_get_vexpand_set(handle());
@@ -1386,14 +1355,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Determines whether the widget is visible.
      * 
-     * If you want to take into account whether the widget&#8217;s
+     * If you want to take into account whether the widget&<code>#8217</code> s
      * parent is also marked as visible, use
-     * {@link org.gtk.gtk.Widget#isVisible} instead.
+     * {@link org.gtk.gtk.Widget<code>#isVisible</code>  instead.
      * 
      * This function does not check if the widget is
      * obscured in any way.
      * 
-     * See {@link org.gtk.gtk.Widget#setVisible}.
+     * See {@link org.gtk.gtk.Widget<code>#setVisible</code> .
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_widget_get_visible(handle());
@@ -1405,9 +1374,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This function returns the width passed to its
      * size-allocate implementation, which is the width you
-     * should be using in {@link org.gtk.gtk.Widget#snapshot}.
+     * should be using in {@link org.gtk.gtk.Widget<code>#snapshot</code> .
      * 
-     * For pointer events, see {@link org.gtk.gtk.Widget#contains}.
+     * For pointer events, see {@link org.gtk.gtk.Widget<code>#contains</code> .
      */
     public int getWidth() {
         var RESULT = gtk_h.gtk_widget_get_width(handle());
@@ -1415,17 +1384,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Causes @widget to have the keyboard focus for the <code>GtkWindow</code> it&#39;s inside.
+     * Causes @widget to have the keyboard focus for the <code>GtkWindow</code> it&<code>#39</code> s inside.
      * 
-     * If @widget is not focusable, or its {@link org.gtk.gtk.Widget#grabFocus}
+     * If @widget is not focusable, or its {@link org.gtk.gtk.Widget<code>#grabFocus</code> 
      * implementation cannot transfer the focus to a descendant of @widget
      * that is focusable, it will not take focus and <code>false</code> will be returned.
      * 
-     * Calling {@link org.gtk.gtk.Widget#grabFocus} on an already focused widget
-     * is allowed, should not have an effect, and return will be returned.
-     * 
-     * Calling {@link org.gtk.gtk.Widget#grabFocus} on an already focused widget
-     * is allowed, should not have an effect, and return %TRUE.
+     * Calling {@link org.gtk.gtk.Widget<code>#grabFocus</code>  on an already focused widget
+     * is allowed, should not have an effect, and return <code>true</code>
      */
     public boolean grabFocus() {
         var RESULT = gtk_h.gtk_widget_grab_focus(handle());
@@ -1452,7 +1418,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Determines if the widget has the global input focus.
      * 
-     * See {@link org.gtk.gtk.Widget#isFocus} for the difference between
+     * See {@link org.gtk.gtk.Widget<code>#isFocus</code>  for the difference between
      * having the global input focus, and only having the focus
      * within a toplevel.
      */
@@ -1467,11 +1433,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This is a convenience function that takes into account whether
      * focus indication should currently be shown in the toplevel window
-     * of @widget. See {@link org.gtk.gtk.Window#getFocusVisible} for more
+     * of @widget. See {@link org.gtk.gtk.Window<code>#getFocusVisible</code>  for more
      * information about focus indication.
      * 
      * To find out if the widget has the global input focus, use
-     * {@link org.gtk.gtk.Widget#hasFocus}.
+     * {@link org.gtk.gtk.Widget<code>#hasFocus</code> .
      */
     public boolean hasVisibleFocus() {
         var RESULT = gtk_h.gtk_widget_has_visible_focus(handle());
@@ -1503,7 +1469,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * This function must be called in the instance initializer
      * for any class which assigned itself a template using
-     * {@link org.gtk.gtk.WidgetClass#setTemplate}.
+     * {@link org.gtk.gtk.WidgetClass<code>#setTemplate</code> .
      * <p>
      * It is important to call this function in the instance initializer
      * of a <code>GtkWidget</code> subclass and not in <code>GObject.constructed()</code> or<code>GObject.constructor()</code> for two reasons:
@@ -1512,7 +1478,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      *    defined by its parent classes have been created in their
      *    relative instance initializers
      *  - when calling <code>g_object_new()</code> on a widget with composite templates,
-     *    it&#8217;s important to build the composite widgets before the construct
+     *    it&<code>#8217</code> s important to build the composite widgets before the construct
      *    properties are set. Properties passed to <code>g_object_new()</code> should
      *    take precedence over properties set in the private template XML
      * 
@@ -1528,14 +1494,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * Children of @widget that implement {@link [iface@Gtk.Actionable] (ref=iface)} can
      * then be associated with actions in @group by setting their
-     * &#8220;action-name&#8221; to @prefix.<code>action-name</code>.
+     * &<code>#8220</code> action-name&<code>#8221</code>  to @prefix.<code>action-name</code>.
      * 
      * Note that inheritance is defined for individual actions. I.e.
      * even if you insert a group with prefix @prefix, actions with
      * the same prefix will still be inherited from the parent, unless
      * the group contains an action with the same name.
      * 
-     * If @group is <code>NULL,</code> a previously inserted group for @name is
+     * If @group is <code>null</code>  a previously inserted group for @name is
      * removed from @widget.
      */
     public void insertActionGroup(java.lang.String name, org.gtk.gio.ActionGroup group) {
@@ -1546,9 +1512,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Inserts @widget into the child widget list of @parent.
      * <p>
      * It will be placed after @previous_sibling, or at the beginning if
-     * @previous_sibling is <code>NULL.
+     * @previous_sibling is <code>null</code> 
      * <p>
-     * After</code> calling this function, <code>gtk_widget_get_prev_sibling(widget)</code>
+     * After calling this function, <code>gtk_widget_get_prev_sibling(widget)</code>
      * will return @previous_sibling.
      * 
      * If @parent is already set as the parent widget of @widget, this
@@ -1566,9 +1532,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Inserts @widget into the child widget list of @parent.
      * <p>
      * It will be placed before @next_sibling, or at the end if
-     * @next_sibling is <code>NULL.
+     * @next_sibling is <code>null</code> 
      * <p>
-     * After</code> calling this function, <code>gtk_widget_get_next_sibling(widget)</code>
+     * After calling this function, <code>gtk_widget_get_next_sibling(widget)</code>
      * will return @next_sibling.
      * 
      * If @parent is already set as the parent widget of @widget, this function
@@ -1615,7 +1581,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Returns the widget&#8217;s effective sensitivity.
+     * Returns the widget&<code>#8217</code> s effective sensitivity.
      * 
      * This means it is sensitive itself and also its
      * parent widget is sensitive.
@@ -1631,8 +1597,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This function does not check if the widget is obscured in any way.
      * 
-     * See also {@link org.gtk.gtk.Widget#getVisible} and
-     * {@link org.gtk.gtk.Widget#setVisible}.
+     * See also {@link org.gtk.gtk.Widget<code>#getVisible</code>  and
+     * {@link org.gtk.gtk.Widget<code>#setVisible</code> .
      */
     public boolean isVisible() {
         var RESULT = gtk_h.gtk_widget_is_visible(handle());
@@ -1647,19 +1613,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * The return value of this function should be interpreted
      * in a way similar to the return value of
-     * {@link org.gtk.gtk.Widget#childFocus}. When <code>true</code> is returned,
+     * {@link org.gtk.gtk.Widget<code>#childFocus</code> . When <code>true</code> is returned,
      * stay in the widget, the failed keyboard  navigation is OK
      * and/or there is nowhere we can/should move the focus to.
      * When <code>false</code> is returned, the caller should continue with
      * keyboard navigation outside the widget, e.g. by calling
-     * {@link org.gtk.gtk.Widget#childFocus} on the widget&#8217;s toplevel.
+     * {@link org.gtk.gtk.Widget<code>#childFocus</code>  on the widget&<code>#8217</code> s toplevel.
      * <p>
      * The default {@link [signal@Gtk.Widget::keynav-failed] (ref=signal)} handler returns
-     * <code>false</code> for {@link org.gtk.gtk.DirectionType#TAB_FORWARD} and <code>GTK_DIR_TAB_BACKWARD.
-     * For</code> the other values of <code>GtkDirectionType</code> it returns <code>TRUE.
+     * <code>false</code> for {@link org.gtk.gtk.DirectionType<code>#TAB_FORWARD</code>  and {@link org.gtk.gtk.DirectionType<code>#TAB_BACKWARD</code>  
+     * For the other values of <code>GtkDirectionType</code> it returns <code>true</code> 
      * 
-     * Whenever</code> the default handler returns <code>TRUE,</code> it also calls
-     * {@link org.gtk.gtk.Widget#errorBell} to notify the user of the
+     * Whenever the default handler returns <code>true</code>  it also calls
+     * {@link org.gtk.gtk.Widget<code>#errorBell</code>  to notify the user of the
      * failed keyboard navigation.
      * 
      * A use case for providing an own implementation of ::keynav-failed
@@ -1678,7 +1644,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * mnemonic.
      * <p>
      * Typically, these widgets will be labels. See, for example,
-     * {@link org.gtk.gtk.Label#setMnemonicWidget}.
+     * {@link org.gtk.gtk.Label<code>#setMnemonicWidget</code> .
      * <p>
      * The widgets in the list are not individually referenced.
      * If you want to iterate through the list and perform actions
@@ -1692,7 +1658,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Causes a widget to be mapped if it isn&#8217;t already.
+     * Causes a widget to be mapped if it isn&<code>#8217</code> t already.
      * 
      * This function is only for use in widget implementations.
      */
@@ -1745,12 +1711,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Finds the descendant of @widget closest to the point (@x, @y).
      * 
      * The point must be given in widget coordinates, so (0, 0) is assumed
-     * to be the top left of @widget&#39;s content area.
+     * to be the top left of @widget&<code>#39</code> s content area.
      * 
      * Usually widgets will return <code>null</code> if the given coordinate is not
-     * contained in @widget checked via {@link org.gtk.gtk.Widget#contains}.
+     * contained in @widget checked via {@link org.gtk.gtk.Widget<code>#contains</code> .
      * Otherwise they will recursively try to find a child that does
-     * not return <code>NULL.</code> Widgets are however free to customize their
+     * not return <code>null</code>  Widgets are however free to customize their
      * picking algorithm.
      * 
      * This function is used on the toplevel to determine the widget
@@ -1763,14 +1729,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Flags the widget for a rerun of the {@link org.gtk.gtk.Widget#sizeAllocate}
+     * Flags the widget for a rerun of the {@link org.gtk.gtk.Widget<code>#sizeAllocate</code> 
      * function.
      * 
-     * Use this function instead of {@link org.gtk.gtk.Widget#queueResize}
-     * when the @widget&#39;s size request didn&#39;t change but it wants to
+     * Use this function instead of {@link org.gtk.gtk.Widget<code>#queueResize</code> 
+     * when the @widget&<code>#39</code> s size request didn&<code>#39</code> t change but it wants to
      * reposition its contents.
      * 
-     * An example user of this function is {@link org.gtk.gtk.Widget#setHalign}.
+     * An example user of this function is {@link org.gtk.gtk.Widget<code>#setHalign</code> .
      * 
      * This function is only for use in widget implementations.
      */
@@ -1782,7 +1748,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Schedules this widget to be redrawn in the paint phase
      * of the current or the next frame.
      * 
-     * This means @widget&#39;s {@link org.gtk.gtk.Widget#snapshot}
+     * This means @widget&<code>#39</code> s {@link org.gtk.gtk.Widget<code>#snapshot</code> 
      * implementation will be called.
      */
     public void queueDraw() {
@@ -1794,13 +1760,13 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This should be called when a widget for some reason has a new
      * size request. For example, when you change the text in a
-     * {@link org.gtk.gtk.Label}, the label queues a resize to ensure there&#8217;s
+     * {@link org.gtk.gtk.Label}, the label queues a resize to ensure there&<code>#8217</code> s
      * enough space for the new text.
      * 
      * Note that you cannot call gtk_widget_queue_resize() on a widget
-     * from inside its implementation of the {@link org.gtk.gtk.Widget#sizeAllocate}
+     * from inside its implementation of the {@link org.gtk.gtk.Widget<code>#sizeAllocate</code> 
      * virtual method. Calls to gtk_widget_queue_resize() from inside
-     * {@link org.gtk.gtk.Widget#sizeAllocate} will be silently ignored.
+     * {@link org.gtk.gtk.Widget<code>#sizeAllocate</code>  will be silently ignored.
      * 
      * This function is only for use in widget implementations.
      */
@@ -1815,13 +1781,13 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and all its parent containers, then the widget will be realized
      * and mapped automatically.
      * 
-     * Realizing a widget requires all the widget&#8217;s parent widgets to be
-     * realized; calling this function realizes the widget&#8217;s parents
+     * Realizing a widget requires all the widget&<code>#8217</code> s parent widgets to be
+     * realized; calling this function realizes the widget&<code>#8217</code> s parents
      * in addition to @widget itself. If a widget is not yet inside a
      * toplevel window when you realize it, bad things will happen.
      * 
      * This function is primarily used in widget implementations, and
-     * isn&#8217;t very useful otherwise. Many times when you think you might
+     * isn&<code>#8217</code> t very useful otherwise. Many times when you think you might
      * need it, a better approach is to connect to a signal that will be
      * called after the widget is realized automatically, such as
      * {@link [signal@Gtk.Widget::realize] (ref=signal)}.
@@ -1831,7 +1797,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Removes @controller from @widget, so that it doesn&#39;t process
+     * Removes @controller from @widget, so that it doesn&<code>#39</code> t process
      * events anymore.
      * 
      * It should not be used again.
@@ -1855,9 +1821,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Removes a widget from the list of mnemonic labels for this widget.
      * 
-     * See {@link org.gtk.gtk.Widget#listMnemonicLabels}. The widget must
+     * See {@link org.gtk.gtk.Widget<code>#listMnemonicLabels</code> . The widget must
      * have previously been added to the list with
-     * {@link org.gtk.gtk.Widget#addMnemonicLabel}.
+     * {@link org.gtk.gtk.Widget<code>#addMnemonicLabel</code> .
      */
     public void removeMnemonicLabel(Widget label) {
         gtk_h.gtk_widget_remove_mnemonic_label(handle(), label.handle());
@@ -1884,7 +1850,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * that is marked as not can-focus in order to receive input
      * focus.
      * 
-     * See {@link org.gtk.gtk.Widget#grabFocus} for actually setting
+     * See {@link org.gtk.gtk.Widget<code>#grabFocus</code>  for actually setting
      * the input focus on a widget.
      */
     public void setCanFocus(boolean canFocus) {
@@ -1902,7 +1868,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Sets whether @widget should be mapped along with its parent.
      * 
      * The child visibility can be set for widget before it is added
-     * to a container with {@link org.gtk.gtk.Widget#setParent}, to avoid
+     * to a container with {@link org.gtk.gtk.Widget<code>#setParent</code> , to avoid
      * mapping children unnecessary before immediately unmapping them.
      * However it will be reset to its default state of <code>true</code> when the
      * widget is removed from a container.
@@ -1945,11 +1911,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This is a utility function that creates a cursor via
      * {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)} and then sets it on @widget
-     * with {@link org.gtk.gtk.Widget#setCursor}. See those functions for
+     * with {@link org.gtk.gtk.Widget<code>#setCursor</code> . See those functions for
      * details.
      * 
-     * On top of that, this function allows @name to be <code>NULL,</code> which
-     * will do the same as calling {@link org.gtk.gtk.Widget#setCursor}
+     * On top of that, this function allows @name to be <code>null</code>  which
+     * will do the same as calling {@link org.gtk.gtk.Widget<code>#setCursor</code> 
      * with a <code>null</code> cursor.
      */
     public void setCursorFromName(java.lang.String name) {
@@ -1968,8 +1934,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * where the containers are arranged in an order that is explicitly
      * visual rather than logical (such as buttons for text justification).
      * 
-     * If the direction is set to <code>GTK_TEXT_DIR_NONE,</code> then the value
-     * set by {@link Gtk#Widget} will be used.
+     * If the direction is set to {@link org.gtk.gtk.TextDirection<code>#NONE</code>   then the value
+     * set by {@link Gtk<code>#Widget</code>  will be used.
      */
     public void setDirection(TextDirection dir) {
         gtk_h.gtk_widget_set_direction(handle(), dir.getValue());
@@ -1980,7 +1946,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This function is only suitable for widget implementations.
      * If you want a certain widget to get the input focus, call
-     * {@link org.gtk.gtk.Widget#grabFocus} on it.
+     * {@link org.gtk.gtk.Widget<code>#grabFocus</code>  on it.
      */
     public void setFocusChild(Widget child) {
         gtk_h.gtk_widget_set_focus_child(handle(), child.handle());
@@ -1991,7 +1957,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * with the mouse.
      * 
      * Making mouse clicks not grab focus is useful in places like
-     * toolbars where you don&#8217;t want the keyboard focus removed from
+     * toolbars where you don&<code>#8217</code> t want the keyboard focus removed from
      * the main area of the application.
      */
     public void setFocusOnClick(boolean focusOnClick) {
@@ -2010,7 +1976,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * that is marked as not can-focus in order to receive input
      * focus.
      * 
-     * See {@link org.gtk.gtk.Widget#grabFocus} for actually setting
+     * See {@link org.gtk.gtk.Widget<code>#grabFocus</code>  for actually setting
      * the input focus on a widget.
      */
     public void setFocusable(boolean focusable) {
@@ -2071,7 +2037,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * By default, widgets automatically expand if any of their children
      * want to expand. (To see if a widget will automatically expand given
-     * its current children and state, call {@link org.gtk.gtk.Widget#computeExpand}.
+     * its current children and state, call {@link org.gtk.gtk.Widget<code>#computeExpand</code> .
      * A container can decide how the expandability of children affects the
      * expansion of the container by overriding the compute_expand virtual
      * method on <code>GtkWidget</code>.).
@@ -2081,8 +2047,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This function forces the widget to expand or not to expand,
      * regardless of children.  The override occurs because
-     * {@link org.gtk.gtk.Widget#setHexpand} sets the hexpand-set property (see
-     * {@link org.gtk.gtk.Widget#setHexpandSet}) which causes the widget&#8217;s hexpand
+     * {@link org.gtk.gtk.Widget<code>#setHexpand</code>  sets the hexpand-set property (see
+     * {@link org.gtk.gtk.Widget<code>#setHexpandSet</code> ) which causes the widget&<code>#8217</code> s hexpand
      * value to be used, rather than looking at children and widget state.
      */
     public void setHexpand(boolean expand) {
@@ -2093,7 +2059,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Sets whether the hexpand flag will be used.
      * 
      * The {@link [property@Gtk.Widget:hexpand-set] (ref=property)} property will be set
-     * automatically when you call {@link org.gtk.gtk.Widget#setHexpand}
+     * automatically when you call {@link org.gtk.gtk.Widget<code>#setHexpand</code> 
      * to set hexpand, so the most likely reason to use this function
      * would be to unset an explicit expand flag.
      * 
@@ -2102,7 +2068,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * set, then the expand value depends on whether any
      * children of the widget would like to expand.
      * 
-     * There are few reasons to use this function, but it&#8217;s here
+     * There are few reasons to use this function, but it&<code>#8217</code> s here
      * for completeness and consistency.
      */
     public void setHexpandSet(boolean set) {
@@ -2154,7 +2120,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * same page as the docs for {@link org.gtk.gtk.StyleContext}.
      * 
      * Note that the CSS syntax has certain special characters to delimit
-     * and represent elements in a selector (period, #, &#62;, *...), so using
+     * and represent elements in a selector (period, <code>#</code>  &<code>#62</code> , *...), so using
      * these will make your widget impossible to match by name. Any combination
      * of alphanumeric symbols, dashes and underscores will suffice.
      */
@@ -2173,10 +2139,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * depends on the capabilities of the windowing system. On X11, this
      * has any effect only on X displays with a compositing manager,
      * see gdk_display_is_composited(). On Windows and Wayland it should
-     * always work, although setting a window&#8217;s opacity after the window
+     * always work, although setting a window&<code>#8217</code> s opacity after the window
      * has been shown may cause some flicker.
      * 
-     * Note that the opacity is inherited through inclusion &#8212; if you set
+     * Note that the opacity is inherited through inclusion &<code>#8212</code>  if you set
      * a toplevel to be partially translucent, all of its content will
      * appear translucent, since it is ultimatively rendered on that
      * toplevel. The opacity value itself is not inherited by child
@@ -2192,29 +2158,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     
     /**
      * Sets how @widget treats content that is drawn outside the
-     * widget&#39;s content area.
+     * widget&<code>#39</code> s content area.
      * 
      * See the definition of {@link [enum@Gtk.Overflow] (ref=enum)} for details.
      * 
      * This setting is provided for widget implementations and
      * should not be used by application code.
      * 
-     * The default value is 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         
-     *         Sets how @widget treats content that is drawn outside the
-     * widget&#39;s content area.
-     * 
-     * See the definition of {@link [enum@Gtk.Overflow] (ref=enum)} for details.
-     * 
-     * This setting is provided for widget implementations and
-     * should not be used by application code.
-     * 
-     * The default value is %GTK_OVERFLOW_VISIBLE.
+     * The default value is {@link org.gtk.gtk.Overflow<code>#VISIBLE</code>
      */
     public void setOverflow(Overflow overflow) {
         gtk_h.gtk_widget_set_overflow(handle(), overflow.getValue());
@@ -2225,7 +2176,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * This takes care of details such as updating the state and style
      * of the child to reflect its new location and resizing the parent.
-     * The opposite function is {@link org.gtk.gtk.Widget#unparent}.
+     * The opposite function is {@link org.gtk.gtk.Widget<code>#unparent</code> .
      * <p>
      * This function is useful only when implementing subclasses of<code>GtkWidget</code>.
      */
@@ -2246,9 +2197,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Sets the sensitivity of a widget.
      * 
      * A widget is sensitive if the user can interact with it.
-     * Insensitive widgets are &#8220;grayed out&#8221; and the user can&#8217;t
+     * Insensitive widgets are &<code>#8220</code> grayed out&<code>#8221</code>  and the user can&<code>#8217</code> t
      * interact with them. Insensitive widgets are known as
-     * &#8220;inactive&#8221;, &#8220;disabled&#8221;, or &#8220;ghosted&#8221; in some other toolkits.
+     * &<code>#8220</code> inactive&<code>#8221</code> , &<code>#8220</code> disabled&<code>#8221</code> , or &<code>#8220</code> ghosted&<code>#8221</code>  in some other toolkits.
      */
     public void setSensitive(boolean sensitive) {
         gtk_h.gtk_widget_set_sensitive(handle(), sensitive ? 1 : 0);
@@ -2257,11 +2208,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Sets the minimum size of a widget.
      * <p>
-     * That is, the widget&#8217;s size request will be at least @width
+     * That is, the widget&<code>#8217</code> s size request will be at least @width
      * by @height. You can use this function to force a widget to
      * be larger than it normally would be.
      * <p>
-     * In most cases, {@link org.gtk.gtk.Window#setDefaultSize} is a better
+     * In most cases, {@link org.gtk.gtk.Window<code>#setDefaultSize</code>  is a better
      * choice for toplevel windows than this function; setting the default
      * size will still allow users to shrink the window. Setting the size
      * request will force them to leave the window at least as large as
@@ -2269,7 +2220,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * Note the inherent danger of setting any fixed size - themes,
      * translations into other languages, different fonts, and user action
-     * can all change the appropriate size for a given widget. So, it&#39;s
+     * can all change the appropriate size for a given widget. So, it&<code>#39</code> s
      * basically impossible to hardcode a size that will always be
      * correct.
      * <p>
@@ -2280,7 +2231,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * space than it requested.
      * <p>
      * If the size request in a given direction is -1 (unset), then
-     * the &#8220;natural&#8221; size request of the widget will be used instead.
+     * the &<code>#8220</code> natural&<code>#8221</code>  size request of the widget will be used instead.
      * <p>
      * The size request set here does not include any margin from the
      * properties
@@ -2300,9 +2251,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * Typical widget states are insensitive, prelighted, etc.
      * 
-     * This function accepts the values {@link org.gtk.gtk.StateFlags#DIR_LTR} and
-     * {@link org.gtk.gtk.StateFlags#DIR_RTL} but ignores them. If you want to set
-     * the widget&#39;s direction, use {@link org.gtk.gtk.Widget#setDirection}.
+     * This function accepts the values {@link org.gtk.gtk.StateFlags<code>#DIR_LTR</code>  and
+     * {@link org.gtk.gtk.StateFlags<code>#DIR_RTL</code>  but ignores them. If you want to set
+     * the widget&<code>#39</code> s direction, use {@link org.gtk.gtk.Widget<code>#setDirection</code> .
      * 
      * This function is for use in widget implementations.
      */
@@ -2318,7 +2269,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link [property@Gtk.Widget:has-tooltip] (ref=property)} as a side effect, and of the
      * default handler for the {@link [signal@Gtk.Widget::query-tooltip] (ref=signal)} signal.
      * 
-     * See also {@link org.gtk.gtk.Tooltip#setMarkup}.
+     * See also {@link org.gtk.gtk.Tooltip<code>#setMarkup</code> .
      */
     public void setTooltipMarkup(java.lang.String markup) {
         gtk_h.gtk_widget_set_tooltip_markup(handle(), Interop.allocateNativeString(markup).handle());
@@ -2334,7 +2285,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * and of the default handler for the
      * {@link [signal@Gtk.Widget::query-tooltip] (ref=signal)} signal.
      * 
-     * See also {@link org.gtk.gtk.Tooltip#setText}.
+     * See also {@link org.gtk.gtk.Tooltip<code>#setText</code> .
      */
     public void setTooltipText(java.lang.String text) {
         gtk_h.gtk_widget_set_tooltip_text(handle(), Interop.allocateNativeString(text).handle());
@@ -2351,7 +2302,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Sets whether the widget would like any available extra vertical
      * space.
      * 
-     * See {@link org.gtk.gtk.Widget#setHexpand} for more detail.
+     * See {@link org.gtk.gtk.Widget<code>#setHexpand</code>  for more detail.
      */
     public void setVexpand(boolean expand) {
         gtk_h.gtk_widget_set_vexpand(handle(), expand ? 1 : 0);
@@ -2360,7 +2311,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Sets whether the vexpand flag will be used.
      * 
-     * See {@link org.gtk.gtk.Widget#setHexpandSet} for more detail.
+     * See {@link org.gtk.gtk.Widget<code>#setHexpandSet</code>  for more detail.
      */
     public void setVexpandSet(boolean set) {
         gtk_h.gtk_widget_set_vexpand_set(handle(), set ? 1 : 0);
@@ -2369,11 +2320,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Sets the visibility state of @widget.
      * 
-     * Note that setting this to <code>true</code> doesn&#8217;t mean the widget is
-     * actually viewable, see {@link org.gtk.gtk.Widget#getVisible}.
+     * Note that setting this to <code>true</code> doesn&<code>#8217</code> t mean the widget is
+     * actually viewable, see {@link org.gtk.gtk.Widget<code>#getVisible</code> .
      * 
-     * This function simply calls {@link org.gtk.gtk.Widget#show} or
-     * {@link org.gtk.gtk.Widget#hide} but is nicer to use when the
+     * This function simply calls {@link org.gtk.gtk.Widget<code>#show</code>  or
+     * {@link org.gtk.gtk.Widget<code>#hide</code>  but is nicer to use when the
      * visibility of the widget depends on some condition.
      */
     public void setVisible(boolean visible) {
@@ -2395,7 +2346,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Flags a widget to be displayed.
      * 
-     * Any widget that isn&#8217;t shown will not appear on the screen.
+     * Any widget that isn&<code>#8217</code> t shown will not appear on the screen.
      * 
      * Remember that you have to show the containers containing a widget,
      * in addition to the widget itself, before it will appear onscreen.
@@ -2412,7 +2363,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Allocates widget with a transformation that translates
      * the origin to the position in @allocation.
      * 
-     * This is a simple form of {@link org.gtk.gtk.Widget#allocate}.
+     * This is a simple form of {@link org.gtk.gtk.Widget<code>#allocate</code> .
      */
     public void sizeAllocate(Allocation allocation, int baseline) {
         gtk_h.gtk_widget_size_allocate(handle(), allocation.handle(), baseline);
@@ -2422,10 +2373,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Snapshot the a child of @widget.
      * <p>
      * When a widget receives a call to the snapshot function,
-     * it must send synthetic {@link org.gtk.gtk.Widget#snapshot} calls
+     * it must send synthetic {@link org.gtk.gtk.Widget<code>#snapshot</code>  calls
      * to all children. This function provides a convenient way
      * of doing this. A widget, when it receives a call to its
-     * {@link org.gtk.gtk.Widget#snapshot} function, calls
+     * {@link org.gtk.gtk.Widget<code>#snapshot</code>  function, calls
      * gtk_widget_snapshot_child() once for each child, passing in
      * the @snapshot the widget received.
      * <p>
@@ -2447,7 +2398,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
-     * Causes a widget to be unmapped if it&#8217;s currently mapped.
+     * Causes a widget to be unmapped if it&<code>#8217</code> s currently mapped.
      * 
      * This function is only for use in widget implementations.
      */
@@ -2478,7 +2429,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Turns off flag values for the current widget state.
      * 
-     * See {@link org.gtk.gtk.Widget#setStateFlags}.
+     * See {@link org.gtk.gtk.Widget<code>#setStateFlags</code> .
      * 
      * This function is for use in widget implementations.
      */
@@ -2489,7 +2440,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Obtains the current default reading direction.
      * 
-     * See {@link Gtk#Widget}.
+     * See {@link Gtk<code>#Widget</code> .
      */
     public static TextDirection getDefaultDirection() {
         var RESULT = gtk_h.gtk_widget_get_default_direction();
@@ -2499,7 +2450,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Sets the default reading direction for widgets.
      * 
-     * See {@link org.gtk.gtk.Widget#setDirection}.
+     * See {@link org.gtk.gtk.Widget<code>#setDirection</code> .
      */
     public static void setDefaultDirection(TextDirection dir) {
         gtk_h.gtk_widget_set_default_direction(dir.getValue());
@@ -2587,7 +2538,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Emitted if keyboard navigation fails.
      * 
-     * See {@link org.gtk.gtk.Widget#keynavFailed} for details.
+     * See {@link org.gtk.gtk.Widget<code>#keynavFailed</code>  for details.
      */
     public SignalHandle onKeynavFailed(KeynavFailedHandler handler) {
         try {
@@ -2644,7 +2595,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Emitted when a widget is activated via a mnemonic.
      * 
      * The default handler for this signal activates @widget if @group_cycling
-     * is <code>FALSE,</code> or just makes @widget grab focus if @group_cycling is or just makes @widget grab focus if @group_cycling is %TRUE.
+     * is <code>false</code>  or just makes @widget grab focus if @group_cycling is <code>true</code>
      */
     public SignalHandle onMnemonicActivate(MnemonicActivateHandler handler) {
         try {
@@ -2694,12 +2645,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * 
      * This happens when the {@link [property@Gtk.Widget:has-tooltip] (ref=property)} property
      * is <code>true</code> and the hover timeout has expired with the cursor hovering
-     * &#34;above&#34; @widget; or emitted when @widget got focus in keyboard mode.
+     * &<code>#34</code> above&<code>#34</code>  @widget; or emitted when @widget got focus in keyboard mode.
      * 
      * Using the given coordinates, the signal handler should determine
      * whether a tooltip should be shown for @widget. If this is the case
      * <code>true</code> should be returned, <code>false</code> otherwise.  Note that if
-     * @keyboard_mode is <code>TRUE,</code> the values of @x and @y are undefined and
+     * @keyboard_mode is <code>true</code>  the values of @x and @y are undefined and
      * should not be used.
      * 
      * The signal handler is free to manipulate @tooltip with the therefore
@@ -2728,7 +2679,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Emitted when @widget is associated with a <code>GdkSurface</code>.
      * 
-     * This means that {@link org.gtk.gtk.Widget#realize} has been called
+     * This means that {@link org.gtk.gtk.Widget<code>#realize</code>  has been called
      * or the widget has been mapped (that is, it is going to be drawn).
      */
     public SignalHandle onRealize(RealizeHandler handler) {
@@ -2777,7 +2728,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Emitted when the widget state changes.
      * 
-     * See {@link org.gtk.gtk.Widget#getStateFlags}.
+     * See {@link org.gtk.gtk.Widget<code>#getStateFlags</code> .
      */
     public SignalHandle onStateFlagsChanged(StateFlagsChangedHandler handler) {
         try {
@@ -2831,7 +2782,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Emitted when the <code>GdkSurface</code> associated with @widget is destroyed.
      * 
-     * This means that {@link org.gtk.gtk.Widget#unrealize} has been called
+     * This means that {@link org.gtk.gtk.Widget<code>#unrealize</code>  has been called
      * or the widget has been unmapped (that is, it is going to be hidden).
      */
     public SignalHandle onUnrealize(UnrealizeHandler handler) {
