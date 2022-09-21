@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkContentProvider</code> is used to provide content for the clipboard or
+ * A {@code GdkContentProvider} is used to provide content for the clipboard or
  * for drag-and-drop operations in a number of formats.
  * <p>
- * To create a <code>GdkContentProvider</code>, use {@link [ctor@Gdk.ContentProvider.new_for_value] (ref=ctor)}
- * or {@link [ctor@Gdk.ContentProvider.new_for_bytes] (ref=ctor)}.
- * 
+ * To create a {@code GdkContentProvider}, use {@link ContentProvider#newForValue}
+ * or {@link ContentProvider#newForBytes}.
+ * <p>
  * GDK knows how to handle common text and image formats out-of-the-box. See
- * {@link org.gtk.gdk.ContentSerializer} and {@link org.gtk.gdk.ContentDeserializer} if you want
+ * {@code Gdk.ContentDeserializer} if you want
  * to add support for application-specific data formats.
  */
 public class ContentProvider extends org.gtk.gobject.Object {
@@ -35,8 +35,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a content provider that provides the given @bytes as data for
-     * the given @mime_type.
+     * Create a content provider that provides the given {@code bytes} as data for
+     * the given {@code mime_type}.
      */
     public static ContentProvider newForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
         return new ContentProvider(constructNewForBytes(mimeType, bytes));
@@ -48,7 +48,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a content provider that provides the given @value.
+     * Create a content provider that provides the given {@code value}.
      */
     public static ContentProvider newForValue(org.gtk.gobject.Value value) {
         return new ContentProvider(constructNewForValue(value));
@@ -60,20 +60,21 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a content provider that represents all the given @providers.
+     * Creates a content provider that represents all the given {@code providers}.
      * <p>
      * Whenever data needs to be written, the union provider will try the given
-     * @providers in the given order and the first one supporting a format will
+     * {@code providers} in the given order and the first one supporting a format will
      * be chosen to provide it.
      * <p>
      * This allows an easy way to support providing data in different formats.
      * For example, an image may be provided by its file and by the image
-     * contents with a call such as<pre>c
-     * gdk_content_provider_new_union ((GdkContentProvider *{@link [2]}) {
+     * contents with a call such as
+     * <pre>{@code c
+     * gdk_content_provider_new_union ((GdkContentProvider *[2]) {
      *                                   gdk_content_provider_new_typed (G_TYPE_FILE, file),
      *                                   gdk_content_provider_new_typed (G_TYPE_TEXTURE, texture)
      *                                 }, 2);
-     * </pre>
+     * }</pre>
      */
     public static ContentProvider newUnion(ContentProvider[] providers, long nProviders) {
         return new ContentProvider(constructNewUnion(providers, nProviders));
@@ -87,12 +88,13 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the contents of @provider stored in @value.
+     * Gets the contents of {@code provider} stored in {@code value}.
      * <p>
-     * The @value will have been initialized to the <code>GType</code> the value should be
-     * provided in. This given <code>GType</code> does not need to be listed in the formats
-     * returned by {@link org.gtk.gdk.ContentProvider<code>#refFormats</code> . However, if the
-     * given <code>GType</code> is not supported, this operation can fail and<code>G_IO_ERROR_NOT_SUPPORTED</code> will be reported.
+     * The {@code value} will have been initialized to the {@code GType} the value should be
+     * provided in. This given {@code GType} does not need to be listed in the formats
+     * returned by {@link ContentProvider#refFormats}. However, if the
+     * given {@code GType} is not supported, this operation can fail and
+     * {@code G_IO_ERROR_NOT_SUPPORTED} will be reported.
      */
     public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -114,10 +116,10 @@ public class ContentProvider extends org.gtk.gobject.Object {
     /**
      * Gets the formats that the provider suggests other applications to store
      * the data in.
-     * 
+     * <p>
      * An example of such an application would be a clipboard manager.
-     * 
-     * This can be assumed to be a subset of {@link org.gtk.gdk.ContentProvider<code>#refFormats</code> .
+     * <p>
+     * This can be assumed to be a subset of {@link ContentProvider#refFormats}.
      */
     public ContentFormats refStorableFormats() {
         var RESULT = gtk_h.gdk_content_provider_ref_storable_formats(handle());
@@ -125,18 +127,18 @@ public class ContentProvider extends org.gtk.gobject.Object {
     }
     
     /**
-     * Asynchronously writes the contents of @provider to @stream in the given
-     * @mime_type.
+     * Asynchronously writes the contents of {@code provider} to {@code stream} in the given
+     * {@code mime_type}.
      * <p>
-     * When the operation is finished @callback will be called. You must then call
-     * {@link org.gtk.gdk.ContentProvider<code>#writeMimeTypeFinish</code>  to get the result
+     * When the operation is finished {@code callback} will be called. You must then call
+     * {@link ContentProvider#writeMimeTypeFinish} to get the result
      * of the operation.
      * <p>
      * The given mime type does not need to be listed in the formats returned by
-     * {@link org.gtk.gdk.ContentProvider<code>#refFormats</code> . However, if the given <code>GType</code> is
-     * not supported, <code>G_IO_ERROR_NOT_SUPPORTED</code> will be reported.
-     * 
-     * The given @stream will not be closed.
+     * {@link ContentProvider#refFormats}. However, if the given {@code GType} is
+     * not supported, {@code G_IO_ERROR_NOT_SUPPORTED} will be reported.
+     * <p>
+     * The given {@code stream} will not be closed.
      */
     public void writeMimeTypeAsync(java.lang.String mimeType, org.gtk.gio.OutputStream stream, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
@@ -154,8 +156,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     /**
      * Finishes an asynchronous write operation.
-     * 
-     * See {@link org.gtk.gdk.ContentProvider<code>#writeMimeTypeAsync</code> .
+     * <p>
+     * See {@link ContentProvider#writeMimeTypeAsync}.
      */
     public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

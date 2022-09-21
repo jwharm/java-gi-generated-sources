@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Used to reference the parts of <code>GtkTextView</code>.
+ * Used to reference the parts of {@code GtkTextView}.
  */
 public enum TextWindowType {
 

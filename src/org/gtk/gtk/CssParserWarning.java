@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Warnings that can occur while parsing CSS.
  * <p>
- * Unlike <code>GtkCssParserError</code>s, warnings do not cause the parser to
+ * Unlike {@code GtkCssParserError}s, warnings do not cause the parser to
  * skip any input, but they indicate issues that should be fixed.
  */
 public enum CssParserWarning {

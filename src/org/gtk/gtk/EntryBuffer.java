@@ -8,15 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkEntryBuffer</code> hold the text displayed in a <code>GtkText</code> widget.
+ * A {@code GtkEntryBuffer} hold the text displayed in a {@code GtkText} widget.
  * <p>
- * A single <code>GtkEntryBuffer</code> object can be shared by multiple widgets
+ * A single {@code GtkEntryBuffer} object can be shared by multiple widgets
  * which will then share the same text content, but not the cursor
  * position, visibility attributes, icon etc.
- * <p><code>GtkEntryBuffer</code> may be derived from. Such a derived class might allow
+ * <p>
+ * {@code GtkEntryBuffer} may be derived from. Such a derived class might allow
  * text to be stored in an alternate location, such as non-pageable memory,
  * useful in the case of important passwords. Or a derived class could
- * integrate with an application&<code>#8217</code> s concept of undo/redo.
+ * integrate with an application’s concept of undo/redo.
  */
 public class EntryBuffer extends org.gtk.gobject.Object {
 
@@ -35,8 +36,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a new <code>GtkEntryBuffer</code> object.
-     * 
+     * Create a new {@code GtkEntryBuffer} object.
+     * <p>
      * Optionally, specify initial text to set in the buffer.
      */
     public EntryBuffer(java.lang.String initialChars, int nInitialChars) {
@@ -45,14 +46,14 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     /**
      * Deletes a sequence of characters from the buffer.
-     * 
-     * @n_chars characters are deleted starting at @position.
-     * If @n_chars is negative, then all characters until the
+     * <p>
+     * {@code n_chars} characters are deleted starting at {@code position}.
+     * If {@code n_chars} is negative, then all characters until the
      * end of the text are deleted.
-     * 
-     * If @position or @n_chars are out of bounds, then they
+     * <p>
+     * If {@code position} or {@code n_chars} are out of bounds, then they
      * are coerced to sane values.
-     * 
+     * <p>
      * Note that the positions are specified in characters,
      * not bytes.
      */
@@ -62,14 +63,14 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Used when subclassing <code>GtkEntryBuffer</code>.
+     * Used when subclassing {@code GtkEntryBuffer}.
      */
     public void emitDeletedText(int position, int nChars) {
         gtk_h.gtk_entry_buffer_emit_deleted_text(handle(), position, nChars);
     }
     
     /**
-     * Used when subclassing <code>GtkEntryBuffer</code>.
+     * Used when subclassing {@code GtkEntryBuffer}.
      */
     public void emitInsertedText(int position, java.lang.String chars, int nChars) {
         gtk_h.gtk_entry_buffer_emit_inserted_text(handle(), position, Interop.allocateNativeString(chars).handle(), nChars);
@@ -77,8 +78,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     /**
      * Retrieves the length in bytes of the buffer.
-     * 
-     * See {@link org.gtk.gtk.EntryBuffer<code>#getLength</code> .
+     * <p>
+     * See {@link EntryBuffer#getLength}.
      */
     public long getBytes() {
         var RESULT = gtk_h.gtk_entry_buffer_get_bytes(handle());
@@ -94,7 +95,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the maximum allowed length of the text in @buffer.
+     * Retrieves the maximum allowed length of the text in {@code buffer}.
      */
     public int getMaxLength() {
         var RESULT = gtk_h.gtk_entry_buffer_get_max_length(handle());
@@ -103,7 +104,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     /**
      * Retrieves the contents of the buffer.
-     * 
+     * <p>
      * The memory pointer returned by this call will not change
      * unless this object emits a signal, or is finalized.
      */
@@ -113,14 +114,14 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Inserts @n_chars characters of @chars into the contents of the
-     * buffer, at position @position.
-     * 
-     * If @n_chars is negative, then characters from chars will be inserted
-     * until a null-terminator is found. If @position or @n_chars are out of
+     * Inserts {@code n_chars} characters of {@code chars} into the contents of the
+     * buffer, at position {@code position}.
+     * <p>
+     * If {@code n_chars} is negative, then characters from chars will be inserted
+     * until a null-terminator is found. If {@code position} or {@code n_chars} are out of
      * bounds, or the maximum buffer text length is exceeded, then they are
      * coerced to sane values.
-     * 
+     * <p>
      * Note that the position and length are in characters, not in bytes.
      */
     public int insertText(int position, java.lang.String chars, int nChars) {
@@ -130,7 +131,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     /**
      * Sets the maximum allowed length of the contents of the buffer.
-     * 
+     * <p>
      * If the current contents are longer than the given length, then
      * they will be truncated to fit.
      */
@@ -140,12 +141,12 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     /**
      * Sets the text in the buffer.
-     * 
+     * <p>
      * This is roughly equivalent to calling
-     * {@link org.gtk.gtk.EntryBuffer<code>#deleteText</code>  and
-     * {@link org.gtk.gtk.EntryBuffer<code>#insertText</code> .
-     * 
-     * Note that @n_chars is in characters, not in bytes.
+     * {@link EntryBuffer#deleteText} and
+     * {@link EntryBuffer#insertText}.
+     * <p>
+     * Note that {@code n_chars} is in characters, not in bytes.
      */
     public void setText(java.lang.String chars, int nChars) {
         gtk_h.gtk_entry_buffer_set_text(handle(), Interop.allocateNativeString(chars).handle(), nChars);
@@ -158,9 +159,9 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     /**
      * The text is altered in the default handler for this signal.
-     * 
+     * <p>
      * If you want access to the text after the text has been modified,
-     * use {@link org.gtk.gobject.ConnectFlags<code>#AFTER</code>
+     * use {@link org.gtk.gobject.ConnectFlags#AFTER}.
      */
     public SignalHandle onDeletedText(DeletedTextHandler handler) {
         try {

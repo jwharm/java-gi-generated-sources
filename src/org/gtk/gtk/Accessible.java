@@ -8,26 +8,29 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkAccessible</code> is an interface for describing UI elements for
+ * {@code GtkAccessible} is an interface for describing UI elements for
  * Assistive Technologies.
  * <p>
  * Every accessible implementation has:
  * <p>
- *  - a &<code>#8220</code> role&<code>#8221</code> , represented by a value of the {@link [enum@Gtk.AccessibleRole] (ref=enum)} enumeration
- *  - an &<code>#8220</code> attribute&<code>#8221</code> , represented by a set of {@link [enum@Gtk.AccessibleState] (ref=enum)},
- *    {@link [enum@Gtk.AccessibleProperty] (ref=enum)} and {@link [enum@Gtk.AccessibleRelation] (ref=enum)} values
+ * <ul>
+ * <li>a “role”, represented by a value of the {@code Gtk.AccessibleRole} enumeration
+ * <li>an “attribute”, represented by a set of {@code Gtk.AccessibleState},
+ *    {@code Gtk.AccessibleRelation} values
+ * </ul>
  * <p>
- * The role cannot be changed after instantiating a <code>GtkAccessible</code>
+ * The role cannot be changed after instantiating a {@code GtkAccessible}
  * implementation.
  * <p>
- * The attributes are updated every time a UI element&<code>#39</code> s state changes in
+ * The attributes are updated every time a UI element's state changes in
  * a way that should be reflected by assistive technologies. For instance,
- * if a <code>GtkWidget</code> visibility changes, the {@link org.gtk.gtk.AccessibleState<code>#HIDDEN</code>  state will also change to reflect the {@link [property@Gtk.Widget:visible] (ref=property)} property.
+ * if a {@code GtkWidget} visibility changes, the {@link AccessibleState#HIDDEN}
+ * state will also change to reflect the {@code Gtk.Widget:visible} property.
  */
 public interface Accessible extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Retrieves the <code>GtkAccessibleRole</code> for the given <code>GtkAccessible</code>.
+     * Retrieves the {@code GtkAccessibleRole} for the given {@code GtkAccessible}.
      */
     public default AccessibleRole getAccessibleRole() {
         var RESULT = gtk_h.gtk_accessible_get_accessible_role(handle());
@@ -35,21 +38,21 @@ public interface Accessible extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Resets the accessible @property to its default value.
+     * Resets the accessible {@code property} to its default value.
      */
     public default void resetProperty(AccessibleProperty property) {
         gtk_h.gtk_accessible_reset_property(handle(), property.getValue());
     }
     
     /**
-     * Resets the accessible @relation to its default value.
+     * Resets the accessible {@code relation} to its default value.
      */
     public default void resetRelation(AccessibleRelation relation) {
         gtk_h.gtk_accessible_reset_relation(handle(), relation.getValue());
     }
     
     /**
-     * Resets the accessible @state to its default value.
+     * Resets the accessible {@code state} to its default value.
      */
     public default void resetState(AccessibleState state) {
         gtk_h.gtk_accessible_reset_state(handle(), state.getValue());

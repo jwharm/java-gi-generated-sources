@@ -17,14 +17,14 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the offset of the private data for instances of @g_class.
-     * 
+     * Gets the offset of the private data for instances of {@code g_class}.
+     * <p>
      * This is how many bytes you should add to the instance pointer of a
      * class in order to get the private data for the type represented by
-     * @g_class.
-     * 
+     * {@code g_class}.
+     * <p>
      * You can only call this function after you have registered a private
-     * data area for @g_class using g_type_class_add_private().
+     * data area for {@code g_class} using g_type_class_add_private().
      */
     public int getInstancePrivateOffset() {
         var RESULT = gtk_h.g_type_class_get_instance_private_offset(handle());
@@ -42,7 +42,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * class passed in.  Since derived classes hold a reference count on
      * their parent classes as long as they are instantiated, the returned
      * class will always exist.
-     * 
+     * <p>
      * This function is essentially equivalent to:
      * g_type_class_peek (g_type_parent (G_TYPE_FROM_CLASS (g_class)))
      */
@@ -62,8 +62,9 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A variant of g_type_class_unref() for use in {@link org.gtk.gobject.TypeClassCacheFunc} implementations. It unreferences a class without consulting the chain
-     * of <code>#GTypeClassCacheFuncs</code>  avoiding the recursion which would occur
+     * A variant of g_type_class_unref() for use in {@link TypeClassCacheFunc}
+     * implementations. It unreferences a class without consulting the chain
+     * of {@code GTypeClassCacheFuncs}, avoiding the recursion which would occur
      * otherwise.
      */
     public void unrefUncached() {
@@ -72,9 +73,9 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This function is essentially the same as g_type_class_ref(),
-     * except that the classes reference count isn&<code>#39</code> t incremented.
+     * except that the classes reference count isn't incremented.
      * As a consequence, this function may return <code>null</code> if the class
-     * of the type passed in does not currently exist (hasn&<code>#39</code> t been
+     * of the type passed in does not currently exist (hasn't been
      * referenced before).
      */
     public static TypeClass peek(Type type) {
@@ -93,7 +94,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Increments the reference count of the class structure belonging to
-     * @type. This function will demand-create the class if it doesn&<code>#39</code> t
+     * {@code type}. This function will demand-create the class if it doesn't
      * exist already.
      */
     public static TypeClass ref(Type type) {

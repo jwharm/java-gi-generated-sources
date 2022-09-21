@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkContentSerializer</code> is used to serialize content for
+ * A {@code GdkContentSerializer} is used to serialize content for
  * inter-application data transfers.
  * <p>
- * The <code>GdkContentSerializer</code> transforms an object that is identified
+ * The {@code GdkContentSerializer} transforms an object that is identified
  * by a GType into a serialized form (i.e. a byte stream) that is
  * identified by a mime type.
- * 
+ * <p>
  * GTK provides serializers and deserializers for common data types
  * such as text, colors, images or file lists. To register your own
- * serialization functions, use {@link Gdk<code>#contentRegisterSerializer</code> .
- * 
- * Also see {@link org.gtk.gdk.ContentDeserializer}.
+ * serialization functions, use {@link Gdk#contentRegisterSerializer}.
+ * <p>
+ * Also see {@link ContentDeserializer}.
  */
 public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
 
@@ -35,7 +35,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     /**
      * Gets the cancellable for the current operation.
      * <p>
-     * This is the <code>GCancellable</code> that was passed to {@link [func@content_serialize_async]}.
+     * This is the {@code GCancellable} that was passed to {@link content_serialize_async#null}.
      */
     public org.gtk.gio.Cancellable getCancellable() {
         var RESULT = gtk_h.gdk_content_serializer_get_cancellable(handle());
@@ -43,7 +43,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     }
     
     /**
-     * Gets the <code>GType</code> to of the object to serialize.
+     * Gets the {@code GType} to of the object to serialize.
      */
     public org.gtk.gobject.Type getGtype() {
         var RESULT = gtk_h.gdk_content_serializer_get_gtype(handle());
@@ -60,8 +60,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     
     /**
      * Gets the output stream for the current operation.
-     * 
-     * This is the stream that was passed to {@link [func@content_serialize_async]}.
+     * <p>
+     * This is the stream that was passed to {@link content_serialize_async#null}.
      */
     public org.gtk.gio.OutputStream getOutputStream() {
         var RESULT = gtk_h.gdk_content_serializer_get_output_stream(handle());
@@ -70,8 +70,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     
     /**
      * Gets the I/O priority for the current operation.
-     * 
-     * This is the priority that was passed to {@link [func@content_serialize_async]}.
+     * <p>
+     * This is the priority that was passed to {@link content_serialize_async#null}.
      */
     public int getPriority() {
         var RESULT = gtk_h.gdk_content_serializer_get_priority(handle());
@@ -80,8 +80,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     
     /**
      * Gets the data that was associated with the current operation.
-     * 
-     * See {@link org.gtk.gdk.ContentSerializer<code>#setTaskData</code> .
+     * <p>
+     * See {@link ContentSerializer#setTaskData}.
      */
     public jdk.incubator.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.gdk_content_serializer_get_task_data(handle());
@@ -97,7 +97,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     }
     
     /**
-     * Gets the <code>GValue</code> to read the object to serialize from.
+     * Gets the {@code GValue} to read the object to serialize from.
      */
     public org.gtk.gobject.Value getValue() {
         var RESULT = gtk_h.gdk_content_serializer_get_value(handle());
@@ -106,8 +106,8 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     
     /**
      * Indicate that the serialization has ended with an error.
-     * 
-     * This function consumes @error.
+     * <p>
+     * This function consumes {@code error}.
      */
     public void returnError(org.gtk.glib.Error error) {
         gtk_h.gdk_content_serializer_return_error(handle(), error.handle());

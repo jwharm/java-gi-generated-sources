@@ -9,15 +9,15 @@ import java.lang.invoke.*;
 
 /**
  * Monitors a file or directory for changes.
- * 
- * To obtain a {@link org.gtk.gio.FileMonitor} for a file or directory, use
+ * <p>
+ * To obtain a {@link FileMonitor} for a file or directory, use
  * g_file_monitor(), g_file_monitor_file(), or
  * g_file_monitor_directory().
- * 
+ * <p>
  * To get informed about changes to the file or directory you are
- * monitoring, connect to the {@link org.gtk.gio.FileMonitor} :changed signal. The
+ * monitoring, connect to the {@link FileMonitor}::changed signal. The
  * signal will be emitted in the
- * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
+ * [thread-default main context][g-main-context-push-thread-default]
  * of the thread that the monitor was created in
  * (though if the global default main context is blocked, this may
  * cause notifications to be blocked even if the thread-default
@@ -43,12 +43,12 @@ public class FileMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits the {@link org.gtk.gio.FileMonitor} :changed signal if a change
+     * Emits the {@link FileMonitor}::changed signal if a change
      * has taken place. Should be called from file monitor
      * implementations only.
-     * 
+     * <p>
      * Implementations are responsible to call this method from the
-     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]} of the
+     * [thread-default main context][g-main-context-push-thread-default] of the
      * thread that the monitor was created in.
      */
     public void emitEvent(File child, File otherFile, FileMonitorEvent eventType) {
@@ -64,7 +64,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the rate limit to which the @monitor will report
+     * Sets the rate limit to which the {@code monitor} will report
      * consecutive change events to the same file.
      */
     public void setRateLimit(int limitMsecs) {
@@ -77,34 +77,34 @@ public class FileMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when @file has been changed.
-     * 
-     * If using {@link org.gtk.gio.FileMonitorFlags<code>#WATCH_MOVES</code>  on a directory monitor, and
+     * Emitted when {@code file} has been changed.
+     * <p>
+     * If using {@link FileMonitorFlags#WATCH_MOVES} on a directory monitor, and
      * the information is available (and if supported by the backend),
-     * @event_type may be {@link org.gtk.gio.FileMonitorEvent<code>#RENAMED</code>  
-     * {@link org.gtk.gio.FileMonitorEvent<code>#MOVED_IN</code>  or {@link org.gtk.gio.FileMonitorEvent<code>#MOVED_OUT</code>  
-     * 
-     * In all cases @file will be a child of the monitored directory.  For
-     * renames, @file will be the old name and @other_file is the new
-     * name.  For &<code>#34</code> moved in&<code>#34</code>  events, @file is the name of the file that
-     * appeared and @other_file is the old name that it was moved from (in
-     * another directory).  For &<code>#34</code> moved out&<code>#34</code>  events, @file is the name of
-     * the file that used to be in this directory and @other_file is the
+     * {@code event_type} may be {@link FileMonitorEvent#RENAMED},
+     * {@link FileMonitorEvent#MOVED_IN} or {@link FileMonitorEvent#MOVED_OUT}.
+     * <p>
+     * In all cases {@code file} will be a child of the monitored directory.  For
+     * renames, {@code file} will be the old name and {@code other_file} is the new
+     * name.  For "moved in" events, {@code file} is the name of the file that
+     * appeared and {@code other_file} is the old name that it was moved from (in
+     * another directory).  For "moved out" events, {@code file} is the name of
+     * the file that used to be in this directory and {@code other_file} is the
      * name of the file at its new location.
-     * 
-     * It makes sense to treat {@link org.gtk.gio.FileMonitorEvent<code>#MOVED_IN</code>  as
-     * equivalent to {@link org.gtk.gio.FileMonitorEvent<code>#CREATED</code>  and
-     * {@link org.gtk.gio.FileMonitorEvent<code>#MOVED_OUT</code>  as equivalent to
-     * {@link org.gtk.gio.FileMonitorEvent<code>#DELETED</code>   with extra information.
-     * {@link org.gtk.gio.FileMonitorEvent<code>#RENAMED</code>  is equivalent to a delete/create
+     * <p>
+     * It makes sense to treat {@link FileMonitorEvent#MOVED_IN} as
+     * equivalent to {@link FileMonitorEvent#CREATED} and
+     * {@link FileMonitorEvent#MOVED_OUT} as equivalent to
+     * {@link FileMonitorEvent#DELETED}, with extra information.
+     * {@link FileMonitorEvent#RENAMED} is equivalent to a delete/create
      * pair.  This is exactly how the events will be reported in the case
-     * that the {@link org.gtk.gio.FileMonitorFlags<code>#WATCH_MOVES</code>  flag is not in use.
-     * 
-     * If using the deprecated flag {@link org.gtk.gio.FileMonitorFlags<code>#SEND_MOVED</code>  flag and @event_type is
-     * {@link org.gtk.gio.FileMonitorEvent<code>#MOVED</code>   @file will be set to a {@link org.gtk.gio.File} containing the
-     * old path, and @other_file will be set to a {@link org.gtk.gio.File} containing the new path.
-     * 
-     * In all the other cases, @other_file will be set to <code>#NULL</code>
+     * that the {@link FileMonitorFlags#WATCH_MOVES} flag is not in use.
+     * <p>
+     * If using the deprecated flag {@link FileMonitorFlags#SEND_MOVED} flag and {@code event_type} is
+     * {@link FileMonitorEvent#MOVED}, {@code file} will be set to a {@link File} containing the
+     * old path, and {@code other_file} will be set to a {@link File} containing the new path.
+     * <p>
+     * In all the other cases, {@code other_file} will be set to {@code NULL}.
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {

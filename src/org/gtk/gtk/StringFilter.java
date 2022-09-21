@@ -8,18 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkStringFilter</code> determines whether to include items by comparing
+ * {@code GtkStringFilter} determines whether to include items by comparing
  * strings to a fixed search term.
  * <p>
- * The strings are obtained from the items by evaluating a <code>GtkExpression</code>
- * set with {@link org.gtk.gtk.StringFilter<code>#setExpression</code> , and they are
- * compared against a search term set with {@link org.gtk.gtk.StringFilter<code>#setSearch</code> .
- * <p><code>GtkStringFilter</code> has several different modes of comparison - it
+ * The strings are obtained from the items by evaluating a {@code GtkExpression}
+ * set with {@link StringFilter#setExpression}, and they are
+ * compared against a search term set with {@link StringFilter#setSearch}.
+ * <p>
+ * {@code GtkStringFilter} has several different modes of comparison - it
  * can match the whole string, just a prefix, or any substring. Use
- * {@link org.gtk.gtk.StringFilter<code>#setMatchMode</code>  choose a mode.
- * 
+ * {@link StringFilter#setMatchMode} choose a mode.
+ * <p>
  * It is also possible to make case-insensitive comparisons, with
- * {@link org.gtk.gtk.StringFilter<code>#setIgnoreCase</code> .
+ * {@link StringFilter#setIgnoreCase}.
  */
 public class StringFilter extends Filter {
 
@@ -39,7 +40,7 @@ public class StringFilter extends Filter {
     
     /**
      * Creates a new string filter.
-     * 
+     * <p>
      * You will want to set up the filter by providing a string to search for
      * and by providing a property to look up on the item.
      */
@@ -83,8 +84,8 @@ public class StringFilter extends Filter {
     /**
      * Sets the expression that the string filter uses to
      * obtain strings from items.
-     * 
-     * The expression must have a value type of <code>G_TYPE_STRING</code>
+     * <p>
+     * The expression must have a value type of {@code G_TYPE_STRING}.
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_string_filter_set_expression(handle(), expression.handle());

@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.Emblem} is an implementation of {@link org.gtk.gio.Icon} that supports
+ * {@link Emblem} is an implementation of {@link Icon} that supports
  * having an emblem, which is an icon with additional properties.
- * It can than be added to a {@link org.gtk.gio.EmblemedIcon} 
- * 
- * Currently, only metainformation about the emblem&<code>#39</code> s origin is
+ * It can than be added to a {@link EmblemedIcon}.
+ * <p>
+ * Currently, only metainformation about the emblem's origin is
  * supported. More may be added in the future.
  */
 public class Emblem extends org.gtk.gobject.Object implements Icon {
@@ -32,7 +32,7 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Creates a new emblem for @icon.
+     * Creates a new emblem for {@code icon}.
      */
     public Emblem(Icon icon) {
         super(constructNew(icon));
@@ -44,14 +44,14 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Creates a new emblem for @icon.
+     * Creates a new emblem for {@code icon}.
      */
     public static Emblem newWithOrigin(Icon icon, EmblemOrigin origin) {
         return new Emblem(constructNewWithOrigin(icon, origin));
     }
     
     /**
-     * Gives back the icon from @emblem.
+     * Gives back the icon from {@code emblem}.
      */
     public Icon getIcon() {
         var RESULT = gtk_h.g_emblem_get_icon(handle());

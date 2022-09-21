@@ -1,8 +1,8 @@
 package org.gtk.gtk;
 
 /**
- * Possible transitions between pages in a <code>GtkStack</code> widget.
- * 
+ * Possible transitions between pages in a {@code GtkStack} widget.
+ * <p>
  * New values may be added to this enumeration over time.
  */
 public enum StackTransitionType {

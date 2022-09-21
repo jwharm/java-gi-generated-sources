@@ -10,12 +10,12 @@ import java.lang.invoke.*;
 /**
  * Renders text in a cell
  * <p>
- * A <code>GtkCellRendererText</code> renders a given text in its cell, using the font, color and
+ * A {@code GtkCellRendererText} renders a given text in its cell, using the font, color and
  * style information provided by its properties. The text will be ellipsized if it is
- * too long and the <code>GtkCellRendererText:ellipsize</code> property allows it.
+ * too long and the {@code GtkCellRendererText:ellipsize} property allows it.
  * <p>
- * If the <code>GtkCellRenderer:mode</code> is {@link org.gtk.gtk.CellRendererMode<code>#EDITABLE</code>  
- * the <code>GtkCellRendererText</code> allows to edit its text using an entry.
+ * If the {@code GtkCellRenderer:mode} is {@link CellRendererMode#EDITABLE},
+ * the {@code GtkCellRendererText} allows to edit its text using an entry.
  */
 public class CellRendererText extends CellRenderer {
 
@@ -34,25 +34,25 @@ public class CellRendererText extends CellRenderer {
     }
     
     /**
-     * Creates a new <code>GtkCellRendererText</code>. Adjust how text is drawn using
+     * Creates a new {@code GtkCellRendererText}. Adjust how text is drawn using
      * object properties. Object properties can be
-     * set globally (with g_object_set()). Also, with <code>GtkTreeViewColumn</code>,
-     * you can bind a property to a value in a <code>GtkTreeModel</code>. For example,
-     * you can bind the &<code>#8220</code> text&<code>#8221</code>  property on the cell renderer to a string
+     * set globally (with g_object_set()). Also, with {@code GtkTreeViewColumn},
+     * you can bind a property to a value in a {@code GtkTreeModel}. For example,
+     * you can bind the “text” property on the cell renderer to a string
      * value in the model, thus rendering a different string in each row
-     * of the <code>GtkTreeView</code>.
+     * of the {@code GtkTreeView}.
      */
     public CellRendererText() {
         super(constructNew());
     }
     
     /**
-     * Sets the height of a renderer to explicitly be determined by the &<code>#8220</code> font&<code>#8221</code>  and
-     * &<code>#8220</code> y_pad&<code>#8221</code>  property set on it.  Further changes in these properties do not
+     * Sets the height of a renderer to explicitly be determined by the “font” and
+     * “y_pad” property set on it.  Further changes in these properties do not
      * affect the height, so they must be accompanied by a subsequent call to this
      * function.  Using this function is inflexible, and should really only be used
      * if calculating the size of a cell is too slow (ie, a massive number of cells
-     * displayed).  If @number_of_rows is -1, then the fixed height is unset, and
+     * displayed).  If {@code number_of_rows} is -1, then the fixed height is unset, and
      * the height is determined by the properties again.
      */
     public void setFixedHeightFromFont(int numberOfRows) {
@@ -65,10 +65,10 @@ public class CellRendererText extends CellRenderer {
     }
     
     /**
-     * This signal is emitted after @renderer has been edited.
-     * 
+     * This signal is emitted after {@code renderer} has been edited.
+     * <p>
      * It is the responsibility of the application to update the model
-     * and store @new_text at the position indicated by @path.
+     * and store {@code new_text} at the position indicated by {@code path}.
      */
     public SignalHandle onEdited(EditedHandler handler) {
         try {

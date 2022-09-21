@@ -1,14 +1,14 @@
 package org.gtk.gio;
 
 /**
- * The TLS or DTLS protocol version used by a {@link org.gtk.gio.TlsConnection} or
- * {@link org.gtk.gio.DtlsConnection}  The integer values of these versions are sequential
+ * The TLS or DTLS protocol version used by a {@link TlsConnection} or
+ * {@link DtlsConnection}. The integer values of these versions are sequential
  * to ensure newer known protocol versions compare greater than older
  * known versions. Any known DTLS protocol version will compare greater
  * than any SSL or TLS protocol version. The protocol version may be
- * {@link org.gtk.gio.TlsProtocolVersion<code>#UNKNOWN</code>  if the TLS backend supports a newer
+ * {@link TlsProtocolVersion#UNKNOWN} if the TLS backend supports a newer
  * protocol version that GLib does not yet know about. This means that
- * it&<code>#39</code> s possible for an unknown DTLS protocol version to compare less
+ * it's possible for an unknown DTLS protocol version to compare less
  * than the TLS protocol versions.
  */
 public enum TlsProtocolVersion {
@@ -34,12 +34,12 @@ public enum TlsProtocolVersion {
     TLS_1_1,
     
     /**
-     * TLS 1.2, defined by {@link [RFC 5246]}(https://datatracker.ietf.org/doc/html/rfc5246)
+     * TLS 1.2, defined by <a href="https://datatracker.ietf.org/doc/html/rfc5246">RFC 5246</a>
      */
     TLS_1_2,
     
     /**
-     * TLS 1.3, defined by {@link [RFC 8446]}(https://datatracker.ietf.org/doc/html/rfc8446)
+     * TLS 1.3, defined by <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC 8446</a>
      */
     TLS_1_3,
     
@@ -49,7 +49,7 @@ public enum TlsProtocolVersion {
     DTLS_1_0,
     
     /**
-     * DTLS 1.2, defined by {@link [RFC 6347]}(https://datatracker.ietf.org/doc/html/rfc6347)
+     * DTLS 1.2, defined by <a href="https://datatracker.ietf.org/doc/html/rfc6347">RFC 6347</a>
      */
     DTLS_1_2;
     

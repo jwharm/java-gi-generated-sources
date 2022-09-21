@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkShortcutLabel</code> displays a single keyboard shortcut or gesture.
+ * {@code GtkShortcutLabel} displays a single keyboard shortcut or gesture.
  * <p>
- * The main use case for <code>GtkShortcutLabel</code> is inside a {@link org.gtk.gtk.ShortcutsWindow}.
+ * The main use case for {@code GtkShortcutLabel} is inside a {@link ShortcutsWindow}.
  */
 public class ShortcutLabel extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -29,14 +29,14 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a new <code>GtkShortcutLabel</code> with @accelerator set.
+     * Creates a new {@code GtkShortcutLabel} with {@code accelerator} set.
      */
     public ShortcutLabel(java.lang.String accelerator) {
         super(constructNew(accelerator));
     }
     
     /**
-     * Retrieves the current accelerator of @self.
+     * Retrieves the current accelerator of {@code self}.
      */
     public java.lang.String getAccelerator() {
         var RESULT = gtk_h.gtk_shortcut_label_get_accelerator(handle());
@@ -52,14 +52,14 @@ public class ShortcutLabel extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Sets the accelerator to be displayed by @self.
+     * Sets the accelerator to be displayed by {@code self}.
      */
     public void setAccelerator(java.lang.String accelerator) {
         gtk_h.gtk_shortcut_label_set_accelerator(handle(), Interop.allocateNativeString(accelerator).handle());
     }
     
     /**
-     * Sets the text to be displayed by @self when no accelerator is set.
+     * Sets the text to be displayed by {@code self} when no accelerator is set.
      */
     public void setDisabledText(java.lang.String disabledText) {
         gtk_h.gtk_shortcut_label_set_disabled_text(handle(), Interop.allocateNativeString(disabledText).handle());

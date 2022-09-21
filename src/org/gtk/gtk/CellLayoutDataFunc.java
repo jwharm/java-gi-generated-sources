@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * A function which should set the value of @cell_layout&<code>#8217</code> s cell renderer(s)
+ * A function which should set the value of {@code cell_layout}’s cell renderer(s)
  * as appropriate.
  */
 @FunctionalInterface

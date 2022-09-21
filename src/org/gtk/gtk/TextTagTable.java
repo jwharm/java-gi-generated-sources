@@ -8,26 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The collection of tags in a <code>GtkTextBuffer</code>
+ * The collection of tags in a {@code GtkTextBuffer}
  * <p>
  * You may wish to begin by reading the
- * {@link [text widget conceptual overview]}(section-text-widget.html),
+ * <a href="section-text-widget.html">text widget conceptual overview</a>,
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
  * <p>
  * <h1>GtkTextTagTables as GtkBuildable</h1>
  * <p>
- * The <code>GtkTextTagTable</code> implementation of the <code>GtkBuildable</code> interface
- * supports adding tags by specifying &<code>#8220</code> tag&<code>#8221</code>  as the &<code>#8220</code> type&<code>#8221</code>  attribute
- * of a &<code>#60</code> child&<code>#62</code>  element.
+ * The {@code GtkTextTagTable} implementation of the {@code GtkBuildable} interface
+ * supports adding tags by specifying “tag” as the “type” attribute
+ * of a &lt;child&gt; element.
  * <p>
- * An example of a UI definition fragment specifying tags:<pre>xml
- * &<code>#60</code> object class=&<code>#34</code> GtkTextTagTable&<code>#34</code> &<code>#62</code> 
- *  &<code>#60</code> child type=&<code>#34</code> tag&<code>#34</code> &<code>#62</code> 
- *    &<code>#60</code> object class=&<code>#34</code> GtkTextTag&<code>#34</code> /&<code>#62</code> 
- *  &<code>#60</code> /child&<code>#62</code> 
- * &<code>#60</code> /object&<code>#62</code> 
- * </pre>
+ * An example of a UI definition fragment specifying tags:
+ * <pre>{@code xml
+ * <object class="GtkTextTagTable">
+ *  <child type="tag">
+ *    <object class="GtkTextTag"/>
+ *  </child>
+ * </object>
+ * }</pre>
  */
 public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
 
@@ -46,8 +47,8 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Creates a new <code>GtkTextTagTable</code>.
-     * 
+     * Creates a new {@code GtkTextTagTable}.
+     * <p>
      * The table contains no tags by default.
      */
     public TextTagTable() {
@@ -56,10 +57,10 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     
     /**
      * Add a tag to the table.
-     * 
+     * <p>
      * The tag is assigned the highest priority in the table.
-     * 
-     * @tag must not be in a tag table already, and may not have
+     * <p>
+     * {@code tag} must not be in a tag table already, and may not have
      * the same name as an already-added tag.
      */
     public boolean add(TextTag tag) {
@@ -68,10 +69,10 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Calls @func on each tag in @table, with user data @data.
-     * 
+     * Calls {@code func} on each tag in {@code table}, with user data {@code data}.
+     * <p>
      * Note that the table may not be modified while iterating
-     * over it (you can&<code>#8217</code> t add/remove tags).
+     * over it (you can’t add/remove tags).
      */
     public void foreach(TextTagTableForeach func) {
         try {
@@ -106,9 +107,9 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     /**
      * Remove a tag from the table.
      * <p>
-     * If a <code>GtkTextBuffer</code> has @table as its tag table, the tag is
-     * removed from the buffer. The table&<code>#8217</code> s reference to the tag is
-     * removed, so the tag will end up destroyed if you don&<code>#8217</code> t have
+     * If a {@code GtkTextBuffer} has {@code table} as its tag table, the tag is
+     * removed from the buffer. The table’s reference to the tag is
+     * removed, so the tag will end up destroyed if you don’t have
      * a reference to it.
      */
     public void remove(TextTag tag) {
@@ -121,7 +122,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Emitted every time a new tag is added in the <code>GtkTextTagTable</code>.
+     * Emitted every time a new tag is added in the {@code GtkTextTagTable}.
      */
     public SignalHandle onTagAdded(TagAddedHandler handler) {
         try {
@@ -144,7 +145,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Emitted every time a tag in the <code>GtkTextTagTable</code> changes.
+     * Emitted every time a tag in the {@code GtkTextTagTable} changes.
      */
     public SignalHandle onTagChanged(TagChangedHandler handler) {
         try {
@@ -167,9 +168,9 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     }
     
     /**
-     * Emitted every time a tag is removed from the <code>GtkTextTagTable</code>.
-     * 
-     * The @tag is still valid by the time the signal is emitted, but
+     * Emitted every time a tag is removed from the {@code GtkTextTagTable}.
+     * <p>
+     * The {@code tag} is still valid by the time the signal is emitted, but
      * it is not associated with a tag table any more.
      */
     public SignalHandle onTagRemoved(TagRemovedHandler handler) {

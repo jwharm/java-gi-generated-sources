@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEventControllerMotion</code> is an event controller tracking the pointer
+ * {@code GtkEventControllerMotion} is an event controller tracking the pointer
  * position.
- * 
- * The event controller offers {@link [signal@Gtk.EventControllerMotion::enter] (ref=signal)}
- * and {@link [signal@Gtk.EventControllerMotion::leave] (ref=signal)} signals, as well as
- * {@link [property@Gtk.EventControllerMotion:is-pointer] (ref=property)} and
- * {@link [property@Gtk.EventControllerMotion:contains-pointer] (ref=property)} properties
+ * <p>
+ * The event controller offers {@code Gtk.EventControllerMotion::enter}
+ * and {@code Gtk.EventControllerMotion::leave} signals, as well as
+ * {@code Gtk.EventControllerMotion:is-pointer} and
+ * {@code Gtk.EventControllerMotion:contains-pointer} properties
  * which are updated to reflect changes in the pointer position as it
  * moves over the widget.
  */
@@ -42,7 +42,7 @@ public class EventControllerMotion extends EventController {
     }
     
     /**
-     * Returns if a pointer is within @self or one of its children.
+     * Returns if a pointer is within {@code self} or one of its children.
      */
     public boolean containsPointer() {
         var RESULT = gtk_h.gtk_event_controller_motion_contains_pointer(handle());
@@ -50,7 +50,7 @@ public class EventControllerMotion extends EventController {
     }
     
     /**
-     * Returns if a pointer is within @self, but not one of its children.
+     * Returns if a pointer is within {@code self}, but not one of its children.
      */
     public boolean isPointer() {
         var RESULT = gtk_h.gtk_event_controller_motion_is_pointer(handle());

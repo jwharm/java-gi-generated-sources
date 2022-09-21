@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GOptionContext</code> struct defines which options
+ * A {@code GOptionContext} struct defines which options
  * are accepted by the commandline option parser. The struct has only private
  * fields and should not be directly accessed.
  */
@@ -19,17 +19,17 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a {@link org.gtk.glib.OptionGroup} to the @context, so that parsing with @context
+     * Adds a {@link OptionGroup} to the {@code context}, so that parsing with {@code context}
      * will recognize the options in the group. Note that this will take
-     * ownership of the @group and thus the @group should not be freed.
+     * ownership of the {@code group} and thus the {@code group} should not be freed.
      */
     public void addGroup(OptionGroup group) {
         gtk_h.g_option_context_add_group(handle(), group.handle());
     }
     
     /**
-     * A convenience function which creates a main group if it doesn&<code>#39</code> t
-     * exist, adds the @entries to it and sets the translation domain.
+     * A convenience function which creates a main group if it doesn't
+     * exist, adds the {@code entries} to it and sets the translation domain.
      */
     public void addMainEntries(OptionEntry[] entries, java.lang.String translationDomain) {
         gtk_h.g_option_context_add_main_entries(handle(), Interop.allocateNativeArray(entries).handle(), Interop.allocateNativeString(translationDomain).handle());
@@ -38,9 +38,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees context and all the groups which have been
      * added to it.
-     * 
+     * <p>
      * Please note that parsed arguments need to be freed separately (see
-     * {@link org.gtk.glib.OptionEntry} .
+     * {@link OptionEntry}).
      */
     public void free() {
         gtk_h.g_option_context_free(handle());
@@ -56,9 +56,12 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns a formatted, translated help text for the given context.
-     * To obtain the text produced by <code>--help</code>, call<code>g_option_context_get_help (context, TRUE, NULL)</code>.
-     * To obtain the text produced by <code>--help-all</code>, call<code>g_option_context_get_help (context, FALSE, NULL)</code>.
-     * To obtain the help text for an option group, call<code>g_option_context_get_help (context, FALSE, group)</code>.
+     * To obtain the text produced by {@code --help}, call
+     * {@code g_option_context_get_help (context, TRUE, NULL)}.
+     * To obtain the text produced by {@code --help-all}, call
+     * {@code g_option_context_get_help (context, FALSE, NULL)}.
+     * To obtain the help text for an option group, call
+     * {@code g_option_context_get_help (context, FALSE, group)}.
      */
     public java.lang.String getHelp(boolean mainHelp, OptionGroup group) {
         var RESULT = gtk_h.g_option_context_get_help(handle(), mainHelp ? 1 : 0, group.handle());
@@ -66,8 +69,8 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns whether automatic <code>--help</code> generation
-     * is turned on for @context. See g_option_context_set_help_enabled().
+     * Returns whether automatic {@code --help} generation
+     * is turned on for {@code context}. See g_option_context_set_help_enabled().
      */
     public boolean getHelpEnabled() {
         var RESULT = gtk_h.g_option_context_get_help_enabled(handle());
@@ -84,7 +87,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a pointer to the main group of @context.
+     * Returns a pointer to the main group of {@code context}.
      */
     public OptionGroup getMainGroup() {
         var RESULT = gtk_h.g_option_context_get_main_group(handle());
@@ -93,7 +96,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns whether strict POSIX code is enabled.
-     * 
+     * <p>
      * See g_option_context_set_strict_posix() for more information.
      */
     public boolean getStrictPosix() {
@@ -111,21 +114,21 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Parses the command line arguments.
-     * 
+     * <p>
      * This function is similar to g_option_context_parse() except that it
      * respects the normal memory rules when dealing with a strv instead of
      * assuming that the passed-in array is the argv of the main function.
-     * 
+     * <p>
      * In particular, strings that are removed from the arguments list will
      * be freed using g_free().
-     * 
+     * <p>
      * On Windows, the strings are expected to be in UTF-8.  This is in
      * contrast to g_option_context_parse() which expects them to be in the
-     * system codepage, which is how they are passed as @argv to main().
+     * system codepage, which is how they are passed as {@code argv} to main().
      * See g_win32_get_command_line() for a solution.
-     * 
-     * This function is useful if you are trying to use {@link org.gtk.glib.OptionContext} with
-     * {@link org.gtk.gio.Application}
+     * <p>
+     * This function is useful if you are trying to use {@link OptionContext} with
+     * {@link org.gtk.gio.Application}.
      */
     public boolean parseStrv(java.lang.String[] arguments) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -137,9 +140,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a string to be displayed in <code>--help</code> output after the list
+     * Adds a string to be displayed in {@code --help} output after the list
      * of options. This text often includes a bug reporting address.
-     * 
+     * <p>
      * Note that the summary is translated (see
      * g_option_context_set_translate_func()).
      */
@@ -148,8 +151,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Enables or disables automatic generation of <code>--help</code> output.
-     * By default, g_option_context_parse() recognizes <code>--help</code>, <code>-h</code>,<code>-?</code>, <code>--help-all</code> and <code>--help-groupname</code> and creates suitable
+     * Enables or disables automatic generation of {@code --help} output.
+     * By default, g_option_context_parse() recognizes {@code --help}, {@code -h},
+     * {@code -?}, {@code --help-all} and {@code --help-groupname} and creates suitable
      * output to stdout.
      */
     public void setHelpEnabled(boolean helpEnabled) {
@@ -158,11 +162,11 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets whether to ignore unknown options or not. If an argument is
-     * ignored, it is left in the @argv array after parsing. By default,
+     * ignored, it is left in the {@code argv} array after parsing. By default,
      * g_option_context_parse() treats unknown options as error.
-     * 
+     * <p>
      * This setting does not affect non-option arguments (i.e. arguments
-     * which don&<code>#39</code> t start with a dash). But note that GOption cannot reliably
+     * which don't start with a dash). But note that GOption cannot reliably
      * determine whether a non-option belongs to a preceding unknown option.
      */
     public void setIgnoreUnknownOptions(boolean ignoreUnknown) {
@@ -170,10 +174,10 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets a {@link org.gtk.glib.OptionGroup} as main group of the @context.
+     * Sets a {@link OptionGroup} as main group of the {@code context}.
      * This has the same effect as calling g_option_context_add_group(),
      * the only difference is that the options in the main group are
-     * treated differently when generating <code>--help</code> output.
+     * treated differently when generating {@code --help} output.
      */
     public void setMainGroup(OptionGroup group) {
         gtk_h.g_option_context_set_main_group(handle(), group.handle());
@@ -181,28 +185,28 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets strict POSIX mode.
-     * 
+     * <p>
      * By default, this mode is disabled.
-     * 
+     * <p>
      * In strict POSIX mode, the first non-argument parameter encountered
      * (eg: filename) terminates argument processing.  Remaining arguments
      * are treated as non-options and are not attempted to be parsed.
-     * 
+     * <p>
      * If strict POSIX mode is disabled then parsing is done in the GNU way
      * where option arguments can be freely mixed with non-options.
-     * 
-     * As an example, consider &<code>#34</code> ls foo -l&<code>#34</code> .  With GNU style parsing, this
-     * will list &<code>#34</code> foo&<code>#34</code>  in long mode.  In strict POSIX style, this will list
-     * the files named &<code>#34</code> foo&<code>#34</code>  and &<code>#34</code> -l&<code>#34</code> .
-     * 
-     * It may be useful to force strict POSIX mode when creating &<code>#34</code> verb
-     * style&<code>#34</code>  command line tools.  For example, the &<code>#34</code> gsettings&<code>#34</code>  command line
-     * tool supports the global option &<code>#34</code> --schemadir&<code>#34</code>  as well as many
-     * subcommands (&<code>#34</code> get&<code>#34</code> , &<code>#34</code> set&<code>#34</code> , etc.) which each have their own set of
+     * <p>
+     * As an example, consider "ls foo -l".  With GNU style parsing, this
+     * will list "foo" in long mode.  In strict POSIX style, this will list
+     * the files named "foo" and "-l".
+     * <p>
+     * It may be useful to force strict POSIX mode when creating "verb
+     * style" command line tools.  For example, the "gsettings" command line
+     * tool supports the global option "--schemadir" as well as many
+     * subcommands ("get", "set", etc.) which each have their own set of
      * arguments.  Using strict POSIX mode will allow parsing the global
      * options up to the verb name while leaving the remaining options to be
      * parsed by the relevant subcommand (which can be determined by
-     * examining the verb name, which should be present in argv{@link [1]} after
+     * examining the verb name, which should be present in argv[1] after
      * parsing).
      */
     public void setStrictPosix(boolean strictPosix) {
@@ -210,9 +214,9 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds a string to be displayed in <code>--help</code> output before the list
+     * Adds a string to be displayed in {@code --help} output before the list
      * of options. This is typically a summary of the program functionality.
-     * 
+     * <p>
      * Note that the summary is translated (see
      * g_option_context_set_translate_func() and
      * g_option_context_set_translation_domain()).
@@ -223,14 +227,14 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the function which is used to translate the contexts
-     * user-visible strings, for <code>--help</code> output. If @func is <code>null</code> 
+     * user-visible strings, for {@code --help} output. If {@code func} is <code>null</code>,
      * strings are not translated.
-     * 
+     * <p>
      * Note that option groups have their own translation functions,
-     * this function only affects the @parameter_string (see g_option_context_new()),
+     * this function only affects the {@code parameter_string} (see g_option_context_new()),
      * the summary (see g_option_context_set_summary()) and the description
      * (see g_option_context_set_description()).
-     * 
+     * <p>
      * If you are using gettext(), you only need to set the translation
      * domain, see g_option_context_set_translation_domain().
      */
@@ -259,22 +263,22 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new option context.
-     * 
-     * The @parameter_string can serve multiple purposes. It can be used
-     * to add descriptions for &<code>#34</code> rest&<code>#34</code>  arguments, which are not parsed by
-     * the {@link org.gtk.glib.OptionContext}  typically something like &<code>#34</code> FILES&<code>#34</code>  or
-     * &<code>#34</code> FILE1 FILE2...&<code>#34</code> . If you are using <code>G_OPTION_REMAINING</code> for
-     * collecting &<code>#34</code> rest&<code>#34</code>  arguments, GLib handles this automatically by
-     * using the @arg_description of the corresponding {@link org.gtk.glib.OptionEntry} in
+     * <p>
+     * The {@code parameter_string} can serve multiple purposes. It can be used
+     * to add descriptions for "rest" arguments, which are not parsed by
+     * the {@link OptionContext}, typically something like "FILES" or
+     * "FILE1 FILE2...". If you are using {@code G_OPTION_REMAINING} for
+     * collecting "rest" arguments, GLib handles this automatically by
+     * using the {@code arg_description} of the corresponding {@link OptionEntry} in
      * the usage summary.
-     * 
+     * <p>
      * Another usage is to give a short summary of the program
-     * functionality, like &<code>#34</code>  - frob the strings&<code>#34</code> , which will be displayed
+     * functionality, like " - frob the strings", which will be displayed
      * in the same line as the usage. For a longer description of the
      * program functionality that should be displayed as a paragraph
      * below the usage line, use g_option_context_set_summary().
-     * 
-     * Note that the @parameter_string is translated using the
+     * <p>
+     * Note that the {@code parameter_string} is translated using the
      * function set with g_option_context_set_translate_func(), so
      * it should normally be passed untranslated.
      */

@@ -8,96 +8,103 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkListView</code> presents a large dynamic list of items.
- * <p><code>GtkListView</code> uses its factory to generate one row widget for each visible
+ * {@code GtkListView} presents a large dynamic list of items.
+ * <p>
+ * {@code GtkListView} uses its factory to generate one row widget for each visible
  * item and shows them in a linear display, either vertically or horizontally.
  * <p>
- * The {@link [property@Gtk.ListView:show-separators] (ref=property)} property offers a simple way to
+ * The {@code Gtk.ListView:show-separators} property offers a simple way to
  * display separators between the rows.
- * <p><code>GtkListView</code> allows the user to select items according to the selection
+ * <p>
+ * {@code GtkListView} allows the user to select items according to the selection
  * characteristics of the model. For models that allow multiple selected items,
  * it is possible to turn on _rubberband selection_, using
- * {@link [property@Gtk.ListView:enable-rubberband] (ref=property)}.
+ * {@code Gtk.ListView:enable-rubberband}.
  * <p>
- * If you need multiple columns with headers, see {@link org.gtk.gtk.ColumnView}.
+ * If you need multiple columns with headers, see {@link ColumnView}.
  * <p>
  * To learn more about the list widget framework, see the
- * {@link [overview]}(section-list-widget.html).
+ * <a href="section-list-widget.html">overview</a>.
  * <p>
- * An example of using <code>GtkListView</code>:<pre>c
+ * An example of using {@code GtkListView}:
+ * <pre>{@code c
  * static void
  * setup_listitem_cb (GtkListItemFactory *factory,
  *                    GtkListItem        *list_item)
  * {
  *   GtkWidget *image;
- * <p>
+ * 
  *   image = gtk_image_new ();
  *   gtk_image_set_icon_size (GTK_IMAGE (image), GTK_ICON_SIZE_LARGE);
  *   gtk_list_item_set_child (list_item, image);
  * }
- * <p>
+ * 
  * static void
  * bind_listitem_cb (GtkListItemFactory *factory,
  *                   GtkListItem        *list_item)
  * {
  *   GtkWidget *image;
  *   GAppInfo *app_info;
- * <p>
+ * 
  *   image = gtk_list_item_get_child (list_item);
  *   app_info = gtk_list_item_get_item (list_item);
  *   gtk_image_set_from_gicon (GTK_IMAGE (image), g_app_info_get_icon (app_info));
  * }
- * <p>
+ * 
  * static void
  * activate_cb (GtkListView  *list,
  *              guint         position,
  *              gpointer      unused)
  * {
  *   GAppInfo *app_info;
- * <p>
+ * 
  *   app_info = g_list_model_get_item (G_LIST_MODEL (gtk_list_view_get_model (list)), position);
  *   g_app_info_launch (app_info, NULL, NULL, NULL);
  *   g_object_unref (app_info);
  * }
- * <p>
+ * 
  * ...
- * <p>
+ * 
  *   model = create_application_list ();
- * <p>
+ * 
  *   factory = gtk_signal_list_item_factory_new ();
- *   g_signal_connect (factory, &<code>#34</code> setup&<code>#34</code> , G_CALLBACK (setup_listitem_cb), NULL);
- *   g_signal_connect (factory, &<code>#34</code> bind&<code>#34</code> , G_CALLBACK (bind_listitem_cb), NULL);
- * <p>
+ *   g_signal_connect (factory, "setup", G_CALLBACK (setup_listitem_cb), NULL);
+ *   g_signal_connect (factory, "bind", G_CALLBACK (bind_listitem_cb), NULL);
+ * 
  *   list = gtk_list_view_new (GTK_SELECTION_MODEL (gtk_single_selection_new (model)), factory);
- * <p>
- *   g_signal_connect (list, &<code>#34</code> activate&<code>#34</code> , G_CALLBACK (activate_cb), NULL);
- * <p>
+ * 
+ *   g_signal_connect (list, "activate", G_CALLBACK (activate_cb), NULL);
+ * 
  *   gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (sw), list);
- * </pre>
+ * }</pre>
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * listview{@link [.separators]}{@link [.rich-list]}{@link [.navigation-sidebar]}{@link [.data-table]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  row{@link [.activatable]}
- * &<code>#9474</code> 
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  row{@link [.activatable]}
- * &<code>#9474</code> 
- * &<code>#9482</code> 
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [rubberband]}
- * </pre>
- * <p><code>GtkListView</code> uses a single CSS node named <code>listview</code>. It may carry the<code>.separators</code> style class, when {@link [property@Gtk.ListView:show-separators] (ref=property)}
- * property is set. Each child widget uses a single CSS node named <code>row</code>.
- * If the {@link [property@Gtk.ListItem:activatable] (ref=property)} property is set, the
- * corresponding row will have the <code>.activatable</code> style class. For
- * rubberband selection, a node with name <code>rubberband</code> is used.
+ * <p>
+ * <pre>{@code 
+ * listview[.separators][.rich-list][.navigation-sidebar][.data-table]
+ * ├── row[.activatable]
+ * │
+ * ├── row[.activatable]
+ * │
+ * ┊
+ * ╰── [rubberband]
+ * }</pre>
+ * <p>
+ * {@code GtkListView} uses a single CSS node named {@code listview}. It may carry the
+ * {@code .separators} style class, when {@code Gtk.ListView:show-separators}
+ * property is set. Each child widget uses a single CSS node named {@code row}.
+ * If the {@code Gtk.ListItem:activatable} property is set, the
+ * corresponding row will have the {@code .activatable} style class. For
+ * rubberband selection, a node with name {@code rubberband} is used.
  * <p>
  * The main listview node may also carry style classes to select
- * the style of {@link [list presentation]}(ListContainers.html<code>#list</code> styles):
+ * the style of <a href="ListContainers.html#list-styles">list presentation</a>:
  * .rich-list, .navigation-sidebar or .data-table.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkListView</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#LIST</code>  role, and the list
- * items use the {@link org.gtk.gtk.AccessibleRole<code>#LIST_ITEM</code>  role.
+ * <p>
+ * {@code GtkListView} uses the {@link AccessibleRole#LIST} role, and the list
+ * items use the {@link AccessibleRole#LIST_ITEM} role.
  */
 public class ListView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
 
@@ -116,14 +123,15 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Creates a new <code>GtkListView</code> that uses the given @factory for
+     * Creates a new {@code GtkListView} that uses the given {@code factory} for
      * mapping items to widgets.
      * <p>
      * The function takes ownership of the
-     * arguments, so you can write code like<pre>c
+     * arguments, so you can write code like
+     * <pre>{@code c
      * list_view = gtk_list_view_new (create_model (),
-     *   gtk_builder_list_item_factory_new_from_resource (&<code>#34</code> /resource.ui&<code>#34</code> ));
-     * </pre>
+     *   gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
+     * }</pre>
      */
     public ListView(SelectionModel model, ListItemFactory factory) {
         super(constructNew(model, factory));
@@ -138,7 +146,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Gets the factory that&<code>#39</code> s currently used to populate list items.
+     * Gets the factory that's currently used to populate list items.
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_list_view_get_factory(handle());
@@ -146,7 +154,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Gets the model that&<code>#39</code> s currently used to read the items displayed.
+     * Gets the model that's currently used to read the items displayed.
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_list_view_get_model(handle());
@@ -179,7 +187,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     }
     
     /**
-     * Sets the <code>GtkListItemFactory</code> to use for populating list items.
+     * Sets the {@code GtkListItemFactory} to use for populating list items.
      */
     public void setFactory(ListItemFactory factory) {
         gtk_h.gtk_list_view_set_factory(handle(), factory.handle());
@@ -187,8 +195,8 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     
     /**
      * Sets the model to use.
-     * 
-     * This must be a {@link [iface@Gtk.SelectionModel] (ref=iface)} to use.
+     * <p>
+     * This must be a {@code Gtk.SelectionModel} to use.
      */
     public void setModel(SelectionModel model) {
         gtk_h.gtk_list_view_set_model(handle(), model.handle());
@@ -218,9 +226,9 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     /**
      * Emitted when a row has been activated by the user,
      * usually via activating the GtkListView|list.activate-item action.
-     * 
+     * <p>
      * This allows for a convenient way to handle activation in a listview.
-     * See {@link org.gtk.gtk.ListItem<code>#setActivatable</code>  for details on how to use
+     * See {@link ListItem#setActivatable} for details on how to use
      * this signal.
      */
     public SignalHandle onActivate(ActivateHandler handler) {

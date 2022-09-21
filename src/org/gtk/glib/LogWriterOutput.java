@@ -1,12 +1,12 @@
 package org.gtk.glib;
 
 /**
- * Return values from <code>#GLogWriterFuncs</code> to indicate whether the given log entry
+ * Return values from {@code GLogWriterFuncs} to indicate whether the given log entry
  * was successfully handled by the writer, or whether there was an error in
  * handling it (and hence a fallback writer should be used).
- * 
- * If a {@link org.gtk.glib.LogWriterFunc} ignores a log entry, it should return
- * {@link org.gtk.glib.LogWriterOutput<code>#HANDLED</code>
+ * <p>
+ * If a {@link LogWriterFunc} ignores a log entry, it should return
+ * {@link LogWriterOutput#HANDLED}.
  */
 public enum LogWriterOutput {
 

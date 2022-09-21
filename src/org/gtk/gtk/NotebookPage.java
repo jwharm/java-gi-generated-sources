@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkNotebookPage</code> is an auxiliary object used by <code>GtkNotebook</code>.
+ * {@code GtkNotebookPage} is an auxiliary object used by {@code GtkNotebook}.
  */
 public class NotebookPage extends org.gtk.gobject.Object {
 
@@ -22,7 +22,7 @@ public class NotebookPage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the notebook child to which @page belongs.
+     * Returns the notebook child to which {@code page} belongs.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_notebook_page_get_child(handle());

@@ -8,93 +8,99 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkNotebook</code> is a container whose children are pages switched
+ * {@code GtkNotebook} is a container whose children are pages switched
  * between using tabs.
  * <p>
- * !{@link [An example GtkNotebook]}(notebook.png)
+ * <img src="./doc-files/notebook.png" alt="An example GtkNotebook">
  * <p>
- * There are many configuration options for <code>GtkNotebook</code>. Among
+ * There are many configuration options for {@code GtkNotebook}. Among
  * other things, you can choose on which edge the tabs appear
- * (see {@link org.gtk.gtk.Notebook<code>#setTabPos</code> ), whether, if there are
+ * (see {@link Notebook#setTabPos}), whether, if there are
  * too many tabs to fit the notebook should be made bigger or scrolling
- * arrows added (see {@link org.gtk.gtk.Notebook<code>#setScrollable</code> ), and whether
+ * arrows added (see {@link Notebook#setScrollable}), and whether
  * there will be a popup menu allowing the users to switch pages.
- * (see {@link org.gtk.gtk.Notebook<code>#popupEnable</code> ).
+ * (see {@link Notebook#popupEnable}).
  * <p>
  * <h1>GtkNotebook as GtkBuildable</h1>
  * <p>
- * The <code>GtkNotebook</code> implementation of the <code>GtkBuildable</code> interface
- * supports placing children into tabs by specifying &<code>#8220</code> tab&<code>#8221</code>  as the
- * &<code>#8220</code> type&<code>#8221</code>  attribute of a &<code>#60</code> child&<code>#62</code>  element. Note that the content
+ * The {@code GtkNotebook} implementation of the {@code GtkBuildable} interface
+ * supports placing children into tabs by specifying “tab” as the
+ * “type” attribute of a &lt;child&gt; element. Note that the content
  * of the tab must be created before the tab can be filled.
- * A tab child can be specified without specifying a &<code>#60</code> child&<code>#62</code> 
+ * A tab child can be specified without specifying a &lt;child&gt;
  * type attribute.
  * <p>
  * To add a child widget in the notebooks action area, specify
- * &<code>#34</code> action-start&<code>#34</code>  or &<code>#8220</code> action-end&<code>#8221</code>  as the &<code>#8220</code> type&<code>#8221</code>  attribute of the
- * &<code>#60</code> child&<code>#62</code>  element.
+ * "action-start" or “action-end” as the “type” attribute of the
+ * &lt;child&gt; element.
  * <p>
- * An example of a UI definition fragment with <code>GtkNotebook</code>:
- * <p><pre>xml
- * &<code>#60</code> object class=&<code>#34</code> GtkNotebook&<code>#34</code> &<code>#62</code> 
- *   &<code>#60</code> child&<code>#62</code> 
- *     &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code>  id=&<code>#34</code> notebook-content&<code>#34</code> &<code>#62</code> 
- *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Content&<code>#60</code> /property&<code>#62</code> 
- *     &<code>#60</code> /object&<code>#62</code> 
- *   &<code>#60</code> /child&<code>#62</code> 
- *   &<code>#60</code> child type=&<code>#34</code> tab&<code>#34</code> &<code>#62</code> 
- *     &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code>  id=&<code>#34</code> notebook-tab&<code>#34</code> &<code>#62</code> 
- *       &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Tab&<code>#60</code> /property&<code>#62</code> 
- *     &<code>#60</code> /object&<code>#62</code> 
- *   &<code>#60</code> /child&<code>#62</code> 
- * &<code>#60</code> /object&<code>#62</code> 
- * </pre>
+ * An example of a UI definition fragment with {@code GtkNotebook}:
+ * <p>
+ * <pre>{@code xml
+ * <object class="GtkNotebook">
+ *   <child>
+ *     <object class="GtkLabel" id="notebook-content">
+ *       <property name="label">Content</property>
+ *     </object>
+ *   </child>
+ *   <child type="tab">
+ *     <object class="GtkLabel" id="notebook-tab">
+ *       <property name="label">Tab</property>
+ *     </object>
+ *   </child>
+ * </object>
+ * }</pre>
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * notebook
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  header.top
- * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [&<code>#60</code> action widget&<code>#62</code> ]}
- * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  tabs
- * &<code>#9474</code>    &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [arrow]}
- * &<code>#9474</code>    &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  tab
- * &<code>#9474</code>    &<code>#9474</code>    &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> tab label&<code>#62</code> 
- * &<code>#9482</code>    &<code>#9482</code>    &<code>#9482</code> 
- * &<code>#9474</code>    &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  tab{@link [.reorderable-page]}
- * &<code>#9474</code>    &<code>#9474</code>    &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> tab label&<code>#62</code> 
- * &<code>#9474</code>    &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [arrow]}
- * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [&<code>#60</code> action widget&<code>#62</code> ]}
- * &<code>#9474</code> 
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  stack
- *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- *     &<code>#9482</code> 
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- * </pre>
- * <p><code>GtkNotebook</code> has a main CSS node with name <code>notebook</code>, a subnode
- * with name <code>header</code> and below that a subnode with name <code>tabs</code> which
- * contains one subnode per tab with name <code>tab</code>.
+ * ├── header.top
+ * │   ├── [<action widget>]
+ * │   ├── tabs
+ * │   │   ├── [arrow]
+ * │   │   ├── tab
+ * │   │   │   ╰── <tab label>
+ * ┊   ┊   ┊
+ * │   │   ├── tab[.reorderable-page]
+ * │   │   │   ╰── <tab label>
+ * │   │   ╰── [arrow]
+ * │   ╰── [<action widget>]
+ * │
+ * ╰── stack
+ *     ├── <child>
+ *     ┊
+ *     ╰── <child>
+ * }</pre>
+ * <p>
+ * {@code GtkNotebook} has a main CSS node with name {@code notebook}, a subnode
+ * with name {@code header} and below that a subnode with name {@code tabs} which
+ * contains one subnode per tab with name {@code tab}.
  * <p>
  * If action widgets are present, their CSS nodes are placed next
- * to the <code>tabs</code> node. If the notebook is scrollable, CSS nodes with
- * name <code>arrow</code> are placed as first and last child of the <code>tabs</code> node.
+ * to the {@code tabs} node. If the notebook is scrollable, CSS nodes with
+ * name {@code arrow} are placed as first and last child of the {@code tabs} node.
  * <p>
- * The main node gets the <code>.frame</code> style class when the notebook
- * has a border (see {@link org.gtk.gtk.Notebook<code>#setShowBorder</code> ).
+ * The main node gets the {@code .frame} style class when the notebook
+ * has a border (see {@link Notebook#setShowBorder}).
  * <p>
- * The header node gets one of the style class <code>.top</code>, <code>.bottom</code>,<code>.left</code> or <code>.right</code>, depending on where the tabs are placed. For
- * reorderable pages, the tab node gets the <code>.reorderable-page</code> class.
+ * The header node gets one of the style class {@code .top}, {@code .bottom},
+ * {@code .left} or {@code .right}, depending on where the tabs are placed. For
+ * reorderable pages, the tab node gets the {@code .reorderable-page} class.
  * <p>
- * A <code>tab</code> node gets the <code>.dnd</code> style class while it is moved with drag-and-drop.
+ * A {@code tab} node gets the {@code .dnd} style class while it is moved with drag-and-drop.
  * <p>
  * The nodes are always arranged from left-to-right, regardless of text direction.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkNotebook</code> uses the following roles:
- * 
- *  - {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  for the notebook widget
- *  - {@link org.gtk.gtk.AccessibleRole<code>#TAB_LIST</code>  for the list of tabs
- *  - {@link org.gtk.gtk.AccessibleRole<code>#TAB</code>  role for each tab
- *  - {@link org.gtk.gtk.AccessibleRole<code>#TAB_PANEL</code>  for each page
+ * <p>
+ * {@code GtkNotebook} uses the following roles:
+ * <p>
+ * <ul>
+ * <li>{@link AccessibleRole#GROUP} for the notebook widget
+ * <li>{@link AccessibleRole#TAB_LIST} for the list of tabs
+ * <li>{@link AccessibleRole#TAB} role for each tab
+ * <li>{@link AccessibleRole#TAB_PANEL} for each page
  */
 public class Notebook extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -113,14 +119,14 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkNotebook</code> widget with no pages.
+     * Creates a new {@code GtkNotebook} widget with no pages.
      */
     public Notebook() {
         super(constructNew());
     }
     
     /**
-     * Appends a page to @notebook.
+     * Appends a page to {@code notebook}.
      */
     public int appendPage(Widget child, Widget tabLabel) {
         var RESULT = gtk_h.gtk_notebook_append_page(handle(), child.handle(), tabLabel.handle());
@@ -128,7 +134,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Appends a page to @notebook, specifying the widget to use as the
+     * Appends a page to {@code notebook}, specifying the widget to use as the
      * label in the popup menu.
      */
     public int appendPageMenu(Widget child, Widget tabLabel, Widget menuLabel) {
@@ -138,8 +144,8 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Removes the child from the notebook.
-     * 
-     * This function is very similar to {@link org.gtk.gtk.Notebook<code>#removePage</code> ,
+     * <p>
+     * This function is very similar to {@link Notebook#removePage},
      * but additionally informs the notebook that the removal
      * is happening as part of a tab DND operation, which should
      * not be cancelled.
@@ -150,8 +156,8 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets one of the action widgets.
-     * 
-     * See {@link org.gtk.gtk.Notebook<code>#setActionWidget</code> .
+     * <p>
+     * See {@link Notebook#setActionWidget}.
      */
     public Widget getActionWidget(PackType packType) {
         var RESULT = gtk_h.gtk_notebook_get_action_widget(handle(), packType.getValue());
@@ -167,7 +173,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the current group name for @notebook.
+     * Gets the current group name for {@code notebook}.
      */
     public java.lang.String getGroupName() {
         var RESULT = gtk_h.gtk_notebook_get_group_name(handle());
@@ -175,7 +181,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Retrieves the menu label widget of the page containing @child.
+     * Retrieves the menu label widget of the page containing {@code child}.
      */
     public Widget getMenuLabel(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_menu_label(handle(), child.handle());
@@ -184,7 +190,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Retrieves the text of the menu label for the page containing
-     * @child.
+     * {@code child}.
      */
     public java.lang.String getMenuLabelText(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_menu_label_text(handle(), child.handle());
@@ -200,7 +206,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the child widget contained in page number @page_num.
+     * Returns the child widget contained in page number {@code page_num}.
      */
     public Widget getNthPage(int pageNum) {
         var RESULT = gtk_h.gtk_notebook_get_nth_page(handle(), pageNum);
@@ -208,7 +214,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the <code>GtkNotebookPage</code> for @child.
+     * Returns the {@code GtkNotebookPage} for {@code child}.
      */
     public NotebookPage getPage(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_page(handle(), child.handle());
@@ -216,10 +222,10 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns a <code>GListModel</code> that contains the pages of the notebook.
-     * 
+     * Returns a {@code GListModel} that contains the pages of the notebook.
+     * <p>
      * This can be used to keep an up-to-date view. The model also
-     * implements {@link [iface@Gtk.SelectionModel] (ref=iface)} and can be used to track
+     * implements {@code Gtk.SelectionModel} and can be used to track
      * and modify the visible page.
      */
     public org.gtk.gio.ListModel getPages() {
@@ -252,7 +258,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns whether the tab contents can be detached from @notebook.
+     * Returns whether the tab contents can be detached from {@code notebook}.
      */
     public boolean getTabDetachable(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_tab_detachable(handle(), child.handle());
@@ -260,10 +266,10 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the tab label widget for the page @child.
-     * 
-     * <code>null</code> is returned if @child is not in @notebook or
-     * if no tab label has specifically been set for @child.
+     * Returns the tab label widget for the page {@code child}.
+     * <p>
+     * <code>null</code> is returned if {@code child} is not in {@code notebook} or
+     * if no tab label has specifically been set for {@code child}.
      */
     public Widget getTabLabel(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_tab_label(handle(), child.handle());
@@ -272,7 +278,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Retrieves the text of the tab label for the page containing
-     * @child.
+     * {@code child}.
      */
     public java.lang.String getTabLabelText(Widget child) {
         var RESULT = gtk_h.gtk_notebook_get_tab_label_text(handle(), child.handle());
@@ -296,7 +302,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Insert a page into @notebook at the given position.
+     * Insert a page into {@code notebook} at the given position.
      */
     public int insertPage(Widget child, Widget tabLabel, int position) {
         var RESULT = gtk_h.gtk_notebook_insert_page(handle(), child.handle(), tabLabel.handle(), position);
@@ -304,7 +310,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Insert a page into @notebook at the given position, specifying
+     * Insert a page into {@code notebook} at the given position, specifying
      * the widget to use as the label in the popup menu.
      */
     public int insertPageMenu(Widget child, Widget tabLabel, Widget menuLabel, int position) {
@@ -314,7 +320,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Switches to the next page.
-     * 
+     * <p>
      * Nothing happens if the current page is the last page.
      */
     public void nextPage() {
@@ -339,7 +345,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Enables the popup menu.
-     * 
+     * <p>
      * If the user clicks with the right mouse button on the tab labels,
      * a menu with all the pages will be popped up.
      */
@@ -348,7 +354,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Prepends a page to @notebook.
+     * Prepends a page to {@code notebook}.
      */
     public int prependPage(Widget child, Widget tabLabel) {
         var RESULT = gtk_h.gtk_notebook_prepend_page(handle(), child.handle(), tabLabel.handle());
@@ -356,7 +362,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Prepends a page to @notebook, specifying the widget to use as the
+     * Prepends a page to {@code notebook}, specifying the widget to use as the
      * label in the popup menu.
      */
     public int prependPageMenu(Widget child, Widget tabLabel, Widget menuLabel) {
@@ -366,7 +372,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Switches to the previous page.
-     * 
+     * <p>
      * Nothing happens if the current page is the first page.
      */
     public void prevPage() {
@@ -382,21 +388,21 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Reorders the page containing @child, so that it appears in position
-     * @position.
-     * 
-     * If @position is greater than or equal to the number of children in
-     * the list or negative, @child will be moved to the end of the list.
+     * Reorders the page containing {@code child}, so that it appears in position
+     * {@code position}.
+     * <p>
+     * If {@code position} is greater than or equal to the number of children in
+     * the list or negative, {@code child} will be moved to the end of the list.
      */
     public void reorderChild(Widget child, int position) {
         gtk_h.gtk_notebook_reorder_child(handle(), child.handle(), position);
     }
     
     /**
-     * Sets @widget as one of the action widgets.
+     * Sets {@code widget} as one of the action widgets.
      * <p>
      * Depending on the pack type the widget will be placed before
-     * or after the tabs. You can use a <code>GtkBox</code> if you need to pack
+     * or after the tabs. You can use a {@code GtkBox} if you need to pack
      * more than one widget on the same side.
      */
     public void setActionWidget(Widget widget, PackType packType) {
@@ -404,8 +410,8 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Switches to the page number @page_num.
-     * 
+     * Switches to the page number {@code page_num}.
+     * <p>
      * Note that due to historical reasons, GtkNotebook refuses
      * to switch to a page unless the child widget is visible.
      * Therefore, it is recommended to show child widgets before
@@ -416,8 +422,8 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets a group name for @notebook.
-     * 
+     * Sets a group name for {@code notebook}.
+     * <p>
      * Notebooks with the same name will be able to exchange tabs
      * via drag and drop. A notebook with a <code>null</code> group name will
      * not be able to exchange tabs with any other notebook.
@@ -427,14 +433,14 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Changes the menu label for the page containing @child.
+     * Changes the menu label for the page containing {@code child}.
      */
     public void setMenuLabel(Widget child, Widget menuLabel) {
         gtk_h.gtk_notebook_set_menu_label(handle(), child.handle(), menuLabel.handle());
     }
     
     /**
-     * Creates a new label and sets it as the menu label of @child.
+     * Creates a new label and sets it as the menu label of {@code child}.
      */
     public void setMenuLabelText(Widget child, java.lang.String menuText) {
         gtk_h.gtk_notebook_set_menu_label_text(handle(), child.handle(), Interop.allocateNativeString(menuText).handle());
@@ -450,7 +456,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets whether a bevel will be drawn around the notebook pages.
-     * 
+     * <p>
      * This only has a visual effect when the tabs are not shown.
      */
     public void setShowBorder(boolean showBorder) {
@@ -465,26 +471,27 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets whether the tab can be detached from @notebook to another
+     * Sets whether the tab can be detached from {@code notebook} to another
      * notebook or widget.
      * <p>
      * Note that two notebooks must share a common group identificator
-     * (see {@link org.gtk.gtk.Notebook<code>#setGroupName</code> ) to allow automatic tabs
+     * (see {@link Notebook#setGroupName}) to allow automatic tabs
      * interchange between them.
      * <p>
      * If you want a widget to interact with a notebook through DnD
      * (i.e.: accept dragged tabs from it) it must be set as a drop
-     * destination and accept the target &<code>#8220</code> GTK_NOTEBOOK_TAB&<code>#8221</code> . The notebook
+     * destination and accept the target “GTK_NOTEBOOK_TAB”. The notebook
      * will fill the selection with a GtkWidget** pointing to the child
      * widget that corresponds to the dropped tab.
      * <p>
-     * Note that you should use {@link org.gtk.gtk.Notebook<code>#detachTab</code>  instead
-     * of {@link org.gtk.gtk.Notebook<code>#removePage</code>  if you want to remove the tab
+     * Note that you should use {@link Notebook#detachTab} instead
+     * of {@link Notebook#removePage} if you want to remove the tab
      * from the source notebook as part of accepting a drop. Otherwise,
      * the source notebook will think that the dragged tab was removed
      * from underneath the ongoing drag operation, and will initiate a
      * drag cancel animation.
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      * static void
      * on_drag_data_received (GtkWidget        *widget,
      *                        GdkDrop          *drop,
@@ -497,15 +504,15 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      *   GtkWidget **child;
      * 
      *   drag = gtk_drop_get_drag (drop);
-     *   notebook = g_object_get_data (drag, &<code>#34</code> gtk-notebook-drag-origin&<code>#34</code> );
+     *   notebook = g_object_get_data (drag, "gtk-notebook-drag-origin");
      *   child = (void*) gtk_selection_data_get_data (data);
      * 
      *   // process_widget (*child);
      * 
      *   gtk_notebook_detach_tab (GTK_NOTEBOOK (notebook), *child);
      * }
-     * </pre>
-     * 
+     * }</pre>
+     * <p>
      * If you want a notebook to accept drags from other widgets,
      * you will have to set your own DnD code to do it.
      */
@@ -514,10 +521,10 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Changes the tab label for @child.
-     * 
-     * If <code>null</code> is specified for @tab_label, then the page will
-     * have the label &<code>#8220</code> page N&<code>#8221</code> .
+     * Changes the tab label for {@code child}.
+     * <p>
+     * If <code>null</code> is specified for {@code tab_label}, then the page will
+     * have the label “page N”.
      */
     public void setTabLabel(Widget child, Widget tabLabel) {
         gtk_h.gtk_notebook_set_tab_label(handle(), child.handle(), tabLabel.handle());
@@ -525,7 +532,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Creates a new label and sets it as the tab label for the page
-     * containing @child.
+     * containing {@code child}.
      */
     public void setTabLabelText(Widget child, java.lang.String tabText) {
         gtk_h.gtk_notebook_set_tab_label_text(handle(), child.handle(), Interop.allocateNativeString(tabText).handle());
@@ -578,7 +585,8 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * A handler for this signal can create a window containing
      * a notebook where the tab will be attached. It is also
      * responsible for moving/resizing the window and adding the
-     * necessary properties to the notebook (e.g. the<code>GtkNotebook</code>:group-name ).
+     * necessary properties to the notebook (e.g. the
+     * {@code GtkNotebook}:group-name ).
      */
     public SignalHandle onCreateWindow(CreateWindowHandler handler) {
         try {

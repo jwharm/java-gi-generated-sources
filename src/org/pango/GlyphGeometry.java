@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoGlyphGeometry</code> structure contains width and positioning
+ * The {@code PangoGlyphGeometry} structure contains width and positioning
  * information for a single glyph.
- * 
- * Note that @width is not guaranteed to be the same as the glyph
+ * <p>
+ * Note that {@code width} is not guaranteed to be the same as the glyph
  * extents. Kerning and other positioning applied during shaping will
- * affect both the @width and the @x_offset for the glyphs in the
+ * affect both the {@code width} and the {@code x_offset} for the glyphs in the
  * glyph string that results from shaping.
- * 
+ * <p>
  * The information in this struct is intended for rendering the glyphs,
  * as follows:
- * 
+ * <p>
  * 1. Assume the current point is (x, y)
  * 2. Render the current glyph at (x + x_offset, y + y_offset),
  * 3. Advance the current point to (x + width, y)

@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkGestureZoom</code> is a <code>GtkGesture</code> for 2-finger pinch/zoom gestures.
- * 
+ * {@code GtkGestureZoom} is a {@code GtkGesture} for 2-finger pinch/zoom gestures.
+ * <p>
  * Whenever the distance between both tracked sequences changes, the
- * {@link [signal@Gtk.GestureZoom::scale-changed] (ref=signal)} signal is emitted to report
+ * {@code Gtk.GestureZoom::scale-changed} signal is emitted to report
  * the scale factor.
  */
 public class GestureZoom extends Gesture {
@@ -31,7 +31,7 @@ public class GestureZoom extends Gesture {
     }
     
     /**
-     * Returns a newly created <code>GtkGesture</code> that recognizes
+     * Returns a newly created {@code GtkGesture} that recognizes
      * pinch/zoom gestures.
      */
     public GestureZoom() {
@@ -40,10 +40,10 @@ public class GestureZoom extends Gesture {
     
     /**
      * Gets the scale delta.
-     * 
-     * If @gesture is active, this function returns the zooming
+     * <p>
+     * If {@code gesture} is active, this function returns the zooming
      * difference since the gesture was recognized (hence the
-     * starting point is considered 1:1). If @gesture is not
+     * starting point is considered 1:1). If {@code gesture} is not
      * active, 1 is returned.
      */
     public double getScaleDelta() {

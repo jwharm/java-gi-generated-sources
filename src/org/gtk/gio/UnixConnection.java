@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This is the subclass of {@link org.gtk.gio.SocketConnection} that is created
+ * This is the subclass of {@link SocketConnection} that is created
  * for UNIX domain sockets.
  * <p>
  * It contains functions to do some of the UNIX socket specific
  * functionality like passing file descriptors.
  * <p>
- * Since GLib 2.72, {@link org.gtk.gio.UnixConnection} is available on all platforms. It requires
- * underlying system support (such as Windows 10 with <code>AF_UNIX</code>) at run time.
+ * Since GLib 2.72, {@link UnixConnection} is available on all platforms. It requires
+ * underlying system support (such as Windows 10 with {@code AF_UNIX}) at run time.
  * <p>
- * Before GLib 2.72, <code>&<code>#60</code> gio/gunixconnection.h&<code>#62</code> </code> belonged to the UNIX-specific GIO
- * interfaces, thus you had to use the <code>gio-unix-2.0.pc</code> pkg-config file when
+ * Before GLib 2.72, {@code <gio/gunixconnection.h>} belonged to the UNIX-specific GIO
+ * interfaces, thus you had to use the {@code gio-unix-2.0.pc} pkg-config file when
  * using it. This is no longer necessary since GLib 2.72.
  */
 public class UnixConnection extends SocketConnection {
@@ -36,21 +36,23 @@ public class UnixConnection extends SocketConnection {
      * Receives credentials from the sending end of the connection.  The
      * sending end has to call g_unix_connection_send_credentials() (or
      * similar) for this to work.
-     * 
+     * <p>
      * As well as reading the credentials this also reads (and discards) a
      * single byte from the stream, as this is required for credentials
      * passing to work on some implementations.
-     * 
+     * <p>
      * This method can be expected to be available on the following platforms:
-     * 
-     * - Linux since GLib 2.26
-     * - FreeBSD since GLib 2.26
-     * - GNU/kFreeBSD since GLib 2.36
-     * - Solaris, Illumos and OpenSolaris since GLib 2.40
-     * - GNU/Hurd since GLib 2.40
-     * 
+     * <p>
+     * <ul>
+     * <li>Linux since GLib 2.26
+     * <li>FreeBSD since GLib 2.26
+     * <li>GNU/kFreeBSD since GLib 2.36
+     * <li>Solaris, Illumos and OpenSolaris since GLib 2.40
+     * <li>GNU/Hurd since GLib 2.40
+     * </ul>
+     * <p>
      * Other ways to exchange credentials with a foreign peer includes the
-     * {@link org.gtk.gio.UnixCredentialsMessage} type and g_socket_get_credentials() function.
+     * {@link UnixCredentialsMessage} type and g_socket_get_credentials() function.
      */
     public Credentials receiveCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -63,11 +65,11 @@ public class UnixConnection extends SocketConnection {
     
     /**
      * Asynchronously receive credentials.
-     * 
+     * <p>
      * For more details, see g_unix_connection_receive_credentials() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called. You can then call
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You can then call
      * g_unix_connection_receive_credentials_finish() to get the result of the operation.
      */
     public void receiveCredentialsAsync(Cancellable cancellable, AsyncReadyCallback callback) {
@@ -101,7 +103,7 @@ public class UnixConnection extends SocketConnection {
      * Receives a file descriptor from the sending end of the connection.
      * The sending end has to call g_unix_connection_send_fd() for this
      * to work.
-     * 
+     * <p>
      * As well as reading the fd this also reads a single byte from the
      * stream, as this is required for fd passing to work on some
      * implementations.
@@ -120,21 +122,23 @@ public class UnixConnection extends SocketConnection {
      * of the connection. The receiving end has to call
      * g_unix_connection_receive_credentials() (or similar) to accept the
      * credentials.
-     * 
+     * <p>
      * As well as sending the credentials this also writes a single NUL
      * byte to the stream, as this is required for credentials passing to
      * work on some implementations.
-     * 
+     * <p>
      * This method can be expected to be available on the following platforms:
-     * 
-     * - Linux since GLib 2.26
-     * - FreeBSD since GLib 2.26
-     * - GNU/kFreeBSD since GLib 2.36
-     * - Solaris, Illumos and OpenSolaris since GLib 2.40
-     * - GNU/Hurd since GLib 2.40
-     * 
+     * <p>
+     * <ul>
+     * <li>Linux since GLib 2.26
+     * <li>FreeBSD since GLib 2.26
+     * <li>GNU/kFreeBSD since GLib 2.36
+     * <li>Solaris, Illumos and OpenSolaris since GLib 2.40
+     * <li>GNU/Hurd since GLib 2.40
+     * </ul>
+     * <p>
      * Other ways to exchange credentials with a foreign peer includes the
-     * {@link org.gtk.gio.UnixCredentialsMessage} type and g_socket_get_credentials() function.
+     * {@link UnixCredentialsMessage} type and g_socket_get_credentials() function.
      */
     public boolean sendCredentials(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -147,11 +151,11 @@ public class UnixConnection extends SocketConnection {
     
     /**
      * Asynchronously send credentials.
-     * 
+     * <p>
      * For more details, see g_unix_connection_send_credentials() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called. You can then call
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You can then call
      * g_unix_connection_send_credentials_finish() to get the result of the operation.
      */
     public void sendCredentialsAsync(Cancellable cancellable, AsyncReadyCallback callback) {
@@ -185,7 +189,7 @@ public class UnixConnection extends SocketConnection {
      * Passes a file descriptor to the receiving side of the
      * connection. The receiving end has to call g_unix_connection_receive_fd()
      * to accept the file descriptor.
-     * 
+     * <p>
      * As well as sending the fd this also writes a single byte to the
      * stream, as this is required for fd passing to work on some
      * implementations.

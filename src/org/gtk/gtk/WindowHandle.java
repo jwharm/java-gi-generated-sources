@@ -8,16 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkWindowHandle</code> is a titlebar area widget.
+ * {@code GtkWindowHandle} is a titlebar area widget.
  * <p>
  * When added into a window, it can be dragged to move the window, and handles
  * right click, double click and middle click as expected of a titlebar.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkWindowHandle</code> has a single CSS node with the name <code>windowhandle</code>.
+ * <p>
+ * {@code GtkWindowHandle} has a single CSS node with the name {@code windowhandle}.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkWindowHandle</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
+ * <p>
+ * {@code GtkWindowHandle} uses the {@link AccessibleRole#GROUP} role.
  */
 public class WindowHandle extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -36,14 +38,14 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Creates a new <code>GtkWindowHandle</code>.
+     * Creates a new {@code GtkWindowHandle}.
      */
     public WindowHandle() {
         super(constructNew());
     }
     
     /**
-     * Gets the child widget of @self.
+     * Gets the child widget of {@code self}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_window_handle_get_child(handle());
@@ -51,7 +53,7 @@ public class WindowHandle extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Sets the child widget of @self.
+     * Sets the child widget of {@code self}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_window_handle_set_child(handle(), child.handle());

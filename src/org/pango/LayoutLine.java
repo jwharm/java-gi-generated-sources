@@ -8,11 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoLayoutLine</code> represents one of the lines resulting from laying
- * out a paragraph via <code>PangoLayout</code>.
- * <p><code>PangoLayoutLine</code> structures are obtained by calling
- * {@link org.pango.Layout<code>#getLine</code>  and are only valid until the text,
- * attributes, or settings of the parent <code>PangoLayout</code> are modified.
+ * A {@code PangoLayoutLine} represents one of the lines resulting from laying
+ * out a paragraph via {@code PangoLayout}.
+ * <p>
+ * {@code PangoLayoutLine} structures are obtained by calling
+ * {@link Layout#getLine} and are only valid until the text,
+ * attributes, or settings of the parent {@code PangoLayout} are modified.
  */
 public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
 
@@ -22,8 +23,8 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the logical and ink extents of a layout line.
-     * 
-     * See {@link org.pango.Font<code>#getGlyphExtents</code>  for details
+     * <p>
+     * See {@link Font#getGlyphExtents} for details
      * about the interpretation of the rectangles.
      */
     public void getExtents(Rectangle inkRect, Rectangle logicalRect) {
@@ -39,12 +40,12 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the logical and ink extents of @layout_line in device units.
-     * 
-     * This function just calls {@link org.pango.LayoutLine<code>#getExtents</code>  followed by
-     * two {@link [func@extents_to_pixels]} calls, rounding @ink_rect and @logical_rect
+     * Computes the logical and ink extents of {@code layout_line} in device units.
+     * <p>
+     * This function just calls {@link LayoutLine#getExtents} followed by
+     * two {@code logical_rect
      * such that the rounded rectangles fully contain the unrounded one (that is,
-     * passes them as first argument to {@link [func@extents_to_pixels]}).
+     * passes them as first argument to [func@extents_to_pixels}).
      */
     public void getPixelExtents(Rectangle inkRect, Rectangle logicalRect) {
         gtk_h.pango_layout_line_get_pixel_extents(handle(), inkRect.handle(), logicalRect.handle());
@@ -76,7 +77,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increase the reference count of a <code>PangoLayoutLine</code> by one.
+     * Increase the reference count of a {@code PangoLayoutLine} by one.
      */
     public LayoutLine ref() {
         var RESULT = gtk_h.pango_layout_line_ref(handle());
@@ -84,8 +85,8 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decrease the reference count of a <code>PangoLayoutLine</code> by one.
-     * 
+     * Decrease the reference count of a {@code PangoLayoutLine} by one.
+     * <p>
      * If the result is zero, the line and all associated memory
      * will be freed.
      */

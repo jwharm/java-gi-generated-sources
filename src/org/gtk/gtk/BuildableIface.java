@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkBuildableIface</code> interface contains methods that are
- * necessary to allow <code>GtkBuilder</code> to construct an object from
- * a <code>GtkBuilder</code> UI definition.
+ * The {@code GtkBuildableIface} interface contains methods that are
+ * necessary to allow {@code GtkBuilder} to construct an object from
+ * a {@code GtkBuilder} UI definition.
  */
 public class BuildableIface extends io.github.jwharm.javagi.ResourceBase {
 

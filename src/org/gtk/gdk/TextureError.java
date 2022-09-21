@@ -1,7 +1,7 @@
 package org.gtk.gdk;
 
 /**
- * Possible errors that can be returned by <code>GdkTexture</code> constructors.
+ * Possible errors that can be returned by {@code GdkTexture} constructors.
  */
 public enum TextureError {
 

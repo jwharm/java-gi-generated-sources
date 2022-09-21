@@ -1,50 +1,50 @@
 package org.gtk.gtk;
 
 /**
- * The identifiers for {@link [iface@Gtk.Editable] (ref=iface)} properties.
+ * The identifiers for {@code Gtk.Editable} properties.
  * <p>
- * See {@link Gtk<code>#Editable</code>  for details on how to
- * implement the <code>GtkEditable</code> interface.
+ * See {@link Gtk#Editable} for details on how to
+ * implement the {@code GtkEditable} interface.
  */
 public enum EditableProperties {
 
     /**
-     * the property id for {@link [property@Gtk.Editable:text] (ref=property)}
+     * the property id for {@code Gtk.Editable:text}
      */
     PROP_TEXT,
     
     /**
-     * the property id for {@link [property@Gtk.Editable:cursor-position] (ref=property)}
+     * the property id for {@code Gtk.Editable:cursor-position}
      */
     PROP_CURSOR_POSITION,
     
     /**
-     * the property id for {@link [property@Gtk.Editable:selection-bound] (ref=property)}
+     * the property id for {@code Gtk.Editable:selection-bound}
      */
     PROP_SELECTION_BOUND,
     
     /**
-     * the property id for {@link [property@Gtk.Editable:editable] (ref=property)}
+     * the property id for {@code Gtk.Editable:editable}
      */
     PROP_EDITABLE,
     
     /**
-     * the property id for {@link [property@Gtk.Editable:width-chars] (ref=property)}
+     * the property id for {@code Gtk.Editable:width-chars}
      */
     PROP_WIDTH_CHARS,
     
     /**
-     * the property id for {@link [property@Gtk.Editable:max-width-chars] (ref=property)}
+     * the property id for {@code Gtk.Editable:max-width-chars}
      */
     PROP_MAX_WIDTH_CHARS,
     
     /**
-     * the property id for {@link [property@Gtk.Editable:xalign] (ref=property)}
+     * the property id for {@code Gtk.Editable:xalign}
      */
     PROP_XALIGN,
     
     /**
-     * the property id for {@link [property@Gtk.Editable:enable-undo] (ref=property)}
+     * the property id for {@code Gtk.Editable:enable-undo}
      */
     PROP_ENABLE_UNDO,
     

@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.UnixInputStream} implements {@link org.gtk.gio.InputStream} for reading from a UNIX
+ * {@link UnixInputStream} implements {@link InputStream} for reading from a UNIX
  * file descriptor, including asynchronous operations. (If the file
  * descriptor refers to a socket or pipe, this will use poll() to do
  * asynchronous I/O. If it refers to a regular file, it will fall back
  * to doing asynchronous I/O in another thread.)
  * <p>
- * Note that <code>&<code>#60</code> gio/gunixinputstream.h&<code>#62</code> </code> belongs to the UNIX-specific GIO
- * interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
+ * Note that {@code <gio/gunixinputstream.h>} belongs to the UNIX-specific GIO
+ * interfaces, thus you have to use the {@code gio-unix-2.0.pc} pkg-config
  * file when using it.
  */
 public class UnixInputStream extends InputStream implements FileDescriptorBased, PollableInputStream {
@@ -35,9 +35,9 @@ public class UnixInputStream extends InputStream implements FileDescriptorBased,
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.UnixInputStream} for the given @fd.
-     * 
-     * If @close_fd is <code>true</code>  the file descriptor will be closed
+     * Creates a new {@link UnixInputStream} for the given {@code fd}.
+     * <p>
+     * If {@code close_fd} is <code>true</code>, the file descriptor will be closed
      * when the stream is closed.
      */
     public UnixInputStream(int fd, boolean closeFd) {
@@ -45,7 +45,7 @@ public class UnixInputStream extends InputStream implements FileDescriptorBased,
     }
     
     /**
-     * Returns whether the file descriptor of @stream will be
+     * Returns whether the file descriptor of {@code stream} will be
      * closed when the stream is closed.
      */
     public boolean getCloseFd() {
@@ -62,7 +62,7 @@ public class UnixInputStream extends InputStream implements FileDescriptorBased,
     }
     
     /**
-     * Sets whether the file descriptor of @stream shall be closed
+     * Sets whether the file descriptor of {@code stream} shall be closed
      * when the stream is closed.
      */
     public void setCloseFd(boolean closeFd) {

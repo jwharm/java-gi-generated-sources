@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkOverlayLayout</code> is the layout manager used by <code>GtkOverlay</code>.
+ * {@code GtkOverlayLayout} is the layout manager used by {@code GtkOverlay}.
  * <p>
  * It places widgets as overlays on top of the main child.
  * <p>
  * This is not a reusable layout manager, since it expects its widget
- * to be a <code>GtkOverlay</code>. It only listed here so that its layout
+ * to be a {@code GtkOverlay}. It only listed here so that its layout
  * properties get documented.
  */
 public class OverlayLayout extends LayoutManager {
@@ -33,7 +33,7 @@ public class OverlayLayout extends LayoutManager {
     }
     
     /**
-     * Creates a new <code>GtkOverlayLayout</code> instance.
+     * Creates a new {@code GtkOverlayLayout} instance.
      */
     public OverlayLayout() {
         super(constructNew());

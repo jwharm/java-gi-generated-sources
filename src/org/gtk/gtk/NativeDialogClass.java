@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for <code>GtkNativeDialog</code>.
+ * Class structure for {@code GtkNativeDialog}.
  */
 public class NativeDialogClass extends io.github.jwharm.javagi.ResourceBase {
 

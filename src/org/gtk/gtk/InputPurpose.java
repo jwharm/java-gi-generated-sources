@@ -2,24 +2,24 @@ package org.gtk.gtk;
 
 /**
  * Describes primary purpose of the input widget.
- * 
+ * <p>
  * This information is useful for on-screen keyboards and similar input
  * methods to decide which keys should be presented to the user.
- * 
+ * <p>
  * Note that the purpose is not meant to impose a totally strict rule
  * about allowed characters, and does not replace input validation.
  * It is fine for an on-screen keyboard to let the user override the
  * character set restriction that is expressed by the purpose. The
  * application is expected to validate the entry contents, even if
  * it specified a purpose.
- * 
- * The difference between {@link org.gtk.gtk.InputPurpose<code>#DIGITS</code>  and
- * {@link org.gtk.gtk.InputPurpose<code>#NUMBER</code>  is that the former accepts only digits
+ * <p>
+ * The difference between {@link InputPurpose#DIGITS} and
+ * {@link InputPurpose#NUMBER} is that the former accepts only digits
  * while the latter also some punctuation (like commas or points, plus,
- * minus) and &<code>#8220</code> e&<code>#8221</code>  or &<code>#8220</code> E&<code>#8221</code>  as in 3.14E+000.
- * 
+ * minus) and “e” or “E” as in 3.14E+000.
+ * <p>
  * This enumeration may be extended in the future; input methods should
- * interpret unknown values as &<code>#8220</code> free form&<code>#8221</code> .
+ * interpret unknown values as “free form”.
  */
 public enum InputPurpose {
 
@@ -64,12 +64,12 @@ public enum InputPurpose {
     NAME,
     
     /**
-     * Like {@link org.gtk.gtk.InputPurpose<code>#FREE_FORM</code>   but characters are hidden
+     * Like {@link InputPurpose#FREE_FORM}, but characters are hidden
      */
     PASSWORD,
     
     /**
-     * Like {@link org.gtk.gtk.InputPurpose<code>#DIGITS</code>   but characters are hidden
+     * Like {@link InputPurpose#DIGITS}, but characters are hidden
      */
     PIN,
     

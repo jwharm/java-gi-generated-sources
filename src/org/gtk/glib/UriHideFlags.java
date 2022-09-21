@@ -2,8 +2,8 @@ package org.gtk.glib;
 
 /**
  * Flags describing what parts of the URI to hide in
- * g_uri_to_string_partial(). Note that {@link org.gtk.glib.UriHideFlags<code>#PASSWORD</code>  and
- * {@link org.gtk.glib.UriHideFlags<code>#AUTH_PARAMS</code>  will only work if the {@link org.gtk.glib.Uri} was parsed with
+ * g_uri_to_string_partial(). Note that {@link UriHideFlags#PASSWORD} and
+ * {@link UriHideFlags#AUTH_PARAMS} will only work if the {@link Uri} was parsed with
  * the corresponding flags.
  */
 public class UriHideFlags {

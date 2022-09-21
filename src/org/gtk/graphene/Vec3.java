@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * A structure capable of holding a vector with three dimensions: x, y, and z.
- * 
- * The contents of the {@link org.gtk.graphene.Vec3} structure are private and should
+ * <p>
+ * The contents of the {@link Vec3} structure are private and should
  * never be accessed directly.
  */
 public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
@@ -25,10 +25,10 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new {@link org.gtk.graphene.Vec3} structure.
-     * 
+     * Allocates a new {@link Vec3} structure.
+     * <p>
      * The contents of the returned structure are undefined.
-     * 
+     * <p>
      * Use graphene_vec3_init() to initialize the vector.
      */
     public static Vec3 alloc() {
@@ -52,7 +52,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Divides each component of the first operand @a by the corresponding
      * component of the second operand @b, and places the results into the
-     * vector @res.
+     * vector {@code res}.
      */
     public void divide(Vec3 b, Vec3 res) {
         gtk_h.graphene_vec3_divide(handle(), b.handle(), res.handle());
@@ -67,7 +67,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given {@link org.gtk.graphene.Vec3} are equal.
+     * Checks whether the two given {@link Vec3} are equal.
      */
     public boolean equal(Vec3 v2) {
         var RESULT = gtk_h.graphene_vec3_equal(handle(), v2.handle());
@@ -90,23 +90,23 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a {@link org.gtk.graphene.Vec2} that contains the first and second
-     * components of the given {@link org.gtk.graphene.Vec3}
+     * Creates a {@link Vec2} that contains the first and second
+     * components of the given {@link Vec3}.
      */
     public void getXy(Vec2 res) {
         gtk_h.graphene_vec3_get_xy(handle(), res.handle());
     }
     
     /**
-     * Creates a {@link org.gtk.graphene.Vec3} that contains the first two components of
-     * the given {@link org.gtk.graphene.Vec3}  and the third component set to 0.
+     * Creates a {@link Vec3} that contains the first two components of
+     * the given {@link Vec3}, and the third component set to 0.
      */
     public void getXy0(Vec3 res) {
         gtk_h.graphene_vec3_get_xy0(handle(), res.handle());
     }
     
     /**
-     * Converts a {@link org.gtk.graphene.Vec3} in a {@link org.gtk.graphene.Vec4} using 0.0
+     * Converts a {@link Vec3} in a {@link Vec4} using 0.0
      * as the value for the fourth component of the resulting vector.
      */
     public void getXyz0(Vec4 res) {
@@ -114,7 +114,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts a {@link org.gtk.graphene.Vec3} in a {@link org.gtk.graphene.Vec4} using 1.0
+     * Converts a {@link Vec3} in a {@link Vec4} using 1.0
      * as the value for the fourth component of the resulting vector.
      */
     public void getXyz1(Vec4 res) {
@@ -122,7 +122,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts a {@link org.gtk.graphene.Vec3} in a {@link org.gtk.graphene.Vec4} using @w as
+     * Converts a {@link Vec3} in a {@link Vec4} using @w as
      * the value of the fourth component of the resulting vector.
      */
     public void getXyzw(float w, Vec4 res) {
@@ -146,8 +146,8 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Vec3} using the given values.
-     * 
+     * Initializes a {@link Vec3} using the given values.
+     * <p>
      * This function can be called multiple times.
      */
     public Vec3 init(float x, float y, float z) {
@@ -156,7 +156,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Vec3} with the values from an array.
+     * Initializes a {@link Vec3} with the values from an array.
      */
     public Vec3 initFromFloat(float[] src) {
         var RESULT = gtk_h.graphene_vec3_init_from_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, src)).handle());
@@ -164,8 +164,8 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Vec3} with the values of another
-     * {@link org.gtk.graphene.Vec3}
+     * Initializes a {@link Vec3} with the values of another
+     * {@link Vec3}.
      */
     public Vec3 initFromVec3(Vec3 src) {
         var RESULT = gtk_h.graphene_vec3_init_from_vec3(handle(), src.handle());
@@ -173,7 +173,7 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Linearly interpolates @v1 and @v2 using the given @factor.
+     * Linearly interpolates {@code v1} and {@code v2} using the given {@code factor}.
      */
     public void interpolate(Vec3 v2, double factor, Vec3 res) {
         gtk_h.graphene_vec3_interpolate(handle(), v2.handle(), factor, res.handle());
@@ -211,8 +211,8 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares the two given {@link org.gtk.graphene.Vec3} vectors and checks
-     * whether their values are within the given @epsilon.
+     * Compares the two given {@link Vec3} vectors and checks
+     * whether their values are within the given {@code epsilon}.
      */
     public boolean near(Vec3 v2, float epsilon) {
         var RESULT = gtk_h.graphene_vec3_near(handle(), v2.handle(), epsilon);
@@ -220,21 +220,21 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Negates the given {@link org.gtk.graphene.Vec3}
+     * Negates the given {@link Vec3}.
      */
     public void negate(Vec3 res) {
         gtk_h.graphene_vec3_negate(handle(), res.handle());
     }
     
     /**
-     * Normalizes the given {@link org.gtk.graphene.Vec3}
+     * Normalizes the given {@link Vec3}.
      */
     public void normalize(Vec3 res) {
         gtk_h.graphene_vec3_normalize(handle(), res.handle());
     }
     
     /**
-     * Multiplies all components of the given vector with the given scalar @factor.
+     * Multiplies all components of the given vector with the given scalar {@code factor}.
      */
     public void scale(float factor, Vec3 res) {
         gtk_h.graphene_vec3_scale(handle(), factor, res.handle());
@@ -243,14 +243,14 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Subtracts from each component of the first operand @a the
      * corresponding component of the second operand @b and places
-     * each result into the components of @res.
+     * each result into the components of {@code res}.
      */
     public void subtract(Vec3 b, Vec3 res) {
         gtk_h.graphene_vec3_subtract(handle(), b.handle(), res.handle());
     }
     
     /**
-     * Copies the components of a {@link org.gtk.graphene.Vec3} into the given array.
+     * Copies the components of a {@link Vec3} into the given array.
      */
     public void toFloat(float[] dest) {
         gtk_h.graphene_vec3_to_float(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, dest)).handle());

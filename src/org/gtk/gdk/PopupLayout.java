@@ -8,35 +8,35 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GdkPopupLayout</code> struct contains information that is
- * necessary position a {@link [iface@Gdk.Popup] (ref=iface)} relative to its parent.
- * 
+ * The {@code GdkPopupLayout} struct contains information that is
+ * necessary position a {@code Gdk.Popup} relative to its parent.
+ * <p>
  * The positioning requires a negotiation with the windowing system,
  * since it depends on external constraints, such as the position of
  * the parent surface, and the screen dimensions.
- * 
+ * <p>
  * The basic ingredients are a rectangle on the parent surface,
  * and the anchor on both that rectangle and the popup. The anchors
  * specify a side or corner to place next to each other.
- * 
- * !{@link [Popup anchors]}(popup-anchors.png)
- * 
+ * <p>
+ * <img src="./doc-files/popup-anchors.png" alt="Popup anchors">
+ * <p>
  * For cases where placing the anchors next to each other would make
  * the popup extend offscreen, the layout includes some hints for how
  * to resolve this problem. The hints may suggest to flip the anchor
- * position to the other side, or to &<code>#39</code> slide&<code>#39</code>  the popup along a side,
+ * position to the other side, or to 'slide' the popup along a side,
  * or to resize it.
- * 
- * !{@link [Flipping popups]}(popup-flip.png)
- * 
- * !{@link [Sliding popups]}(popup-slide.png)
- * 
+ * <p>
+ * <img src="./doc-files/popup-flip.png" alt="Flipping popups">
+ * <p>
+ * <img src="./doc-files/popup-slide.png" alt="Sliding popups">
+ * <p>
  * These hints may be combined.
- * 
+ * <p>
  * Ultimatively, it is up to the windowing system to determine the position
  * and size of the popup. You can learn about the result by calling
- * {@link org.gtk.gdk.Popup<code>#getPositionX</code> , {@link org.gtk.gdk.Popup<code>#getPositionY</code> ,
- * {@link org.gtk.gdk.Popup<code>#getRectAnchor</code>  and {@link org.gtk.gdk.Popup<code>#getSurfaceAnchor</code> 
+ * {@code Gdk.Popup.get_position_y},
+ * {@code Gdk.Popup.get_surface_anchor}
  * after the popup has been presented. This can be used to adjust the rendering.
  * For example, {@link org.gtk.gtk.Popover} changes its arrow position accordingly.
  * But you have to be careful avoid changing the size of the popover, or it
@@ -55,16 +55,16 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Create a popup layout description.
-     * 
-     * Used together with {@link org.gtk.gdk.Popup<code>#present</code>  to describe how a popup
+     * <p>
+     * Used together with {@link Popup#present} to describe how a popup
      * surface should be placed and behave on-screen.
-     * 
-     * @anchor_rect is relative to the top-left corner of the surface&<code>#39</code> s parent.
-     * @rect_anchor and @surface_anchor determine anchor points on @anchor_rect
+     * <p>
+     * {@code anchor_rect} is relative to the top-left corner of the surface's parent.
+     * {@code rect_anchor} and {@code surface_anchor} determine anchor points on {@code anchor_rect}
      * and surface to pin together.
-     * 
-     * The position of @anchor_rect&<code>#39</code> s anchor point can optionally be offset using
-     * {@link org.gtk.gdk.PopupLayout<code>#setOffset</code> , which is equivalent to offsetting the
+     * <p>
+     * The position of {@code anchor_rect}'s anchor point can optionally be offset using
+     * {@link PopupLayout#setOffset}, which is equivalent to offsetting the
      * position of surface.
      */
     public PopupLayout(Rectangle anchorRect, Gravity rectAnchor, Gravity surfaceAnchor) {
@@ -72,7 +72,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Makes a copy of @layout.
+     * Makes a copy of {@code layout}.
      */
     public PopupLayout copy() {
         var RESULT = gtk_h.gdk_popup_layout_copy(handle());
@@ -80,7 +80,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Check whether @layout and @other has identical layout properties.
+     * Check whether {@code layout} and {@code other} has identical layout properties.
      */
     public boolean equal(PopupLayout other) {
         var RESULT = gtk_h.gdk_popup_layout_equal(handle(), other.handle());
@@ -88,7 +88,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Get the <code>GdkAnchorHints</code>.
+     * Get the {@code GdkAnchorHints}.
      */
     public int getAnchorHints() {
         var RESULT = gtk_h.gdk_popup_layout_get_anchor_hints(handle());
@@ -120,7 +120,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count of @value.
+     * Increases the reference count of {@code value}.
      */
     public PopupLayout ref() {
         var RESULT = gtk_h.gdk_popup_layout_ref(handle());
@@ -129,11 +129,11 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Set new anchor hints.
-     * 
-     * The set @anchor_hints determines how @surface will be moved
+     * <p>
+     * The set {@code anchor_hints} determines how {@code surface} will be moved
      * if the anchor points cause it to move off-screen. For example,
-     * {@link org.gtk.gdk.AnchorHints<code>#FLIP_X</code>  will replace {@link org.gtk.gdk.Gravity<code>#NORTH_WEST</code>  with
-     * {@link org.gtk.gdk.Gravity<code>#NORTH_EAST</code>  and vice versa if @surface extends
+     * {@link AnchorHints#FLIP_X} will replace {@link Gravity#NORTH_WEST} with
+     * {@link Gravity#NORTH_EAST} and vice versa if {@code surface} extends
      * beyond the left or right edges of the monitor.
      */
     public void setAnchorHints(int anchorHints) {
@@ -163,7 +163,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the shadow width of the popup.
-     * 
+     * <p>
      * The shadow width corresponds to the part of the computed
      * surface size that would consist of the shadow margin
      * surrounding the window, would there be any.
@@ -180,7 +180,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count of @value.
+     * Decreases the reference count of {@code value}.
      */
     public void unref() {
         gtk_h.gdk_popup_layout_unref(handle());

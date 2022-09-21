@@ -33,7 +33,7 @@ public final class Pango {
 
     /**
      * Create a new allow-breaks attribute.
-     * 
+     * <p>
      * If breaks are disabled, the range will be kept in a
      * single run, as far as possible.
      */
@@ -60,14 +60,14 @@ public final class Pango {
     
     /**
      * Create a new baseline displacement attribute.
-     * 
+     * <p>
      * The effect of this attribute is to shift the baseline of a run,
      * relative to the run of preceding run.
-     * 
-     * &<code>#60</code> picture&<code>#62</code> 
-     *   &<code>#60</code> source srcset=&<code>#34</code> baseline-shift-dark.png&<code>#34</code>  media=&<code>#34</code> (prefers-color-scheme: dark)&<code>#34</code> &<code>#62</code> 
-     *   &<code>#60</code> img alt=&<code>#34</code> Baseline Shift&<code>#34</code>  src=&<code>#34</code> baseline-shift-light.png&<code>#34</code> &<code>#62</code> 
-     * &<code>#60</code> /picture&<code>#62</code>
+     * <p>
+     * &lt;picture&gt;
+     *   &lt;source srcset="baseline-shift-dark.png" media="(prefers-color-scheme: dark)"&gt;
+     *   &lt;img alt="Baseline Shift" src="baseline-shift-light.png"&gt;
+     * &lt;/picture&gt;
      */
     public static Attribute attrBaselineShiftNew(int shift) {
         var RESULT = gtk_h.pango_attr_baseline_shift_new(shift);
@@ -75,10 +75,10 @@ public final class Pango {
     }
     
     /**
-     * Apply customization from attributes to the breaks in @attrs.
-     * 
+     * Apply customization from attributes to the breaks in {@code attrs}.
+     * <p>
      * The line breaks are assumed to have been produced
-     * by {@link Pango<code>#defaultBreak</code>  and {@link Pango<code>#tailorBreak</code> .
+     * by {@code Pango.tailor_break}.
      */
     public static void attrBreak(java.lang.String text, int length, AttrList attrList, int offset, LogAttr[] attrs, int attrsLen) {
         gtk_h.pango_attr_break(Interop.allocateNativeString(text).handle(), length, attrList.handle(), offset, Interop.allocateNativeArray(attrs).handle(), attrsLen);
@@ -86,7 +86,7 @@ public final class Pango {
     
     /**
      * Create a new font fallback attribute.
-     * 
+     * <p>
      * If fallback is disabled, characters will only be
      * used from the closest matching font on the system.
      * No fallback will be done to other fonts on the system
@@ -107,7 +107,7 @@ public final class Pango {
     
     /**
      * Create a new font description attribute.
-     * 
+     * <p>
      * This attribute allows setting family, style, weight, variant,
      * stretch, and size simultaneously.
      */
@@ -118,7 +118,7 @@ public final class Pango {
     
     /**
      * Create a new font features tag attribute.
-     * 
+     * <p>
      * You can use this attribute to select OpenType font features like small-caps,
      * alternative glyphs, ligatures, etc. for fonts that support them.
      */
@@ -129,7 +129,7 @@ public final class Pango {
     
     /**
      * Create a new font scale attribute.
-     * 
+     * <p>
      * The effect of this attribute is to change the font size of a run,
      * relative to the size of preceding run.
      */
@@ -172,7 +172,7 @@ public final class Pango {
     
     /**
      * Create a new insert-hyphens attribute.
-     * 
+     * <p>
      * Pango will insert hyphens when breaking lines in
      * the middle of a word. This attribute can be used
      * to suppress the hyphen.
@@ -200,11 +200,11 @@ public final class Pango {
     
     /**
      * Modify the height of logical line extents by a factor.
-     * 
+     * <p>
      * This affects the values returned by
-     * {@link org.pango.LayoutLine<code>#getExtents</code> ,
-     * {@link org.pango.LayoutLine<code>#getPixelExtents</code>  and
-     * {@link org.pango.LayoutIter<code>#getLineExtents</code> .
+     * {@link LayoutLine#getExtents},
+     * {@link LayoutLine#getPixelExtents} and
+     * {@link LayoutIter#getLineExtents}.
      */
     public static Attribute attrLineHeightNew(double factor) {
         var RESULT = gtk_h.pango_attr_line_height_new(factor);
@@ -212,12 +212,12 @@ public final class Pango {
     }
     
     /**
-     * Override the height of logical line extents to be @height.
-     * 
+     * Override the height of logical line extents to be {@code height}.
+     * <p>
      * This affects the values returned by
-     * {@link org.pango.LayoutLine<code>#getExtents</code> ,
-     * {@link org.pango.LayoutLine<code>#getPixelExtents</code>  and
-     * {@link org.pango.LayoutIter<code>#getLineExtents</code> .
+     * {@link LayoutLine#getExtents},
+     * {@link LayoutLine#getPixelExtents} and
+     * {@link LayoutIter#getLineExtents}.
      */
     public static Attribute attrLineHeightNewAbsolute(int height) {
         var RESULT = gtk_h.pango_attr_line_height_new_absolute(height);
@@ -225,9 +225,9 @@ public final class Pango {
     }
     
     /**
-     * Deserializes a <code>PangoAttrList</code> from a string.
-     * 
-     * This is the counterpart to {@link org.pango.AttrList<code>#toString</code> .
+     * Deserializes a {@code PangoAttrList} from a string.
+     * <p>
+     * This is the counterpart to {@link AttrList#toString}.
      * See that functions for details about the format.
      */
     public static AttrList attrListFromString(java.lang.String text) {
@@ -237,7 +237,7 @@ public final class Pango {
     
     /**
      * Create a new overline color attribute.
-     * 
+     * <p>
      * This attribute modifies the color of overlines.
      * If not set, overlines will use the foreground color.
      */
@@ -264,9 +264,9 @@ public final class Pango {
     
     /**
      * Create a new font size scale attribute.
-     * 
+     * <p>
      * The base font for the affected text will have
-     * its size multiplied by @scale_factor.
+     * its size multiplied by {@code scale_factor}.
      */
     public static Attribute attrScaleNew(double scaleFactor) {
         var RESULT = gtk_h.pango_attr_scale_new(scaleFactor);
@@ -275,7 +275,7 @@ public final class Pango {
     
     /**
      * Marks the range of the attribute as a single sentence.
-     * 
+     * <p>
      * Note that this may require adjustments to word and
      * sentence classification around the range.
      */
@@ -290,7 +290,7 @@ public final class Pango {
      * A shape is used to impose a particular ink and logical
      * rectangle on the result of shaping a particular glyph.
      * This might be used, for instance, for embedding a picture
-     * or a widget inside a <code>PangoLayout</code>.
+     * or a widget inside a {@code PangoLayout}.
      */
     public static Attribute attrShapeNew(Rectangle inkRect, Rectangle logicalRect) {
         var RESULT = gtk_h.pango_attr_shape_new(inkRect.handle(), logicalRect.handle());
@@ -299,8 +299,8 @@ public final class Pango {
     
     /**
      * Creates a new shape attribute.
-     * 
-     * Like {@link Pango<code>#AttrShape</code> , but a user data pointer
+     * <p>
+     * Like {@link Pango#AttrShape}, but a user data pointer
      * is also provided; this pointer can be accessed when later
      * rendering the glyph.
      */
@@ -355,7 +355,7 @@ public final class Pango {
     
     /**
      * Create a new strikethrough color attribute.
-     * 
+     * <p>
      * This attribute modifies the color of strikethrough lines.
      * If not set, strikethrough lines will use the foreground color.
      */
@@ -391,11 +391,11 @@ public final class Pango {
     
     /**
      * Fetches the attribute type name.
-     * 
+     * <p>
      * The attribute type name is the string passed in
      * when registering the type using
-     * {@link Pango<code>#AttrType</code> .
-     * 
+     * {@link Pango#AttrType}.
+     * <p>
      * The returned value is an interned string (see
      * g_intern_string() for what that means) that should
      * not be modified or freed.
@@ -407,9 +407,9 @@ public final class Pango {
     
     /**
      * Allocate a new attribute type ID.
-     * 
+     * <p>
      * The attribute type name can be accessed later
-     * by using {@link Pango<code>#AttrType</code> .
+     * by using {@link Pango#AttrType}.
      */
     public static AttrType attrTypeRegister(java.lang.String name) {
         var RESULT = gtk_h.pango_attr_type_register(Interop.allocateNativeString(name).handle());
@@ -418,7 +418,7 @@ public final class Pango {
     
     /**
      * Create a new underline color attribute.
-     * 
+     * <p>
      * This attribute modifies the color of underlines.
      * If not set, underlines will use the foreground color.
      */
@@ -453,7 +453,7 @@ public final class Pango {
     
     /**
      * Marks the range of the attribute as a single word.
-     * 
+     * <p>
      * Note that this may require adjustments to word and
      * sentence classification around the range.
      */
@@ -464,10 +464,10 @@ public final class Pango {
     
     /**
      * Determines the bidirectional type of a character.
-     * 
+     * <p>
      * The bidirectional type is specified in the Unicode Character Database.
-     * 
-     * A simplified version of this function is available as {@link [func@unichar_direction]}.
+     * <p>
+     * A simplified version of this function is available as {@link unichar_direction#null}.
      */
     public static BidiType bidiTypeForUnichar(int ch) {
         var RESULT = gtk_h.pango_bidi_type_for_unichar(ch);
@@ -476,14 +476,14 @@ public final class Pango {
     
     /**
      * This is the default break algorithm.
-     * 
-     * It applies rules from the {@link [Unicode Line Breaking Algorithm]}(http://www.unicode.org/unicode/reports/tr14/)
-     * without language-specific tailoring, therefore the @analyis argument is unused
-     * and can be <code>null</code> 
-     * 
-     * See {@link Pango<code>#tailorBreak</code>  for language-specific breaks.
-     * 
-     * See {@link Pango<code>#attrBreak</code>  for attribute-based customization.
+     * <p>
+     * It applies rules from the <a href="http://www.unicode.org/unicode/reports/tr14/">Unicode Line Breaking Algorithm</a>
+     * without language-specific tailoring, therefore the {@code analyis} argument is unused
+     * and can be <code>null</code>.
+     * <p>
+     * See {@link Pango#tailorBreak} for language-specific breaks.
+     * <p>
+     * See {@link Pango#attrBreak} for attribute-based customization.
      */
     public static void defaultBreak(java.lang.String text, int length, Analysis analysis, LogAttr attrs, int attrsLen) {
         gtk_h.pango_default_break(Interop.allocateNativeString(text).handle(), length, analysis.handle(), attrs.handle(), attrsLen);
@@ -491,22 +491,22 @@ public final class Pango {
     
     /**
      * Converts extents from Pango units to device units.
-     * 
-     * The conversion is done by dividing by the <code>PANGO_SCALE</code> factor and
+     * <p>
+     * The conversion is done by dividing by the {@code PANGO_SCALE} factor and
      * performing rounding.
-     * 
-     * The @inclusive rectangle is converted by flooring the x/y coordinates
+     * <p>
+     * The {@code inclusive} rectangle is converted by flooring the x/y coordinates
      * and extending width/height, such that the final rectangle completely
      * includes the original rectangle.
-     * 
-     * The @nearest rectangle is converted by rounding the coordinates
+     * <p>
+     * The {@code nearest} rectangle is converted by rounding the coordinates
      * of the rectangle to the nearest device unit (pixel).
-     * 
+     * <p>
      * The rule to which argument to use is: if you want the resulting device-space
      * rectangle to completely contain the original rectangle, pass it in as
-     * @inclusive. If you want two touching-but-not-overlapping rectangles stay
+     * {@code inclusive}. If you want two touching-but-not-overlapping rectangles stay
      * touching-but-not-overlapping after rounding to device units, pass them in
-     * as @nearest.
+     * as {@code nearest}.
      */
     public static void extentsToPixels(Rectangle inclusive, Rectangle nearest) {
         gtk_h.pango_extents_to_pixels(inclusive.handle(), nearest.handle());
@@ -523,49 +523,49 @@ public final class Pango {
     
     /**
      * Creates a new font description from a string representation.
-     * 
+     * <p>
      * The string must have the form
-     * 
-     *     &<code>#34</code> \\{@link [FAMILY-LIST]} \\{@link [STYLE-OPTIONS]} \\{@link [SIZE]} \\{@link [VARIATIONS]}&<code>#34</code> ,
-     * 
+     * <p>
+     *     "\\[FAMILY-LIST] \\[STYLE-OPTIONS] \\[SIZE] \\[VARIATIONS]",
+     * <p>
      * where FAMILY-LIST is a comma-separated list of families optionally
      * terminated by a comma, STYLE_OPTIONS is a whitespace-separated list
      * of words where each word describes one of style, variant, weight,
      * stretch, or gravity, and SIZE is a decimal number (size in points)
-     * or optionally followed by the unit modifier &<code>#34</code> px&<code>#34</code>  for absolute size.
+     * or optionally followed by the unit modifier "px" for absolute size.
      * VARIATIONS is a comma-separated list of font variation
-     * specifications of the form &<code>#34</code> \\@axis=value&<code>#34</code>  (the = sign is optional).
-     * 
+     * specifications of the form "\\{@code axis}=value" (the = sign is optional).
+     * <p>
      * The following words are understood as styles:
-     * &<code>#34</code> Normal&<code>#34</code> , &<code>#34</code> Roman&<code>#34</code> , &<code>#34</code> Oblique&<code>#34</code> , &<code>#34</code> Italic&<code>#34</code> .
-     * 
+     * "Normal", "Roman", "Oblique", "Italic".
+     * <p>
      * The following words are understood as variants:
-     * &<code>#34</code> Small-Caps&<code>#34</code> , &<code>#34</code> All-Small-Caps&<code>#34</code> , &<code>#34</code> Petite-Caps&<code>#34</code> , &<code>#34</code> All-Petite-Caps&<code>#34</code> ,
-     * &<code>#34</code> Unicase&<code>#34</code> , &<code>#34</code> Title-Caps&<code>#34</code> .
-     * 
+     * "Small-Caps", "All-Small-Caps", "Petite-Caps", "All-Petite-Caps",
+     * "Unicase", "Title-Caps".
+     * <p>
      * The following words are understood as weights:
-     * &<code>#34</code> Thin&<code>#34</code> , &<code>#34</code> Ultra-Light&<code>#34</code> , &<code>#34</code> Extra-Light&<code>#34</code> , &<code>#34</code> Light&<code>#34</code> , &<code>#34</code> Semi-Light&<code>#34</code> ,
-     * &<code>#34</code> Demi-Light&<code>#34</code> , &<code>#34</code> Book&<code>#34</code> , &<code>#34</code> Regular&<code>#34</code> , &<code>#34</code> Medium&<code>#34</code> , &<code>#34</code> Semi-Bold&<code>#34</code> , &<code>#34</code> Demi-Bold&<code>#34</code> ,
-     * &<code>#34</code> Bold&<code>#34</code> , &<code>#34</code> Ultra-Bold&<code>#34</code> , &<code>#34</code> Extra-Bold&<code>#34</code> , &<code>#34</code> Heavy&<code>#34</code> , &<code>#34</code> Black&<code>#34</code> , &<code>#34</code> Ultra-Black&<code>#34</code> ,
-     * &<code>#34</code> Extra-Black&<code>#34</code> .
-     * 
+     * "Thin", "Ultra-Light", "Extra-Light", "Light", "Semi-Light",
+     * "Demi-Light", "Book", "Regular", "Medium", "Semi-Bold", "Demi-Bold",
+     * "Bold", "Ultra-Bold", "Extra-Bold", "Heavy", "Black", "Ultra-Black",
+     * "Extra-Black".
+     * <p>
      * The following words are understood as stretch values:
-     * &<code>#34</code> Ultra-Condensed&<code>#34</code> , &<code>#34</code> Extra-Condensed&<code>#34</code> , &<code>#34</code> Condensed&<code>#34</code> , &<code>#34</code> Semi-Condensed&<code>#34</code> ,
-     * &<code>#34</code> Semi-Expanded&<code>#34</code> , &<code>#34</code> Expanded&<code>#34</code> , &<code>#34</code> Extra-Expanded&<code>#34</code> , &<code>#34</code> Ultra-Expanded&<code>#34</code> .
-     * 
+     * "Ultra-Condensed", "Extra-Condensed", "Condensed", "Semi-Condensed",
+     * "Semi-Expanded", "Expanded", "Extra-Expanded", "Ultra-Expanded".
+     * <p>
      * The following words are understood as gravity values:
-     * &<code>#34</code> Not-Rotated&<code>#34</code> , &<code>#34</code> South&<code>#34</code> , &<code>#34</code> Upside-Down&<code>#34</code> , &<code>#34</code> North&<code>#34</code> , &<code>#34</code> Rotated-Left&<code>#34</code> ,
-     * &<code>#34</code> East&<code>#34</code> , &<code>#34</code> Rotated-Right&<code>#34</code> , &<code>#34</code> West&<code>#34</code> .
-     * 
+     * "Not-Rotated", "South", "Upside-Down", "North", "Rotated-Left",
+     * "East", "Rotated-Right", "West".
+     * <p>
      * Any one of the options may be absent. If FAMILY-LIST is absent, then
      * the family_name field of the resulting font description will be
-     * initialized to <code>null</code>  If STYLE-OPTIONS is missing, then all style
+     * initialized to <code>null</code>. If STYLE-OPTIONS is missing, then all style
      * options will be set to the default values. If SIZE is missing, the
      * size in the resulting font description will be set to 0.
-     * 
+     * <p>
      * A typical example:
-     * 
-     *     &<code>#34</code> Cantarell Italic Light 15 \\@wght=200&<code>#34</code>
+     * <p>
+     *     "Cantarell Italic Light 15 \\{@code wght}=200"
      */
     public static FontDescription fontDescriptionFromString(java.lang.String str) {
         var RESULT = gtk_h.pango_font_description_from_string(Interop.allocateNativeString(str).handle());
@@ -573,13 +573,13 @@ public final class Pango {
     }
     
     /**
-     * Computes a <code>PangoLogAttr</code> for each character in @text.
+     * Computes a {@code PangoLogAttr} for each character in {@code text}.
      * <p>
-     * The @attrs array must have one <code>PangoLogAttr</code> for
-     * each position in @text; if @text contains N characters,
+     * The {@code attrs} array must have one {@code PangoLogAttr} for
+     * each position in {@code text}; if {@code text} contains N characters,
      * it has N+1 positions, including the last position at the
-     * end of the text. @text should be an entire paragraph;
-     * logical attributes can&<code>#39</code> t be computed without context
+     * end of the text. {@code text} should be an entire paragraph;
+     * logical attributes can't be computed without context
      * (for example you need to see spaces on either side of
      * a word to know the word is a word).
      */
@@ -589,7 +589,7 @@ public final class Pango {
     
     /**
      * Finds the gravity that best matches the rotation component
-     * in a <code>PangoMatrix</code>.
+     * in a {@code PangoMatrix}.
      */
     public static Gravity gravityGetForMatrix(Matrix matrix) {
         var RESULT = gtk_h.pango_gravity_get_for_matrix(matrix.handle());
@@ -597,13 +597,13 @@ public final class Pango {
     }
     
     /**
-     * Returns the gravity to use in laying out a <code>PangoItem</code>.
-     * 
+     * Returns the gravity to use in laying out a {@code PangoItem}.
+     * <p>
      * The gravity is determined based on the script, base gravity, and hint.
-     * 
-     * If @base_gravity is {@link org.pango.Gravity<code>#AUTO</code>   it is first replaced with the
-     * preferred gravity of @script.  To get the preferred gravity of a script,
-     * pass {@link org.pango.Gravity<code>#AUTO</code>  and {@link org.pango.GravityHint<code>#STRONG</code>  in.
+     * <p>
+     * If {@code base_gravity} is {@link Gravity#AUTO}, it is first replaced with the
+     * preferred gravity of {@code script}.  To get the preferred gravity of a script,
+     * pass {@link Gravity#AUTO} and {@link GravityHint#STRONG} in.
      */
     public static Gravity gravityGetForScript(Script script, Gravity baseGravity, GravityHint hint) {
         var RESULT = gtk_h.pango_gravity_get_for_script(script.getValue(), baseGravity.getValue(), hint.getValue());
@@ -612,20 +612,20 @@ public final class Pango {
     
     /**
      * Returns the gravity to use in laying out a single character
-     * or <code>PangoItem</code>.
-     * 
+     * or {@code PangoItem}.
+     * <p>
      * The gravity is determined based on the script, East Asian width,
      * base gravity, and hint,
-     * 
-     * This function is similar to {@link Pango<code>#Gravity</code>  except
+     * <p>
+     * This function is similar to {@link Pango#Gravity} except
      * that this function makes a distinction between narrow/half-width and
      * wide/full-width characters also. Wide/full-width characters always
-     * stand *upright*, that is, they always take the base gravity,
+     * stand <strong>upright</strong>, that is, they always take the base gravity,
      * whereas narrow/full-width characters are always rotated in vertical
      * context.
-     * 
-     * If @base_gravity is {@link org.pango.Gravity<code>#AUTO</code>   it is first replaced with the
-     * preferred gravity of @script.
+     * <p>
+     * If {@code base_gravity} is {@link Gravity#AUTO}, it is first replaced with the
+     * preferred gravity of {@code script}.
      */
     public static Gravity gravityGetForScriptAndWidth(Script script, boolean wide, Gravity baseGravity, GravityHint hint) {
         var RESULT = gtk_h.pango_gravity_get_for_script_and_width(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
@@ -633,10 +633,10 @@ public final class Pango {
     }
     
     /**
-     * Converts a <code>PangoGravity</code> value to its natural rotation in radians.
-     * 
-     * Note that {@link org.pango.Matrix<code>#rotate</code>  takes angle in degrees, not radians.
-     * So, to call {@link [method@Pango.Matrix,rotate]} with the output of this function
+     * Converts a {@code PangoGravity} value to its natural rotation in radians.
+     * <p>
+     * Note that {@link Matrix#rotate} takes angle in degrees, not radians.
+     * So, to call {@link Matrix,rotate#null} with the output of this function
      * you should multiply it by (180. / G_PI).
      */
     public static double gravityToRotation(Gravity gravity) {
@@ -646,11 +646,11 @@ public final class Pango {
     
     /**
      * Checks if a character that should not be normally rendered.
-     * 
-     * This includes all Unicode characters with &<code>#34</code> ZERO WIDTH&<code>#34</code>  in their name,
-     * as well as *bidi* formatting characters, and a few other ones.
-     * 
-     * This is totally different from {@link GLib<code>#unicharIszerowidth</code>  and is at best misnamed.
+     * <p>
+     * This includes all Unicode characters with "ZERO WIDTH" in their name,
+     * as well as <strong>bidi</strong> formatting characters, and a few other ones.
+     * <p>
+     * This is totally different from {@link GLib#unicharIszerowidth} and is at best misnamed.
      */
     public static boolean isZeroWidth(int ch) {
         var RESULT = gtk_h.pango_is_zero_width(ch);
@@ -660,16 +660,16 @@ public final class Pango {
     /**
      * Breaks a piece of text into segments with consistent directional
      * level and font.
-     * 
-     * Each byte of @text will be contained in exactly one of the items in the
+     * <p>
+     * Each byte of {@code text} will be contained in exactly one of the items in the
      * returned list; the generated list of items will be in logical order (the
      * start offsets of the items are ascending).
-     * 
-     * @cached_iter should be an iterator over @attrs currently positioned
-     * at a range before or containing @start_index; @cached_iter will be
+     * <p>
+     * {@code cached_iter} should be an iterator over {@code attrs} currently positioned
+     * at a range before or containing {@code start_index}; {@code cached_iter} will be
      * advanced to the range covering the position just after
-     * @start_index + @length. (i.e. if itemizing in a loop, just keep passing
-     * in the same @cached_iter).
+     * {@code start_index} + {@code length}. (i.e. if itemizing in a loop, just keep passing
+     * in the same {@code cached_iter}).
      */
     public static org.gtk.glib.List itemize(Context context, java.lang.String text, int startIndex, int length, AttrList attrs, AttrIterator cachedIter) {
         var RESULT = gtk_h.pango_itemize(context.handle(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
@@ -677,11 +677,11 @@ public final class Pango {
     }
     
     /**
-     * Like <code>pango_itemize()</code>, but with an explicitly specified base direction.
+     * Like {@code pango_itemize()}, but with an explicitly specified base direction.
      * <p>
      * The base direction is used when computing bidirectional levels.
-     * {@link [func@itemize]} gets the base direction from the <code>PangoContext</code>
-     * (see {@link org.pango.Context<code>#setBaseDir</code> ).
+     * {@link itemize#null} gets the base direction from the {@code PangoContext}
+     * (see {@link Context#setBaseDir}).
      */
     public static org.gtk.glib.List itemizeWithBaseDir(Context context, Direction baseDir, java.lang.String text, int startIndex, int length, AttrList attrs, AttrIterator cachedIter) {
         var RESULT = gtk_h.pango_itemize_with_base_dir(context.handle(), baseDir.getValue(), Interop.allocateNativeString(text).handle(), startIndex, length, attrs.handle(), cachedIter.handle());
@@ -689,17 +689,18 @@ public final class Pango {
     }
     
     /**
-     * Convert a language tag to a <code>PangoLanguage</code>.
+     * Convert a language tag to a {@code PangoLanguage}.
      * <p>
-     * The language tag must be in a RFC-3066 format. <code>PangoLanguage</code> pointers
+     * The language tag must be in a RFC-3066 format. {@code PangoLanguage} pointers
      * can be efficiently copied (copy the pointer) and compared with other
      * language tags (compare the pointer.)
      * <p>
      * This function first canonicalizes the string by converting it to
-     * lowercase, mapping &<code>#39</code> _&<code>#39</code>  to &<code>#39</code> -&<code>#39</code> , and stripping all characters other
-     * than letters and &<code>#39</code> -&<code>#39</code> .
+     * lowercase, mapping '_' to '-', and stripping all characters other
+     * than letters and '-'.
      * <p>
-     * Use {@link Pango<code>#Language</code>  if you want to get the<code>PangoLanguage</code> for the current locale of the process.
+     * Use {@link Pango#Language} if you want to get the
+     * {@code PangoLanguage} for the current locale of the process.
      */
     public static Language languageFromString(java.lang.String language) {
         var RESULT = gtk_h.pango_language_from_string(Interop.allocateNativeString(language).handle());
@@ -707,9 +708,10 @@ public final class Pango {
     }
     
     /**
-     * Returns the <code>PangoLanguage</code> for the current locale of the process.
+     * Returns the {@code PangoLanguage} for the current locale of the process.
      * <p>
-     * On Unix systems, this is the return value is derived from<code>setlocale (LC_CTYPE, NULL)</code>, and the user can
+     * On Unix systems, this is the return value is derived from
+     * {@code setlocale (LC_CTYPE, NULL)}, and the user can
      * affect this through the environment variables LC_ALL, LC_CTYPE or
      * LANG (checked in that order). The locale string typically is in
      * the form lang_COUNTRY, where lang is an ISO-639 language code, and
@@ -718,22 +720,22 @@ public final class Pango {
      * Brazil.
      * <p>
      * On Windows, the C library does not use any such environment
-     * variables, and setting them won&<code>#39</code> t affect the behavior of functions
+     * variables, and setting them won't affect the behavior of functions
      * like ctime(). The user sets the locale through the Regional Options
      * in the Control Panel. The C library (in the setlocale() function)
      * does not use country and language codes, but country and language
      * names spelled out in English.
      * However, this function does check the above environment
      * variables, and does return a Unix-style locale string based on
-     * either said environment variables or the thread&<code>#39</code> s current locale.
+     * either said environment variables or the thread's current locale.
      * <p>
-     * Your application should call <code>setlocale(LC_ALL, &<code>#34</code> &<code>#34</code> )</code> for the user
+     * Your application should call {@code setlocale(LC_ALL, "")} for the user
      * settings to take effect. GTK does this in its initialization
      * functions automatically (by calling gtk_set_locale()).
      * See the setlocale() manpage for more details.
-     * 
+     * <p>
      * Note that the default language can change over the life of an application.
-     * 
+     * <p>
      * Also note that this function will not do the right thing if you
      * use per-thread locales with uselocale(). In that case, you should
      * just call pango_language_from_string() yourself.
@@ -746,13 +748,13 @@ public final class Pango {
     /**
      * Returns the list of languages that the user prefers.
      * <p>
-     * The list is specified by the <code>PANGO_LANGUAGE</code> or <code>LANGUAGE</code>
+     * The list is specified by the {@code PANGO_LANGUAGE} or {@code LANGUAGE}
      * environment variables, in order of preference. Note that this
      * list does not necessarily include the language returned by
-     * {@link Pango<code>#Language</code> .
-     * 
+     * {@link Pango#Language}.
+     * <p>
      * When choosing language-specific resources, such as the sample
-     * text returned by {@link org.pango.Language<code>#getSampleString</code> ,
+     * text returned by {@link Language#getSampleString},
      * you should first try the default language, followed by the
      * languages returned by this function.
      */
@@ -769,26 +771,26 @@ public final class Pango {
     /**
      * Incrementally parses marked-up text to create a plain-text string
      * and an attribute list.
-     * 
-     * See the {@link [Pango Markup]}(pango_markup.html) docs for details about the
+     * <p>
+     * See the <a href="pango_markup.html">Pango Markup</a> docs for details about the
      * supported markup.
-     * 
-     * If @accel_marker is nonzero, the given character will mark the
-     * character following it as an accelerator. For example, @accel_marker
+     * <p>
+     * If {@code accel_marker} is nonzero, the given character will mark the
+     * character following it as an accelerator. For example, {@code accel_marker}
      * might be an ampersand or underscore. All characters marked
-     * as an accelerator will receive a {@link org.pango.Underline<code>#LOW</code>  attribute,
-     * and the first character so marked will be returned in @accel_char,
-     * when calling {@link [func@markup_parser_finish]}. Two @accel_marker characters
+     * as an accelerator will receive a {@link Underline#LOW} attribute,
+     * and the first character so marked will be returned in {@code accel_char},
+     * when calling {@code accel_marker characters
      * following each other produce a single literal @accel_marker character.
      * 
-     * To feed markup to the parser, use {@link org.gtk.glib.MarkupParseContext<code>#parse</code> 
-     * on the returned {@link [struct@GLib.MarkupParseContext] (ref=struct)}. When done with feeding markup
-     * to the parser, use {@link [func@markup_parser_finish]} to get the data out
-     * of it, and then use {@link org.gtk.glib.MarkupParseContext<code>#free</code>  to free it.
-     * 
+     * To feed markup to the parser, use [method@GLib.MarkupParseContext.parse}
+     * on the returned {@code GLib.MarkupParseContext}. When done with feeding markup
+     * to the parser, use {@link markup_parser_finish#null} to get the data out
+     * of it, and then use {@link org.gtk.glib.MarkupParseContext#free} to free it.
+     * <p>
      * This function is designed for applications that read Pango markup
      * from streams. To simply parse a string containing Pango markup,
-     * the {@link Pango<code>#parseMarkup</code>  API is recommended instead.
+     * the {@link Pango#parseMarkup} API is recommended instead.
      */
     public static org.gtk.glib.MarkupParseContext markupParserNew(int accelMarker) {
         var RESULT = gtk_h.pango_markup_parser_new(accelMarker);
@@ -797,10 +799,10 @@ public final class Pango {
     
     /**
      * Reorder items from logical order to visual order.
-     * 
+     * <p>
      * The visual order is determined from the associated directional
      * levels of the items. The original list is unmodified.
-     * 
+     * <p>
      * (Please open a bug if you use this function.
      *  It is not a particularly convenient interface, and the code
      *  is duplicated elsewhere in Pango for that reason.)
@@ -811,33 +813,34 @@ public final class Pango {
     }
     
     /**
-     * Finds a language tag that is reasonably representative of @script.
+     * Finds a language tag that is reasonably representative of {@code script}.
      * <p>
      * The language will usually be the most widely spoken or used language
      * written in that script: for instance, the sample language for
-     * {@link org.pango.Script<code>#CYRILLIC</code>  is ru (Russian), the sample language for
-     * {@link org.pango.Script<code>#ARABIC</code>  is ar.
+     * {@link Script#CYRILLIC} is ru (Russian), the sample language for
+     * {@link Script#ARABIC} is ar.
      * <p>
      * For some scripts, no sample language will be returned because
      * there is no language that is sufficiently representative. The
-     * best example of this is {@link org.pango.Script<code>#HAN</code>   where various different
+     * best example of this is {@link Script#HAN}, where various different
      * variants of written Chinese, Japanese, and Korean all use
      * significantly different sets of Han characters and forms
      * of shared characters. No sample language can be provided
      * for many historical scripts as well.
      * <p>
-     * As of 1.18, this function checks the environment variables<code>PANGO_LANGUAGE</code> and <code>LANGUAGE</code> (checked in that order) first.
+     * As of 1.18, this function checks the environment variables
+     * {@code PANGO_LANGUAGE} and {@code LANGUAGE} (checked in that order) first.
      * If one of them is set, it is parsed as a list of language tags
      * separated by colons or other separators. This function
      * will return the first language in the parsed list that Pango
-     * believes may use @script for writing. This last predicate
-     * is tested using {@link org.pango.Language<code>#includesScript</code> . This can
-     * be used to control Pango&<code>#39</code> s font selection for non-primary
-     * languages. For example, a <code>PANGO_LANGUAGE</code> enviroment variable
-     * set to &<code>#34</code> en:fa&<code>#34</code>  makes Pango choose fonts suitable for Persian (fa)
+     * believes may use {@code script} for writing. This last predicate
+     * is tested using {@link Language#includesScript}. This can
+     * be used to control Pango's font selection for non-primary
+     * languages. For example, a {@code PANGO_LANGUAGE} enviroment variable
+     * set to "en:fa" makes Pango choose fonts suitable for Persian (fa)
      * instead of Arabic (ar) when a segment of Arabic text is found
      * in an otherwise non-Arabic text. The same trick can be used to
-     * choose a default language for {@link org.pango.Script<code>#HAN</code>  when setting
+     * choose a default language for {@link Script#HAN} when setting
      * context language is not feasible.
      */
     public static Language scriptGetSampleLanguage(Script script) {
@@ -846,89 +849,90 @@ public final class Pango {
     }
     
     /**
-     * Convert the characters in @text into glyphs.
+     * Convert the characters in {@code text} into glyphs.
      * <p>
-     * Given a segment of text and the corresponding <code>PangoAnalysis</code> structure
-     * returned from {@link Pango<code>#itemize</code> , convert the characters into glyphs. You
-     * may also pass in only a substring of the item from {@link Pango<code>#itemize</code> .
-     * 
-     * It is recommended that you use {@link Pango<code>#shapeFull</code>  instead, since
+     * Given a segment of text and the corresponding {@code PangoAnalysis} structure
+     * returned from {@link Pango#itemize}, convert the characters into glyphs. You
+     * may also pass in only a substring of the item from {@link Pango#itemize}.
+     * <p>
+     * It is recommended that you use {@link Pango#shapeFull} instead, since
      * that API allows for shaping interaction happening across text item
      * boundaries.
-     * 
-     * Note that the extra attributes in the @analyis that is returned from
-     * {@link Pango<code>#itemize</code>  have indices that are relative to the entire paragraph,
+     * <p>
+     * Note that the extra attributes in the {@code analyis} that is returned from
+     * {@link Pango#itemize} have indices that are relative to the entire paragraph,
      * so you need to subtract the item offset from their indices before
-     * calling {@link Pango<code>#shape</code> .
+     * calling {@link Pango#shape}.
      */
     public static void shape(java.lang.String text, int length, Analysis analysis, GlyphString glyphs) {
         gtk_h.pango_shape(Interop.allocateNativeString(text).handle(), length, analysis.handle(), glyphs.handle());
     }
     
     /**
-     * Convert the characters in @text into glyphs.
+     * Convert the characters in {@code text} into glyphs.
      * <p>
-     * Given a segment of text and the corresponding <code>PangoAnalysis</code> structure
-     * returned from {@link Pango<code>#itemize</code> , convert the characters into glyphs.
-     * You may also pass in only a substring of the item from {@link Pango<code>#itemize</code> .
-     * 
-     * This is similar to {@link Pango<code>#shape</code> , except it also can optionally take
+     * Given a segment of text and the corresponding {@code PangoAnalysis} structure
+     * returned from {@link Pango#itemize}, convert the characters into glyphs.
+     * You may also pass in only a substring of the item from {@link Pango#itemize}.
+     * <p>
+     * This is similar to {@link Pango#shape}, except it also can optionally take
      * the full paragraph text as input, which will then be used to perform
      * certain cross-item shaping interactions. If you have access to the broader
-     * text of which @item_text is part of, provide the broader text as
-     * @paragraph_text. If @paragraph_text is <code>null</code>  item text is used instead.
-     * 
-     * Note that the extra attributes in the @analyis that is returned from
-     * {@link Pango<code>#itemize</code>  have indices that are relative to the entire paragraph,
-     * so you do not pass the full paragraph text as @paragraph_text, you need
+     * text of which {@code item_text} is part of, provide the broader text as
+     * {@code paragraph_text}. If {@code paragraph_text} is <code>null</code>, item text is used instead.
+     * <p>
+     * Note that the extra attributes in the {@code analyis} that is returned from
+     * {@link Pango#itemize} have indices that are relative to the entire paragraph,
+     * so you do not pass the full paragraph text as {@code paragraph_text}, you need
      * to subtract the item offset from their indices before calling
-     * {@link Pango<code>#shapeFull</code> .
+     * {@link Pango#shapeFull}.
      */
     public static void shapeFull(java.lang.String itemText, int itemLength, java.lang.String paragraphText, int paragraphLength, Analysis analysis, GlyphString glyphs) {
         gtk_h.pango_shape_full(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle());
     }
     
     /**
-     * Convert the characters in @item into glyphs.
+     * Convert the characters in {@code item} into glyphs.
      * <p>
-     * This is similar to {@link Pango<code>#shapeWithFlags</code> , except it takes a<code>PangoItem</code> instead of separate @item_text and @analysis arguments.
-     * It also takes @log_attrs, which may be used in implementing text
+     * This is similar to {@link Pango#shapeWithFlags}, except it takes a
+     * {@code PangoItem} instead of separate {@code item_text} and {@code analysis} arguments.
+     * It also takes {@code log_attrs}, which may be used in implementing text
      * transforms.
-     * 
-     * Note that the extra attributes in the @analyis that is returned from
-     * {@link Pango<code>#itemize</code>  have indices that are relative to the entire paragraph,
-     * so you do not pass the full paragraph text as @paragraph_text, you need
+     * <p>
+     * Note that the extra attributes in the {@code analyis} that is returned from
+     * {@link Pango#itemize} have indices that are relative to the entire paragraph,
+     * so you do not pass the full paragraph text as {@code paragraph_text}, you need
      * to subtract the item offset from their indices before calling
-     * {@link Pango<code>#shapeWithFlags</code> .
+     * {@link Pango#shapeWithFlags}.
      */
     public static void shapeItem(Item item, java.lang.String paragraphText, int paragraphLength, LogAttr logAttrs, GlyphString glyphs, int flags) {
         gtk_h.pango_shape_item(item.handle(), Interop.allocateNativeString(paragraphText).handle(), paragraphLength, logAttrs.handle(), glyphs.handle(), flags);
     }
     
     /**
-     * Convert the characters in @text into glyphs.
+     * Convert the characters in {@code text} into glyphs.
      * <p>
-     * Given a segment of text and the corresponding <code>PangoAnalysis</code> structure
-     * returned from {@link Pango<code>#itemize</code> , convert the characters into glyphs.
-     * You may also pass in only a substring of the item from {@link Pango<code>#itemize</code> .
-     * 
-     * This is similar to {@link Pango<code>#shapeFull</code> , except it also takes flags
+     * Given a segment of text and the corresponding {@code PangoAnalysis} structure
+     * returned from {@link Pango#itemize}, convert the characters into glyphs.
+     * You may also pass in only a substring of the item from {@link Pango#itemize}.
+     * <p>
+     * This is similar to {@link Pango#shapeFull}, except it also takes flags
      * that can influence the shaping process.
-     * 
-     * Note that the extra attributes in the @analyis that is returned from
-     * {@link Pango<code>#itemize</code>  have indices that are relative to the entire paragraph,
-     * so you do not pass the full paragraph text as @paragraph_text, you need
+     * <p>
+     * Note that the extra attributes in the {@code analyis} that is returned from
+     * {@link Pango#itemize} have indices that are relative to the entire paragraph,
+     * so you do not pass the full paragraph text as {@code paragraph_text}, you need
      * to subtract the item offset from their indices before calling
-     * {@link Pango<code>#shapeWithFlags</code> .
+     * {@link Pango#shapeWithFlags}.
      */
     public static void shapeWithFlags(java.lang.String itemText, int itemLength, java.lang.String paragraphText, int paragraphLength, Analysis analysis, GlyphString glyphs, int flags) {
         gtk_h.pango_shape_with_flags(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle(), flags);
     }
     
     /**
-     * Deserializes a <code>PangoTabArray</code> from a string.
-     * 
-     * This is the counterpart to {@link org.pango.TabArray<code>#toString</code> .
+     * Deserializes a {@code PangoTabArray} from a string.
+     * <p>
+     * This is the counterpart to {@link TabArray#toString}.
      * See that functions for details about the format.
      */
     public static TabArray tabArrayFromString(java.lang.String text) {
@@ -937,14 +941,14 @@ public final class Pango {
     }
     
     /**
-     * Apply language-specific tailoring to the breaks in @attrs.
-     * 
-     * The line breaks are assumed to have been produced by {@link Pango<code>#defaultBreak</code> .
-     * 
-     * If @offset is not -1, it is used to apply attributes from @analysis that are
+     * Apply language-specific tailoring to the breaks in {@code attrs}.
+     * <p>
+     * The line breaks are assumed to have been produced by {@link Pango#defaultBreak}.
+     * <p>
+     * If {@code offset} is not -1, it is used to apply attributes from {@code analysis} that are
      * relevant to line breaking.
-     * 
-     * Note that it is better to pass -1 for @offset and use {@link Pango<code>#attrBreak</code> 
+     * <p>
+     * Note that it is better to pass -1 for {@code offset} and use {@link Pango#attrBreak}
      * to apply attributes to the whole paragraph.
      */
     public static void tailorBreak(java.lang.String text, int length, Analysis analysis, int offset, LogAttr[] attrs, int attrsLen) {
@@ -954,12 +958,12 @@ public final class Pango {
     /**
      * Determines the inherent direction of a character.
      * <p>
-     * The inherent direction is either <code>PANGO_DIRECTION_LTR</code>, <code>PANGO_DIRECTION_RTL</code>,
-     * or <code>PANGO_DIRECTION_NEUTRAL</code>.
-     * 
+     * The inherent direction is either {@code PANGO_DIRECTION_LTR}, {@code PANGO_DIRECTION_RTL},
+     * or {@code PANGO_DIRECTION_NEUTRAL}.
+     * <p>
      * This function is useful to categorize characters into left-to-right
      * letters, right-to-left letters, and everything else. If full Unicode
-     * bidirectional type of a character is needed, {@link Pango<code>#BidiType</code> 
+     * bidirectional type of a character is needed, {@link Pango#BidiType}
      * can be used instead.
      */
     public static Direction unicharDirection(int ch) {
@@ -969,8 +973,8 @@ public final class Pango {
     
     /**
      * Converts a floating-point number to Pango units.
-     * 
-     * The conversion is done by multiplying @d by <code>PANGO_SCALE</code> and
+     * <p>
+     * The conversion is done by multiplying @d by {@code PANGO_SCALE} and
      * rounding the result to nearest integer.
      */
     public static int unitsFromDouble(double d) {
@@ -980,8 +984,8 @@ public final class Pango {
     
     /**
      * Converts a number in Pango units to floating-point.
-     * 
-     * The conversion is done by dividing @i by <code>PANGO_SCALE</code>
+     * <p>
+     * The conversion is done by dividing @i by {@code PANGO_SCALE}.
      */
     public static double unitsToDouble(int i) {
         var RESULT = gtk_h.pango_units_to_double(i);
@@ -990,8 +994,8 @@ public final class Pango {
     
     /**
      * Returns the encoded version of Pango available at run-time.
-     * 
-     * This is similar to the macro <code>PANGO_VERSION</code> except that the macro
+     * <p>
+     * This is similar to the macro {@code PANGO_VERSION} except that the macro
      * returns the encoded version available at compile-time. A version
      * number can be encoded into an integer using PANGO_VERSION_ENCODE().
      */
@@ -1003,20 +1007,20 @@ public final class Pango {
     /**
      * Checks that the Pango library in use is compatible with the
      * given version.
-     * 
-     * Generally you would pass in the constants <code>PANGO_VERSION_MAJOR</code> 
-     * <code>PANGO_VERSION_MINOR</code>  <code>PANGO_VERSION_MICRO</code> as the three arguments
+     * <p>
+     * Generally you would pass in the constants {@code PANGO_VERSION_MAJOR},
+     * {@code PANGO_VERSION_MINOR}, {@code PANGO_VERSION_MICRO} as the three arguments
      * to this function; that produces a check that the library in use at
      * run-time is compatible with the version of Pango the application or
      * module was compiled against.
-     * 
+     * <p>
      * Compatibility is defined by two things: first the version
      * of the running library is newer than the version
-     * @required_major.required_minor.@required_micro. Second
+     * {@code required_major}.required_minor.{@code required_micro}. Second
      * the running library must be binary compatible with the
-     * version @required_major.required_minor.@required_micro
+     * version {@code required_major}.required_minor.{@code required_micro}
      * (same major version.)
-     * 
+     * <p>
      * For compile-time version checking use PANGO_VERSION_CHECK().
      */
     public static java.lang.String versionCheck(int requiredMajor, int requiredMinor, int requiredMicro) {
@@ -1026,8 +1030,8 @@ public final class Pango {
     
     /**
      * Returns the version of Pango available at run-time.
-     * 
-     * This is similar to the macro <code>PANGO_VERSION_STRING</code> except that the
+     * <p>
+     * This is similar to the macro {@code PANGO_VERSION_STRING} except that the
      * macro returns the version available at compile-time.
      */
     public static java.lang.String versionString() {

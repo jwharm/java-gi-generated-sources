@@ -1,13 +1,13 @@
 package org.harfbuzz;
 
 /**
- * Defined by {@link [OpenType Design-Variation Axis Tag Registry]}(https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg).
+ * Defined by <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg">OpenType Design-Variation Axis Tag Registry</a>.
  */
 public enum StyleTagT {
 
     /**
      * Used to vary between non-italic and italic.
-     * A value of 0 can be interpreted as &<code>#34</code> Roman&<code>#34</code>  (non-italic); a value of 1 can
+     * A value of 0 can be interpreted as "Roman" (non-italic); a value of 1 can
      * be interpreted as (fully) italic.
      */
     ITALIC,
@@ -28,7 +28,7 @@ public enum StyleTagT {
     SLANT_ANGLE,
     
     /**
-     * same as @HB_STYLE_TAG_SLANT_ANGLE expression as ratio.
+     * same as {@code HB_STYLE_TAG_SLANT_ANGLE} expression as ratio.
      * Typical right-leaning Italic fonts have a positive slant ratio (typically around 0.2)
      */
     SLANT_RATIO,
@@ -36,7 +36,7 @@ public enum StyleTagT {
     /**
      * Used to vary width of text from narrower to wider.
      * Non-zero. Values can be interpreted as a percentage of whatever the font
-     * designer considers &<code>#8220</code> normal width&<code>#8221</code>  for that font design.
+     * designer considers “normal width” for that font design.
      */
     WIDTH,
     

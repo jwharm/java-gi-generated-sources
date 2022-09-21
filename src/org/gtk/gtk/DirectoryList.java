@@ -8,27 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkDirectoryList</code> is a list model that wraps g_file_enumerate_children_async().
+ * {@code GtkDirectoryList} is a list model that wraps g_file_enumerate_children_async().
  * <p>
- * It presents a <code>GListModel</code> and fills it asynchronously with the <code>GFileInfo</code>s
+ * It presents a {@code GListModel} and fills it asynchronously with the {@code GFileInfo}s
  * returned from that function.
  * <p>
  * Enumeration will start automatically when a the
- * {@link [property@Gtk.DirectoryList:file] (ref=property)} property is set.
+ * {@code Gtk.DirectoryList:file} property is set.
  * <p>
- * While the <code>GtkDirectoryList</code> is being filled, the
- * {@link [property@Gtk.DirectoryList:loading] (ref=property)} property will be set to <code>true</code>  You can
- * listen to that property if you want to show information like a <code>GtkSpinner</code>
- * or a &<code>#34</code> Loading...&<code>#34</code>  text.
+ * While the {@code GtkDirectoryList} is being filled, the
+ * {@code Gtk.DirectoryList:loading} property will be set to <code>true</code>. You can
+ * listen to that property if you want to show information like a {@code GtkSpinner}
+ * or a "Loading..." text.
  * <p>
- * If loading fails at any point, the {@link [property@Gtk.DirectoryList:error] (ref=property)}
+ * If loading fails at any point, the {@code Gtk.DirectoryList:error}
  * property will be set to give more indication about the failure.
  * <p>
- * The <code>GFileInfo</code>s returned from a <code>GtkDirectoryList</code> have the &<code>#34</code> standard::file&<code>#34</code> 
- * attribute set to the <code>GFile</code> they refer to. This way you can get at the file
+ * The {@code GFileInfo}s returned from a {@code GtkDirectoryList} have the "standard::file"
+ * attribute set to the {@code GFile} they refer to. This way you can get at the file
  * that is referred to in the same way you would via g_file_enumerator_get_child().
- * This means you do not need access to the <code>GtkDirectoryList</code>, but can access
- * the <code>GFile</code> directly from the <code>GFileInfo</code> when operating with a <code>GtkListView</code>
+ * This means you do not need access to the {@code GtkDirectoryList}, but can access
+ * the {@code GFile} directly from the {@code GFileInfo} when operating with a {@code GtkListView}
  * or similar.
  */
 public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
@@ -48,10 +48,10 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     }
     
     /**
-     * Creates a new <code>GtkDirectoryList</code>.
+     * Creates a new {@code GtkDirectoryList}.
      * <p>
-     * The <code>GtkDirectoryList</code> is querying the given @file
-     * with the given @attributes.
+     * The {@code GtkDirectoryList} is querying the given {@code file}
+     * with the given {@code attributes}.
      */
     public DirectoryList(java.lang.String attributes, org.gtk.gio.File file) {
         super(constructNew(attributes, file));
@@ -67,11 +67,11 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     
     /**
      * Gets the loading error, if any.
-     * 
+     * <p>
      * If an error occurs during the loading process, the loading process
      * will finish and this property allows querying the error that happened.
      * This error will persist until a file is loaded again.
-     * 
+     * <p>
      * An error being set does not mean that no files were loaded, and all
      * successfully queried files will remain in the list.
      */
@@ -108,8 +108,8 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Returns <code>true</code> if the children enumeration is currently in
      * progress.
-     * 
-     * Files will be added to @self from time to time while loading is
+     * <p>
+     * Files will be added to {@code self} from time to time while loading is
      * going on. The order in which are added is undefined and may change
      * in between runs.
      */
@@ -119,19 +119,19 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     }
     
     /**
-     * Sets the @attributes to be enumerated and starts the enumeration.
+     * Sets the {@code attributes} to be enumerated and starts the enumeration.
      * <p>
-     * If @attributes is <code>null</code>  no attributes will be queried, but a list
-     * of <code>GFileInfo</code>s will still be created.
+     * If {@code attributes} is <code>null</code>, no attributes will be queried, but a list
+     * of {@code GFileInfo}s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
         gtk_h.gtk_directory_list_set_attributes(handle(), Interop.allocateNativeString(attributes).handle());
     }
     
     /**
-     * Sets the @file to be enumerated and starts the enumeration.
-     * 
-     * If @file is <code>null</code>  the result will be an empty list.
+     * Sets the {@code file} to be enumerated and starts the enumeration.
+     * <p>
+     * If {@code file} is <code>null</code>, the result will be an empty list.
      */
     public void setFile(org.gtk.gio.File file) {
         gtk_h.gtk_directory_list_set_file(handle(), file.handle());
@@ -139,13 +139,14 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     
     /**
      * Sets the IO priority to use while loading directories.
-     * 
-     * Setting the priority while @self is loading will reprioritize the
+     * <p>
+     * Setting the priority while {@code self} is loading will reprioritize the
      * ongoing load as soon as possible.
-     * 
-     * The default IO priority is <code>G_PRIORITY_DEFAULT</code>  which is higher than
+     * <p>
+     * The default IO priority is {@code G_PRIORITY_DEFAULT}, which is higher than
      * the GTK redraw priority. If you are loading a lot of directories in
-     * parallel, lowering it to something like <code>G_PRIORITY_DEFAULT_IDLE</code> may increase responsiveness.
+     * parallel, lowering it to something like {@code G_PRIORITY_DEFAULT_IDLE}
+     * may increase responsiveness.
      */
     public void setIoPriority(int ioPriority) {
         gtk_h.gtk_directory_list_set_io_priority(handle(), ioPriority);
@@ -154,10 +155,10 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets whether the directory list will monitor the directory
      * for changes.
-     * 
+     * <p>
      * If monitoring is enabled, the ::items-changed signal will
      * be emitted when the directory contents change.
-     * 
+     * <p>
      * 
      * When monitoring is turned on after the initial creation
      * of the directory list, the directory is reloaded to avoid

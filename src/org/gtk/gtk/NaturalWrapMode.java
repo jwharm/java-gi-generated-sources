@@ -3,27 +3,27 @@ package org.gtk.gtk;
 /**
  * Options for selecting a different wrap mode for natural size
  * requests.
- * 
- * See for example the {@link [property@Gtk.Label:natural-wrap-mode] (ref=property)} property.
+ * <p>
+ * See for example the {@code Gtk.Label:natural-wrap-mode} property.
  */
 public enum NaturalWrapMode {
 
     /**
      * Inherit the minimum size request.
-     *   In particular, this should be used with {@link org.pango.WrapMode<code>#CHAR</code>
+     *   In particular, this should be used with {@link org.pango.WrapMode#CHAR}.
      */
     INHERIT,
     
     /**
      * Try not to wrap the text. This mode is the
-     *   closest to GTK3&<code>#39</code> s behavior but can lead to a wide label leaving
+     *   closest to GTK3's behavior but can lead to a wide label leaving
      *   lots of empty space below the text.
      */
     NONE,
     
     /**
      * Attempt to wrap at word boundaries. This
-     *   is useful in particular when using {@link org.pango.WrapMode<code>#WORD_CHAR</code>  as the
+     *   is useful in particular when using {@link org.pango.WrapMode#WORD_CHAR} as the
      *   wrap mode.
      */
     WORD;

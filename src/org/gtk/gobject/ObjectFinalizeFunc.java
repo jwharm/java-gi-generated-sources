@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * The type of the @finalize function of {@link org.gtk.gobject.ObjectClass}
+ * The type of the {@code finalize} function of {@link ObjectClass}.
  */
 @FunctionalInterface
 public interface ObjectFinalizeFunc {

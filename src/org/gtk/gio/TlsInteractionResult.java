@@ -1,7 +1,8 @@
 package org.gtk.gio;
 
 /**
- * {@link org.gtk.gio.TlsInteractionResult} is returned by various functions in {@link org.gtk.gio.TlsInteraction} when finishing an interaction request.
+ * {@link TlsInteractionResult} is returned by various functions in {@link TlsInteraction}
+ * when finishing an interaction request.
  */
 public enum TlsInteractionResult {
 

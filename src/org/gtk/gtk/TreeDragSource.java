@@ -8,14 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Interface for Drag-and-Drop destinations in <code>GtkTreeView</code>.
+ * Interface for Drag-and-Drop destinations in {@code GtkTreeView}.
  */
 public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Asks the <code>GtkTreeDragSource</code> to delete the row at @path, because
-     * it was moved somewhere else via drag-and-drop. Returns <code>false</code> if the deletion fails because @path no longer exists, or for
-     * some model-specific reason. Should robustly handle a @path no
+     * Asks the {@code GtkTreeDragSource} to delete the row at {@code path}, because
+     * it was moved somewhere else via drag-and-drop. Returns <code>false</code>
+     * if the deletion fails because {@code path} no longer exists, or for
+     * some model-specific reason. Should robustly handle a {@code path} no
      * longer found in the model!
      */
     public default boolean dragDataDelete(TreePath path) {
@@ -24,8 +25,8 @@ public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asks the <code>GtkTreeDragSource</code> to return a <code>GdkContentProvider</code> representing
-     * the row at @path. Should robustly handle a @path no
+     * Asks the {@code GtkTreeDragSource} to return a {@code GdkContentProvider} representing
+     * the row at {@code path}. Should robustly handle a {@code path} no
      * longer found in the model!
      */
     public default org.gtk.gdk.ContentProvider dragDataGet(TreePath path) {
@@ -34,8 +35,8 @@ public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asks the <code>GtkTreeDragSource</code> whether a particular row can be used as
-     * the source of a DND operation. If the source doesn&<code>#8217</code> t implement
+     * Asks the {@code GtkTreeDragSource} whether a particular row can be used as
+     * the source of a DND operation. If the source doesn’t implement
      * this interface, the row is assumed draggable.
      */
     public default boolean rowDraggable(TreePath path) {

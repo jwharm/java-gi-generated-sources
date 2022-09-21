@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.SettingsSchemaKey} is an opaque data structure and can only be accessed
+ * {@link SettingsSchemaKey} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
@@ -18,8 +18,8 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the default value for @key.
-     * 
+     * Gets the default value for {@code key}.
+     * <p>
      * Note that this is the default value according to the schema.  System
      * administrator defaults and lockdown are not visible via this API.
      */
@@ -29,16 +29,16 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the description for @key.
-     * 
-     * If no description has been provided in the schema for @key, returns
-     * <code>null</code> 
-     * 
+     * Gets the description for {@code key}.
+     * <p>
+     * If no description has been provided in the schema for {@code key}, returns
+     * <code>null</code>.
+     * <p>
      * The description can be one sentence to several paragraphs in length.
      * Paragraphs are delimited with a double newline.  Descriptions can be
      * translated and the value returned from this function is is the
      * current locale.
-     * 
+     * <p>
      * This function is slow.  The summary and description information for
      * the schemas is not stored in the compiled schema database so this
      * function has to parse all of the source XML files in the schema
@@ -50,7 +50,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the name of @key.
+     * Gets the name of {@code key}.
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.g_settings_schema_key_get_name(handle());
@@ -61,36 +61,37 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * Queries the range of a key.
      * <p>
      * This function will return a {@link org.gtk.glib.Variant} that fully describes the range
-     * of values that are valid for @key.
+     * of values that are valid for {@code key}.
      * <p>
-     * The type of {@link org.gtk.glib.Variant} returned is <code>(sv)</code>. The string describes
+     * The type of {@link org.gtk.glib.Variant} returned is {@code (sv)}. The string describes
      * the type of range restriction in effect. The type and meaning of
      * the value contained in the variant depends on the string.
      * <p>
-     * If the string is <code>&<code>#39</code> type&<code>#39</code> </code> then the variant contains an empty array.
+     * If the string is {@code 'type'} then the variant contains an empty array.
      * The element type of that empty array is the expected type of value
      * and all values of that type are valid.
      * <p>
-     * If the string is <code>&<code>#39</code> enum&<code>#39</code> </code> then the variant contains an array
+     * If the string is {@code 'enum'} then the variant contains an array
      * enumerating the possible values. Each item in the array is
      * a possible valid value and no other values are valid.
      * <p>
-     * If the string is <code>&<code>#39</code> flags&<code>#39</code> </code> then the variant contains an array. Each
+     * If the string is {@code 'flags'} then the variant contains an array. Each
      * item in the array is a value that may appear zero or one times in an
      * array to be used as the value for this key. For example, if the
-     * variant contained the array <code>{@link [&<code>#39</code> x&<code>#39</code> , &<code>#39</code> y&<code>#39</code> ]}</code> then the valid values for
-     * the key would be <code>{@link []}</code>, <code>{@link [&<code>#39</code> x&<code>#39</code> ]}</code>, <code>{@link [&<code>#39</code> y&<code>#39</code> ]}</code>, <code>{@link [&<code>#39</code> x&<code>#39</code> , &<code>#39</code> y&<code>#39</code> ]}</code> and<code>{@link [&<code>#39</code> y&<code>#39</code> , &<code>#39</code> x&<code>#39</code> ]}</code>.
+     * variant contained the array {@code ['x', 'y']} then the valid values for
+     * the key would be {@code []}, {@code ['x']}, {@code ['y']}, {@code ['x', 'y']} and
+     * {@code ['y', 'x']}.
      * <p>
-     * Finally, if the string is <code>&<code>#39</code> range&<code>#39</code> </code> then the variant contains a pair
+     * Finally, if the string is {@code 'range'} then the variant contains a pair
      * of like-typed values -- the minimum and maximum permissible values
      * for this key.
-     * 
+     * <p>
      * This information should not be used by normal programs.  It is
      * considered to be a hint for introspection purposes.  Normal programs
      * should already know what is permitted by their own schema.  The
      * format may change in any way in the future -- but particularly, new
      * forms may be added to the possibilities described above.
-     * 
+     * <p>
      * You should free the returned value with g_variant_unref() when it is
      * no longer needed.
      */
@@ -100,15 +101,15 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the summary for @key.
-     * 
-     * If no summary has been provided in the schema for @key, returns
-     * <code>null</code> 
-     * 
+     * Gets the summary for {@code key}.
+     * <p>
+     * If no summary has been provided in the schema for {@code key}, returns
+     * <code>null</code>.
+     * <p>
      * The summary is a short description of the purpose of the key; usually
      * one short sentence.  Summaries can be translated and the value
      * returned from this function is is the current locale.
-     * 
+     * <p>
      * This function is slow.  The summary and description information for
      * the schemas is not stored in the compiled schema database so this
      * function has to parse all of the source XML files in the schema
@@ -120,7 +121,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the {@link org.gtk.glib.VariantType} of @key.
+     * Gets the {@link org.gtk.glib.VariantType} of {@code key}.
      */
     public org.gtk.glib.VariantType getValueType() {
         var RESULT = gtk_h.g_settings_schema_key_get_value_type(handle());
@@ -128,10 +129,10 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if the given @value is within the
-     * permitted range for @key.
-     * 
-     * It is a programmer error if @value is not of the correct type &<code>#8212</code>  you
+     * Checks if the given {@code value} is within the
+     * permitted range for {@code key}.
+     * <p>
+     * It is a programmer error if {@code value} is not of the correct type — you
      * must check for this first.
      */
     public boolean rangeCheck(org.gtk.glib.Variant value) {
@@ -140,7 +141,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increase the reference count of @key, returning a new reference.
+     * Increase the reference count of {@code key}, returning a new reference.
      */
     public SettingsSchemaKey ref() {
         var RESULT = gtk_h.g_settings_schema_key_ref(handle());
@@ -148,7 +149,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decrease the reference count of @key, possibly freeing it.
+     * Decrease the reference count of {@code key}, possibly freeing it.
      */
     public void unref() {
         gtk_h.g_settings_schema_key_unref(handle());

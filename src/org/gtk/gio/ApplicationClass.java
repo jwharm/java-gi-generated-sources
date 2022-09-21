@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Virtual function table for {@link org.gtk.gio.Application}
+ * Virtual function table for {@link Application}.
  */
 public class ApplicationClass extends io.github.jwharm.javagi.ResourceBase {
 

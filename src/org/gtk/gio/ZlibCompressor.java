@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.ZlibCompressor} is an implementation of {@link org.gtk.gio.Converter} that
+ * {@link ZlibCompressor} is an implementation of {@link Converter} that
  * compresses data using zlib.
  */
 public class ZlibCompressor extends org.gtk.gobject.Object implements Converter {
@@ -28,14 +28,14 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.ZlibCompressor}
+     * Creates a new {@link ZlibCompressor}.
      */
     public ZlibCompressor(ZlibCompressorFormat format, int level) {
         super(constructNew(format, level));
     }
     
     /**
-     * Returns the {@link org.gtk.gio.ZlibCompressor} file-info property.
+     * Returns the {@link ZlibCompressor}:file-info property.
      */
     public FileInfo getFileInfo() {
         var RESULT = gtk_h.g_zlib_compressor_get_file_info(handle());
@@ -43,13 +43,13 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
     }
     
     /**
-     * Sets @file_info in @compressor. If non-<code>null</code>  and @compressor&<code>#39</code> s
-     * {@link org.gtk.gio.ZlibCompressor} format property is {@link org.gtk.gio.ZlibCompressorFormat<code>#GZIP</code>  
+     * Sets {@code file_info} in {@code compressor}. If non-<code>null</code>, and {@code compressor}'s
+     * {@link ZlibCompressor}:format property is {@link ZlibCompressorFormat#GZIP},
      * it will be used to set the file name and modification time in
      * the GZIP header of the compressed data.
-     * 
+     * <p>
      * Note: it is an error to call this function while a compression is in
-     * progress; it may only be called immediately after creation of @compressor,
+     * progress; it may only be called immediately after creation of {@code compressor},
      * or after resetting it with g_converter_reset().
      */
     public void setFileInfo(FileInfo fileInfo) {

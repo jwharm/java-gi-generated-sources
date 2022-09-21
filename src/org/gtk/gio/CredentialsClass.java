@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.Credentials}
+ * Class structure for {@link Credentials}.
  */
 public class CredentialsClass extends io.github.jwharm.javagi.ResourceBase {
 

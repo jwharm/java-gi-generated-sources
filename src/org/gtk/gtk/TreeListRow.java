@@ -8,15 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkTreeListRow</code> is used by <code>GtkTreeListModel</code> to represent items.
+ * {@code GtkTreeListRow} is used by {@code GtkTreeListModel} to represent items.
  * <p>
  * It allows navigating the model as a tree and modify the state of rows.
- * <p><code>GtkTreeListRow</code> instances are created by a <code>GtkTreeListModel</code> only
- * when the {@link [property@Gtk.TreeListModel:passthrough] (ref=property)} property is not set.
  * <p>
- * There are various support objects that can make use of <code>GtkTreeListRow</code>
- * objects, such as the {@link org.gtk.gtk.TreeExpander} widget that allows displaying
- * an icon to expand or collapse a row or {@link org.gtk.gtk.TreeListRowSorter} that
+ * {@code GtkTreeListRow} instances are created by a {@code GtkTreeListModel} only
+ * when the {@code Gtk.TreeListModel:passthrough} property is not set.
+ * <p>
+ * There are various support objects that can make use of {@code GtkTreeListRow}
+ * objects, such as the {@link TreeExpander} widget that allows displaying
+ * an icon to expand or collapse a row or {@link TreeListRowSorter} that
  * makes it possible to sort trees properly.
  */
 public class TreeListRow extends org.gtk.gobject.Object {
@@ -31,7 +32,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
     }
     
     /**
-     * If @self is not expanded or @position is greater than the
+     * If {@code self} is not expanded or {@code position} is greater than the
      * number of children, <code>null</code> is returned.
      */
     public TreeListRow getChildRow(int position) {
@@ -40,12 +41,12 @@ public class TreeListRow extends org.gtk.gobject.Object {
     }
     
     /**
-     * If the row is expanded, gets the model holding the children of @self.
-     * 
+     * If the row is expanded, gets the model holding the children of {@code self}.
+     * <p>
      * This model is the model created by the
-     * {@link [callback@Gtk.TreeListModelCreateModelFunc] (ref=callback)}
+     * {@code Gtk.TreeListModelCreateModelFunc}
      * and contains the original items, no matter what value
-     * {@link [property@Gtk.TreeListModel:passthrough] (ref=property)} is set to.
+     * {@code Gtk.TreeListModel:passthrough} is set to.
      */
     public org.gtk.gio.ListModel getChildren() {
         var RESULT = gtk_h.gtk_tree_list_row_get_children(handle());
@@ -54,11 +55,11 @@ public class TreeListRow extends org.gtk.gobject.Object {
     
     /**
      * Gets the depth of this row.
-     * 
+     * <p>
      * Rows that correspond to items in the root model have a depth
      * of zero, rows corresponding to items of models of direct children
      * of the root model have a depth of 1 and so on.
-     * 
+     * <p>
      * The depth of a row never changes until the row is destroyed.
      */
     public int getDepth() {
@@ -76,7 +77,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
     
     /**
      * Gets the item corresponding to this row,
-     * 
+     * <p>
      * The value returned by this function never changes until the
      * row is destroyed.
      */
@@ -86,14 +87,14 @@ public class TreeListRow extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the row representing the parent for @self.
-     * 
+     * Gets the row representing the parent for {@code self}.
+     * <p>
      * That is the row that would need to be collapsed
      * to make this row disappear.
-     * 
-     * If @self is a row corresponding to the root model,
+     * <p>
+     * If {@code self} is a row corresponding to the root model,
      * <code>null</code> is returned.
-     * 
+     * <p>
      * The value returned by this function never changes
      * until the row is destroyed.
      */
@@ -103,7 +104,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the position in the <code>GtkTreeListModel</code> that @self occupies
+     * Returns the position in the {@code GtkTreeListModel} that {@code self} occupies
      * at the moment.
      */
     public int getPosition() {
@@ -113,10 +114,10 @@ public class TreeListRow extends org.gtk.gobject.Object {
     
     /**
      * Checks if a row can be expanded.
-     * 
+     * <p>
      * This does not mean that the row is actually expanded,
-     * this can be checked with {@link org.gtk.gtk.TreeListRow<code>#getExpanded</code> .
-     * 
+     * this can be checked with {@link TreeListRow#getExpanded}.
+     * <p>
      * If a row is expandable never changes until the row is destroyed.
      */
     public boolean isExpandable() {
@@ -126,12 +127,12 @@ public class TreeListRow extends org.gtk.gobject.Object {
     
     /**
      * Expands or collapses a row.
-     * 
+     * <p>
      * If a row is expanded, the model of calling the
-     * {@link [callback@Gtk.TreeListModelCreateModelFunc] (ref=callback)} for the row&<code>#39</code> s
+     * {@code Gtk.TreeListModelCreateModelFunc} for the row's
      * item will be inserted after this row. If a row is collapsed,
      * those items will be removed from the model.
-     * 
+     * <p>
      * If the row is not expandable, this function does nothing.
      */
     public void setExpanded(boolean expanded) {

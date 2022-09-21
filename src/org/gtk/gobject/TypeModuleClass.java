@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * In order to implement dynamic loading of types based on {@link org.gtk.gobject.TypeModule} 
- * the @load and @unload functions in {@link org.gtk.gobject.TypeModuleClass} must be implemented.
+ * In order to implement dynamic loading of types based on {@link TypeModule},
+ * the {@code load} and {@code unload} functions in {@link TypeModuleClass} must be implemented.
  */
 public class TypeModuleClass extends io.github.jwharm.javagi.ResourceBase {
 

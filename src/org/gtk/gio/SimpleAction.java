@@ -8,10 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gio.SimpleAction} is the obvious simple implementation of the {@link org.gtk.gio.Action} interface. This is the easiest way to create an action for purposes of
- * adding it to a {@link org.gtk.gio.SimpleActionGroup} 
- * 
- * See also <code>#GtkAction</code>
+ * A {@link SimpleAction} is the obvious simple implementation of the {@link Action}
+ * interface. This is the easiest way to create an action for purposes of
+ * adding it to a {@link SimpleActionGroup}.
+ * <p>
+ * See also {@code GtkAction}.
  */
 public class SimpleAction extends org.gtk.gobject.Object implements Action {
 
@@ -31,7 +32,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     /**
      * Creates a new action.
-     * 
+     * <p>
      * The created action is stateless. See g_simple_action_new_stateful() to create
      * an action that has state.
      */
@@ -46,11 +47,11 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     /**
      * Creates a new stateful action.
-     * 
+     * <p>
      * All future state values must have the same {@link org.gtk.glib.VariantType} as the initial
-     * @state.
-     * 
-     * If the @state {@link org.gtk.glib.Variant} is floating, it is consumed.
+     * {@code state}.
+     * <p>
+     * If the {@code state} {@link org.gtk.glib.Variant} is floating, it is consumed.
      */
     public static SimpleAction newStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
         return new SimpleAction(constructNewStateful(name, parameterType, state));
@@ -58,10 +59,10 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     /**
      * Sets the action as enabled or not.
-     * 
+     * <p>
      * An action must be enabled in order to be activated or in order to
      * have its state changed from outside callers.
-     * 
+     * <p>
      * This should only be called by the implementor of the action.  Users
      * of the action should not attempt to modify its enabled flag.
      */
@@ -71,15 +72,15 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     /**
      * Sets the state of the action.
-     * 
-     * This directly updates the &<code>#39</code> state&<code>#39</code>  property to the given value.
-     * 
+     * <p>
+     * This directly updates the 'state' property to the given value.
+     * <p>
      * This should only be called by the implementor of the action.  Users
-     * of the action should not attempt to directly modify the &<code>#39</code> state&<code>#39</code> 
+     * of the action should not attempt to directly modify the 'state'
      * property.  Instead, they should call g_action_change_state() to
      * request the change.
-     * 
-     * If the @value GVariant is floating, it is consumed.
+     * <p>
+     * If the {@code value} GVariant is floating, it is consumed.
      */
     public void setState(org.gtk.glib.Variant value) {
         gtk_h.g_simple_action_set_state(handle(), value.handle());
@@ -87,7 +88,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     /**
      * Sets the state hint for the action.
-     * 
+     * <p>
      * See g_action_get_state_hint() for more information about
      * action state hints.
      */
@@ -102,18 +103,18 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     /**
      * Indicates that the action was just activated.
-     * 
-     * @parameter will always be of the expected type, i.e. the parameter type
+     * <p>
+     * {@code parameter} will always be of the expected type, i.e. the parameter type
      * specified when the action was created. If an incorrect type is given when
      * activating the action, this signal is not emitted.
-     * 
+     * <p>
      * Since GLib 2.40, if no handler is connected to this signal then the
      * default behaviour for boolean-stated actions with a <code>null</code> parameter
-     * type is to toggle them via the {@link org.gtk.gio.SimpleAction} :change-state signal.
+     * type is to toggle them via the {@link SimpleAction}::change-state signal.
      * For stateful actions where the state type is equal to the parameter
      * type, the default is to forward them directly to
-     * {@link org.gtk.gio.SimpleAction} :change-state.  This should allow almost all users
-     * of {@link org.gtk.gio.SimpleAction} to connect only one handler or the other.
+     * {@link SimpleAction}::change-state.  This should allow almost all users
+     * of {@link SimpleAction} to connect only one handler or the other.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
@@ -138,35 +139,35 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     /**
      * Indicates that the action just received a request to change its
      * state.
-     * 
-     * @value will always be of the correct state type, i.e. the type of the
+     * <p>
+     * {@code value} will always be of the correct state type, i.e. the type of the
      * initial state passed to g_simple_action_new_stateful(). If an incorrect
      * type is given when requesting to change the state, this signal is not
      * emitted.
-     * 
+     * <p>
      * If no handler is connected to this signal then the default
      * behaviour is to call g_simple_action_set_state() to set the state
      * to the requested value. If you connect a signal handler then no
      * default action is taken. If the state should change then you must
      * call g_simple_action_set_state() from the handler.
-     * 
-     * An example of a &<code>#39</code> change-state&<code>#39</code>  handler:
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * <p>
+     * An example of a 'change-state' handler:
+     * |[&lt;!-- language="C" --&gt;
      * static void
      * change_volume_state (GSimpleAction *action,
      *                      GVariant      *value,
      *                      gpointer       user_data)
      * {
      *   gint requested;
-     * 
+     * <p>
      *   requested = g_variant_get_int32 (value);
-     * 
+     * <p>
      *   // Volume only goes from 0 to 10
-     *   if (0 &<code>#60</code> = requested &<code>#38</code> &<code>#38</code>  requested &<code>#60</code> = 10)
+     *   if (0 <= requested && requested <= 10)
      *     g_simple_action_set_state (action, value);
      * }
-     * ]}|
-     * 
+     * ]|
+     * <p>
      * The handler need not set the state to the requested value.
      * It could set it to any value at all, or take some other action.
      */

@@ -28,8 +28,8 @@ public class TextNode extends RenderNode {
     
     /**
      * Creates a render node that renders the given glyphs.
-     * 
-     * Note that @color may not be used if the font contains
+     * <p>
+     * Note that {@code color} may not be used if the font contains
      * color glyphs.
      */
     public TextNode(org.pango.Font font, org.pango.GlyphString glyphs, org.gtk.gdk.RGBA color, org.gtk.graphene.Point offset) {
@@ -37,7 +37,7 @@ public class TextNode extends RenderNode {
     }
     
     /**
-     * Retrieves the color used by the text @node.
+     * Retrieves the color used by the text {@code node}.
      */
     public org.gtk.gdk.RGBA getColor() {
         var RESULT = gtk_h.gsk_text_node_get_color(handle());
@@ -45,7 +45,7 @@ public class TextNode extends RenderNode {
     }
     
     /**
-     * Returns the font used by the text @node.
+     * Returns the font used by the text {@code node}.
      */
     public org.pango.Font getFont() {
         var RESULT = gtk_h.gsk_text_node_get_font(handle());
@@ -69,7 +69,7 @@ public class TextNode extends RenderNode {
     }
     
     /**
-     * Checks whether the text @node has color glyphs.
+     * Checks whether the text {@code node} has color glyphs.
      */
     public boolean hasColorGlyphs() {
         var RESULT = gtk_h.gsk_text_node_has_color_glyphs(handle());

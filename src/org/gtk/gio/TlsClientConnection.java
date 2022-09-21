@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.TlsClientConnection} is the client-side subclass of
- * {@link org.gtk.gio.TlsConnection}  representing a client-side TLS connection.
+ * {@link TlsClientConnection} is the client-side subclass of
+ * {@link TlsConnection}, representing a client-side TLS connection.
  */
 public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddress {
 
@@ -18,26 +18,26 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * in TLS session resumption. This is not normally needed, but may be
      * used when the same session needs to be used between different
      * endpoints, as is required by some protocols, such as FTP over TLS.
-     * @source should have already completed a handshake and, since TLS 1.3,
-     * it should have been used to read data at least once. @conn should not
+     * {@code source} should have already completed a handshake and, since TLS 1.3,
+     * it should have been used to read data at least once. {@code conn} should not
      * have completed a handshake.
-     * 
+     * <p>
      * It is not possible to know whether a call to this function will
      * actually do anything. Because session resumption is normally used
      * only for performance benefit, the TLS backend might not implement
      * this function. Even if implemented, it may not actually succeed in
-     * allowing @conn to resume @source&<code>#39</code> s TLS session, because the server
-     * may not have sent a session resumption token to @source, or it may
-     * refuse to accept the token from @conn. There is no way to know
+     * allowing {@code conn} to resume {@code source}'s TLS session, because the server
+     * may not have sent a session resumption token to {@code source}, or it may
+     * refuse to accept the token from {@code conn}. There is no way to know
      * whether a call to this function is actually successful.
-     * 
+     * <p>
      * Using this function is not required to benefit from session
      * resumption. If the TLS backend supports session resumption, the
      * session will be resumed automatically if it is possible to do so
      * without weakening the privacy guarantees normally provided by TLS,
      * without need to call this function. For example, with TLS 1.3,
      * a session ticket will be automatically copied from any
-     * {@link org.gtk.gio.TlsClientConnection} that has previously received session tickets
+     * {@link TlsClientConnection} that has previously received session tickets
      * from the server, provided a ticket is available that has not
      * previously been used for session resumption, since session ticket
      * reuse would be a privacy weakness. Using this function causes the
@@ -51,8 +51,8 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * Gets the list of distinguished names of the Certificate Authorities
      * that the server will accept certificates from. This will be set
      * during the TLS handshake if the server requests a certificate.
-     * Otherwise, it will be <code>null</code> 
-     * 
+     * Otherwise, it will be <code>null</code>.
+     * <p>
      * Each item in the list is a {@link org.gtk.glib.ByteArray} which contains the complete
      * subject DN of the certificate authority.
      */
@@ -62,7 +62,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Gets @conn&<code>#39</code> s expected server identity
+     * Gets {@code conn}'s expected server identity
      */
     public default SocketConnectable getServerIdentity() {
         var RESULT = gtk_h.g_tls_client_connection_get_server_identity(handle());
@@ -70,22 +70,22 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Sets @conn&<code>#39</code> s expected server identity, which is used both to tell
+     * Sets {@code conn}'s expected server identity, which is used both to tell
      * servers on virtual hosts which certificate to present, and also
-     * to let @conn know what name to look for in the certificate when
-     * performing {@link org.gtk.gio.TlsCertificateFlags<code>#BAD_IDENTITY</code>  validation, if enabled.
+     * to let {@code conn} know what name to look for in the certificate when
+     * performing {@link TlsCertificateFlags#BAD_IDENTITY} validation, if enabled.
      */
     public default void setServerIdentity(SocketConnectable identity) {
         gtk_h.g_tls_client_connection_set_server_identity(handle(), identity.handle());
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.TlsClientConnection} wrapping @base_io_stream (which
+     * Creates a new {@link TlsClientConnection} wrapping {@code base_io_stream} (which
      * must have pollable input and output streams) which is assumed to
-     * communicate with the server identified by @server_identity.
-     * 
-     * See the documentation for {@link org.gtk.gio.TlsConnection} base-io-stream for restrictions
-     * on when application code can run operations on the @base_io_stream after
+     * communicate with the server identified by {@code server_identity}.
+     * <p>
+     * See the documentation for {@link TlsConnection}:base-io-stream for restrictions
+     * on when application code can run operations on the {@code base_io_stream} after
      * this function has returned.
      */
     public static TlsClientConnection new_(IOStream baseIoStream, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {

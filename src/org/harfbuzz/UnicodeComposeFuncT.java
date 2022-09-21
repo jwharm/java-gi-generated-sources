@@ -1,12 +1,12 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the {@link org.harfbuzz.unicode_funcs_t} structure.
- * 
+ * A virtual method for the {@link unicode_funcs_t} structure.
+ * <p>
  * This method should compose a sequence of two input Unicode code
  * points by canonical equivalence, returning the composed code
- * point in a {@link org.harfbuzz.codepoint_t} output parameter (if successful).
- * The method must return an {@link org.harfbuzz.bool_t} indicating the success
+ * point in a {@link codepoint_t} output parameter (if successful).
+ * The method must return an {@link bool_t} indicating the success
  * of the composition.
  */
 @FunctionalInterface

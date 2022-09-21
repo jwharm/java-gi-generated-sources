@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkATContext</code> is an abstract class provided by GTK to communicate to
+ * {@code GtkATContext} is an abstract class provided by GTK to communicate to
  * platform-specific assistive technologies API.
  * <p>
- * Each platform supported by GTK implements a <code>GtkATContext</code> subclass, and
+ * Each platform supported by GTK implements a {@code GtkATContext} subclass, and
  * is responsible for updating the accessible state in response to state
- * changes in <code>GtkAccessible</code>.
+ * changes in {@code GtkAccessible}.
  */
 public class ATContext extends org.gtk.gobject.Object {
 
@@ -32,10 +32,10 @@ public class ATContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new <code>GtkATContext</code> instance for the given accessible role,
+     * Creates a new {@code GtkATContext} instance for the given accessible role,
      * accessible instance, and display connection.
      * <p>
-     * The <code>GtkATContext</code> implementation being instantiated will depend on the
+     * The {@code GtkATContext} implementation being instantiated will depend on the
      * platform.
      */
     public static ATContext create(AccessibleRole accessibleRole, Accessible accessible, org.gtk.gdk.Display display) {
@@ -43,7 +43,7 @@ public class ATContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the <code>GtkAccessible</code> using this context.
+     * Retrieves the {@code GtkAccessible} using this context.
      */
     public Accessible getAccessible() {
         var RESULT = gtk_h.gtk_at_context_get_accessible(handle());
@@ -64,7 +64,8 @@ public class ATContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the attributes of the accessible for the<code>GtkATContext</code> instance change.
+     * Emitted when the attributes of the accessible for the
+     * {@code GtkATContext} instance change.
      */
     public SignalHandle onStateChange(StateChangeHandler handler) {
         try {

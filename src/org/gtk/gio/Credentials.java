@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.gio.Credentials} type is a reference-counted wrapper for native
+ * The {@link Credentials} type is a reference-counted wrapper for native
  * credentials. This information is typically used for identifying,
  * authenticating and authorizing other processes.
  * <p>
@@ -18,33 +18,33 @@ import java.lang.invoke.*;
  * <p>
  * Some operating systems supports securely sending and receiving
  * credentials over a Unix Domain Socket, see
- * {@link org.gtk.gio.UnixCredentialsMessage}  g_unix_connection_send_credentials() and
+ * {@link UnixCredentialsMessage}, g_unix_connection_send_credentials() and
  * g_unix_connection_receive_credentials() for details.
  * <p>
- * On Linux, the native credential type is a <code>struct ucred</code> - see the
+ * On Linux, the native credential type is a {@code struct ucred} - see the
  * unix(7) man page for details. This corresponds to
- * {@link org.gtk.gio.CredentialsType<code>#LINUX_UCRED</code>  
+ * {@link CredentialsType#LINUX_UCRED}.
  * <p>
  * On Apple operating systems (including iOS, tvOS, and macOS),
- * the native credential type is a <code>struct xucred</code>.
- * This corresponds to {@link org.gtk.gio.CredentialsType<code>#APPLE_XUCRED</code>  
+ * the native credential type is a {@code struct xucred}.
+ * This corresponds to {@link CredentialsType#APPLE_XUCRED}.
  * <p>
  * On FreeBSD, Debian GNU/kFreeBSD, and GNU/Hurd, the native
- * credential type is a <code>struct cmsgcred</code>. This corresponds
- * to {@link org.gtk.gio.CredentialsType<code>#FREEBSD_CMSGCRED</code>  
+ * credential type is a {@code struct cmsgcred}. This corresponds
+ * to {@link CredentialsType#FREEBSD_CMSGCRED}.
  * <p>
- * On NetBSD, the native credential type is a <code>struct unpcbid</code>.
- * This corresponds to {@link org.gtk.gio.CredentialsType<code>#NETBSD_UNPCBID</code>  
+ * On NetBSD, the native credential type is a {@code struct unpcbid}.
+ * This corresponds to {@link CredentialsType#NETBSD_UNPCBID}.
  * <p>
- * On OpenBSD, the native credential type is a <code>struct sockpeercred</code>.
- * This corresponds to {@link org.gtk.gio.CredentialsType<code>#OPENBSD_SOCKPEERCRED</code>  
+ * On OpenBSD, the native credential type is a {@code struct sockpeercred}.
+ * This corresponds to {@link CredentialsType#OPENBSD_SOCKPEERCRED}.
  * <p>
  * On Solaris (including OpenSolaris and its derivatives), the native
- * credential type is a <code>ucred_t</code>. This corresponds to
- * {@link org.gtk.gio.CredentialsType<code>#SOLARIS_UCRED</code>  
- * 
+ * credential type is a {@code ucred_t}. This corresponds to
+ * {@link CredentialsType#SOLARIS_UCRED}.
+ * <p>
  * Since GLib 2.72, on Windows, the native credentials may contain the PID of a
- * process. This corresponds to {@link org.gtk.gio.CredentialsType<code>#WIN32_PID</code>
+ * process. This corresponds to {@link CredentialsType#WIN32_PID}.
  */
 public class Credentials extends org.gtk.gobject.Object {
 
@@ -63,7 +63,7 @@ public class Credentials extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.Credentials} object with credentials matching the
+     * Creates a new {@link Credentials} object with credentials matching the
      * the current process.
      */
     public Credentials() {
@@ -71,12 +71,12 @@ public class Credentials extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets a pointer to native credentials of type @native_type from
-     * @credentials.
-     * 
+     * Gets a pointer to native credentials of type {@code native_type} from
+     * {@code credentials}.
+     * <p>
      * It is a programming error (which will cause a warning to be
-     * logged) to use this method if there is no {@link org.gtk.gio.Credentials} support for
-     * the OS or if @native_type isn&<code>#39</code> t supported by the OS.
+     * logged) to use this method if there is no {@link Credentials} support for
+     * the OS or if {@code native_type} isn't supported by the OS.
      */
     public jdk.incubator.foreign.MemoryAddress getNative(CredentialsType nativeType) {
         var RESULT = gtk_h.g_credentials_get_native(handle(), nativeType.getValue());
@@ -84,10 +84,10 @@ public class Credentials extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tries to get the UNIX process identifier from @credentials. This
+     * Tries to get the UNIX process identifier from {@code credentials}. This
      * method is only available on UNIX platforms.
-     * 
-     * This operation can fail if {@link org.gtk.gio.Credentials} is not supported on the
+     * <p>
+     * This operation can fail if {@link Credentials} is not supported on the
      * OS or if the native credentials type does not contain information
      * about the UNIX process ID.
      */
@@ -101,10 +101,10 @@ public class Credentials extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tries to get the UNIX user identifier from @credentials. This
+     * Tries to get the UNIX user identifier from {@code credentials}. This
      * method is only available on UNIX platforms.
-     * 
-     * This operation can fail if {@link org.gtk.gio.Credentials} is not supported on the
+     * <p>
+     * This operation can fail if {@link Credentials} is not supported on the
      * OS or if the native credentials type does not contain information
      * about the UNIX user.
      */
@@ -118,9 +118,9 @@ public class Credentials extends org.gtk.gobject.Object {
     }
     
     /**
-     * Checks if @credentials and @other_credentials is the same user.
-     * 
-     * This operation can fail if {@link org.gtk.gio.Credentials} is not supported on the
+     * Checks if {@code credentials} and {@code other_credentials} is the same user.
+     * <p>
+     * This operation can fail if {@link Credentials} is not supported on the
      * the OS.
      */
     public boolean isSameUser(Credentials otherCredentials) throws io.github.jwharm.javagi.GErrorException {
@@ -133,25 +133,25 @@ public class Credentials extends org.gtk.gobject.Object {
     }
     
     /**
-     * Copies the native credentials of type @native_type from @native
-     * into @credentials.
-     * 
+     * Copies the native credentials of type {@code native_type} from {@code native}
+     * into {@code credentials}.
+     * <p>
      * It is a programming error (which will cause a warning to be
-     * logged) to use this method if there is no {@link org.gtk.gio.Credentials} support for
-     * the OS or if @native_type isn&<code>#39</code> t supported by the OS.
+     * logged) to use this method if there is no {@link Credentials} support for
+     * the OS or if {@code native_type} isn't supported by the OS.
      */
     public void setNative(CredentialsType nativeType, jdk.incubator.foreign.MemoryAddress native_) {
         gtk_h.g_credentials_set_native(handle(), nativeType.getValue(), native_);
     }
     
     /**
-     * Tries to set the UNIX user identifier on @credentials. This method
+     * Tries to set the UNIX user identifier on {@code credentials}. This method
      * is only available on UNIX platforms.
-     * 
-     * This operation can fail if {@link org.gtk.gio.Credentials} is not supported on the
+     * <p>
+     * This operation can fail if {@link Credentials} is not supported on the
      * OS or if the native credentials type does not contain information
      * about the UNIX user. It can also fail if the OS does not allow the
-     * use of &<code>#34</code> spoofed&<code>#34</code>  credentials.
+     * use of "spoofed" credentials.
      */
     public boolean setUnixUser(int uid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -163,7 +163,7 @@ public class Credentials extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a human-readable textual representation of @credentials
+     * Creates a human-readable textual representation of {@code credentials}
      * that can be used in logging and debug messages. The format of the
      * returned string may change in future GLib release.
      */

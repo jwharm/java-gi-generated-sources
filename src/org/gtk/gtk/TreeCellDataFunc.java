@@ -3,11 +3,11 @@ package org.gtk.gtk;
 /**
  * A function to set the properties of a cell instead of just using the
  * straight mapping between the cell and the model.
- * 
+ * <p>
  * This function is useful for customizing the cell renderer. For example,
- * a function might get an* integer from the @tree_model, and render it to
- * the &<code>#8220</code> text&<code>#8221</code>  attribute of &<code>#8220</code> cell&<code>#8221</code>  by converting it to its written equivalent.
- * 
+ * a function might get an* integer from the {@code tree_model}, and render it to
+ * the “text” attribute of “cell” by converting it to its written equivalent.
+ * <p>
  * See also: gtk_tree_view_column_set_cell_data_func()
  */
 @FunctionalInterface

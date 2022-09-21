@@ -1,10 +1,10 @@
 package org.gtk.glib;
 
 /**
- * The {@link org.gtk.glib.OptionArg} enum values determine which type of extra argument the
+ * The {@link OptionArg} enum values determine which type of extra argument the
  * options expect to find. If an option expects an extra argument, it can
- * be specified in several ways; with a short option: <code>-x arg</code>, with a long
- * option: <code>--name arg</code> or combined in a single argument: <code>--name=arg</code>.
+ * be specified in several ways; with a short option: {@code -x arg}, with a long
+ * option: {@code --name arg} or combined in a single argument: {@code --name=arg}.
  */
 public enum OptionArg {
 
@@ -25,7 +25,7 @@ public enum OptionArg {
     
     /**
      * The option provides a callback (of type
-     *     {@link org.gtk.glib.OptionArgFunc}  to parse the extra argument.
+     *     {@link OptionArgFunc}) to parse the extra argument.
      */
     CALLBACK,
     
@@ -49,16 +49,16 @@ public enum OptionArg {
     
     /**
      * The option takes a double argument. The argument
-     *     can be formatted either for the user&<code>#39</code> s locale or for the &<code>#34</code> C&<code>#34</code>  locale.
+     *     can be formatted either for the user's locale or for the "C" locale.
      *     Since 2.12
      */
     DOUBLE,
     
     /**
      * The option takes a 64-bit integer. Like
-     *     {@link org.gtk.glib.OptionArg<code>#INT</code>  but for larger numbers. The number can be in
-     *     decimal base, or in hexadecimal (when prefixed with <code>0x</code>, for
-     *     example, <code>0xffffffff</code>). Since 2.12
+     *     {@link OptionArg#INT} but for larger numbers. The number can be in
+     *     decimal base, or in hexadecimal (when prefixed with {@code 0x}, for
+     *     example, {@code 0xffffffff}). Since 2.12
      */
     INT64;
     

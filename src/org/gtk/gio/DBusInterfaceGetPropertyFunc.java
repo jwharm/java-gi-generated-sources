@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * The type of the @get_property function in {@link org.gtk.gio.DBusInterfaceVTable}
+ * The type of the {@code get_property} function in {@link DBusInterfaceVTable}.
  */
 @FunctionalInterface
 public interface DBusInterfaceGetPropertyFunc {

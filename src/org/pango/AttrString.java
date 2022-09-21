@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoAttrString</code> structure is used to represent attributes with
+ * The {@code PangoAttrString} structure is used to represent attributes with
  * a string value.
  */
 public class AttrString extends io.github.jwharm.javagi.ResourceBase {

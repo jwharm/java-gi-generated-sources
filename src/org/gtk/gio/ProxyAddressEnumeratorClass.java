@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.ProxyAddressEnumerator}
+ * Class structure for {@link ProxyAddressEnumerator}.
  */
 public class ProxyAddressEnumeratorClass extends io.github.jwharm.javagi.ResourceBase {
 

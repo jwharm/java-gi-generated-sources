@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * Font-wide extent values, measured in font units.
- * 
- * Note that typically @ascender is positive and @descender
+ * <p>
+ * Note that typically {@code ascender} is positive and {@code descender}
  * negative, in coordinate systems that grow up.
  */
 public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {

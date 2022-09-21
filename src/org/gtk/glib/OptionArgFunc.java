@@ -1,7 +1,8 @@
 package org.gtk.glib;
 
 /**
- * The type of function to be passed as callback for {@link org.gtk.glib.OptionArg<code>#CALLBACK</code>  options.
+ * The type of function to be passed as callback for {@link OptionArg#CALLBACK}
+ * options.
  */
 @FunctionalInterface
 public interface OptionArgFunc {

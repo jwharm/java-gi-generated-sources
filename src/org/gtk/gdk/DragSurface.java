@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkDragSurface</code> is an interface for surfaces used during DND.
+ * A {@code GdkDragSurface} is an interface for surfaces used during DND.
  */
 public interface DragSurface extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Present @drag_surface.
+     * Present {@code drag_surface}.
      */
     public default boolean present(int width, int height) {
         var RESULT = gtk_h.gdk_drag_surface_present(handle(), width, height);

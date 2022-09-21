@@ -1,7 +1,7 @@
 package org.gtk.gdk;
 
 /**
- * Used in <code>GdkDrag</code> to the reason of a cancelled DND operation.
+ * Used in {@code GdkDrag} to the reason of a cancelled DND operation.
  */
 public enum DragCancelReason {
 

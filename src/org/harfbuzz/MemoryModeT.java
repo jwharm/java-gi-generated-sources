@@ -3,24 +3,31 @@ package org.harfbuzz;
 /**
  * Data type holding the memory modes available to
  * client programs.
- * 
+ * <p>
  * Regarding these various memory-modes:
- * 
- * - In no case shall the HarfBuzz client modify memory
+ * <p>
+ * <ul>
+ * <li>In no case shall the HarfBuzz client modify memory
  *   that is passed to HarfBuzz in a blob.  If there is
- *   any such possibility, @HB_MEMORY_MODE_DUPLICATE should be used
+ *   any such possibility, {@code HB_MEMORY_MODE_DUPLICATE} should be used
  *   such that HarfBuzz makes a copy immediately,
- * 
- * - Use @HB_MEMORY_MODE_READONLY otherwise, unless you really really
+ * </ul>
+ * <p>
+ * <ul>
+ * <li>Use {@code HB_MEMORY_MODE_READONLY} otherwise, unless you really really
  *   really know what you are doing,
- * 
- * - @HB_MEMORY_MODE_WRITABLE is appropriate if you really made a
+ * </ul>
+ * <p>
+ * <ul>
+ * <li>{@code HB_MEMORY_MODE_WRITABLE} is appropriate if you really made a
  *   copy of data solely for the purpose of passing to
  *   HarfBuzz and doing that just once (no reuse!),
- * 
- * - If the font is mmap()ed, it&<code>#39</code> s okay to use
- *   @HB_MEMORY_READONLY_MAY_MAKE_WRITABLE, however, using that mode
- *   correctly is very tricky.  Use @HB_MEMORY_MODE_READONLY instead.
+ * </ul>
+ * <p>
+ * <ul>
+ * <li>If the font is mmap()ed, it's okay to use
+ *   {@code HB_MEMORY_READONLY_MAY_MAKE_WRITABLE}, however, using that mode
+ *   correctly is very tricky.  Use {@code HB_MEMORY_MODE_READONLY} instead.
  */
 public enum MemoryModeT {
 

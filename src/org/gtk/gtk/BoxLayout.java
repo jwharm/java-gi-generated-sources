@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkBoxLayout</code> is a layout manager that arranges children in a single
+ * {@code GtkBoxLayout} is a layout manager that arranges children in a single
  * row or column.
  * <p>
  * Whether it is a row or column depends on the value of its
- * {@link [property@Gtk.Orientable:orientation] (ref=property)} property. Within the other dimension
- * all children all allocated the same size. The <code>GtkBoxLayout</code> will respect
- * the {@link [property@Gtk.Widget:halign] (ref=property)} and {@link [property@Gtk.Widget:valign] (ref=property)}
+ * {@code Gtk.Orientable:orientation} property. Within the other dimension
+ * all children all allocated the same size. The {@code GtkBoxLayout} will respect
+ * the {@code Gtk.Widget:valign}
  * properties of each child widget.
- * 
+ * <p>
  * If you want all children to be assigned the same size, you can use
- * the {@link [property@Gtk.BoxLayout:homogeneous] (ref=property)} property.
- * 
+ * the {@code Gtk.BoxLayout:homogeneous} property.
+ * <p>
  * If you want to specify the amount of space placed between each child,
- * you can use the {@link [property@Gtk.BoxLayout:spacing] (ref=property)} property.
+ * you can use the {@code Gtk.BoxLayout:spacing} property.
  */
 public class BoxLayout extends LayoutManager implements Orientable {
 
@@ -40,7 +40,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
     }
     
     /**
-     * Creates a new <code>GtkBoxLayout</code>.
+     * Creates a new {@code GtkBoxLayout}.
      */
     public BoxLayout(Orientation orientation) {
         super(constructNew(orientation));
@@ -63,7 +63,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
     }
     
     /**
-     * Returns the space that @box_layout puts between children.
+     * Returns the space that {@code box_layout} puts between children.
      */
     public int getSpacing() {
         var RESULT = gtk_h.gtk_box_layout_get_spacing(handle());
@@ -72,11 +72,11 @@ public class BoxLayout extends LayoutManager implements Orientable {
     
     /**
      * Sets the baseline position of a box layout.
-     * 
+     * <p>
      * The baseline position affects only horizontal boxes with at least one
      * baseline aligned child. If there is more vertical space available than
      * requested, and the baseline is not allocated by the parent then the
-     * given @position is used to allocate the baseline within the extra
+     * given {@code position} is used to allocate the baseline within the extra
      * space available.
      */
     public void setBaselinePosition(BaselinePosition position) {

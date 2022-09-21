@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.gio.SettingsBackend} interface defines a generic interface for
+ * The {@link SettingsBackend} interface defines a generic interface for
  * non-strictly-typed data that is stored in a hierarchy. To implement
- * an alternative storage backend for {@link org.gtk.gio.Settings}  you need to implement
- * the {@link org.gtk.gio.SettingsBackend} interface and then make it implement the
- * extension point <code>G_SETTINGS_BACKEND_EXTENSION_POINT_NAME</code> 
+ * an alternative storage backend for {@link Settings}, you need to implement
+ * the {@link SettingsBackend} interface and then make it implement the
+ * extension point {@code G_SETTINGS_BACKEND_EXTENSION_POINT_NAME}.
  * <p>
  * The interface defines methods for reading and writing values, a
  * method for determining if writing of certain values will fail
@@ -22,15 +22,16 @@ import java.lang.invoke.*;
  * implementations must carefully adhere to the expectations of
  * callers that are documented on each of the interface methods.
  * <p>
- * Some of the {@link org.gtk.gio.SettingsBackend} functions accept or return a {@link org.gtk.glib.Tree} 
+ * Some of the {@link SettingsBackend} functions accept or return a {@link org.gtk.glib.Tree}.
  * These trees always have strings as keys and {@link org.gtk.glib.Variant} as values.
  * g_settings_backend_create_tree() is a convenience function to create
  * suitable trees.
  * <p>
- * The {@link org.gtk.gio.SettingsBackend} API is exported to allow third-party
+ * The {@link SettingsBackend} API is exported to allow third-party
  * implementations, but does not carry the same stability guarantees
  * as the public GIO API. For this reason, you have to define the
- * C preprocessor symbol <code>G_SETTINGS_ENABLE_BACKEND</code> before including<code>gio/gsettingsbackend.h</code>.
+ * C preprocessor symbol {@code G_SETTINGS_ENABLE_BACKEND} before including
+ * {@code gio/gsettingsbackend.h}.
  */
 public class SettingsBackend extends org.gtk.gobject.Object {
 
@@ -47,24 +48,24 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * Signals that a single key has possibly changed.  Backend
      * implementations should call this if a key has possibly changed its
      * value.
-     * 
-     * @key must be a valid key (ie starting with a slash, not containing
-     * &<code>#39</code> //&<code>#39</code> , and not ending with a slash).
-     * 
+     * <p>
+     * {@code key} must be a valid key (ie starting with a slash, not containing
+     * '//', and not ending with a slash).
+     * <p>
      * The implementation must call this function during any call to
      * g_settings_backend_write(), before the call returns (except in the
      * case that no keys are actually changed and it cares to detect this
      * fact).  It may not rely on the existence of a mainloop for
      * dispatching the signal later.
-     * 
+     * <p>
      * The implementation may call this function at any other time it likes
      * in response to other events (such as changes occurring outside of the
      * program).  These calls may originate from a mainloop or may originate
      * in response to any other action (including from calls to
      * g_settings_backend_write()).
-     * 
+     * <p>
      * In the case that this call is in response to a call to
-     * g_settings_backend_write() then @origin_tag must be set to the same
+     * g_settings_backend_write() then {@code origin_tag} must be set to the same
      * value that was passed to that call.
      */
     public void changed(java.lang.String key, jdk.incubator.foreign.MemoryAddress originTag) {
@@ -73,7 +74,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     
     /**
      * This call is a convenience wrapper.  It gets the list of changes from
-     * @tree, computes the longest common prefix and calls
+     * {@code tree}, computes the longest common prefix and calls
      * g_settings_backend_changed().
      */
     public void changedTree(org.gtk.glib.Tree tree, jdk.incubator.foreign.MemoryAddress originTag) {
@@ -84,22 +85,22 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * Signals that a list of keys have possibly changed.  Backend
      * implementations should call this if keys have possibly changed their
      * values.
-     * 
-     * @path must be a valid path (ie starting and ending with a slash and
-     * not containing &<code>#39</code> //&<code>#39</code> ).  Each string in @items must form a valid key
-     * name when @path is prefixed to it (ie: each item must not start or
-     * end with &<code>#39</code> /&<code>#39</code>  and must not contain &<code>#39</code> //&<code>#39</code> ).
-     * 
+     * <p>
+     * {@code path} must be a valid path (ie starting and ending with a slash and
+     * not containing '//').  Each string in {@code items} must form a valid key
+     * name when {@code path} is prefixed to it (ie: each item must not start or
+     * end with '/' and must not contain '//').
+     * <p>
      * The meaning of this signal is that any of the key names resulting
-     * from the contatenation of @path with each item in @items may have
+     * from the contatenation of {@code path} with each item in {@code items} may have
      * changed.
-     * 
+     * <p>
      * The same rules for when notifications must occur apply as per
      * g_settings_backend_changed().  These two calls can be used
      * interchangeably if exactly one item has changed (although in that
      * case g_settings_backend_changed() is definitely preferred).
-     * 
-     * For efficiency reasons, the implementation should strive for @path to
+     * <p>
+     * For efficiency reasons, the implementation should strive for {@code path} to
      * be as long as possible (ie: the longest common prefix of all of the
      * keys that were changed) but this is not strictly required.
      */
@@ -111,23 +112,23 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * Signals that all keys below a given path may have possibly changed.
      * Backend implementations should call this if an entire path of keys
      * have possibly changed their values.
-     * 
-     * @path must be a valid path (ie starting and ending with a slash and
-     * not containing &<code>#39</code> //&<code>#39</code> ).
-     * 
+     * <p>
+     * {@code path} must be a valid path (ie starting and ending with a slash and
+     * not containing '//').
+     * <p>
      * The meaning of this signal is that any of the key which has a name
-     * starting with @path may have changed.
-     * 
+     * starting with {@code path} may have changed.
+     * <p>
      * The same rules for when notifications must occur apply as per
      * g_settings_backend_changed().  This call might be an appropriate
-     * reasponse to a &<code>#39</code> reset&<code>#39</code>  call but implementations are also free to
+     * reasponse to a 'reset' call but implementations are also free to
      * explicitly list the keys that were affected by that call if they can
      * easily do so.
-     * 
-     * For efficiency reasons, the implementation should strive for @path to
+     * <p>
+     * For efficiency reasons, the implementation should strive for {@code path} to
      * be as long as possible (ie: the longest common prefix of all of the
      * keys that were changed) but this is not strictly required.  As an
-     * example, if this function is called with the path of &<code>#34</code> /&<code>#34</code>  then every
+     * example, if this function is called with the path of "/" then every
      * single key in the application will be notified of a possible change.
      */
     public void pathChanged(java.lang.String path, jdk.incubator.foreign.MemoryAddress originTag) {
@@ -137,7 +138,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     /**
      * Signals that the writability of all keys below a given path may have
      * changed.
-     * 
+     * <p>
      * Since GSettings performs no locking operations for itself, this call
      * will always be made in response to external events.
      */
@@ -147,7 +148,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     
     /**
      * Signals that the writability of a single key has possibly changed.
-     * 
+     * <p>
      * Since GSettings performs no locking operations for itself, this call
      * will always be made in response to external events.
      */
@@ -159,20 +160,20 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * Calculate the longest common prefix of all keys in a tree and write
      * out an array of the key names relative to that prefix and,
      * optionally, the value to store at each of those keys.
-     * 
-     * You must free the value returned in @path, @keys and @values using
+     * <p>
+     * You must free the value returned in {@code path}, {@code keys} and {@code values} using
      * g_free().  You should not attempt to free or unref the contents of
-     * @keys or @values.
+     * {@code keys} or {@code values}.
      */
     public static void flattenTree(org.gtk.glib.Tree tree, java.lang.String[] path, java.lang.String[] keys, org.gtk.glib.Variant[] values) {
         gtk_h.g_settings_backend_flatten_tree(tree.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(keys).handle(), Interop.allocateNativeArray(values).handle());
     }
     
     /**
-     * Returns the default {@link org.gtk.gio.SettingsBackend}  It is possible to override
-     * the default by setting the <code>GSETTINGS_BACKEND</code> environment variable
+     * Returns the default {@link SettingsBackend}. It is possible to override
+     * the default by setting the {@code GSETTINGS_BACKEND} environment variable
      * to the name of a settings backend.
-     * 
+     * <p>
      * The user gets a reference to the backend.
      */
     public static SettingsBackend getDefault() {

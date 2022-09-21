@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GdkEventSequence</code> is an opaque type representing a sequence
+ * {@code GdkEventSequence} is an opaque type representing a sequence
  * of related touch events.
  */
 public class EventSequence extends io.github.jwharm.javagi.ResourceBase {

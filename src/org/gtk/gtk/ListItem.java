@@ -8,19 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkListItem</code> is used by list widgets to represent items in a <code>GListModel</code>.
+ * {@code GtkListItem} is used by list widgets to represent items in a {@code GListModel}.
  * <p>
- * The <code>GtkListItem</code>s are managed by the list widget (with its factory)
+ * The {@code GtkListItem}s are managed by the list widget (with its factory)
  * and cannot be created by applications, but they need to be populated
- * by application code. This is done by calling {@link org.gtk.gtk.ListItem<code>#setChild</code> .
- * <p><code>GtkListItem</code>s exist in 2 stages:
- * 
+ * by application code. This is done by calling {@link ListItem#setChild}.
+ * <p>
+ * {@code GtkListItem}s exist in 2 stages:
+ * <p>
  * 1. The unbound stage where the listitem is not currently connected to
- *    an item in the list. In that case, the {@link [property@Gtk.ListItem:item] (ref=property)}
- *    property is set to <code>null</code> 
- * 
+ *    an item in the list. In that case, the {@code Gtk.ListItem:item}
+ *    property is set to <code>null</code>.
+ * <p>
  * 2. The bound stage where the listitem references an item from the list.
- *    The {@link [property@Gtk.ListItem:item] (ref=property)} property is not <code>null</code>
+ *    The {@code Gtk.ListItem:item} property is not <code>null</code>.
  */
 public class ListItem extends org.gtk.gobject.Object {
 
@@ -52,9 +53,9 @@ public class ListItem extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the model item that associated with @self.
-     * 
-     * If @self is unbound, this function returns <code>null</code>
+     * Gets the model item that associated with {@code self}.
+     * <p>
+     * If {@code self} is unbound, this function returns <code>null</code>.
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_list_item_get_item(handle());
@@ -62,9 +63,9 @@ public class ListItem extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the position in the model that @self currently displays.
-     * 
-     * If @self is unbound, <code>GTK_INVALID_LIST_POSITION</code> is returned.
+     * Gets the position in the model that {@code self} currently displays.
+     * <p>
+     * If {@code self} is unbound, {@code GTK_INVALID_LIST_POSITION} is returned.
      */
     public int getPosition() {
         var RESULT = gtk_h.gtk_list_item_get_position(handle());
@@ -74,8 +75,8 @@ public class ListItem extends org.gtk.gobject.Object {
     /**
      * Checks if a list item has been set to be selectable via
      * gtk_list_item_set_selectable().
-     * 
-     * Do not confuse this function with {@link org.gtk.gtk.ListItem<code>#getSelected</code> .
+     * <p>
+     * Do not confuse this function with {@link ListItem#getSelected}.
      */
     public boolean getSelectable() {
         var RESULT = gtk_h.gtk_list_item_get_selectable(handle());
@@ -84,7 +85,7 @@ public class ListItem extends org.gtk.gobject.Object {
     
     /**
      * Checks if the item is displayed as selected.
-     * 
+     * <p>
      * The selected state is maintained by the liste widget and its model
      * and cannot be set otherwise.
      */
@@ -94,14 +95,14 @@ public class ListItem extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets @self to be activatable.
+     * Sets {@code self} to be activatable.
      * <p>
      * If an item is activatable, double-clicking on the item, using
      * the Return key or calling gtk_widget_activate() will activate
      * the item. Activating instructs the containing view to handle
-     * activation. <code>GtkListView</code> for example will be emitting the
-     * {@link [signal@Gtk.ListView::activate] (ref=signal)} signal.
-     * 
+     * activation. {@code GtkListView} for example will be emitting the
+     * {@code Gtk.ListView::activate} signal.
+     * <p>
      * By default, list items are activatable.
      */
     public void setActivatable(boolean activatable) {
@@ -110,7 +111,7 @@ public class ListItem extends org.gtk.gobject.Object {
     
     /**
      * Sets the child to be used for this listitem.
-     * 
+     * <p>
      * This function is typically called by applications when
      * setting up a listitem so that the widget can be reused when
      * binding it multiple times.
@@ -120,16 +121,16 @@ public class ListItem extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets @self to be selectable.
-     * 
+     * Sets {@code self} to be selectable.
+     * <p>
      * If an item is selectable, clicking on the item or using the keyboard
      * will try to select or unselect the item. If this succeeds is up to
      * the model to determine, as it is managing the selected state.
-     * 
+     * <p>
      * Note that this means that making an item non-selectable has no
      * influence on the selected state at all. A non-selectable item
      * may still be selected.
-     * 
+     * <p>
      * By default, list items are selectable. When rebinding them to
      * a new item, they will also be reset to be selectable by GTK.
      */

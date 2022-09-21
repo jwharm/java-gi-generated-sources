@@ -3,13 +3,13 @@ package org.gtk.gtk;
 /**
  * Describes hints that might be taken into account by input methods
  * or applications.
- * 
+ * <p>
  * Note that input methods may already tailor their behaviour according
- * to the {@link [enum@InputPurpose] (ref=enum)} of the entry.
- * 
+ * to the {@code InputPurpose} of the entry.
+ * <p>
  * Some common sense is expected when using these flags - mixing
- * {@link org.gtk.gtk.InputHints<code>#LOWERCASE</code>  with any of the uppercase hints makes no sense.
- * 
+ * {@link InputHints#LOWERCASE} with any of the uppercase hints makes no sense.
+ * <p>
  * This enumeration may be extended in the future; input methods should
  * ignore unknown values.
  */

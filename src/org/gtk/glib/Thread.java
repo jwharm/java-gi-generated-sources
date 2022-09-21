@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.glib.Thread} struct represents a running thread. This struct
+ * The {@link Thread} struct represents a running thread. This struct
  * is returned by g_thread_new() or g_thread_try_new(). You can
- * obtain the {@link org.gtk.glib.Thread} struct representing the current thread by
+ * obtain the {@link Thread} struct representing the current thread by
  * calling g_thread_self().
- * 
+ * <p>
  * GThread is refcounted, see g_thread_ref() and g_thread_unref().
  * The thread represented by it holds a reference while it is running,
  * and g_thread_join() consumes the reference that it is given, so
  * it is normally not necessary to manage GThread references
  * explicitly.
- * 
+ * <p>
  * The structure is opaque -- none of its fields may be directly
  * accessed.
  */
@@ -45,32 +45,32 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This function creates a new thread. The new thread starts by invoking
-     * @func with the argument data. The thread will run until @func returns
+     * {@code func} with the argument data. The thread will run until {@code func} returns
      * or until g_thread_exit() is called from the new thread. The return value
-     * of @func becomes the return value of the thread, which can be obtained
+     * of {@code func} becomes the return value of the thread, which can be obtained
      * with g_thread_join().
-     * 
-     * The @name can be useful for discriminating threads in a debugger.
+     * <p>
+     * The {@code name} can be useful for discriminating threads in a debugger.
      * It is not used for other purposes and does not have to be unique.
-     * Some systems restrict the length of @name to 16 bytes.
-     * 
+     * Some systems restrict the length of {@code name} to 16 bytes.
+     * <p>
      * If the thread can not be created the program aborts. See
      * g_thread_try_new() if you want to attempt to deal with failures.
-     * 
+     * <p>
      * If you are using threads to offload (potentially many) short-lived tasks,
-     * {@link org.gtk.glib.ThreadPool} may be more appropriate than manually spawning and tracking
-     * multiple <code>#GThreads</code> 
-     * 
+     * {@link ThreadPool} may be more appropriate than manually spawning and tracking
+     * multiple {@code GThreads}.
+     * <p>
      * To free the struct returned by this function, use g_thread_unref().
-     * Note that g_thread_join() implicitly unrefs the {@link org.gtk.glib.Thread} as well.
-     * 
+     * Note that g_thread_join() implicitly unrefs the {@link Thread} as well.
+     * <p>
      * New threads by default inherit their scheduler policy (POSIX) or thread
      * priority (Windows) of the thread creating the new thread.
-     * 
+     * <p>
      * This behaviour changed in GLib 2.64: before threads on Windows were not
      * inheriting the thread priority but were spawned with the default priority.
      * Starting with GLib 2.64 the behaviour is now consistent between Windows and
-     * POSIX and all threads inherit their parent thread&<code>#39</code> s priority.
+     * POSIX and all threads inherit their parent thread's priority.
      */
     public Thread(java.lang.String name, ThreadFunc func) {
         super(constructNew(name, func));
@@ -98,29 +98,29 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function is the same as g_thread_new() except that
      * it allows for the possibility of failure.
-     * 
+     * <p>
      * If a thread can not be created (due to resource limits),
-     * @error is set and <code>null</code> is returned.
+     * {@code error} is set and <code>null</code> is returned.
      */
     public static Thread tryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
         return new Thread(constructTryNew(name, func));
     }
     
     /**
-     * Waits until @thread finishes, i.e. the function @func, as
+     * Waits until {@code thread} finishes, i.e. the function {@code func}, as
      * given to g_thread_new(), returns or g_thread_exit() is called.
-     * If @thread has already terminated, then g_thread_join()
+     * If {@code thread} has already terminated, then g_thread_join()
      * returns immediately.
-     * 
+     * <p>
      * Any thread can wait for any other thread by calling g_thread_join(),
-     * not just its &<code>#39</code> creator&<code>#39</code> . Calling g_thread_join() from multiple threads
-     * for the same @thread leads to undefined behaviour.
-     * 
-     * The value returned by @func or given to g_thread_exit() is
+     * not just its 'creator'. Calling g_thread_join() from multiple threads
+     * for the same {@code thread} leads to undefined behaviour.
+     * <p>
+     * The value returned by {@code func} or given to g_thread_exit() is
      * returned by this function.
-     * 
-     * g_thread_join() consumes the reference to the passed-in @thread.
-     * This will usually cause the {@link org.gtk.glib.Thread} struct and associated resources
+     * <p>
+     * g_thread_join() consumes the reference to the passed-in {@code thread}.
+     * This will usually cause the {@link Thread} struct and associated resources
      * to be freed. Use g_thread_ref() to obtain an extra reference if you
      * want to keep the GThread alive beyond the g_thread_join() call.
      */
@@ -130,7 +130,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increase the reference count on @thread.
+     * Increase the reference count on {@code thread}.
      */
     public Thread ref() {
         var RESULT = gtk_h.g_thread_ref(handle());
@@ -138,12 +138,12 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decrease the reference count on @thread, possibly freeing all
+     * Decrease the reference count on {@code thread}, possibly freeing all
      * resources associated with it.
-     * 
-     * Note that each thread holds a reference to its {@link org.gtk.glib.Thread} while
+     * <p>
+     * Note that each thread holds a reference to its {@link Thread} while
      * it is running, so it is safe to drop your own reference to it
-     * if you don&<code>#39</code> t need it anymore.
+     * if you don't need it anymore.
      */
     public void unref() {
         gtk_h.g_thread_unref(handle());
@@ -156,29 +156,29 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Terminates the current thread.
-     * 
+     * <p>
      * If another thread is waiting for us using g_thread_join() then the
-     * waiting thread will be woken up and get @retval as the return value
+     * waiting thread will be woken up and get {@code retval} as the return value
      * of g_thread_join().
-     * 
-     * Calling g_thread_exit() with a parameter @retval is equivalent to
-     * returning @retval from the function @func, as given to g_thread_new().
-     * 
+     * <p>
+     * Calling g_thread_exit() with a parameter {@code retval} is equivalent to
+     * returning {@code retval} from the function {@code func}, as given to g_thread_new().
+     * <p>
      * You must only call g_thread_exit() from a thread that you created
      * yourself with g_thread_new() or related APIs. You must not call
      * this function from a thread created with another threading library
-     * or or from within a {@link org.gtk.glib.ThreadPool}
+     * or or from within a {@link ThreadPool}.
      */
     public static void exit(jdk.incubator.foreign.MemoryAddress retval) {
         gtk_h.g_thread_exit(retval);
     }
     
     /**
-     * This function returns the {@link org.gtk.glib.Thread} corresponding to the
+     * This function returns the {@link Thread} corresponding to the
      * current thread. Note that this function does not increase
      * the reference count of the returned struct.
-     * 
-     * This function will return a {@link org.gtk.glib.Thread} even for threads that
+     * <p>
+     * This function will return a {@link Thread} even for threads that
      * were not created by GLib (i.e. those created by other threading
      * APIs). This may be useful for thread identification purposes
      * (i.e. comparisons) but you must not use GLib functions (such
@@ -192,7 +192,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Causes the calling thread to voluntarily relinquish the CPU, so
      * that other threads can run.
-     * 
+     * <p>
      * This function is often used as a method to make busy wait less evil.
      */
     public static void yield() {

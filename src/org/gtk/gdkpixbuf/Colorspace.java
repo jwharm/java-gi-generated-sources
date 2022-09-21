@@ -3,7 +3,7 @@ package org.gtk.gdkpixbuf;
 /**
  * This enumeration defines the color spaces that are supported by
  * the gdk-pixbuf library.
- * 
+ * <p>
  * Currently only RGB is supported.
  */
 public enum Colorspace {

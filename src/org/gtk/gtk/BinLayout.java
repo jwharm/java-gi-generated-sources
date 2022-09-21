@@ -8,11 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkBinLayout</code> is a <code>GtkLayoutManager</code> subclass useful for create &<code>#34</code> bins&<code>#34</code>  of
+ * {@code GtkBinLayout} is a {@code GtkLayoutManager} subclass useful for create "bins" of
  * widgets.
- * <p><code>GtkBinLayout</code> will stack each child of a widget on top of each other,
- * using the {@link [property@Gtk.Widget:hexpand] (ref=property)}, {@link [property@Gtk.Widget:vexpand] (ref=property)},
- * {@link [property@Gtk.Widget:halign] (ref=property)}, and {@link [property@Gtk.Widget:valign] (ref=property)} properties
+ * <p>
+ * {@code GtkBinLayout} will stack each child of a widget on top of each other,
+ * using the {@code Gtk.Widget:vexpand},
+ * {@code Gtk.Widget:valign} properties
  * of each child to determine where they should be positioned.
  */
 public class BinLayout extends LayoutManager {
@@ -32,7 +33,7 @@ public class BinLayout extends LayoutManager {
     }
     
     /**
-     * Creates a new <code>GtkBinLayout</code> instance.
+     * Creates a new {@code GtkBinLayout} instance.
      */
     public BinLayout() {
         super(constructNew());

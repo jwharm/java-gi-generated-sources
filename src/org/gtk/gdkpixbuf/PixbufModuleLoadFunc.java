@@ -1,9 +1,9 @@
 package org.gtk.gdkpixbuf;
 
 /**
- * Loads a file from a standard C file stream into a new <code>GdkPixbuf</code>.
+ * Loads a file from a standard C file stream into a new {@code GdkPixbuf}.
  * <p>
- * In case of error, this function should return <code>NULL</code> and set the <code>error</code> argument.
+ * In case of error, this function should return {@code NULL} and set the {@code error} argument.
  */
 @FunctionalInterface
 public interface PixbufModuleLoadFunc {

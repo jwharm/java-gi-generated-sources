@@ -21,93 +21,93 @@ public enum SpawnError {
     CHDIR,
     
     /**
-     * execv() returned <code>EACCES</code>
+     * execv() returned {@code EACCES}
      */
     ACCES,
     
     /**
-     * execv() returned <code>EPERM</code>
+     * execv() returned {@code EPERM}
      */
     PERM,
     
     /**
-     * execv() returned <code>E2BIG</code>
+     * execv() returned {@code E2BIG}
      */
     TOO_BIG,
     
     /**
-     * deprecated alias for {@link org.gtk.glib.SpawnError<code>#TOO_BIG</code>  (deprecated since GLib 2.32)
+     * deprecated alias for {@link SpawnError#TOO_BIG} (deprecated since GLib 2.32)
      */
     _2BIG,
     
     /**
-     * execv() returned <code>ENOEXEC</code>
+     * execv() returned {@code ENOEXEC}
      */
     NOEXEC,
     
     /**
-     * execv() returned <code>ENAMETOOLONG</code>
+     * execv() returned {@code ENAMETOOLONG}
      */
     NAMETOOLONG,
     
     /**
-     * execv() returned <code>ENOENT</code>
+     * execv() returned {@code ENOENT}
      */
     NOENT,
     
     /**
-     * execv() returned <code>ENOMEM</code>
+     * execv() returned {@code ENOMEM}
      */
     NOMEM,
     
     /**
-     * execv() returned <code>ENOTDIR</code>
+     * execv() returned {@code ENOTDIR}
      */
     NOTDIR,
     
     /**
-     * execv() returned <code>ELOOP</code>
+     * execv() returned {@code ELOOP}
      */
     LOOP,
     
     /**
-     * execv() returned <code>ETXTBUSY</code>
+     * execv() returned {@code ETXTBUSY}
      */
     TXTBUSY,
     
     /**
-     * execv() returned <code>EIO</code>
+     * execv() returned {@code EIO}
      */
     IO,
     
     /**
-     * execv() returned <code>ENFILE</code>
+     * execv() returned {@code ENFILE}
      */
     NFILE,
     
     /**
-     * execv() returned <code>EMFILE</code>
+     * execv() returned {@code EMFILE}
      */
     MFILE,
     
     /**
-     * execv() returned <code>EINVAL</code>
+     * execv() returned {@code EINVAL}
      */
     INVAL,
     
     /**
-     * execv() returned <code>EISDIR</code>
+     * execv() returned {@code EISDIR}
      */
     ISDIR,
     
     /**
-     * execv() returned <code>ELIBBAD</code>
+     * execv() returned {@code ELIBBAD}
      */
     LIBBAD,
     
     /**
      * Some other fatal failure,
-     *   <code>error-&<code>#62</code> message</code> should explain.
+     *   {@code error->message} should explain.
      */
     FAILED;
     

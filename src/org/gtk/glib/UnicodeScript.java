@@ -1,14 +1,14 @@
 package org.gtk.glib;
 
 /**
- * The {@link org.gtk.glib.UnicodeScript} enumeration identifies different writing
+ * The {@link UnicodeScript} enumeration identifies different writing
  * systems. The values correspond to the names as defined in the
  * Unicode standard. The enumeration has been added in GLib 2.14,
- * and is interchangeable with {@link org.pango.Script} 
- * 
+ * and is interchangeable with {@link org.pango.Script}.
+ * <p>
  * Note that new types may be added in the future. Applications
  * should be ready to handle unknown values.
- * See {@link [Unicode Standard Annex <code>#24</code>  Script names]}(http://www.unicode.org/reports/tr24/).
+ * See <a href="http://www.unicode.org/reports/tr24/">Unicode Standard Annex #24: Script names</a>.
  */
 public enum UnicodeScript {
 
@@ -349,7 +349,7 @@ public enum UnicodeScript {
     PHAGS_PA,
     
     /**
-     * N&<code>#39</code> Ko
+     * N'Ko
      */
     NKO,
     

@@ -1,17 +1,17 @@
 package org.gtk.glib;
 
 /**
- * Values corresponding to @errno codes returned from file operations
- * on UNIX. Unlike @errno codes, GFileError values are available on
+ * Values corresponding to {@code errno} codes returned from file operations
+ * on UNIX. Unlike {@code errno} codes, GFileError values are available on
  * all systems, even Windows. The exact meaning of each code depends
  * on what sort of file operation you were performing; the UNIX
  * documentation gives more details. The following error code descriptions
  * come from the GNU C Library manual, and are under the copyright
  * of that manual.
- * 
- * It&<code>#39</code> s not very portable to make detailed assumptions about exactly
+ * <p>
+ * It's not very portable to make detailed assumptions about exactly
  * which errors will be returned from a given operation. Some errors
- * don&<code>#39</code> t occur on some systems, etc., sometimes there are subtle
+ * don't occur on some systems, etc., sometimes there are subtle
  * differences in when a system will report a given error, etc.
  */
 public enum FileError {
@@ -41,14 +41,14 @@ public enum FileError {
     NAMETOOLONG,
     
     /**
-     * No such file or directory. This is a &<code>#34</code> file
-     *     doesn&<code>#39</code> t exist&<code>#34</code>  error for ordinary files that are referenced in
+     * No such file or directory. This is a "file
+     *     doesn't exist" error for ordinary files that are referenced in
      *     contexts where they are expected to already exist.
      */
     NOENT,
     
     /**
-     * A file that isn&<code>#39</code> t a directory was specified when
+     * A file that isn't a directory was specified when
      *     a directory is required.
      */
     NOTDIR,
@@ -56,7 +56,7 @@ public enum FileError {
     /**
      * No such device or address. The system tried to
      *     use the device represented by a file you specified, and it
-     *     couldn&<code>#39</code> t find the device. This can mean that the device file was
+     *     couldn't find the device. This can mean that the device file was
      *     installed incorrectly, or that the physical device is missing or
      *     not correctly attached to the computer.
      */
@@ -69,8 +69,8 @@ public enum FileError {
     NODEV,
     
     /**
-     * The directory containing the new link can&<code>#39</code> t be
-     *     modified because it&<code>#39</code> s on a read-only file system.
+     * The directory containing the new link can't be
+     *     modified because it's on a read-only file system.
      */
     ROFS,
     
@@ -81,7 +81,7 @@ public enum FileError {
     
     /**
      * You passed in a pointer to bad memory.
-     *     (GLib won&<code>#39</code> t reliably return this, don&<code>#39</code> t pass in pointers to bad
+     *     (GLib won't reliably return this, don't pass in pointers to bad
      *     memory.)
      */
     FAULT,
@@ -107,7 +107,7 @@ public enum FileError {
     
     /**
      * The current process has too many files open and
-     *     can&<code>#39</code> t open any more. Duplicate descriptors do count toward this
+     *     can't open any more. Duplicate descriptors do count toward this
      *     limit.
      */
     MFILE,
@@ -135,10 +135,10 @@ public enum FileError {
     /**
      * Broken pipe; there is no process reading from the
      *     other end of a pipe. Every library function that returns this
-     *     error code also generates a &<code>#39</code> SIGPIPE&<code>#39</code>  signal; this signal
+     *     error code also generates a 'SIGPIPE' signal; this signal
      *     terminates the program if not handled or blocked. Thus, your
      *     program will never actually see this code unless it has handled
-     *     or blocked &<code>#39</code> SIGPIPE&<code>#39</code> .
+     *     or blocked 'SIGPIPE'.
      */
     PIPE,
     
@@ -177,8 +177,8 @@ public enum FileError {
     
     /**
      * Does not correspond to a UNIX error code; this
-     *    is the standard &<code>#34</code> failed for unspecified reason&<code>#34</code>  error code present
-     *    in all {@link org.gtk.glib.Error} error code enumerations. Returned if no specific
+     *    is the standard "failed for unspecified reason" error code present
+     *    in all {@link Error} error code enumerations. Returned if no specific
      *    code applies.
      */
     FAILED;

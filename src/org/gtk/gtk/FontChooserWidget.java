@@ -8,22 +8,23 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkFontChooserWidget</code> widget lets the user select a font.
+ * The {@code GtkFontChooserWidget} widget lets the user select a font.
  * <p>
- * It is used in the <code>GtkFontChooserDialog</code> widget to provide a
+ * It is used in the {@code GtkFontChooserDialog} widget to provide a
  * dialog for selecting fonts.
  * <p>
  * To set the font which is initially selected, use
- * {@link org.gtk.gtk.FontChooser<code>#setFont</code>  or {@link org.gtk.gtk.FontChooser<code>#setFontDesc</code> .
+ * {@code Gtk.FontChooser.set_font_desc}.
  * <p>
- * To get the selected font use {@link org.gtk.gtk.FontChooser<code>#getFont</code>  or
- * {@link org.gtk.gtk.FontChooser<code>#getFontDesc</code> .
+ * To get the selected font use {@link FontChooser#getFont} or
+ * {@link FontChooser#getFontDesc}.
  * <p>
  * To change the text which is shown in the preview area, use
- * {@link org.gtk.gtk.FontChooser<code>#setPreviewText</code> .
+ * {@link FontChooser#setPreviewText}.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkFontChooserWidget</code> has a single CSS node with name fontchooser.
+ * <p>
+ * {@code GtkFontChooserWidget} has a single CSS node with name fontchooser.
  */
 public class FontChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
 
@@ -42,7 +43,7 @@ public class FontChooserWidget extends Widget implements Accessible, Buildable, 
     }
     
     /**
-     * Creates a new <code>GtkFontChooserWidget</code>.
+     * Creates a new {@code GtkFontChooserWidget}.
      */
     public FontChooserWidget() {
         super(constructNew());

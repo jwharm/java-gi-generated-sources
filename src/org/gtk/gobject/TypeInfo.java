@@ -9,11 +9,11 @@ import java.lang.invoke.*;
 
 /**
  * This structure is used to provide the type system with the information
- * required to initialize and destruct (finalize) a type&<code>#39</code> s class and
+ * required to initialize and destruct (finalize) a type's class and
  * its instances.
- * 
+ * <p>
  * The initialized structure is passed to the g_type_register_static() function
- * (or is copied into the provided {@link org.gtk.gobject.TypeInfo} structure in the
+ * (or is copied into the provided {@link TypeInfo} structure in the
  * g_type_plugin_complete_type_info()). The type system will perform a deep
  * copy of this structure, so its memory does not need to be persistent
  * across invocation of g_type_register_static().

@@ -8,8 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkLayoutManagerClass</code> structure contains only private data, and
- * should only be accessed through the provided API, or when subclassing<code>GtkLayoutManager</code>.
+ * The {@code GtkLayoutManagerClass} structure contains only private data, and
+ * should only be accessed through the provided API, or when subclassing
+ * {@code GtkLayoutManager}.
  */
 public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
 

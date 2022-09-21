@@ -27,7 +27,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a new {@link org.gtk.gio.TlsPassword} object.
+     * Create a new {@link TlsPassword} object.
      */
     public TlsPassword(int flags, java.lang.String description) {
         super(constructNew(flags, description));
@@ -74,11 +74,11 @@ public class TlsPassword extends org.gtk.gobject.Object {
     }
     
     /**
-     * Set the value for this password. The @value will be copied by the password
+     * Set the value for this password. The {@code value} will be copied by the password
      * object.
-     * 
-     * Specify the @length, for a non-nul-terminated password. Pass -1 as
-     * @length if using a nul-terminated password, and @length will be
+     * <p>
+     * Specify the {@code length}, for a non-nul-terminated password. Pass -1 as
+     * {@code length} if using a nul-terminated password, and {@code length} will be
      * calculated automatically. (Note that the terminating nul is not
      * considered part of the password in this case.)
      */

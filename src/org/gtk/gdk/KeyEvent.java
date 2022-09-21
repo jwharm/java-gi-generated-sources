@@ -71,12 +71,12 @@ public class KeyEvent extends Event {
     
     /**
      * Matches a key event against a keyval and modifiers.
-     * 
+     * <p>
      * This is typically used to trigger keyboard shortcuts such as Ctrl-C.
-     * 
+     * <p>
      * Partial matches are possible where the combination matches
      * if the currently active group is ignored.
-     * 
+     * <p>
      * Note that we ignore Caps Lock for matching.
      */
     public KeyMatch matches(int keyval, int modifiers) {

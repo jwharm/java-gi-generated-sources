@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A structure holding in-depth information for a specific signal.
- * 
+ * <p>
  * See also: g_signal_query()
  */
 public class SignalQuery extends io.github.jwharm.javagi.ResourceBase {

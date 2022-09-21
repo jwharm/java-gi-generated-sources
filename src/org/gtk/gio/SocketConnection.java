@@ -8,22 +8,22 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.SocketConnection} is a {@link org.gtk.gio.IOStream} for a connected socket. They
- * can be created either by {@link org.gtk.gio.SocketClient} when connecting to a host,
- * or by {@link org.gtk.gio.SocketListener} when accepting a new client.
- * 
- * The type of the {@link org.gtk.gio.SocketConnection} object returned from these calls
+ * {@link SocketConnection} is a {@link IOStream} for a connected socket. They
+ * can be created either by {@link SocketClient} when connecting to a host,
+ * or by {@link SocketListener} when accepting a new client.
+ * <p>
+ * The type of the {@link SocketConnection} object returned from these calls
  * depends on the type of the underlying socket that is in use. For
- * instance, for a TCP/IP connection it will be a {@link org.gtk.gio.TcpConnection} 
- * 
+ * instance, for a TCP/IP connection it will be a {@link TcpConnection}.
+ * <p>
  * Choosing what type of object to construct is done with the socket
  * connection factory, and it is possible for 3rd parties to register
  * custom socket connection types for specific combination of socket
  * family/type/protocol using g_socket_connection_factory_register_type().
- * 
- * To close a {@link org.gtk.gio.SocketConnection}  use g_io_stream_close(). Closing both
- * substreams of the {@link org.gtk.gio.IOStream} separately will not close the underlying
- * {@link org.gtk.gio.Socket}
+ * <p>
+ * To close a {@link SocketConnection}, use g_io_stream_close(). Closing both
+ * substreams of the {@link IOStream} separately will not close the underlying
+ * {@link Socket}.
  */
 public class SocketConnection extends IOStream {
 
@@ -37,7 +37,7 @@ public class SocketConnection extends IOStream {
     }
     
     /**
-     * Connect @connection to the specified remote address.
+     * Connect {@code connection} to the specified remote address.
      */
     public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -49,11 +49,11 @@ public class SocketConnection extends IOStream {
     }
     
     /**
-     * Asynchronously connect @connection to the specified remote address.
-     * 
-     * This clears the {@link org.gtk.gio.Socket} blocking flag on @connection&<code>#39</code> s underlying
+     * Asynchronously connect {@code connection} to the specified remote address.
+     * <p>
+     * This clears the {@link Socket}:blocking flag on {@code connection}'s underlying
      * socket if it is currently set.
-     * 
+     * <p>
      * Use g_socket_connection_connect_finish() to retrieve the result.
      */
     public void connectAsync(SocketAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -96,13 +96,13 @@ public class SocketConnection extends IOStream {
     
     /**
      * Try to get the remote address of a socket connection.
-     * 
+     * <p>
      * Since GLib 2.40, when used with g_socket_client_connect() or
      * g_socket_client_connect_async(), during emission of
-     * {@link org.gtk.gio.SocketClientEvent<code>#CONNECTING</code>   this function will return the remote
+     * {@link SocketClientEvent#CONNECTING}, this function will return the remote
      * address that will be used for the connection.  This allows
-     * applications to print e.g. &<code>#34</code> Connecting to example.com
-     * (10.42.77.3)...&<code>#34</code> .
+     * applications to print e.g. "Connecting to example.com
+     * (10.42.77.3)...".
      */
     public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -114,9 +114,9 @@ public class SocketConnection extends IOStream {
     }
     
     /**
-     * Gets the underlying {@link org.gtk.gio.Socket} object of the connection.
+     * Gets the underlying {@link Socket} object of the connection.
      * This can be useful if you want to do something unusual on it
-     * not supported by the {@link org.gtk.gio.SocketConnection} APIs.
+     * not supported by the {@link SocketConnection} APIs.
      */
     public Socket getSocket() {
         var RESULT = gtk_h.g_socket_connection_get_socket(handle());
@@ -124,8 +124,8 @@ public class SocketConnection extends IOStream {
     }
     
     /**
-     * Checks if @connection is connected. This is equivalent to calling
-     * g_socket_is_connected() on @connection&<code>#39</code> s underlying {@link org.gtk.gio.Socket}
+     * Checks if {@code connection} is connected. This is equivalent to calling
+     * g_socket_is_connected() on {@code connection}'s underlying {@link Socket}.
      */
     public boolean isConnected() {
         var RESULT = gtk_h.g_socket_connection_is_connected(handle());
@@ -134,9 +134,9 @@ public class SocketConnection extends IOStream {
     
     /**
      * Looks up the {@link org.gtk.glib.Type} to be used when creating socket connections on
-     * sockets with the specified @family, @type and @protocol_id.
-     * 
-     * If no type is registered, the {@link org.gtk.gio.SocketConnection} base type is returned.
+     * sockets with the specified {@code family}, {@code type} and {@code protocol_id}.
+     * <p>
+     * If no type is registered, the {@link SocketConnection} base type is returned.
      */
     public static org.gtk.gobject.Type factoryLookupType(SocketFamily family, SocketType type, int protocolId) {
         var RESULT = gtk_h.g_socket_connection_factory_lookup_type(family.getValue(), type.getValue(), protocolId);
@@ -145,9 +145,9 @@ public class SocketConnection extends IOStream {
     
     /**
      * Looks up the {@link org.gtk.glib.Type} to be used when creating socket connections on
-     * sockets with the specified @family, @type and @protocol.
-     * 
-     * If no type is registered, the {@link org.gtk.gio.SocketConnection} base type is returned.
+     * sockets with the specified {@code family}, {@code type} and {@code protocol}.
+     * <p>
+     * If no type is registered, the {@link SocketConnection} base type is returned.
      */
     public static void factoryRegisterType(Type gType, SocketFamily family, SocketType type, int protocol) {
         gtk_h.g_socket_connection_factory_register_type(gType.getValue(), family.getValue(), type.getValue(), protocol);

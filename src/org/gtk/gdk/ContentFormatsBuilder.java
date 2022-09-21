@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkContentFormatsBuilder</code> is an auxiliary struct used to create
- * new <code>GdkContentFormats</code>, and should not be kept around.
+ * A {@code GdkContentFormatsBuilder} is an auxiliary struct used to create
+ * new {@code GdkContentFormats}, and should not be kept around.
  */
 public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase {
 
@@ -23,9 +23,9 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Create a new <code>GdkContentFormatsBuilder</code> object.
+     * Create a new {@code GdkContentFormatsBuilder} object.
      * <p>
-     * The resulting builder would create an empty <code>GdkContentFormats</code>.
+     * The resulting builder would create an empty {@code GdkContentFormats}.
      * Use addition functions to add types to it.
      */
     public ContentFormatsBuilder() {
@@ -33,7 +33,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Appends all formats from @formats to @builder, skipping those that
+     * Appends all formats from {@code formats} to {@code builder}, skipping those that
      * already exist.
      */
     public void addFormats(ContentFormats formats) {
@@ -41,22 +41,22 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Appends @type to @builder if it has not already been added.
+     * Appends {@code type} to {@code builder} if it has not already been added.
      */
     public void addGtype(Type type) {
         gtk_h.gdk_content_formats_builder_add_gtype(handle(), type.getValue());
     }
     
     /**
-     * Appends @mime_type to @builder if it has not already been added.
+     * Appends {@code mime_type} to {@code builder} if it has not already been added.
      */
     public void addMimeType(java.lang.String mimeType) {
         gtk_h.gdk_content_formats_builder_add_mime_type(handle(), Interop.allocateNativeString(mimeType).handle());
     }
     
     /**
-     * Creates a new <code>GdkContentFormats</code> from the current state of the
-     * given @builder, and frees the @builder instance.
+     * Creates a new {@code GdkContentFormats} from the current state of the
+     * given {@code builder}, and frees the {@code builder} instance.
      */
     public ContentFormats freeToFormats() {
         var RESULT = gtk_h.gdk_content_formats_builder_free_to_formats(handle());
@@ -64,9 +64,10 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Acquires a reference on the given @builder.
+     * Acquires a reference on the given {@code builder}.
      * <p>
-     * This function is intended primarily for bindings.<code>GdkContentFormatsBuilder</code> objects should not be kept around.
+     * This function is intended primarily for bindings.
+     * {@code GdkContentFormatsBuilder} objects should not be kept around.
      */
     public ContentFormatsBuilder ref() {
         var RESULT = gtk_h.gdk_content_formats_builder_ref(handle());
@@ -74,13 +75,13 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Creates a new <code>GdkContentFormats</code> from the given @builder.
+     * Creates a new {@code GdkContentFormats} from the given {@code builder}.
      * <p>
-     * The given <code>GdkContentFormatsBuilder</code> is reset once this function returns;
-     * you cannot call this function multiple times on the same @builder instance.
-     * 
+     * The given {@code GdkContentFormatsBuilder} is reset once this function returns;
+     * you cannot call this function multiple times on the same {@code builder} instance.
+     * <p>
      * This function is intended primarily for bindings. C code should use
-     * {@link org.gtk.gdk.ContentFormatsBuilder<code>#freeToFormats</code> .
+     * {@link ContentFormatsBuilder#freeToFormats}.
      */
     public ContentFormats toFormats() {
         var RESULT = gtk_h.gdk_content_formats_builder_to_formats(handle());
@@ -88,7 +89,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
-     * Releases a reference on the given @builder.
+     * Releases a reference on the given {@code builder}.
      */
     public void unref() {
         gtk_h.gdk_content_formats_builder_unref(handle());

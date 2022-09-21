@@ -1,9 +1,9 @@
 package org.gtk.gio;
 
 /**
- * Describes an event occurring on a {@link org.gtk.gio.SocketClient}  See the
- * {@link org.gtk.gio.SocketClient} :event signal for more details.
- * 
+ * Describes an event occurring on a {@link SocketClient}. See the
+ * {@link SocketClient}::event signal for more details.
+ * <p>
  * Additional values may be added to this type in the future.
  */
 public enum SocketClientEvent {
@@ -56,7 +56,7 @@ public enum SocketClientEvent {
     
     /**
      * The client is done with a particular
-     *   {@link org.gtk.gio.SocketConnectable}
+     *   {@link SocketConnectable}.
      */
     COMPLETE;
     

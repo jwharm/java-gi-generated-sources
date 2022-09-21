@@ -17,55 +17,55 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Adds the application with @name and @exec to the list of
-     * applications that have registered a bookmark for @uri into
-     * @bookmark.
-     * 
-     * Every bookmark inside a {@link org.gtk.glib.BookmarkFile} must have at least an
+     * Adds the application with {@code name} and {@code exec} to the list of
+     * applications that have registered a bookmark for {@code uri} into
+     * {@code bookmark}.
+     * <p>
+     * Every bookmark inside a {@link BookmarkFile} must have at least an
      * application registered.  Each application must provide a name, a
      * command line useful for launching the bookmark, the number of times
      * the bookmark has been registered by the application and the last
      * time the application registered this bookmark.
-     * 
-     * If @name is <code>null</code>  the name of the application will be the
-     * same returned by g_get_application_name(); if @exec is <code>null</code>  the
+     * <p>
+     * If {@code name} is <code>null</code>, the name of the application will be the
+     * same returned by g_get_application_name(); if {@code exec} is <code>null</code>, the
      * command line will be a composition of the program name as
-     * returned by g_get_prgname() and the &<code>#34</code> \\<code>u</code> <code>#34</code>  modifier, which will be
-     * expanded to the bookmark&<code>#39</code> s URI.
-     * 
+     * returned by g_get_prgname() and the "\\{@code u}" modifier, which will be
+     * expanded to the bookmark's URI.
+     * <p>
      * This function will automatically take care of updating the
      * registrations count and timestamping in case an application
-     * with the same @name had already registered a bookmark for
-     * @uri inside @bookmark.
-     * 
-     * If no bookmark for @uri is found, one is created.
+     * with the same {@code name} had already registered a bookmark for
+     * {@code uri} inside {@code bookmark}.
+     * <p>
+     * If no bookmark for {@code uri} is found, one is created.
      */
     public void addApplication(java.lang.String uri, java.lang.String name, java.lang.String exec) {
         gtk_h.g_bookmark_file_add_application(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(exec).handle());
     }
     
     /**
-     * Adds @group to the list of groups to which the bookmark for @uri
+     * Adds {@code group} to the list of groups to which the bookmark for {@code uri}
      * belongs to.
-     * 
-     * If no bookmark for @uri is found then it is created.
+     * <p>
+     * If no bookmark for {@code uri} is found then it is created.
      */
     public void addGroup(java.lang.String uri, java.lang.String group) {
         gtk_h.g_bookmark_file_add_group(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle());
     }
     
     /**
-     * Frees a {@link org.gtk.glib.BookmarkFile}
+     * Frees a {@link BookmarkFile}.
      */
     public void free() {
         gtk_h.g_bookmark_file_free(handle());
     }
     
     /**
-     * Gets the time the bookmark for @uri was added to @bookmark
-     * 
+     * Gets the time the bookmark for {@code uri} was added to {@code bookmark}
+     * <p>
      * In the event the URI cannot be found, <code>null</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -77,10 +77,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the description of the bookmark for @uri.
-     * 
+     * Retrieves the description of the bookmark for {@code uri}.
+     * <p>
      * In the event the URI cannot be found, <code>null</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -92,10 +92,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the icon of the bookmark for @uri.
-     * 
+     * Gets the icon of the bookmark for {@code uri}.
+     * <p>
      * In the event the URI cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean getIcon(java.lang.String uri, java.lang.String[] href, java.lang.String[] mimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -107,12 +107,12 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets whether the private flag of the bookmark for @uri is set.
-     * 
+     * Gets whether the private flag of the bookmark for {@code uri} is set.
+     * <p>
      * In the event the URI cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>    In the
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.  In the
      * event that the private flag cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#INVALID_VALUE</code>
+     * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
     public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -124,12 +124,12 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the MIME type of the resource pointed by @uri.
-     * 
+     * Retrieves the MIME type of the resource pointed by {@code uri}.
+     * <p>
      * In the event the URI cannot be found, <code>null</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>    In the
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.  In the
      * event that the MIME type cannot be found, <code>null</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#INVALID_VALUE</code>
+     * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
     public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -141,10 +141,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the time when the bookmark for @uri was last modified.
-     * 
+     * Gets the time when the bookmark for {@code uri} was last modified.
+     * <p>
      * In the event the URI cannot be found, <code>null</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -156,7 +156,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the number of bookmarks inside @bookmark.
+     * Gets the number of bookmarks inside {@code bookmark}.
      */
     public int getSize() {
         var RESULT = gtk_h.g_bookmark_file_get_size(handle());
@@ -164,12 +164,12 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the title of the bookmark for @uri.
-     * 
-     * If @uri is <code>null</code>  the title of @bookmark is returned.
-     * 
+     * Returns the title of the bookmark for {@code uri}.
+     * <p>
+     * If {@code uri} is <code>null</code>, the title of {@code bookmark} is returned.
+     * <p>
      * In the event the URI cannot be found, <code>null</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public java.lang.String getTitle(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -181,10 +181,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the time the bookmark for @uri was last visited.
-     * 
+     * Gets the time the bookmark for {@code uri} was last visited.
+     * <p>
      * In the event the URI cannot be found, <code>null</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -196,11 +196,11 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the bookmark for @uri inside @bookmark has been
-     * registered by application @name.
-     * 
+     * Checks whether the bookmark for {@code uri} inside {@code bookmark} has been
+     * registered by application {@code name}.
+     * <p>
      * In the event the URI cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -212,11 +212,11 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether @group appears in the list of groups to which
-     * the bookmark for @uri belongs to.
-     * 
+     * Checks whether {@code group} appears in the list of groups to which
+     * the bookmark for {@code uri} belongs to.
+     * <p>
      * In the event the URI cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -228,7 +228,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Looks whether the desktop bookmark has an item with its URI set to @uri.
+     * Looks whether the desktop bookmark has an item with its URI set to {@code uri}.
      */
     public boolean hasItem(java.lang.String uri) {
         var RESULT = gtk_h.g_bookmark_file_has_item(handle(), Interop.allocateNativeString(uri).handle());
@@ -236,8 +236,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Loads a bookmark file from memory into an empty {@link org.gtk.glib.BookmarkFile} structure.  If the object cannot be created then @error is set to a
-     * {@link org.gtk.glib.BookmarkFileError}
+     * Loads a bookmark file from memory into an empty {@link BookmarkFile}
+     * structure.  If the object cannot be created then {@code error} is set to a
+     * {@link BookmarkFileError}.
      */
     public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -249,11 +250,11 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * This function looks for a desktop bookmark file named @file in the
+     * This function looks for a desktop bookmark file named {@code file} in the
      * paths returned from g_get_user_data_dir() and g_get_system_data_dirs(),
-     * loads the file into @bookmark and returns the file&<code>#39</code> s full path in
-     * @full_path.  If the file could not be loaded then @error is
-     * set to either a {@link org.gtk.glib.FileError} or {@link org.gtk.glib.BookmarkFileError}
+     * loads the file into {@code bookmark} and returns the file's full path in
+     * {@code full_path}.  If the file could not be loaded then {@code error} is
+     * set to either a {@link FileError} or {@link BookmarkFileError}.
      */
     public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -265,8 +266,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Loads a desktop bookmark file into an empty {@link org.gtk.glib.BookmarkFile} structure.
-     * If the file could not be loaded then @error is set to either a {@link org.gtk.glib.FileError} or {@link org.gtk.glib.BookmarkFileError}
+     * Loads a desktop bookmark file into an empty {@link BookmarkFile} structure.
+     * If the file could not be loaded then {@code error} is set to either a {@link FileError}
+     * or {@link BookmarkFileError}.
      */
     public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -278,12 +280,12 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Changes the URI of a bookmark item from @old_uri to @new_uri.  Any
-     * existing bookmark for @new_uri will be overwritten.  If @new_uri is
-     * <code>null</code>  then the bookmark is removed.
-     * 
+     * Changes the URI of a bookmark item from {@code old_uri} to {@code new_uri}.  Any
+     * existing bookmark for {@code new_uri} will be overwritten.  If {@code new_uri} is
+     * <code>null</code>, then the bookmark is removed.
+     * <p>
      * In the event the URI cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean moveItem(java.lang.String oldUri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -295,14 +297,14 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes application registered with @name from the list of applications
-     * that have registered a bookmark for @uri inside @bookmark.
-     * 
+     * Removes application registered with {@code name} from the list of applications
+     * that have registered a bookmark for {@code uri} inside {@code bookmark}.
+     * <p>
      * In the event the URI cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>  
-     * In the event that no application with name @app_name has registered
-     * a bookmark for @uri,  <code>false</code> is returned and error is set to
-     * {@link org.gtk.glib.BookmarkFileError<code>#APP_NOT_REGISTERED</code>
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
+     * In the event that no application with name {@code app_name} has registered
+     * a bookmark for {@code uri},  <code>false</code> is returned and error is set to
+     * {@link BookmarkFileError#APP_NOT_REGISTERED}.
      */
     public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -314,13 +316,13 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes @group from the list of groups to which the bookmark
-     * for @uri belongs to.
-     * 
+     * Removes {@code group} from the list of groups to which the bookmark
+     * for {@code uri} belongs to.
+     * <p>
      * In the event the URI cannot be found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>  
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      * In the event no group was defined, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#INVALID_VALUE</code>
+     * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
     public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -332,7 +334,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes the bookmark for @uri from the bookmark file @bookmark.
+     * Removes the bookmark for {@code uri} from the bookmark file {@code bookmark}.
      */
     public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -344,42 +346,42 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the time the bookmark for @uri was added into @bookmark.
-     * 
-     * If no bookmark for @uri is found then it is created.
+     * Sets the time the bookmark for {@code uri} was added into {@code bookmark}.
+     * <p>
+     * If no bookmark for {@code uri} is found then it is created.
      */
     public void setAddedDateTime(java.lang.String uri, DateTime added) {
         gtk_h.g_bookmark_file_set_added_date_time(handle(), Interop.allocateNativeString(uri).handle(), added.handle());
     }
     
     /**
-     * Sets the meta-data of application @name inside the list of
-     * applications that have registered a bookmark for @uri inside
-     * @bookmark.
-     * 
+     * Sets the meta-data of application {@code name} inside the list of
+     * applications that have registered a bookmark for {@code uri} inside
+     * {@code bookmark}.
+     * <p>
      * You should rarely use this function; use g_bookmark_file_add_application()
      * and g_bookmark_file_remove_application() instead.
-     * 
-     * @name can be any UTF-8 encoded string used to identify an
+     * <p>
+     * {@code name} can be any UTF-8 encoded string used to identify an
      * application.
-     * @exec can have one of these two modifiers: &<code>#34</code> \\<code>f</code> <code>#34</code> , which will
-     * be expanded as the local file name retrieved from the bookmark&<code>#39</code> s
-     * URI; &<code>#34</code> \\<code>u</code> <code>#34</code> , which will be expanded as the bookmark&<code>#39</code> s URI.
+     * {@code exec} can have one of these two modifiers: "\\{@code f}", which will
+     * be expanded as the local file name retrieved from the bookmark's
+     * URI; "\\{@code u}", which will be expanded as the bookmark's URI.
      * The expansion is done automatically when retrieving the stored
      * command line using the g_bookmark_file_get_application_info() function.
-     * @count is the number of times the application has registered the
-     * bookmark; if is &<code>#60</code>  0, the current registration count will be increased
-     * by one, if is 0, the application with @name will be removed from
+     * {@code count} is the number of times the application has registered the
+     * bookmark; if is < 0, the current registration count will be increased
+     * by one, if is 0, the application with {@code name} will be removed from
      * the list of registered applications.
-     * @stamp is the Unix time of the last registration.
-     * 
+     * {@code stamp} is the Unix time of the last registration.
+     * <p>
      * If you try to remove an application by setting its registration count to
-     * zero, and no bookmark for @uri is found, <code>false</code> is returned and
-     * @error is set to {@link org.gtk.glib.BookmarkFileError<code>#URI_NOT_FOUND</code>   similarly,
-     * in the event that no application @name has registered a bookmark
-     * for @uri,  <code>false</code> is returned and error is set to
-     * {@link org.gtk.glib.BookmarkFileError<code>#APP_NOT_REGISTERED</code>    Otherwise, if no bookmark
-     * for @uri is found, one is created.
+     * zero, and no bookmark for {@code uri} is found, <code>false</code> is returned and
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}; similarly,
+     * in the event that no application {@code name} has registered a bookmark
+     * for {@code uri},  <code>false</code> is returned and error is set to
+     * {@link BookmarkFileError#APP_NOT_REGISTERED}.  Otherwise, if no bookmark
+     * for {@code uri} is found, one is created.
      */
     public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -391,62 +393,62 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets @description as the description of the bookmark for @uri.
-     * 
-     * If @uri is <code>null</code>  the description of @bookmark is set.
-     * 
-     * If a bookmark for @uri cannot be found then it is created.
+     * Sets {@code description} as the description of the bookmark for {@code uri}.
+     * <p>
+     * If {@code uri} is <code>null</code>, the description of {@code bookmark} is set.
+     * <p>
+     * If a bookmark for {@code uri} cannot be found then it is created.
      */
     public void setDescription(java.lang.String uri, java.lang.String description) {
         gtk_h.g_bookmark_file_set_description(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(description).handle());
     }
     
     /**
-     * Sets a list of group names for the item with URI @uri.  Each previously
+     * Sets a list of group names for the item with URI {@code uri}.  Each previously
      * set group name list is removed.
-     * 
-     * If @uri cannot be found then an item for it is created.
+     * <p>
+     * If {@code uri} cannot be found then an item for it is created.
      */
     public void setGroups(java.lang.String uri, java.lang.String[] groups, long length) {
         gtk_h.g_bookmark_file_set_groups(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(groups).handle(), length);
     }
     
     /**
-     * Sets the icon for the bookmark for @uri. If @href is <code>null</code>  unsets
-     * the currently set icon. @href can either be a full URL for the icon
+     * Sets the icon for the bookmark for {@code uri}. If {@code href} is <code>null</code>, unsets
+     * the currently set icon. {@code href} can either be a full URL for the icon
      * file or the icon name following the Icon Naming specification.
-     * 
-     * If no bookmark for @uri is found one is created.
+     * <p>
+     * If no bookmark for {@code uri} is found one is created.
      */
     public void setIcon(java.lang.String uri, java.lang.String href, java.lang.String mimeType) {
         gtk_h.g_bookmark_file_set_icon(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(href).handle(), Interop.allocateNativeString(mimeType).handle());
     }
     
     /**
-     * Sets the private flag of the bookmark for @uri.
-     * 
-     * If a bookmark for @uri cannot be found then it is created.
+     * Sets the private flag of the bookmark for {@code uri}.
+     * <p>
+     * If a bookmark for {@code uri} cannot be found then it is created.
      */
     public void setIsPrivate(java.lang.String uri, boolean isPrivate) {
         gtk_h.g_bookmark_file_set_is_private(handle(), Interop.allocateNativeString(uri).handle(), isPrivate ? 1 : 0);
     }
     
     /**
-     * Sets @mime_type as the MIME type of the bookmark for @uri.
-     * 
-     * If a bookmark for @uri cannot be found then it is created.
+     * Sets {@code mime_type} as the MIME type of the bookmark for {@code uri}.
+     * <p>
+     * If a bookmark for {@code uri} cannot be found then it is created.
      */
     public void setMimeType(java.lang.String uri, java.lang.String mimeType) {
         gtk_h.g_bookmark_file_set_mime_type(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(mimeType).handle());
     }
     
     /**
-     * Sets the last time the bookmark for @uri was last modified.
-     * 
-     * If no bookmark for @uri is found then it is created.
-     * 
-     * The &<code>#34</code> modified&<code>#34</code>  time should only be set when the bookmark&<code>#39</code> s meta-data
-     * was actually changed.  Every function of {@link org.gtk.glib.BookmarkFile} that
+     * Sets the last time the bookmark for {@code uri} was last modified.
+     * <p>
+     * If no bookmark for {@code uri} is found then it is created.
+     * <p>
+     * The "modified" time should only be set when the bookmark's meta-data
+     * was actually changed.  Every function of {@link BookmarkFile} that
      * modifies a bookmark also changes the modification time, except for
      * g_bookmark_file_set_visited_date_time().
      */
@@ -455,34 +457,34 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets @title as the title of the bookmark for @uri inside the
-     * bookmark file @bookmark.
-     * 
-     * If @uri is <code>null</code>  the title of @bookmark is set.
-     * 
-     * If a bookmark for @uri cannot be found then it is created.
+     * Sets {@code title} as the title of the bookmark for {@code uri} inside the
+     * bookmark file {@code bookmark}.
+     * <p>
+     * If {@code uri} is <code>null</code>, the title of {@code bookmark} is set.
+     * <p>
+     * If a bookmark for {@code uri} cannot be found then it is created.
      */
     public void setTitle(java.lang.String uri, java.lang.String title) {
         gtk_h.g_bookmark_file_set_title(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(title).handle());
     }
     
     /**
-     * Sets the time the bookmark for @uri was last visited.
-     * 
-     * If no bookmark for @uri is found then it is created.
-     * 
-     * The &<code>#34</code> visited&<code>#34</code>  time should only be set if the bookmark was launched,
+     * Sets the time the bookmark for {@code uri} was last visited.
+     * <p>
+     * If no bookmark for {@code uri} is found then it is created.
+     * <p>
+     * The "visited" time should only be set if the bookmark was launched,
      * either using the command line retrieved by g_bookmark_file_get_application_info()
-     * or by the default application for the bookmark&<code>#39</code> s MIME type, retrieved
-     * using g_bookmark_file_get_mime_type().  Changing the &<code>#34</code> visited&<code>#34</code>  time
-     * does not affect the &<code>#34</code> modified&<code>#34</code>  time.
+     * or by the default application for the bookmark's MIME type, retrieved
+     * using g_bookmark_file_get_mime_type().  Changing the "visited" time
+     * does not affect the "modified" time.
      */
     public void setVisitedDateTime(java.lang.String uri, DateTime visited) {
         gtk_h.g_bookmark_file_set_visited_date_time(handle(), Interop.allocateNativeString(uri).handle(), visited.handle());
     }
     
     /**
-     * This function outputs @bookmark into a file.  The write process is
+     * This function outputs {@code bookmark} into a file.  The write process is
      * guaranteed to be atomic by using g_file_set_contents() internally.
      */
     public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
@@ -500,8 +502,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new empty {@link org.gtk.glib.BookmarkFile} object.
-     * 
+     * Creates a new empty {@link BookmarkFile} object.
+     * <p>
      * Use g_bookmark_file_load_from_file(), g_bookmark_file_load_from_data()
      * or g_bookmark_file_load_from_data_dirs() to read an existing bookmark
      * file.

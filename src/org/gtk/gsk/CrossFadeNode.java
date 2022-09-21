@@ -27,14 +27,14 @@ public class CrossFadeNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will do a cross-fade between @start and @end.
+     * Creates a {@code GskRenderNode} that will do a cross-fade between {@code start} and {@code end}.
      */
     public CrossFadeNode(RenderNode start, RenderNode end, float progress) {
         super(constructNew(start, end, progress));
     }
     
     /**
-     * Retrieves the child <code>GskRenderNode</code> at the end of the cross-fade.
+     * Retrieves the child {@code GskRenderNode} at the end of the cross-fade.
      */
     public RenderNode getEndChild() {
         var RESULT = gtk_h.gsk_cross_fade_node_get_end_child(handle());
@@ -50,7 +50,7 @@ public class CrossFadeNode extends RenderNode {
     }
     
     /**
-     * Retrieves the child <code>GskRenderNode</code> at the beginning of the cross-fade.
+     * Retrieves the child {@code GskRenderNode} at the beginning of the cross-fade.
      */
     public RenderNode getStartChild() {
         var RESULT = gtk_h.gsk_cross_fade_node_get_start_child(handle());

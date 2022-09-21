@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Data type to hold information for a &<code>#34</code> part&<code>#34</code>  component of a math-variant glyph.
+ * Data type to hold information for a "part" component of a math-variant glyph.
  * Large variants for stretchable math glyphs (such as parentheses) can be constructed
  * on the fly from parts.
  */

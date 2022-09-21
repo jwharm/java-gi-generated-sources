@@ -27,8 +27,8 @@ public class ContainerNode extends RenderNode {
     }
     
     /**
-     * Creates a new <code>GskRenderNode</code> instance for holding the given @children.
-     * 
+     * Creates a new {@code GskRenderNode} instance for holding the given {@code children}.
+     * <p>
      * The new node will acquire a reference to each of the children.
      */
     public ContainerNode(RenderNode[] children, int nChildren) {
@@ -36,7 +36,7 @@ public class ContainerNode extends RenderNode {
     }
     
     /**
-     * Gets one of the children of @container.
+     * Gets one of the children of {@code container}.
      */
     public RenderNode getChild(int idx) {
         var RESULT = gtk_h.gsk_container_node_get_child(handle(), idx);
@@ -44,7 +44,7 @@ public class ContainerNode extends RenderNode {
     }
     
     /**
-     * Retrieves the number of direct children of @node.
+     * Retrieves the number of direct children of {@code node}.
      */
     public int getNChildren() {
         var RESULT = gtk_h.gsk_container_node_get_n_children(handle());

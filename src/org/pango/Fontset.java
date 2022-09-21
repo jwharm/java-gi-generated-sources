@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoFontset</code> represents a set of <code>PangoFont</code> to use when rendering text.
+ * A {@code PangoFontset} represents a set of {@code PangoFont} to use when rendering text.
  * <p>
- * A <code>PangoFontset</code> is the result of resolving a <code>PangoFontDescription</code>
- * against a particular <code>PangoContext</code>. It has operations for finding the
+ * A {@code PangoFontset} is the result of resolving a {@code PangoFontDescription}
+ * against a particular {@code PangoContext}. It has operations for finding the
  * component font for a particular Unicode character, and for finding a
  * composite set of metrics for the entire fontset.
  */
@@ -27,10 +27,10 @@ public class Fontset extends org.gtk.gobject.Object {
     }
     
     /**
-     * Iterates through all the fonts in a fontset, calling @func for
+     * Iterates through all the fonts in a fontset, calling {@code func} for
      * each one.
-     * 
-     * If @func returns <code>true</code>  that stops the iteration.
+     * <p>
+     * If {@code func} returns <code>true</code>, that stops the iteration.
      */
     public void foreach(FontsetForeachFunc func) {
         try {

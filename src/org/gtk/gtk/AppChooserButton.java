@@ -8,32 +8,33 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkAppChooserButton</code> lets the user select an application.
+ * The {@code GtkAppChooserButton} lets the user select an application.
  * <p>
- * !{@link [An example GtkAppChooserButton]}(appchooserbutton.png)
+ * <img src="./doc-files/appchooserbutton.png" alt="An example GtkAppChooserButton">
  * <p>
- * Initially, a <code>GtkAppChooserButton</code> selects the first application
+ * Initially, a {@code GtkAppChooserButton} selects the first application
  * in its list, which will either be the most-recently used application
- * or, if {@link [property@Gtk.AppChooserButton:show-default-item] (ref=property)} is <code>true</code>  the
+ * or, if {@code Gtk.AppChooserButton:show-default-item} is <code>true</code>, the
  * default application.
  * <p>
- * The list of applications shown in a <code>GtkAppChooserButton</code> includes
+ * The list of applications shown in a {@code GtkAppChooserButton} includes
  * the recommended applications for the given content type. When
- * {@link [property@Gtk.AppChooserButton:show-default-item] (ref=property)} is set, the default
+ * {@code Gtk.AppChooserButton:show-default-item} is set, the default
  * application is also included. To let the user chooser other applications,
- * you can set the {@link [property@Gtk.AppChooserButton:show-dialog-item] (ref=property)} property,
- * which allows to open a full {@link org.gtk.gtk.AppChooserDialog}.
+ * you can set the {@code Gtk.AppChooserButton:show-dialog-item} property,
+ * which allows to open a full {@link AppChooserDialog}.
  * <p>
  * It is possible to add custom items to the list, using
- * {@link org.gtk.gtk.AppChooserButton<code>#appendCustomItem</code> . These items cause
- * the {@link [signal@Gtk.AppChooserButton::custom-item-activated] (ref=signal)} signal to be
+ * {@link AppChooserButton#appendCustomItem}. These items cause
+ * the {@code Gtk.AppChooserButton::custom-item-activated} signal to be
  * emitted when they are selected.
  * <p>
  * To track changes in the selected application, use the
- * {@link [signal@Gtk.AppChooserButton::changed] (ref=signal)} signal.
+ * {@code Gtk.AppChooserButton::changed} signal.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkAppChooserButton</code> has a single CSS node with the name &<code>#8220</code> appchooserbutton&<code>#8221</code> .
+ * <p>
+ * {@code GtkAppChooserButton} has a single CSS node with the name “appchooserbutton”.
  */
 public class AppChooserButton extends Widget implements Accessible, AppChooser, Buildable, ConstraintTarget {
 
@@ -52,7 +53,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     }
     
     /**
-     * Creates a new <code>GtkAppChooserButton</code> for applications
+     * Creates a new {@code GtkAppChooserButton} for applications
      * that can handle content of the given type.
      */
     public AppChooserButton(java.lang.String contentType) {
@@ -62,13 +63,13 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     /**
      * Appends a custom item to the list of applications that is shown
      * in the popup.
-     * 
+     * <p>
      * The item name must be unique per-widget. Clients can use the
      * provided name as a detail for the
-     * {@link [signal@Gtk.AppChooserButton::custom-item-activated] (ref=signal)} signal, to add a
+     * {@code Gtk.AppChooserButton::custom-item-activated} signal, to add a
      * callback for the activation of a particular custom item in the list.
-     * 
-     * See also {@link org.gtk.gtk.AppChooserButton<code>#appendSeparator</code> .
+     * <p>
+     * See also {@link AppChooserButton#appendSeparator}.
      */
     public void appendCustomItem(java.lang.String name, java.lang.String label, org.gtk.gio.Icon icon) {
         gtk_h.gtk_app_chooser_button_append_custom_item(handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(label).handle(), icon.handle());
@@ -109,7 +110,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     
     /**
      * Returns whether the dropdown menu shows an item
-     * for a <code>GtkAppChooserDialog</code>.
+     * for a {@code GtkAppChooserDialog}.
      */
     public boolean getShowDialogItem() {
         var RESULT = gtk_h.gtk_app_chooser_button_get_show_dialog_item(handle());
@@ -118,10 +119,10 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     
     /**
      * Selects a custom item.
-     * 
-     * See {@link org.gtk.gtk.AppChooserButton<code>#appendCustomItem</code> .
-     * 
-     * Use {@link org.gtk.gtk.AppChooser<code>#refresh</code>  to bring the selection
+     * <p>
+     * See {@link AppChooserButton#appendCustomItem}.
+     * <p>
+     * Use {@link AppChooser#refresh} to bring the selection
      * to its initial state.
      */
     public void setActiveCustomItem(java.lang.String name) {
@@ -130,7 +131,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     
     /**
      * Sets the text to display at the top of the dialog.
-     * 
+     * <p>
      * If the heading is not set, the dialog displays a default text.
      */
     public void setHeading(java.lang.String heading) {
@@ -154,7 +155,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     
     /**
      * Sets whether the dropdown menu of this button should show an
-     * entry to trigger a <code>GtkAppChooserDialog</code>.
+     * entry to trigger a {@code GtkAppChooserDialog}.
      */
     public void setShowDialogItem(boolean setting) {
         gtk_h.gtk_app_chooser_button_set_show_dialog_item(handle(), setting ? 1 : 0);
@@ -168,7 +169,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     /**
      * Emitted to when the button is activated.
      * <p>
-     * The <code>::activate</code> signal on <code>GtkAppChooserButton</code> is an action signal and
+     * The {@code ::activate} signal on {@code GtkAppChooserButton} is an action signal and
      * emitting it causes the button to pop up its dialog.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
@@ -216,8 +217,8 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
     
     /**
      * Emitted when a custom item is activated.
-     * 
-     * Use {@link org.gtk.gtk.AppChooserButton<code>#appendCustomItem</code> ,
+     * <p>
+     * Use {@link AppChooserButton#appendCustomItem},
      * to add custom items.
      */
     public SignalHandle onCustomItemActivated(CustomItemActivatedHandler handler) {

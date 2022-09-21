@@ -27,8 +27,8 @@ public class InsetShadowNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will render an inset shadow
-     * into the box given by @outline.
+     * Creates a {@code GskRenderNode} that will render an inset shadow
+     * into the box given by {@code outline}.
      */
     public InsetShadowNode(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
         super(constructNew(outline, color, dx, dy, spread, blurRadius));

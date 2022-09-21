@@ -16,30 +16,24 @@ public enum NormalizeMode {
     DEFAULT,
     
     /**
-     * another name for 
-     *       
-     *       
-     *         another name for %G_NORMALIZE_DEFAULT
+     * another name for {@link NormalizeMode#DEFAULT}
      */
     NFD,
     
     /**
-     * like {@link org.gtk.glib.NormalizeMode<code>#DEFAULT</code>   but with
+     * like {@link NormalizeMode#DEFAULT}, but with
      *     composed forms rather than a maximally decomposed form
      */
     DEFAULT_COMPOSE,
     
     /**
-     * another name for 
-     *       
-     *       
-     *         another name for %G_NORMALIZE_DEFAULT_COMPOSE
+     * another name for {@link NormalizeMode#DEFAULT_COMPOSE}
      */
     NFC,
     
     /**
-     * beyond {@link org.gtk.glib.NormalizeMode<code>#DEFAULT</code>  also standardize the
-     *     &<code>#34</code> compatibility&<code>#34</code>  characters in Unicode, such as SUPERSCRIPT THREE
+     * beyond {@link NormalizeMode#DEFAULT} also standardize the
+     *     "compatibility" characters in Unicode, such as SUPERSCRIPT THREE
      *     to the standard forms (in this case DIGIT THREE). Formatting
      *     information may be lost but for most text operations such
      *     characters should be considered the same
@@ -47,24 +41,18 @@ public enum NormalizeMode {
     ALL,
     
     /**
-     * another name for 
-     *       
-     *       
-     *         another name for %G_NORMALIZE_ALL
+     * another name for {@link NormalizeMode#ALL}
      */
     NFKD,
     
     /**
-     * like {@link org.gtk.glib.NormalizeMode<code>#ALL</code>   but with composed
+     * like {@link NormalizeMode#ALL}, but with composed
      *     forms rather than a maximally decomposed form
      */
     ALL_COMPOSE,
     
     /**
-     * another name for 
-     *       
-     *       
-     *         another name for %G_NORMALIZE_ALL_COMPOSE
+     * another name for {@link NormalizeMode#ALL_COMPOSE}
      */
     NFKC;
     

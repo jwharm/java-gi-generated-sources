@@ -8,62 +8,66 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkComboBox</code> is a widget that allows the user to choose from a list of
+ * A {@code GtkComboBox} is a widget that allows the user to choose from a list of
  * valid choices.
  * <p>
- * !{@link [An example GtkComboBox]}(combo-box.png)
+ * <img src="./doc-files/combo-box.png" alt="An example GtkComboBox">
  * <p>
- * The <code>GtkComboBox</code> displays the selected choice; when activated, the<code>GtkComboBox</code> displays a popup which allows the user to make a new choice.
+ * The {@code GtkComboBox} displays the selected choice; when activated, the
+ * {@code GtkComboBox} displays a popup which allows the user to make a new choice.
  * <p>
- * The <code>GtkComboBox</code> uses the model-view pattern; the list of valid choices
+ * The {@code GtkComboBox} uses the model-view pattern; the list of valid choices
  * is specified in the form of a tree model, and the display of the choices
  * can be adapted to the data in the model by using cell renderers, as you
- * would in a tree view. This is possible since <code>GtkComboBox</code> implements the
- * {@link [iface@Gtk.CellLayout] (ref=iface)} interface. The tree model holding the valid
+ * would in a tree view. This is possible since {@code GtkComboBox} implements the
+ * {@code Gtk.CellLayout} interface. The tree model holding the valid
  * choices is not restricted to a flat list, it can be a real tree, and the
  * popup will reflect the tree structure.
  * <p>
  * To allow the user to enter values not in the model, the
- * {@link [property@Gtk.ComboBox:has-entry] (ref=property)} property allows the <code>GtkComboBox</code> to
- * contain a {@link org.gtk.gtk.Entry}. This entry can be accessed by calling
- * {@link org.gtk.gtk.ComboBox<code>#getChild</code>  on the combo box.
+ * {@code Gtk.ComboBox:has-entry} property allows the {@code GtkComboBox} to
+ * contain a {@link Entry}. This entry can be accessed by calling
+ * {@link ComboBox#getChild} on the combo box.
  * <p>
- * For a simple list of textual choices, the model-view API of <code>GtkComboBox</code>
- * can be a bit overwhelming. In this case, {@link org.gtk.gtk.ComboBoxText} offers
- * a simple alternative. Both <code>GtkComboBox</code> and <code>GtkComboBoxText</code> can contain
+ * For a simple list of textual choices, the model-view API of {@code GtkComboBox}
+ * can be a bit overwhelming. In this case, {@link ComboBoxText} offers
+ * a simple alternative. Both {@code GtkComboBox} and {@code GtkComboBoxText} can contain
  * an entry.
  * <p>
  * <h2>CSS nodes</h2>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * combobox
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  box.linked
- * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.combo
- * &<code>#9474</code>        &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box
- * &<code>#9474</code>            &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  cellview
- * &<code>#9474</code>            &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  arrow
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  window.popup
- * </pre>
+ * ├── box.linked
+ * │   ╰── button.combo
+ * │       ╰── box
+ * │           ├── cellview
+ * │           ╰── arrow
+ * ╰── window.popup
+ * }</pre>
  * <p>
  * A normal combobox contains a box with the .linked class, a button
  * with the .combo class and inside those buttons, there are a cellview and
  * an arrow.
- * <p><pre>
- * combobox
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  box.linked
- * &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  entry.combo
- * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.combo
- * &<code>#9474</code>        &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box
- * &<code>#9474</code>            &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  arrow
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  window.popup
- * </pre>
  * <p>
- * A <code>GtkComboBox</code> with an entry has a single CSS node with name combobox.
+ * <pre>{@code 
+ * combobox
+ * ├── box.linked
+ * │   ├── entry.combo
+ * │   ╰── button.combo
+ * │       ╰── box
+ * │           ╰── arrow
+ * ╰── window.popup
+ * }</pre>
+ * <p>
+ * A {@code GtkComboBox} with an entry has a single CSS node with name combobox.
  * It contains a box with the .linked class. That box contains an entry and
  * a button, both with the .combo class added. The button also contains another
  * node with name arrow.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkComboBox</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#COMBO_BOX</code>  role.
+ * <p>
+ * {@code GtkComboBox} uses the {@link AccessibleRole#COMBO_BOX} role.
  */
 public class ComboBox extends Widget implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
 
@@ -82,7 +86,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Creates a new empty <code>GtkComboBox</code>.
+     * Creates a new empty {@code GtkComboBox}.
      */
     public ComboBox() {
         super(constructNew());
@@ -94,11 +98,11 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Creates a new empty <code>GtkComboBox</code> with an entry.
-     * 
+     * Creates a new empty {@code GtkComboBox} with an entry.
+     * <p>
      * In order to use a combo box with entry, you need to tell it
      * which column of the model contains the text for the entry
-     * by calling {@link org.gtk.gtk.ComboBox<code>#setEntryTextColumn</code> .
+     * by calling {@link ComboBox#setEntryTextColumn}.
      */
     public static ComboBox newWithEntry() {
         return new ComboBox(constructNewWithEntry());
@@ -110,7 +114,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Creates a new <code>GtkComboBox</code> with a model.
+     * Creates a new {@code GtkComboBox} with a model.
      */
     public static ComboBox newWithModel(TreeModel model) {
         return new ComboBox(constructNewWithModel(model));
@@ -122,9 +126,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Creates a new empty <code>GtkComboBox</code> with an entry and a model.
-     * 
-     * See also {@link [ctor@Gtk.ComboBox.new_with_entry] (ref=ctor)}.
+     * Creates a new empty {@code GtkComboBox} with an entry and a model.
+     * <p>
+     * See also {@link ComboBox#newWithEntry}.
      */
     public static ComboBox newWithModelAndEntry(TreeModel model) {
         return new ComboBox(constructNewWithModelAndEntry(model));
@@ -134,8 +138,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Returns the index of the currently active item.
      * <p>
      * If the model is a non-flat treemodel, and the active item is not
-     * an immediate child of the root of the tree, this function returns<code>gtk_tree_path_get_indices (path){@link [0]}</code>, where <code>path</code> is the
-     * {@link [struct@Gtk.TreePath] (ref=struct)} of the active item.
+     * an immediate child of the root of the tree, this function returns
+     * {@code gtk_tree_path_get_indices (path)[0]}, where {@code path} is the
+     * {@code Gtk.TreePath} of the active item.
      */
     public int getActive() {
         var RESULT = gtk_h.gtk_combo_box_get_active(handle());
@@ -143,18 +148,19 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Returns the ID of the active row of @combo_box.
-     * 
+     * Returns the ID of the active row of {@code combo_box}.
+     * <p>
      * This value is taken from the active row and the column specified
-     * by the {@link [property@Gtk.ComboBox:id-column] (ref=property)} property of @combo_box
-     * (see {@link org.gtk.gtk.ComboBox<code>#setIdColumn</code> ).
-     * 
+     * by the {@code combo_box
+     * (see [method@Gtk.ComboBox.set_id_column}).
+     * <p>
      * The returned value is an interned string which means that you can
      * compare the pointer by value to other interned strings and that you
      * must not free it.
-     * 
-     * If the {@link [property@Gtk.ComboBox:id-column] (ref=property)} property of @combo_box is
-     * not set, or if no row is active, or if the active row has a <code>null</code> ID value, then <code>null</code> is returned.
+     * <p>
+     * If the {@code Gtk.ComboBox:id-column} property of {@code combo_box} is
+     * not set, or if no row is active, or if the active row has a <code>null</code>
+     * ID value, then <code>null</code> is returned.
      */
     public java.lang.String getActiveId() {
         var RESULT = gtk_h.gtk_combo_box_get_active_id(handle());
@@ -162,9 +168,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Sets @iter to point to the currently active item.
-     * 
-     * If no item is active, @iter is left unchanged.
+     * Sets {@code iter} to point to the currently active item.
+     * <p>
+     * If no item is active, {@code iter} is left unchanged.
      */
     public boolean getActiveIter(TreeIter iter) {
         var RESULT = gtk_h.gtk_combo_box_get_active_iter(handle(), iter.handle());
@@ -181,7 +187,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Gets the child widget of @combo_box.
+     * Gets the child widget of {@code combo_box}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_combo_box_get_child(handle());
@@ -189,7 +195,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Returns the column which @combo_box is using to get the strings
+     * Returns the column which {@code combo_box} is using to get the strings
      * from to display in the internal entry.
      */
     public int getEntryTextColumn() {
@@ -206,7 +212,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Returns the column which @combo_box is using to get string IDs
+     * Returns the column which {@code combo_box} is using to get string IDs
      * for values from.
      */
     public int getIdColumn() {
@@ -215,7 +221,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Returns the <code>GtkTreeModel</code> of @combo_box.
+     * Returns the {@code GtkTreeModel} of {@code combo_box}.
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_combo_box_get_model(handle());
@@ -231,8 +237,8 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Hides the menu or dropdown list of @combo_box.
-     * 
+     * Hides the menu or dropdown list of {@code combo_box}.
+     * <p>
      * This function is mostly intended for use by accessibility technologies;
      * applications should have little use for it.
      */
@@ -241,20 +247,20 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Pops up the menu or dropdown list of @combo_box.
-     * 
+     * Pops up the menu or dropdown list of {@code combo_box}.
+     * <p>
      * This function is mostly intended for use by accessibility technologies;
      * applications should have little use for it.
-     * 
-     * Before calling this, @combo_box must be mapped, or nothing will happen.
+     * <p>
+     * Before calling this, {@code combo_box} must be mapped, or nothing will happen.
      */
     public void popup() {
         gtk_h.gtk_combo_box_popup(handle());
     }
     
     /**
-     * Pops up the menu of @combo_box.
-     * 
+     * Pops up the menu of {@code combo_box}.
+     * <p>
      * Note that currently this does not do anything with the device, as it was
      * previously only used for list-mode combo boxes, and those were removed
      * in GTK 4. However, it is retained in case similar functionality is added
@@ -265,22 +271,22 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Sets the active item of @combo_box to be the item at @index.
+     * Sets the active item of {@code combo_box} to be the item at {@code index}.
      */
     public void setActive(int index) {
         gtk_h.gtk_combo_box_set_active(handle(), index);
     }
     
     /**
-     * Changes the active row of @combo_box to the one that has an ID equal to
-     * @active_id.
-     * 
-     * If @active_id is <code>null</code>  the active row is unset. Rows having
+     * Changes the active row of {@code combo_box} to the one that has an ID equal to
+     * {@code active_id}.
+     * <p>
+     * If {@code active_id} is <code>null</code>, the active row is unset. Rows having
      * a <code>null</code> ID string cannot be made active by this function.
-     * 
-     * If the {@link [property@Gtk.ComboBox:id-column] (ref=property)} property of @combo_box is
+     * <p>
+     * If the {@code Gtk.ComboBox:id-column} property of {@code combo_box} is
      * unset or if no row has the given ID then the function does nothing
-     * and returns <code>false</code>
+     * and returns <code>false</code>.
      */
     public boolean setActiveId(java.lang.String activeId) {
         var RESULT = gtk_h.gtk_combo_box_set_active_id(handle(), Interop.allocateNativeString(activeId).handle());
@@ -288,9 +294,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Sets the current active item to be the one referenced by @iter.
-     * 
-     * If @iter is <code>null</code>  the active item is unset.
+     * Sets the current active item to be the one referenced by {@code iter}.
+     * <p>
+     * If {@code iter} is <code>null</code>, the active item is unset.
      */
     public void setActiveIter(TreeIter iter) {
         gtk_h.gtk_combo_box_set_active_iter(handle(), iter.handle());
@@ -305,48 +311,48 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Sets the child widget of @combo_box.
+     * Sets the child widget of {@code combo_box}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_combo_box_set_child(handle(), child.handle());
     }
     
     /**
-     * Sets the model column which @combo_box should use to get strings
-     * from to be @text_column.
-     * 
+     * Sets the model column which {@code combo_box} should use to get strings
+     * from to be {@code text_column}.
+     * <p>
      * For this column no separate
-     * {@link org.gtk.gtk.CellRenderer} is needed.
-     * 
-     * The column @text_column in the model of @combo_box must be of
-     * type <code>G_TYPE_STRING</code> 
-     * 
-     * This is only relevant if @combo_box has been created with
-     * {@link [property@Gtk.ComboBox:has-entry] (ref=property)} as <code>true</code>
+     * {@link CellRenderer} is needed.
+     * <p>
+     * The column {@code text_column} in the model of {@code combo_box} must be of
+     * type {@code G_TYPE_STRING}.
+     * <p>
+     * This is only relevant if {@code combo_box} has been created with
+     * {@code Gtk.ComboBox:has-entry} as <code>true</code>.
      */
     public void setEntryTextColumn(int textColumn) {
         gtk_h.gtk_combo_box_set_entry_text_column(handle(), textColumn);
     }
     
     /**
-     * Sets the model column which @combo_box should use to get string IDs
+     * Sets the model column which {@code combo_box} should use to get string IDs
      * for values from.
-     * 
-     * The column @id_column in the model of @combo_box must be of type
-     * <code>G_TYPE_STRING</code>
+     * <p>
+     * The column {@code id_column} in the model of {@code combo_box} must be of type
+     * {@code G_TYPE_STRING}.
      */
     public void setIdColumn(int idColumn) {
         gtk_h.gtk_combo_box_set_id_column(handle(), idColumn);
     }
     
     /**
-     * Sets the model used by @combo_box to be @model.
-     * 
-     * Will unset a previously set model (if applicable). If model is <code>null</code> 
+     * Sets the model used by {@code combo_box} to be {@code model}.
+     * <p>
+     * Will unset a previously set model (if applicable). If model is <code>null</code>,
      * then it will unset the model.
-     * 
+     * <p>
      * Note that this function does not clear the cell renderers, you have to
-     * call {@link org.gtk.gtk.CellLayout<code>#clear</code>  yourself if you need to set up different
+     * call {@link CellLayout#clear} yourself if you need to set up different
      * cell renderers for the new model.
      */
     public void setModel(TreeModel model) {
@@ -354,9 +360,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Specifies whether the popup&<code>#8217</code> s width should be a fixed width.
-     * 
-     * If @fixed is <code>true</code>  the popup&<code>#39</code> s width is set to match the
+     * Specifies whether the popup’s width should be a fixed width.
+     * <p>
+     * If {@code fixed} is <code>true</code>, the popup's width is set to match the
      * allocated width of the combo box.
      */
     public void setPopupFixedWidth(boolean fixed) {
@@ -366,8 +372,8 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Sets the row separator function, which is used to determine
      * whether a row should be drawn as a separator.
-     * 
-     * If the row separator function is <code>null</code>  no separators are drawn.
+     * <p>
+     * If the row separator function is <code>null</code>, no separators are drawn.
      * This is the default value.
      */
     public void setRowSeparatorFunc(TreeViewRowSeparatorFunc func) {
@@ -393,7 +399,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Emitted to when the combo box is activated.
      * <p>
-     * The <code>::activate</code> signal on <code>GtkComboBox</code> is an action signal and
+     * The {@code ::activate} signal on {@code GtkComboBox} is an action signal and
      * emitting it causes the combo box to pop up its dropdown.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
@@ -418,9 +424,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     
     /**
      * Emitted when the active item is changed.
-     * 
+     * <p>
      * The can be due to the user selecting a different item from the list,
-     * or due to a call to {@link org.gtk.gtk.ComboBox<code>#setActiveIter</code> . It will
+     * or due to a call to {@link ComboBox#setActiveIter}. It will
      * also be emitted while typing into the entry of a combo box with an entry.
      */
     public SignalHandle onChanged(ChangedHandler handler) {
@@ -444,17 +450,18 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     }
     
     /**
-     * Emitted to allow changing how the text in a combo box&<code>#39</code> s entry is displayed.
+     * Emitted to allow changing how the text in a combo box's entry is displayed.
      * <p>
-     * See {@link [property@Gtk.ComboBox:has-entry] (ref=property)}.
+     * See {@code Gtk.ComboBox:has-entry}.
      * <p>
      * Connect a signal handler which returns an allocated string representing
-     * @path. That string will then be used to set the text in the combo box&<code>#39</code> s
+     * {@code path}. That string will then be used to set the text in the combo box's
      * entry. The default signal handler uses the text from the
-     * {@link [property@Gtk.ComboBox:entry-text-column] (ref=property)} model column.
+     * {@code Gtk.ComboBox:entry-text-column} model column.
      * <p>
-     * Here&<code>#39</code> s an example signal handler which fetches data from the model and
-     * displays it in the entry.<pre>c
+     * Here's an example signal handler which fetches data from the model and
+     * displays it in the entry.
+     * <pre>{@code c
      * static char *
      * format_entry_text_callback (GtkComboBox *combo,
      *                             const char *path,
@@ -466,14 +473,14 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * 
      *   model = gtk_combo_box_get_model (combo);
      * 
-     *   gtk_tree_model_get_iter_from_string (model, &<code>#38</code> iter, path);
-     *   gtk_tree_model_get (model, &<code>#38</code> iter,
-     *                       THE_DOUBLE_VALUE_COLUMN, &<code>#38</code> value,
+     *   gtk_tree_model_get_iter_from_string (model, &iter, path);
+     *   gtk_tree_model_get (model, &iter,
+     *                       THE_DOUBLE_VALUE_COLUMN, &value,
      *                       -1);
      * 
-     *   return g_strdup_printf (&<code>#34</code> <code>g</code> <code>#34</code> , value);
+     *   return g_strdup_printf ("%g", value);
      * }
-     * </pre>
+     * }</pre>
      */
     public SignalHandle onFormatEntryText(FormatEntryTextHandler handler) {
         try {
@@ -497,8 +504,8 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     
     /**
      * Emitted to move the active selection.
-     * 
-     * This is an {@link [keybinding signal]}(class.SignalAction.html).
+     * <p>
+     * This is an <a href="class.SignalAction.html">keybinding signal</a>.
      */
     public SignalHandle onMoveActive(MoveActiveHandler handler) {
         try {
@@ -522,9 +529,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     
     /**
      * Emitted to popdown the combo box list.
-     * 
-     * This is an {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is an <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are Alt+Up and Escape.
      */
     public SignalHandle onPopdown(PopdownHandler handler) {
@@ -549,9 +556,9 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     
     /**
      * Emitted to popup the combo box list.
-     * 
-     * This is an {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is an <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default binding for this signal is Alt+Down.
      */
     public SignalHandle onPopup(PopupHandler handler) {

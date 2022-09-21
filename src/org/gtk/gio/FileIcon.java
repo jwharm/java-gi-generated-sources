@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.FileIcon} specifies an icon by pointing to an image file
+ * {@link FileIcon} specifies an icon by pointing to an image file
  * to be used as icon.
  */
 public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIcon {
@@ -35,7 +35,7 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
     }
     
     /**
-     * Gets the {@link org.gtk.gio.File} associated with the given @icon.
+     * Gets the {@link File} associated with the given {@code icon}.
      */
     public File getFile() {
         var RESULT = gtk_h.g_file_icon_get_file(handle());

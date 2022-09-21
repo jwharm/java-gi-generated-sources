@@ -27,15 +27,15 @@ public class RepeatNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will repeat the drawing of @child across
-     * the given @bounds.
+     * Creates a {@code GskRenderNode} that will repeat the drawing of {@code child} across
+     * the given {@code bounds}.
      */
     public RepeatNode(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {
         super(constructNew(bounds, child, childBounds));
     }
     
     /**
-     * Retrieves the child of @node.
+     * Retrieves the child of {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_repeat_node_get_child(handle());
@@ -43,7 +43,7 @@ public class RepeatNode extends RenderNode {
     }
     
     /**
-     * Retrieves the bounding rectangle of the child of @node.
+     * Retrieves the bounding rectangle of the child of {@code node}.
      */
     public org.gtk.graphene.Rect getChildBounds() {
         var RESULT = gtk_h.gsk_repeat_node_get_child_bounds(handle());

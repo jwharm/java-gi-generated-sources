@@ -33,35 +33,35 @@ public enum RegexError {
     INTERNAL,
     
     /**
-     * &<code>#34</code> \\\\&<code>#34</code>  at end of pattern. Since 2.16
+     * "\\\\" at end of pattern. Since 2.16
      */
     STRAY_BACKSLASH,
     
     /**
-     * &<code>#34</code> \\\\c&<code>#34</code>  at end of pattern. Since 2.16
+     * "\\\\c" at end of pattern. Since 2.16
      */
     MISSING_CONTROL_CHAR,
     
     /**
-     * Unrecognized character follows &<code>#34</code> \\\\&<code>#34</code> .
+     * Unrecognized character follows "\\\\".
      *     Since 2.16
      */
     UNRECOGNIZED_ESCAPE,
     
     /**
-     * Numbers out of order in &<code>#34</code> {}&<code>#34</code> 
+     * Numbers out of order in "{}"
      *     quantifier. Since 2.16
      */
     QUANTIFIERS_OUT_OF_ORDER,
     
     /**
-     * Number too big in &<code>#34</code> {}&<code>#34</code>  quantifier.
+     * Number too big in "{}" quantifier.
      *     Since 2.16
      */
     QUANTIFIER_TOO_BIG,
     
     /**
-     * Missing terminating &<code>#34</code> ]&<code>#34</code>  for
+     * Missing terminating "]" for
      *     character class. Since 2.16
      */
     UNTERMINATED_CHARACTER_CLASS,
@@ -84,8 +84,8 @@ public enum RegexError {
     NOTHING_TO_REPEAT,
     
     /**
-     * Unrecognized character after &<code>#34</code> (?&<code>#34</code> ,
-     *     &<code>#34</code> (?&<code>#60</code> &<code>#34</code>  or &<code>#34</code> (?P&<code>#34</code> . Since 2.16
+     * Unrecognized character after "(?",
+     *     "(?<" or "(?P". Since 2.16
      */
     UNRECOGNIZED_CHARACTER,
     
@@ -96,8 +96,8 @@ public enum RegexError {
     POSIX_NAMED_CLASS_OUTSIDE_CLASS,
     
     /**
-     * Missing terminating &<code>#34</code> )&<code>#34</code>  or &<code>#34</code> )&<code>#34</code> 
-     *     without opening &<code>#34</code> (&<code>#34</code> . Since 2.16
+     * Missing terminating ")" or ")"
+     *     without opening "(". Since 2.16
      */
     UNMATCHED_PARENTHESIS,
     
@@ -108,7 +108,7 @@ public enum RegexError {
     INEXISTENT_SUBPATTERN_REFERENCE,
     
     /**
-     * Missing terminating &<code>#34</code> )&<code>#34</code>  after comment.
+     * Missing terminating ")" after comment.
      *     Since 2.16
      */
     UNTERMINATED_COMMENT,
@@ -131,7 +131,7 @@ public enum RegexError {
     VARIABLE_LENGTH_LOOKBEHIND,
     
     /**
-     * Malformed number or name after &<code>#34</code> (?(&<code>#34</code> .
+     * Malformed number or name after "(?(".
      *     Since 2.16
      */
     MALFORMED_CONDITION,
@@ -143,7 +143,7 @@ public enum RegexError {
     TOO_MANY_CONDITIONAL_BRANCHES,
     
     /**
-     * Assertion expected after &<code>#34</code> (?(&<code>#34</code> .
+     * Assertion expected after "(?(".
      *     Since 2.16
      */
     ASSERTION_EXPECTED,
@@ -161,13 +161,13 @@ public enum RegexError {
     POSIX_COLLATING_ELEMENTS_NOT_SUPPORTED,
     
     /**
-     * Character value in &<code>#34</code> \\\\x{...}&<code>#34</code>  sequence
+     * Character value in "\\\\x{...}" sequence
      *     is too large. Since 2.16
      */
     HEX_CODE_TOO_LARGE,
     
     /**
-     * Invalid condition &<code>#34</code> (?(0)&<code>#34</code> . Since 2.16
+     * Invalid condition "(?(0)". Since 2.16
      */
     INVALID_CONDITION,
     
@@ -196,14 +196,14 @@ public enum RegexError {
     DUPLICATE_SUBPATTERN_NAME,
     
     /**
-     * Malformed &<code>#34</code> \\\\P&<code>#34</code>  or &<code>#34</code> \\\\p&<code>#34</code>  sequence.
+     * Malformed "\\\\P" or "\\\\p" sequence.
      *     Since 2.16
      */
     MALFORMED_PROPERTY,
     
     /**
-     * Unknown property name after &<code>#34</code> \\\\P&<code>#34</code>  or
-     *     &<code>#34</code> \\\\p&<code>#34</code> . Since 2.16
+     * Unknown property name after "\\\\P" or
+     *     "\\\\p". Since 2.16
      */
     UNKNOWN_PROPERTY,
     
@@ -220,19 +220,19 @@ public enum RegexError {
     TOO_MANY_SUBPATTERNS,
     
     /**
-     * Octal value is greater than &<code>#34</code> \\\\377&<code>#34</code> .
+     * Octal value is greater than "\\\\377".
      *     Since 2.16
      */
     INVALID_OCTAL_VALUE,
     
     /**
-     * &<code>#34</code> DEFINE&<code>#34</code>  group contains more
+     * "DEFINE" group contains more
      *     than one branch. Since 2.16
      */
     TOO_MANY_BRANCHES_IN_DEFINE,
     
     /**
-     * Repeating a &<code>#34</code> DEFINE&<code>#34</code>  group is not allowed.
+     * Repeating a "DEFINE" group is not allowed.
      *     This error is never raised. Since: 2.16 Deprecated: 2.34
      */
     DEFINE_REPETION,
@@ -244,7 +244,7 @@ public enum RegexError {
     INCONSISTENT_NEWLINE_OPTIONS,
     
     /**
-     * &<code>#34</code> \\\\g&<code>#34</code>  is not followed by a braced,
+     * "\\\\g" is not followed by a braced,
      *      angle-bracketed, or quoted name or number, or by a plain number. Since: 2.16
      */
     MISSING_BACK_REFERENCE,
@@ -283,11 +283,7 @@ public enum RegexError {
     
     /**
      * In JavaScript compatibility mode,
-     *     &<code>#34</code> 
-     *       
-     *       
-     *         In JavaScript compatibility mode,
-     *     &<code>#34</code> [&<code>#34</code>  is an invalid data character. Since: 2.34
+     *     "[" is an invalid data character. Since: 2.34
      */
     INVALID_DATA_CHARACTER,
     
@@ -304,19 +300,19 @@ public enum RegexError {
     BACKTRACKING_CONTROL_VERB_ARGUMENT_REQUIRED,
     
     /**
-     * &<code>#34</code> \\\\c&<code>#34</code>  must be followed by an ASCII
+     * "\\\\c" must be followed by an ASCII
      *     character. Since: 2.34
      */
     INVALID_CONTROL_CHAR,
     
     /**
-     * &<code>#34</code> \\\\k&<code>#34</code>  is not followed by a braced, angle-bracketed, or
+     * "\\\\k" is not followed by a braced, angle-bracketed, or
      *     quoted name. Since: 2.34
      */
     MISSING_NAME,
     
     /**
-     * &<code>#34</code> \\\\N&<code>#34</code>  is not supported in a class. Since: 2.34
+     * "\\\\N" is not supported in a class. Since: 2.34
      */
     NOT_SUPPORTED_IN_CLASS,
     
@@ -326,8 +322,8 @@ public enum RegexError {
     TOO_MANY_FORWARD_REFERENCES,
     
     /**
-     * the name is too long in &<code>#34</code> (*MARK)&<code>#34</code> , &<code>#34</code> (*PRUNE)&<code>#34</code> ,
-     *     &<code>#34</code> (*SKIP)&<code>#34</code> , or &<code>#34</code> (*THEN)&<code>#34</code> . Since: 2.34
+     * the name is too long in "(<strong>MARK)", "(</strong>PRUNE)",
+     *     "(<strong>SKIP)", or "(</strong>THEN)". Since: 2.34
      */
     NAME_TOO_LONG,
     

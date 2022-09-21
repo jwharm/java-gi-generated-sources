@@ -3,7 +3,7 @@ package org.gtk.gobject;
 /**
  * Flags to be passed to g_object_bind_property() or
  * g_object_bind_property_full().
- * 
+ * <p>
  * This enumeration can be extended at later date.
  */
 public class BindingFlags {

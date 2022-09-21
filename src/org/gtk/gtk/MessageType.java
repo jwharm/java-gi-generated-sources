@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * The type of message being displayed in a {@link [class@MessageDialog]}.
+ * The type of message being displayed in a {@link MessageDialog}.
  */
 public enum MessageType {
 

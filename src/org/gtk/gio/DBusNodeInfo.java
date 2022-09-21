@@ -26,13 +26,13 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Parses @xml_data and returns a {@link org.gtk.gio.DBusNodeInfo} representing the data.
-     * 
+     * Parses {@code xml_data} and returns a {@link DBusNodeInfo} representing the data.
+     * <p>
      * The introspection XML must contain exactly one top-level
-     * &<code>#60</code> node&<code>#62</code>  element.
-     * 
+     * &lt;node&gt; element.
+     * <p>
      * Note that this routine is using a
-     * {@link [GMarkup]}{@link [glib-Simple-XML-Subset-Parser.description]}-based
+     * [GMarkup][glib-Simple-XML-Subset-Parser.description]-based
      * parser that only accepts a subset of valid XML documents.
      */
     public static DBusNodeInfo newForXml(java.lang.String xmlData) throws GErrorException {
@@ -40,10 +40,10 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Appends an XML representation of @info (and its children) to @string_builder.
+     * Appends an XML representation of {@code info} (and its children) to {@code string_builder}.
      * <p>
      * This function is typically used for generating introspection XML documents at run-time for
-     * handling the <code>org.freedesktop.DBus.Introspectable.Introspect</code>  method.
+     * handling the {@code org.freedesktop.DBus.Introspectable.Introspect}  method.
      */
     public void generateXml(int indent, org.gtk.glib.String stringBuilder) {
         gtk_h.g_dbus_node_info_generate_xml(handle(), indent, stringBuilder.handle());
@@ -51,7 +51,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up information about an interface.
-     * 
+     * <p>
      * The cost of this function is O(n) in number of interfaces.
      */
     public DBusInterfaceInfo lookupInterface(java.lang.String name) {
@@ -60,7 +60,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @info is statically allocated does nothing. Otherwise increases
+     * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.
      */
     public DBusNodeInfo ref() {
@@ -69,8 +69,8 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @info is statically allocated, does nothing. Otherwise decreases
-     * the reference count of @info. When its reference count drops to 0,
+     * If {@code info} is statically allocated, does nothing. Otherwise decreases
+     * the reference count of {@code info}. When its reference count drops to 0,
      * the memory used is freed.
      */
     public void unref() {

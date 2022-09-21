@@ -2,10 +2,10 @@ package org.gtk.gtk;
 
 /**
  * A function used by gtk_tree_selection_set_select_function() to filter
- * whether or not a row may be selected. It is called whenever a row&<code>#39</code> s
+ * whether or not a row may be selected. It is called whenever a row's
  * state might change.
- * 
- * A return value of <code>true</code> indicates to @selection that it is okay to
+ * <p>
+ * A return value of <code>true</code> indicates to {@code selection} that it is okay to
  * change the selection.
  */
 @FunctionalInterface

@@ -8,33 +8,38 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkTooltip</code> is an object representing a widget tooltip.
+ * {@code GtkTooltip} is an object representing a widget tooltip.
  * <p>
  * Basic tooltips can be realized simply by using
- * {@link org.gtk.gtk.Widget<code>#setTooltipText</code>  or
- * {@link org.gtk.gtk.Widget<code>#setTooltipMarkup</code>  without
+ * {@link Widget#setTooltipText} or
+ * {@link Widget#setTooltipMarkup} without
  * any explicit tooltip object.
  * <p>
  * When you need a tooltip with a little more fancy contents,
  * like adding an image, or you want the tooltip to have different
- * contents per <code>GtkTreeView</code> row or cell, you will have to do a
+ * contents per {@code GtkTreeView} row or cell, you will have to do a
  * little more work:
  * <p>
- * <li>Set the {@link [property@Gtk.Widget:has-tooltip] (ref=property)} property to <code>true</code> 
+ * <ul>
+ * <li>Set the {@code Gtk.Widget:has-tooltip} property to <code>true</code>.
  *   This will make GTK monitor the widget for motion and related events
  *   which are needed to determine when and where to show a tooltip.
+ * </ul>
  * <p>
- * <li>Connect to the {@link [signal@Gtk.Widget::query-tooltip] (ref=signal)} signal.
+ * <ul>
+ * <li>Connect to the {@code Gtk.Widget::query-tooltip} signal.
  *   This signal will be emitted when a tooltip is supposed to be shown.
- *   One of the arguments passed to the signal handler is a <code>GtkTooltip</code>
+ *   One of the arguments passed to the signal handler is a {@code GtkTooltip}
  *   object. This is the object that we are about to display as a tooltip,
  *   and can be manipulated in your callback using functions like
- *   {@link org.gtk.gtk.Tooltip<code>#setIcon</code> . There are functions for setting
- *   the tooltip&<code>#8217</code> s markup, setting an image from a named icon, or even
+ *   {@link Tooltip#setIcon}. There are functions for setting
+ *   the tooltip’s markup, setting an image from a named icon, or even
  *   putting in a custom widget.
- * 
- * - Return <code>true</code> from your ::query-tooltip handler. This causes the tooltip
- *   to be show. If you return <code>false</code>  it will not be shown.
+ * </ul>
+ * <p>
+ * <ul>
+ * <li>Return <code>true</code> from your ::query-tooltip handler. This causes the tooltip
+ *   to be show. If you return <code>false</code>, it will not be shown.
  */
 public class Tooltip extends org.gtk.gobject.Object {
 
@@ -49,9 +54,9 @@ public class Tooltip extends org.gtk.gobject.Object {
     
     /**
      * Replaces the widget packed into the tooltip with
-     * @custom_widget. @custom_widget does not get destroyed when the tooltip goes
+     * {@code custom_widget}. {@code custom_widget} does not get destroyed when the tooltip goes
      * away.
-     * By default a box with a <code>GtkImage</code> and <code>GtkLabel</code> is embedded in
+     * By default a box with a {@code GtkImage} and {@code GtkLabel} is embedded in
      * the tooltip, which can be configured using gtk_tooltip_set_markup()
      * and gtk_tooltip_set_icon().
      */
@@ -61,7 +66,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
-     * @paintable.  If @paintable is <code>null</code>  the image will be hidden.
+     * {@code paintable}.  If {@code paintable} is <code>null</code>, the image will be hidden.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable) {
         gtk_h.gtk_tooltip_set_icon(handle(), paintable.handle());
@@ -69,8 +74,8 @@ public class Tooltip extends org.gtk.gobject.Object {
     
     /**
      * Sets the icon of the tooltip (which is in front of the text)
-     * to be the icon indicated by @gicon with the size indicated
-     * by @size. If @gicon is <code>null</code>  the image will be hidden.
+     * to be the icon indicated by {@code gicon} with the size indicated
+     * by {@code size}. If {@code gicon} is <code>null</code>, the image will be hidden.
      */
     public void setIconFromGicon(org.gtk.gio.Icon gicon) {
         gtk_h.gtk_tooltip_set_icon_from_gicon(handle(), gicon.handle());
@@ -78,28 +83,28 @@ public class Tooltip extends org.gtk.gobject.Object {
     
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
-     * the icon indicated by @icon_name with the size indicated
-     * by @size.  If @icon_name is <code>null</code>  the image will be hidden.
+     * the icon indicated by {@code icon_name} with the size indicated
+     * by {@code size}.  If {@code icon_name} is <code>null</code>, the image will be hidden.
      */
     public void setIconFromIconName(java.lang.String iconName) {
         gtk_h.gtk_tooltip_set_icon_from_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
     }
     
     /**
-     * Sets the text of the tooltip to be @markup.
-     * 
+     * Sets the text of the tooltip to be {@code markup}.
+     * <p>
      * The string must be marked up with Pango markup.
-     * If @markup is <code>null</code>  the label will be hidden.
+     * If {@code markup} is <code>null</code>, the label will be hidden.
      */
     public void setMarkup(java.lang.String markup) {
         gtk_h.gtk_tooltip_set_markup(handle(), Interop.allocateNativeString(markup).handle());
     }
     
     /**
-     * Sets the text of the tooltip to be @text.
-     * 
-     * If @text is <code>null</code>  the label will be hidden.
-     * See also {@link org.gtk.gtk.Tooltip<code>#setMarkup</code> .
+     * Sets the text of the tooltip to be {@code text}.
+     * <p>
+     * If {@code text} is <code>null</code>, the label will be hidden.
+     * See also {@link Tooltip#setMarkup}.
      */
     public void setText(java.lang.String text) {
         gtk_h.gtk_tooltip_set_text(handle(), Interop.allocateNativeString(text).handle());
@@ -107,11 +112,11 @@ public class Tooltip extends org.gtk.gobject.Object {
     
     /**
      * Sets the area of the widget, where the contents of this tooltip apply,
-     * to be @rect (in widget coordinates).  This is especially useful for
-     * properly setting tooltips on <code>GtkTreeView</code> rows and cells, <code>GtkIconViews</code>,
+     * to be {@code rect} (in widget coordinates).  This is especially useful for
+     * properly setting tooltips on {@code GtkTreeView} rows and cells, {@code GtkIconViews},
      * etc.
      * <p>
-     * For setting tooltips on <code>GtkTreeView</code>, please refer to the convenience
+     * For setting tooltips on {@code GtkTreeView}, please refer to the convenience
      * functions for this: gtk_tree_view_set_tooltip_row() and
      * gtk_tree_view_set_tooltip_cell().
      */

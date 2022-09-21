@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.harfbuzz.glyph_position_t} is the structure that holds the positions of the
+ * The {@link glyph_position_t} is the structure that holds the positions of the
  * glyph in both horizontal and vertical directions. All positions in
- * {@link org.harfbuzz.glyph_position_t} are relative to the current point.
+ * {@link glyph_position_t} are relative to the current point.
  */
 public class GlyphPositionT extends io.github.jwharm.javagi.ResourceBase {
 

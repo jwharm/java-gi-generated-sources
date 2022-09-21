@@ -36,7 +36,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains a completion for @initial_text from @completer.
+     * Obtains a completion for {@code initial_text} from {@code completer}.
      */
     public java.lang.String getCompletionSuffix(java.lang.String initialText) {
         var RESULT = gtk_h.g_filename_completer_get_completion_suffix(handle(), Interop.allocateNativeString(initialText).handle());
@@ -44,7 +44,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     }
     
     /**
-     * If @dirs_only is <code>true</code>  @completer will only
+     * If {@code dirs_only} is <code>true</code>, {@code completer} will only
      * complete directory names, and not file names.
      */
     public void setDirsOnly(boolean dirsOnly) {

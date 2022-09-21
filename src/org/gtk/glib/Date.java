@@ -11,12 +11,12 @@ import java.lang.invoke.*;
  * Represents a day between January 1, Year 1 and a few thousand years in
  * the future. None of its members should be accessed directly.
  * <p>
- * If the <code>GDate</code> is obtained from g_date_new(), it will be safe
+ * If the {@code GDate} is obtained from g_date_new(), it will be safe
  * to mutate but invalid and thus not safe for calendrical computations.
- * 
- * If it&<code>#39</code> s declared on the stack, it will contain garbage so must be
+ * <p>
+ * If it's declared on the stack, it will contain garbage so must be
  * initialized with g_date_clear(). g_date_clear() makes the date invalid
- * but safe. An invalid date doesn&<code>#39</code> t represent a day, it&<code>#39</code> s &<code>#34</code> empty.&<code>#34</code>  A date
+ * but safe. An invalid date doesn't represent a day, it's "empty." A date
  * becomes valid after you set it to a Julian day or you set a day, month,
  * and year.
  */
@@ -32,9 +32,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a {@link org.gtk.glib.Date} and initializes
+     * Allocates a {@link Date} and initializes
      * it to a safe state. The new date will
-     * be cleared (as if you&<code>#39</code> d called g_date_clear()) but invalid (it won&<code>#39</code> t
+     * be cleared (as if you'd called g_date_clear()) but invalid (it won't
      * represent an existing day). Free the return value with g_date_free().
      */
     public Date() {
@@ -47,10 +47,11 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Create a new {@link org.gtk.glib.Date} representing the given day-month-year triplet.
-     * 
+     * Create a new {@link Date} representing the given day-month-year triplet.
+     * <p>
      * The triplet you pass in must represent a valid date. Use g_date_valid_dmy()
-     * if needed to validate it. The returned {@link org.gtk.glib.Date} is guaranteed to be non-<code>null</code> and valid.
+     * if needed to validate it. The returned {@link Date} is guaranteed to be non-<code>null</code>
+     * and valid.
      */
     public static Date newDmy(DateDay day, DateMonth month, DateYear year) {
         return new Date(constructNewDmy(day, month, year));
@@ -62,10 +63,10 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Create a new {@link org.gtk.glib.Date} representing the given Julian date.
-     * 
-     * The @julian_day you pass in must be valid. Use g_date_valid_julian() if
-     * needed to validate it. The returned {@link org.gtk.glib.Date} is guaranteed to be non-<code>null</code> and
+     * Create a new {@link Date} representing the given Julian date.
+     * <p>
+     * The {@code julian_day} you pass in must be valid. Use g_date_valid_julian() if
+     * needed to validate it. The returned {@link Date} is guaranteed to be non-<code>null</code> and
      * valid.
      */
     public static Date newJulian(int julianDay) {
@@ -103,10 +104,10 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @date is prior to @min_date, sets @date equal to @min_date.
-     * If @date falls after @max_date, sets @date equal to @max_date.
-     * Otherwise, @date is unchanged.
-     * Either of @min_date and @max_date may be <code>null</code> 
+     * If {@code date} is prior to {@code min_date}, sets {@code date} equal to {@code min_date}.
+     * If {@code date} falls after {@code max_date}, sets {@code date} equal to {@code max_date}.
+     * Otherwise, {@code date} is unchanged.
+     * Either of {@code min_date} and {@code max_date} may be <code>null</code>.
      * All non-<code>null</code> dates must be valid.
      */
     public void clamp(Date minDate, Date maxDate) {
@@ -114,7 +115,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes one or more {@link org.gtk.glib.Date} structs to a safe but invalid
+     * Initializes one or more {@link Date} structs to a safe but invalid
      * state. The cleared dates will not represent an existing date, but will
      * not contain garbage. Useful to init a date declared on the stack.
      * Validity can be tested with g_date_valid().
@@ -144,7 +145,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the number of days between two dates.
-     * If @date2 is prior to @date1, the returned value is negative.
+     * If {@code date2} is prior to {@code date1}, the returned value is negative.
      * Both dates must be valid.
      */
     public int daysBetween(Date date2) {
@@ -153,7 +154,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a {@link org.gtk.glib.Date} returned from g_date_new().
+     * Frees a {@link Date} returned from g_date_new().
      */
     public void free() {
         gtk_h.g_date_free(handle());
@@ -186,7 +187,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the Julian day or &<code>#34</code> serial number&<code>#34</code>  of the {@link org.gtk.glib.Date}  The
+     * Returns the Julian day or "serial number" of the {@link Date}. The
      * Julian day is simply the number of days since January 1, Year 1; i.e.,
      * January 1, Year 1 is Julian day 1; January 2, Year 1 is Julian day 2,
      * etc. The date must be valid.
@@ -225,7 +226,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the day of the week for a {@link org.gtk.glib.Date}  The date must be valid.
+     * Returns the day of the week for a {@link Date}. The date must be valid.
      */
     public DateWeekday getWeekday() {
         var RESULT = gtk_h.g_date_get_weekday(handle());
@@ -233,7 +234,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the year of a {@link org.gtk.glib.Date}  The date must be valid.
+     * Returns the year of a {@link Date}. The date must be valid.
      */
     public DateYear getYear() {
         var RESULT = gtk_h.g_date_get_year(handle());
@@ -259,7 +260,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if @date1 is less than or equal to @date2,
+     * Checks if {@code date1} is less than or equal to {@code date2},
      * and swap the values if this is not the case.
      */
     public void order(Date date2) {
@@ -267,7 +268,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the day of the month for a {@link org.gtk.glib.Date}  If the resulting
+     * Sets the day of the month for a {@link Date}. If the resulting
      * day-month-year triplet is invalid, the date will be invalid.
      */
     public void setDay(DateDay day) {
@@ -275,8 +276,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of a {@link org.gtk.glib.Date} from a day, month, and year.
-     * The day-month-year triplet must be valid; if you aren&<code>#39</code> t
+     * Sets the value of a {@link Date} from a day, month, and year.
+     * The day-month-year triplet must be valid; if you aren't
      * sure it is, call g_date_valid_dmy() to check before you
      * set it.
      */
@@ -285,14 +286,14 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of a {@link org.gtk.glib.Date} from a Julian day number.
+     * Sets the value of a {@link Date} from a Julian day number.
      */
     public void setJulian(int julianDate) {
         gtk_h.g_date_set_julian(handle(), julianDate);
     }
     
     /**
-     * Sets the month of the year for a {@link org.gtk.glib.Date}   If the resulting
+     * Sets the month of the year for a {@link Date}.  If the resulting
      * day-month-year triplet is invalid, the date will be invalid.
      */
     public void setMonth(DateMonth month) {
@@ -300,15 +301,15 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Parses a user-inputted string @str, and try to figure out what date it
-     * represents, taking the {@link [current locale]}{@link [setlocale]} into account. If the
+     * Parses a user-inputted string {@code str}, and try to figure out what date it
+     * represents, taking the [current locale][setlocale] into account. If the
      * string is successfully parsed, the date will be valid after the call.
      * Otherwise, it will be invalid. You should check using g_date_valid()
      * to see whether the parsing succeeded.
-     * 
+     * <p>
      * This function is not appropriate for file formats and the like; it
-     * isn&<code>#39</code> t very precise, and its exact behavior varies with the locale.
-     * It&<code>#39</code> s intended to be a heuristic routine that guesses what the user
+     * isn't very precise, and its exact behavior varies with the locale.
+     * It's intended to be a heuristic routine that guesses what the user
      * means by a given string (and it does work pretty well in that
      * capacity).
      */
@@ -319,22 +320,22 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the value of a date to the date corresponding to a time
      * specified as a time_t. The time to date conversion is done using
-     * the user&<code>#39</code> s current timezone.
-     * 
+     * the user's current timezone.
+     * <p>
      * To set the value of a date to the current day, you could write:
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * |[&lt;!-- language="C" --&gt;
      *  time_t now = time (NULL);
      *  if (now == (time_t) -1)
      *    // handle the error
      *  g_date_set_time_t (date, now);
-     * ]}|
+     * ]|
      */
     public void setTimeT(long timet) {
         gtk_h.g_date_set_time_t(handle(), timet);
     }
     
     /**
-     * Sets the year for a {@link org.gtk.glib.Date}  If the resulting day-month-year
+     * Sets the year for a {@link Date}. If the resulting day-month-year
      * triplet is invalid, the date will be invalid.
      */
     public void setYear(DateYear year) {
@@ -352,7 +353,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves a date some number of months into the past.
-     * If the current day of the month doesn&<code>#39</code> t exist in
+     * If the current day of the month doesn't exist in
      * the destination month, the day of the month
      * may change. The date must be valid.
      */
@@ -362,8 +363,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves a date some number of years into the past.
-     * If the current day doesn&<code>#39</code> t exist in the destination
-     * year (i.e. it&<code>#39</code> s February 29 and you move to a non-leap-year)
+     * If the current day doesn't exist in the destination
+     * year (i.e. it's February 29 and you move to a non-leap-year)
      * then the day is changed to February 29. The date
      * must be valid.
      */
@@ -372,7 +373,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Fills in the date-related bits of a struct tm using the @date value.
+     * Fills in the date-related bits of a struct tm using the {@code date} value.
      * Initializes the non-date parts with something safe but meaningless.
      */
     public void toStructTm(jdk.incubator.foreign.MemoryAddress tm) {
@@ -380,9 +381,9 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the {@link org.gtk.glib.Date} represents an existing day. The date must not
+     * Returns <code>true</code> if the {@link Date} represents an existing day. The date must not
      * contain garbage; it should have been initialized with g_date_clear()
-     * if it wasn&<code>#39</code> t allocated by one of the g_date_new() variants.
+     * if it wasn't allocated by one of the g_date_new() variants.
      */
     public boolean valid() {
         var RESULT = gtk_h.g_date_valid(handle());
@@ -402,7 +403,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns the number of weeks in the year, where weeks
      * are taken to start on Monday. Will be 52 or 53. The
      * date must be valid. (Years always have 52 7-day periods,
-     * plus 1 or 2 extra days depending on whether it&<code>#39</code> s a leap
+     * plus 1 or 2 extra days depending on whether it's a leap
      * year. This function is basically telling you how many
      * Mondays are in the year, i.e. there are 53 Mondays if
      * one of the extra days happens to be a Monday.)
@@ -416,7 +417,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns the number of weeks in the year, where weeks
      * are taken to start on Sunday. Will be 52 or 53. The
      * date must be valid. (Years always have 52 7-day periods,
-     * plus 1 or 2 extra days depending on whether it&<code>#39</code> s a leap
+     * plus 1 or 2 extra days depending on whether it's a leap
      * year. This function is basically telling you how many
      * Sundays are in the year, i.e. there are 53 Sundays if
      * one of the extra days happens to be a Sunday.)
@@ -428,7 +429,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns <code>true</code> if the year is a leap year.
-     * 
+     * <p>
      * For the purposes of this function, leap year is every year
      * divisible by 4 unless that year is divisible by 100. If it
      * is divisible by 100 it would be a leap year only if that year
@@ -441,17 +442,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Generates a printed representation of the date, in a
-     * {@link [locale]}{@link [setlocale]}-specific way.
-     * Works just like the platform&<code>#39</code> s C library strftime() function,
+     * [locale][setlocale]-specific way.
+     * Works just like the platform's C library strftime() function,
      * but only accepts date-related formats; time-related formats
      * give undefined results. Date must be valid. Unlike strftime()
      * (which uses the locale encoding), works on a UTF-8 format
      * string and stores a UTF-8 result.
-     * 
+     * <p>
      * This function does not provide any conversion specifiers in
-     * addition to those implemented by the platform&<code>#39</code> s C library.
-     * For example, don&<code>#39</code> t expect that using g_date_strftime() would
-     * make the \\<code>F</code> provided by the C99 strftime() work on Windows
+     * addition to those implemented by the platform's C library.
+     * For example, don't expect that using g_date_strftime() would
+     * make the \\{@code F} provided by the C99 strftime() work on Windows
      * where the C library only complies to C89.
      */
     public static long strftime(java.lang.String s, long slen, java.lang.String format, Date date) {
@@ -460,7 +461,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the day of the month is valid (a day is valid if it&<code>#39</code> s
+     * Returns <code>true</code> if the day of the month is valid (a day is valid if it's
      * between 1 and 31 inclusive).
      */
     public static boolean validDay(DateDay day) {
@@ -470,7 +471,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns <code>true</code> if the day-month-year triplet forms a valid, existing day
-     * in the range of days {@link org.gtk.glib.Date} understands (Year 1 or later, no more than
+     * in the range of days {@link Date} understands (Year 1 or later, no more than
      * a few thousand years in the future).
      */
     public static boolean validDmy(DateDay day, DateMonth month, DateYear year) {
@@ -488,7 +489,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the month value is valid. The 12 {@link org.gtk.glib.DateMonth} enumeration values are the only valid months.
+     * Returns <code>true</code> if the month value is valid. The 12 {@link DateMonth}
+     * enumeration values are the only valid months.
      */
     public static boolean validMonth(DateMonth month) {
         var RESULT = gtk_h.g_date_valid_month(month.getValue());
@@ -496,7 +498,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the weekday is valid. The seven {@link org.gtk.glib.DateWeekday} enumeration
+     * Returns <code>true</code> if the weekday is valid. The seven {@link DateWeekday} enumeration
      * values are the only valid weekdays.
      */
     public static boolean validWeekday(DateWeekday weekday) {
@@ -506,7 +508,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns <code>true</code> if the year is valid. Any year greater than 0 is valid,
-     * though there is a 16-bit limit to what {@link org.gtk.glib.Date} will understand.
+     * though there is a 16-bit limit to what {@link Date} will understand.
      */
     public static boolean validYear(DateYear year) {
         var RESULT = gtk_h.g_date_valid_year(year.getValue());

@@ -3,20 +3,20 @@ package org.gtk.gtk;
 /**
  * Determines whether the spin button displays values outside the adjustment
  * bounds.
- * 
- * See {@link org.gtk.gtk.SpinButton<code>#setUpdatePolicy</code> .
+ * <p>
+ * See {@link SpinButton#setUpdatePolicy}.
  */
 public enum SpinButtonUpdatePolicy {
 
     /**
-     * When refreshing your <code>GtkSpinButton</code>, the value is
+     * When refreshing your {@code GtkSpinButton}, the value is
      *   always displayed
      */
     ALWAYS,
     
     /**
-     * When refreshing your <code>GtkSpinButton</code>, the value is
-     *   only displayed if it is valid within the bounds of the spin button&<code>#39</code> s
+     * When refreshing your {@code GtkSpinButton}, the value is
+     *   only displayed if it is valid within the bounds of the spin button's
      *   adjustment
      */
     IF_VALID;

@@ -9,11 +9,11 @@ import java.lang.invoke.*;
 
 /**
  * Data type for holding variation-axis values.
- * 
+ * <p>
  * The minimum, default, and maximum values are in un-normalized, user scales.
- * 
- * &<code>#60</code> note&<code>#62</code> Note: at present, the only flag defined for @flags is
- * <code>#HB_OT_VAR_AXIS_FLAG_HIDDEN</code> &<code>#60</code> /note&<code>#62</code>
+ * <p>
+ * &lt;note&gt;Note: at present, the only flag defined for {@code flags} is
+ * {@code HB_OT_VAR_AXIS_FLAG_HIDDEN}.&lt;/note&gt;
  */
 public class OtVarAxisInfoT extends io.github.jwharm.javagi.ResourceBase {
 

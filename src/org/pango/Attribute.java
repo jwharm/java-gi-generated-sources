@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoAttribute</code> structure represents the common portions of all
+ * The {@code PangoAttribute} structure represents the common portions of all
  * attributes.
- * 
+ * <p>
  * Particular types of attributes include this structure as their initial
  * portion. The common portion of the attribute holds the range to which
  * the value in the type-specific part of the attribute applies and should
- * be initialized using {@link org.pango.Attribute<code>#init</code> . By default, an attribute
- * will have an all-inclusive range of {@link [0,<code>G_MAXUINT</code> }.
+ * be initialized using {@link Attribute#init}. By default, an attribute
+ * will have an all-inclusive range of [0,{@code G_MAXUINT}].
  */
 public class Attribute extends io.github.jwharm.javagi.ResourceBase {
 
@@ -24,8 +24,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrColor</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrColor}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrColor asColor() {
@@ -34,8 +34,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrFloat</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrFloat}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrFloat asFloat() {
@@ -44,8 +44,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrFontDesc</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrFontDesc}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrFontDesc asFontDesc() {
@@ -54,8 +54,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrFontFeatures</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrFontFeatures}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrFontFeatures asFontFeatures() {
@@ -64,8 +64,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrInt</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrInt}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrInt asInt() {
@@ -74,8 +74,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrLanguage</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrLanguage}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrLanguage asLanguage() {
@@ -84,8 +84,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrShape</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrShape}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrShape asShape() {
@@ -94,8 +94,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrSize</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrSize}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrSize asSize() {
@@ -104,8 +104,8 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the attribute cast to <code>PangoAttrString</code>.
-     * 
+     * Returns the attribute cast to {@code PangoAttrString}.
+     * <p>
      * This is mainly useful for language bindings.
      */
     public AttrString asString() {
@@ -122,7 +122,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Destroy a <code>PangoAttribute</code> and free all associated memory.
+     * Destroy a {@code PangoAttribute} and free all associated memory.
      */
     public void destroy() {
         gtk_h.pango_attribute_destroy(handle());
@@ -130,7 +130,7 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Compare two attributes for equality.
-     * 
+     * <p>
      * This compares only the actual value of the two
      * attributes and not the ranges that the attributes
      * apply to.
@@ -141,9 +141,9 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @attr&<code>#39</code> s klass to @klass, it&<code>#39</code> s start_index to
-     * <code>PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING</code> and end_index to
-     * <code>PANGO_ATTR_INDEX_TO_TEXT_END</code> such that the attribute applies
+     * Initializes {@code attr}'s klass to {@code klass}, it's start_index to
+     * {@code PANGO_ATTR_INDEX_FROM_TEXT_BEGINNING} and end_index to
+     * {@code PANGO_ATTR_INDEX_TO_TEXT_END} such that the attribute applies
      * to the entire text by default.
      */
     public void init(AttrClass klass) {

@@ -1,15 +1,15 @@
 package org.gtk.gtk;
 
 /**
- * The possible accessible properties of a {@link [iface@Accessible] (ref=iface)}.
+ * The possible accessible properties of a {@code Accessible}.
  */
 public enum AccessibleProperty {
 
     /**
      * Indicates whether inputting text
-     *    could trigger display of one or more predictions of the user&<code>#39</code> s intended
+     *    could trigger display of one or more predictions of the user's intended
      *    value for a combobox, searchbox, or textbox and specifies how predictions
-     *    would be presented if they were made. Value type: {@link [enum@AccessibleAutocomplete] (ref=enum)}
+     *    would be presented if they were made. Value type: {@code AccessibleAutocomplete}
      */
     AUTOCOMPLETE,
     
@@ -65,9 +65,9 @@ public enum AccessibleProperty {
     MULTI_SELECTABLE,
     
     /**
-     * Indicates whether the element&<code>#39</code> s
+     * Indicates whether the element's
      *    orientation is horizontal, vertical, or unknown/ambiguous. Value type:
-     *    {@link [enum@Orientation] (ref=enum)}
+     *    {@code Orientation}
      */
     ORIENTATION,
     
@@ -99,7 +99,7 @@ public enum AccessibleProperty {
     
     /**
      * Indicates if items in a table or grid are
-     *    sorted in ascending or descending order. Value type: {@link [enum@AccessibleSort] (ref=enum)}
+     *    sorted in ascending or descending order. Value type: {@code AccessibleSort}
      */
     SORT,
     

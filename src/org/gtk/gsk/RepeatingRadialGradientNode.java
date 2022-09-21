@@ -27,10 +27,10 @@ public class RepeatingRadialGradientNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that draws a repeating radial gradient.
-     * 
-     * The radial gradient starts around @center. The size of the gradient
-     * is dictated by @hradius in horizontal orientation and by @vradius
+     * Creates a {@code GskRenderNode} that draws a repeating radial gradient.
+     * <p>
+     * The radial gradient starts around {@code center}. The size of the gradient
+     * is dictated by {@code hradius} in horizontal orientation and by {@code vradius}
      * in vertial orientation.
      */
     public RepeatingRadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {

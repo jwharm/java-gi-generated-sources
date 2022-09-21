@@ -8,56 +8,56 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gio.Socket} is a low-level networking primitive. It is a more or less
+ * A {@link Socket} is a low-level networking primitive. It is a more or less
  * direct mapping of the BSD socket API in a portable GObject based API.
  * It supports both the UNIX socket implementations and winsock2 on Windows.
- * 
- * {@link org.gtk.gio.Socket} is the platform independent base upon which the higher level
+ * <p>
+ * {@link Socket} is the platform independent base upon which the higher level
  * network primitives are based. Applications are not typically meant to
- * use it directly, but rather through classes like {@link org.gtk.gio.SocketClient} 
- * {@link org.gtk.gio.SocketService} and {@link org.gtk.gio.SocketConnection}  However there may be cases where
- * direct use of {@link org.gtk.gio.Socket} is useful.
- * 
- * {@link org.gtk.gio.Socket} implements the {@link org.gtk.gio.Initable} interface, so if it is manually constructed
+ * use it directly, but rather through classes like {@link SocketClient},
+ * {@link SocketService} and {@link SocketConnection}. However there may be cases where
+ * direct use of {@link Socket} is useful.
+ * <p>
+ * {@link Socket} implements the {@link Initable} interface, so if it is manually constructed
  * by e.g. g_object_new() you must call g_initable_init() and check the
  * results before using the object. This is done automatically in
  * g_socket_new() and g_socket_new_from_fd(), so these functions can return
- * <code>null</code> 
- * 
+ * <code>null</code>.
+ * <p>
  * Sockets operate in two general modes, blocking or non-blocking. When
- * in blocking mode all operations (which don&<code>#8217</code> t take an explicit blocking
+ * in blocking mode all operations (which don’t take an explicit blocking
  * parameter) block until the requested operation
  * is finished or there is an error. In non-blocking mode all calls that
- * would block return immediately with a {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error.
+ * would block return immediately with a {@link IOErrorEnum#WOULD_BLOCK} error.
  * To know when a call would successfully run you can call g_socket_condition_check(),
  * or g_socket_condition_wait(). You can also use g_socket_create_source() and
  * attach it to a {@link org.gtk.glib.MainContext} to get callbacks when I/O is possible.
  * Note that all sockets are always set to non blocking mode in the system, and
  * blocking mode is emulated in GSocket.
- * 
+ * <p>
  * When working in non-blocking mode applications should always be able to
- * handle getting a {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error even when some other
+ * handle getting a {@link IOErrorEnum#WOULD_BLOCK} error even when some other
  * function said that I/O was possible. This can easily happen in case
  * of a race condition in the application, but it can also happen for other
  * reasons. For instance, on Windows a socket is always seen as writable
- * until a write returns {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  
- * 
- * <code>#GSockets</code> can be either connection oriented or datagram based.
+ * until a write returns {@link IOErrorEnum#WOULD_BLOCK}.
+ * <p>
+ * {@code GSockets} can be either connection oriented or datagram based.
  * For connection oriented types you must first establish a connection by
  * either connecting to an address or accepting a connection from another
  * address. For connectionless socket types the target/source address is
  * specified or received in each I/O operation.
- * 
+ * <p>
  * All socket file descriptors are set to be close-on-exec.
- * 
- * Note that creating a {@link org.gtk.gio.Socket} causes the signal <code>SIGPIPE</code> to be
+ * <p>
+ * Note that creating a {@link Socket} causes the signal {@code SIGPIPE} to be
  * ignored for the remainder of the program. If you are writing a
- * command-line utility that uses {@link org.gtk.gio.Socket}  you may need to take into
+ * command-line utility that uses {@link Socket}, you may need to take into
  * account the fact that your program will not automatically be killed
- * if it tries to write to <code>stdout</code> after it has been closed.
- * 
- * Like most other APIs in GLib, {@link org.gtk.gio.Socket} is not inherently thread safe. To use
- * a {@link org.gtk.gio.Socket} concurrently from multiple threads, you must implement your own
+ * if it tries to write to {@code stdout} after it has been closed.
+ * <p>
+ * Like most other APIs in GLib, {@link Socket} is not inherently thread safe. To use
+ * a {@link Socket} concurrently from multiple threads, you must implement your own
  * locking.
  */
 public class Socket extends org.gtk.gobject.Object implements DatagramBased, Initable {
@@ -81,18 +81,18 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.Socket} with the defined family, type and protocol.
-     * If @protocol is 0 ({@link org.gtk.gio.SocketProtocol<code>#DEFAULT</code>   the default protocol type
+     * Creates a new {@link Socket} with the defined family, type and protocol.
+     * If {@code protocol} is 0 ({@link SocketProtocol#DEFAULT}) the default protocol type
      * for the family and type is used.
-     * 
-     * The @protocol is a family and type specific int that specifies what
-     * kind of protocol to use. {@link org.gtk.gio.SocketProtocol} lists several common ones.
+     * <p>
+     * The {@code protocol} is a family and type specific int that specifies what
+     * kind of protocol to use. {@link SocketProtocol} lists several common ones.
      * Many families only support one protocol, and use 0 for this, others
      * support several and using 0 means to use the default protocol for
      * the family and type.
-     * 
+     * <p>
      * The protocol id is passed directly to the operating
-     * system, so you can use protocols not listed in {@link org.gtk.gio.SocketProtocol} if you
+     * system, so you can use protocols not listed in {@link SocketProtocol} if you
      * know the protocol number used for it.
      */
     public Socket(SocketFamily family, SocketType type, SocketProtocol protocol) throws GErrorException {
@@ -109,37 +109,19 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.Socket} from a native file descriptor
+     * Creates a new {@link Socket} from a native file descriptor
      * or winsock SOCKET handle.
-     * 
+     * <p>
      * This reads all the settings from the file descriptor so that
      * all properties should work. Note that the file descriptor
      * will be set to non-blocking mode, independent on the blocking
-     * mode of the {@link org.gtk.gio.Socket} 
-     * 
-     * On success, the returned {@link org.gtk.gio.Socket} takes ownership of @fd. On failure, the
-     * caller must close @fd themselves.
-     * 
+     * mode of the {@link Socket}.
+     * <p>
+     * On success, the returned {@link Socket} takes ownership of {@code fd}. On failure, the
+     * caller must close {@code fd} themselves.
+     * <p>
      * Since GLib 2.46, it is no longer a fatal error to call this on a non-socket
-     * descriptor.  Instead, a GError will be set with code 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Creates a new {@link org.gtk.gio.Socket} from a native file descriptor
-     * or winsock SOCKET handle.
-     * 
-     * This reads all the settings from the file descriptor so that
-     * all properties should work. Note that the file descriptor
-     * will be set to non-blocking mode, independent on the blocking
-     * mode of the {@link org.gtk.gio.Socket} 
-     * 
-     * On success, the returned {@link org.gtk.gio.Socket} takes ownership of @fd. On failure, the
-     * caller must close @fd themselves.
-     * 
-     * Since GLib 2.46, it is no longer a fatal error to call this on a non-socket
-     * descriptor.  Instead, a GError will be set with code %G_IO_ERROR_FAILED
+     * descriptor.  Instead, a GError will be set with code {@link IOErrorEnum#FAILED}
      */
     public static Socket newFromFd(int fd) throws GErrorException {
         return new Socket(constructNewFromFd(fd));
@@ -148,14 +130,14 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * Accept incoming connections on a connection-based socket. This removes
      * the first outstanding connection request from the listening socket and
-     * creates a {@link org.gtk.gio.Socket} object for it.
-     * 
-     * The @socket must be bound to a local address with g_socket_bind() and
+     * creates a {@link Socket} object for it.
+     * <p>
+     * The {@code socket} must be bound to a local address with g_socket_bind() and
      * must be listening for incoming connections (g_socket_listen()).
-     * 
+     * <p>
      * If there are no outstanding connections then the operation will block
-     * or return {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  if non-blocking I/O is enabled.
-     * To be notified of an incoming connection, wait for the {@link org.gtk.glib.IOCondition<code>#IN</code>  condition.
+     * or return {@link IOErrorEnum#WOULD_BLOCK} if non-blocking I/O is enabled.
+     * To be notified of an incoming connection, wait for the {@link org.gtk.glib.IOCondition#IN} condition.
      */
     public Socket accept(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -168,7 +150,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * When a socket is created it is attached to an address family, but it
-     * doesn&<code>#39</code> t have an address in this family. g_socket_bind() assigns the
+     * doesn't have an address in this family. g_socket_bind() assigns the
      * address (sometimes called name) of the socket.
      * <p>
      * It is generally required to bind to a local address before you can
@@ -176,15 +158,15 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * In certain situations, you may also want to bind a socket that will be
      * used to initiate connections, though this is not normally required.
      * <p>
-     * If @socket is a TCP socket, then @allow_reuse controls the setting
-     * of the <code>SO_REUSEADDR</code> socket option; normally it should be <code>true</code> for
+     * If {@code socket} is a TCP socket, then {@code allow_reuse} controls the setting
+     * of the {@code SO_REUSEADDR} socket option; normally it should be <code>true</code> for
      * server sockets (sockets that you will eventually call
      * g_socket_accept() on), and <code>false</code> for client sockets. (Failing to
      * set this flag on a server socket may cause g_socket_bind() to return
-     * {@link org.gtk.gio.IOErrorEnum<code>#ADDRESS_IN_USE</code>  if the server program is stopped and then
+     * {@link IOErrorEnum#ADDRESS_IN_USE} if the server program is stopped and then
      * immediately restarted.)
-     * 
-     * If @socket is a UDP socket, then @allow_reuse determines whether or
+     * <p>
+     * If {@code socket} is a UDP socket, then {@code allow_reuse} determines whether or
      * not other UDP sockets can be bound to the same address at the same
      * time. In particular, you can have several UDP sockets bound to the
      * same address, and they will all receive all of the multicast and
@@ -216,31 +198,31 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Closes the socket, shutting down any active connection.
-     * 
+     * <p>
      * Closing a socket does not wait for all outstanding I/O operations
      * to finish, so the caller should not rely on them to be guaranteed
      * to complete even if the close returns with no error.
-     * 
+     * <p>
      * Once the socket is closed, all other operations will return
-     * {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>   Closing a socket multiple times will not
+     * {@link IOErrorEnum#CLOSED}. Closing a socket multiple times will not
      * return an error.
-     * 
+     * <p>
      * Sockets will be automatically closed when the last reference
      * is dropped, but you might want to call this function to make sure
      * resources are released as early as possible.
-     * 
+     * <p>
      * Beware that due to the way that TCP works, it is possible for
      * recently-sent data to be lost if either you close a socket while the
-     * {@link org.gtk.glib.IOCondition<code>#IN</code>  condition is set, or else if the remote connection tries to
+     * {@link org.gtk.glib.IOCondition#IN} condition is set, or else if the remote connection tries to
      * send something to you after you close the socket but before it has
      * finished reading all of the data you sent. There is no easy generic
      * way to avoid this problem; the easiest fix is to design the network
-     * protocol such that the client will never send data &<code>#34</code> out of turn&<code>#34</code> .
+     * protocol such that the client will never send data "out of turn".
      * Another solution is for the server to half-close the connection by
-     * calling g_socket_shutdown() with only the @shutdown_write flag set,
+     * calling g_socket_shutdown() with only the {@code shutdown_write} flag set,
      * and then wait for the client to notice this and close its side of the
      * connection, after which the server can safely call g_socket_close().
-     * (This is what {@link org.gtk.gio.TcpConnection} does if you call
+     * (This is what {@link TcpConnection} does if you call
      * g_tcp_connection_set_graceful_disconnect(). But of course, this
      * only works if the client will close its connection after the server
      * does.)
@@ -255,22 +237,22 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Checks on the readiness of @socket to perform operations.
-     * The operations specified in @condition are checked for and masked
-     * against the currently-satisfied conditions on @socket. The result
+     * Checks on the readiness of {@code socket} to perform operations.
+     * The operations specified in {@code condition} are checked for and masked
+     * against the currently-satisfied conditions on {@code socket}. The result
      * is returned.
-     * 
+     * <p>
      * Note that on Windows, it is possible for an operation to return
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  even immediately after
+     * {@link IOErrorEnum#WOULD_BLOCK} even immediately after
      * g_socket_condition_check() has claimed that the socket is ready for
      * writing. Rather than calling g_socket_condition_check() and then
      * writing to the socket if it succeeds, it is generally better to
      * simply try writing to the socket right away, and try again later if
-     * the initial attempt returns {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  
-     * 
-     * It is meaningless to specify {@link org.gtk.glib.IOCondition<code>#ERR</code>  or {@link org.gtk.glib.IOCondition<code>#HUP</code>  in condition;
+     * the initial attempt returns {@link IOErrorEnum#WOULD_BLOCK}.
+     * <p>
+     * It is meaningless to specify {@link org.gtk.glib.IOCondition#ERR} or {@link org.gtk.glib.IOCondition#HUP} in condition;
      * these conditions will always be set in the output if they are true.
-     * 
+     * <p>
      * This call never blocks.
      */
     public int conditionCheck(int condition) {
@@ -279,21 +261,21 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Waits for up to @timeout_us microseconds for @condition to become true
-     * on @socket. If the condition is met, <code>true</code> is returned.
-     * 
-     * If @cancellable is cancelled before the condition is met, or if
-     * @timeout_us (or the socket&<code>#39</code> s {@link org.gtk.gio.Socket} timeout) is reached before the
-     * condition is met, then <code>false</code> is returned and @error, if non-<code>null</code> 
-     * is set to the appropriate value ({@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  or
-     * {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>  .
-     * 
-     * If you don&<code>#39</code> t want a timeout, use g_socket_condition_wait().
-     * (Alternatively, you can pass -1 for @timeout_us.)
-     * 
-     * Note that although @timeout_us is in microseconds for consistency with
+     * Waits for up to {@code timeout_us} microseconds for {@code condition} to become true
+     * on {@code socket}. If the condition is met, <code>true</code> is returned.
+     * <p>
+     * If {@code cancellable} is cancelled before the condition is met, or if
+     * {@code timeout_us} (or the socket's {@link Socket}:timeout) is reached before the
+     * condition is met, then <code>false</code> is returned and {@code error}, if non-<code>null</code>,
+     * is set to the appropriate value ({@link IOErrorEnum#CANCELLED} or
+     * {@link IOErrorEnum#TIMED_OUT}).
+     * <p>
+     * If you don't want a timeout, use g_socket_condition_wait().
+     * (Alternatively, you can pass -1 for {@code timeout_us}.)
+     * <p>
+     * Note that although {@code timeout_us} is in microseconds for consistency with
      * other GLib APIs, this function actually only has millisecond
-     * resolution, and the behavior is undefined if @timeout_us is not an
+     * resolution, and the behavior is undefined if {@code timeout_us} is not an
      * exact number of milliseconds.
      */
     public boolean conditionTimedWait(int condition, long timeoutUs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -306,15 +288,15 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Waits for @condition to become true on @socket. When the condition
+     * Waits for {@code condition} to become true on {@code socket}. When the condition
      * is met, <code>true</code> is returned.
-     * 
-     * If @cancellable is cancelled before the condition is met, or if the
+     * <p>
+     * If {@code cancellable} is cancelled before the condition is met, or if the
      * socket has a timeout set and it is reached before the condition is
-     * met, then <code>false</code> is returned and @error, if non-<code>null</code>  is set to
-     * the appropriate value ({@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  or
-     * {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>  .
-     * 
+     * met, then <code>false</code> is returned and {@code error}, if non-<code>null</code>, is set to
+     * the appropriate value ({@link IOErrorEnum#CANCELLED} or
+     * {@link IOErrorEnum#TIMED_OUT}).
+     * <p>
      * See also g_socket_condition_timed_wait().
      */
     public boolean conditionWait(int condition, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -328,18 +310,18 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Connect the socket to the specified remote address.
-     * 
+     * <p>
      * For connection oriented socket this generally means we attempt to make
-     * a connection to the @address. For a connection-less socket it sets
+     * a connection to the {@code address}. For a connection-less socket it sets
      * the default address for g_socket_send() and discards all incoming datagrams
      * from other sources.
-     * 
+     * <p>
      * Generally connection oriented sockets can only connect once, but
      * connection-less sockets can connect multiple times to change the
      * default address.
-     * 
+     * <p>
      * If the connect call needs to do network I/O it will block, unless
-     * non-blocking I/O is enabled. Then {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  is returned
+     * non-blocking I/O is enabled. Then {@link IOErrorEnum#PENDING} is returned
      * and the user can be notified of the connection finishing by waiting
      * for the G_IO_OUT condition. The result of the connection must then be
      * checked with g_socket_check_connect_result().
@@ -354,8 +336,8 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Creates a {@link org.gtk.gio.SocketConnection} subclass of the right type for
-     * @socket.
+     * Creates a {@link SocketConnection} subclass of the right type for
+     * {@code socket}.
      */
     public SocketConnection connectionFactoryCreateConnection() {
         var RESULT = gtk_h.g_socket_connection_factory_create_connection(handle());
@@ -363,25 +345,26 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Creates a {@link org.gtk.glib.Source} that can be attached to a <code>GMainContext</code> to monitor
-     * for the availability of the specified @condition on the socket. The {@link org.gtk.glib.Source} keeps a reference to the @socket.
-     * 
-     * The callback on the source is of the {@link org.gtk.gio.SocketSourceFunc} type.
-     * 
-     * It is meaningless to specify {@link org.gtk.glib.IOCondition<code>#ERR</code>  or {@link org.gtk.glib.IOCondition<code>#HUP</code>  in @condition;
+     * Creates a {@link org.gtk.glib.Source} that can be attached to a {@code GMainContext} to monitor
+     * for the availability of the specified {@code condition} on the socket. The {@link org.gtk.glib.Source}
+     * keeps a reference to the {@code socket}.
+     * <p>
+     * The callback on the source is of the {@link SocketSourceFunc} type.
+     * <p>
+     * It is meaningless to specify {@link org.gtk.glib.IOCondition#ERR} or {@link org.gtk.glib.IOCondition#HUP} in {@code condition};
      * these conditions will always be reported output if they are true.
-     * 
-     * @cancellable if not <code>null</code> can be used to cancel the source, which will
+     * <p>
+     * {@code cancellable} if not <code>null</code> can be used to cancel the source, which will
      * cause the source to trigger, reporting the current condition (which
      * is likely 0 unless cancellation happened at the same time as a
      * condition change). You can check for this in the callback using
      * g_cancellable_is_cancelled().
-     * 
-     * If @socket has a timeout set, and it is reached before @condition
-     * occurs, the source will then trigger anyway, reporting {@link org.gtk.glib.IOCondition<code>#IN</code>  or
-     * {@link org.gtk.glib.IOCondition<code>#OUT</code>  depending on @condition. However, @socket will have been
-     * marked as having had a timeout, and so the next {@link org.gtk.gio.Socket} I/O method
-     * you call will then fail with a {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>
+     * <p>
+     * If {@code socket} has a timeout set, and it is reached before {@code condition}
+     * occurs, the source will then trigger anyway, reporting {@link org.gtk.glib.IOCondition#IN} or
+     * {@link org.gtk.glib.IOCondition#OUT} depending on {@code condition}. However, {@code socket} will have been
+     * marked as having had a timeout, and so the next {@link Socket} I/O method
+     * you call will then fail with a {@link IOErrorEnum#TIMED_OUT}.
      */
     public org.gtk.glib.Source createSource(int condition, Cancellable cancellable) {
         var RESULT = gtk_h.g_socket_create_source(handle(), condition, cancellable.handle());
@@ -390,11 +373,11 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Get the amount of data pending in the OS input buffer, without blocking.
-     * 
-     * If @socket is a UDP or SCTP socket, this will return the size of
+     * <p>
+     * If {@code socket} is a UDP or SCTP socket, this will return the size of
      * just the next packet, even if additional packets are buffered after
      * that one.
-     * 
+     * <p>
      * Note that on Windows, this function is rather inefficient in the
      * UDP case, and so if you know any plausible upper bound on the size
      * of the incoming packet, it is better to just do a
@@ -417,7 +400,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Gets the broadcast setting on @socket; if <code>true</code> 
+     * Gets the broadcast setting on {@code socket}; if <code>true</code>,
      * it is possible to send packets to broadcast
      * addresses.
      */
@@ -428,22 +411,25 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Returns the credentials of the foreign process connected to this
-     * socket, if any (e.g. it is only supported for {@link org.gtk.gio.SocketFamily<code>#UNIX</code>  sockets).
-     * 
-     * If this operation isn&<code>#39</code> t supported on the OS, the method fails with
-     * the {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  error. On Linux this is implemented
-     * by reading the <code>SO_PEERCRED</code> option on the underlying socket.
-     * 
+     * socket, if any (e.g. it is only supported for {@link SocketFamily#UNIX}
+     * sockets).
+     * <p>
+     * If this operation isn't supported on the OS, the method fails with
+     * the {@link IOErrorEnum#NOT_SUPPORTED} error. On Linux this is implemented
+     * by reading the {@code SO_PEERCRED} option on the underlying socket.
+     * <p>
      * This method can be expected to be available on the following platforms:
-     * 
-     * - Linux since GLib 2.26
-     * - OpenBSD since GLib 2.30
-     * - Solaris, Illumos and OpenSolaris since GLib 2.40
-     * - NetBSD since GLib 2.42
-     * - macOS, tvOS, iOS since GLib 2.66
-     * 
+     * <p>
+     * <ul>
+     * <li>Linux since GLib 2.26
+     * <li>OpenBSD since GLib 2.30
+     * <li>Solaris, Illumos and OpenSolaris since GLib 2.40
+     * <li>NetBSD since GLib 2.42
+     * <li>macOS, tvOS, iOS since GLib 2.66
+     * </ul>
+     * <p>
      * Other ways to obtain credentials from a foreign peer includes the
-     * {@link org.gtk.gio.UnixCredentialsMessage} type and
+     * {@link UnixCredentialsMessage} type and
      * g_unix_connection_send_credentials() /
      * g_unix_connection_receive_credentials() functions.
      */
@@ -509,7 +495,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Gets the multicast loopback setting on @socket; if <code>true</code> (the
+     * Gets the multicast loopback setting on {@code socket}; if <code>true</code> (the
      * default), outgoing multicast packets will be looped back to
      * multicast listeners on the same host.
      */
@@ -519,7 +505,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Gets the multicast time-to-live setting on @socket; see
+     * Gets the multicast time-to-live setting on {@code socket}; see
      * g_socket_set_multicast_ttl() for more details.
      */
     public int getMulticastTtl() {
@@ -567,7 +553,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Gets the unicast time-to-live setting on @socket; see
+     * Gets the unicast time-to-live setting on {@code socket}; see
      * g_socket_set_ttl() for more details.
      */
     public int getTtl() {
@@ -586,7 +572,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * Check whether the socket is connected. This is only useful for
      * connection-oriented sockets.
-     * 
+     * <p>
      * If using g_socket_shutdown(), this function will return <code>true</code> until the
      * socket has been shut down for reading and writing. If you do a non-blocking
      * connect, this function will not return <code>true</code> until after you call
@@ -598,18 +584,18 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Registers @socket to receive multicast messages sent to @group.
-     * @socket must be a {@link org.gtk.gio.SocketType<code>#DATAGRAM</code>  socket, and must have
+     * Registers {@code socket} to receive multicast messages sent to {@code group}.
+     * {@code socket} must be a {@link SocketType#DATAGRAM} socket, and must have
      * been bound to an appropriate interface and port with
      * g_socket_bind().
-     * 
-     * If @iface is <code>null</code>  the system will automatically pick an interface
-     * to bind to based on @group.
-     * 
-     * If @source_specific is <code>true</code>  source-specific multicast as defined
+     * <p>
+     * If {@code iface} is <code>null</code>, the system will automatically pick an interface
+     * to bind to based on {@code group}.
+     * <p>
+     * If {@code source_specific} is <code>true</code>, source-specific multicast as defined
      * in RFC 4604 is used. Note that on older platforms this may fail
-     * with a {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  error.
-     * 
+     * with a {@link IOErrorEnum#NOT_SUPPORTED} error.
+     * <p>
      * To bind to a given source-specific multicast address, use
      * g_socket_join_multicast_group_ssm() instead.
      */
@@ -623,20 +609,20 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Registers @socket to receive multicast messages sent to @group.
-     * @socket must be a {@link org.gtk.gio.SocketType<code>#DATAGRAM</code>  socket, and must have
+     * Registers {@code socket} to receive multicast messages sent to {@code group}.
+     * {@code socket} must be a {@link SocketType#DATAGRAM} socket, and must have
      * been bound to an appropriate interface and port with
      * g_socket_bind().
-     * 
-     * If @iface is <code>null</code>  the system will automatically pick an interface
-     * to bind to based on @group.
-     * 
-     * If @source_specific is not <code>null</code>  use source-specific multicast as
+     * <p>
+     * If {@code iface} is <code>null</code>, the system will automatically pick an interface
+     * to bind to based on {@code group}.
+     * <p>
+     * If {@code source_specific} is not <code>null</code>, use source-specific multicast as
      * defined in RFC 4604. Note that on older platforms this may fail
-     * with a {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  error.
-     * 
+     * with a {@link IOErrorEnum#NOT_SUPPORTED} error.
+     * <p>
      * Note that this function can be called multiple times for the same
-     * @group with different @source_specific in order to receive multicast
+     * {@code group} with different {@code source_specific} in order to receive multicast
      * packets from more than one source.
      */
     public boolean joinMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
@@ -649,13 +635,13 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Removes @socket from the multicast group defined by @group, @iface,
-     * and @source_specific (which must all have the same values they had
+     * Removes {@code socket} from the multicast group defined by {@code group}, {@code iface},
+     * and {@code source_specific} (which must all have the same values they had
      * when you joined the group).
-     * 
-     * @socket remains bound to its address and port, and can still receive
+     * <p>
+     * {@code socket} remains bound to its address and port, and can still receive
      * unicast messages after calling this.
-     * 
+     * <p>
      * To unbind to a given source-specific multicast address, use
      * g_socket_leave_multicast_group_ssm() instead.
      */
@@ -669,11 +655,11 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Removes @socket from the multicast group defined by @group, @iface,
-     * and @source_specific (which must all have the same values they had
+     * Removes {@code socket} from the multicast group defined by {@code group}, {@code iface},
+     * and {@code source_specific} (which must all have the same values they had
      * when you joined the group).
-     * 
-     * @socket remains bound to its address and port, and can still receive
+     * <p>
+     * {@code socket} remains bound to its address and port, and can still receive
      * unicast messages after calling this.
      */
     public boolean leaveMulticastGroupSsm(InetAddress group, InetAddress sourceSpecific, java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
@@ -688,10 +674,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * Marks the socket as a server socket, i.e. a socket that is used
      * to accept incoming requests using g_socket_accept().
-     * 
+     * <p>
      * Before calling this the socket must be bound to a local address using
      * g_socket_bind().
-     * 
+     * <p>
      * To set the maximum amount of outstanding clients, use
      * g_socket_set_listen_backlog().
      */
@@ -705,29 +691,29 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Receive data (up to @size bytes) from a socket. This is mainly used by
+     * Receive data (up to {@code size} bytes) from a socket. This is mainly used by
      * connection-oriented sockets; it is identical to g_socket_receive_from()
-     * with @address set to <code>null</code> 
-     * 
-     * For {@link org.gtk.gio.SocketType<code>#DATAGRAM</code>  and {@link org.gtk.gio.SocketType<code>#SEQPACKET</code>  sockets,
+     * with {@code address} set to <code>null</code>.
+     * <p>
+     * For {@link SocketType#DATAGRAM} and {@link SocketType#SEQPACKET} sockets,
      * g_socket_receive() will always read either 0 or 1 complete messages from
-     * the socket. If the received message is too large to fit in @buffer, then
-     * the data beyond @size bytes will be discarded, without any explicit
+     * the socket. If the received message is too large to fit in {@code buffer}, then
+     * the data beyond {@code size} bytes will be discarded, without any explicit
      * indication that this has occurred.
-     * 
-     * For {@link org.gtk.gio.SocketType<code>#STREAM</code>  sockets, g_socket_receive() can return any
-     * number of bytes, up to @size. If more than @size bytes have been
+     * <p>
+     * For {@link SocketType#STREAM} sockets, g_socket_receive() can return any
+     * number of bytes, up to {@code size}. If more than {@code size} bytes have been
      * received, the additional data will be returned in future calls to
      * g_socket_receive().
-     * 
+     * <p>
      * If the socket is in blocking mode the call will block until there
      * is some data to receive, the connection is closed, or there is an
      * error. If there is no data available and the socket is in
-     * non-blocking mode, a {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error will be
+     * non-blocking mode, a {@link IOErrorEnum#WOULD_BLOCK} error will be
      * returned. To be notified when data is available, wait for the
-     * {@link org.gtk.glib.IOCondition<code>#IN</code>  condition.
-     * 
-     * On error -1 is returned and @error is set accordingly.
+     * {@link org.gtk.glib.IOCondition#IN} condition.
+     * <p>
+     * On error -1 is returned and {@code error} is set accordingly.
      */
     public long receive(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -739,12 +725,12 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Receive data (up to @size bytes) from a socket.
-     * 
-     * If @address is non-<code>null</code> then @address will be set equal to the
+     * Receive data (up to {@code size} bytes) from a socket.
+     * <p>
+     * If {@code address} is non-<code>null</code> then {@code address} will be set equal to the
      * source address of the received packet.
-     * @address is owned by the caller.
-     * 
+     * {@code address} is owned by the caller.
+     * <p>
      * See g_socket_receive() for additional information.
      */
     public long receiveFrom(SocketAddress[] address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -757,51 +743,52 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Receive multiple data messages from @socket in one go.  This is the most
+     * Receive multiple data messages from {@code socket} in one go.  This is the most
      * complicated and fully-featured version of this call. For easier use, see
      * g_socket_receive(), g_socket_receive_from(), and g_socket_receive_message().
      * <p>
-     * @messages must point to an array of {@link org.gtk.gio.InputMessage} structs and
-     * @num_messages must be the length of this array. Each {@link org.gtk.gio.InputMessage} contains a pointer to an array of {@link org.gtk.gio.InputVector} structs describing the
+     * {@code messages} must point to an array of {@link InputMessage} structs and
+     * {@code num_messages} must be the length of this array. Each {@link InputMessage}
+     * contains a pointer to an array of {@link InputVector} structs describing the
      * buffers that the data received in each message will be written to. Using
-     * multiple <code>#GInputVectors</code> is more memory-efficient than manually copying data
+     * multiple {@code GInputVectors} is more memory-efficient than manually copying data
      * out of a single buffer to multiple sources, and more system-call-efficient
      * than making multiple calls to g_socket_receive(), such as in scenarios where
      * a lot of data packets need to be received (e.g. high-bandwidth video
      * streaming over RTP/UDP).
      * <p>
-     * @flags modify how all messages are received. The commonly available
-     * arguments for this are available in the {@link org.gtk.gio.SocketMsgFlags} enum, but the
+     * {@code flags} modify how all messages are received. The commonly available
+     * arguments for this are available in the {@link SocketMsgFlags} enum, but the
      * values there are the same as the system values, and the flags
      * are passed in as-is, so you can pass in system-specific flags too. These
      * flags affect the overall receive operation. Flags affecting individual
-     * messages are returned in {@link org.gtk.gio.InputMessage} flags.
+     * messages are returned in {@link InputMessage}.flags.
      * <p>
-     * The other members of {@link org.gtk.gio.InputMessage} are treated as described in its
+     * The other members of {@link InputMessage} are treated as described in its
      * documentation.
      * <p>
-     * If {@link org.gtk.gio.Socket} blocking is <code>true</code> the call will block until @num_messages have
+     * If {@link Socket}:blocking is <code>true</code> the call will block until {@code num_messages} have
      * been received, or the end of the stream is reached.
      * <p>
-     * If {@link org.gtk.gio.Socket} blocking is <code>false</code> the call will return up to @num_messages
-     * without blocking, or {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  if no messages are queued in the
+     * If {@link Socket}:blocking is <code>false</code> the call will return up to {@code num_messages}
+     * without blocking, or {@link IOErrorEnum#WOULD_BLOCK} if no messages are queued in the
      * operating system to be received.
      * <p>
-     * In blocking mode, if {@link org.gtk.gio.Socket} timeout is positive and is reached before any
-     * messages are received, {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>  is returned, otherwise up to
-     * @num_messages are returned. (Note: This is effectively the
-     * behaviour of <code>MSG_WAITFORONE</code> with recvmmsg().)
-     * 
+     * In blocking mode, if {@link Socket}:timeout is positive and is reached before any
+     * messages are received, {@link IOErrorEnum#TIMED_OUT} is returned, otherwise up to
+     * {@code num_messages} are returned. (Note: This is effectively the
+     * behaviour of {@code MSG_WAITFORONE} with recvmmsg().)
+     * <p>
      * To be notified when messages are available, wait for the
-     * {@link org.gtk.glib.IOCondition<code>#IN</code>  condition. Note though that you may still receive
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  from g_socket_receive_messages() even if you were
-     * previously notified of a {@link org.gtk.glib.IOCondition<code>#IN</code>  condition.
-     * 
+     * {@link org.gtk.glib.IOCondition#IN} condition. Note though that you may still receive
+     * {@link IOErrorEnum#WOULD_BLOCK} from g_socket_receive_messages() even if you were
+     * previously notified of a {@link org.gtk.glib.IOCondition#IN} condition.
+     * <p>
      * If the remote peer closes the connection, any messages queued in the
      * operating system will be returned, and subsequent calls to
      * g_socket_receive_messages() will return 0 (with no error set).
-     * 
-     * On error -1 is returned and @error is set accordingly. An error will only
+     * <p>
+     * On error -1 is returned and {@code error} is set accordingly. An error will only
      * be returned if zero messages could be received; otherwise the number of
      * messages successfully received before the error will be returned.
      */
@@ -817,7 +804,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * This behaves exactly the same as g_socket_receive(), except that
      * the choice of blocking or non-blocking behavior is determined by
-     * the @blocking argument rather than by @socket&<code>#39</code> s properties.
+     * the {@code blocking} argument rather than by {@code socket}'s properties.
      */
     public long receiveWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -829,20 +816,20 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Tries to send @size bytes from @buffer on the socket. This is
+     * Tries to send {@code size} bytes from {@code buffer} on the socket. This is
      * mainly used by connection-oriented sockets; it is identical to
-     * g_socket_send_to() with @address set to <code>null</code> 
-     * 
+     * g_socket_send_to() with {@code address} set to <code>null</code>.
+     * <p>
      * If the socket is in blocking mode the call will block until there is
      * space for the data in the socket queue. If there is no space available
-     * and the socket is in non-blocking mode a {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error
+     * and the socket is in non-blocking mode a {@link IOErrorEnum#WOULD_BLOCK} error
      * will be returned. To be notified when space is available, wait for the
-     * {@link org.gtk.glib.IOCondition<code>#OUT</code>  condition. Note though that you may still receive
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  from g_socket_send() even if you were previously
-     * notified of a {@link org.gtk.glib.IOCondition<code>#OUT</code>  condition. (On Windows in particular, this is
+     * {@link org.gtk.glib.IOCondition#OUT} condition. Note though that you may still receive
+     * {@link IOErrorEnum#WOULD_BLOCK} from g_socket_send() even if you were previously
+     * notified of a {@link org.gtk.glib.IOCondition#OUT} condition. (On Windows in particular, this is
      * very common due to the way the underlying APIs work.)
-     * 
-     * On error -1 is returned and @error is set accordingly.
+     * <p>
+     * On error -1 is returned and {@code error} is set accordingly.
      */
     public long send(byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -854,48 +841,48 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Send data to @address on @socket.  For sending multiple messages see
+     * Send data to {@code address} on {@code socket}.  For sending multiple messages see
      * g_socket_send_messages(); for easier use, see
      * g_socket_send() and g_socket_send_to().
-     * 
-     * If @address is <code>null</code> then the message is sent to the default receiver
+     * <p>
+     * If {@code address} is <code>null</code> then the message is sent to the default receiver
      * (set by g_socket_connect()).
-     * 
-     * @vectors must point to an array of {@link org.gtk.gio.OutputVector} structs and
-     * @num_vectors must be the length of this array. (If @num_vectors is -1,
-     * then @vectors is assumed to be terminated by a {@link org.gtk.gio.OutputVector} with a
-     * <code>null</code> buffer pointer.) The {@link org.gtk.gio.OutputVector} structs describe the buffers
+     * <p>
+     * {@code vectors} must point to an array of {@link OutputVector} structs and
+     * {@code num_vectors} must be the length of this array. (If {@code num_vectors} is -1,
+     * then {@code vectors} is assumed to be terminated by a {@link OutputVector} with a
+     * <code>null</code> buffer pointer.) The {@link OutputVector} structs describe the buffers
      * that the sent data will be gathered from. Using multiple
-     * <code>#GOutputVectors</code> is more memory-efficient than manually copying
+     * {@code GOutputVectors} is more memory-efficient than manually copying
      * data from multiple sources into a single buffer, and more
      * network-efficient than making multiple calls to g_socket_send().
-     * 
-     * @messages, if non-<code>null</code>  is taken to point to an array of @num_messages
-     * {@link org.gtk.gio.SocketControlMessage} instances. These correspond to the control
+     * <p>
+     * {@code messages}, if non-<code>null</code>, is taken to point to an array of {@code num_messages}
+     * {@link SocketControlMessage} instances. These correspond to the control
      * messages to be sent on the socket.
-     * If @num_messages is -1 then @messages is treated as a <code>null</code> terminated
+     * If {@code num_messages} is -1 then {@code messages} is treated as a <code>null</code>-terminated
      * array.
-     * 
-     * @flags modify how the message is sent. The commonly available arguments
-     * for this are available in the {@link org.gtk.gio.SocketMsgFlags} enum, but the
+     * <p>
+     * {@code flags} modify how the message is sent. The commonly available arguments
+     * for this are available in the {@link SocketMsgFlags} enum, but the
      * values there are the same as the system values, and the flags
      * are passed in as-is, so you can pass in system-specific flags too.
-     * 
+     * <p>
      * If the socket is in blocking mode the call will block until there is
      * space for the data in the socket queue. If there is no space available
-     * and the socket is in non-blocking mode a {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error
+     * and the socket is in non-blocking mode a {@link IOErrorEnum#WOULD_BLOCK} error
      * will be returned. To be notified when space is available, wait for the
-     * {@link org.gtk.glib.IOCondition<code>#OUT</code>  condition. Note though that you may still receive
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  from g_socket_send() even if you were previously
-     * notified of a {@link org.gtk.glib.IOCondition<code>#OUT</code>  condition. (On Windows in particular, this is
+     * {@link org.gtk.glib.IOCondition#OUT} condition. Note though that you may still receive
+     * {@link IOErrorEnum#WOULD_BLOCK} from g_socket_send() even if you were previously
+     * notified of a {@link org.gtk.glib.IOCondition#OUT} condition. (On Windows in particular, this is
      * very common due to the way the underlying APIs work.)
-     * 
-     * The sum of the sizes of each {@link org.gtk.gio.OutputVector} in vectors must not be
-     * greater than <code>G_MAXSSIZE</code>  If the message can be larger than this,
+     * <p>
+     * The sum of the sizes of each {@link OutputVector} in vectors must not be
+     * greater than {@code G_MAXSSIZE}. If the message can be larger than this,
      * then it is mandatory to use the g_socket_send_message_with_timeout()
      * function.
-     * 
-     * On error -1 is returned and @error is set accordingly.
+     * <p>
+     * On error -1 is returned and {@code error} is set accordingly.
      */
     public long sendMessage(SocketAddress address, OutputVector[] vectors, int numVectors, SocketControlMessage[] messages, int numMessages, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -907,37 +894,38 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Send multiple data messages from @socket in one go.  This is the most
+     * Send multiple data messages from {@code socket} in one go.  This is the most
      * complicated and fully-featured version of this call. For easier use, see
      * g_socket_send(), g_socket_send_to(), and g_socket_send_message().
-     * 
-     * @messages must point to an array of {@link org.gtk.gio.OutputMessage} structs and
-     * @num_messages must be the length of this array. Each {@link org.gtk.gio.OutputMessage} contains an address to send the data to, and a pointer to an array of
-     * {@link org.gtk.gio.OutputVector} structs to describe the buffers that the data to be sent
-     * for each message will be gathered from. Using multiple <code>#GOutputVectors</code> is
+     * <p>
+     * {@code messages} must point to an array of {@link OutputMessage} structs and
+     * {@code num_messages} must be the length of this array. Each {@link OutputMessage}
+     * contains an address to send the data to, and a pointer to an array of
+     * {@link OutputVector} structs to describe the buffers that the data to be sent
+     * for each message will be gathered from. Using multiple {@code GOutputVectors} is
      * more memory-efficient than manually copying data from multiple sources
      * into a single buffer, and more network-efficient than making multiple
      * calls to g_socket_send(). Sending multiple messages in one go avoids the
      * overhead of making a lot of syscalls in scenarios where a lot of data
      * packets need to be sent (e.g. high-bandwidth video streaming over RTP/UDP),
      * or where the same data needs to be sent to multiple recipients.
-     * 
-     * @flags modify how the message is sent. The commonly available arguments
-     * for this are available in the {@link org.gtk.gio.SocketMsgFlags} enum, but the
+     * <p>
+     * {@code flags} modify how the message is sent. The commonly available arguments
+     * for this are available in the {@link SocketMsgFlags} enum, but the
      * values there are the same as the system values, and the flags
      * are passed in as-is, so you can pass in system-specific flags too.
-     * 
+     * <p>
      * If the socket is in blocking mode the call will block until there is
      * space for all the data in the socket queue. If there is no space available
-     * and the socket is in non-blocking mode a {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error
+     * and the socket is in non-blocking mode a {@link IOErrorEnum#WOULD_BLOCK} error
      * will be returned if no data was written at all, otherwise the number of
      * messages sent will be returned. To be notified when space is available,
-     * wait for the {@link org.gtk.glib.IOCondition<code>#OUT</code>  condition. Note though that you may still receive
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  from g_socket_send() even if you were previously
-     * notified of a {@link org.gtk.glib.IOCondition<code>#OUT</code>  condition. (On Windows in particular, this is
+     * wait for the {@link org.gtk.glib.IOCondition#OUT} condition. Note though that you may still receive
+     * {@link IOErrorEnum#WOULD_BLOCK} from g_socket_send() even if you were previously
+     * notified of a {@link org.gtk.glib.IOCondition#OUT} condition. (On Windows in particular, this is
      * very common due to the way the underlying APIs work.)
-     * 
-     * On error -1 is returned and @error is set accordingly. An error will only
+     * <p>
+     * On error -1 is returned and {@code error} is set accordingly. An error will only
      * be returned if zero messages could be sent; otherwise the number of messages
      * successfully sent before the error will be returned.
      */
@@ -951,10 +939,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Tries to send @size bytes from @buffer to @address. If @address is
+     * Tries to send {@code size} bytes from {@code buffer} to {@code address}. If {@code address} is
      * <code>null</code> then the message is sent to the default receiver (set by
      * g_socket_connect()).
-     * 
+     * <p>
      * See g_socket_send() for additional information.
      */
     public long sendTo(SocketAddress address, byte[] buffer, long size, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -969,7 +957,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * This behaves exactly the same as g_socket_send(), except that
      * the choice of blocking or non-blocking behavior is determined by
-     * the @blocking argument rather than by @socket&<code>#39</code> s properties.
+     * the {@code blocking} argument rather than by {@code socket}'s properties.
      */
     public long sendWithBlocking(byte[] buffer, long size, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -982,11 +970,11 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Sets the blocking mode of the socket. In blocking mode
-     * all operations (which don&<code>#8217</code> t take an explicit blocking parameter) block until
+     * all operations (which don’t take an explicit blocking parameter) block until
      * they succeed or there is an error. In
      * non-blocking mode all functions return results immediately or
-     * with a {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>  error.
-     * 
+     * with a {@link IOErrorEnum#WOULD_BLOCK} error.
+     * <p>
      * All sockets are created in blocking mode. However, note that the
      * platform level socket is always non-blocking, and blocking mode
      * is a GSocket level feature.
@@ -996,7 +984,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Sets whether @socket should allow sending to broadcast addresses.
+     * Sets whether {@code socket} should allow sending to broadcast addresses.
      * This is <code>false</code> by default.
      */
     public void setBroadcast(boolean broadcast) {
@@ -1004,16 +992,16 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Sets or unsets the <code>SO_KEEPALIVE</code> flag on the underlying socket. When
+     * Sets or unsets the {@code SO_KEEPALIVE} flag on the underlying socket. When
      * this flag is set on a socket, the system will attempt to verify that the
      * remote socket endpoint is still present if a sufficiently long period of
      * time passes with no data being exchanged. If the system is unable to
      * verify the presence of the remote endpoint, it will automatically close
      * the connection.
-     * 
+     * <p>
      * This option is only functional on certain kinds of sockets. (Notably,
-     * {@link org.gtk.gio.SocketProtocol<code>#TCP</code>  sockets.)
-     * 
+     * {@link SocketProtocol#TCP} sockets.)
+     * <p>
      * The exact time between pings is system- and protocol-dependent, but will
      * normally be at least two hours. Most commonly, you would set this flag
      * on a server socket if you want to allow clients to remain idle for long
@@ -1029,7 +1017,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * when listening on this socket. If more clients than this are
      * connecting to the socket and the application is not handling them
      * on time then the new connections will be refused.
-     * 
+     * <p>
      * Note that this must be called before g_socket_listen() and has no
      * effect if called after that.
      */
@@ -1039,14 +1027,15 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Sets whether outgoing multicast packets will be received by sockets
-     * listening on that multicast address on the same host. This is <code>true</code> by default.
+     * listening on that multicast address on the same host. This is <code>true</code>
+     * by default.
      */
     public void setMulticastLoopback(boolean loopback) {
         gtk_h.g_socket_set_multicast_loopback(handle(), loopback ? 1 : 0);
     }
     
     /**
-     * Sets the time-to-live for outgoing multicast datagrams on @socket.
+     * Sets the time-to-live for outgoing multicast datagrams on {@code socket}.
      * By default, this is 1, meaning that multicast packets will not leave
      * the local network.
      */
@@ -1055,11 +1044,11 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Sets the value of an integer-valued option on @socket, as with
+     * Sets the value of an integer-valued option on {@code socket}, as with
      * setsockopt(). (If you need to set a non-integer-valued option,
      * you will need to call setsockopt() directly.)
-     * 
-     * The {@link [&<code>#60</code> gio/gnetworking.h&<code>#62</code> ]}{@link [gio-gnetworking.h]}
+     * <p>
+     * The [&lt;gio/gnetworking.h&gt;][gio-gnetworking.h]
      * header pulls in system headers that will define most of the
      * standard/portable socket options. For unusual socket protocols or
      * platform-dependent options, you may need to include additional
@@ -1075,23 +1064,24 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Sets the time in seconds after which I/O operations on @socket will
+     * Sets the time in seconds after which I/O operations on {@code socket} will
      * time out if they have not yet completed.
-     * 
-     * On a blocking socket, this means that any blocking {@link org.gtk.gio.Socket} operation will time out after @timeout seconds of inactivity,
-     * returning {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>  
-     * 
+     * <p>
+     * On a blocking socket, this means that any blocking {@link Socket}
+     * operation will time out after {@code timeout} seconds of inactivity,
+     * returning {@link IOErrorEnum#TIMED_OUT}.
+     * <p>
      * On a non-blocking socket, calls to g_socket_condition_wait() will
-     * also fail with {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>  after the given time. Sources
+     * also fail with {@link IOErrorEnum#TIMED_OUT} after the given time. Sources
      * created with g_socket_create_source() will trigger after
-     * @timeout seconds of inactivity, with the requested condition
+     * {@code timeout} seconds of inactivity, with the requested condition
      * set, at which point calling g_socket_receive(), g_socket_send(),
      * g_socket_check_connect_result(), etc, will fail with
-     * {@link org.gtk.gio.IOErrorEnum<code>#TIMED_OUT</code>  
-     * 
-     * If @timeout is 0 (the default), operations will never time out
+     * {@link IOErrorEnum#TIMED_OUT}.
+     * <p>
+     * If {@code timeout} is 0 (the default), operations will never time out
      * on their own.
-     * 
+     * <p>
      * Note that if an I/O operation is interrupted by a signal, this may
      * cause the timeout to be reset.
      */
@@ -1100,7 +1090,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Sets the time-to-live for outgoing unicast packets on @socket.
+     * Sets the time-to-live for outgoing unicast packets on {@code socket}.
      * By default the platform-specific default value is used.
      */
     public void setTtl(int ttl) {
@@ -1109,15 +1099,15 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Shut down part or all of a full-duplex connection.
-     * 
-     * If @shutdown_read is <code>true</code> then the receiving side of the connection
+     * <p>
+     * If {@code shutdown_read} is <code>true</code> then the receiving side of the connection
      * is shut down, and further reading is disallowed.
-     * 
-     * If @shutdown_write is <code>true</code> then the sending side of the connection
+     * <p>
+     * If {@code shutdown_write} is <code>true</code> then the sending side of the connection
      * is shut down, and further writing is disallowed.
-     * 
-     * It is allowed for both @shutdown_read and @shutdown_write to be <code>true</code> 
-     * 
+     * <p>
+     * It is allowed for both {@code shutdown_read} and {@code shutdown_write} to be <code>true</code>.
+     * <p>
      * One example where it is useful to shut down only one side of a connection is
      * graceful disconnect for TCP connections where you close the sending side,
      * then wait for the other side to close the connection, thus ensuring that the
@@ -1134,12 +1124,12 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Checks if a socket is capable of speaking IPv4.
-     * 
+     * <p>
      * IPv4 sockets are capable of speaking IPv4.  On some operating systems
      * and under some combinations of circumstances IPv6 sockets are also
      * capable of speaking IPv4.  See RFC 3493 section 3.7 for more
      * information.
-     * 
+     * <p>
      * No other types of sockets are currently considered as being capable
      * of speaking IPv4.
      */

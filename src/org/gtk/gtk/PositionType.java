@@ -2,9 +2,9 @@ package org.gtk.gtk;
 
 /**
  * Describes which edge of a widget a certain feature is positioned at.
- * 
- * For examples, see the tabs of a {@link [class@Notebook]}, or the label
- * of a {@link [class@Scale]}.
+ * <p>
+ * For examples, see the tabs of a {@link Notebook}, or the label
+ * of a {@link Scale}.
  */
 public enum PositionType {
 

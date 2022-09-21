@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkCustomFilter</code> determines whether to include items with a callback.
+ * {@code GtkCustomFilter} determines whether to include items with a callback.
  */
 public class CustomFilter extends Filter {
 
@@ -38,11 +38,11 @@ public class CustomFilter extends Filter {
     }
     
     /**
-     * Creates a new filter using the given @match_func to filter
+     * Creates a new filter using the given {@code match_func} to filter
      * items.
-     * 
-     * If @match_func is <code>null</code>  the filter matches all items.
-     * 
+     * <p>
+     * If {@code match_func} is <code>null</code>, the filter matches all items.
+     * <p>
      * If the filter func changes its filtering behavior,
      * gtk_filter_changed() needs to be called.
      */
@@ -52,13 +52,13 @@ public class CustomFilter extends Filter {
     
     /**
      * Sets the function used for filtering items.
-     * 
-     * If @match_func is <code>null</code>  the filter matches all items.
-     * 
+     * <p>
+     * If {@code match_func} is <code>null</code>, the filter matches all items.
+     * <p>
      * If the filter func changes its filtering behavior,
      * gtk_filter_changed() needs to be called.
-     * 
-     * If a previous function was set, its @user_destroy will be
+     * <p>
+     * If a previous function was set, its {@code user_destroy} will be
      * called now.
      */
     public void setFilterFunc(CustomFilterFunc matchFunc) {

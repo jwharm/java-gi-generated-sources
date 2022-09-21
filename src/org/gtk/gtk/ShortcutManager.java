@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkShortcutManager</code> interface is used to implement
+ * The {@code GtkShortcutManager} interface is used to implement
  * shortcut scopes.
  * <p>
- * This is important for {@link [iface@Gtk.Native] (ref=iface)} widgets that have their
+ * This is important for {@code Gtk.Native} widgets that have their
  * own surface, since the event controllers that are used to implement
  * managed and global scopes are limited to the same native.
  * <p>
- * Examples for widgets implementing <code>GtkShortcutManager</code> are
- * {@link org.gtk.gtk.Window} and {@link org.gtk.gtk.Popover}.
+ * Examples for widgets implementing {@code GtkShortcutManager} are
+ * {@code Gtk.Popover}.
  * <p>
- * Every widget that implements <code>GtkShortcutManager</code> will be used as a
- * {@link org.gtk.gtk.ShortcutScope<code>#MANAGED</code>
+ * Every widget that implements {@code GtkShortcutManager} will be used as a
+ * {@link ShortcutScope#MANAGED}.
  */
 public interface ShortcutManager extends io.github.jwharm.javagi.NativeAddress {
 

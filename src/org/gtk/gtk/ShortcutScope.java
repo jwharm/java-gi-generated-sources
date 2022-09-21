@@ -1,8 +1,8 @@
 package org.gtk.gtk;
 
 /**
- * Describes where {@link [class@Shortcut]}s added to a
- * {@link [class@ShortcutController]} get handled.
+ * Describes where {@link Shortcut}s added to a
+ * {@link ShortcutController} get handled.
  */
 public enum ShortcutScope {
 
@@ -14,7 +14,7 @@ public enum ShortcutScope {
     
     /**
      * Shortcuts are handled by
-     *   the first ancestor that is a {@link [iface@ShortcutManager] (ref=iface)}
+     *   the first ancestor that is a {@code ShortcutManager}
      */
     MANAGED,
     

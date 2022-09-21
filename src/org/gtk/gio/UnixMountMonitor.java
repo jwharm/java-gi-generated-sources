@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Watches <code>#GUnixMounts</code> for changes.
+ * Watches {@code GUnixMounts} for changes.
  */
 public class UnixMountMonitor extends org.gtk.gobject.Object {
 
@@ -22,13 +22,13 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the {@link org.gtk.gio.UnixMountMonitor} for the current thread-default main
+     * Gets the {@link UnixMountMonitor} for the current thread-default main
      * context.
-     * 
+     * <p>
      * The mount monitor can be used to monitor for changes to the list of
      * mounted filesystems as well as the list of mount points (ie: fstab
      * entries).
-     * 
+     * <p>
      * You must only call g_object_unref() on the return value from under
      * the same main context as you called this function.
      */

@@ -18,9 +18,9 @@ public enum SelectionMode {
     /**
      * Exactly one element is selected.
      *   In some circumstances, such as initially or during a search
-     *   operation, it&<code>#8217</code> s possible for no element to be selected with
-     *   {@link org.gtk.gtk.SelectionMode<code>#BROWSE</code>   What is really enforced is that the user
-     *   can&<code>#8217</code> t deselect a currently selected element except by selecting
+     *   operation, it’s possible for no element to be selected with
+     *   {@link SelectionMode#BROWSE}. What is really enforced is that the user
+     *   can’t deselect a currently selected element except by selecting
      *   another element.
      */
     BROWSE,

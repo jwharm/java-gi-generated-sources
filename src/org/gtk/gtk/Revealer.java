@@ -8,24 +8,26 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkRevealer</code> animates the transition of its child from invisible to visible.
+ * A {@code GtkRevealer} animates the transition of its child from invisible to visible.
  * <p>
  * The style of transition can be controlled with
- * {@link org.gtk.gtk.Revealer<code>#setTransitionType</code> .
+ * {@link Revealer#setTransitionType}.
  * <p>
- * These animations respect the {@link [property@Gtk.Settings:gtk-enable-animations] (ref=property)}
+ * These animations respect the {@code Gtk.Settings:gtk-enable-animations}
  * setting.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkRevealer</code> has a single CSS node with name revealer.
- * When styling <code>GtkRevealer</code> using CSS, remember that it only hides its contents,
+ * <p>
+ * {@code GtkRevealer} has a single CSS node with name revealer.
+ * When styling {@code GtkRevealer} using CSS, remember that it only hides its contents,
  * not itself. That means applied margin, padding and borders will be visible even
- * when the {@link [property@Gtk.Revealer:reveal-child] (ref=property)} property is set to <code>false</code> 
+ * when the {@code Gtk.Revealer:reveal-child} property is set to <code>false</code>.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkRevealer</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
  * <p>
- * The child of <code>GtkRevealer</code>, if set, is always available in the accessibility
+ * {@code GtkRevealer} uses the {@link AccessibleRole#GROUP} role.
+ * <p>
+ * The child of {@code GtkRevealer}, if set, is always available in the accessibility
  * tree, regardless of the state of the revealer widget.
  */
 public class Revealer extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -45,14 +47,14 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkRevealer</code>.
+     * Creates a new {@code GtkRevealer}.
      */
     public Revealer() {
         super(constructNew());
     }
     
     /**
-     * Gets the child widget of @revealer.
+     * Gets the child widget of {@code revealer}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_revealer_get_child(handle());
@@ -61,7 +63,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Returns whether the child is fully revealed.
-     * 
+     * <p>
      * In other words, this returns whether the transition
      * to the revealed state is completed.
      */
@@ -72,11 +74,11 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Returns whether the child is currently revealed.
-     * 
+     * <p>
      * This function returns <code>true</code> as soon as the transition
      * is to the revealed state is started. To learn whether
      * the child is fully revealed (ie the transition is completed),
-     * use {@link org.gtk.gtk.Revealer<code>#getChildRevealed</code> .
+     * use {@link Revealer#getChildRevealed}.
      */
     public boolean getRevealChild() {
         var RESULT = gtk_h.gtk_revealer_get_reveal_child(handle());
@@ -94,7 +96,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets the type of animation that will be used
-     * for transitions in @revealer.
+     * for transitions in {@code revealer}.
      */
     public RevealerTransitionType getTransitionType() {
         var RESULT = gtk_h.gtk_revealer_get_transition_type(handle());
@@ -102,17 +104,17 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the child widget of @revealer.
+     * Sets the child widget of {@code revealer}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_revealer_set_child(handle(), child.handle());
     }
     
     /**
-     * Tells the <code>GtkRevealer</code> to reveal or conceal its child.
-     * 
+     * Tells the {@code GtkRevealer} to reveal or conceal its child.
+     * <p>
      * The transition will be animated with the current
-     * transition type of @revealer.
+     * transition type of {@code revealer}.
      */
     public void setRevealChild(boolean revealChild) {
         gtk_h.gtk_revealer_set_reveal_child(handle(), revealChild ? 1 : 0);
@@ -127,8 +129,8 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the type of animation that will be used for
-     * transitions in @revealer.
-     * 
+     * transitions in {@code revealer}.
+     * <p>
      * Available types include various kinds of fades and slides.
      */
     public void setTransitionType(RevealerTransitionType transition) {

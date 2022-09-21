@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkLevelBar</code> is a widget that can be used as a level indicator.
+ * {@code GtkLevelBar} is a widget that can be used as a level indicator.
  * <p>
  * Typical use cases are displaying the strength of a password, or
  * showing the charge level of a battery.
  * <p>
- * !{@link [An example GtkLevelBar]}(levelbar.png)
+ * <img src="./doc-files/levelbar.png" alt="An example GtkLevelBar">
  * <p>
- * Use {@link org.gtk.gtk.LevelBar<code>#setValue</code>  to set the current value, and
- * {@link org.gtk.gtk.LevelBar<code>#addOffsetValue</code>  to set the value offsets at which
+ * Use {@link LevelBar#setValue} to set the current value, and
+ * {@link LevelBar#addOffsetValue} to set the value offsets at which
  * the bar will be considered in a different state. GTK will add a few
- * offsets by default on the level bar: <code>GTK_LEVEL_BAR_OFFSET_LOW</code> 
- * <code>GTK_LEVEL_BAR_OFFSET_HIGH</code> and <code>GTK_LEVEL_BAR_OFFSET_FULL</code>  with
+ * offsets by default on the level bar: {@code GTK_LEVEL_BAR_OFFSET_LOW},
+ * {@code GTK_LEVEL_BAR_OFFSET_HIGH} and {@code GTK_LEVEL_BAR_OFFSET_FULL}, with
  * values 0.25, 0.75 and 1.0 respectively.
  * <p>
  * Note that it is your responsibility to update preexisting offsets
@@ -27,22 +27,23 @@ import java.lang.invoke.*;
  * them to the new range.
  * <p>
  * <h2>Adding a custom offset on the bar</h2>
- * <p><pre>c
+ * <p>
+ * <pre>{@code c
  * static GtkWidget *
  * create_level_bar (void)
  * {
  *   GtkWidget *widget;
  *   GtkLevelBar *bar;
- * <p>
+ * 
  *   widget = gtk_level_bar_new ();
  *   bar = GTK_LEVEL_BAR (widget);
- * <p>
+ * 
  *   // This changes the value of the default low offset
- * <p>
+ * 
  *   gtk_level_bar_add_offset_value (bar,
  *                                   GTK_LEVEL_BAR_OFFSET_LOW,
  *                                   0.10);
- * <p>
+ * 
  *   // This adds a new offset to the bar; the application will
  *   // be able to change its color CSS like this:
  *   //
@@ -52,43 +53,45 @@ import java.lang.invoke.*;
  *   //   border-color: black;
  *   //   border-style: 1px;
  *   // }
- * <p>
- *   gtk_level_bar_add_offset_value (bar, &<code>#34</code> my-offset&<code>#34</code> , 0.60);
- * <p>
+ * 
+ *   gtk_level_bar_add_offset_value (bar, "my-offset", 0.60);
+ * 
  *   return widget;
  * }
- * </pre>
+ * }</pre>
  * <p>
- * The default interval of values is between zero and one, but it&<code>#8217</code> s possible
- * to modify the interval using {@link org.gtk.gtk.LevelBar<code>#setMinValue</code>  and
- * {@link org.gtk.gtk.LevelBar<code>#setMaxValue</code> . The value will be always drawn in
+ * The default interval of values is between zero and one, but it’s possible
+ * to modify the interval using {@link LevelBar#setMinValue} and
+ * {@link LevelBar#setMaxValue}. The value will be always drawn in
  * proportion to the admissible interval, i.e. a value of 15 with a specified
  * interval between 10 and 20 is equivalent to a value of 0.5 with an interval
- * between 0 and 1. When {@link org.gtk.gtk.LevelBarMode<code>#DISCRETE</code>  is used, the bar level
+ * between 0 and 1. When {@link LevelBarMode#DISCRETE} is used, the bar level
  * is rendered as a finite number of separated blocks instead of a single one.
  * The number of blocks that will be rendered is equal to the number of units
  * specified by the admissible interval.
  * <p>
- * For instance, to build a bar rendered with five blocks, it&<code>#8217</code> s sufficient to
+ * For instance, to build a bar rendered with five blocks, it’s sufficient to
  * set the minimum value to 0 and the maximum value to 5 after changing the
  * indicator mode to discrete.
  * <p>
  * <h1>GtkLevelBar as GtkBuildable</h1>
  * <p>
- * The <code>GtkLevelBar</code> implementation of the <code>GtkBuildable</code> interface supports a
- * custom &<code>#60</code> offsets&<code>#62</code>  element, which can contain any number of &<code>#60</code> offset&<code>#62</code>  elements,
+ * The {@code GtkLevelBar} implementation of the {@code GtkBuildable} interface supports a
+ * custom &lt;offsets> element, which can contain any number of <offset&gt; elements,
  * each of which must have name and value attributes.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * levelbar{@link [.discrete]}
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  trough
- *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  block.filled.level-name
- *     &<code>#9482</code> 
- *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  block.empty
- *     &<code>#9482</code> 
- * </pre>
- * <p><code>GtkLevelBar</code> has a main CSS node with name levelbar and one of the style
+ * <p>
+ * <pre>{@code 
+ * levelbar[.discrete]
+ * ╰── trough
+ *     ├── block.filled.level-name
+ *     ┊
+ *     ├── block.empty
+ *     ┊
+ * }</pre>
+ * <p>
+ * {@code GtkLevelBar} has a main CSS node with name levelbar and one of the style
  * classes .discrete or .continuous and a subnode with name trough. Below the
  * trough node are a number of nodes with name block and style class .filled
  * or .empty. In continuous mode, there is exactly one node of each, in discrete
@@ -100,7 +103,8 @@ import java.lang.invoke.*;
  * regardless of text direction.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkLevelBar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#METER</code>  role.
+ * <p>
+ * {@code GtkLevelBar} uses the {@link AccessibleRole#METER} role.
  */
 public class LevelBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -119,7 +123,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkLevelBar</code>.
+     * Creates a new {@code GtkLevelBar}.
      */
     public LevelBar() {
         super(constructNew());
@@ -131,22 +135,22 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkLevelBar</code> for the specified interval.
+     * Creates a new {@code GtkLevelBar} for the specified interval.
      */
     public static LevelBar newForInterval(double minValue, double maxValue) {
         return new LevelBar(constructNewForInterval(minValue, maxValue));
     }
     
     /**
-     * Adds a new offset marker on @self at the position specified by @value.
+     * Adds a new offset marker on {@code self} at the position specified by {@code value}.
      * <p>
-     * When the bar value is in the interval topped by @value (or between @value
-     * and {@link [property@Gtk.LevelBar:max-value] (ref=property)} in case the offset is the last one
-     * on the bar) a style class named <code>level-</code>@name will be applied
+     * When the bar value is in the interval topped by {@code value} (or between {@code value}
+     * and {@code Gtk.LevelBar:max-value} in case the offset is the last one
+     * on the bar) a style class named {@code level-}{@code name} will be applied
      * when rendering the level bar fill.
-     * 
-     * If another offset marker named @name exists, its value will be
-     * replaced by @value.
+     * <p>
+     * If another offset marker named {@code name} exists, its value will be
+     * replaced by {@code value}.
      */
     public void addOffsetValue(java.lang.String name, double value) {
         gtk_h.gtk_level_bar_add_offset_value(handle(), Interop.allocateNativeString(name).handle(), value);
@@ -161,7 +165,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the <code>max-value</code> of the <code>GtkLevelBar</code>.
+     * Returns the {@code max-value} of the {@code GtkLevelBar}.
      */
     public double getMaxValue() {
         var RESULT = gtk_h.gtk_level_bar_get_max_value(handle());
@@ -169,7 +173,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the <code>min-value of the </code>GtkLevelBar<code>.
+     * Returns the {@code min-value of the }GtkLevelBar`.
      */
     public double getMinValue() {
         var RESULT = gtk_h.gtk_level_bar_get_min_value(handle());
@@ -177,7 +181,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the <code>mode</code> of the <code>GtkLevelBar</code>.
+     * Returns the {@code mode} of the {@code GtkLevelBar}.
      */
     public LevelBarMode getMode() {
         var RESULT = gtk_h.gtk_level_bar_get_mode(handle());
@@ -185,7 +189,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the <code>value</code> of the <code>GtkLevelBar</code>.
+     * Returns the {@code value} of the {@code GtkLevelBar}.
      */
     public double getValue() {
         var RESULT = gtk_h.gtk_level_bar_get_value(handle());
@@ -193,25 +197,25 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Removes an offset marker from a <code>GtkLevelBar</code>.
-     * 
+     * Removes an offset marker from a {@code GtkLevelBar}.
+     * <p>
      * The marker must have been previously added with
-     * {@link org.gtk.gtk.LevelBar<code>#addOffsetValue</code> .
+     * {@link LevelBar#addOffsetValue}.
      */
     public void removeOffsetValue(java.lang.String name) {
         gtk_h.gtk_level_bar_remove_offset_value(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
-     * Sets whether the <code>GtkLevelBar</code> is inverted.
+     * Sets whether the {@code GtkLevelBar} is inverted.
      */
     public void setInverted(boolean inverted) {
         gtk_h.gtk_level_bar_set_inverted(handle(), inverted ? 1 : 0);
     }
     
     /**
-     * Sets the <code>max-value</code> of the <code>GtkLevelBar</code>.
-     * 
+     * Sets the {@code max-value} of the {@code GtkLevelBar}.
+     * <p>
      * You probably want to update preexisting level offsets after calling
      * this function.
      */
@@ -220,8 +224,8 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the <code>min-value</code> of the <code>GtkLevelBar</code>.
-     * 
+     * Sets the {@code min-value} of the {@code GtkLevelBar}.
+     * <p>
      * You probably want to update preexisting level offsets after calling
      * this function.
      */
@@ -230,14 +234,14 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the <code>mode</code> of the <code>GtkLevelBar</code>.
+     * Sets the {@code mode} of the {@code GtkLevelBar}.
      */
     public void setMode(LevelBarMode mode) {
         gtk_h.gtk_level_bar_set_mode(handle(), mode.getValue());
     }
     
     /**
-     * Sets the value of the <code>GtkLevelBar</code>.
+     * Sets the value of the {@code GtkLevelBar}.
      */
     public void setValue(double value) {
         gtk_h.gtk_level_bar_set_value(handle(), value);
@@ -250,13 +254,13 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Emitted when an offset specified on the bar changes value.
-     * 
-     * This typically is the result of a {@link org.gtk.gtk.LevelBar<code>#addOffsetValue</code> 
+     * <p>
+     * This typically is the result of a {@link LevelBar#addOffsetValue}
      * call.
-     * 
+     * <p>
      * The signal supports detailed connections; you can connect to the
-     * detailed signal &<code>#34</code> changed::x&<code>#34</code>  in order to only receive callbacks when
-     * the value of offset &<code>#34</code> x&<code>#34</code>  changes.
+     * detailed signal "changed::x" in order to only receive callbacks when
+     * the value of offset "x" changes.
      */
     public SignalHandle onOffsetChanged(OffsetChangedHandler handler) {
         try {

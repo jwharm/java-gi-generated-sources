@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.ListStore} is a simple implementation of {@link org.gtk.gio.ListModel} that stores all
+ * {@link ListStore} is a simple implementation of {@link ListModel} that stores all
  * items in memory.
- * 
+ * <p>
  * It provides insertions, deletions, and lookups in logarithmic time
  * with a fast path for the common case of iterating the list linearly.
  */
@@ -31,18 +31,18 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.ListStore} with items of type @item_type. @item_type
-     * must be a subclass of {@link org.gtk.gobject.Object}
+     * Creates a new {@link ListStore} with items of type {@code item_type}. {@code item_type}
+     * must be a subclass of {@link org.gtk.gobject.Object}.
      */
     public ListStore(Type itemType) {
         super(constructNew(itemType));
     }
     
     /**
-     * Appends @item to @store. @item must be of type {@link org.gtk.gio.ListStore} item-type.
-     * 
-     * This function takes a ref on @item.
-     * 
+     * Appends {@code item} to {@code store}. {@code item} must be of type {@link ListStore}:item-type.
+     * <p>
+     * This function takes a ref on {@code item}.
+     * <p>
      * Use g_list_store_splice() to append multiple items at the same time
      * efficiently.
      */
@@ -51,12 +51,12 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
-     * Inserts @item into @store at @position. @item must be of type
-     * {@link org.gtk.gio.ListStore} item-type or derived from it. @position must be smaller
+     * Inserts {@code item} into {@code store} at {@code position}. {@code item} must be of type
+     * {@link ListStore}:item-type or derived from it. {@code position} must be smaller
      * than the length of the list, or equal to it to append.
-     * 
-     * This function takes a ref on @item.
-     * 
+     * <p>
+     * This function takes a ref on {@code item}.
+     * <p>
      * Use g_list_store_splice() to insert multiple items at the same time
      * efficiently.
      */
@@ -65,14 +65,14 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
-     * Inserts @item into @store at a position to be determined by the
-     * @compare_func.
-     * 
+     * Inserts {@code item} into {@code store} at a position to be determined by the
+     * {@code compare_func}.
+     * <p>
      * The list must already be sorted before calling this function or the
      * result is undefined.  Usually you would approach this by only ever
      * inserting items by way of this function.
-     * 
-     * This function takes a ref on @item.
+     * <p>
+     * This function takes a ref on {@code item}.
      */
     public int insertSorted(org.gtk.gobject.Object item, org.gtk.glib.CompareDataFunc compareFunc) {
         try {
@@ -90,9 +90,9 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
-     * Removes the item from @store that is at @position. @position must be
+     * Removes the item from {@code store} that is at {@code position}. {@code position} must be
      * smaller than the current length of the list.
-     * 
+     * <p>
      * Use g_list_store_splice() to remove multiple items at the same time
      * efficiently.
      */
@@ -101,14 +101,14 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
-     * Removes all items from @store.
+     * Removes all items from {@code store}.
      */
     public void removeAll() {
         gtk_h.g_list_store_remove_all(handle());
     }
     
     /**
-     * Sort the items in @store according to @compare_func.
+     * Sort the items in {@code store} according to {@code compare_func}.
      */
     public void sort(org.gtk.glib.CompareDataFunc compareFunc) {
         try {
@@ -125,18 +125,18 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
-     * Changes @store by removing @n_removals items and adding @n_additions
-     * items to it. @additions must contain @n_additions items of type
-     * {@link org.gtk.gio.ListStore} item-type.  <code>null</code> is not permitted.
-     * 
+     * Changes {@code store} by removing {@code n_removals} items and adding {@code n_additions}
+     * items to it. {@code additions} must contain {@code n_additions} items of type
+     * {@link ListStore}:item-type.  <code>null</code> is not permitted.
+     * <p>
      * This function is more efficient than g_list_store_insert() and
      * g_list_store_remove(), because it only emits
-     * {@link org.gtk.gio.ListModel} :items-changed once for the change.
-     * 
-     * This function takes a ref on each item in @additions.
-     * 
-     * The parameters @position and @n_removals must be correct (ie:
-     * @position + @n_removals must be less than or equal to the length of
+     * {@link ListModel}::items-changed once for the change.
+     * <p>
+     * This function takes a ref on each item in {@code additions}.
+     * <p>
+     * The parameters {@code position} and {@code n_removals} must be correct (ie:
+     * {@code position} + {@code n_removals} must be less than or equal to the length of
      * the list at the time this function is called).
      */
     public void splice(int position, int nRemovals, org.gtk.gobject.Object[] additions, int nAdditions) {

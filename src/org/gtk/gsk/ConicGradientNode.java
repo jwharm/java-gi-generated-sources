@@ -27,10 +27,10 @@ public class ConicGradientNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that draws a conic gradient.
-     * 
+     * Creates a {@code GskRenderNode} that draws a conic gradient.
+     * <p>
      * The conic gradient
-     * starts around @center in the direction of @rotation. A rotation of 0 means
+     * starts around {@code center} in the direction of {@code rotation}. A rotation of 0 means
      * that the gradient points up. Color stops are then added clockwise.
      */
     public ConicGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, ColorStop[] colorStops, long nColorStops) {
@@ -38,11 +38,11 @@ public class ConicGradientNode extends RenderNode {
     }
     
     /**
-     * Retrieves the angle for the gradient in radians, normalized in {@link [0, 2 * PI]}.
-     * 
+     * Retrieves the angle for the gradient in radians, normalized in [0, 2 * PI].
+     * <p>
      * The angle is starting at the top and going clockwise, as expressed
      * in the css specification:
-     * 
+     * <p>
      *     angle = 90 - gsk_conic_gradient_node_get_rotation()
      */
     public float getAngle() {

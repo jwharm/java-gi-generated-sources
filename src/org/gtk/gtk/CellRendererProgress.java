@@ -9,7 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * Renders numbers as progress bars
- * <p><code>GtkCellRendererProgress</code> renders a numeric value as a progress par in a cell.
+ * <p>
+ * {@code GtkCellRendererProgress} renders a numeric value as a progress par in a cell.
  * Additionally, it can display a text on top of the progress bar.
  */
 public class CellRendererProgress extends CellRenderer implements Orientable {
@@ -29,7 +30,7 @@ public class CellRendererProgress extends CellRenderer implements Orientable {
     }
     
     /**
-     * Creates a new <code>GtkCellRendererProgress</code>.
+     * Creates a new {@code GtkCellRendererProgress}.
      */
     public CellRendererProgress() {
         super(constructNew());

@@ -1,15 +1,15 @@
 package org.gtk.gtk;
 
 /**
- * Determines the page role inside a <code>GtkAssistant</code>.
- * 
+ * Determines the page role inside a {@code GtkAssistant}.
+ * <p>
  * The role is used to handle buttons sensitivity and visibility.
- * 
+ * <p>
  * Note that an assistant needs to end its page flow with a page of type
- * {@link org.gtk.gtk.AssistantPageType<code>#CONFIRM</code>   {@link org.gtk.gtk.AssistantPageType<code>#SUMMARY</code>  or
- * {@link org.gtk.gtk.AssistantPageType<code>#PROGRESS</code>  to be correct.
- * 
- * The Cancel button will only be shown if the page isn&<code>#8217</code> t &<code>#8220</code> committed&<code>#8221</code> .
+ * {@link AssistantPageType#CONFIRM}, {@link AssistantPageType#SUMMARY} or
+ * {@link AssistantPageType#PROGRESS} to be correct.
+ * <p>
+ * The Cancel button will only be shown if the page isn’t “committed”.
  * See gtk_assistant_commit() for details.
  */
 public enum AssistantPageType {

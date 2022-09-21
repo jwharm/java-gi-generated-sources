@@ -8,33 +8,33 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkBuilder</code> reads XML descriptions of a user interface and
+ * A {@code GtkBuilder} reads XML descriptions of a user interface and
  * instantiates the described objects.
  * <p>
- * To create a <code>GtkBuilder</code> from a user interface description, call
- * {@link [ctor@Gtk.Builder.new_from_file] (ref=ctor)}, {@link [ctor@Gtk.Builder.new_from_resource] (ref=ctor)}
- * or {@link [ctor@Gtk.Builder.new_from_string] (ref=ctor)}.
+ * To create a {@code GtkBuilder} from a user interface description, call
+ * {@code Gtk.Builder.new_from_resource}
+ * or {@link Builder#newFromString}.
  * <p>
  * In the (unusual) case that you want to add user interface
- * descriptions from multiple sources to the same <code>GtkBuilder</code> you can
- * call {@link [ctor@Gtk.Builder.new] (ref=ctor)} to get an empty builder and populate it by
- * (multiple) calls to {@link org.gtk.gtk.Builder<code>#addFromFile</code> ,
- * {@link org.gtk.gtk.Builder<code>#addFromResource</code>  or
- * {@link org.gtk.gtk.Builder<code>#addFromString</code> .
+ * descriptions from multiple sources to the same {@code GtkBuilder} you can
+ * call {@link Builder#Builder} to get an empty builder and populate it by
+ * (multiple) calls to {@link Builder#addFromFile},
+ * {@link Builder#addFromResource} or
+ * {@link Builder#addFromString}.
  * <p>
- * A <code>GtkBuilder</code> holds a reference to all objects that it has constructed
+ * A {@code GtkBuilder} holds a reference to all objects that it has constructed
  * and drops these references when it is finalized. This finalization can
  * cause the destruction of non-widget objects or widgets which are not
  * contained in a toplevel window. For toplevel windows constructed by a
  * builder, it is the responsibility of the user to call
- * {@link org.gtk.gtk.Window<code>#destroy</code>  to get rid of them and all the widgets
+ * {@link Window#destroy} to get rid of them and all the widgets
  * they contain.
  * <p>
- * The functions {@link org.gtk.gtk.Builder<code>#getObject</code>  and
- * {@link org.gtk.gtk.Builder<code>#getObjects</code>  can be used to access the widgets in
+ * The functions {@link Builder#getObject} and
+ * {@link Builder#getObjects} can be used to access the widgets in
  * the interface by the names assigned to them inside the UI description.
  * Toplevel windows returned by these functions will stay around until the
- * user explicitly destroys them with {@link org.gtk.gtk.Window<code>#destroy</code> . Other
+ * user explicitly destroys them with {@link Window#destroy}. Other
  * widgets will either be part of a larger hierarchy constructed by the
  * builder (in which case you should not have to worry about their lifecycle),
  * or without a parent, in which case they have to be added to some container
@@ -42,144 +42,152 @@ import java.lang.invoke.*;
  * g_object_ref() to keep them beyond the lifespan of the builder.
  * <p>
  * <h1>GtkBuilder UI Definitions</h1>
- * <p><code>GtkBuilder</code> parses textual descriptions of user interfaces which are
- * specified in XML format. We refer to these descriptions as &<code>#8220</code> GtkBuilder
- * UI definitions&<code>#8221</code>  or just &<code>#8220</code> UI definitions&<code>#8221</code>  if the context is clear.
  * <p>
- * The toplevel element is <code>&<code>#60</code> interface&<code>#62</code> </code>. It optionally takes a &<code>#8220</code> domain&<code>#8221</code> 
+ * {@code GtkBuilder} parses textual descriptions of user interfaces which are
+ * specified in XML format. We refer to these descriptions as “GtkBuilder
+ * UI definitions” or just “UI definitions” if the context is clear.
+ * <p>
+ * The toplevel element is {@code <interface>}. It optionally takes a “domain”
  * attribute, which will make the builder look for translated strings
- * using <code>dgettext()</code> in the domain specified. This can also be done by
- * calling {@link org.gtk.gtk.Builder<code>#setTranslationDomain</code>  on the builder.
+ * using {@code dgettext()} in the domain specified. This can also be done by
+ * calling {@link Builder#setTranslationDomain} on the builder.
  * <p>
- * Objects are described by <code>&<code>#60</code> object&<code>#62</code> </code> elements, which can contain<code>&<code>#60</code> property&<code>#62</code> </code> elements to set properties, <code>&<code>#60</code> signal&<code>#62</code> </code> elements which
- * connect signals to handlers, and <code>&<code>#60</code> child&<code>#62</code> </code> elements, which describe
+ * Objects are described by {@code <object>} elements, which can contain
+ * {@code <property>} elements to set properties, {@code <signal>} elements which
+ * connect signals to handlers, and {@code <child>} elements, which describe
  * child objects (most often widgets inside a container, but also e.g.
- * actions in an action group, or columns in a tree model). A <code>&<code>#60</code> child&<code>#62</code> </code>
- * element contains an <code>&<code>#60</code> object&<code>#62</code> </code> element which describes the child object.
+ * actions in an action group, or columns in a tree model). A {@code <child>}
+ * element contains an {@code <object>} element which describes the child object.
  * <p>
- * The target toolkit version(s) are described by <code>&<code>#60</code> requires&<code>#62</code> </code> elements,
- * the &<code>#8220</code> lib&<code>#8221</code>  attribute specifies the widget library in question (currently
- * the only supported value is &<code>#8220</code> gtk&<code>#8221</code> ) and the &<code>#8220</code> version&<code>#8221</code>  attribute specifies
- * the target version in the form &<code>#8220</code> <code>&<code>#60</code> major&<code>#62</code> </code>.<code>&<code>#60</code> minor&<code>#62</code> </code>&<code>#8221</code> . <code>GtkBuilder</code> will
+ * The target toolkit version(s) are described by {@code <requires>} elements,
+ * the “lib” attribute specifies the widget library in question (currently
+ * the only supported value is “gtk”) and the “version” attribute specifies
+ * the target version in the form “{@code <major>}.{@code <minor>}”. {@code GtkBuilder} will
  * error out if the version requirements are not met.
  * <p>
- * Typically, the specific kind of object represented by an <code>&<code>#60</code> object&<code>#62</code> </code>
- * element is specified by the &<code>#8220</code> class&<code>#8221</code>  attribute. If the type has not
- * been loaded yet, GTK tries to find the <code>get_type()</code> function from the
+ * Typically, the specific kind of object represented by an {@code <object>}
+ * element is specified by the “class” attribute. If the type has not
+ * been loaded yet, GTK tries to find the {@code get_type()} function from the
  * class name by applying heuristics. This works in most cases, but if
- * necessary, it is possible to specify the name of the <code>get_type()</code>
- * function explicitly with the &<code>#34</code> type-func&<code>#34</code>  attribute.
+ * necessary, it is possible to specify the name of the {@code get_type()}
+ * function explicitly with the "type-func" attribute.
  * <p>
- * Objects may be given a name with the &<code>#8220</code> id&<code>#8221</code>  attribute, which allows the
+ * Objects may be given a name with the “id” attribute, which allows the
  * application to retrieve them from the builder with
- * {@link org.gtk.gtk.Builder<code>#getObject</code> . An id is also necessary to use the
+ * {@link Builder#getObject}. An id is also necessary to use the
  * object as property value in other parts of the UI definition. GTK
- * reserves ids starting and ending with <code>___</code> (three consecutive
+ * reserves ids starting and ending with {@code ___} (three consecutive
  * underscores) for its own purposes.
  * <p>
- * Setting properties of objects is pretty straightforward with the<code>&<code>#60</code> property&<code>#62</code> </code> element: the &<code>#8220</code> name&<code>#8221</code>  attribute specifies the name of the
+ * Setting properties of objects is pretty straightforward with the
+ * {@code <property>} element: the “name” attribute specifies the name of the
  * property, and the content of the element specifies the value.
- * If the &<code>#8220</code> translatable&<code>#8221</code>  attribute is set to a true value, GTK uses<code>gettext()</code> (or <code>dgettext()</code> if the builder has a translation domain set)
+ * If the “translatable” attribute is set to a true value, GTK uses
+ * {@code gettext()} (or {@code dgettext()} if the builder has a translation domain set)
  * to find a translation for the value. This happens before the value
  * is parsed, so it can be used for properties of any type, but it is
  * probably most useful for string properties. It is also possible to
  * specify a context to disambiguate short strings, and comments which
  * may help the translators.
- * <p><code>GtkBuilder</code> can parse textual representations for the most common
+ * <p>
+ * {@code GtkBuilder} can parse textual representations for the most common
  * property types: characters, strings, integers, floating-point numbers,
- * booleans (strings like &<code>#8220</code> TRUE&<code>#8221</code> , &<code>#8220</code> t&<code>#8221</code> , &<code>#8220</code> yes&<code>#8221</code> , &<code>#8220</code> y&<code>#8221</code> , &<code>#8220</code> 1&<code>#8221</code>  are interpreted
- * as <code>true</code>  strings like &<code>#8220</code> FALSE&<code>#8221</code> , &<code>#8220</code> f&<code>#8221</code> , &<code>#8220</code> no&<code>#8221</code> , &<code>#8220</code> n&<code>#8221</code> , &<code>#8220</code> 0&<code>#8221</code>  are interpreted
- * as <code>false</code> , enumerations (can be specified by their name, nick or
+ * booleans (strings like “TRUE”, “t”, “yes”, “y”, “1” are interpreted
+ * as <code>true</code>, strings like “FALSE”, “f”, “no”, “n”, “0” are interpreted
+ * as <code>false</code>), enumerations (can be specified by their name, nick or
  * integer value), flags (can be specified by their name, nick, integer
- * value, optionally combined with &<code>#8220</code> |&<code>#8221</code> , e.g.
- * &<code>#8220</code> GTK_INPUT_HINT_EMOJI|GTK_INPUT_HINT_LOWERCASE&<code>#8221</code> )
- * and colors (in a format understood by {@link org.gtk.gdk.RGBA<code>#parse</code> ).
- * <p><code>GVariant</code>s can be specified in the format understood by
+ * value, optionally combined with “|”, e.g.
+ * “GTK_INPUT_HINT_EMOJI|GTK_INPUT_HINT_LOWERCASE”)
+ * and colors (in a format understood by {@link org.gtk.gdk.RGBA#parse}).
+ * <p>
+ * {@code GVariant}s can be specified in the format understood by
  * g_variant_parse(), and pixbufs can be specified as a filename of an
  * image file to load.
  * <p>
  * Objects can be referred to by their name and by default refer to
  * objects declared in the local XML fragment and objects exposed via
- * {@link org.gtk.gtk.Builder<code>#exposeObject</code> . In general, <code>GtkBuilder</code> allows
- * forward references to objects &<code>#8212</code>  declared in the local XML; an object
- * doesn&<code>#8217</code> t have to be constructed before it can be referred to. The
+ * {@link Builder#exposeObject}. In general, {@code GtkBuilder} allows
+ * forward references to objects — declared in the local XML; an object
+ * doesn’t have to be constructed before it can be referred to. The
  * exception to this rule is that an object has to be constructed before
  * it can be used as the value of a construct-only property.
  * <p>
- * It is also possible to bind a property value to another object&<code>#39</code> s
- * property value using the attributes &<code>#34</code> bind-source&<code>#34</code>  to specify the
- * source object of the binding, and optionally, &<code>#34</code> bind-property&<code>#34</code>  and
- * &<code>#34</code> bind-flags&<code>#34</code>  to specify the source property and source binding flags
- * respectively. Internally, <code>GtkBuilder</code> implements this using <code>GBinding</code>
+ * It is also possible to bind a property value to another object's
+ * property value using the attributes "bind-source" to specify the
+ * source object of the binding, and optionally, "bind-property" and
+ * "bind-flags" to specify the source property and source binding flags
+ * respectively. Internally, {@code GtkBuilder} implements this using {@code GBinding}
  * objects. For more information see g_object_bind_property().
  * <p>
  * Sometimes it is necessary to refer to widgets which have implicitly
  * been constructed by GTK as part of a composite widget, to set
  * properties on them or to add further children (e.g. the content area
- * of a <code>GtkDialog</code>). This can be achieved by setting the &<code>#8220</code> internal-child&<code>#8221</code> 
- * property of the <code>&<code>#60</code> child&<code>#62</code> </code> element to a true value. Note that <code>GtkBuilder</code>
- * still requires an <code>&<code>#60</code> object&<code>#62</code> </code> element for the internal child, even if it
+ * of a {@code GtkDialog}). This can be achieved by setting the “internal-child”
+ * property of the {@code <child>} element to a true value. Note that {@code GtkBuilder}
+ * still requires an {@code <object>} element for the internal child, even if it
  * has already been constructed.
  * <p>
  * A number of widgets have different places where a child can be added
  * (e.g. tabs vs. page content in notebooks). This can be reflected in
- * a UI definition by specifying the &<code>#8220</code> type&<code>#8221</code>  attribute on a <code>&<code>#60</code> child&<code>#62</code> </code>
- * The possible values for the &<code>#8220</code> type&<code>#8221</code>  attribute are described in the
+ * a UI definition by specifying the “type” attribute on a {@code <child>}
+ * The possible values for the “type” attribute are described in the
  * sections describing the widget-specific portions of UI definitions.
  * <p>
  * <h1>Signal handlers and function pointers</h1>
  * <p>
- * Signal handlers are set up with the <code>&<code>#60</code> signal&<code>#62</code> </code> element. The &<code>#8220</code> name&<code>#8221</code> 
- * attribute specifies the name of the signal, and the &<code>#8220</code> handler&<code>#8221</code>  attribute
+ * Signal handlers are set up with the {@code <signal>} element. The “name”
+ * attribute specifies the name of the signal, and the “handler” attribute
  * specifies the function to connect to the signal.
- * The remaining attributes, &<code>#8220</code> after&<code>#8221</code> , &<code>#8220</code> swapped&<code>#8221</code>  and &<code>#8220</code> object&<code>#8221</code> , have the
+ * The remaining attributes, “after”, “swapped” and “object”, have the
  * same meaning as the corresponding parameters of the
  * g_signal_connect_object() or g_signal_connect_data() functions. A
- * &<code>#8220</code> last_modification_time&<code>#8221</code>  attribute is also allowed, but it does not
+ * “last_modification_time” attribute is also allowed, but it does not
  * have a meaning to the builder.
  * <p>
- * If you rely on <code>GModule</code> support to lookup callbacks in the symbol table,
+ * If you rely on {@code GModule} support to lookup callbacks in the symbol table,
  * the following details should be noted:
  * <p>
  * When compiling applications for Windows, you must declare signal callbacks
- * with <code>G_MODULE_EXPORT</code>  or they will not be put in the symbol table.
+ * with {@code G_MODULE_EXPORT}, or they will not be put in the symbol table.
  * On Linux and Unix, this is not necessary; applications should instead
- * be compiled with the -Wl,--export-dynamic <code>CFLAGS</code>, and linked against<code>gmodule-export-2.0</code>.
+ * be compiled with the -Wl,--export-dynamic {@code CFLAGS}, and linked against
+ * {@code gmodule-export-2.0}.
  * <p>
  * <h1>A GtkBuilder UI Definition</h1>
- * <p><pre>xml
- * &<code>#60</code> interface&<code>#62</code> 
- *   &<code>#60</code> object class=&<code>#34</code> GtkDialog&<code>#34</code>  id=&<code>#34</code> dialog1&<code>#34</code> &<code>#62</code> 
- *     &<code>#60</code> child internal-child=&<code>#34</code> content_area&<code>#34</code> &<code>#62</code> 
- *       &<code>#60</code> object class=&<code>#34</code> GtkBox&<code>#34</code>  id=&<code>#34</code> vbox1&<code>#34</code> &<code>#62</code> 
- *         &<code>#60</code> child internal-child=&<code>#34</code> action_area&<code>#34</code> &<code>#62</code> 
- *           &<code>#60</code> object class=&<code>#34</code> GtkBox&<code>#34</code>  id=&<code>#34</code> hbuttonbox1&<code>#34</code> &<code>#62</code> 
- *             &<code>#60</code> child&<code>#62</code> 
- *               &<code>#60</code> object class=&<code>#34</code> GtkButton&<code>#34</code>  id=&<code>#34</code> ok_button&<code>#34</code> &<code>#62</code> 
- *                 &<code>#60</code> property name=&<code>#34</code> label&<code>#34</code>  translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> _Ok&<code>#60</code> /property&<code>#62</code> 
- *                 &<code>#60</code> property name=&<code>#34</code> use-underline&<code>#34</code> &<code>#62</code> True&<code>#60</code> /property&<code>#62</code> 
- *                 &<code>#60</code> signal name=&<code>#34</code> clicked&<code>#34</code>  handler=&<code>#34</code> ok_button_clicked&<code>#34</code> /&<code>#62</code> 
- *               &<code>#60</code> /object&<code>#62</code> 
- *             &<code>#60</code> /child&<code>#62</code> 
- *           &<code>#60</code> /object&<code>#62</code> 
- *         &<code>#60</code> /child&<code>#62</code> 
- *       &<code>#60</code> /object&<code>#62</code> 
- *     &<code>#60</code> /child&<code>#62</code> 
- *   &<code>#60</code> /object&<code>#62</code> 
- * &<code>#60</code> /interface&<code>#62</code> 
- * </pre>
+ * <p>
+ * <pre>{@code xml
+ * <interface>
+ *   <object class="GtkDialog" id="dialog1">
+ *     <child internal-child="content_area">
+ *       <object class="GtkBox" id="vbox1">
+ *         <child internal-child="action_area">
+ *           <object class="GtkBox" id="hbuttonbox1">
+ *             <child>
+ *               <object class="GtkButton" id="ok_button">
+ *                 <property name="label" translatable="yes">_Ok</property>
+ *                 <property name="use-underline">True</property>
+ *                 <signal name="clicked" handler="ok_button_clicked"/>
+ *               </object>
+ *             </child>
+ *           </object>
+ *         </child>
+ *       </object>
+ *     </child>
+ *   </object>
+ * </interface>
+ * }</pre>
  * <p>
  * Beyond this general structure, several object classes define their
  * own XML DTD fragments for filling in the ANY placeholders in the DTD
- * above. Note that a custom element in a &<code>#60</code> child&<code>#62</code>  element gets parsed by
+ * above. Note that a custom element in a &lt;child&gt; element gets parsed by
  * the custom tag handler of the parent object, while a custom element in
- * an &<code>#60</code> object&<code>#62</code>  element gets parsed by the custom tag handler of the object.
+ * an &lt;object&gt; element gets parsed by the custom tag handler of the object.
  * <p>
  * These XML fragments are explained in the documentation of the
  * respective objects.
  * <p>
- * A <code>&<code>#60</code> template&<code>#62</code> </code> tag can be used to define a widget class&<code>#8217</code> s components.
- * See the {@link [GtkWidget documentation]}(class.Widget.html<code>#building</code> composite-widgets-from-template-xml) for details.
+ * A {@code <template>} tag can be used to define a widget class’s components.
+ * See the <a href="class.Widget.html#building-composite-widgets-from-template-xml">GtkWidget documentation</a> for details.
  */
 public class Builder extends org.gtk.gobject.Object {
 
@@ -199,10 +207,10 @@ public class Builder extends org.gtk.gobject.Object {
     
     /**
      * Creates a new empty builder object.
-     * 
+     * <p>
      * This function is only useful if you intend to make multiple calls
-     * to {@link org.gtk.gtk.Builder<code>#addFromFile</code> , {@link org.gtk.gtk.Builder<code>#addFromResource</code> 
-     * or {@link org.gtk.gtk.Builder<code>#addFromString</code>  in order to merge multiple UI
+     * to {@code Gtk.Builder.add_from_resource}
+     * or {@link Builder#addFromString} in order to merge multiple UI
      * descriptions into a single builder.
      */
     public Builder() {
@@ -215,8 +223,8 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Parses the UI definition in the file @filename.
-     * 
+     * Parses the UI definition in the file {@code filename}.
+     * <p>
      * If there is an error opening the file or parsing the description then
      * the program will be aborted. You should only ever attempt to parse
      * user interface descriptions that are shipped as part of your program.
@@ -231,8 +239,8 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Parses the UI definition at @resource_path.
-     * 
+     * Parses the UI definition at {@code resource_path}.
+     * <p>
      * If there is an error locating the resource or parsing the
      * description, then the program will be aborted.
      */
@@ -246,12 +254,12 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Parses the UI definition in @string.
-     * 
-     * If @string is <code>null</code> terminated, then @length should be -1.
-     * If @length is not -1, then it is the length of @string.
-     * 
-     * If there is an error parsing @string then the program will be
+     * Parses the UI definition in {@code string}.
+     * <p>
+     * If {@code string} is <code>null</code>-terminated, then {@code length} should be -1.
+     * If {@code length} is not -1, then it is the length of {@code string}.
+     * <p>
+     * If there is an error parsing {@code string} then the program will be
      * aborted. You should not attempt to parse user interface description
      * from untrusted sources.
      */
@@ -261,22 +269,23 @@ public class Builder extends org.gtk.gobject.Object {
     
     /**
      * Parses a file containing a UI definition and merges it with
-     * the current contents of @builder.
+     * the current contents of {@code builder}.
      * <p>
      * This function is useful if you need to call
-     * {@link org.gtk.gtk.Builder<code>#setCurrentObject</code> ) to add user data to
+     * {@link Builder#setCurrentObject}) to add user data to
      * callbacks before loading GtkBuilder UI. Otherwise, you probably
-     * want {@link [ctor@Gtk.Builder.new_from_file] (ref=ctor)} instead.
+     * want {@link Builder#newFromFile} instead.
      * <p>
-     * If an error occurs, 0 will be returned and @error will be assigned a<code>GError</code> from the <code>GTK_BUILDER_ERROR</code>, <code>G_MARKUP_ERROR</code> or <code>G_FILE_ERROR</code>
+     * If an error occurs, 0 will be returned and {@code error} will be assigned a
+     * {@code GError} from the {@code GTK_BUILDER_ERROR}, {@code G_MARKUP_ERROR} or {@code G_FILE_ERROR}
      * domains.
      * <p>
-     * It&<code>#8217</code> s not really reasonable to attempt to handle failures of this
+     * It’s not really reasonable to attempt to handle failures of this
      * call. You should not use this function with untrusted files (ie:
-     * files that are not part of your application). Broken <code>GtkBuilder</code>
-     * files can easily crash your program, and it&<code>#8217</code> s possible that memory
+     * files that are not part of your application). Broken {@code GtkBuilder}
+     * files can easily crash your program, and it’s possible that memory
      * was leaked leading up to the reported failure. The only reasonable
-     * thing to do when an error is detected is to call <code>g_error()</code>.
+     * thing to do when an error is detected is to call {@code g_error()}.
      */
     public boolean addFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -289,16 +298,18 @@ public class Builder extends org.gtk.gobject.Object {
     
     /**
      * Parses a resource file containing a UI definition
-     * and merges it with the current contents of @builder.
+     * and merges it with the current contents of {@code builder}.
      * <p>
      * This function is useful if you need to call
-     * {@link org.gtk.gtk.Builder<code>#setCurrentObject</code>  to add user data to
+     * {@link Builder#setCurrentObject} to add user data to
      * callbacks before loading GtkBuilder UI. Otherwise, you probably
-     * want {@link [ctor@Gtk.Builder.new_from_resource] (ref=ctor)} instead.
+     * want {@link Builder#newFromResource} instead.
      * <p>
-     * If an error occurs, 0 will be returned and @error will be assigned a<code>GError</code> from the <code>GTK_BUILDER_ERROR</code>  <code>G_MARKUP_ERROR</code> or <code>G_RESOURCE_ERROR</code> domain.
-     * 
-     * It&<code>#8217</code> s not really reasonable to attempt to handle failures of this
+     * If an error occurs, 0 will be returned and {@code error} will be assigned a
+     * {@code GError} from the {@code GTK_BUILDER_ERROR}, {@code G_MARKUP_ERROR} or {@code G_RESOURCE_ERROR}
+     * domain.
+     * <p>
+     * It’s not really reasonable to attempt to handle failures of this
      * call.  The only reasonable thing to do when an error is detected is
      * to call g_error().
      */
@@ -313,17 +324,18 @@ public class Builder extends org.gtk.gobject.Object {
     
     /**
      * Parses a string containing a UI definition and merges it
-     * with the current contents of @builder.
+     * with the current contents of {@code builder}.
      * <p>
      * This function is useful if you need to call
-     * {@link org.gtk.gtk.Builder<code>#setCurrentObject</code>  to add user data to
-     * callbacks before loading <code>GtkBuilder</code> UI. Otherwise, you probably
-     * want {@link [ctor@Gtk.Builder.new_from_string] (ref=ctor)} instead.
+     * {@link Builder#setCurrentObject} to add user data to
+     * callbacks before loading {@code GtkBuilder} UI. Otherwise, you probably
+     * want {@link Builder#newFromString} instead.
      * <p>
-     * Upon errors <code>false</code> will be returned and @error will be assigned a<code>GError</code> from the <code>GTK_BUILDER_ERROR</code>  <code>G_MARKUP_ERROR</code> or
-     * <code>G_VARIANT_PARSE_ERROR</code> domain.
-     * 
-     * It&<code>#8217</code> s not really reasonable to attempt to handle failures of this
+     * Upon errors <code>false</code> will be returned and {@code error} will be assigned a
+     * {@code GError} from the {@code GTK_BUILDER_ERROR}, {@code G_MARKUP_ERROR} or
+     * {@code G_VARIANT_PARSE_ERROR} domain.
+     * <p>
+     * It’s not really reasonable to attempt to handle failures of this
      * call.  The only reasonable thing to do when an error is detected is
      * to call g_error().
      */
@@ -339,12 +351,15 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Parses a file containing a UI definition building only the
      * requested objects and merges them with the current contents
-     * of @builder.
+     * of {@code builder}.
      * <p>
-     * Upon errors, 0 will be returned and @error will be assigned a<code>GError</code> from the <code>GTK_BUILDER_ERROR</code>  <code>G_MARKUP_ERROR</code> or <code>G_FILE_ERROR</code> domain.
+     * Upon errors, 0 will be returned and {@code error} will be assigned a
+     * {@code GError} from the {@code GTK_BUILDER_ERROR}, {@code G_MARKUP_ERROR} or {@code G_FILE_ERROR}
+     * domain.
      * <p>
      * If you are adding an object that depends on an object that is not
-     * its child (for instance a <code>GtkTreeView</code> that depends on its<code>GtkTreeModel</code>), you have to explicitly list all of them in @object_ids.
+     * its child (for instance a {@code GtkTreeView} that depends on its
+     * {@code GtkTreeModel}), you have to explicitly list all of them in {@code object_ids}.
      */
     public boolean addObjectsFromFile(java.lang.String filename, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -358,12 +373,15 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Parses a resource file containing a UI definition, building
      * only the requested objects and merges them with the current
-     * contents of @builder.
+     * contents of {@code builder}.
      * <p>
-     * Upon errors, 0 will be returned and @error will be assigned a<code>GError</code> from the <code>GTK_BUILDER_ERROR</code>  <code>G_MARKUP_ERROR</code> or <code>G_RESOURCE_ERROR</code> domain.
+     * Upon errors, 0 will be returned and {@code error} will be assigned a
+     * {@code GError} from the {@code GTK_BUILDER_ERROR}, {@code G_MARKUP_ERROR} or {@code G_RESOURCE_ERROR}
+     * domain.
      * <p>
      * If you are adding an object that depends on an object that is not
-     * its child (for instance a <code>GtkTreeView</code> that depends on its<code>GtkTreeModel</code>), you have to explicitly list all of them in @object_ids.
+     * its child (for instance a {@code GtkTreeView} that depends on its
+     * {@code GtkTreeModel}), you have to explicitly list all of them in {@code object_ids}.
      */
     public boolean addObjectsFromResource(java.lang.String resourcePath, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -377,12 +395,14 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Parses a string containing a UI definition, building only the
      * requested objects and merges them with the current contents of
-     * @builder.
+     * {@code builder}.
      * <p>
-     * Upon errors <code>false</code> will be returned and @error will be assigned a<code>GError</code> from the <code>GTK_BUILDER_ERROR</code> or <code>G_MARKUP_ERROR</code> domain.
+     * Upon errors <code>false</code> will be returned and {@code error} will be assigned a
+     * {@code GError} from the {@code GTK_BUILDER_ERROR} or {@code G_MARKUP_ERROR} domain.
      * <p>
      * If you are adding an object that depends on an object that is not
-     * its child (for instance a <code>GtkTreeView</code> that depends on its<code>GtkTreeModel</code>), you have to explicitly list all of them in @object_ids.
+     * its child (for instance a {@code GtkTreeView} that depends on its
+     * {@code GtkTreeModel}), you have to explicitly list all of them in {@code object_ids}.
      */
     public boolean addObjectsFromString(java.lang.String buffer, long length, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -394,12 +414,12 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a closure to invoke the function called @function_name.
-     * 
-     * This is using the create_closure() implementation of @builder&<code>#39</code> s
-     * {@link [iface@Gtk.BuilderScope] (ref=iface)}.
-     * 
-     * If no closure could be created, <code>null</code> will be returned and @error
+     * Creates a closure to invoke the function called {@code function_name}.
+     * <p>
+     * This is using the create_closure() implementation of {@code builder}'s
+     * {@code Gtk.BuilderScope}.
+     * <p>
+     * If no closure could be created, <code>null</code> will be returned and {@code error}
      * will be set.
      */
     public org.gtk.gobject.Closure createClosure(java.lang.String functionName, int flags, org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
@@ -412,7 +432,7 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Add @object to the @builder object pool so it can be
+     * Add {@code object} to the {@code builder} object pool so it can be
      * referenced just like any other object built by builder.
      */
     public void exposeObject(java.lang.String name, org.gtk.gobject.Object object) {
@@ -423,7 +443,7 @@ public class Builder extends org.gtk.gobject.Object {
      * Main private entry point for building composite components
      * from template XML.
      * <p>
-     * This is exported purely to let <code>gtk-builder-tool</code> validate
+     * This is exported purely to let {@code gtk-builder-tool} validate
      * templates, applications have no need to call this function.
      */
     public boolean extendWithTemplate(org.gtk.gobject.Object object, Type templateType, java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
@@ -444,8 +464,8 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the object named @name.
-     * 
+     * Gets the object named {@code name}.
+     * <p>
      * Note that this function does not increment the reference count
      * of the returned object.
      */
@@ -455,8 +475,8 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets all objects that have been constructed by @builder.
-     * 
+     * Gets all objects that have been constructed by {@code builder}.
+     * <p>
      * Note that this function does not increment the reference
      * counts of the returned objects.
      */
@@ -474,7 +494,7 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the translation domain of @builder.
+     * Gets the translation domain of {@code builder}.
      */
     public java.lang.String getTranslationDomain() {
         var RESULT = gtk_h.gtk_builder_get_translation_domain(handle());
@@ -484,9 +504,9 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Looks up a type by name.
      * <p>
-     * This is using the virtual function that <code>GtkBuilder</code> has
+     * This is using the virtual function that {@code GtkBuilder} has
      * for that purpose. This is mainly used when implementing
-     * the <code>GtkBuildable</code> interface on a type.
+     * the {@code GtkBuildable} interface on a type.
      */
     public org.gtk.gobject.Type getTypeFromName(java.lang.String typeName) {
         var RESULT = gtk_h.gtk_builder_get_type_from_name(handle(), Interop.allocateNativeString(typeName).handle());
@@ -494,15 +514,15 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the current object for the @builder.
+     * Sets the current object for the {@code builder}.
      * <p>
-     * The current object can be thought of as the <code>this</code> object that the
+     * The current object can be thought of as the {@code this} object that the
      * builder is working for and will often be used as the default object
      * when an object is optional.
-     * 
-     * {@link org.gtk.gtk.Widget<code>#initTemplate</code>  for example will set the current
+     * <p>
+     * {@link Widget#initTemplate} for example will set the current
      * object to the widget the template is inited for. For functions like
-     * {@link [ctor@Gtk.Builder.new_from_resource] (ref=ctor)}, the current object will be <code>null</code>
+     * {@link Builder#newFromResource}, the current object will be <code>null</code>.
      */
     public void setCurrentObject(org.gtk.gobject.Object currentObject) {
         gtk_h.gtk_builder_set_current_object(handle(), currentObject.handle());
@@ -510,15 +530,15 @@ public class Builder extends org.gtk.gobject.Object {
     
     /**
      * Sets the scope the builder should operate in.
-     * 
-     * If @scope is <code>null</code>  a new {@link org.gtk.gtk.BuilderCScope} will be created.
+     * <p>
+     * If {@code scope} is <code>null</code>, a new {@link BuilderCScope} will be created.
      */
     public void setScope(BuilderScope scope) {
         gtk_h.gtk_builder_set_scope(handle(), scope.handle());
     }
     
     /**
-     * Sets the translation domain of @builder.
+     * Sets the translation domain of {@code builder}.
      */
     public void setTranslationDomain(java.lang.String domain) {
         gtk_h.gtk_builder_set_translation_domain(handle(), Interop.allocateNativeString(domain).handle());
@@ -527,14 +547,15 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Demarshals a value from a string.
      * <p>
-     * This function calls g_value_init() on the @value argument,
+     * This function calls g_value_init() on the {@code value} argument,
      * so it need not be initialised beforehand.
      * <p>
      * Can handle char, uchar, boolean, int, uint, long,
-     * ulong, enum, flags, float, double, string, <code>GdkRGBA</code> and<code>GtkAdjustment</code> type values.
+     * ulong, enum, flags, float, double, string, {@code GdkRGBA} and
+     * {@code GtkAdjustment} type values.
      * <p>
-     * Upon errors <code>false</code> will be returned and @error will be
-     * assigned a <code>GError</code> from the <code>GTK_BUILDER_ERROR</code> domain.
+     * Upon errors <code>false</code> will be returned and {@code error} will be
+     * assigned a {@code GError} from the {@code GTK_BUILDER_ERROR} domain.
      */
     public boolean valueFromString(org.gtk.gobject.ParamSpec pspec, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -548,14 +569,14 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Demarshals a value from a string.
      * <p>
-     * Unlike {@link org.gtk.gtk.Builder<code>#valueFromString</code> , this function
-     * takes a <code>GType</code> instead of <code>GParamSpec</code>.
+     * Unlike {@link Builder#valueFromString}, this function
+     * takes a {@code GType} instead of {@code GParamSpec}.
      * <p>
-     * Calls g_value_init() on the @value argument, so it
+     * Calls g_value_init() on the {@code value} argument, so it
      * need not be initialised beforehand.
      * <p>
-     * Upon errors <code>false</code> will be returned and @error will be
-     * assigned a <code>GError</code> from the <code>GTK_BUILDER_ERROR</code> domain.
+     * Upon errors <code>false</code> will be returned and {@code error} will be
+     * assigned a {@code GError} from the {@code GTK_BUILDER_ERROR} domain.
      */
     public boolean valueFromStringType(Type type, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.IOExtension} is an opaque data structure and can only be accessed
+ * {@link IOExtension} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
@@ -18,8 +18,8 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the name under which @extension was registered.
-     * 
+     * Gets the name under which {@code extension} was registered.
+     * <p>
      * Note that the same type may be registered as extension
      * for multiple extension points, under different names.
      */
@@ -29,7 +29,7 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the priority with which @extension was registered.
+     * Gets the priority with which {@code extension} was registered.
      */
     public int getPriority() {
         var RESULT = gtk_h.g_io_extension_get_priority(handle());
@@ -37,7 +37,7 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the type associated with @extension.
+     * Gets the type associated with {@code extension}.
      */
     public org.gtk.gobject.Type getType() {
         var RESULT = gtk_h.g_io_extension_get_type(handle());
@@ -46,7 +46,7 @@ public class IOExtension extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets a reference to the class for the type that is
-     * associated with @extension.
+     * associated with {@code extension}.
      */
     public org.gtk.gobject.TypeClass refClass() {
         var RESULT = gtk_h.g_io_extension_ref_class(handle());

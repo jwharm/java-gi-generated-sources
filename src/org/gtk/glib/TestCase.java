@@ -17,7 +17,7 @@ public class TestCase extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free the @test_case.
+     * Free the {@code test_case}.
      */
     public void free() {
         gtk_h.g_test_case_free(handle());

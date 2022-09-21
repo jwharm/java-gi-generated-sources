@@ -9,8 +9,9 @@ import java.lang.invoke.*;
 
 /**
  * Renders a keyboard accelerator in a cell
- * <p><code>GtkCellRendererAccel</code> displays a keyboard accelerator (i.e. a key
- * combination like <code>Control + a</code>). If the cell renderer is editable,
+ * <p>
+ * {@code GtkCellRendererAccel} displays a keyboard accelerator (i.e. a key
+ * combination like {@code Control + a}). If the cell renderer is editable,
  * the accelerator can be changed by simply typing the new combination.
  */
 public class CellRendererAccel extends CellRendererText {
@@ -30,7 +31,7 @@ public class CellRendererAccel extends CellRendererText {
     }
     
     /**
-     * Creates a new <code>GtkCellRendererAccel</code>.
+     * Creates a new {@code GtkCellRendererAccel}.
      */
     public CellRendererAccel() {
         super(constructNew());

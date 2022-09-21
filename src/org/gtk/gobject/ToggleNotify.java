@@ -3,7 +3,7 @@ package org.gtk.gobject;
 /**
  * A callback function used for notification when the state
  * of a toggle reference changes.
- * 
+ * <p>
  * See also: g_object_add_toggle_ref()
  */
 @FunctionalInterface

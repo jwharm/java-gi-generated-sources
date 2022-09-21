@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoAttrFontDesc</code> structure is used to store an attribute that
+ * The {@code PangoAttrFontDesc} structure is used to store an attribute that
  * sets all aspects of the font description at once.
  */
 public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
@@ -19,7 +19,7 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Create a new font description attribute.
-     * 
+     * <p>
      * This attribute allows setting family, style, weight, variant,
      * stretch, and size simultaneously.
      */

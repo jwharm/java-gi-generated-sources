@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoFontsetClass</code> structure holds the virtual functions for
- * a particular <code>PangoFontset</code> implementation.
+ * The {@code PangoFontsetClass} structure holds the virtual functions for
+ * a particular {@code PangoFontset} implementation.
  */
 public class FontsetClass extends io.github.jwharm.javagi.ResourceBase {
 

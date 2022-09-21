@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * vtable for a {@link org.gtk.gio.TlsServerConnection} implementation.
+ * vtable for a {@link TlsServerConnection} implementation.
  */
 public class TlsServerConnectionInterface extends io.github.jwharm.javagi.ResourceBase {
 

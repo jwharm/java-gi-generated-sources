@@ -9,17 +9,17 @@ import java.lang.invoke.*;
 
 /**
  * The location and size of a rectangle region.
- * 
- * The width and height of a {@link org.gtk.graphene.Rect} can be negative; for instance,
- * a {@link org.gtk.graphene.Rect} with an origin of {@link [ 0, 0 ]} and a size of {@link [ 10, 10 ]} is
- * equivalent to a {@link org.gtk.graphene.Rect} with an origin of {@link [ 10, 10 ]} and a size
- * of {@link [ -10, -10 ]}.
- * 
+ * <p>
+ * The width and height of a {@link Rect} can be negative; for instance,
+ * a {@link Rect} with an origin of [ 0, 0 ] and a size of [ 10, 10 ] is
+ * equivalent to a {@link Rect} with an origin of [ 10, 10 ] and a size
+ * of [ -10, -10 ].
+ * <p>
  * Application code can normalize rectangles using graphene_rect_normalize();
  * this function will ensure that the width and height of a rectangle are
- * positive values. All functions taking a {@link org.gtk.graphene.Rect} as an argument
+ * positive values. All functions taking a {@link Rect} as an argument
  * will internally operate on a normalized copy; all functions returning a
- * {@link org.gtk.graphene.Rect} will always return a normalized rectangle.
+ * {@link Rect} will always return a normalized rectangle.
  */
 public class Rect extends io.github.jwharm.javagi.ResourceBase {
 
@@ -28,7 +28,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether a {@link org.gtk.graphene.Rect} contains the given coordinates.
+     * Checks whether a {@link Rect} contains the given coordinates.
      */
     public boolean containsPoint(Point p) {
         var RESULT = gtk_h.graphene_rect_contains_point(handle(), p.handle());
@@ -36,7 +36,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether a {@link org.gtk.graphene.Rect} fully contains the given
+     * Checks whether a {@link Rect} fully contains the given
      * rectangle.
      */
     public boolean containsRect(Rect b) {
@@ -53,7 +53,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Expands a {@link org.gtk.graphene.Rect} to contain the given {@link org.gtk.graphene.Point}
+     * Expands a {@link Rect} to contain the given {@link Point}.
      */
     public void expand(Point p, Rect res) {
         gtk_h.graphene_rect_expand(handle(), p.handle(), res.handle());
@@ -118,7 +118,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the four vertices of a {@link org.gtk.graphene.Rect}
+     * Computes the four vertices of a {@link Rect}.
      */
     public void getVertices(Vec2[] vertices) {
         gtk_h.graphene_rect_get_vertices(handle(), Interop.allocateNativeArray(vertices).handle());
@@ -151,9 +151,10 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Rect} with the given values.
-     * 
-     * This function will implicitly normalize the {@link org.gtk.graphene.Rect} before returning.
+     * Initializes the given {@link Rect} with the given values.
+     * <p>
+     * This function will implicitly normalize the {@link Rect}
+     * before returning.
      */
     public Rect init(float x, float y, float width, float height) {
         var RESULT = gtk_h.graphene_rect_init(handle(), x, y, width, height);
@@ -161,9 +162,10 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @r using the given @src rectangle.
-     * 
-     * This function will implicitly normalize the {@link org.gtk.graphene.Rect} before returning.
+     * Initializes @r using the given {@code src} rectangle.
+     * <p>
+     * This function will implicitly normalize the {@link Rect}
+     * before returning.
      */
     public Rect initFromRect(Rect src) {
         var RESULT = gtk_h.graphene_rect_init_from_rect(handle(), src.handle());
@@ -174,15 +176,15 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * Changes the given rectangle to be smaller, or larger depending on the
      * given inset parameters.
      * <p>
-     * To create an inset rectangle, use positive @d_x or @d_y values; to
-     * create a larger, encompassing rectangle, use negative @d_x or @d_y
+     * To create an inset rectangle, use positive {@code d_x} or {@code d_y} values; to
+     * create a larger, encompassing rectangle, use negative {@code d_x} or {@code d_y}
      * values.
      * <p>
-     * The origin of the rectangle is offset by @d_x and @d_y, while the size
-     * is adjusted by <code>(2 * @d_x, 2 * @d_y)</code>. If @d_x and @d_y are positive
-     * values, the size of the rectangle is decreased; if @d_x and @d_y are
+     * The origin of the rectangle is offset by {@code d_x} and {@code d_y}, while the size
+     * is adjusted by {@code (2 * @d_x, 2 * @d_y)}. If {@code d_x} and {@code d_y} are positive
+     * values, the size of the rectangle is decreased; if {@code d_x} and {@code d_y} are
      * negative values, the size of the rectangle is increased.
-     * 
+     * <p>
      * If the size of the resulting inset rectangle has a negative width or
      * height then the size will be set to zero.
      */
@@ -195,15 +197,15 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * Changes the given rectangle to be smaller, or larger depending on the
      * given inset parameters.
      * <p>
-     * To create an inset rectangle, use positive @d_x or @d_y values; to
-     * create a larger, encompassing rectangle, use negative @d_x or @d_y
+     * To create an inset rectangle, use positive {@code d_x} or {@code d_y} values; to
+     * create a larger, encompassing rectangle, use negative {@code d_x} or {@code d_y}
      * values.
      * <p>
-     * The origin of the rectangle is offset by @d_x and @d_y, while the size
-     * is adjusted by <code>(2 * @d_x, 2 * @d_y)</code>. If @d_x and @d_y are positive
-     * values, the size of the rectangle is decreased; if @d_x and @d_y are
+     * The origin of the rectangle is offset by {@code d_x} and {@code d_y}, while the size
+     * is adjusted by {@code (2 * @d_x, 2 * @d_y)}. If {@code d_x} and {@code d_y} are positive
+     * values, the size of the rectangle is decreased; if {@code d_x} and {@code d_y} are
      * negative values, the size of the rectangle is increased.
-     * 
+     * <p>
      * If the size of the resulting inset rectangle has a negative width or
      * height then the size will be set to zero.
      */
@@ -221,12 +223,12 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the intersection of the two given rectangles.
-     * 
-     * !{@link []}(rectangle-intersection.png)
-     * 
+     * <p>
+     * ![](rectangle-intersection.png)
+     * <p>
      * The intersection in the image above is the blue outline.
-     * 
-     * If the two rectangles do not intersect, @res will contain
+     * <p>
+     * If the two rectangles do not intersect, {@code res} will contain
      * a degenerate rectangle with origin in (0, 0) and a size of 0.
      */
     public boolean intersection(Rect b, Rect res) {
@@ -236,7 +238,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Normalizes the passed rectangle.
-     * 
+     * <p>
      * This function ensures that the size of the rectangle is made of
      * positive values, and that the origin is the top-left corner of
      * the rectangle.
@@ -248,7 +250,7 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Normalizes the passed rectangle.
-     * 
+     * <p>
      * This function ensures that the size of the rectangle is made of
      * positive values, and that the origin is in the top-left corner
      * of the rectangle.
@@ -258,8 +260,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Offsets the origin by @d_x and @d_y.
-     * 
+     * Offsets the origin by {@code d_x} and {@code d_y}.
+     * <p>
      * The size of the rectangle is unchanged.
      */
     public Rect offset(float dX, float dY) {
@@ -268,8 +270,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Offsets the origin of the given rectangle by @d_x and @d_y.
-     * 
+     * Offsets the origin of the given rectangle by {@code d_x} and {@code d_y}.
+     * <p>
      * The size of the rectangle is left unchanged.
      */
     public void offsetR(float dX, float dY, Rect res) {
@@ -282,14 +284,14 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
      * rectangle is large enough to contain all the conrners
      * of the original rectangle.
      * <p>
-     * This function is the equivalent of calling <code>floor</code> on
+     * This function is the equivalent of calling {@code floor} on
      * the coordinates of the origin, and recomputing the size
-     * calling <code>ceil</code> on the bottom-right coordinates.
-     * 
+     * calling {@code ceil} on the bottom-right coordinates.
+     * <p>
      * If you want to be sure that the rounded rectangle
      * completely covers the area that was covered by the
-     * original rectangle &<code>#8212</code>  i.e. you want to cover the area
-     * including all its corners &<code>#8212</code>  this function will make sure
+     * original rectangle — i.e. you want to cover the area
+     * including all its corners — this function will make sure
      * that the size is recomputed taking into account the ceiling
      * of the coordinates of the bottom-right corner.
      * If the difference between the original coordinates and the
@@ -304,8 +306,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Scales the size and origin of a rectangle horizontaly by @s_h,
-     * and vertically by @s_v. The result @res is normalized.
+     * Scales the size and origin of a rectangle horizontaly by {@code s_h},
+     * and vertically by {@code s_v}. The result {@code res} is normalized.
      */
     public void scale(float sH, float sV, Rect res) {
         gtk_h.graphene_rect_scale(handle(), sH, sV, res.handle());
@@ -313,9 +315,9 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Computes the union of the two given rectangles.
-     * 
-     * !{@link []}(rectangle-union.png)
-     * 
+     * <p>
+     * ![](rectangle-union.png)
+     * <p>
      * The union in the image above is the blue outline.
      */
     public void union(Rect b, Rect res) {
@@ -323,8 +325,8 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new {@link org.gtk.graphene.Rect} 
-     * 
+     * Allocates a new {@link Rect}.
+     * <p>
      * The contents of the returned rectangle are undefined.
      */
     public static Rect alloc() {

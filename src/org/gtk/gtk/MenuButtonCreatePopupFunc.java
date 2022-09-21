@@ -1,11 +1,12 @@
 package org.gtk.gtk;
 
 /**
- * User-provided callback function to create a popup for a<code>GtkMenuButton</code> on demand.
- * 
- * This function is called when the popup of @menu_button is shown,
- * but none has been provided via {@link org.gtk.gtk.MenuButton<code>#setPopover</code> 
- * or {@link org.gtk.gtk.MenuButton<code>#setMenuModel</code> .
+ * User-provided callback function to create a popup for a
+ * {@code GtkMenuButton} on demand.
+ * <p>
+ * This function is called when the popup of {@code menu_button} is shown,
+ * but none has been provided via {@link MenuButton#setPopover}
+ * or {@link MenuButton#setMenuModel}.
  */
 @FunctionalInterface
 public interface MenuButtonCreatePopupFunc {

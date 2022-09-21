@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The class for {@link org.gtk.gio.TlsDatabase}  Derived classes should implement the various
+ * The class for {@link TlsDatabase}. Derived classes should implement the various
  * virtual methods. _async and _finish methods have a default
  * implementation that runs the corresponding sync method in a thread.
  */

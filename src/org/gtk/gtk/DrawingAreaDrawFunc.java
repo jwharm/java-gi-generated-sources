@@ -1,8 +1,8 @@
 package org.gtk.gtk;
 
 /**
- * Whenever @drawing_area needs to redraw, this function will be called.
- * 
+ * Whenever {@code drawing_area} needs to redraw, this function will be called.
+ * <p>
  * This function should exclusively redraw the contents of the drawing area
  * and must not call any widget functions that cause changes.
  */

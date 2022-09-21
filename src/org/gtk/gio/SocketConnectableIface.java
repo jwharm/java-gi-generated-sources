@@ -8,7 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Provides an interface for returning a {@link org.gtk.gio.SocketAddressEnumerator} and and #GProxyAddressEnumerator
+ * Provides an interface for returning a {@link SocketAddressEnumerator}
+ * and {@link ProxyAddressEnumerator}
  */
 public class SocketConnectableIface extends io.github.jwharm.javagi.ResourceBase {
 

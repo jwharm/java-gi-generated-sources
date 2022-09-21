@@ -2,11 +2,11 @@ package org.gtk.gsk;
 
 /**
  * The blend modes available for render nodes.
- * 
+ * <p>
  * The implementation of each blend mode is deferred to the
  * rendering pipeline.
- * 
- * See &<code>#60</code> https://www.w3.org/TR/compositing-1/<code>#blending</code> <code>#62</code>  for more information
+ * <p>
+ * See &lt;https://www.w3.org/TR/compositing-1/#blending&gt; for more information
  * on blending and blend modes.
  */
 public enum BlendMode {

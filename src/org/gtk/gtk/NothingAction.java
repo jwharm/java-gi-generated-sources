@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkShortcutAction</code> that does nothing.
+ * A {@code GtkShortcutAction} that does nothing.
  */
 public class NothingAction extends ShortcutAction {
 
@@ -23,7 +23,7 @@ public class NothingAction extends ShortcutAction {
     
     /**
      * Gets the nothing action.
-     * 
+     * <p>
      * This is an action that does nothing and where
      * activating it always fails.
      */

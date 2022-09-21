@@ -51,7 +51,7 @@ public enum CrossingMode {
     /**
      * crossing because of a device switch (i.e.
      *   a mouse taking control of the pointer after a touch device), this event
-     *   is synthetic as the pointer didn&<code>#8217</code> t leave the surface.
+     *   is synthetic as the pointer didn’t leave the surface.
      */
     DEVICE_SWITCH;
     

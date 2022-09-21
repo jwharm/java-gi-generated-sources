@@ -1,11 +1,11 @@
 package org.gtk.gtk;
 
 /**
- * These flags indicate various properties of a <code>GtkTreeModel</code>.
- * 
- * They are returned by {@link org.gtk.gtk.TreeModel<code>#getFlags</code> , and must be
+ * These flags indicate various properties of a {@code GtkTreeModel}.
+ * <p>
+ * They are returned by {@link TreeModel#getFlags}, and must be
  * static for the lifetime of the object. A more complete description
- * of {@link org.gtk.gtk.TreeModelFlags<code>#ITERS_PERSIST</code>  can be found in the overview of
+ * of {@link TreeModelFlags#ITERS_PERSIST} can be found in the overview of
  * this section.
  */
 public class TreeModelFlags {

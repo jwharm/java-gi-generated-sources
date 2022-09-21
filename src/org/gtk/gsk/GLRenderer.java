@@ -24,7 +24,7 @@ public class GLRenderer extends Renderer {
     }
     
     /**
-     * Creates a new <code>GskRenderer</code> using the new OpenGL renderer.
+     * Creates a new {@code GskRenderer} using the new OpenGL renderer.
      */
     public GLRenderer() {
         super(constructNew());

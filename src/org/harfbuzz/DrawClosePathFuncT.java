@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the {@link org.harfbuzz.draw_funcs_t} to perform a &<code>#34</code> close-path&<code>#34</code>  draw
+ * A virtual method for the {@link draw_funcs_t} to perform a "close-path" draw
  * operation.
  */
 @FunctionalInterface

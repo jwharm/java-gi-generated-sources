@@ -46,7 +46,7 @@ public enum FileAttributeType {
     INT64,
     
     /**
-     * a {@link org.gtk.gobject.Object}
+     * a {@link org.gtk.gobject.Object}.
      */
     OBJECT,
     

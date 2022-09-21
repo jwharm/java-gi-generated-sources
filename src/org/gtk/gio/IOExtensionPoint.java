@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.IOExtensionPoint} is an opaque data structure and can only be accessed
+ * {@link IOExtensionPoint} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
@@ -18,7 +18,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a {@link org.gtk.gio.IOExtension} for an extension point by name.
+     * Finds a {@link IOExtension} for an extension point by name.
      */
     public IOExtension getExtensionByName(java.lang.String name) {
         var RESULT = gtk_h.g_io_extension_point_get_extension_by_name(handle(), Interop.allocateNativeString(name).handle());
@@ -35,7 +35,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the required type for @extension_point.
+     * Gets the required type for {@code extension_point}.
      */
     public org.gtk.gobject.Type getRequiredType() {
         var RESULT = gtk_h.g_io_extension_point_get_required_type(handle());
@@ -43,7 +43,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the required type for @extension_point to @type.
+     * Sets the required type for {@code extension_point} to {@code type}.
      * All implementations must henceforth have this type.
      */
     public void setRequiredType(Type type) {
@@ -51,11 +51,11 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Registers @type as extension for the extension point with name
-     * @extension_point_name.
-     * 
-     * If @type has already been registered as an extension for this
-     * extension point, the existing {@link org.gtk.gio.IOExtension} object is returned.
+     * Registers {@code type} as extension for the extension point with name
+     * {@code extension_point_name}.
+     * <p>
+     * If {@code type} has already been registered as an extension for this
+     * extension point, the existing {@link IOExtension} object is returned.
      */
     public static IOExtension implement(java.lang.String extensionPointName, Type type, java.lang.String extensionName, int priority) {
         var RESULT = gtk_h.g_io_extension_point_implement(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);

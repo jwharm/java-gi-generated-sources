@@ -8,28 +8,29 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkCenterBox</code> arranges three children in a row, keeping the middle child
+ * {@code GtkCenterBox} arranges three children in a row, keeping the middle child
  * centered as well as possible.
  * <p>
- * !{@link [An example GtkCenterBox]}(centerbox.png)
+ * <img src="./doc-files/centerbox.png" alt="An example GtkCenterBox">
  * <p>
- * To add children to <code>GtkCenterBox</code>, use {@link org.gtk.gtk.CenterBox<code>#setStartWidget</code> ,
- * {@link org.gtk.gtk.CenterBox<code>#setCenterWidget</code>  and
- * {@link org.gtk.gtk.CenterBox<code>#setEndWidget</code> .
+ * To add children to {@code GtkCenterBox}, use {@link CenterBox#setStartWidget},
+ * {@link CenterBox#setCenterWidget} and
+ * {@link CenterBox#setEndWidget}.
  * <p>
  * The sizing and positioning of children can be influenced with the
  * align and expand properties of the children.
  * <p>
  * <h1>GtkCenterBox as GtkBuildable</h1>
  * <p>
- * The <code>GtkCenterBox</code> implementation of the <code>GtkBuildable</code> interface
- * supports placing children in the 3 positions by specifying &<code>#8220</code> start&<code>#8221</code> , &<code>#8220</code> center&<code>#8221</code> 
- * or &<code>#8220</code> end&<code>#8221</code>  as the &<code>#8220</code> type&<code>#8221</code>  attribute of a &<code>#60</code> child&<code>#62</code>  element.
+ * The {@code GtkCenterBox} implementation of the {@code GtkBuildable} interface
+ * supports placing children in the 3 positions by specifying “start”, “center”
+ * or “end” as the “type” attribute of a &lt;child&gt; element.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkCenterBox</code> uses a single CSS node with the name &<code>#8220</code> box&<code>#8221</code> ,
  * <p>
- * The first child of the <code>GtkCenterBox</code> will be allocated depending on the
+ * {@code GtkCenterBox} uses a single CSS node with the name “box”,
+ * <p>
+ * The first child of the {@code GtkCenterBox} will be allocated depending on the
  * text direction, i.e. in left-to-right layouts it will be allocated on the
  * left and in right-to-left layouts on the right.
  * <p>
@@ -37,7 +38,8 @@ import java.lang.invoke.*;
  * bottom.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkCenterBox</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
+ * <p>
+ * {@code GtkCenterBox} uses the {@link AccessibleRole#GROUP} role.
  */
 public class CenterBox extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -56,7 +58,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Creates a new <code>GtkCenterBox</code>.
+     * Creates a new {@code GtkCenterBox}.
      */
     public CenterBox() {
         super(constructNew());
@@ -96,11 +98,11 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     
     /**
      * Sets the baseline position of a center box.
-     * 
+     * <p>
      * This affects only horizontal boxes with at least one baseline
      * aligned child. If there is more vertical space available than
      * requested, and the baseline is not allocated by the parent then
-     * @position is used to allocate the baseline wrt. the extra space
+     * {@code position} is used to allocate the baseline wrt. the extra space
      * available.
      */
     public void setBaselinePosition(BaselinePosition position) {
@@ -109,8 +111,8 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     
     /**
      * Sets the center widget.
-     * 
-     * To remove the existing center widget, pas <code>null</code>
+     * <p>
+     * To remove the existing center widget, pas <code>null</code>.
      */
     public void setCenterWidget(Widget child) {
         gtk_h.gtk_center_box_set_center_widget(handle(), child.handle());
@@ -118,8 +120,8 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     
     /**
      * Sets the end widget.
-     * 
-     * To remove the existing end widget, pass <code>null</code>
+     * <p>
+     * To remove the existing end widget, pass <code>null</code>.
      */
     public void setEndWidget(Widget child) {
         gtk_h.gtk_center_box_set_end_widget(handle(), child.handle());
@@ -127,8 +129,8 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     
     /**
      * Sets the start widget.
-     * 
-     * To remove the existing start widget, pass <code>null</code>
+     * <p>
+     * To remove the existing start widget, pass <code>null</code>.
      */
     public void setStartWidget(Widget child) {
         gtk_h.gtk_center_box_set_start_widget(handle(), child.handle());

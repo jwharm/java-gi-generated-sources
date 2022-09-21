@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gio.Proxy} handles connecting to a remote host via a given type of
- * proxy server. It is implemented by the &<code>#39</code> gio-proxy&<code>#39</code>  extension point.
+ * A {@link Proxy} handles connecting to a remote host via a given type of
+ * proxy server. It is implemented by the 'gio-proxy' extension point.
  * The extensions are named after their proxy protocol name. As an
  * example, a SOCKS5 proxy implementation can be retrieved with the
- * name &<code>#39</code> socks5&<code>#39</code>  using the function
+ * name 'socks5' using the function
  * g_io_extension_point_get_extension_by_name().
  */
 public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Given @connection to communicate with a proxy (eg, a
-     * {@link org.gtk.gio.SocketConnection} that is connected to the proxy server), this
-     * does the necessary handshake to connect to @proxy_address, and if
-     * required, wraps the {@link org.gtk.gio.IOStream} to handle proxy payload.
+     * Given {@code connection} to communicate with a proxy (eg, a
+     * {@link SocketConnection} that is connected to the proxy server), this
+     * does the necessary handshake to connect to {@code proxy_address}, and if
+     * required, wraps the {@link IOStream} to handle proxy payload.
      */
     public default IOStream connect(IOStream connection, ProxyAddress proxyAddress, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -64,10 +64,10 @@ public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Some proxy protocols expect to be passed a hostname, which they
      * will resolve to an IP address themselves. Others, like SOCKS4, do
-     * not allow this. This function will return <code>false</code> if @proxy is
+     * not allow this. This function will return <code>false</code> if {@code proxy} is
      * implementing such a protocol. When <code>false</code> is returned, the caller
      * should resolve the destination hostname first, and then pass a
-     * {@link org.gtk.gio.ProxyAddress} containing the stringified IP address to
+     * {@link ProxyAddress} containing the stringified IP address to
      * g_proxy_connect() or g_proxy_connect_async().
      */
     public default boolean supportsHostname() {
@@ -76,7 +76,7 @@ public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Find the <code>gio-proxy</code> extension point for a proxy implementation that supports
+     * Find the {@code gio-proxy} extension point for a proxy implementation that supports
      * the specified protocol.
      */
     public static Proxy getDefaultForProtocol(java.lang.String protocol) {

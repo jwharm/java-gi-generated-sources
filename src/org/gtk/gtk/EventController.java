@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEventController</code> is the base class for event controllers.
+ * {@code GtkEventController} is the base class for event controllers.
  * <p>
  * These are ancillary objects associated to widgets, which react
- * to <code>GdkEvents</code>, and possibly trigger actions as a consequence.
- * 
+ * to {@code GdkEvents}, and possibly trigger actions as a consequence.
+ * <p>
  * Event controllers are added to a widget with
- * {@link org.gtk.gtk.Widget<code>#addController</code> . It is rarely necessary to
- * explicitly remove a controller with {@link org.gtk.gtk.Widget<code>#removeController</code> .
- * 
- * See the chapter on {@link [input handling]}(input-handling.html) for
+ * {@link Widget#addController}. It is rarely necessary to
+ * explicitly remove a controller with {@link Widget#removeController}.
+ * <p>
+ * See the chapter on <a href="input-handling.html">input handling</a> for
  * an overview of the basic concepts, such as the capture and bubble
  * phases of even propagation.
  */
@@ -34,7 +34,7 @@ public class EventController extends org.gtk.gobject.Object {
     
     /**
      * Returns the event that is currently being handled by the controller.
-     * 
+     * <p>
      * At other times, <code>null</code> is returned.
      */
     public org.gtk.gdk.Event getCurrentEvent() {
@@ -45,7 +45,7 @@ public class EventController extends org.gtk.gobject.Object {
     /**
      * Returns the device of the event that is currently being
      * handled by the controller.
-     * 
+     * <p>
      * At other times, <code>null</code> is returned.
      */
     public org.gtk.gdk.Device getCurrentEventDevice() {
@@ -56,7 +56,7 @@ public class EventController extends org.gtk.gobject.Object {
     /**
      * Returns the modifier state of the event that is currently being
      * handled by the controller.
-     * 
+     * <p>
      * At other times, 0 is returned.
      */
     public int getCurrentEventState() {
@@ -67,7 +67,7 @@ public class EventController extends org.gtk.gobject.Object {
     /**
      * Returns the timestamp of the event that is currently being
      * handled by the controller.
-     * 
+     * <p>
      * At other times, 0 is returned.
      */
     public int getCurrentEventTime() {
@@ -76,7 +76,7 @@ public class EventController extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the name of @controller.
+     * Gets the name of {@code controller}.
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gtk_event_controller_get_name(handle());
@@ -92,7 +92,7 @@ public class EventController extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the propagation phase at which @controller handles events.
+     * Gets the propagation phase at which {@code controller} handles events.
      */
     public PropagationPhase getPropagationPhase() {
         var RESULT = gtk_h.gtk_event_controller_get_propagation_phase(handle());
@@ -100,7 +100,7 @@ public class EventController extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the <code>GtkWidget</code> this controller relates to.
+     * Returns the {@code GtkWidget} this controller relates to.
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_event_controller_get_widget(handle());
@@ -108,7 +108,7 @@ public class EventController extends org.gtk.gobject.Object {
     }
     
     /**
-     * Resets the @controller to a clean state.
+     * Resets the {@code controller} to a clean state.
      */
     public void reset() {
         gtk_h.gtk_event_controller_reset(handle());
@@ -123,9 +123,9 @@ public class EventController extends org.gtk.gobject.Object {
     
     /**
      * Sets the event propagation limit on the event controller.
-     * 
-     * If the limit is set to {@link org.gtk.gtk.PropagationLimit<code>#SAME_NATIVE</code>   the controller
-     * won&<code>#39</code> t handle events that are targeted at widgets on a different
+     * <p>
+     * If the limit is set to {@link PropagationLimit#SAME_NATIVE}, the controller
+     * won't handle events that are targeted at widgets on a different
      * surface, such as popovers.
      */
     public void setPropagationLimit(PropagationLimit limit) {
@@ -134,8 +134,8 @@ public class EventController extends org.gtk.gobject.Object {
     
     /**
      * Sets the propagation phase at which a controller handles events.
-     * 
-     * If @phase is {@link org.gtk.gtk.PropagationPhase<code>#NONE</code>   no automatic event handling will be
+     * <p>
+     * If {@code phase} is {@link PropagationPhase#NONE}, no automatic event handling will be
      * performed, but other additional gesture maintenance will.
      */
     public void setPropagationPhase(PropagationPhase phase) {

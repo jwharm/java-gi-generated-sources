@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * Contains the public fields of a
- * {@link [Queue]}{@link [glib-Double-ended-Queues]}.
+ * [Queue][glib-Double-ended-Queues].
  */
 public class Queue extends io.github.jwharm.javagi.ResourceBase {
 
@@ -18,7 +18,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes all the elements in @queue. If queue elements contain
+     * Removes all the elements in {@code queue}. If queue elements contain
      * dynamically-allocated memory, they should be freed first.
      */
     public void clear() {
@@ -26,7 +26,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a @queue. Note that is a shallow copy. If the elements in the
+     * Copies a {@code queue}. Note that is a shallow copy. If the elements in the
      * queue consist of pointers to data, the pointers are copied, but the
      * actual data is not.
      */
@@ -36,16 +36,16 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes @link_ from @queue and frees it.
-     * 
-     * @link_ must be part of @queue.
+     * Removes {@code link_} from {@code queue} and frees it.
+     * <p>
+     * {@code link_} must be part of {@code queue}.
      */
     public void deleteLink(org.gtk.glib.List link) {
         gtk_h.g_queue_delete_link(handle(), link.handle());
     }
     
     /**
-     * Finds the first link in @queue which contains @data.
+     * Finds the first link in {@code queue} which contains {@code data}.
      */
     public org.gtk.glib.List find(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_find(handle(), data);
@@ -53,10 +53,10 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds an element in a {@link org.gtk.glib.Queue}  using a supplied function to find the
+     * Finds an element in a {@link Queue}, using a supplied function to find the
      * desired element. It iterates over the queue, calling the given function
      * which should return 0 when the desired element is found. The function
-     * takes two gconstpointer arguments, the {@link org.gtk.glib.Queue} element&<code>#39</code> s data as the
+     * takes two gconstpointer arguments, the {@link Queue} element's data as the
      * first argument and the given user data as the second argument.
      */
     public org.gtk.glib.List findCustom(CompareFunc func) {
@@ -75,10 +75,10 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls @func for each element in the queue passing @user_data to the
+     * Calls {@code func} for each element in the queue passing {@code user_data} to the
      * function.
-     * 
-     * It is safe for @func to remove the element from @queue, but it must
+     * <p>
+     * It is safe for {@code func} to remove the element from {@code queue}, but it must
      * not modify any part of the queue after that element.
      */
     public void foreach(Func func) {
@@ -96,10 +96,10 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the memory allocated for the {@link org.gtk.glib.Queue}  Only call this function
-     * if @queue was created with g_queue_new(). If queue elements contain
+     * Frees the memory allocated for the {@link Queue}. Only call this function
+     * if {@code queue} was created with g_queue_new(). If queue elements contain
      * dynamically-allocated memory, they should be freed first.
-     * 
+     * <p>
      * If queue elements contain dynamically-allocated memory, you should
      * either use g_queue_free_full() or free them manually first.
      */
@@ -108,7 +108,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the number of items in @queue.
+     * Returns the number of items in {@code queue}.
      */
     public int getLength() {
         var RESULT = gtk_h.g_queue_get_length(handle());
@@ -116,7 +116,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the position of the first element in @queue which contains @data.
+     * Returns the position of the first element in {@code queue} which contains {@code data}.
      */
     public int index(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_index(handle(), data);
@@ -124,9 +124,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A statically-allocated {@link org.gtk.glib.Queue} must be initialized with this function
+     * A statically-allocated {@link Queue} must be initialized with this function
      * before it can be used. Alternatively you can initialize it with
-     * <code>G_QUEUE_INIT</code>  It is not necessary to initialize queues created with
+     * {@code G_QUEUE_INIT}. It is not necessary to initialize queues created with
      * g_queue_new().
      */
     public void init() {
@@ -134,9 +134,9 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts @data into @queue after @sibling.
-     * 
-     * @sibling must be part of @queue. Since GLib 2.44 a <code>null</code> sibling pushes the
+     * Inserts {@code data} into {@code queue} after {@code sibling}.
+     * <p>
+     * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a <code>null</code> sibling pushes the
      * data at the head of the queue.
      */
     public void insertAfter(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
@@ -144,18 +144,18 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts @link_ into @queue after @sibling.
-     * 
-     * @sibling must be part of @queue.
+     * Inserts {@code link_} into {@code queue} after {@code sibling}.
+     * <p>
+     * {@code sibling} must be part of {@code queue}.
      */
     public void insertAfterLink(org.gtk.glib.List sibling, org.gtk.glib.List link) {
         gtk_h.g_queue_insert_after_link(handle(), sibling.handle(), link.handle());
     }
     
     /**
-     * Inserts @data into @queue before @sibling.
-     * 
-     * @sibling must be part of @queue. Since GLib 2.44 a <code>null</code> sibling pushes the
+     * Inserts {@code data} into {@code queue} before {@code sibling}.
+     * <p>
+     * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a <code>null</code> sibling pushes the
      * data at the tail of the queue.
      */
     public void insertBefore(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
@@ -163,16 +163,16 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts @link_ into @queue before @sibling.
-     * 
-     * @sibling must be part of @queue.
+     * Inserts {@code link_} into {@code queue} before {@code sibling}.
+     * <p>
+     * {@code sibling} must be part of {@code queue}.
      */
     public void insertBeforeLink(org.gtk.glib.List sibling, org.gtk.glib.List link) {
         gtk_h.g_queue_insert_before_link(handle(), sibling.handle(), link.handle());
     }
     
     /**
-     * Inserts @data into @queue using @func to determine the new position.
+     * Inserts {@code data} into {@code queue} using {@code func} to determine the new position.
      */
     public void insertSorted(CompareDataFunc func) {
         try {
@@ -198,7 +198,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the position of @link_ in @queue.
+     * Returns the position of {@code link_} in {@code queue}.
      */
     public int linkIndex(org.gtk.glib.List link) {
         var RESULT = gtk_h.g_queue_link_index(handle(), link.handle());
@@ -214,7 +214,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the first link in @queue.
+     * Returns the first link in {@code queue}.
      */
     public org.gtk.glib.List peekHeadLink() {
         var RESULT = gtk_h.g_queue_peek_head_link(handle());
@@ -222,7 +222,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the @n&<code>#39</code> th element of @queue.
+     * Returns the @n'th element of {@code queue}.
      */
     public jdk.incubator.foreign.MemoryAddress peekNth(int n) {
         var RESULT = gtk_h.g_queue_peek_nth(handle(), n);
@@ -246,7 +246,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the last link in @queue.
+     * Returns the last link in {@code queue}.
      */
     public org.gtk.glib.List peekTailLink() {
         var RESULT = gtk_h.g_queue_peek_tail_link(handle());
@@ -270,7 +270,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes the @n&<code>#39</code> th element of @queue and returns its data.
+     * Removes the @n'th element of {@code queue} and returns its data.
      */
     public jdk.incubator.foreign.MemoryAddress popNth(int n) {
         var RESULT = gtk_h.g_queue_pop_nth(handle(), n);
@@ -316,14 +316,14 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a new element into @queue at the given position.
+     * Inserts a new element into {@code queue} at the given position.
      */
     public void pushNth(jdk.incubator.foreign.MemoryAddress data, int n) {
         gtk_h.g_queue_push_nth(handle(), data, n);
     }
     
     /**
-     * Inserts @link into @queue at the given position.
+     * Inserts {@code link} into {@code queue} at the given position.
      */
     public void pushNthLink(int n, org.gtk.glib.List link) {
         gtk_h.g_queue_push_nth_link(handle(), n, link.handle());
@@ -344,7 +344,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes the first element in @queue that contains @data.
+     * Removes the first element in {@code queue} that contains {@code data}.
      */
     public boolean remove(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_remove(handle(), data);
@@ -352,7 +352,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Remove all elements whose data equals @data from @queue.
+     * Remove all elements whose data equals {@code data} from {@code queue}.
      */
     public int removeAll(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_remove_all(handle(), data);
@@ -360,14 +360,14 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Reverses the order of the items in @queue.
+     * Reverses the order of the items in {@code queue}.
      */
     public void reverse() {
         gtk_h.g_queue_reverse(handle());
     }
     
     /**
-     * Sorts @queue using @compare_func.
+     * Sorts {@code queue} using {@code compare_func}.
      */
     public void sort(CompareDataFunc compareFunc) {
         try {
@@ -384,17 +384,17 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Unlinks @link_ so that it will no longer be part of @queue.
+     * Unlinks {@code link_} so that it will no longer be part of {@code queue}.
      * The link is not freed.
-     * 
-     * @link_ must be part of @queue.
+     * <p>
+     * {@code link_} must be part of {@code queue}.
      */
     public void unlink(org.gtk.glib.List link) {
         gtk_h.g_queue_unlink(handle(), link.handle());
     }
     
     /**
-     * Creates a new {@link org.gtk.glib.Queue}
+     * Creates a new {@link Queue}.
      */
     public static Queue new_() {
         var RESULT = gtk_h.g_queue_new();

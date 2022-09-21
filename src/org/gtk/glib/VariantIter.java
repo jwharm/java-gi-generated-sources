@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.glib.VariantIter} is an opaque data structure and can only be accessed
+ * {@link VariantIter} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
@@ -18,15 +18,15 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new heap-allocated {@link org.gtk.glib.VariantIter} to iterate over the
-     * container that was being iterated over by @iter.  Iteration begins on
+     * Creates a new heap-allocated {@link VariantIter} to iterate over the
+     * container that was being iterated over by {@code iter}.  Iteration begins on
      * the new iterator from the current position of the old iterator but
      * the two copies are independent past that point.
-     * 
+     * <p>
      * Use g_variant_iter_free() to free the return value when you no longer
      * need it.
-     * 
-     * A reference is taken to the container that @iter is iterating over
+     * <p>
+     * A reference is taken to the container that {@code iter} is iterating over
      * and will be related only when g_variant_iter_free() is called.
      */
     public VariantIter copy() {
@@ -35,7 +35,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a heap-allocated {@link org.gtk.glib.VariantIter}   Only call this function on
+     * Frees a heap-allocated {@link VariantIter}.  Only call this function on
      * iterators that were returned by g_variant_iter_new() or
      * g_variant_iter_copy().
      */
@@ -44,11 +44,11 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initialises (without allocating) a {@link org.gtk.glib.VariantIter}   @iter may be
+     * Initialises (without allocating) a {@link VariantIter}.  {@code iter} may be
      * completely uninitialised prior to this call; its old value is
      * ignored.
-     * 
-     * The iterator remains valid for as long as @value exists, and need not
+     * <p>
+     * The iterator remains valid for as long as {@code value} exists, and need not
      * be freed in any way.
      */
     public long init(Variant value) {
@@ -60,7 +60,7 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
      * Queries the number of child items in the container that we are
      * iterating over.  This is the total number of items -- not the number
      * of items remaining.
-     * 
+     * <p>
      * This function might be useful for preallocation of arrays.
      */
     public long nChildren() {
@@ -71,31 +71,31 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the next item in the container.  If no more items remain then
      * <code>null</code> is returned.
-     * 
+     * <p>
      * Use g_variant_unref() to drop your reference on the return value when
      * you no longer need it.
-     * 
+     * <p>
      * Here is an example for iterating with g_variant_iter_next_value():
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * |[&lt;!-- language="C" --&gt;
      *   // recursively iterate a container
      *   void
      *   iterate_container_recursive (GVariant *container)
      *   {
      *     GVariantIter iter;
      *     GVariant *child;
-     * 
-     *     g_variant_iter_init (&<code>#38</code> iter, container);
-     *     while ((child = g_variant_iter_next_value (&<code>#38</code> iter)))
+     * <p>
+     *     g_variant_iter_init (&iter, container);
+     *     while ((child = g_variant_iter_next_value (&iter)))
      *       {
-     *         g_print (&<code>#34</code> type &<code>#39</code> <code>s</code> <code>#39</code> \\n&<code>#34</code> , g_variant_get_type_string (child));
-     * 
+     *         g_print ("type '{@code s}'\\n", g_variant_get_type_string (child));
+     * <p>
      *         if (g_variant_is_container (child))
      *           iterate_container_recursive (child);
-     * 
+     * <p>
      *         g_variant_unref (child);
      *       }
      *   }
-     * ]}|
+     * ]|
      */
     public Variant nextValue() {
         var RESULT = gtk_h.g_variant_iter_next_value(handle());

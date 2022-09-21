@@ -8,13 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * GSimpleIOStream creates a {@link org.gtk.gio.IOStream} from an arbitrary {@link org.gtk.gio.InputStream} and
- * {@link org.gtk.gio.OutputStream}  This allows any pair of input and output streams to be used
- * with {@link org.gtk.gio.IOStream} methods.
- * 
- * This is useful when you obtained a {@link org.gtk.gio.InputStream} and a {@link org.gtk.gio.OutputStream} by other means, for instance creating them with platform specific methods as
+ * GSimpleIOStream creates a {@link IOStream} from an arbitrary {@link InputStream} and
+ * {@link OutputStream}. This allows any pair of input and output streams to be used
+ * with {@link IOStream} methods.
+ * <p>
+ * This is useful when you obtained a {@link InputStream} and a {@link OutputStream}
+ * by other means, for instance creating them with platform specific methods as
  * g_unix_input_stream_new() or g_win32_input_stream_new(), and you want
- * to take advantage of the methods provided by {@link org.gtk.gio.IOStream}
+ * to take advantage of the methods provided by {@link IOStream}.
  */
 public class SimpleIOStream extends IOStream {
 
@@ -33,8 +34,8 @@ public class SimpleIOStream extends IOStream {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.SimpleIOStream} wrapping @input_stream and @output_stream.
-     * See also {@link org.gtk.gio.IOStream}
+     * Creates a new {@link SimpleIOStream} wrapping {@code input_stream} and {@code output_stream}.
+     * See also {@link IOStream}.
      */
     public SimpleIOStream(InputStream inputStream, OutputStream outputStream) {
         super(constructNew(inputStream, outputStream));

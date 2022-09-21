@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A sub-parser for <code>GtkBuildable</code> implementations.
+ * A sub-parser for {@code GtkBuildable} implementations.
  */
 public class BuildableParser extends io.github.jwharm.javagi.ResourceBase {
 

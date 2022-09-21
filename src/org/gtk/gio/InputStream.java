@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.InputStream} has functions to read from a stream (g_input_stream_read()),
+ * {@link InputStream} has functions to read from a stream (g_input_stream_read()),
  * to close a stream (g_input_stream_close()) and to skip some content
  * (g_input_stream_skip()).
- * 
+ * <p>
  * To copy the content of an input stream to an output stream without
  * manually handling the reads and writes, use g_output_stream_splice().
- * 
- * See the documentation for {@link org.gtk.gio.IOStream} for details of thread safety of
+ * <p>
+ * See the documentation for {@link IOStream} for details of thread safety of
  * streaming APIs.
- * 
+ * <p>
  * All of these functions have async variants too.
  */
 public class InputStream extends org.gtk.gobject.Object {
@@ -32,7 +32,7 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Clears the pending flag on @stream.
+     * Clears the pending flag on {@code stream}.
      */
     public void clearPending() {
         gtk_h.g_input_stream_clear_pending(handle());
@@ -40,28 +40,28 @@ public class InputStream extends org.gtk.gobject.Object {
     
     /**
      * Closes the stream, releasing resources related to it.
-     * 
-     * Once the stream is closed, all other operations will return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  
+     * <p>
+     * Once the stream is closed, all other operations will return {@link IOErrorEnum#CLOSED}.
      * Closing a stream multiple times will not return an error.
-     * 
+     * <p>
      * Streams will be automatically closed when the last reference
      * is dropped, but you might want to call this function to make sure
      * resources are released as early as possible.
-     * 
+     * <p>
      * Some streams might keep the backing store of the stream (e.g. a file descriptor)
      * open after the stream is closed. See the documentation for the individual
      * stream for details.
-     * 
+     * <p>
      * On failure the first error that happened will be reported, but the close
      * operation will finish as much as possible. A stream that failed to
-     * close will still return {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  for all operations. Still, it
+     * close will still return {@link IOErrorEnum#CLOSED} for all operations. Still, it
      * is important to check and report the error to the user.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * Cancelling a close will still leave the stream closed, but some streams
-     * can use a faster close that doesn&<code>#39</code> t block to e.g. check errors.
+     * can use a faster close that doesn't block to e.g. check errors.
      */
     public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -74,12 +74,12 @@ public class InputStream extends org.gtk.gobject.Object {
     
     /**
      * Requests an asynchronous closes of the stream, releasing resources related to it.
-     * When the operation is finished @callback will be called.
+     * When the operation is finished {@code callback} will be called.
      * You can then call g_input_stream_close_finish() to get the result of the
      * operation.
-     * 
+     * <p>
      * For behaviour details see g_input_stream_close().
-     * 
+     * <p>
      * The asynchronous methods have a default fallback that uses threads to implement
      * asynchronicity, so they are optional for inheriting classes. However, if you
      * override one you must override all.
@@ -127,27 +127,27 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tries to read @count bytes from the stream into the buffer starting at
-     * @buffer. Will block during this read.
-     * 
-     * If count is zero returns zero and does nothing. A value of @count
-     * larger than <code>G_MAXSSIZE</code> will cause a {@link org.gtk.gio.IOErrorEnum<code>#INVALID_ARGUMENT</code>  error.
-     * 
+     * Tries to read {@code count} bytes from the stream into the buffer starting at
+     * {@code buffer}. Will block during this read.
+     * <p>
+     * If count is zero returns zero and does nothing. A value of {@code count}
+     * larger than {@code G_MAXSSIZE} will cause a {@link IOErrorEnum#INVALID_ARGUMENT} error.
+     * <p>
      * On success, the number of bytes read into the buffer is returned.
      * It is not an error if this is not the same as the requested size, as it
      * can happen e.g. near the end of a file. Zero is returned on end of file
-     * (or if @count is zero),  but never otherwise.
-     * 
-     * The returned @buffer is not a nul-terminated string, it can contain nul bytes
-     * at any position, and this function doesn&<code>#39</code> t nul-terminate the @buffer.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * (or if {@code count} is zero),  but never otherwise.
+     * <p>
+     * The returned {@code buffer} is not a nul-terminated string, it can contain nul bytes
+     * at any position, and this function doesn't nul-terminate the {@code buffer}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If an
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
-     * 
-     * On error -1 is returned and @error is set accordingly.
+     * <p>
+     * On error -1 is returned and {@code error} is set accordingly.
      */
     public long read(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -159,16 +159,16 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Request an asynchronous read of @count bytes from the stream into the
-     * buffer starting at @buffer.
-     * 
+     * Request an asynchronous read of {@code count} bytes from the stream into the
+     * buffer starting at {@code buffer}.
+     * <p>
      * This is the asynchronous equivalent of g_input_stream_read_all().
-     * 
+     * <p>
      * Call g_input_stream_read_all_finish() to collect the result.
-     * 
+     * <p>
      * Any outstanding I/O request with higher priority (lower numerical
      * value) will be executed before an outstanding request with lower
-     * priority. Default priority is <code>G_PRIORITY_DEFAULT</code>
+     * priority. Default priority is {@code G_PRIORITY_DEFAULT}.
      */
     public void readAllAsync(byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -185,26 +185,26 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Request an asynchronous read of @count bytes from the stream into the buffer
-     * starting at @buffer. When the operation is finished @callback will be called.
+     * Request an asynchronous read of {@code count} bytes from the stream into the buffer
+     * starting at {@code buffer}. When the operation is finished {@code callback} will be called.
      * You can then call g_input_stream_read_finish() to get the result of the
      * operation.
-     * 
-     * During an async request no other sync and async calls are allowed on @stream, and will
-     * result in {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  errors.
-     * 
-     * A value of @count larger than <code>G_MAXSSIZE</code> will cause a {@link org.gtk.gio.IOErrorEnum<code>#INVALID_ARGUMENT</code>  error.
-     * 
+     * <p>
+     * During an async request no other sync and async calls are allowed on {@code stream}, and will
+     * result in {@link IOErrorEnum#PENDING} errors.
+     * <p>
+     * A value of {@code count} larger than {@code G_MAXSSIZE} will cause a {@link IOErrorEnum#INVALID_ARGUMENT} error.
+     * <p>
      * On success, the number of bytes read into the buffer will be passed to the
      * callback. It is not an error if this is not the same as the requested size, as it
      * can happen e.g. near the end of a file, but generally we try to read
      * as many bytes as requested. Zero is returned on end of file
-     * (or if @count is zero),  but never otherwise.
-     * 
+     * (or if {@code count} is zero),  but never otherwise.
+     * <p>
      * Any outstanding i/o request with higher priority (lower numerical value) will
      * be executed before an outstanding request with lower priority. Default
-     * priority is <code>G_PRIORITY_DEFAULT</code> 
-     * 
+     * priority is {@code G_PRIORITY_DEFAULT}.
+     * <p>
      * The asynchronous methods have a default fallback that uses threads to implement
      * asynchronicity, so they are optional for inheriting classes. However, if you
      * override one you must override all.
@@ -224,29 +224,29 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Like g_input_stream_read(), this tries to read @count bytes from
+     * Like g_input_stream_read(), this tries to read {@code count} bytes from
      * the stream in a blocking fashion. However, rather than reading into
      * a user-supplied buffer, this will create a new {@link org.gtk.glib.Bytes} containing
      * the data that was read. This may be easier to use from language
      * bindings.
-     * 
+     * <p>
      * If count is zero, returns a zero-length {@link org.gtk.glib.Bytes} and does nothing. A
-     * value of @count larger than <code>G_MAXSSIZE</code> will cause a
-     * {@link org.gtk.gio.IOErrorEnum<code>#INVALID_ARGUMENT</code>  error.
-     * 
+     * value of {@code count} larger than {@code G_MAXSSIZE} will cause a
+     * {@link IOErrorEnum#INVALID_ARGUMENT} error.
+     * <p>
      * On success, a new {@link org.gtk.glib.Bytes} is returned. It is not an error if the
      * size of this object is not the same as the requested size, as it
      * can happen e.g. near the end of a file. A zero-length {@link org.gtk.glib.Bytes} is
-     * returned on end of file (or if @count is zero), but never
+     * returned on end of file (or if {@code count} is zero), but never
      * otherwise.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If an
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
-     * 
-     * On error <code>null</code> is returned and @error is set accordingly.
+     * <p>
+     * On error <code>null</code> is returned and {@code error} is set accordingly.
      */
     public org.gtk.glib.Bytes readBytes(long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -258,26 +258,26 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Request an asynchronous read of @count bytes from the stream into a
-     * new {@link org.gtk.glib.Bytes}  When the operation is finished @callback will be
+     * Request an asynchronous read of {@code count} bytes from the stream into a
+     * new {@link org.gtk.glib.Bytes}. When the operation is finished {@code callback} will be
      * called. You can then call g_input_stream_read_bytes_finish() to get the
      * result of the operation.
-     * 
+     * <p>
      * During an async request no other sync and async calls are allowed
-     * on @stream, and will result in {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  errors.
-     * 
-     * A value of @count larger than <code>G_MAXSSIZE</code> will cause a
-     * {@link org.gtk.gio.IOErrorEnum<code>#INVALID_ARGUMENT</code>  error.
-     * 
+     * on {@code stream}, and will result in {@link IOErrorEnum#PENDING} errors.
+     * <p>
+     * A value of {@code count} larger than {@code G_MAXSSIZE} will cause a
+     * {@link IOErrorEnum#INVALID_ARGUMENT} error.
+     * <p>
      * On success, the new {@link org.gtk.glib.Bytes} will be passed to the callback. It is
      * not an error if this is smaller than the requested size, as it can
      * happen e.g. near the end of a file, but generally we try to read as
      * many bytes as requested. Zero is returned on end of file (or if
-     * @count is zero), but never otherwise.
-     * 
+     * {@code count} is zero), but never otherwise.
+     * <p>
      * Any outstanding I/O request with higher priority (lower numerical
      * value) will be executed before an outstanding request with lower
-     * priority. Default priority is <code>G_PRIORITY_DEFAULT</code>
+     * priority. Default priority is {@code G_PRIORITY_DEFAULT}.
      */
     public void readBytesAsync(long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -318,9 +318,9 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets @stream to have actions pending. If the pending flag is
-     * already set or @stream is closed, it will return <code>false</code> and set
-     * @error.
+     * Sets {@code stream} to have actions pending. If the pending flag is
+     * already set or {@code stream} is closed, it will return <code>false</code> and set
+     * {@code error}.
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -332,18 +332,18 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tries to skip @count bytes from the stream. Will block during the operation.
-     * 
+     * Tries to skip {@code count} bytes from the stream. Will block during the operation.
+     * <p>
      * This is identical to g_input_stream_read(), from a behaviour standpoint,
      * but the bytes that are skipped are not returned to the user. Some
      * streams have an implementation that is more efficient than reading the data.
-     * 
+     * <p>
      * This function is optional for inherited classes, as the default implementation
      * emulates it using read.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If an
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
      */
@@ -357,26 +357,26 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
-     * Request an asynchronous skip of @count bytes from the stream.
-     * When the operation is finished @callback will be called.
+     * Request an asynchronous skip of {@code count} bytes from the stream.
+     * When the operation is finished {@code callback} will be called.
      * You can then call g_input_stream_skip_finish() to get the result
      * of the operation.
-     * 
+     * <p>
      * During an async request no other sync and async calls are allowed,
-     * and will result in {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  errors.
-     * 
-     * A value of @count larger than <code>G_MAXSSIZE</code> will cause a {@link org.gtk.gio.IOErrorEnum<code>#INVALID_ARGUMENT</code>  error.
-     * 
+     * and will result in {@link IOErrorEnum#PENDING} errors.
+     * <p>
+     * A value of {@code count} larger than {@code G_MAXSSIZE} will cause a {@link IOErrorEnum#INVALID_ARGUMENT} error.
+     * <p>
      * On success, the number of bytes skipped will be passed to the callback.
      * It is not an error if this is not the same as the requested size, as it
      * can happen e.g. near the end of a file, but generally we try to skip
      * as many bytes as requested. Zero is returned on end of file
-     * (or if @count is zero), but never otherwise.
-     * 
+     * (or if {@code count} is zero), but never otherwise.
+     * <p>
      * Any outstanding i/o request with higher priority (lower numerical value)
      * will be executed before an outstanding request with lower priority.
-     * Default priority is <code>G_PRIORITY_DEFAULT</code> 
-     * 
+     * Default priority is {@code G_PRIORITY_DEFAULT}.
+     * <p>
      * The asynchronous methods have a default fallback that uses threads to
      * implement asynchronicity, so they are optional for inheriting classes.
      * However, if you override one, you must override all.

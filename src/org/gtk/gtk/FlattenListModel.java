@@ -8,8 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkFlattenListModel</code> is a list model that concatenates other list models.
- * <p><code>GtkFlattenListModel</code> takes a list model containing list models,
+ * {@code GtkFlattenListModel} is a list model that concatenates other list models.
+ * <p>
+ * {@code GtkFlattenListModel} takes a list model containing list models,
  *  and flattens it into a single model.
  */
 public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
@@ -29,7 +30,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
     }
     
     /**
-     * Creates a new <code>GtkFlattenListModel</code> that flattens @list.
+     * Creates a new {@code GtkFlattenListModel} that flattens {@code list}.
      */
     public FlattenListModel(org.gtk.gio.ListModel model) {
         super(constructNew(model));

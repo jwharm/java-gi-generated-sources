@@ -1,9 +1,9 @@
 package org.gtk.gsk;
 
 /**
- * This defines the types of the uniforms that <code>GskGLShaders</code>
+ * This defines the types of the uniforms that {@code GskGLShaders}
  * declare.
- * 
+ * <p>
  * It defines both what the type is called in the GLSL shader
  * code, and what the corresponding C type is on the Gtk side.
  */

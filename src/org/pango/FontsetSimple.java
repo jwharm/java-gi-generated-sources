@@ -8,9 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>PangoFontsetSimple</code> is a implementation of the abstract<code>PangoFontset</code> base class as an array of fonts.
+ * {@code PangoFontsetSimple} is a implementation of the abstract
+ * {@code PangoFontset} base class as an array of fonts.
  * <p>
- * When creating a <code>PangoFontsetSimple</code>, you have to provide
+ * When creating a {@code PangoFontsetSimple}, you have to provide
  * the array of fonts that make up the fontset.
  */
 public class FontsetSimple extends Fontset {
@@ -30,7 +31,7 @@ public class FontsetSimple extends Fontset {
     }
     
     /**
-     * Creates a new <code>PangoFontsetSimple</code> for the given language.
+     * Creates a new {@code PangoFontsetSimple} for the given language.
      */
     public FontsetSimple(Language language) {
         super(constructNew(language));
@@ -38,8 +39,8 @@ public class FontsetSimple extends Fontset {
     
     /**
      * Adds a font to the fontset.
-     * 
-     * The fontset takes ownership of @font.
+     * <p>
+     * The fontset takes ownership of {@code font}.
      */
     public void append(Font font) {
         gtk_h.pango_fontset_simple_append(handle(), font.getReference().unowned().handle());

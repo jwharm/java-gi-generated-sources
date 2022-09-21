@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoLogAttr</code> structure stores information about the attributes of a
+ * The {@code PangoLogAttr} structure stores information about the attributes of a
  * single character.
  */
 public class LogAttr extends io.github.jwharm.javagi.ResourceBase {

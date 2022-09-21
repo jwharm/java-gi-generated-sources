@@ -8,20 +8,22 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkFontButton</code> allows to open a font chooser dialog to change
+ * The {@code GtkFontButton} allows to open a font chooser dialog to change
  * the font.
  * <p>
- * !{@link [An example GtkFontButton]}(font-button.png)
+ * <img src="./doc-files/font-button.png" alt="An example GtkFontButton">
  * <p>
  * It is suitable widget for selecting a font in a preference dialog.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * fontbutton
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.font
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [content]}
- * </pre>
- * <p><code>GtkFontButton</code> has a single CSS node with name fontbutton which
+ * ╰── button.font
+ *     ╰── [content]
+ * }</pre>
+ * <p>
+ * {@code GtkFontButton} has a single CSS node with name fontbutton which
  * contains a button node with the .font style class.
  */
 public class FontButton extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
@@ -106,7 +108,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * If @use_font is <code>true</code>  the font name will be written
+     * If {@code use_font} is <code>true</code>, the font name will be written
      * using the selected font.
      */
     public void setUseFont(boolean useFont) {
@@ -114,7 +116,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * If @use_size is <code>true</code>  the font name will be written using
+     * If {@code use_size} is <code>true</code>, the font name will be written using
      * the selected size.
      */
     public void setUseSize(boolean useSize) {
@@ -129,7 +131,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Emitted to when the font button is activated.
      * <p>
-     * The <code>::activate</code> signal on <code>GtkFontButton</code> is an action signal and
+     * The {@code ::activate} signal on {@code GtkFontButton} is an action signal and
      * emitting it causes the button to present its dialog.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
@@ -154,10 +156,10 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     
     /**
      * Emitted when the user selects a font.
-     * 
-     * When handling this signal, use {@link org.gtk.gtk.FontChooser<code>#getFont</code> 
+     * <p>
+     * When handling this signal, use {@link FontChooser#getFont}
      * to find out which font was just selected.
-     * 
+     * <p>
      * Note that this signal is only emitted when the user changes the font.
      * If you need to react to programmatic font changes as well, use
      * the notify::font signal.

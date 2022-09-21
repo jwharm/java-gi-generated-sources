@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkFlowBoxChild</code> is the kind of widget that can be added to a <code>GtkFlowBox</code>.
+ * {@code GtkFlowBoxChild} is the kind of widget that can be added to a {@code GtkFlowBox}.
  */
 public class FlowBoxChild extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -27,33 +27,33 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Creates a new <code>GtkFlowBoxChild</code>.
+     * Creates a new {@code GtkFlowBoxChild}.
      * <p>
-     * This should only be used as a child of a <code>GtkFlowBox</code>.
+     * This should only be used as a child of a {@code GtkFlowBox}.
      */
     public FlowBoxChild() {
         super(constructNew());
     }
     
     /**
-     * Marks @child as changed, causing any state that depends on this
+     * Marks {@code child} as changed, causing any state that depends on this
      * to be updated.
-     * 
+     * <p>
      * This affects sorting and filtering.
-     * 
+     * <p>
      * Note that calls to this method must be in sync with the data
      * used for the sorting and filtering functions. For instance, if
-     * the list is mirroring some external data set, and *two* children
+     * the list is mirroring some external data set, and <strong>two</strong> children
      * changed in the external data set when you call
      * gtk_flow_box_child_changed() on the first child, the sort function
      * must only read the new data for the first of the two changed
      * children, otherwise the resorting of the children will be wrong.
-     * 
-     * This generally means that if you don&<code>#8217</code> t fully control the data
+     * <p>
+     * This generally means that if you don’t fully control the data
      * model, you have to duplicate the data that affects the sorting
      * and filtering functions into the widgets themselves.
-     * 
-     * Another alternative is to call {@link org.gtk.gtk.FlowBox<code>#invalidateSort</code> 
+     * <p>
+     * Another alternative is to call {@link FlowBox#invalidateSort}
      * on any model change, but that is more expensive.
      */
     public void changed() {
@@ -61,7 +61,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Gets the child widget of @self.
+     * Gets the child widget of {@code self}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_flow_box_child_get_child(handle());
@@ -69,7 +69,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Gets the current index of the @child in its <code>GtkFlowBox</code> container.
+     * Gets the current index of the {@code child} in its {@code GtkFlowBox} container.
      */
     public int getIndex() {
         var RESULT = gtk_h.gtk_flow_box_child_get_index(handle());
@@ -77,7 +77,8 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Returns whether the @child is currently selected in its<code>GtkFlowBox</code> container.
+     * Returns whether the {@code child} is currently selected in its
+     * {@code GtkFlowBox} container.
      */
     public boolean isSelected() {
         var RESULT = gtk_h.gtk_flow_box_child_is_selected(handle());
@@ -85,7 +86,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Sets the child widget of @self.
+     * Sets the child widget of {@code self}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_flow_box_child_set_child(handle(), child.handle());
@@ -97,15 +98,15 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Emitted when the user activates a child widget in a <code>GtkFlowBox</code>.
-     * 
+     * Emitted when the user activates a child widget in a {@code GtkFlowBox}.
+     * <p>
      * This can be happen either by clicking or double-clicking,
      * or via a keybinding.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html),
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>,
      * but it can be used by applications for their own purposes.
-     * 
-     * The default bindings are &<code>#60</code> kbd&<code>#62</code> Space&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Enter&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * The default bindings are &lt;kbd>Space</kbd> and <kbd>Enter</kbd&gt;.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {

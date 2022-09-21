@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * Describes a widget state.
- * 
+ * <p>
  * Widget states are used to match the widget against CSS pseudo-classes.
  * Note that GTK extends the regular CSS classes and sometimes uses
  * different names.

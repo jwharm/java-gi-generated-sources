@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkLayoutChild</code> subclass for children in a <code>GtkConstraintLayout</code>.
+ * {@code GtkLayoutChild} subclass for children in a {@code GtkConstraintLayout}.
  */
 public class ConstraintLayoutChild extends LayoutChild {
 

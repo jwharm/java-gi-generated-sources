@@ -27,13 +27,13 @@ public class ColorMatrixNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will drawn the @child with
-     * @color_matrix.
-     * 
+     * Creates a {@code GskRenderNode} that will drawn the {@code child} with
+     * {@code color_matrix}.
+     * <p>
      * In particular, the node will transform the operation
-     * 
+     * <p>
      *     pixel = color_matrix * pixel + color_offset
-     * 
+     * <p>
      * for every pixel.
      */
     public ColorMatrixNode(RenderNode child, org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
@@ -41,7 +41,7 @@ public class ColorMatrixNode extends RenderNode {
     }
     
     /**
-     * Gets the child node that is getting its colors modified by the given @node.
+     * Gets the child node that is getting its colors modified by the given {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_color_matrix_node_get_child(handle());
@@ -49,7 +49,7 @@ public class ColorMatrixNode extends RenderNode {
     }
     
     /**
-     * Retrieves the color matrix used by the @node.
+     * Retrieves the color matrix used by the {@code node}.
      */
     public org.gtk.graphene.Matrix getColorMatrix() {
         var RESULT = gtk_h.gsk_color_matrix_node_get_color_matrix(handle());
@@ -57,7 +57,7 @@ public class ColorMatrixNode extends RenderNode {
     }
     
     /**
-     * Retrieves the color offset used by the @node.
+     * Retrieves the color offset used by the {@code node}.
      */
     public org.gtk.graphene.Vec4 getColorOffset() {
         var RESULT = gtk_h.gsk_color_matrix_node_get_color_offset(handle());

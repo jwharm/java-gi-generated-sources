@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Provides an interface for {@link org.gtk.gio.TlsFileDatabase} implementations.
+ * Provides an interface for {@link TlsFileDatabase} implementations.
  */
 public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.ResourceBase {
 

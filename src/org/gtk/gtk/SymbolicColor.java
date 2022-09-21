@@ -2,8 +2,8 @@ package org.gtk.gtk;
 
 /**
  * The indexes of colors passed to symbolic color rendering, such as
- * {@link org.gtk.gtk.SymbolicPaintable<code>#snapshotSymbolic</code> .
- * 
+ * {@link SymbolicPaintable#snapshotSymbolic}.
+ * <p>
  * More values may be added over time.
  */
 public enum SymbolicColor {

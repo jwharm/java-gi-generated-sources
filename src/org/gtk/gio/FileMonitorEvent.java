@@ -42,27 +42,28 @@ public enum FileMonitorEvent {
     
     /**
      * the file was moved -- only sent if the
-     *   (deprecated) {@link org.gtk.gio.FileMonitorFlags<code>#SEND_MOVED</code>  flag is set
+     *   (deprecated) {@link FileMonitorFlags#SEND_MOVED} flag is set
      */
     MOVED,
     
     /**
      * the file was renamed within the
-     *   current directory -- only sent if the {@link org.gtk.gio.FileMonitorFlags<code>#WATCH_MOVES</code>    flag is set.  Since: 2.46.
+     *   current directory -- only sent if the {@link FileMonitorFlags#WATCH_MOVES}
+     *   flag is set.  Since: 2.46.
      */
     RENAMED,
     
     /**
      * the file was moved into the
      *   monitored directory from another location -- only sent if the
-     *   {@link org.gtk.gio.FileMonitorFlags<code>#WATCH_MOVES</code>  flag is set.  Since: 2.46.
+     *   {@link FileMonitorFlags#WATCH_MOVES} flag is set.  Since: 2.46.
      */
     MOVED_IN,
     
     /**
      * the file was moved out of the
      *   monitored directory to another location -- only sent if the
-     *   {@link org.gtk.gio.FileMonitorFlags<code>#WATCH_MOVES</code>  flag is set.  Since: 2.46
+     *   {@link FileMonitorFlags#WATCH_MOVES} flag is set.  Since: 2.46
      */
     MOVED_OUT;
     

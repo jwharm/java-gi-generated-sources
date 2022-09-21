@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * Flags used internally in the {@link org.gtk.glib.Hook} implementation.
+ * Flags used internally in the {@link Hook} implementation.
  */
 public class HookFlagMask {
 
@@ -17,11 +17,7 @@ public class HookFlagMask {
     
     /**
      * A mask covering all bits reserved for
-     *   hook flags; see 
-     *       
-     *       
-     *         A mask covering all bits reserved for
-     *   hook flags; see %G_HOOK_FLAG_USER_SHIFT
+     *   hook flags; see {@code G_HOOK_FLAG_USER_SHIFT}
      */
     public static final int MASK = 15;
     

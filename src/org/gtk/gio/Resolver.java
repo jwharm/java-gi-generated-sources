@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.Resolver} provides cancellable synchronous and asynchronous DNS
+ * {@link Resolver} provides cancellable synchronous and asynchronous DNS
  * resolution, for hostnames (g_resolver_lookup_by_address(),
  * g_resolver_lookup_by_name() and their async variants) and SRV
  * (service) records (g_resolver_lookup_service()).
- * 
- * {@link org.gtk.gio.NetworkAddress} and {@link org.gtk.gio.NetworkService} provide wrappers around
- * {@link org.gtk.gio.Resolver} functionality that also implement {@link org.gtk.gio.SocketConnectable} 
+ * <p>
+ * {@link NetworkAddress} and {@link NetworkService} provide wrappers around
+ * {@link Resolver} functionality that also implement {@link SocketConnectable},
  * making it easy to connect to a remote host/service.
  */
 public class Resolver extends org.gtk.gobject.Object {
@@ -29,15 +29,15 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Synchronously reverse-resolves @address to determine its
+     * Synchronously reverse-resolves {@code address} to determine its
      * associated hostname.
-     * 
-     * If the DNS resolution fails, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError} 
-     * 
-     * If @cancellable is non-<code>null</code>  it can be used to cancel the
-     * operation, in which case @error (if non-<code>null</code>  will be set to
-     * {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>
+     * <p>
+     * If the DNS resolution fails, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError}.
+     * <p>
+     * If {@code cancellable} is non-<code>null</code>, it can be used to cancel the
+     * operation, in which case {@code error} (if non-<code>null</code>) will be set to
+     * {@link IOErrorEnum#CANCELLED}.
      */
     public java.lang.String lookupByAddress(InetAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -49,8 +49,8 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Begins asynchronously reverse-resolving @address to determine its
-     * associated hostname, and eventually calls @callback, which must
+     * Begins asynchronously reverse-resolving {@code address} to determine its
+     * associated hostname, and eventually calls {@code callback}, which must
      * call g_resolver_lookup_by_address_finish() to get the final result.
      */
     public void lookupByAddressAsync(InetAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -70,10 +70,10 @@ public class Resolver extends org.gtk.gobject.Object {
     /**
      * Retrieves the result of a previous call to
      * g_resolver_lookup_by_address_async().
-     * 
-     * If the DNS resolution failed, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError}  If the operation was cancelled,
-     * @error will be set to {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>
+     * <p>
+     * If the DNS resolution failed, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError}. If the operation was cancelled,
+     * {@code error} will be set to {@link IOErrorEnum#CANCELLED}.
      */
     public java.lang.String lookupByAddressFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -85,29 +85,29 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Synchronously resolves @hostname to determine its associated IP
-     * address(es). @hostname may be an ASCII-only or UTF-8 hostname, or
+     * Synchronously resolves {@code hostname} to determine its associated IP
+     * address(es). {@code hostname} may be an ASCII-only or UTF-8 hostname, or
      * the textual form of an IP address (in which case this just becomes
      * a wrapper around g_inet_address_new_from_string()).
-     * 
+     * <p>
      * On success, g_resolver_lookup_by_name() will return a non-empty {@link org.gtk.glib.List} of
-     * {@link org.gtk.gio.InetAddress}  sorted in order of preference and guaranteed to not
+     * {@link InetAddress}, sorted in order of preference and guaranteed to not
      * contain duplicates. That is, if using the result to connect to
-     * @hostname, you should attempt to connect to the first address
+     * {@code hostname}, you should attempt to connect to the first address
      * first, then the second if the first fails, etc. If you are using
      * the result to listen on a socket, it is appropriate to add each
      * result using e.g. g_socket_listener_add_address().
-     * 
-     * If the DNS resolution fails, @error (if non-<code>null</code>  will be set to a
-     * value from {@link org.gtk.gio.ResolverError} and <code>null</code> will be returned.
-     * 
-     * If @cancellable is non-<code>null</code>  it can be used to cancel the
-     * operation, in which case @error (if non-<code>null</code>  will be set to
-     * {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  
-     * 
+     * <p>
+     * If the DNS resolution fails, {@code error} (if non-<code>null</code>) will be set to a
+     * value from {@link ResolverError} and <code>null</code> will be returned.
+     * <p>
+     * If {@code cancellable} is non-<code>null</code>, it can be used to cancel the
+     * operation, in which case {@code error} (if non-<code>null</code>) will be set to
+     * {@link IOErrorEnum#CANCELLED}.
+     * <p>
      * If you are planning to connect to a socket on the resolved IP
-     * address, it may be easier to create a {@link org.gtk.gio.NetworkAddress} and use its
-     * {@link org.gtk.gio.SocketConnectable} interface.
+     * address, it may be easier to create a {@link NetworkAddress} and use its
+     * {@link SocketConnectable} interface.
      */
     public org.gtk.glib.List lookupByName(java.lang.String hostname, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -119,8 +119,8 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Begins asynchronously resolving @hostname to determine its
-     * associated IP address(es), and eventually calls @callback, which
+     * Begins asynchronously resolving {@code hostname} to determine its
+     * associated IP address(es), and eventually calls {@code callback}, which
      * must call g_resolver_lookup_by_name_finish() to get the result.
      * See g_resolver_lookup_by_name() for more details.
      */
@@ -141,10 +141,10 @@ public class Resolver extends org.gtk.gobject.Object {
     /**
      * Retrieves the result of a call to
      * g_resolver_lookup_by_name_async().
-     * 
-     * If the DNS resolution failed, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError}  If the operation was cancelled,
-     * @error will be set to {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>
+     * <p>
+     * If the DNS resolution failed, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError}. If the operation was cancelled,
+     * {@code error} will be set to {@link IOErrorEnum#CANCELLED}.
      */
     public org.gtk.glib.List lookupByNameFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -157,8 +157,8 @@ public class Resolver extends org.gtk.gobject.Object {
     
     /**
      * This differs from g_resolver_lookup_by_name() in that you can modify
-     * the lookup behavior with @flags. For example this can be used to limit
-     * results with {@link org.gtk.gio.ResolverNameLookupFlags<code>#IPV4_ONLY</code>
+     * the lookup behavior with {@code flags}. For example this can be used to limit
+     * results with {@link ResolverNameLookupFlags#IPV4_ONLY}.
      */
     public org.gtk.glib.List lookupByNameWithFlags(java.lang.String hostname, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -170,8 +170,8 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Begins asynchronously resolving @hostname to determine its
-     * associated IP address(es), and eventually calls @callback, which
+     * Begins asynchronously resolving {@code hostname} to determine its
+     * associated IP address(es), and eventually calls {@code callback}, which
      * must call g_resolver_lookup_by_name_with_flags_finish() to get the result.
      * See g_resolver_lookup_by_name() for more details.
      */
@@ -192,10 +192,10 @@ public class Resolver extends org.gtk.gobject.Object {
     /**
      * Retrieves the result of a call to
      * g_resolver_lookup_by_name_with_flags_async().
-     * 
-     * If the DNS resolution failed, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError}  If the operation was cancelled,
-     * @error will be set to {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>
+     * <p>
+     * If the DNS resolution failed, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError}. If the operation was cancelled,
+     * {@code error} will be set to {@link IOErrorEnum#CANCELLED}.
      */
     public org.gtk.glib.List lookupByNameWithFlagsFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -207,16 +207,16 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Synchronously performs a DNS record lookup for the given @rrname and returns
-     * a list of records as {@link org.gtk.glib.Variant} tuples. See {@link org.gtk.gio.ResolverRecordType} for
-     * information on what the records contain for each @record_type.
-     * 
-     * If the DNS resolution fails, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError} and <code>null</code> will be returned.
-     * 
-     * If @cancellable is non-<code>null</code>  it can be used to cancel the
-     * operation, in which case @error (if non-<code>null</code>  will be set to
-     * {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>
+     * Synchronously performs a DNS record lookup for the given {@code rrname} and returns
+     * a list of records as {@link org.gtk.glib.Variant} tuples. See {@link ResolverRecordType} for
+     * information on what the records contain for each {@code record_type}.
+     * <p>
+     * If the DNS resolution fails, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError} and <code>null</code> will be returned.
+     * <p>
+     * If {@code cancellable} is non-<code>null</code>, it can be used to cancel the
+     * operation, in which case {@code error} (if non-<code>null</code>) will be set to
+     * {@link IOErrorEnum#CANCELLED}.
      */
     public org.gtk.glib.List lookupRecords(java.lang.String rrname, ResolverRecordType recordType, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -229,7 +229,7 @@ public class Resolver extends org.gtk.gobject.Object {
     
     /**
      * Begins asynchronously performing a DNS lookup for the given
-     * @rrname, and eventually calls @callback, which must call
+     * {@code rrname}, and eventually calls {@code callback}, which must call
      * g_resolver_lookup_records_finish() to get the final result. See
      * g_resolver_lookup_records() for more details.
      */
@@ -250,12 +250,12 @@ public class Resolver extends org.gtk.gobject.Object {
     /**
      * Retrieves the result of a previous call to
      * g_resolver_lookup_records_async(). Returns a non-empty list of records as
-     * {@link org.gtk.glib.Variant} tuples. See {@link org.gtk.gio.ResolverRecordType} for information on what the
+     * {@link org.gtk.glib.Variant} tuples. See {@link ResolverRecordType} for information on what the
      * records contain.
-     * 
-     * If the DNS resolution failed, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError}  If the operation was cancelled,
-     * @error will be set to {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>
+     * <p>
+     * If the DNS resolution failed, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError}. If the operation was cancelled,
+     * {@code error} will be set to {@link IOErrorEnum#CANCELLED}.
      */
     public org.gtk.glib.List lookupRecordsFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -267,26 +267,27 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Synchronously performs a DNS SRV lookup for the given @service and
-     * @protocol in the given @domain and returns an array of {@link org.gtk.gio.SrvTarget} 
-     * @domain may be an ASCII-only or UTF-8 hostname. Note also that the
-     * @service and @protocol arguments do not include the leading underscore
+     * Synchronously performs a DNS SRV lookup for the given {@code service} and
+     * {@code protocol} in the given {@code domain} and returns an array of {@link SrvTarget}.
+     * {@code domain} may be an ASCII-only or UTF-8 hostname. Note also that the
+     * {@code service} and {@code protocol} arguments do not include the leading underscore
      * that appears in the actual DNS entry.
-     * 
+     * <p>
      * On success, g_resolver_lookup_service() will return a non-empty {@link org.gtk.glib.List} of
-     * {@link org.gtk.gio.SrvTarget}  sorted in order of preference. (That is, you should
+     * {@link SrvTarget}, sorted in order of preference. (That is, you should
      * attempt to connect to the first target first, then the second if
      * the first fails, etc.)
-     * 
-     * If the DNS resolution fails, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError} and <code>null</code> will be returned.
-     * 
-     * If @cancellable is non-<code>null</code>  it can be used to cancel the
-     * operation, in which case @error (if non-<code>null</code>  will be set to
-     * {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  
-     * 
+     * <p>
+     * If the DNS resolution fails, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError} and <code>null</code> will be returned.
+     * <p>
+     * If {@code cancellable} is non-<code>null</code>, it can be used to cancel the
+     * operation, in which case {@code error} (if non-<code>null</code>) will be set to
+     * {@link IOErrorEnum#CANCELLED}.
+     * <p>
      * If you are planning to connect to the service, it is usually easier
-     * to create a {@link org.gtk.gio.NetworkService} and use its {@link org.gtk.gio.SocketConnectable} interface.
+     * to create a {@link NetworkService} and use its {@link SocketConnectable}
+     * interface.
      */
     public org.gtk.glib.List lookupService(java.lang.String service, java.lang.String protocol, java.lang.String domain, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -299,8 +300,8 @@ public class Resolver extends org.gtk.gobject.Object {
     
     /**
      * Begins asynchronously performing a DNS SRV lookup for the given
-     * @service and @protocol in the given @domain, and eventually calls
-     * @callback, which must call g_resolver_lookup_service_finish() to
+     * {@code service} and {@code protocol} in the given {@code domain}, and eventually calls
+     * {@code callback}, which must call g_resolver_lookup_service_finish() to
      * get the final result. See g_resolver_lookup_service() for more
      * details.
      */
@@ -321,10 +322,10 @@ public class Resolver extends org.gtk.gobject.Object {
     /**
      * Retrieves the result of a previous call to
      * g_resolver_lookup_service_async().
-     * 
-     * If the DNS resolution failed, @error (if non-<code>null</code>  will be set to
-     * a value from {@link org.gtk.gio.ResolverError}  If the operation was cancelled,
-     * @error will be set to {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>
+     * <p>
+     * If the DNS resolution failed, {@code error} (if non-<code>null</code>) will be set to
+     * a value from {@link ResolverError}. If the operation was cancelled,
+     * {@code error} will be set to {@link IOErrorEnum#CANCELLED}.
      */
     public org.gtk.glib.List lookupServiceFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -336,12 +337,12 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets @resolver to be the application&<code>#39</code> s default resolver (reffing
-     * @resolver, and unreffing the previous default resolver, if any).
+     * Sets {@code resolver} to be the application's default resolver (reffing
+     * {@code resolver}, and unreffing the previous default resolver, if any).
      * Future calls to g_resolver_get_default() will return this resolver.
-     * 
+     * <p>
      * This can be used if an application wants to perform any sort of DNS
-     * caching or &<code>#34</code> pinning&<code>#34</code> ; it can implement its own {@link org.gtk.gio.Resolver} that
+     * caching or "pinning"; it can implement its own {@link Resolver} that
      * calls the original default resolver for DNS operations, and
      * implements its own cache policies on top of that, and then set
      * itself as the default resolver for all later code to use.
@@ -351,7 +352,7 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Frees @addresses (which should be the return value from
+     * Frees {@code addresses} (which should be the return value from
      * g_resolver_lookup_by_name() or g_resolver_lookup_by_name_finish()).
      * (This is a convenience method; you can also simply free the results
      * by hand.)
@@ -361,7 +362,7 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Frees @targets (which should be the return value from
+     * Frees {@code targets} (which should be the return value from
      * g_resolver_lookup_service() or g_resolver_lookup_service_finish()).
      * (This is a convenience method; you can also simply free the
      * results by hand.)
@@ -371,8 +372,8 @@ public class Resolver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the default {@link org.gtk.gio.Resolver}  You should unref it when you are done
-     * with it. {@link org.gtk.gio.Resolver} may use its reference count as a hint about how
+     * Gets the default {@link Resolver}. You should unref it when you are done
+     * with it. {@link Resolver} may use its reference count as a hint about how
      * many threads it should allocate for concurrent DNS resolutions.
      */
     public static Resolver getDefault() {

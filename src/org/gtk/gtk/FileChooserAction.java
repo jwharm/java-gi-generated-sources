@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Describes whether a <code>GtkFileChooser</code> is being used to open existing files
+ * Describes whether a {@code GtkFileChooser} is being used to open existing files
  * or to save to a possibly new file.
  */
 public enum FileChooserAction {

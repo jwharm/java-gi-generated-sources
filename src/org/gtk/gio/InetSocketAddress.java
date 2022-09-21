@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * An IPv4 or IPv6 socket address; that is, the combination of a
- * {@link org.gtk.gio.InetAddress} and a port number.
+ * {@link InetAddress} and a port number.
  */
 public class InetSocketAddress extends SocketAddress implements SocketConnectable {
 
@@ -28,7 +28,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.InetSocketAddress} for @address and @port.
+     * Creates a new {@link InetSocketAddress} for {@code address} and {@code port}.
      */
     public InetSocketAddress(InetAddress address, short port) {
         super(constructNew(address, port));
@@ -40,17 +40,17 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.InetSocketAddress} for @address and @port.
+     * Creates a new {@link InetSocketAddress} for {@code address} and {@code port}.
      * <p>
-     * If @address is an IPv6 address, it can also contain a scope ID
-     * (separated from the address by a <code><code></code> /code>).
+     * If {@code address} is an IPv6 address, it can also contain a scope ID
+     * (separated from the address by a {@code %}).
      */
     public static InetSocketAddress newFromString(java.lang.String address, int port) {
         return new InetSocketAddress(constructNewFromString(address, port));
     }
     
     /**
-     * Gets @address&<code>#39</code> s {@link org.gtk.gio.InetAddress}
+     * Gets {@code address}'s {@link InetAddress}.
      */
     public InetAddress getAddress() {
         var RESULT = gtk_h.g_inet_socket_address_get_address(handle());
@@ -58,7 +58,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets the <code>sin6_flowinfo</code> field from @address,
+     * Gets the {@code sin6_flowinfo} field from {@code address},
      * which must be an IPv6 address.
      */
     public int getFlowinfo() {
@@ -67,7 +67,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets @address&<code>#39</code> s port.
+     * Gets {@code address}'s port.
      */
     public short getPort() {
         var RESULT = gtk_h.g_inet_socket_address_get_port(handle());
@@ -75,7 +75,7 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     }
     
     /**
-     * Gets the <code>sin6_scope_id</code> field from @address,
+     * Gets the {@code sin6_scope_id} field from {@code address},
      * which must be an IPv6 address.
      */
     public int getScopeId() {

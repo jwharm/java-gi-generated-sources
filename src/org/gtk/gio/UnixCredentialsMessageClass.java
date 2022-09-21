@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.UnixCredentialsMessage}
+ * Class structure for {@link UnixCredentialsMessage}.
  */
 public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.ResourceBase {
 

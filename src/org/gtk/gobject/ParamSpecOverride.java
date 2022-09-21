@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gobject.ParamSpec} derived structure that redirects operations to
- * other types of {@link org.gtk.gobject.ParamSpec} 
- * 
+ * A {@link ParamSpec} derived structure that redirects operations to
+ * other types of {@link ParamSpec}.
+ * <p>
  * All operations other than getting or setting the value are redirected,
  * including accessing the nick and blurb, validating a value, and so
  * forth.
- * 
+ * <p>
  * See g_param_spec_get_redirect_target() for retrieving the overridden
- * property. {@link org.gtk.gobject.ParamSpecOverride} is used in implementing
+ * property. {@link ParamSpecOverride} is used in implementing
  * g_object_class_override_property(), and will not be directly useful
  * unless you are implementing a new base type similar to GObject.
  */

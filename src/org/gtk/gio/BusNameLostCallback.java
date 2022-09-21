@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Invoked when the name is lost or @connection has been closed.
+ * Invoked when the name is lost or {@code connection} has been closed.
  */
 @FunctionalInterface
 public interface BusNameLostCallback {

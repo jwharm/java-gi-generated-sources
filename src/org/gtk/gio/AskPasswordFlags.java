@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * {@link org.gtk.gio.AskPasswordFlags} are used to request specific information from the
+ * {@link AskPasswordFlags} are used to request specific information from the
  * user, or to notify the user of their choices in an authentication
  * situation.
  */

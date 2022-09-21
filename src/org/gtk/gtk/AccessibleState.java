@@ -1,66 +1,59 @@
 package org.gtk.gtk;
 
 /**
- * The possible accessible states of a {@link [iface@Accessible] (ref=iface)}.
+ * The possible accessible states of a {@code Accessible}.
  */
 public enum AccessibleState {
 
     /**
-     * A &<code>#8220</code> busy&<code>#8221</code>  state. This state has boolean values
+     * A “busy” state. This state has boolean values
      */
     BUSY,
     
     /**
-     * A &<code>#8220</code> checked&<code>#8221</code>  state; indicates the current
-     *   state of a {@link [class@CheckButton]}. Value type: {@link [enum@AccessibleTristate] (ref=enum)}
+     * A “checked” state; indicates the current
+     *   state of a {@code AccessibleTristate}
      */
     CHECKED,
     
     /**
-     * A &<code>#8220</code> disabled&<code>#8221</code>  state; corresponds to the
-     *   {@link [property@Widget:sensitive] (ref=property)} property. It indicates a UI element
+     * A “disabled” state; corresponds to the
+     *   {@code Widget:sensitive} property. It indicates a UI element
      *   that is perceivable, but not editable or operable. Value type: boolean
      */
     DISABLED,
     
     /**
-     * An &<code>#8220</code> expanded&<code>#8221</code>  state; corresponds to the
-     *   {@link [property@Expander:expanded] (ref=property)} property. Value type: boolean
+     * An “expanded” state; corresponds to the
+     *   {@code Expander:expanded} property. Value type: boolean
      *   or undefined
      */
     EXPANDED,
     
     /**
-     * A &<code>#8220</code> hidden&<code>#8221</code>  state; corresponds to the
-     *   {@link [property@Widget:visible] (ref=property)} property. You can use this state
+     * A “hidden” state; corresponds to the
+     *   {@code Widget:visible} property. You can use this state
      *   explicitly on UI elements that should not be exposed to an assistive
      *   technology. Value type: boolean
-     *   See also: 
-     *       
-     *       
-     *         A &<code>#8220</code> hidden&<code>#8221</code>  state; corresponds to the
-     *   {@link [property@Widget:visible] (ref=property)} property. You can use this state
-     *   explicitly on UI elements that should not be exposed to an assistive
-     *   technology. Value type: boolean
-     *   See also: %GTK_ACCESSIBLE_STATE_DISABLED
+     *   See also: {@link AccessibleState#DISABLED}
      */
     HIDDEN,
     
     /**
-     * An &<code>#8220</code> invalid&<code>#8221</code>  state; set when a widget
-     *   is showing an error. Value type: {@link [enum@AccessibleInvalidState] (ref=enum)}
+     * An “invalid” state; set when a widget
+     *   is showing an error. Value type: {@code AccessibleInvalidState}
      */
     INVALID,
     
     /**
-     * A &<code>#8220</code> pressed&<code>#8221</code>  state; indicates the current
-     *   state of a {@link [class@ToggleButton]}. Value type: {@link [enum@AccessibleTristate] (ref=enum)}
+     * A “pressed” state; indicates the current
+     *   state of a {@code AccessibleTristate}
      *   enumeration
      */
     PRESSED,
     
     /**
-     * A &<code>#8220</code> selected&<code>#8221</code>  state; set when a widget
+     * A “selected” state; set when a widget
      *   is selected. Value type: boolean or undefined
      */
     SELECTED;

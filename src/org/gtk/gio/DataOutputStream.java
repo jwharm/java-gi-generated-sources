@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Data output stream implements {@link org.gtk.gio.OutputStream} and includes functions for
+ * Data output stream implements {@link OutputStream} and includes functions for
  * writing data directly to an output stream.
  */
 public class DataOutputStream extends FilterOutputStream implements Seekable {
@@ -28,7 +28,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     }
     
     /**
-     * Creates a new data output stream for @base_stream.
+     * Creates a new data output stream for {@code base_stream}.
      */
     public DataOutputStream(OutputStream baseStream) {
         super(constructNew(baseStream));
@@ -139,7 +139,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
     }
     
     /**
-     * Sets the byte order of the data output stream to @order.
+     * Sets the byte order of the data output stream to {@code order}.
      */
     public void setByteOrder(DataStreamByteOrder order) {
         gtk_h.g_data_output_stream_set_byte_order(handle(), order.getValue());

@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * Predefined values for use as response ids in gtk_dialog_add_button().
- * 
+ * <p>
  * All predefined values are negative; GTK leaves values of 0 or greater for
  * application-defined response ids.
  */

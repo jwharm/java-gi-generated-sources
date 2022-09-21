@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * A {@link org.gtk.glib.SequenceIterCompareFunc} is a function used to compare iterators.
+ * A {@link SequenceIterCompareFunc} is a function used to compare iterators.
  * It must return zero if the iterators compare equal, a negative value
  * if @a comes before @b, and a positive value if @b comes before @a.
  */

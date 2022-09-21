@@ -8,24 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GdkAppLaunchContext</code> handles launching an application in a graphical context.
+ * {@code GdkAppLaunchContext} handles launching an application in a graphical context.
  * <p>
- * It is an implementation of <code>GAppLaunchContext</code> that provides startup
+ * It is an implementation of {@code GAppLaunchContext} that provides startup
  * notification and allows to launch applications on a specific workspace.
  * <p>
  * <h2>Launching an application</h2>
- * <p><pre>c
+ * <p>
+ * <pre>{@code c
  * GdkAppLaunchContext *context;
  * 
  * context = gdk_display_get_app_launch_context (display);
  * 
  * gdk_app_launch_context_set_timestamp (gdk_event_get_time (event));
  * 
- * if (!g_app_info_launch_default_for_uri (&<code>#34</code> http://www.gtk.org&<code>#34</code> , context, &<code>#38</code> error))
- *   g_warning (&<code>#34</code> Launching failed: <code>s</code> n&<code>#34</code> , error-&<code>#62</code> message);
+ * if (!g_app_info_launch_default_for_uri ("http://www.gtk.org", context, &error))
+ *   g_warning ("Launching failed: %s\\n", error->message);
  * 
  * g_object_unref (context);
- * </pre>
+ * }</pre>
  */
 public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
 
@@ -39,7 +40,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     }
     
     /**
-     * Gets the <code>GdkDisplay</code> that @context is for.
+     * Gets the {@code GdkDisplay} that {@code context} is for.
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_app_launch_context_get_display(handle());
@@ -51,13 +52,13 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * <p>
      * This only works when running under a window manager that
      * supports multiple workspaces, as described in the
-     * {@link [Extended Window Manager Hints]}(http://www.freedesktop.org/Standards/wm-spec).
-     * Specifically this sets the <code>_NET_WM_DESKTOP</code> property described
+     * <a href="http://www.freedesktop.org/Standards/wm-spec">Extended Window Manager Hints</a>.
+     * Specifically this sets the {@code _NET_WM_DESKTOP} property described
      * in that spec.
-     * 
+     * <p>
      * This only works when using the X11 backend.
-     * 
-     * When the workspace is not specified or @desktop is set to -1,
+     * <p>
+     * When the workspace is not specified or {@code desktop} is set to -1,
      * it is up to the window manager to pick one, typically it will
      * be the current workspace.
      */
@@ -68,11 +69,11 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     /**
      * Sets the icon for applications that are launched with this
      * context.
-     * 
+     * <p>
      * Window Managers can use this information when displaying startup
      * notification.
-     * 
-     * See also {@link org.gtk.gdk.AppLaunchContext<code>#setIconName</code> .
+     * <p>
+     * See also {@link AppLaunchContext#setIconName}.
      */
     public void setIcon(org.gtk.gio.Icon icon) {
         gtk_h.gdk_app_launch_context_set_icon(handle(), icon.handle());
@@ -81,12 +82,12 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     /**
      * Sets the icon for applications that are launched with this context.
      * <p>
-     * The @icon_name will be interpreted in the same way as the Icon field
-     * in desktop files. See also {@link org.gtk.gdk.AppLaunchContext<code>#setIcon</code> .
+     * The {@code icon_name} will be interpreted in the same way as the Icon field
+     * in desktop files. See also {@link AppLaunchContext#setIcon}.
      * <p>
-     * If both @icon and @icon_name are set, the @icon_name takes priority.
-     * If neither @icon or @icon_name is set, the icon is taken from either
-     * the file that is passed to launched application or from the <code>GAppInfo</code>
+     * If both {@code icon} and {@code icon_name} are set, the {@code icon_name} takes priority.
+     * If neither {@code icon} or {@code icon_name} is set, the icon is taken from either
+     * the file that is passed to launched application or from the {@code GAppInfo}
      * for the launched application itself.
      */
     public void setIconName(java.lang.String iconName) {
@@ -94,15 +95,15 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     }
     
     /**
-     * Sets the timestamp of @context.
-     * 
+     * Sets the timestamp of {@code context}.
+     * <p>
      * The timestamp should ideally be taken from the event that
      * triggered the launch.
-     * 
+     * <p>
      * Window managers can use this information to avoid moving the
      * focus to the newly launched application when the user is busy
-     * typing in another window. This is also known as &<code>#39</code> focus stealing
-     * prevention&<code>#39</code> .
+     * typing in another window. This is also known as 'focus stealing
+     * prevention'.
      */
     public void setTimestamp(int timestamp) {
         gtk_h.gdk_app_launch_context_set_timestamp(handle(), timestamp);

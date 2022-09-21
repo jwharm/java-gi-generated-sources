@@ -27,15 +27,15 @@ public class ClipNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will clip the @child to the area
-     * given by @clip.
+     * Creates a {@code GskRenderNode} that will clip the {@code child} to the area
+     * given by {@code clip}.
      */
     public ClipNode(RenderNode child, org.gtk.graphene.Rect clip) {
         super(constructNew(child, clip));
     }
     
     /**
-     * Gets the child node that is getting clipped by the given @node.
+     * Gets the child node that is getting clipped by the given {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_clip_node_get_child(handle());
@@ -43,7 +43,7 @@ public class ClipNode extends RenderNode {
     }
     
     /**
-     * Retrieves the clip rectangle for @node.
+     * Retrieves the clip rectangle for {@code node}.
      */
     public org.gtk.graphene.Rect getClip() {
         var RESULT = gtk_h.gsk_clip_node_get_clip(handle());

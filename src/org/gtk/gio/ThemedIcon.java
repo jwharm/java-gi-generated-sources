@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.ThemedIcon} is an implementation of {@link org.gtk.gio.Icon} that supports icon themes.
- * {@link org.gtk.gio.ThemedIcon} contains a list of all of the icons present in an icon
- * theme, so that icons can be looked up quickly. {@link org.gtk.gio.ThemedIcon} does
+ * {@link ThemedIcon} is an implementation of {@link Icon} that supports icon themes.
+ * {@link ThemedIcon} contains a list of all of the icons present in an icon
+ * theme, so that icons can be looked up quickly. {@link ThemedIcon} does
  * not provide actual pixmaps for icons, just the icon names.
  * Ideally something like gtk_icon_theme_choose_icon() should be used to
  * resolve the list of names so that fallback icons work nicely with
@@ -33,7 +33,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Creates a new themed icon for @iconname.
+     * Creates a new themed icon for {@code iconname}.
      */
     public ThemedIcon(java.lang.String iconname) {
         super(constructNew(iconname));
@@ -45,7 +45,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Creates a new themed icon for @iconnames.
+     * Creates a new themed icon for {@code iconnames}.
      */
     public static ThemedIcon newFromNames(java.lang.String[] iconnames, int len) {
         return new ThemedIcon(constructNewFromNames(iconnames, len));
@@ -57,20 +57,20 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Creates a new themed icon for @iconname, and all the names
-     * that can be created by shortening @iconname at &<code>#39</code> -&<code>#39</code>  characters.
-     * 
-     * In the following example, @icon1 and @icon2 are equivalent:
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
-     * const char *names[]} = {
-     *   &<code>#34</code> gnome-dev-cdrom-audio&<code>#34</code> ,
-     *   &<code>#34</code> gnome-dev-cdrom&<code>#34</code> ,
-     *   &<code>#34</code> gnome-dev&<code>#34</code> ,
-     *   &<code>#34</code> gnome&<code>#34</code> 
+     * Creates a new themed icon for {@code iconname}, and all the names
+     * that can be created by shortening {@code iconname} at '-' characters.
+     * <p>
+     * In the following example, {@code icon1} and {@code icon2} are equivalent:
+     * |[&lt;!-- language="C" --&gt;
+     * const char *names[] = {
+     *   "gnome-dev-cdrom-audio",
+     *   "gnome-dev-cdrom",
+     *   "gnome-dev",
+     *   "gnome"
      * };
-     * 
+     * <p>
      * icon1 = g_themed_icon_new_from_names (names, 4);
-     * icon2 = g_themed_icon_new_with_default_fallbacks (&<code>#34</code> gnome-dev-cdrom-audio&<code>#34</code> );
+     * icon2 = g_themed_icon_new_with_default_fallbacks ("gnome-dev-cdrom-audio");
      * ]|
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
@@ -78,8 +78,8 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Append a name to the list of icons from within @icon.
-     * 
+     * Append a name to the list of icons from within {@code icon}.
+     * <p>
      * Note that doing so invalidates the hash computed by prior calls
      * to g_icon_hash().
      */
@@ -88,8 +88,8 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Prepend a name to the list of icons from within @icon.
-     * 
+     * Prepend a name to the list of icons from within {@code icon}.
+     * <p>
      * Note that doing so invalidates the hash computed by prior calls
      * to g_icon_hash().
      */

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.DBusMenuModel} is an implementation of {@link org.gtk.gio.MenuModel} that can be used
+ * {@link DBusMenuModel} is an implementation of {@link MenuModel} that can be used
  * as a proxy for a menu model that is exported over D-Bus with
  * g_dbus_connection_export_menu_model().
  */
@@ -24,9 +24,9 @@ public class DBusMenuModel extends MenuModel {
     }
     
     /**
-     * Obtains a {@link org.gtk.gio.DBusMenuModel} for the menu model which is exported
-     * at the given @bus_name and @object_path.
-     * 
+     * Obtains a {@link DBusMenuModel} for the menu model which is exported
+     * at the given {@code bus_name} and {@code object_path}.
+     * <p>
      * The thread default main context is taken at the time of this call.
      * All signals on the menu model (and any linked models) are reported
      * with respect to this context.  All calls on the returned menu model

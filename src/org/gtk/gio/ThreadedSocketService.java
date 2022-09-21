@@ -8,19 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gio.ThreadedSocketService} is a simple subclass of {@link org.gtk.gio.SocketService} that handles incoming connections by creating a worker thread and
+ * A {@link ThreadedSocketService} is a simple subclass of {@link SocketService}
+ * that handles incoming connections by creating a worker thread and
  * dispatching the connection to it by emitting the
- * {@link org.gtk.gio.ThreadedSocketService} :run signal in the new thread.
- * 
+ * {@link ThreadedSocketService}::run signal in the new thread.
+ * <p>
  * The signal handler may perform blocking IO and need not return
  * until the connection is closed.
- * 
+ * <p>
  * The service is implemented using a thread pool, so there is a
  * limited amount of threads available to serve incoming requests.
- * The service automatically stops the {@link org.gtk.gio.SocketService} from accepting
+ * The service automatically stops the {@link SocketService} from accepting
  * new connections when all threads are busy.
- * 
- * As with {@link org.gtk.gio.SocketService}  you may connect to {@link org.gtk.gio.ThreadedSocketService} :run,
+ * <p>
+ * As with {@link SocketService}, you may connect to {@link ThreadedSocketService}::run,
  * or subclass and override the default handler.
  */
 public class ThreadedSocketService extends SocketService {
@@ -40,8 +41,8 @@ public class ThreadedSocketService extends SocketService {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.ThreadedSocketService} with no listeners. Listeners
-     * must be added with one of the {@link org.gtk.gio.SocketListener} &<code>#34</code> add&<code>#34</code>  methods.
+     * Creates a new {@link ThreadedSocketService} with no listeners. Listeners
+     * must be added with one of the {@link SocketListener} "add" methods.
      */
     public ThreadedSocketService(int maxThreads) {
         super(constructNew(maxThreads));
@@ -55,7 +56,7 @@ public class ThreadedSocketService extends SocketService {
     /**
      * The ::run signal is emitted in a worker thread in response to an
      * incoming connection. This thread is dedicated to handling
-     * @connection and may perform blocking IO. The signal handler need
+     * {@code connection} and may perform blocking IO. The signal handler need
      * not return until the connection is closed.
      */
     public SignalHandle onRun(RunHandler handler) {

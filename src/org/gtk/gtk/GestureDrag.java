@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkGestureDrag</code> is a <code>GtkGesture</code> implementation for drags.
- * 
+ * {@code GtkGestureDrag} is a {@code GtkGesture} implementation for drags.
+ * <p>
  * The drag operation itself can be tracked throughout the
- * {@link [signal@Gtk.GestureDrag::drag-begin] (ref=signal)},
- * {@link [signal@Gtk.GestureDrag::drag-update] (ref=signal)} and
- * {@link [signal@Gtk.GestureDrag::drag-end] (ref=signal)} signals, and the relevant
+ * {@code Gtk.GestureDrag::drag-begin},
+ * {@code Gtk.GestureDrag::drag-update} and
+ * {@code Gtk.GestureDrag::drag-end} signals, and the relevant
  * coordinates can be extracted through
- * {@link org.gtk.gtk.GestureDrag<code>#getOffset</code>  and
- * {@link org.gtk.gtk.GestureDrag<code>#getStartPoint</code> .
+ * {@link GestureDrag#getOffset} and
+ * {@link GestureDrag#getStartPoint}.
  */
 public class GestureDrag extends GestureSingle {
 
@@ -35,7 +35,7 @@ public class GestureDrag extends GestureSingle {
     }
     
     /**
-     * Returns a newly created <code>GtkGesture</code> that recognizes drags.
+     * Returns a newly created {@code GtkGesture} that recognizes drags.
      */
     public GestureDrag() {
         super(constructNew());

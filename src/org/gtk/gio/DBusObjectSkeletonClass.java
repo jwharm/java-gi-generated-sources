@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.DBusObjectSkeleton}
+ * Class structure for {@link DBusObjectSkeleton}.
  */
 public class DBusObjectSkeletonClass extends io.github.jwharm.javagi.ResourceBase {
 

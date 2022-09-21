@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gio.DBusObjectSkeleton} instance is essentially a group of D-Bus
+ * A {@link DBusObjectSkeleton} instance is essentially a group of D-Bus
  * interfaces. The set of exported interfaces on the object may be
  * dynamic and change at runtime.
- * 
- * This type is intended to be used with {@link org.gtk.gio.DBusObjectManager}
+ * <p>
+ * This type is intended to be used with {@link DBusObjectManager}.
  */
 public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusObject {
 
@@ -31,19 +31,19 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.DBusObjectSkeleton}
+     * Creates a new {@link DBusObjectSkeleton}.
      */
     public DBusObjectSkeleton(java.lang.String objectPath) {
         super(constructNew(objectPath));
     }
     
     /**
-     * Adds @interface_ to @object.
-     * 
-     * If @object already contains a {@link org.gtk.gio.DBusInterfaceSkeleton} with the same
-     * interface name, it is removed before @interface_ is added.
-     * 
-     * Note that @object takes its own reference on @interface_ and holds
+     * Adds {@code interface_} to {@code object}.
+     * <p>
+     * If {@code object} already contains a {@link DBusInterfaceSkeleton} with the same
+     * interface name, it is removed before {@code interface_} is added.
+     * <p>
+     * Note that {@code object} takes its own reference on {@code interface_} and holds
      * it until removed.
      */
     public void addInterface(DBusInterfaceSkeleton interface_) {
@@ -52,7 +52,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     
     /**
      * This method simply calls g_dbus_interface_skeleton_flush() on all
-     * interfaces belonging to @object. See that method for when flushing
+     * interfaces belonging to {@code object}. See that method for when flushing
      * is useful.
      */
     public void flush() {
@@ -60,15 +60,15 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     }
     
     /**
-     * Removes @interface_ from @object.
+     * Removes {@code interface_} from {@code object}.
      */
     public void removeInterface(DBusInterfaceSkeleton interface_) {
         gtk_h.g_dbus_object_skeleton_remove_interface(handle(), interface_.handle());
     }
     
     /**
-     * Removes the {@link org.gtk.gio.DBusInterface} with @interface_name from @object.
-     * 
+     * Removes the {@link DBusInterface} with {@code interface_name} from {@code object}.
+     * <p>
      * If no D-Bus interface of the given interface exists, this function
      * does nothing.
      */
@@ -77,7 +77,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     }
     
     /**
-     * Sets the object path for @object.
+     * Sets the object path for {@code object}.
      */
     public void setObjectPath(java.lang.String objectPath) {
         gtk_h.g_dbus_object_skeleton_set_object_path(handle(), Interop.allocateNativeString(objectPath).handle());
@@ -91,12 +91,12 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     /**
      * Emitted when a method is invoked by a remote caller and used to
      * determine if the method call is authorized.
-     * 
-     * This signal is like {@link org.gtk.gio.DBusInterfaceSkeleton} <code>#39</code> s
-     * {@link org.gtk.gio.DBusInterfaceSkeleton} :g-authorize-method signal,
+     * <p>
+     * This signal is like {@link DBusInterfaceSkeleton}'s
+     * {@link DBusInterfaceSkeleton}::g-authorize-method signal,
      * except that it is for the enclosing object.
-     * 
-     * The default class handler just returns <code>true</code>
+     * <p>
+     * The default class handler just returns <code>true</code>.
      */
     public SignalHandle onAuthorizeMethod(AuthorizeMethodHandler handler) {
         try {

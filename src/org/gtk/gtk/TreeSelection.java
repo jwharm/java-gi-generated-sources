@@ -10,14 +10,15 @@ import java.lang.invoke.*;
 /**
  * The selection object for GtkTreeView
  * <p>
- * The <code>GtkTreeSelection</code> object is a helper object to manage the selection
- * for a <code>GtkTreeView</code> widget.  The <code>GtkTreeSelection</code> object is
- * automatically created when a new <code>GtkTreeView</code> widget is created, and
- * cannot exist independently of this widget.  The primary reason the<code>GtkTreeSelection</code> objects exists is for cleanliness of code and API.
+ * The {@code GtkTreeSelection} object is a helper object to manage the selection
+ * for a {@code GtkTreeView} widget.  The {@code GtkTreeSelection} object is
+ * automatically created when a new {@code GtkTreeView} widget is created, and
+ * cannot exist independently of this widget.  The primary reason the
+ * {@code GtkTreeSelection} objects exists is for cleanliness of code and API.
  * That is, there is no conceptual reason all these functions could not be
- * methods on the <code>GtkTreeView</code> widget instead of a separate function.
+ * methods on the {@code GtkTreeView} widget instead of a separate function.
  * <p>
- * The <code>GtkTreeSelection</code> object is gotten from a <code>GtkTreeView</code> by calling
+ * The {@code GtkTreeSelection} object is gotten from a {@code GtkTreeView} by calling
  * gtk_tree_view_get_selection().  It can be manipulated to check the
  * selection status of the tree, as well as select and deselect individual
  * rows.  Selection is done completely view side.  As a result, multiple
@@ -27,9 +28,9 @@ import java.lang.invoke.*;
  * first.
  * <p>
  * One of the important things to remember when monitoring the selection of
- * a view is that the <code>GtkTreeSelection</code>::changed signal is mostly a hint.
+ * a view is that the {@code GtkTreeSelection}::changed signal is mostly a hint.
  * That is, it may only emit one signal when a range of rows is selected.
- * Additionally, it may on occasion emit a <code>GtkTreeSelection</code>::changed signal
+ * Additionally, it may on occasion emit a {@code GtkTreeSelection}::changed signal
  * when nothing has happened (mostly as a result of programmers calling
  * select_row on an already selected row).
  */
@@ -45,7 +46,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the number of rows that have been selected in @tree.
+     * Returns the number of rows that have been selected in {@code tree}.
      */
     public int countSelectedRows() {
         var RESULT = gtk_h.gtk_tree_selection_count_selected_rows(handle());
@@ -53,7 +54,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the selection mode for @selection. See
+     * Gets the selection mode for {@code selection}. See
      * gtk_tree_selection_set_mode().
      */
     public SelectionMode getMode() {
@@ -62,11 +63,11 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets @iter to the currently selected node if @selection is set to
-     * {@link org.gtk.gtk.SelectionMode<code>#SINGLE</code>  or {@link org.gtk.gtk.SelectionMode<code>#BROWSE</code>    @iter may be NULL if you
-     * just want to test if @selection has any selected nodes.  @model is filled
+     * Sets {@code iter} to the currently selected node if {@code selection} is set to
+     * {@link SelectionMode#SINGLE} or {@link SelectionMode#BROWSE}.  {@code iter} may be NULL if you
+     * just want to test if {@code selection} has any selected nodes.  {@code model} is filled
      * with the current model as a convenience.  This function will not work if you
-     * use @selection is {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>
+     * use {@code selection} is {@link SelectionMode#MULTIPLE}.
      */
     public boolean getSelected(TreeModel[] model, TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_selection_get_selected(handle(), Interop.allocateNativeArray(model).handle(), iter.handle());
@@ -76,13 +77,13 @@ public class TreeSelection extends org.gtk.gobject.Object {
     /**
      * Creates a list of path of all selected rows. Additionally, if you are
      * planning on modifying the model after calling this function, you may
-     * want to convert the returned list into a list of <code>GtkTreeRowReference</code>s.
+     * want to convert the returned list into a list of {@code GtkTreeRowReference}s.
      * To do this, you can use gtk_tree_row_reference_new().
-     * 
+     * <p>
      * To free the return value, use:
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * |[&lt;!-- language="C" --&gt;
      * g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
-     * ]}|
+     * ]|
      */
     public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
         var RESULT = gtk_h.gtk_tree_selection_get_selected_rows(handle(), Interop.allocateNativeArray(model).handle());
@@ -90,7 +91,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the tree view associated with @selection.
+     * Returns the tree view associated with {@code selection}.
      */
     public TreeView getTreeView() {
         var RESULT = gtk_h.gtk_tree_selection_get_tree_view(handle());
@@ -106,7 +107,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the row at @iter is currently selected.
+     * Returns <code>true</code> if the row at {@code iter} is currently selected.
      */
     public boolean iterIsSelected(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_selection_iter_is_selected(handle(), iter.handle());
@@ -114,7 +115,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the row pointed to by @path is currently selected.  If @path
+     * Returns <code>true</code> if the row pointed to by {@code path} is currently selected.  If {@code path}
      * does not point to a valid location, <code>false</code> is returned
      */
     public boolean pathIsSelected(TreePath path) {
@@ -123,7 +124,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Selects all the nodes. @selection must be set to {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>  mode.
+     * Selects all the nodes. {@code selection} must be set to {@link SelectionMode#MULTIPLE}
+     * mode.
      */
     public void selectAll() {
         gtk_h.gtk_tree_selection_select_all(handle());
@@ -137,15 +139,15 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Select the row at @path.
+     * Select the row at {@code path}.
      */
     public void selectPath(TreePath path) {
         gtk_h.gtk_tree_selection_select_path(handle(), path.handle());
     }
     
     /**
-     * Selects a range of nodes, determined by @start_path and @end_path inclusive.
-     * @selection must be set to {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>  mode.
+     * Selects a range of nodes, determined by {@code start_path} and {@code end_path} inclusive.
+     * {@code selection} must be set to {@link SelectionMode#MULTIPLE} mode.
      */
     public void selectRange(TreePath startPath, TreePath endPath) {
         gtk_h.gtk_tree_selection_select_range(handle(), startPath.handle(), endPath.handle());
@@ -171,8 +173,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the selection mode of the @selection.  If the previous type was
-     * {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>   then the anchor is kept selected, if it was
+     * Sets the selection mode of the {@code selection}.  If the previous type was
+     * {@link SelectionMode#MULTIPLE}, then the anchor is kept selected, if it was
      * previously selected.
      */
     public void setMode(SelectionMode type) {
@@ -181,10 +183,11 @@ public class TreeSelection extends org.gtk.gobject.Object {
     
     /**
      * Sets the selection function.
-     * 
+     * <p>
      * If set, this function is called before any node is selected or unselected,
      * giving some control over which nodes are selected. The select function
-     * should return <code>true</code> if the state of the node may be toggled, and <code>false</code> if the state of the node should be left unchanged.
+     * should return <code>true</code> if the state of the node may be toggled, and <code>false</code>
+     * if the state of the node should be left unchanged.
      */
     public void setSelectFunction(TreeSelectionFunc func) {
         try {
@@ -216,14 +219,14 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Unselects the row at @path.
+     * Unselects the row at {@code path}.
      */
     public void unselectPath(TreePath path) {
         gtk_h.gtk_tree_selection_unselect_path(handle(), path.handle());
     }
     
     /**
-     * Unselects a range of nodes, determined by @start_path and @end_path
+     * Unselects a range of nodes, determined by {@code start_path} and {@code end_path}
      * inclusive.
      */
     public void unselectRange(TreePath startPath, TreePath endPath) {

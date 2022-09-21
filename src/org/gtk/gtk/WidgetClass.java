@@ -14,13 +14,14 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Installs a shortcut in @widget_class.
-     * 
-     * Every instance created for @widget_class or its subclasses will
+     * Installs a shortcut in {@code widget_class}.
+     * <p>
+     * Every instance created for {@code widget_class} or its subclasses will
      * inherit this shortcut and trigger it.
-     * 
-     * Shortcuts added this way will be triggered in the {@link org.gtk.gtk.PropagationPhase<code>#BUBBLE</code>  phase, which means they may also trigger if child widgets have focus.
-     * 
+     * <p>
+     * Shortcuts added this way will be triggered in the {@link PropagationPhase#BUBBLE}
+     * phase, which means they may also trigger if child widgets have focus.
+     * <p>
      * This function must only be used in class initialization functions
      * otherwise it is not guaranteed that the shortcut will be installed.
      */
@@ -30,44 +31,45 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Automatically assign an object declared in the class template XML to
-     * be set to a location on a freshly built instance&<code>#8217</code> s private data, or
-     * alternatively accessible via {@link org.gtk.gtk.Widget<code>#getTemplateChild</code> .
+     * be set to a location on a freshly built instance’s private data, or
+     * alternatively accessible via {@link Widget#getTemplateChild}.
      * <p>
      * The struct can point either into the public instance, then you should
-     * use <code>G_STRUCT_OFFSET(WidgetType, member)</code> for @struct_offset, or in the
-     * private struct, then you should use <code>G_PRIVATE_OFFSET(WidgetType, member)</code>.
+     * use {@code G_STRUCT_OFFSET(WidgetType, member)} for {@code struct_offset}, or in the
+     * private struct, then you should use {@code G_PRIVATE_OFFSET(WidgetType, member)}.
      * <p>
      * An explicit strong reference will be held automatically for the duration
-     * of your instance&<code>#8217</code> s life cycle, it will be released automatically when<code>GObjectClass.dispose()</code> runs on your instance and if a @struct_offset
-     * that is <code>!= 0</code> is specified, then the automatic location in your instance
-     * public or private data will be set to <code>null</code>  You can however access an
-     * automated child pointer the first time your classes <code>GObjectClass.dispose()</code>
-     * runs, or alternatively in {@link [signal@Gtk.Widget::destroy] (ref=signal)}.
+     * of your instance’s life cycle, it will be released automatically when
+     * {@code GObjectClass.dispose()} runs on your instance and if a {@code struct_offset}
+     * that is {@code != 0} is specified, then the automatic location in your instance
+     * public or private data will be set to <code>null</code>. You can however access an
+     * automated child pointer the first time your classes {@code GObjectClass.dispose()}
+     * runs, or alternatively in {@code Gtk.Widget::destroy}.
      * <p>
-     * If @internal_child is specified, {@link org.gtk.gtk.Buildable<code>#getInternalChild</code> 
-     * will be automatically implemented by the <code>GtkWidget</code> class so there is no
+     * If {@code internal_child} is specified, {@link Buildable#getInternalChild}
+     * will be automatically implemented by the {@code GtkWidget} class so there is no
      * need to implement it manually.
-     * 
-     * The wrapper macros {@link Gtk<code>#widgetClassBindTemplateChild</code> ,
-     * {@link Gtk<code>#widgetClassBindTemplateChildInternal</code> ,
-     * {@link Gtk<code>#widgetClassBindTemplateChildPrivate</code>  and
-     * {@link Gtk<code>#widgetClassBindTemplateChildInternalPrivate</code> 
+     * <p>
+     * The wrapper macros {@link Gtk#widgetClassBindTemplateChild},
+     * {@link Gtk#widgetClassBindTemplateChildInternal},
+     * {@link Gtk#widgetClassBindTemplateChildPrivate} and
+     * {@link Gtk#widgetClassBindTemplateChildInternalPrivate}
      * might be more convenient to use.
-     * 
+     * <p>
      * Note that this must be called from a composite widget classes class
-     * initializer after calling {@link org.gtk.gtk.WidgetClass<code>#setTemplate</code> .
+     * initializer after calling {@link WidgetClass#setTemplate}.
      */
     public void bindTemplateChildFull(java.lang.String name, boolean internalChild, long structOffset) {
         gtk_h.gtk_widget_class_bind_template_child_full(handle(), Interop.allocateNativeString(name).handle(), internalChild ? 1 : 0, structOffset);
     }
     
     /**
-     * Retrieves the accessible role used by the given <code>GtkWidget</code> class.
-     * 
+     * Retrieves the accessible role used by the given {@code GtkWidget} class.
+     * <p>
      * Different accessible roles have different states, and are rendered
      * differently by assistive technologies.
-     * 
-     * See also: {@link org.gtk.gtk.Accessible<code>#getAccessibleRole</code> .
+     * <p>
+     * See also: {@link Accessible#getAccessibleRole}.
      */
     public AccessibleRole getAccessibleRole() {
         var RESULT = gtk_h.gtk_widget_class_get_accessible_role(handle());
@@ -76,9 +78,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the signal id for the activation signal.
-     * 
+     * <p>
      * the activation signal is set using
-     * {@link org.gtk.gtk.WidgetClass<code>#setActivateSignal</code> .
+     * {@link WidgetClass#setActivateSignal}.
      */
     public int getActivateSignal() {
         var RESULT = gtk_h.gtk_widget_class_get_activate_signal(handle());
@@ -87,8 +89,8 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the name used by this class for matching in CSS code.
-     * 
-     * See {@link org.gtk.gtk.WidgetClass<code>#setCssName</code>  for details.
+     * <p>
+     * See {@link WidgetClass#setCssName} for details.
      */
     public java.lang.String getCssName() {
         var RESULT = gtk_h.gtk_widget_class_get_css_name(handle());
@@ -96,10 +98,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the type of the {@link org.gtk.gtk.LayoutManager}
-     * used by widgets of class @widget_class.
-     * 
-     * See also: {@link org.gtk.gtk.WidgetClass<code>#setLayoutManagerType</code> .
+     * Retrieves the type of the {@link LayoutManager}
+     * used by widgets of class {@code widget_class}.
+     * <p>
+     * See also: {@link WidgetClass#setLayoutManagerType}.
      */
     public org.gtk.gobject.Type getLayoutManagerType() {
         var RESULT = gtk_h.gtk_widget_class_get_layout_manager_type(handle());
@@ -107,18 +109,18 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Installs an action called @action_name on @widget_class and
-     * binds its state to the value of the @property_name property.
-     * 
+     * Installs an action called {@code action_name} on {@code widget_class} and
+     * binds its state to the value of the {@code property_name} property.
+     * <p>
      * This function will perform a few santity checks on the property selected
-     * via @property_name. Namely, the property must exist, must be readable,
+     * via {@code property_name}. Namely, the property must exist, must be readable,
      * writable and must not be construct-only. There are also restrictions
      * on the type of the given property, it must be boolean, int, unsigned int,
      * double or string. If any of these conditions are not met, a critical
      * warning will be printed and no action will be added.
-     * 
+     * <p>
      * The state type of the action matches the property type.
-     * 
+     * <p>
      * If the property is boolean, the action will have no parameter and
      * toggle the property value. Otherwise, the action will have a parameter
      * of the same type as the property.
@@ -128,8 +130,8 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the accessible role used by the given <code>GtkWidget</code> class.
-     * 
+     * Sets the accessible role used by the given {@code GtkWidget} class.
+     * <p>
      * Different accessible roles have different states, and are
      * rendered differently by assistive technologies.
      */
@@ -138,12 +140,12 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the <code>GtkWidgetClass.activate_signal</code> field with the
-     * given @signal_id.
+     * Sets the {@code GtkWidgetClass.activate_signal} field with the
+     * given {@code signal_id}.
      * <p>
-     * The signal will be emitted when calling {@link org.gtk.gtk.Widget<code>#activate</code> .
+     * The signal will be emitted when calling {@link Widget#activate}.
      * <p>
-     * The @signal_id must have been registered with <code>g_signal_new()</code>
+     * The {@code signal_id} must have been registered with {@code g_signal_new()}
      * or g_signal_newv() before calling this function.
      */
     public void setActivateSignal(int signalId) {
@@ -151,12 +153,12 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the <code>GtkWidgetClass.activate_signal</code> field with the signal id for
-     * the given @signal_name.
-     * 
-     * The signal will be emitted when calling {@link org.gtk.gtk.Widget<code>#activate</code> .
-     * 
-     * The @signal_name of @widget_type must have been registered with
+     * Sets the {@code GtkWidgetClass.activate_signal} field with the signal id for
+     * the given {@code signal_name}.
+     * <p>
+     * The signal will be emitted when calling {@link Widget#activate}.
+     * <p>
+     * The {@code signal_name} of {@code widget_type} must have been registered with
      * g_signal_new() or g_signal_newv() before calling this function.
      */
     public void setActivateSignalFromName(java.lang.String signalName) {
@@ -167,8 +169,8 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * Sets the name to be used for CSS matching of widgets.
      * <p>
      * If this function is not called for a given class, the name
-     * set on the parent class is used. By default, <code>GtkWidget</code>
-     * uses the name &<code>#34</code> widget&<code>#34</code> .
+     * set on the parent class is used. By default, {@code GtkWidget}
+     * uses the name "widget".
      */
     public void setCssName(java.lang.String name) {
         gtk_h.gtk_widget_class_set_css_name(handle(), Interop.allocateNativeString(name).handle());
@@ -176,10 +178,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the type to be used for creating layout managers for
-     * widgets of @widget_class.
-     * 
-     * The given @type must be a subtype of {@link org.gtk.gtk.LayoutManager}.
-     * 
+     * widgets of {@code widget_class}.
+     * <p>
+     * The given {@code type} must be a subtype of {@link LayoutManager}.
+     * <p>
      * This function should only be called from class init functions
      * of widgets.
      */
@@ -189,24 +191,24 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This should be called at class initialization time to specify
-     * the <code>GtkBuilder</code> XML to be used to extend a widget.
-     * 
-     * For convenience, {@link org.gtk.gtk.WidgetClass<code>#setTemplateFromResource</code> 
+     * the {@code GtkBuilder} XML to be used to extend a widget.
+     * <p>
+     * For convenience, {@link WidgetClass#setTemplateFromResource}
      * is also provided.
-     * 
+     * <p>
      * Note that any class that installs templates must call
-     * {@link org.gtk.gtk.Widget<code>#initTemplate</code>  in the widget&<code>#8217</code> s instance initializer.
+     * {@link Widget#initTemplate} in the widget’s instance initializer.
      */
     public void setTemplate(org.gtk.glib.Bytes templateBytes) {
         gtk_h.gtk_widget_class_set_template(handle(), templateBytes.handle());
     }
     
     /**
-     * A convenience function that calls {@link org.gtk.gtk.WidgetClass<code>#setTemplate</code> 
-     * with the contents of a <code>GResource</code>.
-     * 
+     * A convenience function that calls {@link WidgetClass#setTemplate}
+     * with the contents of a {@code GResource}.
+     * <p>
      * Note that any class that installs templates must call
-     * {@link org.gtk.gtk.Widget<code>#initTemplate</code>  in the widget&<code>#8217</code> s instance
+     * {@link Widget#initTemplate} in the widget’s instance
      * initializer.
      */
     public void setTemplateFromResource(java.lang.String resourceName) {
@@ -214,11 +216,12 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * For use in language bindings, this will override the default<code>GtkBuilderScope</code> to be used when parsing GtkBuilder XML from
-     * this class&<code>#8217</code> s template data.
-     * 
+     * For use in language bindings, this will override the default
+     * {@code GtkBuilderScope} to be used when parsing GtkBuilder XML from
+     * this class’s template data.
+     * <p>
      * Note that this must be called from a composite widget classes class
-     * initializer after calling {@link [method@GtkWidgetClass.set_template]}.
+     * initializer after calling {@link gtkwidgetclass.set_template#null}.
      */
     public void setTemplateScope(BuilderScope scope) {
         gtk_h.gtk_widget_class_set_template_scope(handle(), scope.handle());

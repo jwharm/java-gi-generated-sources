@@ -13,7 +13,7 @@ import java.lang.invoke.*;
 public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets the {@link org.gtk.glib.Type} of @backend&<code>#39</code> s {@link org.gtk.gio.TlsCertificate} implementation.
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsCertificate} implementation.
      */
     public default org.gtk.gobject.Type getCertificateType() {
         var RESULT = gtk_h.g_tls_backend_get_certificate_type(handle());
@@ -21,7 +21,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the {@link org.gtk.glib.Type} of @backend&<code>#39</code> s {@link org.gtk.gio.TlsClientConnection} implementation.
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsClientConnection} implementation.
      */
     public default org.gtk.gobject.Type getClientConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_client_connection_type(handle());
@@ -29,7 +29,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the default {@link org.gtk.gio.TlsDatabase} used to verify TLS connections.
+     * Gets the default {@link TlsDatabase} used to verify TLS connections.
      */
     public default TlsDatabase getDefaultDatabase() {
         var RESULT = gtk_h.g_tls_backend_get_default_database(handle());
@@ -37,7 +37,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the {@link org.gtk.glib.Type} of @backend&<code>#8217</code> s {@link org.gtk.gio.DtlsClientConnection} implementation.
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}’s {@link DtlsClientConnection} implementation.
      */
     public default org.gtk.gobject.Type getDtlsClientConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_dtls_client_connection_type(handle());
@@ -45,7 +45,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the {@link org.gtk.glib.Type} of @backend&<code>#8217</code> s {@link org.gtk.gio.DtlsServerConnection} implementation.
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}’s {@link DtlsServerConnection} implementation.
      */
     public default org.gtk.gobject.Type getDtlsServerConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_dtls_server_connection_type(handle());
@@ -53,7 +53,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the {@link org.gtk.glib.Type} of @backend&<code>#39</code> s {@link org.gtk.gio.TlsFileDatabase} implementation.
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsFileDatabase} implementation.
      */
     public default org.gtk.gobject.Type getFileDatabaseType() {
         var RESULT = gtk_h.g_tls_backend_get_file_database_type(handle());
@@ -61,7 +61,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the {@link org.gtk.glib.Type} of @backend&<code>#39</code> s {@link org.gtk.gio.TlsServerConnection} implementation.
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsServerConnection} implementation.
      */
     public default org.gtk.gobject.Type getServerConnectionType() {
         var RESULT = gtk_h.g_tls_backend_get_server_connection_type(handle());
@@ -69,12 +69,12 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Set the default {@link org.gtk.gio.TlsDatabase} used to verify TLS connections
-     * 
+     * Set the default {@link TlsDatabase} used to verify TLS connections
+     * <p>
      * Any subsequent call to g_tls_backend_get_default_database() will return
      * the database set in this call.  Existing databases and connections are not
      * modified.
-     * 
+     * <p>
      * Setting a <code>null</code> default database will reset to using the system default
      * database as if g_tls_backend_set_default_database() had never been called.
      */
@@ -93,7 +93,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Checks if TLS is supported; if this returns <code>false</code> for the default
-     * {@link org.gtk.gio.TlsBackend}  it means no &<code>#34</code> real&<code>#34</code>  TLS backend is available.
+     * {@link TlsBackend}, it means no "real" TLS backend is available.
      */
     public default boolean supportsTls() {
         var RESULT = gtk_h.g_tls_backend_supports_tls(handle());
@@ -101,7 +101,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the default {@link org.gtk.gio.TlsBackend} for the system.
+     * Gets the default {@link TlsBackend} for the system.
      */
     public static TlsBackend getDefault() {
         var RESULT = gtk_h.g_tls_backend_get_default();

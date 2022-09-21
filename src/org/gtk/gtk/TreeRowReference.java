@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A GtkTreeRowReference tracks model changes so that it always refers to the
- * same row (a <code>GtkTreePath</code> refers to a position, not a fixed row). Create a
+ * same row (a {@code GtkTreePath} refers to a position, not a fixed row). Create a
  * new GtkTreeRowReference with gtk_tree_row_reference_new().
  */
 public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
@@ -24,12 +24,12 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a row reference based on @path.
-     * 
+     * Creates a row reference based on {@code path}.
+     * <p>
      * This reference will keep pointing to the node pointed to
-     * by @path, so long as it exists. Any changes that occur on @model are
+     * by {@code path}, so long as it exists. Any changes that occur on {@code model} are
      * propagated, and the path is updated appropriately. If
-     * @path isn&<code>#8217</code> t a valid path in @model, then <code>null</code> is returned.
+     * {@code path} isn’t a valid path in {@code model}, then <code>null</code> is returned.
      */
     public TreeRowReference(TreeModel model, TreePath path) {
         super(constructNew(model, path));
@@ -43,11 +43,11 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     /**
      * You do not need to use this function.
      * <p>
-     * Creates a row reference based on @path.
+     * Creates a row reference based on {@code path}.
      * <p>
      * This reference will keep pointing to the node pointed to
-     * by @path, so long as it exists. If @path isn&<code>#8217</code> t a valid
-     * path in @model, then <code>null</code> is returned. However, unlike
+     * by {@code path}, so long as it exists. If {@code path} isn’t a valid
+     * path in {@code model}, then <code>null</code> is returned. However, unlike
      * references created with gtk_tree_row_reference_new(), it
      * does not listen to the model for changes. The creator of
      * the row reference must do this explicitly using
@@ -57,11 +57,11 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * These functions must be called exactly once per proxy when the
      * corresponding signal on the model is emitted. This single call
      * updates all row references for that proxy. Since built-in GTK
-     * objects like <code>GtkTreeView</code> already use this mechanism internally,
+     * objects like {@code GtkTreeView} already use this mechanism internally,
      * using them as the proxy object will produce unpredictable results.
-     * Further more, passing the same object as @model and @proxy
-     * doesn&<code>#8217</code> t work for reasons of internal implementation.
-     * 
+     * Further more, passing the same object as {@code model} and {@code proxy}
+     * doesn’t work for reasons of internal implementation.
+     * <p>
      * This type of row reference is primarily meant by structures that
      * need to carefully monitor exactly when a row reference updates
      * itself, and is not generally needed by most applications.
@@ -71,7 +71,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a <code>GtkTreeRowReference</code>.
+     * Copies a {@code GtkTreeRowReference}.
      */
     public TreeRowReference copy() {
         var RESULT = gtk_h.gtk_tree_row_reference_copy(handle());
@@ -79,13 +79,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free&<code>#8217</code> s @reference. @reference may be 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Free&<code>#8217</code> s @reference. @reference may be %NULL
+     * Free’s {@code reference}. {@code reference} may be <code>null</code>
      */
     public void free() {
         gtk_h.gtk_tree_row_reference_free(handle());
@@ -109,7 +103,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the @reference is non-<code>null</code> and refers to
+     * Returns <code>true</code> if the {@code reference} is non-<code>null</code> and refers to
      * a current valid path.
      */
     public boolean valid() {

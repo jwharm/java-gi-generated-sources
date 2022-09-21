@@ -8,24 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkEmojiChooser</code> is used by text widgets such as <code>GtkEntry</code> or<code>GtkTextView</code> to let users insert Emoji characters.
+ * The {@code GtkEmojiChooser} is used by text widgets such as {@code GtkEntry} or
+ * {@code GtkTextView} to let users insert Emoji characters.
  * <p>
- * !{@link [An example GtkEmojiChooser]}(emojichooser.png)
- * <p><code>GtkEmojiChooser</code> emits the {@link [signal@Gtk.EmojiChooser::emoji-picked] (ref=signal)}
+ * <img src="./doc-files/emojichooser.png" alt="An example GtkEmojiChooser">
+ * <p>
+ * {@code GtkEmojiChooser} emits the {@code Gtk.EmojiChooser::emoji-picked}
  * signal when an Emoji is selected.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * popover
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  box.emoji-searchbar
- * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  entry.search
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box.emoji-toolbar
- *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button.image-button.emoji-section
- *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  ...
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.image-button.emoji-section
- * </pre>
  * <p>
- * Every <code>GtkEmojiChooser</code> consists of a main node called popover.
+ * <pre>{@code 
+ * popover
+ * ├── box.emoji-searchbar
+ * │   ╰── entry.search
+ * ╰── box.emoji-toolbar
+ *     ├── button.image-button.emoji-section
+ *     ├── ...
+ *     ╰── button.image-button.emoji-section
+ * }</pre>
+ * <p>
+ * Every {@code GtkEmojiChooser} consists of a main node called popover.
  * The contents of the popover are largely implementation defined
  * and supposed to inherit general styles.
  * The top searchbar used to search emoji and gets the .emoji-searchbar
@@ -51,7 +54,7 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a new <code>GtkEmojiChooser</code>.
+     * Creates a new {@code GtkEmojiChooser}.
      */
     public EmojiChooser() {
         super(constructNew());

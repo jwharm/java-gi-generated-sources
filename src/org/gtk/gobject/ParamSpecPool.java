@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gobject.ParamSpecPool} maintains a collection of <code>#GParamSpecs</code> which can be
+ * A {@link ParamSpecPool} maintains a collection of {@code GParamSpecs} which can be
  * quickly accessed by owner and name.
- * 
- * The implementation of the {@link org.gtk.gobject.Object} property system uses such a pool to
- * store the <code>#GParamSpecs</code> of the properties all object types.
+ * <p>
+ * The implementation of the {@link Object} property system uses such a pool to
+ * store the {@code GParamSpecs} of the properties all object types.
  */
 public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
 
@@ -21,14 +21,14 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a {@link org.gtk.gobject.ParamSpec} in the pool.
+     * Inserts a {@link ParamSpec} in the pool.
      */
     public void insert(ParamSpec pspec, Type ownerType) {
         gtk_h.g_param_spec_pool_insert(handle(), pspec.handle(), ownerType.getValue());
     }
     
     /**
-     * Gets an {@link org.gtk.glib.List} of all <code>#GParamSpecs</code> owned by @owner_type in
+     * Gets an {@link org.gtk.glib.List} of all {@code GParamSpecs} owned by {@code owner_type} in
      * the pool.
      */
     public org.gtk.glib.List listOwned(Type ownerType) {
@@ -37,7 +37,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Looks up a {@link org.gtk.gobject.ParamSpec} in the pool.
+     * Looks up a {@link ParamSpec} in the pool.
      */
     public ParamSpec lookup(java.lang.String paramName, Type ownerType, boolean walkAncestors) {
         var RESULT = gtk_h.g_param_spec_pool_lookup(handle(), Interop.allocateNativeString(paramName).handle(), ownerType.getValue(), walkAncestors ? 1 : 0);
@@ -45,19 +45,19 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes a {@link org.gtk.gobject.ParamSpec} from the pool.
+     * Removes a {@link ParamSpec} from the pool.
      */
     public void remove(ParamSpec pspec) {
         gtk_h.g_param_spec_pool_remove(handle(), pspec.handle());
     }
     
     /**
-     * Creates a new {@link org.gtk.gobject.ParamSpecPool} 
-     * 
-     * If @type_prefixing is <code>true</code>  lookups in the newly created pool will
+     * Creates a new {@link ParamSpecPool}.
+     * <p>
+     * If {@code type_prefixing} is <code>true</code>, lookups in the newly created pool will
      * allow to specify the owner as a colon-separated prefix of the
-     * property name, like &<code>#34</code> GtkContainer:border-width&<code>#34</code> . This feature is
-     * deprecated, so you should always set @type_prefixing to <code>false</code>
+     * property name, like "GtkContainer:border-width". This feature is
+     * deprecated, so you should always set {@code type_prefixing} to <code>false</code>.
      */
     public static ParamSpecPool new_(boolean typePrefixing) {
         var RESULT = gtk_h.g_param_spec_pool_new(typePrefixing ? 1 : 0);

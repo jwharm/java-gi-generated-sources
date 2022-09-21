@@ -8,29 +8,33 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkDropDown</code> is a widget that allows the user to choose an item
+ * {@code GtkDropDown} is a widget that allows the user to choose an item
  * from a list of options.
  * <p>
- * !{@link [An example GtkDropDown]}(drop-down.png)
+ * <img src="./doc-files/drop-down.png" alt="An example GtkDropDown">
  * <p>
- * The <code>GtkDropDown</code> displays the selected choice.
+ * The {@code GtkDropDown} displays the selected choice.
  * <p>
- * The options are given to <code>GtkDropDown</code> in the form of <code>GListModel</code>
+ * The options are given to {@code GtkDropDown} in the form of {@code GListModel}
  * and how the individual options are represented is determined by
- * a {@link org.gtk.gtk.ListItemFactory}. The default factory displays simple strings.
- * <p><code>GtkDropDown</code> knows how to obtain strings from the items in a
- * {@link org.gtk.gtk.StringList}; for other models, you have to provide an expression
- * to find the strings via {@link org.gtk.gtk.DropDown<code>#setExpression</code> .
- * <p><code>GtkDropDown</code> can optionally allow search in the popup, which is
+ * a {@link ListItemFactory}. The default factory displays simple strings.
+ * <p>
+ * {@code GtkDropDown} knows how to obtain strings from the items in a
+ * {@link StringList}; for other models, you have to provide an expression
+ * to find the strings via {@link DropDown#setExpression}.
+ * <p>
+ * {@code GtkDropDown} can optionally allow search in the popup, which is
  * useful if the list of options is long. To enable the search entry,
- * use {@link org.gtk.gtk.DropDown<code>#setEnableSearch</code> .
+ * use {@link DropDown#setEnableSearch}.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkDropDown</code> has a single CSS node with name dropdown,
+ * <p>
+ * {@code GtkDropDown} has a single CSS node with name dropdown,
  * with the button and popover nodes as children.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkDropDown</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#COMBO_BOX</code>  role.
+ * <p>
+ * {@code GtkDropDown} uses the {@link AccessibleRole#COMBO_BOX} role.
  */
 public class DropDown extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -49,9 +53,9 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkDropDown</code>.
-     * 
-     * You may want to call {@link org.gtk.gtk.DropDown<code>#setFactory</code> 
+     * Creates a new {@code GtkDropDown}.
+     * <p>
+     * You may want to call {@link DropDown#setFactory}
      * to set up a way to map its items to widgets.
      */
     public DropDown(org.gtk.gio.ListModel model, Expression expression) {
@@ -64,7 +68,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkDropDown</code> that is populated with
+     * Creates a new {@code GtkDropDown} that is populated with
      * the strings.
      */
     public static DropDown newFromStrings(java.lang.String[] strings) {
@@ -81,8 +85,8 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets the expression set that is used to obtain strings from items.
-     * 
-     * See {@link org.gtk.gtk.DropDown<code>#setExpression</code> .
+     * <p>
+     * See {@link DropDown#setExpression}.
      */
     public Expression getExpression() {
         var RESULT = gtk_h.gtk_drop_down_get_expression(handle());
@@ -90,11 +94,11 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the factory that&<code>#39</code> s currently used to populate list items.
-     * 
+     * Gets the factory that's currently used to populate list items.
+     * <p>
      * The factory returned by this function is always used for the
      * item in the button. It is also used for items in the popup
-     * if {@link [property@Gtk.DropDown:list-factory] (ref=property)} is not set.
+     * if {@code Gtk.DropDown:list-factory} is not set.
      */
     public ListItemFactory getFactory() {
         var RESULT = gtk_h.gtk_drop_down_get_factory(handle());
@@ -102,7 +106,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the factory that&<code>#39</code> s currently used to populate list items in the popup.
+     * Gets the factory that's currently used to populate list items in the popup.
      */
     public ListItemFactory getListFactory() {
         var RESULT = gtk_h.gtk_drop_down_get_list_factory(handle());
@@ -144,8 +148,8 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets whether a search entry will be shown in the popup that
      * allows to search for items in the list.
-     * 
-     * Note that {@link [property@Gtk.DropDown:expression] (ref=property)} must be set for
+     * <p>
+     * Note that {@code Gtk.DropDown:expression} must be set for
      * search to work.
      */
     public void setEnableSearch(boolean enableSearch) {
@@ -154,30 +158,30 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the expression that gets evaluated to obtain strings from items.
-     * 
+     * <p>
      * This is used for search in the popup. The expression must have
-     * a value type of <code>G_TYPE_STRING</code>
+     * a value type of {@code G_TYPE_STRING}.
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_drop_down_set_expression(handle(), expression.handle());
     }
     
     /**
-     * Sets the <code>GtkListItemFactory</code> to use for populating list items.
+     * Sets the {@code GtkListItemFactory} to use for populating list items.
      */
     public void setFactory(ListItemFactory factory) {
         gtk_h.gtk_drop_down_set_factory(handle(), factory.handle());
     }
     
     /**
-     * Sets the <code>GtkListItemFactory</code> to use for populating list items in the popup.
+     * Sets the {@code GtkListItemFactory} to use for populating list items in the popup.
      */
     public void setListFactory(ListItemFactory factory) {
         gtk_h.gtk_drop_down_set_list_factory(handle(), factory.handle());
     }
     
     /**
-     * Sets the <code>GListModel</code> to use.
+     * Sets the {@code GListModel} to use.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_drop_down_set_model(handle(), model.handle());
@@ -205,7 +209,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Emitted to when the drop down is activated.
      * <p>
-     * The <code>::activate</code> signal on <code>GtkDropDown</code> is an action signal and
+     * The {@code ::activate} signal on {@code GtkDropDown} is an action signal and
      * emitting it causes the drop down to pop up its dropdown.
      */
     public SignalHandle onActivate(ActivateHandler handler) {

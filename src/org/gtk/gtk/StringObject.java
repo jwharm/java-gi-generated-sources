@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkStringObject</code> is the type of items in a <code>GtkStringList</code>.
+ * {@code GtkStringObject} is the type of items in a {@code GtkStringList}.
  * <p>
- * A <code>GtkStringObject</code> is a wrapper around a <code>const char*</code>; it has
- * a {@link [property@Gtk.StringObject:string] (ref=property)} property.
+ * A {@code GtkStringObject} is a wrapper around a {@code const char*}; it has
+ * a {@code Gtk.StringObject:string} property.
  */
 public class StringObject extends org.gtk.gobject.Object {
 
@@ -30,14 +30,14 @@ public class StringObject extends org.gtk.gobject.Object {
     }
     
     /**
-     * Wraps a string in an object for use with <code>GListModel</code>.
+     * Wraps a string in an object for use with {@code GListModel}.
      */
     public StringObject(java.lang.String string) {
         super(constructNew(string));
     }
     
     /**
-     * Returns the string contained in a <code>GtkStringObject</code>.
+     * Returns the string contained in a {@code GtkStringObject}.
      */
     public java.lang.String getString() {
         var RESULT = gtk_h.gtk_string_object_get_string(handle());

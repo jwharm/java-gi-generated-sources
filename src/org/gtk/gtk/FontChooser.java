@@ -8,25 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkFontChooser</code> is an interface that can be implemented by widgets
+ * {@code GtkFontChooser} is an interface that can be implemented by widgets
  * for choosing fonts.
- * 
+ * <p>
  * In GTK, the main objects that implement this interface are
- * {@link org.gtk.gtk.FontChooserWidget}, {@link org.gtk.gtk.FontChooserDialog} and
- * {@link org.gtk.gtk.FontButton}.
+ * {@code Gtk.FontChooserDialog} and
+ * {@link FontButton}.
  */
 public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets the currently-selected font name.
-     * 
+     * <p>
      * Note that this can be a different string than what you set with
-     * {@link org.gtk.gtk.FontChooser<code>#setFont</code> , as the font chooser widget may
+     * {@link FontChooser#setFont}, as the font chooser widget may
      * normalize font names and thus return a string with a different
-     * structure. For example, &<code>#8220</code> Helvetica Italic Bold 12&<code>#8221</code>  could be
-     * normalized to &<code>#8220</code> Helvetica Bold Italic 12&<code>#8221</code> .
-     * 
-     * Use {@link org.pango.FontDescription<code>#equal</code>  if you want to compare two
+     * structure. For example, “Helvetica Italic Bold 12” could be
+     * normalized to “Helvetica Bold Italic 12”.
+     * <p>
+     * Use {@link org.pango.FontDescription#equal} if you want to compare two
      * font descriptions.
      */
     public default java.lang.String getFont() {
@@ -36,14 +36,14 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the currently-selected font.
-     * 
+     * <p>
      * Note that this can be a different string than what you set with
-     * {@link org.gtk.gtk.FontChooser<code>#setFont</code> , as the font chooser widget may
+     * {@link FontChooser#setFont}, as the font chooser widget may
      * normalize font names and thus return a string with a different
-     * structure. For example, &<code>#8220</code> Helvetica Italic Bold 12&<code>#8221</code>  could be
-     * normalized to &<code>#8220</code> Helvetica Bold Italic 12&<code>#8221</code> .
-     * 
-     * Use {@link org.pango.FontDescription<code>#equal</code>  if you want to compare two
+     * structure. For example, “Helvetica Italic Bold 12” could be
+     * normalized to “Helvetica Bold Italic 12”.
+     * <p>
+     * Use {@link org.pango.FontDescription#equal} if you want to compare two
      * font descriptions.
      */
     public default org.pango.FontDescription getFontDesc() {
@@ -52,10 +52,10 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the <code>PangoFontFace</code> representing the selected font group
+     * Gets the {@code PangoFontFace} representing the selected font group
      * details (i.e. family, slant, weight, width, etc).
-     * 
-     * If the selected font is not installed, returns <code>null</code>
+     * <p>
+     * If the selected font is not installed, returns <code>null</code>.
      */
     public default org.pango.FontFace getFontFace() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_face(handle());
@@ -63,11 +63,11 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the <code>PangoFontFamily</code> representing the selected font family.
-     * 
+     * Gets the {@code PangoFontFamily} representing the selected font family.
+     * <p>
      * Font families are a collection of font faces.
-     * 
-     * If the selected font is not installed, returns <code>null</code>
+     * <p>
+     * If the selected font is not installed, returns <code>null</code>.
      */
     public default org.pango.FontFamily getFontFamily() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_family(handle());
@@ -158,7 +158,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets the currently-selected font from @font_desc.
+     * Sets the currently-selected font from {@code font_desc}.
      */
     public default void setFontDesc(org.pango.FontDescription fontDesc) {
         gtk_h.gtk_font_chooser_set_font_desc(handle(), fontDesc.handle());
@@ -169,7 +169,8 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * A custom font map can be used to present application-specific
      * fonts instead of or in addition to the normal system fonts.
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      * FcConfig *config;
      * PangoFontMap *fontmap;
      * 
@@ -180,14 +181,15 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * pango_fc_font_map_set_config (PANGO_FC_FONT_MAP (fontmap), config);
      * 
      * gtk_font_chooser_set_font_map (font_chooser, fontmap);
-     * </pre>
+     * }</pre>
      * <p>
      * Note that other GTK widgets will only be able to use the
      * application-specific font if it is present in the font map they use:
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      * context = gtk_widget_get_pango_context (label);
      * pango_context_set_font_map (context, fontmap);
-     * </pre>
+     * }</pre>
      */
     public default void setFontMap(org.pango.FontMap fontmap) {
         gtk_h.gtk_font_chooser_set_font_map(handle(), fontmap.handle());
@@ -209,8 +211,8 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets the text displayed in the preview area.
-     * 
-     * The @text is used to show how the selected font looks.
+     * <p>
+     * The {@code text} is used to show how the selected font looks.
      */
     public default void setPreviewText(java.lang.String text) {
         gtk_h.gtk_font_chooser_set_preview_text(handle(), Interop.allocateNativeString(text).handle());
@@ -230,7 +232,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Emitted when a font is activated.
-     * 
+     * <p>
      * This usually happens when the user double clicks an item,
      * or an item is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.

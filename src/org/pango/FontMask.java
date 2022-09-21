@@ -1,7 +1,8 @@
 package org.pango;
 
 /**
- * The bits in a <code>PangoFontMask</code> correspond to the set fields in a<code>PangoFontDescription</code>.
+ * The bits in a {@code PangoFontMask} correspond to the set fields in a
+ * {@code PangoFontDescription}.
  */
 public class FontMask {
 

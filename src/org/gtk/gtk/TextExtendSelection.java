@@ -1,7 +1,8 @@
 package org.gtk.gtk;
 
 /**
- * Granularity types that extend the text selection. Use the<code>GtkTextView::extend-selection</code> signal to customize the selection.
+ * Granularity types that extend the text selection. Use the
+ * {@code GtkTextView::extend-selection} signal to customize the selection.
  */
 public enum TextExtendSelection {
 

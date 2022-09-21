@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkTimeCoord</code> stores a single event in a motion history.
+ * A {@code GdkTimeCoord} stores a single event in a motion history.
  */
 public class TimeCoord extends io.github.jwharm.javagi.ResourceBase {
 

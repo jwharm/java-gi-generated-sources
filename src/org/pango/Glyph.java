@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoGlyph</code> represents a single glyph in the output form of a string.
+ * A {@code PangoGlyph} represents a single glyph in the output form of a string.
  */
 public class Glyph {
 

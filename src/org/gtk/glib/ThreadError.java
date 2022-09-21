@@ -6,7 +6,7 @@ package org.gtk.glib;
 public enum ThreadError {
 
     /**
-     * a thread couldn&<code>#39</code> t be created due to resource
+     * a thread couldn't be created due to resource
      *                        shortage. Try again later.
      */
     THREAD_ERROR_AGAIN;

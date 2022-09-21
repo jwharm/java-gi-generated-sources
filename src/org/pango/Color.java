@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoColor</code> structure is used to
+ * The {@code PangoColor} structure is used to
  * represent a color in an uncalibrated RGB color-space.
  */
 public class Color extends io.github.jwharm.javagi.ResourceBase {
@@ -18,9 +18,9 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a copy of @src.
-     * 
-     * The copy should be freed with {@link org.pango.Color<code>#free</code> .
+     * Creates a copy of {@code src}.
+     * <p>
+     * The copy should be freed with {@link Color#free}.
      * Primarily used by language bindings, not that useful
      * otherwise (since colors can just be copied by assignment
      * in C).
@@ -31,7 +31,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a color allocated by {@link org.pango.Color<code>#copy</code> .
+     * Frees a color allocated by {@link Color#copy}.
      */
     public void free() {
         gtk_h.pango_color_free(handle());
@@ -41,10 +41,12 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * Fill in the fields of a color from a string specification.
      * <p>
      * The string can either one of a large set of standard names.
-     * (Taken from the CSS Color {@link [specification]}(https://www.w3.org/TR/css-color-4/<code>#named</code> colors),
-     * or it can be a value in the form <code><code>#rgb</code> /code>, <code><code>#rrggbb</code> /code>,<code><code>#rrrgggbbb</code> /code> or <code><code>#rrrrggggbbbb</code> /code>, where <code>r</code>, <code>g</code> and <code>b</code>
+     * (Taken from the CSS Color <a href="https://www.w3.org/TR/css-color-4/#named-colors">specification</a>,
+     * or it can be a value in the form {@code #rgb}, {@code #rrggbb},
+     * {@code #rrrgggbbb} or {@code #rrrrggggbbbb}, where {@code r}, {@code g} and {@code b}
      * are hex digits of the red, green, and blue components
-     * of the color, respectively. (White in the four forms is<code><code>#fff</code> /code>, <code><code>#ffffff</code> /code>, <code><code>#fffffffff</code> /code> and <code><code>#ffffffffffff</code> /code>.)
+     * of the color, respectively. (White in the four forms is
+     * {@code #fff}, {@code #ffffff}, {@code #fffffffff} and {@code #ffffffffffff}.)
      */
     public boolean parse(java.lang.String spec) {
         var RESULT = gtk_h.pango_color_parse(handle(), Interop.allocateNativeString(spec).handle());
@@ -52,10 +54,10 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a textual specification of @color.
+     * Returns a textual specification of {@code color}.
      * <p>
-     * The string is in the hexadecimal form <code><code>#rrrrggggbbbb</code> /code>,
-     * where <code>r</code>, <code>g</code> and <code>b</code> are hex digits representing the
+     * The string is in the hexadecimal form {@code #rrrrggggbbbb},
+     * where {@code r}, {@code g} and {@code b} are hex digits representing the
      * red, green, and blue components respectively.
      */
     public java.lang.String toString() {

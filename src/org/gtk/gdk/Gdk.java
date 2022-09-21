@@ -4584,14 +4584,14 @@ public final class Gdk {
     public static final int PRIORITY_REDRAW = 120;
 
     /**
-     * Adds the given rectangle to the current path of @cr.
+     * Adds the given rectangle to the current path of {@code cr}.
      */
     public static void cairoRectangle(org.cairographics.Context cr, Rectangle rectangle) {
         gtk_h.gdk_cairo_rectangle(cr.handle(), rectangle.handle());
     }
     
     /**
-     * Adds the given region to the current path of @cr.
+     * Adds the given region to the current path of {@code cr}.
      */
     public static void cairoRegion(org.cairographics.Context cr, org.cairographics.Region region) {
         gtk_h.gdk_cairo_region(cr.handle(), region.handle());
@@ -4599,8 +4599,8 @@ public final class Gdk {
     
     /**
      * Creates region that covers the area where the given
-     * @surface is more than 50<code></code> opaque.
-     * 
+     * {@code surface} is more than 50% opaque.
+     * <p>
      * This function takes into account device offsets that might be
      * set with cairo_surface_set_device_offset().
      */
@@ -4610,17 +4610,17 @@ public final class Gdk {
     }
     
     /**
-     * Sets the given pixbuf as the source pattern for @cr.
-     * 
-     * The pattern has an extend mode of {@link org.cairographics.Extend<code>#NONE</code>  and is aligned
-     * so that the origin of @pixbuf is @pixbuf_x, @pixbuf_y.
+     * Sets the given pixbuf as the source pattern for {@code cr}.
+     * <p>
+     * The pattern has an extend mode of {@link org.cairographics.Extend#NONE} and is aligned
+     * so that the origin of {@code pixbuf} is {@code pixbuf_x}, {@code pixbuf_y}.
      */
     public static void cairoSetSourcePixbuf(org.cairographics.Context cr, org.gtk.gdkpixbuf.Pixbuf pixbuf, double pixbufX, double pixbufY) {
         gtk_h.gdk_cairo_set_source_pixbuf(cr.handle(), pixbuf.handle(), pixbufX, pixbufY);
     }
     
     /**
-     * Sets the specified <code>GdkRGBA</code> as the source color of @cr.
+     * Sets the specified {@code GdkRGBA} as the source color of {@code cr}.
      */
     public static void cairoSetSourceRgba(org.cairographics.Context cr, RGBA rgba) {
         gtk_h.gdk_cairo_set_source_rgba(cr.handle(), rgba.handle());
@@ -4628,12 +4628,12 @@ public final class Gdk {
     
     /**
      * Read content from the given input stream and deserialize it, asynchronously.
-     * 
-     * The default I/O priority is <code>G_PRIORITY_DEFAULT</code> (i.e. 0), and lower numbers
+     * <p>
+     * The default I/O priority is {@code G_PRIORITY_DEFAULT} (i.e. 0), and lower numbers
      * indicate a higher priority.
-     * 
-     * When the operation is finished, @callback will be called. You must then
-     * call {@link Gdk<code>#contentDeserializeFinish</code>  to get the result of the operation.
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You must then
+     * call {@link Gdk#contentDeserializeFinish} to get the result of the operation.
      */
     public static void contentDeserializeAsync(org.gtk.gio.InputStream stream, java.lang.String mimeType, Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
@@ -4662,13 +4662,14 @@ public final class Gdk {
     }
     
     /**
-     * Parses the given @string into <code>GdkContentFormats</code> and
+     * Parses the given {@code string} into {@code GdkContentFormats} and
      * returns the formats.
-     * 
-     * Strings printed via {@link org.gtk.gdk.ContentFormats<code>#toString</code> 
+     * <p>
+     * Strings printed via {@link ContentFormats#toString}
      * can be read in again successfully using this function.
-     * 
-     * If @string does not describe valid content formats, <code>null</code> is returned.
+     * <p>
+     * If {@code string} does not describe valid content formats, <code>null</code>
+     * is returned.
      */
     public static ContentFormats contentFormatsParse(java.lang.String string) {
         var RESULT = gtk_h.gdk_content_formats_parse(Interop.allocateNativeString(string).handle());
@@ -4713,12 +4714,12 @@ public final class Gdk {
     
     /**
      * Serialize content and write it to the given output stream, asynchronously.
-     * 
-     * The default I/O priority is <code>G_PRIORITY_DEFAULT</code> (i.e. 0), and lower numbers
+     * <p>
+     * The default I/O priority is {@code G_PRIORITY_DEFAULT} (i.e. 0), and lower numbers
      * indicate a higher priority.
-     * 
-     * When the operation is finished, @callback will be called. You must then
-     * call {@link Gdk<code>#contentSerializeFinish</code>  to get the result of the operation.
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You must then
+     * call {@link Gdk#contentSerializeFinish} to get the result of the operation.
      */
     public static void contentSerializeAsync(org.gtk.gio.OutputStream stream, java.lang.String mimeType, org.gtk.gobject.Value value, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
@@ -4747,10 +4748,11 @@ public final class Gdk {
     }
     
     /**
-     * Checks if @action represents a single action or includes
+     * Checks if {@code action} represents a single action or includes
      * multiple actions.
-     * 
-     * When @action is 0 - ie no action was given, <code>true</code> is returned.
+     * <p>
+     * When {@code action} is 0 - ie no action was given, <code>true</code>
+     * is returned.
      */
     public static boolean dragActionIsUnique(int action) {
         var RESULT = gtk_h.gdk_drag_action_is_unique(action);
@@ -4764,8 +4766,8 @@ public final class Gdk {
     
     /**
      * Canonicalizes the given mime type and interns the result.
-     * 
-     * If @string is not a valid mime type, <code>null</code> is returned instead.
+     * <p>
+     * If {@code string} is not a valid mime type, <code>null</code> is returned instead.
      * See RFC 2048 for the syntax if mime types.
      */
     public static java.lang.String internMimeType(java.lang.String string) {
@@ -4776,8 +4778,9 @@ public final class Gdk {
     /**
      * Converts a key name to a key value.
      * <p>
-     * The names are the same as those in the<code>gdk/gdkkeysyms.h</code> header file
-     * but without the leading &<code>#8220</code> GDK_KEY_&<code>#8221</code> .
+     * The names are the same as those in the
+     * {@code gdk/gdkkeysyms.h} header file
+     * but without the leading “GDK_KEY_”.
      */
     public static int keyvalFromName(java.lang.String keyvalName) {
         var RESULT = gtk_h.gdk_keyval_from_name(Interop.allocateNativeString(keyvalName).handle());
@@ -4803,8 +4806,9 @@ public final class Gdk {
     /**
      * Converts a key value into a symbolic name.
      * <p>
-     * The names are the same as those in the<code>gdk/gdkkeysyms.h</code> header file
-     * but without the leading &<code>#8220</code> GDK_KEY_&<code>#8221</code> .
+     * The names are the same as those in the
+     * {@code gdk/gdkkeysyms.h} header file
+     * but without the leading “GDK_KEY_”.
      */
     public static java.lang.String keyvalName(int keyval) {
         var RESULT = gtk_h.gdk_keyval_name(keyval);
@@ -4822,10 +4826,10 @@ public final class Gdk {
     /**
      * Convert from a GDK key symbol to the corresponding Unicode
      * character.
-     * 
+     * <p>
      * Note that the conversion does not take the current locale
      * into consideration, which might be expected for particular
-     * keyvals, such as <code>GDK_KEY_KP_Decimal</code>
+     * keyvals, such as {@code GDK_KEY_KP_Decimal}.
      */
     public static int keyvalToUnicode(int keyval) {
         var RESULT = gtk_h.gdk_keyval_to_unicode(keyval);
@@ -4842,9 +4846,9 @@ public final class Gdk {
     
     /**
      * Returns a paintable that has the given intrinsic size and draws nothing.
-     * 
+     * <p>
      * This is often useful for implementing the
-     * {@link org.gtk.gdk.Paintable<code>#getCurrentImage</code>  virtual function
+     * {@link Paintable#getCurrentImage} virtual function
      * when the paintable is in an incomplete state (like a
      * {@link org.gtk.gtk.MediaStream} before receiving the first frame).
      */
@@ -4856,15 +4860,15 @@ public final class Gdk {
     /**
      * Obtains a clip region which contains the areas where the given
      * ranges of text would be drawn.
-     * 
-     * @x_origin and @y_origin are the top left position of the layout.
-     * @index_ranges should contain ranges of bytes in the layout&<code>#8217</code> s text.
+     * <p>
+     * {@code x_origin} and {@code y_origin} are the top left position of the layout.
+     * {@code index_ranges} should contain ranges of bytes in the layout’s text.
      * The clip region will include space to the left or right of the line
      * (to the layout bounding box) if you have indexes above or below the
      * indexes contained inside the line. This is to draw the selection all
      * the way to the side of the layout. However, the clip region is in line
      * coordinates, not layout coordinates.
-     * 
+     * <p>
      * Note that the regions returned correspond to logical extents of the text
      * ranges, not ink extents. So the drawn line may in fact touch areas out of
      * the clip region.  The clip region is mainly useful for highlightling parts
@@ -4876,13 +4880,13 @@ public final class Gdk {
     }
     
     /**
-     * Transfers image data from a <code>cairo_surface_t</code> and converts it
-     * to a <code>GdkPixbuf</code>.
-     * 
+     * Transfers image data from a {@code cairo_surface_t} and converts it
+     * to a {@code GdkPixbuf}.
+     * <p>
      * This allows you to efficiently read individual pixels from cairo surfaces.
-     * 
+     * <p>
      * This function will create an RGB pixbuf with 8 bits per channel.
-     * The pixbuf will contain an alpha channel if the @surface contains one.
+     * The pixbuf will contain an alpha channel if the {@code surface} contains one.
      */
     public static org.gtk.gdkpixbuf.Pixbuf pixbufGetFromSurface(org.cairographics.Surface surface, int srcX, int srcY, int width, int height) {
         var RESULT = gtk_h.gdk_pixbuf_get_from_surface(surface.handle(), srcX, srcY, width, height);
@@ -4890,8 +4894,8 @@ public final class Gdk {
     }
     
     /**
-     * Creates a new pixbuf from @texture.
-     * 
+     * Creates a new pixbuf from {@code texture}.
+     * <p>
      * This should generally not be used in newly written code as later
      * stages will almost certainly convert the pixbuf back into a texture
      * to draw it on screen.
@@ -4910,29 +4914,32 @@ public final class Gdk {
      * By default, GDK tries all included backends.
      * <p>
      * For example:
-     * <p><pre>c
-     * gdk_set_allowed_backends (&<code>#34</code> wayland,macos,*&<code>#34</code> );
-     * </pre>
+     * <p>
+     * <pre>{@code c
+     * gdk_set_allowed_backends ("wayland,macos,*");
+     * }</pre>
      * <p>
      * instructs GDK to try the Wayland backend first, followed by the
      * MacOs backend, and then all others.
      * <p>
-     * If the <code>GDK_BACKEND</code> environment variable is set, it determines
+     * If the {@code GDK_BACKEND} environment variable is set, it determines
      * what backends are tried in what order, while still respecting the
      * set of allowed backends that are specified by this function.
      * <p>
      * The possible backend names are:
      * <p>
-     *   - <code>broadway</code>
-     *   - <code>macos</code>
-     *   - <code>wayland</code>.
-     *   - <code>win32</code>
-     *   - <code>x11</code>
+     * <ul>
+     * <li>{@code broadway}
+     * <li>{@code macos}
+     * <li>{@code wayland}.
+     * <li>{@code win32}
+     * <li>{@code x11}
+     * </ul>
      * <p>
-     * You can also include a <code>*</code> in the list to try all remaining backends.
+     * You can also include a {@code *} in the list to try all remaining backends.
      * <p>
      * This call must happen prior to functions that open a display, such
-     * as {@link Gdk<code>#Display</code> , <code>gtk_init()</code>, or <code>gtk_init_check()</code>
+     * as {@link Gdk#Display}, {@code gtk_init()}, or {@code gtk_init_check()}
      * in order to take effect.
      */
     public static void setAllowedBackends(java.lang.String backends) {

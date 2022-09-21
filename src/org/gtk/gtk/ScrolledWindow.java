@@ -8,73 +8,80 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkScrolledWindow</code> is a container that makes its child scrollable.
+ * {@code GtkScrolledWindow} is a container that makes its child scrollable.
  * <p>
  * It does so using either internally added scrollbars or externally
  * associated adjustments, and optionally draws a frame around the child.
  * <p>
  * Widgets with native scrolling support, i.e. those whose classes implement
- * the {@link [iface@Gtk.Scrollable] (ref=iface)} interface, are added directly. For other types
- * of widget, the class {@link org.gtk.gtk.Viewport} acts as an adaptor, giving
- * scrollability to other widgets. {@link org.gtk.gtk.ScrolledWindow<code>#setChild</code> 
- * intelligently accounts for whether or not the added child is a <code>GtkScrollable</code>.
- * If it isn&<code>#8217</code> t, then it wraps the child in a <code>GtkViewport</code>. Therefore, you can
+ * the {@code Gtk.Scrollable} interface, are added directly. For other types
+ * of widget, the class {@link Viewport} acts as an adaptor, giving
+ * scrollability to other widgets. {@link ScrolledWindow#setChild}
+ * intelligently accounts for whether or not the added child is a {@code GtkScrollable}.
+ * If it isn’t, then it wraps the child in a {@code GtkViewport}. Therefore, you can
  * just add any child widget and not worry about the details.
  * <p>
- * If {@link org.gtk.gtk.ScrolledWindow<code>#setChild</code>  has added a <code>GtkViewport</code> for you,
- * you can remove both your added child widget from the <code>GtkViewport</code>, and the<code>GtkViewport</code> from the <code>GtkScrolledWindow</code>, like this:
- * <p><pre>c
+ * If {@link ScrolledWindow#setChild} has added a {@code GtkViewport} for you,
+ * you can remove both your added child widget from the {@code GtkViewport}, and the
+ * {@code GtkViewport} from the {@code GtkScrolledWindow}, like this:
+ * <p>
+ * <pre>{@code c
  * GtkWidget *scrolled_window = gtk_scrolled_window_new ();
  * GtkWidget *child_widget = gtk_button_new ();
- * <p>
+ * 
  * // GtkButton is not a GtkScrollable, so GtkScrolledWindow will automatically
  * // add a GtkViewport.
  * gtk_box_append (GTK_BOX (scrolled_window), child_widget);
- * <p>
+ * 
  * // Either of these will result in child_widget being unparented:
  * gtk_box_remove (GTK_BOX (scrolled_window), child_widget);
  * // or
  * gtk_box_remove (GTK_BOX (scrolled_window),
  *                       gtk_bin_get_child (GTK_BIN (scrolled_window)));
- * </pre>
+ * }</pre>
  * <p>
- * Unless {@link [property@Gtk.ScrolledWindow:hscrollbar-policy] (ref=property)} and
- * {@link [property@Gtk.ScrolledWindow:vscrollbar-policy] (ref=property)} are {@link org.gtk.gtk.PolicyType<code>#NEVER</code>  or
- * {@link org.gtk.gtk.PolicyType<code>#EXTERNAL</code>   <code>GtkScrolledWindow</code> adds internal <code>GtkScrollbar</code> widgets
+ * Unless {@code Gtk.ScrolledWindow:hscrollbar-policy} and
+ * {@code Gtk.ScrolledWindow:vscrollbar-policy} are {@link PolicyType#NEVER} or
+ * {@link PolicyType#EXTERNAL}, {@code GtkScrolledWindow} adds internal {@code GtkScrollbar} widgets
  * around its child. The scroll position of the child, and if applicable the
- * scrollbars, is controlled by the {@link [property@Gtk.ScrolledWindow:hadjustment] (ref=property)}
- * and {@link [property@Gtk.ScrolledWindow:vadjustment] (ref=property)} that are associated with the<code>GtkScrolledWindow</code>. See the docs on {@link org.gtk.gtk.Scrollbar} for the details,
- * but note that the &<code>#8220</code> step_increment&<code>#8221</code>  and &<code>#8220</code> page_increment&<code>#8221</code>  fields are only
+ * scrollbars, is controlled by the {@code Gtk.ScrolledWindow:hadjustment}
+ * and {@code Gtk.ScrolledWindow:vadjustment} that are associated with the
+ * {@code GtkScrolledWindow}. See the docs on {@link Scrollbar} for the details,
+ * but note that the “step_increment” and “page_increment” fields are only
  * effective if the policy causes scrollbars to be present.
  * <p>
- * If a <code>GtkScrolledWindow</code> doesn&<code>#8217</code> t behave quite as you would like, or
- * doesn&<code>#8217</code> t have exactly the right layout, it&<code>#8217</code> s very possible to set up
- * your own scrolling with <code>GtkScrollbar</code> and for example a <code>GtkGrid</code>.
+ * If a {@code GtkScrolledWindow} doesn’t behave quite as you would like, or
+ * doesn’t have exactly the right layout, it’s very possible to set up
+ * your own scrolling with {@code GtkScrollbar} and for example a {@code GtkGrid}.
  * <p>
  * <h1>Touch support</h1>
- * <p><code>GtkScrolledWindow</code> has built-in support for touch devices. When a
+ * <p>
+ * {@code GtkScrolledWindow} has built-in support for touch devices. When a
  * touchscreen is used, swiping will move the scrolled window, and will
- * expose &<code>#39</code> kinetic&<code>#39</code>  behavior. This can be turned off with the
- * {@link [property@Gtk.ScrolledWindow:kinetic-scrolling] (ref=property)} property if it is undesired.
- * <p><code>GtkScrolledWindow</code> also displays visual &<code>#39</code> overshoot&<code>#39</code>  indication when
+ * expose 'kinetic' behavior. This can be turned off with the
+ * {@code Gtk.ScrolledWindow:kinetic-scrolling} property if it is undesired.
+ * <p>
+ * {@code GtkScrolledWindow} also displays visual 'overshoot' indication when
  * the content is pulled beyond the end, and this situation can be
- * captured with the {@link [signal@Gtk.ScrolledWindow::edge-overshot] (ref=signal)} signal.
+ * captured with the {@code Gtk.ScrolledWindow::edge-overshot} signal.
  * <p>
  * If no mouse device is present, the scrollbars will overlaid as
  * narrow, auto-hiding indicators over the content. If traditional
  * scrollbars are desired although no mouse is present, this behaviour
- * can be turned off with the {@link [property@Gtk.ScrolledWindow:overlay-scrolling] (ref=property)}
+ * can be turned off with the {@code Gtk.ScrolledWindow:overlay-scrolling}
  * property.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkScrolledWindow</code> has a main CSS node with name scrolledwindow.
- * It gets a .frame style class added when {@link [property@Gtk.ScrolledWindow:has-frame] (ref=property)}
- * is <code>true</code> 
+ * <p>
+ * {@code GtkScrolledWindow} has a main CSS node with name scrolledwindow.
+ * It gets a .frame style class added when {@code Gtk.ScrolledWindow:has-frame}
+ * is <code>true</code>.
  * <p>
  * It uses subnodes with names overshoot and undershoot to draw the overflow
  * and underflow indications. These nodes get the .left, .right, .top or .bottom
  * style class added depending on where the indication is drawn.
- * <p><code>GtkScrolledWindow</code> also sets the positional style classes (.left, .right,
+ * <p>
+ * {@code GtkScrolledWindow} also sets the positional style classes (.left, .right,
  * .top, .bottom) and style classes related to overlay scrolling
  * (.overlay-indicator, .dragging, .hovering) on its scrollbars.
  * <p>
@@ -82,7 +89,8 @@ import java.lang.invoke.*;
  * with a subnode named junction.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkScrolledWindow</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
+ * <p>
+ * {@code GtkScrolledWindow} uses the {@link AccessibleRole#GROUP} role.
  */
 public class ScrolledWindow extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -108,7 +116,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Gets the child widget of @scrolled_window.
+     * Gets the child widget of {@code scrolled_window}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_scrolled_window_get_child(handle());
@@ -116,10 +124,10 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Returns the horizontal scrollbar&<code>#8217</code> s adjustment.
-     * 
+     * Returns the horizontal scrollbar’s adjustment.
+     * <p>
      * This is the adjustment used to connect the horizontal scrollbar
-     * to the child widget&<code>#8217</code> s horizontal scroll functionality.
+     * to the child widget’s horizontal scroll functionality.
      */
     public Adjustment getHadjustment() {
         var RESULT = gtk_h.gtk_scrolled_window_get_hadjustment(handle());
@@ -135,7 +143,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Returns the horizontal scrollbar of @scrolled_window.
+     * Returns the horizontal scrollbar of {@code scrolled_window}.
      */
     public Widget getHscrollbar() {
         var RESULT = gtk_h.gtk_scrolled_window_get_hscrollbar(handle());
@@ -167,7 +175,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Gets the minimal content height of @scrolled_window.
+     * Gets the minimal content height of {@code scrolled_window}.
      */
     public int getMinContentHeight() {
         var RESULT = gtk_h.gtk_scrolled_window_get_min_content_height(handle());
@@ -175,7 +183,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Gets the minimum content width of @scrolled_window.
+     * Gets the minimum content width of {@code scrolled_window}.
      */
     public int getMinContentWidth() {
         var RESULT = gtk_h.gtk_scrolled_window_get_min_content_width(handle());
@@ -200,7 +208,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Reports whether the natural height of the child will be calculated
-     * and propagated through the scrolled window&<code>#8217</code> s requested natural height.
+     * and propagated through the scrolled window’s requested natural height.
      */
     public boolean getPropagateNaturalHeight() {
         var RESULT = gtk_h.gtk_scrolled_window_get_propagate_natural_height(handle());
@@ -209,7 +217,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Reports whether the natural width of the child will be calculated
-     * and propagated through the scrolled window&<code>#8217</code> s requested natural width.
+     * and propagated through the scrolled window’s requested natural width.
      */
     public boolean getPropagateNaturalWidth() {
         var RESULT = gtk_h.gtk_scrolled_window_get_propagate_natural_width(handle());
@@ -217,10 +225,10 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Returns the vertical scrollbar&<code>#8217</code> s adjustment.
-     * 
+     * Returns the vertical scrollbar’s adjustment.
+     * <p>
      * This is the adjustment used to connect the vertical
-     * scrollbar to the child widget&<code>#8217</code> s vertical scroll functionality.
+     * scrollbar to the child widget’s vertical scroll functionality.
      */
     public Adjustment getVadjustment() {
         var RESULT = gtk_h.gtk_scrolled_window_get_vadjustment(handle());
@@ -228,7 +236,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Returns the vertical scrollbar of @scrolled_window.
+     * Returns the vertical scrollbar of {@code scrolled_window}.
      */
     public Widget getVscrollbar() {
         var RESULT = gtk_h.gtk_scrolled_window_get_vscrollbar(handle());
@@ -236,21 +244,21 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Sets the child widget of @scrolled_window.
+     * Sets the child widget of {@code scrolled_window}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_scrolled_window_set_child(handle(), child.handle());
     }
     
     /**
-     * Sets the <code>GtkAdjustment</code> for the horizontal scrollbar.
+     * Sets the {@code GtkAdjustment} for the horizontal scrollbar.
      */
     public void setHadjustment(Adjustment hadjustment) {
         gtk_h.gtk_scrolled_window_set_hadjustment(handle(), hadjustment.handle());
     }
     
     /**
-     * Changes the frame drawn around the contents of @scrolled_window.
+     * Changes the frame drawn around the contents of {@code scrolled_window}.
      */
     public void setHasFrame(boolean hasFrame) {
         gtk_h.gtk_scrolled_window_set_has_frame(handle(), hasFrame ? 1 : 0);
@@ -258,61 +266,61 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Turns kinetic scrolling on or off.
-     * 
+     * <p>
      * Kinetic scrolling only applies to devices with source
-     * {@link org.gtk.gdk.InputSource<code>#TOUCHSCREEN</code>
+     * {@link org.gtk.gdk.InputSource#TOUCHSCREEN}.
      */
     public void setKineticScrolling(boolean kineticScrolling) {
         gtk_h.gtk_scrolled_window_set_kinetic_scrolling(handle(), kineticScrolling ? 1 : 0);
     }
     
     /**
-     * Sets the maximum height that @scrolled_window should keep visible.
-     * 
-     * The @scrolled_window will grow up to this height before it starts
+     * Sets the maximum height that {@code scrolled_window} should keep visible.
+     * <p>
+     * The {@code scrolled_window} will grow up to this height before it starts
      * scrolling the content.
-     * 
+     * <p>
      * It is a programming error to set the maximum content height to a value
-     * smaller than {@link [property@Gtk.ScrolledWindow:min-content-height] (ref=property)}.
+     * smaller than {@code Gtk.ScrolledWindow:min-content-height}.
      */
     public void setMaxContentHeight(int height) {
         gtk_h.gtk_scrolled_window_set_max_content_height(handle(), height);
     }
     
     /**
-     * Sets the maximum width that @scrolled_window should keep visible.
-     * 
-     * The @scrolled_window will grow up to this width before it starts
+     * Sets the maximum width that {@code scrolled_window} should keep visible.
+     * <p>
+     * The {@code scrolled_window} will grow up to this width before it starts
      * scrolling the content.
-     * 
+     * <p>
      * It is a programming error to set the maximum content width to a
-     * value smaller than {@link [property@Gtk.ScrolledWindow:min-content-width] (ref=property)}.
+     * value smaller than {@code Gtk.ScrolledWindow:min-content-width}.
      */
     public void setMaxContentWidth(int width) {
         gtk_h.gtk_scrolled_window_set_max_content_width(handle(), width);
     }
     
     /**
-     * Sets the minimum height that @scrolled_window should keep visible.
-     * 
+     * Sets the minimum height that {@code scrolled_window} should keep visible.
+     * <p>
      * Note that this can and (usually will) be smaller than the minimum
      * size of the content.
-     * 
+     * <p>
      * It is a programming error to set the minimum content height to a
-     * value greater than {@link [property@Gtk.ScrolledWindow:max-content-height] (ref=property)}.
+     * value greater than {@code Gtk.ScrolledWindow:max-content-height}.
      */
     public void setMinContentHeight(int height) {
         gtk_h.gtk_scrolled_window_set_min_content_height(handle(), height);
     }
     
     /**
-     * Sets the minimum width that @scrolled_window should keep visible.
-     * 
+     * Sets the minimum width that {@code scrolled_window} should keep visible.
+     * <p>
      * Note that this can and (usually will) be smaller than the minimum
      * size of the content.
-     * 
+     * <p>
      * It is a programming error to set the minimum content width to a
-     * value greater than {@link [property@Gtk.ScrolledWindow:max-content-width] (ref=property)}.
+     * value greater than {@code Gtk.ScrolledWindow:max-content-width}.
      */
     public void setMinContentWidth(int width) {
         gtk_h.gtk_scrolled_window_set_min_content_width(handle(), width);
@@ -328,14 +336,14 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     /**
      * Sets the placement of the contents with respect to the scrollbars
      * for the scrolled window.
-     * 
-     * The default is {@link org.gtk.gtk.CornerType<code>#TOP_LEFT</code>   meaning the child is
+     * <p>
+     * The default is {@link CornerType#TOP_LEFT}, meaning the child is
      * in the top left, with the scrollbars underneath and to the right.
-     * Other values in {@link [enum@Gtk.CornerType] (ref=enum)} are {@link org.gtk.gtk.CornerType<code>#TOP_RIGHT</code>  
-     * {@link org.gtk.gtk.CornerType<code>#BOTTOM_LEFT</code>   and {@link org.gtk.gtk.CornerType<code>#BOTTOM_RIGHT</code>  
-     * 
-     * See also {@link org.gtk.gtk.ScrolledWindow<code>#getPlacement</code>  and
-     * {@link org.gtk.gtk.ScrolledWindow<code>#unsetPlacement</code> .
+     * Other values in {@code Gtk.CornerType} are {@link CornerType#TOP_RIGHT},
+     * {@link CornerType#BOTTOM_LEFT}, and {@link CornerType#BOTTOM_RIGHT}.
+     * <p>
+     * See also {@link ScrolledWindow#getPlacement} and
+     * {@link ScrolledWindow#unsetPlacement}.
      */
     public void setPlacement(CornerType windowPlacement) {
         gtk_h.gtk_scrolled_window_set_placement(handle(), windowPlacement.getValue());
@@ -343,13 +351,13 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Sets the scrollbar policy for the horizontal and vertical scrollbars.
-     * 
+     * <p>
      * The policy determines when the scrollbar should appear; it is a value
-     * from the {@link [enum@Gtk.PolicyType] (ref=enum)} enumeration. If {@link org.gtk.gtk.PolicyType<code>#ALWAYS</code>   the
-     * scrollbar is always present; if {@link org.gtk.gtk.PolicyType<code>#NEVER</code>   the scrollbar is
-     * never present; if {@link org.gtk.gtk.PolicyType<code>#AUTOMATIC</code>   the scrollbar is present only
+     * from the {@code Gtk.PolicyType} enumeration. If {@link PolicyType#ALWAYS}, the
+     * scrollbar is always present; if {@link PolicyType#NEVER}, the scrollbar is
+     * never present; if {@link PolicyType#AUTOMATIC}, the scrollbar is present only
      * if needed (that is, if the slider part of the bar would be smaller
-     * than the trough &<code>#8212</code>  the display is larger than the page size).
+     * than the trough — the display is larger than the page size).
      */
     public void setPolicy(PolicyType hscrollbarPolicy, PolicyType vscrollbarPolicy) {
         gtk_h.gtk_scrolled_window_set_policy(handle(), hscrollbarPolicy.getValue(), vscrollbarPolicy.getValue());
@@ -357,7 +365,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Sets whether the natural height of the child should be calculated
-     * and propagated through the scrolled window&<code>#8217</code> s requested natural height.
+     * and propagated through the scrolled window’s requested natural height.
      */
     public void setPropagateNaturalHeight(boolean propagate) {
         gtk_h.gtk_scrolled_window_set_propagate_natural_height(handle(), propagate ? 1 : 0);
@@ -365,14 +373,14 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Sets whether the natural width of the child should be calculated
-     * and propagated through the scrolled window&<code>#8217</code> s requested natural width.
+     * and propagated through the scrolled window’s requested natural width.
      */
     public void setPropagateNaturalWidth(boolean propagate) {
         gtk_h.gtk_scrolled_window_set_propagate_natural_width(handle(), propagate ? 1 : 0);
     }
     
     /**
-     * Sets the <code>GtkAdjustment</code> for the vertical scrollbar.
+     * Sets the {@code GtkAdjustment} for the vertical scrollbar.
      */
     public void setVadjustment(Adjustment vadjustment) {
         gtk_h.gtk_scrolled_window_set_vadjustment(handle(), vadjustment.handle());
@@ -380,9 +388,9 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Unsets the placement of the contents with respect to the scrollbars.
-     * 
+     * <p>
      * If no window placement is set for a scrolled window,
-     * it defaults to {@link org.gtk.gtk.CornerType<code>#TOP_LEFT</code>
+     * it defaults to {@link CornerType#TOP_LEFT}.
      */
     public void unsetPlacement() {
         gtk_h.gtk_scrolled_window_unset_placement(handle());
@@ -397,11 +405,11 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Emitted whenever user initiated scrolling makes the scrolled
      * window firmly surpass the limits defined by the adjustment
      * in that orientation.
-     * 
+     * <p>
      * A similar behavior without edge resistance is provided by the
-     * {@link [signal@Gtk.ScrolledWindow::edge-reached] (ref=signal)} signal.
-     * 
-     * Note: The @pos argument is LTR/RTL aware, so callers should be
+     * {@code Gtk.ScrolledWindow::edge-reached} signal.
+     * <p>
+     * Note: The {@code pos} argument is LTR/RTL aware, so callers should be
      * aware too if intending to provide behavior on horizontal edges.
      */
     public SignalHandle onEdgeOvershot(EdgeOvershotHandler handler) {
@@ -428,11 +436,11 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Emitted whenever user-initiated scrolling makes the scrolled
      * window exactly reach the lower or upper limits defined by the
      * adjustment in that orientation.
-     * 
+     * <p>
      * A similar behavior with edge resistance is provided by the
-     * {@link [signal@Gtk.ScrolledWindow::edge-overshot] (ref=signal)} signal.
-     * 
-     * Note: The @pos argument is LTR/RTL aware, so callers should be
+     * {@code Gtk.ScrolledWindow::edge-overshot} signal.
+     * <p>
+     * Note: The {@code pos} argument is LTR/RTL aware, so callers should be
      * aware too if intending to provide behavior on horizontal edges.
      */
     public SignalHandle onEdgeReached(EdgeReachedHandler handler) {
@@ -459,9 +467,10 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Emitted when focus is moved away from the scrolled window by a
      * keybinding.
      * <p>
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default bindings for this signal are<code>Ctrl + Tab</code> to move forward and <code>Ctrl + Shift + Tab</code> to
+     * The default bindings for this signal are
+     * {@code Ctrl + Tab} to move forward and {@code Ctrl + Shift + Tab} to
      * move backward.
      */
     public SignalHandle onMoveFocusOut(MoveFocusOutHandler handler) {
@@ -486,11 +495,11 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     
     /**
      * Emitted when a keybinding that scrolls is pressed.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The horizontal or vertical adjustment is updated which triggers a
-     * signal that the scrolled window&<code>#8217</code> s child may listen to and scroll itself.
+     * signal that the scrolled window’s child may listen to and scroll itself.
      */
     public SignalHandle onScrollChild(ScrollChildHandler handler) {
         try {

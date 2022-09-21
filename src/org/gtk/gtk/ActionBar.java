@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkActionBar</code> is designed to present contextual actions.
+ * {@code GtkActionBar} is designed to present contextual actions.
  * <p>
- * !{@link [An example GtkActionBar]}(action-bar.png)
+ * <img src="./doc-files/action-bar.png" alt="An example GtkActionBar">
  * <p>
  * It is expected to be displayed below the content and expand
  * horizontally to fill the area.
@@ -21,22 +21,23 @@ import java.lang.invoke.*;
  * up different amounts of space.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * actionbar
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  revealer
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box
- *         &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  box.start
- *         &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [start children]}
- *         &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [center widget]}
- *         &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box.end
- *             &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [end children]}
- * </pre>
  * <p>
- * A <code>GtkActionBar</code>&<code>#39</code> s CSS node is called <code>actionbar</code>. It contains a <code>revealer</code>
- * subnode, which contains a <code>box</code> subnode, which contains two <code>box</code> subnodes at
- * the start and end of the action bar, with <code>start</code> and <code>end style classes
+ * <pre>{@code 
+ * actionbar
+ * ╰── revealer
+ *     ╰── box
+ *         ├── box.start
+ *         │   ╰── [start children]
+ *         ├── [center widget]
+ *         ╰── box.end
+ *             ╰── [end children]
+ * }</pre>
+ * <p>
+ * A {@code GtkActionBar}'s CSS node is called {@code actionbar}. It contains a {@code revealer}
+ * subnode, which contains a {@code box} subnode, which contains two {@code box} subnodes at
+ * the start and end of the action bar, with {@code start} and `end style classes
  * respectively, as well as a center node that represents the center child.
- * 
+ * <p>
  * Each of the boxes contains children packed for that side.
  */
 public class ActionBar extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -56,7 +57,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Creates a new <code>GtkActionBar</code> widget.
+     * Creates a new {@code GtkActionBar} widget.
      */
     public ActionBar() {
         super(constructNew());
@@ -79,30 +80,30 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Adds @child to @action_bar, packed with reference to the
-     * end of the @action_bar.
+     * Adds {@code child} to {@code action_bar}, packed with reference to the
+     * end of the {@code action_bar}.
      */
     public void packEnd(Widget child) {
         gtk_h.gtk_action_bar_pack_end(handle(), child.handle());
     }
     
     /**
-     * Adds @child to @action_bar, packed with reference to the
-     * start of the @action_bar.
+     * Adds {@code child} to {@code action_bar}, packed with reference to the
+     * start of the {@code action_bar}.
      */
     public void packStart(Widget child) {
         gtk_h.gtk_action_bar_pack_start(handle(), child.handle());
     }
     
     /**
-     * Removes a child from @action_bar.
+     * Removes a child from {@code action_bar}.
      */
     public void remove(Widget child) {
         gtk_h.gtk_action_bar_remove(handle(), child.handle());
     }
     
     /**
-     * Sets the center widget for the <code>GtkActionBar</code>.
+     * Sets the center widget for the {@code GtkActionBar}.
      */
     public void setCenterWidget(Widget centerWidget) {
         gtk_h.gtk_action_bar_set_center_widget(handle(), centerWidget.handle());
@@ -110,9 +111,9 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
     
     /**
      * Reveals or conceals the content of the action bar.
-     * 
-     * Note: this does not show or hide @action_bar in the
-     * {@link [property@Gtk.Widget:visible] (ref=property)} sense, so revealing has
+     * <p>
+     * Note: this does not show or hide {@code action_bar} in the
+     * {@code Gtk.Widget:visible} sense, so revealing has
      * no effect if the action bar is hidden.
      */
     public void setRevealed(boolean revealed) {

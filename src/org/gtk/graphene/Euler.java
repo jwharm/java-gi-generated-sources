@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * Describe a rotation using Euler angles.
- * 
- * The contents of the {@link org.gtk.graphene.Euler} structure are private
+ * <p>
+ * The contents of the {@link Euler} structure are private
  * and should never be accessed directly.
  */
 public class Euler extends io.github.jwharm.javagi.ResourceBase {
@@ -25,8 +25,8 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new {@link org.gtk.graphene.Euler} 
-     * 
+     * Allocates a new {@link Euler}.
+     * <p>
      * The contents of the returned structure are undefined.
      */
     public static Euler alloc() {
@@ -34,7 +34,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if two {@link org.gtk.graphene.Euler} are equal.
+     * Checks if two {@link Euler} are equal.
      */
     public boolean equal(Euler b) {
         var RESULT = gtk_h.graphene_euler_equal(handle(), b.handle());
@@ -51,7 +51,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the first component of the Euler angle vector,
      * depending on the order of rotation.
-     * 
+     * <p>
      * See also: graphene_euler_get_x()
      */
     public float getAlpha() {
@@ -62,7 +62,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the second component of the Euler angle vector,
      * depending on the order of rotation.
-     * 
+     * <p>
      * See also: graphene_euler_get_y()
      */
     public float getBeta() {
@@ -73,7 +73,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the third component of the Euler angle vector,
      * depending on the order of rotation.
-     * 
+     * <p>
      * See also: graphene_euler_get_z()
      */
     public float getGamma() {
@@ -83,10 +83,11 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the order used to apply the rotations described in the
-     * {@link org.gtk.graphene.Euler} structure, when converting to and from other
-     * structures, like {@link org.gtk.graphene.Quaternion} and {@link org.gtk.graphene.Matrix} 
-     * 
-     * This function does not return the {@link org.gtk.graphene.EulerOrder<code>#DEFAULT</code>  enumeration value; it will return the effective order of rotation
+     * {@link Euler} structure, when converting to and from other
+     * structures, like {@link Quaternion} and {@link Matrix}.
+     * <p>
+     * This function does not return the {@link EulerOrder#DEFAULT}
+     * enumeration value; it will return the effective order of rotation
      * instead.
      */
     public EulerOrder getOrder() {
@@ -119,9 +120,9 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Euler} using the given angles.
-     * 
-     * The order of the rotations is {@link org.gtk.graphene.EulerOrder<code>#DEFAULT</code>
+     * Initializes a {@link Euler} using the given angles.
+     * <p>
+     * The order of the rotations is {@link EulerOrder#DEFAULT}.
      */
     public Euler init(float x, float y, float z) {
         var RESULT = gtk_h.graphene_euler_init(handle(), x, y, z);
@@ -129,10 +130,10 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Euler} using the angles and order of
-     * another {@link org.gtk.graphene.Euler} 
-     * 
-     * If the {@link org.gtk.graphene.Euler} @src is <code>null</code>  this function is equivalent
+     * Initializes a {@link Euler} using the angles and order of
+     * another {@link Euler}.
+     * <p>
+     * If the {@link Euler} {@code src} is <code>null</code>, this function is equivalent
      * to calling graphene_euler_init() with all angles set to 0.
      */
     public Euler initFromEuler(Euler src) {
@@ -141,9 +142,9 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Euler} using the given rotation matrix.
-     * 
-     * If the {@link org.gtk.graphene.Matrix} @m is <code>null</code>  the {@link org.gtk.graphene.Euler} will
+     * Initializes a {@link Euler} using the given rotation matrix.
+     * <p>
+     * If the {@link Matrix} @m is <code>null</code>, the {@link Euler} will
      * be initialized with all angles set to 0.
      */
     public Euler initFromMatrix(Matrix m, EulerOrder order) {
@@ -152,9 +153,9 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Euler} using the given normalized quaternion.
-     * 
-     * If the {@link org.gtk.graphene.Quaternion} @q is <code>null</code>  the {@link org.gtk.graphene.Euler} will
+     * Initializes a {@link Euler} using the given normalized quaternion.
+     * <p>
+     * If the {@link Quaternion} @q is <code>null</code>, the {@link Euler} will
      * be initialized with all angles set to 0.
      */
     public Euler initFromQuaternion(Quaternion q, EulerOrder order) {
@@ -163,7 +164,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Euler} using the given angles
+     * Initializes a {@link Euler} using the given angles
      * and order of rotation.
      */
     public Euler initFromRadians(float x, float y, float z, EulerOrder order) {
@@ -172,10 +173,10 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Euler} using the angles contained in a
-     * {@link org.gtk.graphene.Vec3} 
-     * 
-     * If the {@link org.gtk.graphene.Vec3} @v is <code>null</code>  the {@link org.gtk.graphene.Euler} will be
+     * Initializes a {@link Euler} using the angles contained in a
+     * {@link Vec3}.
+     * <p>
+     * If the {@link Vec3} @v is <code>null</code>, the {@link Euler} will be
      * initialized with all angles set to 0.
      */
     public Euler initFromVec3(Vec3 v, EulerOrder order) {
@@ -184,7 +185,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Euler} with the given angles and @order.
+     * Initializes a {@link Euler} with the given angles and {@code order}.
      */
     public Euler initWithOrder(float x, float y, float z, EulerOrder order) {
         var RESULT = gtk_h.graphene_euler_init_with_order(handle(), x, y, z, order.getValue());
@@ -192,31 +193,31 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Reorders a {@link org.gtk.graphene.Euler} using @order.
-     * 
-     * This function is equivalent to creating a {@link org.gtk.graphene.Quaternion} from the
-     * given {@link org.gtk.graphene.Euler}  and then converting the quaternion into another
-     * {@link org.gtk.graphene.Euler}
+     * Reorders a {@link Euler} using {@code order}.
+     * <p>
+     * This function is equivalent to creating a {@link Quaternion} from the
+     * given {@link Euler}, and then converting the quaternion into another
+     * {@link Euler}.
      */
     public void reorder(EulerOrder order, Euler res) {
         gtk_h.graphene_euler_reorder(handle(), order.getValue(), res.handle());
     }
     
     /**
-     * Converts a {@link org.gtk.graphene.Euler} into a transformation matrix expressing
+     * Converts a {@link Euler} into a transformation matrix expressing
      * the extrinsic composition of rotations described by the Euler angles.
-     * 
+     * <p>
      * The rotations are applied over the reference frame axes in the order
-     * associated with the {@link org.gtk.graphene.Euler}  for instance, if the order
-     * used to initialize @e is {@link org.gtk.graphene.EulerOrder<code>#XYZ</code>  
-     * 
+     * associated with the {@link Euler}; for instance, if the order
+     * used to initialize @e is {@link EulerOrder#XYZ}:
+     * <p>
      *  * the first rotation moves the body around the X axis with
-     *    an angle &<code>#966</code> 
+     *    an angle φ
      *  * the second rotation moves the body around the Y axis with
-     *    an angle of &<code>#977</code> 
+     *    an angle of ϑ
      *  * the third rotation moves the body around the Z axis with
-     *    an angle of &<code>#968</code> 
-     * 
+     *    an angle of ψ
+     * <p>
      * The rotation sign convention is right-handed, to preserve compatibility
      * between Euler-based, quaternion-based, and angle-axis-based rotations.
      */
@@ -225,15 +226,15 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts a {@link org.gtk.graphene.Euler} into a {@link org.gtk.graphene.Quaternion}
+     * Converts a {@link Euler} into a {@link Quaternion}.
      */
     public void toQuaternion(Quaternion res) {
         gtk_h.graphene_euler_to_quaternion(handle(), res.handle());
     }
     
     /**
-     * Retrieves the angles of a {@link org.gtk.graphene.Euler} and initializes a
-     * {@link org.gtk.graphene.Vec3} with them.
+     * Retrieves the angles of a {@link Euler} and initializes a
+     * {@link Vec3} with them.
      */
     public void toVec3(Vec3 res) {
         gtk_h.graphene_euler_to_vec3(handle(), res.handle());

@@ -10,9 +10,9 @@ import java.lang.invoke.*;
 /**
  * Data type containing a set of virtual methods used for
  * accessing various Unicode character properties.
- * 
+ * <p>
  * HarfBuzz provides a default function for each of the
- * methods in {@link org.harfbuzz.unicode_funcs_t}  Client programs can implement
+ * methods in {@link unicode_funcs_t}. Client programs can implement
  * their own replacements for the individual Unicode functions, as
  * needed, and replace the default by calling the setter for a
  * method.

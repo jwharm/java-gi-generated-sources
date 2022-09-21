@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkShortcutTrigger</code> that triggers when a specific keyval and modifiers are pressed.
+ * A {@code GtkShortcutTrigger} that triggers when a specific keyval and modifiers are pressed.
  */
 public class KeyvalTrigger extends ShortcutTrigger {
 
@@ -27,8 +27,8 @@ public class KeyvalTrigger extends ShortcutTrigger {
     }
     
     /**
-     * Creates a <code>GtkShortcutTrigger</code> that will trigger whenever
-     * the key with the given @keyval and @modifiers is pressed.
+     * Creates a {@code GtkShortcutTrigger} that will trigger whenever
+     * the key with the given {@code keyval} and {@code modifiers} is pressed.
      */
     public KeyvalTrigger(int keyval, int modifiers) {
         super(constructNew(keyval, modifiers));
@@ -36,7 +36,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
     
     /**
      * Gets the keyval that must be pressed to succeed
-     * triggering @self.
+     * triggering {@code self}.
      */
     public int getKeyval() {
         var RESULT = gtk_h.gtk_keyval_trigger_get_keyval(handle());
@@ -45,7 +45,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
     
     /**
      * Gets the modifiers that must be present to succeed
-     * triggering @self.
+     * triggering {@code self}.
      */
     public int getModifiers() {
         var RESULT = gtk_h.gtk_keyval_trigger_get_modifiers(handle());

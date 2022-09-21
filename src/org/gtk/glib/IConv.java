@@ -23,7 +23,7 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * a native implementation. Should be called to clean up
      * the conversion descriptor from g_iconv_open() when
      * you are done converting things.
-     * 
+     * <p>
      * GLib provides g_convert() and g_locale_to_utf8() which are likely
      * more convenient than the raw iconv wrappers.
      */
@@ -36,7 +36,7 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * Same as the standard UNIX routine iconv_open(), but
      * may be implemented via libiconv on UNIX flavors that lack
      * a native implementation.
-     * 
+     * <p>
      * GLib provides g_convert() and g_locale_to_utf8() which are likely
      * more convenient than the raw iconv wrappers.
      */

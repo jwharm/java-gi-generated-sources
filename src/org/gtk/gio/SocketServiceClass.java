@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.SocketService}
+ * Class structure for {@link SocketService}.
  */
 public class SocketServiceClass extends io.github.jwharm.javagi.ResourceBase {
 

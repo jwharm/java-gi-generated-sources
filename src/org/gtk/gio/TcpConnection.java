@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This is the subclass of {@link org.gtk.gio.SocketConnection} that is created
+ * This is the subclass of {@link SocketConnection} that is created
  * for TCP/IP sockets.
  */
 public class TcpConnection extends SocketConnection {
@@ -35,7 +35,7 @@ public class TcpConnection extends SocketConnection {
      * This enables graceful disconnects on close. A graceful disconnect
      * means that we signal the receiving end that the connection is terminated
      * and wait for it to close the connection before closing the connection.
-     * 
+     * <p>
      * A graceful disconnect means that we can be sure that we successfully sent
      * all the outstanding data to the other end, or get an error reported.
      * However, it also means we have to wait for all the data to reach the

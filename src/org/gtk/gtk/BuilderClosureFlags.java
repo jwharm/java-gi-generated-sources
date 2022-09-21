@@ -2,10 +2,10 @@ package org.gtk.gtk;
 
 /**
  * The list of flags that can be passed to gtk_builder_create_closure().
- * 
+ * <p>
  * New values may be added in the future for new features, so external
- * implementations of {@link [iface@Gtk.BuilderScope] (ref=iface)} should test the flags
- * for unknown values and raise a {@link org.gtk.gtk.BuilderError<code>#INVALID_ATTRIBUTE</code>  error
+ * implementations of {@code Gtk.BuilderScope} should test the flags
+ * for unknown values and raise a {@link BuilderError#INVALID_ATTRIBUTE} error
  * when they encounter one.
  */
 public class BuilderClosureFlags {

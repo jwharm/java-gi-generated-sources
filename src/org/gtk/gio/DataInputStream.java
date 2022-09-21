@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Data input stream implements {@link org.gtk.gio.InputStream} and includes functions for
+ * Data input stream implements {@link InputStream} and includes functions for
  * reading structured data directly from a binary input stream.
  */
 public class DataInputStream extends BufferedInputStream implements Seekable {
@@ -28,7 +28,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Creates a new data input stream for the @base_stream.
+     * Creates a new data input stream for the {@code base_stream}.
      */
     public DataInputStream(InputStream baseStream) {
         super(constructNew(baseStream));
@@ -43,7 +43,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Gets the current newline type for the @stream.
+     * Gets the current newline type for the {@code stream}.
      */
     public DataStreamNewlineType getNewlineType() {
         var RESULT = gtk_h.g_data_input_stream_get_newline_type(handle());
@@ -51,7 +51,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Reads an unsigned 8-bit/1-byte value from @stream.
+     * Reads an unsigned 8-bit/1-byte value from {@code stream}.
      */
     public byte readByte(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -63,8 +63,8 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Reads a 16-bit/2-byte value from @stream.
-     * 
+     * Reads a 16-bit/2-byte value from {@code stream}.
+     * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
      */
@@ -78,14 +78,14 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Reads a signed 32-bit/4-byte value from @stream.
-     * 
+     * Reads a signed 32-bit/4-byte value from {@code stream}.
+     * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public int readInt32(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -97,14 +97,14 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Reads a 64-bit/8-byte value from @stream.
-     * 
+     * Reads a 64-bit/8-byte value from {@code stream}.
+     * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public long readInt64(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -118,8 +118,8 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     /**
      * The asynchronous version of g_data_input_stream_read_line().  It is
      * an error to have two outstanding calls to this function.
-     * 
-     * When the operation is finished, @callback will be called. You
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You
      * can then call g_data_input_stream_read_line_finish() to get
      * the result of the operation.
      */
@@ -138,8 +138,8 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Reads an unsigned 16-bit/2-byte value from @stream.
-     * 
+     * Reads an unsigned 16-bit/2-byte value from {@code stream}.
+     * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
      */
@@ -153,14 +153,14 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Reads an unsigned 32-bit/4-byte value from @stream.
-     * 
+     * Reads an unsigned 32-bit/4-byte value from {@code stream}.
+     * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public int readUint32(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -172,14 +172,14 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * Reads an unsigned 64-bit/8-byte value from @stream.
-     * 
+     * Reads an unsigned 64-bit/8-byte value from {@code stream}.
+     * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order().
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public long readUint64(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -193,16 +193,16 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     /**
      * The asynchronous version of g_data_input_stream_read_upto().
      * It is an error to have two outstanding calls to this function.
-     * 
+     * <p>
      * In contrast to g_data_input_stream_read_until(), this function
      * does not consume the stop character. You have to use
      * g_data_input_stream_read_byte() to get it before calling
      * g_data_input_stream_read_upto() again.
-     * 
-     * Note that @stop_chars may contain &<code>#39</code> \\0&<code>#39</code>  if @stop_chars_len is
+     * <p>
+     * Note that {@code stop_chars} may contain '\\0' if {@code stop_chars_len} is
      * specified.
-     * 
-     * When the operation is finished, @callback will be called. You
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You
      * can then call g_data_input_stream_read_upto_finish() to get
      * the result of the operation.
      */
@@ -221,19 +221,19 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
-     * This function sets the byte order for the given @stream. All subsequent
-     * reads from the @stream will be read in the given @order.
+     * This function sets the byte order for the given {@code stream}. All subsequent
+     * reads from the {@code stream} will be read in the given {@code order}.
      */
     public void setByteOrder(DataStreamByteOrder order) {
         gtk_h.g_data_input_stream_set_byte_order(handle(), order.getValue());
     }
     
     /**
-     * Sets the newline type for the @stream.
-     * 
+     * Sets the newline type for the {@code stream}.
+     * <p>
      * Note that using G_DATA_STREAM_NEWLINE_TYPE_ANY is slightly unsafe. If a read
-     * chunk ends in &<code>#34</code> CR&<code>#34</code>  we must read an additional byte to know if this is &<code>#34</code> CR&<code>#34</code>  or
-     * &<code>#34</code> CR LF&<code>#34</code> , and this might block if there is no more data available.
+     * chunk ends in "CR" we must read an additional byte to know if this is "CR" or
+     * "CR LF", and this might block if there is no more data available.
      */
     public void setNewlineType(DataStreamNewlineType type) {
         gtk_h.g_data_input_stream_set_newline_type(handle(), type.getValue());

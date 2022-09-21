@@ -8,16 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.AppInfoMonitor} is a very simple object used for monitoring the app
+ * {@link AppInfoMonitor} is a very simple object used for monitoring the app
  * info database for changes (ie: newly installed or removed
  * applications).
- * 
- * Call g_app_info_monitor_get() to get a {@link org.gtk.gio.AppInfoMonitor} and connect
- * to the &<code>#34</code> changed&<code>#34</code>  signal.
- * 
+ * <p>
+ * Call g_app_info_monitor_get() to get a {@link AppInfoMonitor} and connect
+ * to the "changed" signal.
+ * <p>
  * In the usual case, applications should try to make note of the change
  * (doing things like invalidating caches) but not act on it.  In
- * particular, applications should avoid making calls to {@link org.gtk.gio.AppInfo} APIs
+ * particular, applications should avoid making calls to {@link AppInfo} APIs
  * in response to the change signal, deferring these until the time that
  * the data is actually required.  The exception to this case is when
  * application information is actually being displayed on the screen
@@ -38,13 +38,13 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the {@link org.gtk.gio.AppInfoMonitor} for the current thread-default main
+     * Gets the {@link AppInfoMonitor} for the current thread-default main
      * context.
-     * 
-     * The {@link org.gtk.gio.AppInfoMonitor} will emit a &<code>#34</code> changed&<code>#34</code>  signal in the
+     * <p>
+     * The {@link AppInfoMonitor} will emit a "changed" signal in the
      * thread-default main context whenever the list of installed
      * applications (as reported by g_app_info_get_all()) may have changed.
-     * 
+     * <p>
      * You must only call g_object_unref() on the return value from under
      * the same main context as you created it.
      */

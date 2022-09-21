@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A visible column in a {@link org.gtk.gtk.TreeView} widget
+ * A visible column in a {@link TreeView} widget
  * <p>
- * The <code>GtkTreeViewColumn</code> object represents a visible column in a <code>GtkTreeView</code> widget.
+ * The {@code GtkTreeViewColumn} object represents a visible column in a {@code GtkTreeView} widget.
  * It allows to set properties of the column header, and functions as a holding pen
  * for the cell renderers which determine how the data in the column is displayed.
- * 
- * Please refer to the {@link [tree widget conceptual overview]}(section-tree-widget.html)
+ * <p>
+ * Please refer to the <a href="section-tree-widget.html">tree widget conceptual overview</a>
  * for an overview of all the objects and data types related to the tree widget and
- * how they work together, and to the {@link org.gtk.gtk.TreeView} documentation for specifics
+ * how they work together, and to the {@link TreeView} documentation for specifics
  * about the CSS node structure for treeviews and their headers.
  */
 public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements Buildable, CellLayout {
@@ -36,7 +36,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Creates a new <code>GtkTreeViewColumn</code>.
+     * Creates a new {@code GtkTreeViewColumn}.
      */
     public TreeViewColumn() {
         super(constructNew());
@@ -48,20 +48,20 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Creates a new <code>GtkTreeViewColumn</code> using @area to render its cells.
+     * Creates a new {@code GtkTreeViewColumn} using {@code area} to render its cells.
      */
     public static TreeViewColumn newWithArea(CellArea area) {
         return new TreeViewColumn(constructNewWithArea(area));
     }
     
     /**
-     * Adds an attribute mapping to the list in @tree_column.
+     * Adds an attribute mapping to the list in {@code tree_column}.
      * <p>
-     * The @column is the
-     * column of the model to get a value from, and the @attribute is the
-     * parameter on @cell_renderer to be set from the value. So for example
+     * The {@code column} is the
+     * column of the model to get a value from, and the {@code attribute} is the
+     * parameter on {@code cell_renderer} to be set from the value. So for example
      * if column 2 of the model contains strings, you could have the
-     * &<code>#8220</code> text&<code>#8221</code>  attribute of a <code>GtkCellRendererText</code> get its values from
+     * “text” attribute of a {@code GtkCellRendererText} get its values from
      * column 2.
      */
     public void addAttribute(CellRenderer cellRenderer, java.lang.String attribute, int column) {
@@ -69,7 +69,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns <code>true</code> if any of the cells packed into the @tree_column are visible.
+     * Returns <code>true</code> if any of the cells packed into the {@code tree_column} are visible.
      * For this to be meaningful, you must first initialize the cells with
      * gtk_tree_view_column_cell_set_cell_data()
      */
@@ -79,17 +79,17 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the cell renderer based on the @tree_model and @iter.  That is, for
-     * every attribute mapping in @tree_column, it will get a value from the set
-     * column on the @iter, and use that value to set the attribute on the cell
-     * renderer.  This is used primarily by the <code>GtkTreeView</code>.
+     * Sets the cell renderer based on the {@code tree_model} and {@code iter}.  That is, for
+     * every attribute mapping in {@code tree_column}, it will get a value from the set
+     * column on the {@code iter}, and use that value to set the attribute on the cell
+     * renderer.  This is used primarily by the {@code GtkTreeView}.
      */
     public void cellSetCellData(TreeModel treeModel, TreeIter iter, boolean isExpander, boolean isExpanded) {
         gtk_h.gtk_tree_view_column_cell_set_cell_data(handle(), treeModel.handle(), iter.handle(), isExpander ? 1 : 0, isExpanded ? 1 : 0);
     }
     
     /**
-     * Unsets all the mappings on all renderers on the @tree_column.
+     * Unsets all the mappings on all renderers on the {@code tree_column}.
      */
     public void clear() {
         gtk_h.gtk_tree_view_column_clear(handle());
@@ -104,15 +104,15 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Emits the &<code>#8220</code> clicked&<code>#8221</code>  signal on the column.  This function will only work if
-     * @tree_column is clickable.
+     * Emits the “clicked” signal on the column.  This function will only work if
+     * {@code tree_column} is clickable.
      */
     public void clicked() {
         gtk_h.gtk_tree_view_column_clicked(handle());
     }
     
     /**
-     * Sets the current keyboard focus to be at @cell, if the column contains
+     * Sets the current keyboard focus to be at {@code cell}, if the column contains
      * 2 or more editable and activatable cells.
      */
     public void focusCell(CellRenderer cell) {
@@ -120,7 +120,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the current x alignment of @tree_column.  This value can range
+     * Returns the current x alignment of {@code tree_column}.  This value can range
      * between 0.0 and 1.0.
      */
     public float getAlignment() {
@@ -162,7 +162,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the maximum width in pixels of the @tree_column, or -1 if no maximum
+     * Returns the maximum width in pixels of the {@code tree_column}, or -1 if no maximum
      * width is set.
      */
     public int getMaxWidth() {
@@ -171,7 +171,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the minimum width in pixels of the @tree_column, or -1 if no minimum
+     * Returns the minimum width in pixels of the {@code tree_column}, or -1 if no minimum
      * width is set.
      */
     public int getMinWidth() {
@@ -180,7 +180,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns <code>true</code> if the @tree_column can be reordered by the user.
+     * Returns <code>true</code> if the {@code tree_column} can be reordered by the user.
      */
     public boolean getReorderable() {
         var RESULT = gtk_h.gtk_tree_view_column_get_reorderable(handle());
@@ -188,7 +188,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns <code>true</code> if the @tree_column can be resized by the end user.
+     * Returns <code>true</code> if the {@code tree_column} can be resized by the end user.
      */
     public boolean getResizable() {
         var RESULT = gtk_h.gtk_tree_view_column_get_resizable(handle());
@@ -196,7 +196,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the current type of @tree_column.
+     * Returns the current type of {@code tree_column}.
      */
     public TreeViewColumnSizing getSizing() {
         var RESULT = gtk_h.gtk_tree_view_column_get_sizing(handle());
@@ -204,10 +204,10 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Gets the logical @sort_column_id that the model sorts on
+     * Gets the logical {@code sort_column_id} that the model sorts on
      * when this column is selected for sorting.
-     * 
-     * See {@link org.gtk.gtk.TreeViewColumn<code>#setSortColumnId</code> .
+     * <p>
+     * See {@link TreeViewColumn#setSortColumnId}.
      */
     public int getSortColumnId() {
         var RESULT = gtk_h.gtk_tree_view_column_get_sort_column_id(handle());
@@ -231,7 +231,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the spacing of @tree_column.
+     * Returns the spacing of {@code tree_column}.
      */
     public int getSpacing() {
         var RESULT = gtk_h.gtk_tree_view_column_get_spacing(handle());
@@ -247,8 +247,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the <code>GtkTreeView</code> wherein @tree_column has been inserted.
-     * If @column is currently not inserted in any tree view, <code>null</code> is
+     * Returns the {@code GtkTreeView} wherein {@code tree_column} has been inserted.
+     * If {@code column} is currently not inserted in any tree view, <code>null</code> is
      * returned.
      */
     public Widget getTreeView() {
@@ -257,7 +257,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns <code>true</code> if @tree_column is visible.
+     * Returns <code>true</code> if {@code tree_column} is visible.
      */
     public boolean getVisible() {
         var RESULT = gtk_h.gtk_tree_view_column_get_visible(handle());
@@ -265,8 +265,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the <code>GtkWidget</code> in the button on the column header.
-     * 
+     * Returns the {@code GtkWidget} in the button on the column header.
+     * <p>
      * If a custom widget has not been set then <code>null</code> is returned.
      */
     public Widget getWidget() {
@@ -275,7 +275,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the current size of @tree_column in pixels.
+     * Returns the current size of {@code tree_column} in pixels.
      */
     public int getWidth() {
         var RESULT = gtk_h.gtk_tree_view_column_get_width(handle());
@@ -283,7 +283,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Returns the current X offset of @tree_column in pixels.
+     * Returns the current X offset of {@code tree_column} in pixels.
      */
     public int getXOffset() {
         var RESULT = gtk_h.gtk_tree_view_column_get_x_offset(handle());
@@ -291,18 +291,18 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Adds the @cell to end of the column. If @expand is <code>false</code>  then the @cell
+     * Adds the {@code cell} to end of the column. If {@code expand} is <code>false</code>, then the {@code cell}
      * is allocated no more space than it needs. Any unused space is divided
-     * evenly between cells for which @expand is <code>true</code>
+     * evenly between cells for which {@code expand} is <code>true</code>.
      */
     public void packEnd(CellRenderer cell, boolean expand) {
         gtk_h.gtk_tree_view_column_pack_end(handle(), cell.handle(), expand ? 1 : 0);
     }
     
     /**
-     * Packs the @cell into the beginning of the column. If @expand is <code>false</code>  then
-     * the @cell is allocated no more space than it needs. Any unused space is divided
-     * evenly between cells for which @expand is <code>true</code>
+     * Packs the {@code cell} into the beginning of the column. If {@code expand} is <code>false</code>, then
+     * the {@code cell} is allocated no more space than it needs. Any unused space is divided
+     * evenly between cells for which {@code expand} is <code>true</code>.
      */
     public void packStart(CellRenderer cell, boolean expand) {
         gtk_h.gtk_tree_view_column_pack_start(handle(), cell.handle(), expand ? 1 : 0);
@@ -326,12 +326,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the <code>GtkTreeCellDataFunc</code> to use for the column.
-     * 
+     * Sets the {@code GtkTreeCellDataFunc} to use for the column.
+     * <p>
      * This
      * function is used instead of the standard attributes mapping for
-     * setting the column value, and should set the value of @tree_column&<code>#39</code> s
-     * cell renderer as appropriate.  @func may be <code>null</code> to remove an
+     * setting the column value, and should set the value of {@code tree_column}'s
+     * cell renderer as appropriate.  {@code func} may be <code>null</code> to remove an
      * older one.
      */
     public void setCellDataFunc(CellRenderer cellRenderer, TreeCellDataFunc func) {
@@ -350,7 +350,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the header to be active if @clickable is <code>true</code>   When the header is
+     * Sets the header to be active if {@code clickable} is <code>true</code>.  When the header is
      * active, then it can take keyboard focus, and can be clicked.
      */
     public void setClickable(boolean clickable) {
@@ -359,11 +359,11 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     
     /**
      * Sets the column to take available extra space.  This space is shared equally
-     * amongst all columns that have the expand set to <code>true</code>   If no column has this
+     * amongst all columns that have the expand set to <code>true</code>.  If no column has this
      * option set, then the last column gets all extra space.  By default, every
-     * column is created with this <code>false</code> 
-     * 
-     * Along with &<code>#8220</code> fixed-width&<code>#8221</code> , the &<code>#8220</code> expand&<code>#8221</code>  property changes when the column is
+     * column is created with this <code>false</code>.
+     * <p>
+     * Along with “fixed-width”, the “expand” property changes when the column is
      * resized by the user.
      */
     public void setExpand(boolean expand) {
@@ -371,16 +371,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * If @fixed_width is not -1, sets the fixed width of @tree_column; otherwise
-     * unsets it.  The effective value of @fixed_width is clamped between the
+     * If {@code fixed_width} is not -1, sets the fixed width of {@code tree_column}; otherwise
+     * unsets it.  The effective value of {@code fixed_width} is clamped between the
      * minimum and maximum width of the column; however, the value stored in the
-     * &<code>#8220</code> fixed-width&<code>#8221</code>  property is not clamped.  If the column sizing is
-     * {@link org.gtk.gtk.TreeViewColumnSizing<code>#GROW_ONLY</code>  or {@link org.gtk.gtk.TreeViewColumnSizing<code>#AUTOSIZE</code>   setting
+     * “fixed-width” property is not clamped.  If the column sizing is
+     * {@link TreeViewColumnSizing#GROW_ONLY} or {@link TreeViewColumnSizing#AUTOSIZE}, setting
      * a fixed width overrides the automatically calculated width.  Note that
-     * @fixed_width is only a hint to GTK; the width actually allocated to the
+     * {@code fixed_width} is only a hint to GTK; the width actually allocated to the
      * column may be greater or less than requested.
-     * 
-     * Along with &<code>#8220</code> expand&<code>#8221</code> , the &<code>#8220</code> fixed-width&<code>#8221</code>  property changes when the column is
+     * <p>
+     * Along with “expand”, the “fixed-width” property changes when the column is
      * resized by the user.
      */
     public void setFixedWidth(int fixedWidth) {
@@ -388,9 +388,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the maximum width of the @tree_column.  If @max_width is -1, then the
+     * Sets the maximum width of the {@code tree_column}.  If {@code max_width} is -1, then the
      * maximum width is unset.  Note, the column can actually be wider than max
-     * width if it&<code>#8217</code> s the last column in a view.  In this case, the column expands to
+     * width if it’s the last column in a view.  In this case, the column expands to
      * fill any extra space.
      */
     public void setMaxWidth(int maxWidth) {
@@ -398,7 +398,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the minimum width of the @tree_column.  If @min_width is -1, then the
+     * Sets the minimum width of the {@code tree_column}.  If {@code min_width} is -1, then the
      * minimum width is unset.
      */
     public void setMinWidth(int minWidth) {
@@ -406,7 +406,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * If @reorderable is <code>true</code>  then the column can be reordered by the end user
+     * If {@code reorderable} is <code>true</code>, then the column can be reordered by the end user
      * dragging the header.
      */
     public void setReorderable(boolean reorderable) {
@@ -414,26 +414,26 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * If @resizable is <code>true</code>  then the user can explicitly resize the column by
+     * If {@code resizable} is <code>true</code>, then the user can explicitly resize the column by
      * grabbing the outer edge of the column button.
-     * 
+     * <p>
      * If resizable is <code>true</code> and
-     * sizing mode of the column is {@link org.gtk.gtk.TreeViewColumnSizing<code>#AUTOSIZE</code>   then the sizing
-     * mode is changed to {@link org.gtk.gtk.TreeViewColumnSizing<code>#GROW_ONLY</code>
+     * sizing mode of the column is {@link TreeViewColumnSizing#AUTOSIZE}, then the sizing
+     * mode is changed to {@link TreeViewColumnSizing#GROW_ONLY}.
      */
     public void setResizable(boolean resizable) {
         gtk_h.gtk_tree_view_column_set_resizable(handle(), resizable ? 1 : 0);
     }
     
     /**
-     * Sets the growth behavior of @tree_column to @type.
+     * Sets the growth behavior of {@code tree_column} to {@code type}.
      */
     public void setSizing(TreeViewColumnSizing type) {
         gtk_h.gtk_tree_view_column_set_sizing(handle(), type.getValue());
     }
     
     /**
-     * Sets the logical @sort_column_id that this column sorts on when this column
+     * Sets the logical {@code sort_column_id} that this column sorts on when this column
      * is selected for sorting.  Doing so makes the column header clickable.
      */
     public void setSortColumnId(int sortColumnId) {
@@ -441,7 +441,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Call this function with a @setting of <code>true</code> to display an arrow in
+     * Call this function with a {@code setting} of <code>true</code> to display an arrow in
      * the header button indicating the column is sorted. Call
      * gtk_tree_view_column_set_sort_order() to change the direction of
      * the arrow.
@@ -452,13 +452,13 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     
     /**
      * Changes the appearance of the sort indicator.
-     * 
+     * <p>
      * This does not actually sort the model.  Use
      * gtk_tree_view_column_set_sort_column_id() if you want automatic sorting
      * support.  This function is primarily for custom sorting behavior, and should
      * be used in conjunction with gtk_tree_sortable_set_sort_column_id() to do
      * that. For custom models, the mechanism will vary.
-     * 
+     * <p>
      * The sort indicator changes direction to indicate normal sort or reverse sort.
      * Note that you must have the sort indicator enabled to see anything when
      * calling this function; see gtk_tree_view_column_set_sort_indicator().
@@ -468,7 +468,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the spacing field of @tree_column, which is the number of pixels to
+     * Sets the spacing field of {@code tree_column}, which is the number of pixels to
      * place between cell renderers packed into it.
      */
     public void setSpacing(int spacing) {
@@ -476,7 +476,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the title of the @tree_column.  If a custom widget has been set, then
+     * Sets the title of the {@code tree_column}.  If a custom widget has been set, then
      * this value is ignored.
      */
     public void setTitle(java.lang.String title) {
@@ -484,15 +484,15 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Sets the visibility of @tree_column.
+     * Sets the visibility of {@code tree_column}.
      */
     public void setVisible(boolean visible) {
         gtk_h.gtk_tree_view_column_set_visible(handle(), visible ? 1 : 0);
     }
     
     /**
-     * Sets the widget in the header to be @widget.  If widget is <code>null</code>  then the
-     * header button is set with a <code>GtkLabel</code> set to the title of @tree_column.
+     * Sets the widget in the header to be {@code widget}.  If widget is <code>null</code>, then the
+     * header button is set with a {@code GtkLabel} set to the title of {@code tree_column}.
      */
     public void setWidget(Widget widget) {
         gtk_h.gtk_tree_view_column_set_widget(handle(), widget.handle());
@@ -504,7 +504,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
-     * Emitted when the column&<code>#39</code> s header has been clicked.
+     * Emitted when the column's header has been clicked.
      */
     public SignalHandle onClicked(ClickedHandler handler) {
         try {

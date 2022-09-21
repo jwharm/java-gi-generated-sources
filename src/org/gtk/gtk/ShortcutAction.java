@@ -8,32 +8,34 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkShortcutAction</code> encodes an action that can be triggered by a
+ * {@code GtkShortcutAction} encodes an action that can be triggered by a
  * keyboard shortcut.
- * <p><code>GtkShortcutActions</code> contain functions that allow easy presentation
+ * <p>
+ * {@code GtkShortcutActions} contain functions that allow easy presentation
  * to end users as well as being printed for debugging.
  * <p>
- * All <code>GtkShortcutActions</code> are immutable, you can only specify their
+ * All {@code GtkShortcutActions} are immutable, you can only specify their
  * properties during construction. If you want to change a action, you
  * have to replace it with a new one. If you need to pass arguments to
- * an action, these are specified by the higher-level <code>GtkShortcut</code> object.
+ * an action, these are specified by the higher-level {@code GtkShortcut} object.
  * <p>
- * To activate a <code>GtkShortcutAction</code> manually, {@link org.gtk.gtk.ShortcutAction<code>#activate</code> 
+ * To activate a {@code GtkShortcutAction} manually, {@link ShortcutAction#activate}
  * can be called.
- * 
+ * <p>
  * GTK provides various actions:
- * 
- *  - {@link org.gtk.gtk.MnemonicAction}: a shortcut action that calls
+ * <p>
+ * <ul>
+ * <li>{@link MnemonicAction}: a shortcut action that calls
  *    gtk_widget_mnemonic_activate()
- *  - {@link org.gtk.gtk.CallbackAction}: a shortcut action that invokes
+ * <li>{@link CallbackAction}: a shortcut action that invokes
  *    a given callback
- *  - {@link org.gtk.gtk.SignalAction}: a shortcut action that emits a
+ * <li>{@link SignalAction}: a shortcut action that emits a
  *    given signal
- *  - {@link org.gtk.gtk.ActivateAction}: a shortcut action that calls
+ * <li>{@link ActivateAction}: a shortcut action that calls
  *    gtk_widget_activate()
- *  - {@link org.gtk.gtk.NamedAction}: a shortcut action that calls
+ * <li>{@link NamedAction}: a shortcut action that calls
  *    gtk_widget_activate_action()
- *  - {@link org.gtk.gtk.NothingAction}: a shortcut action that does nothing
+ * <li>{@link NothingAction}: a shortcut action that does nothing
  */
 public class ShortcutAction extends org.gtk.gobject.Object {
 
@@ -59,23 +61,24 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * <p>
      * The accepted strings are:
      * <p>
-     * <li><code>nothing</code>, for <code>GtkNothingAction</code>
-     * <li><code>activate</code>, for <code>GtkActivateAction</code>
-     * <li><code>mnemonic-activate</code>, for <code>GtkMnemonicAction</code>
-     * <li><code>action(NAME)</code>, for a <code>GtkNamedAction</code> for the action named <code>NAME</code>
-     * <li><code>signal(NAME)</code>, for a <code>GtkSignalAction</code> for the signal <code>NAME</code>
+     * <ul>
+     * <li>{@code nothing}, for {@code GtkNothingAction}
+     * <li>{@code activate}, for {@code GtkActivateAction}
+     * <li>{@code mnemonic-activate}, for {@code GtkMnemonicAction}
+     * <li>{@code action(NAME)}, for a {@code GtkNamedAction} for the action named {@code NAME}
+     * <li>{@code signal(NAME)}, for a {@code GtkSignalAction} for the signal {@code NAME}
      */
     public static ShortcutAction parseString(java.lang.String string) {
         return new ShortcutAction(constructParseString(string));
     }
     
     /**
-     * Activates the action on the @widget with the given @args.
-     * 
-     * Note that some actions ignore the passed in @flags, @widget or @args.
-     * 
+     * Activates the action on the {@code widget} with the given {@code args}.
+     * <p>
+     * Note that some actions ignore the passed in {@code flags}, {@code widget} or {@code args}.
+     * <p>
      * Activation of an action can fail for various reasons. If the action
-     * is not supported by the @widget, if the @args don&<code>#39</code> t match the action
+     * is not supported by the {@code widget}, if the {@code args} don't match the action
      * or if the activation otherwise had no effect, <code>false</code> will be returned.
      */
     public boolean activate(int flags, Widget widget, org.gtk.glib.Variant args) {
@@ -85,9 +88,9 @@ public class ShortcutAction extends org.gtk.gobject.Object {
     
     /**
      * Prints the given action into a string for the developer.
-     * 
+     * <p>
      * This is meant for debugging and logging.
-     * 
+     * <p>
      * The form of the representation may change at any time and is
      * not guaranteed to stay identical.
      */
@@ -97,8 +100,8 @@ public class ShortcutAction extends org.gtk.gobject.Object {
     
     /**
      * Prints the given action into a human-readable string.
-     * 
-     * This is a small wrapper around {@link org.gtk.gtk.ShortcutAction<code>#print</code> 
+     * <p>
+     * This is a small wrapper around {@link ShortcutAction#print}
      * to help when debugging.
      */
     public java.lang.String toString() {

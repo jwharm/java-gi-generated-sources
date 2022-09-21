@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkSurface</code> is a rectangular region on the screen.
- * 
- * It&<code>#8217</code> s a low-level object, used to implement high-level objects
- * such as {@link org.gtk.gtk.Window} or {@link org.gtk.gtk.Dialog} in GTK.
- * 
- * The surfaces you see in practice are either {@link [iface@Gdk.Toplevel] (ref=iface)} or
- * {@link [iface@Gdk.Popup] (ref=iface)}, and those interfaces provide much of the required
+ * A {@code GdkSurface} is a rectangular region on the screen.
+ * <p>
+ * It’s a low-level object, used to implement high-level objects
+ * such as {@code Gtk.Dialog} in GTK.
+ * <p>
+ * The surfaces you see in practice are either {@code Gdk.Toplevel} or
+ * {@code Gdk.Popup}, and those interfaces provide much of the required
  * API to interact with these surfaces. Other, more specialized surface
  * types exist, but you will rarely interact with them directly.
  */
@@ -36,9 +36,9 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Create a new popup surface.
-     * 
-     * The surface will be attached to @parent and can be positioned
-     * relative to it using {@link org.gtk.gdk.Popup<code>#present</code> .
+     * <p>
+     * The surface will be attached to {@code parent} and can be positioned
+     * relative to it using {@link Popup#present}.
      */
     public static Surface newPopup(Surface parent, boolean autohide) {
         return new Surface(constructNewPopup(parent, autohide));
@@ -57,17 +57,17 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits a short beep associated to @surface.
-     * 
-     * If the display of @surface does not support per-surface beeps,
-     * emits a short beep on the display just as {@link org.gtk.gdk.Display<code>#beep</code> .
+     * Emits a short beep associated to {@code surface}.
+     * <p>
+     * If the display of {@code surface} does not support per-surface beeps,
+     * emits a short beep on the display just as {@link Display#beep}.
      */
     public void beep() {
         gtk_h.gdk_surface_beep(handle());
     }
     
     /**
-     * Creates a new <code>GdkCairoContext</code> for rendering on @surface.
+     * Creates a new {@code GdkCairoContext} for rendering on {@code surface}.
      */
     public CairoContext createCairoContext() {
         var RESULT = gtk_h.gdk_surface_create_cairo_context(handle());
@@ -75,12 +75,12 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new <code>GdkGLContext</code> for the <code>GdkSurface</code>.
+     * Creates a new {@code GdkGLContext} for the {@code GdkSurface}.
      * <p>
      * The context is disconnected from any particular surface or surface.
-     * If the creation of the <code>GdkGLContext</code> failed, @error will be set.
-     * Before using the returned <code>GdkGLContext</code>, you will need to
-     * call {@link org.gtk.gdk.GLContext<code>#makeCurrent</code>  or {@link org.gtk.gdk.GLContext<code>#realize</code> .
+     * If the creation of the {@code GdkGLContext} failed, {@code error} will be set.
+     * Before using the returned {@code GdkGLContext}, you will need to
+     * call {@code Gdk.GLContext.realize}.
      */
     public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -93,19 +93,19 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Create a new Cairo surface that is as compatible as possible with the
-     * given @surface.
-     * 
+     * given {@code surface}.
+     * <p>
      * For example the new surface will have the same fallback resolution
-     * and font options as @surface. Generally, the new surface will also
-     * use the same backend as @surface, unless that is not possible for
+     * and font options as {@code surface}. Generally, the new surface will also
+     * use the same backend as {@code surface}, unless that is not possible for
      * some reason. The type of the returned surface may be examined with
      * cairo_surface_get_type().
-     * 
+     * <p>
      * Initially the surface contents are all 0 (transparent if contents
      * have transparency, black otherwise.)
-     * 
+     * <p>
      * This function always returns a valid pointer, but it will return a
-     * pointer to a &<code>#8220</code> nil&<code>#8221</code>  surface if @other is already in an error state
+     * pointer to a “nil” surface if {@code other} is already in an error state
      * or any other error occurs.
      */
     public org.cairographics.Surface createSimilarSurface(org.cairographics.Content content, int width, int height) {
@@ -114,9 +114,9 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new <code>GdkVulkanContext</code> for rendering on @surface.
+     * Creates a new {@code GdkVulkanContext} for rendering on {@code surface}.
      * <p>
-     * If the creation of the <code>GdkVulkanContext</code> failed, @error will be set.
+     * If the creation of the {@code GdkVulkanContext} failed, {@code error} will be set.
      */
     public VulkanContext createVulkanContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -128,12 +128,12 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Destroys the window system resources associated with @surface and
-     * decrements @surface&<code>#39</code> s reference count.
-     * 
-     * The window system resources for all children of @surface are also
-     * destroyed, but the children&<code>#8217</code> s reference counts are not decremented.
-     * 
+     * Destroys the window system resources associated with {@code surface} and
+     * decrements {@code surface}'s reference count.
+     * <p>
+     * The window system resources for all children of {@code surface} are also
+     * destroyed, but the children’s reference counts are not decremented.
+     * <p>
      * Note that a surface will not be destroyed automatically when its
      * reference count reaches zero. You must call this function yourself
      * before that happens.
@@ -143,12 +143,13 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves a <code>GdkCursor</code> pointer for the cursor currently set on the<code>GdkSurface</code>.
-     * 
+     * Retrieves a {@code GdkCursor} pointer for the cursor currently set on the
+     * {@code GdkSurface}.
+     * <p>
      * If the return value is <code>null</code> then there is no custom cursor set on
      * the surface, and it is using the cursor for its parent surface.
-     * 
-     * Use {@link org.gtk.gdk.Surface<code>#setCursor</code>  to unset the cursor of the surface.
+     * <p>
+     * Use {@link Surface#setCursor} to unset the cursor of the surface.
      */
     public Cursor getCursor() {
         var RESULT = gtk_h.gdk_surface_get_cursor(handle());
@@ -156,13 +157,13 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves a <code>GdkCursor</code> pointer for the @device currently set on the
-     * specified <code>GdkSurface</code>.
-     * 
+     * Retrieves a {@code GdkCursor} pointer for the {@code device} currently set on the
+     * specified {@code GdkSurface}.
+     * <p>
      * If the return value is <code>null</code> then there is no custom cursor set on the
      * specified surface, and it is using the cursor for its parent surface.
-     * 
-     * Use {@link org.gtk.gdk.Surface<code>#setCursor</code>  to unset the cursor of the surface.
+     * <p>
+     * Use {@link Surface#setCursor} to unset the cursor of the surface.
      */
     public Cursor getDeviceCursor(Device device) {
         var RESULT = gtk_h.gdk_surface_get_device_cursor(handle(), device.handle());
@@ -170,7 +171,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the <code>GdkDisplay</code> associated with a <code>GdkSurface</code>.
+     * Gets the {@code GdkDisplay} associated with a {@code GdkSurface}.
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_surface_get_display(handle());
@@ -179,7 +180,7 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Gets the frame clock for the surface.
-     * 
+     * <p>
      * The frame clock for a surface never changes unless the surface is
      * reparented to a new toplevel surface.
      */
@@ -189,10 +190,10 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the height of the given @surface.
-     * 
-     * Surface size is reported in &<code>#8221</code> application pixels&<code>#8221</code> , not
-     * &<code>#8221</code> device pixels&<code>#8221</code>  (see {@link org.gtk.gdk.Surface<code>#getScaleFactor</code> ).
+     * Returns the height of the given {@code surface}.
+     * <p>
+     * Surface size is reported in ”application pixels”, not
+     * ”device pixels” (see {@link Surface#getScaleFactor}).
      */
     public int getHeight() {
         var RESULT = gtk_h.gdk_surface_get_height(handle());
@@ -201,9 +202,9 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Checks whether the surface has been mapped.
-     * 
-     * A surface is mapped with {@link org.gtk.gdk.Toplevel<code>#present</code> 
-     * or {@link org.gtk.gdk.Popup<code>#present</code> .
+     * <p>
+     * A surface is mapped with {@link Toplevel#present}
+     * or {@link Popup#present}.
      */
     public boolean getMapped() {
         var RESULT = gtk_h.gdk_surface_get_mapped(handle());
@@ -213,14 +214,14 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Returns the internal scale factor that maps from surface coordinates
      * to the actual device pixels.
-     * 
+     * <p>
      * On traditional systems this is 1, but on very high density outputs
      * this can be a higher value (often 2). A higher value means that drawing
      * is automatically scaled up to a higher resolution, so any code doing
      * drawing will automatically look nicer. However, if you are supplying
      * pixel-based data the scale value can be used to determine whether to
      * use a pixel resource with higher resolution data.
-     * 
+     * <p>
      * The scale of a surface may change during runtime.
      */
     public int getScaleFactor() {
@@ -229,10 +230,10 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the width of the given @surface.
-     * 
-     * Surface size is reported in &<code>#8221</code> application pixels&<code>#8221</code> , not
-     * &<code>#8221</code> device pixels&<code>#8221</code>  (see {@link org.gtk.gdk.Surface<code>#getScaleFactor</code> ).
+     * Returns the width of the given {@code surface}.
+     * <p>
+     * Surface size is reported in ”application pixels”, not
+     * ”device pixels” (see {@link Surface#getScaleFactor}).
      */
     public int getWidth() {
         var RESULT = gtk_h.gdk_surface_get_width(handle());
@@ -241,11 +242,11 @@ public class Surface extends org.gtk.gobject.Object {
     
     /**
      * Hide the surface.
-     * 
+     * <p>
      * For toplevel surfaces, withdraws them, so they will no longer be
      * known to the window manager; for all surfaces, unmaps them, so
-     * they won&<code>#8217</code> t be displayed. Normally done automatically as
-     * part of {@link org.gtk.gtk.Widget<code>#hide</code> .
+     * they won’t be displayed. Normally done automatically as
+     * part of {@link org.gtk.gtk.Widget#hide}.
      */
     public void hide() {
         gtk_h.gdk_surface_hide(handle());
@@ -260,9 +261,9 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Forces a {@link [signal@Gdk.Surface::render] (ref=signal)} signal emission for @surface
+     * Forces a {@code Gdk.Surface::render} signal emission for {@code surface}
      * to be scheduled.
-     * 
+     * <p>
      * This function is useful for implementations that track invalid
      * regions on their own.
      */
@@ -271,36 +272,36 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Request a layout phase from the surface&<code>#39</code> s frame clock.
-     * 
-     * See {@link org.gtk.gdk.FrameClock<code>#requestPhase</code> .
+     * Request a layout phase from the surface's frame clock.
+     * <p>
+     * See {@link FrameClock#requestPhase}.
      */
     public void requestLayout() {
         gtk_h.gdk_surface_request_layout(handle());
     }
     
     /**
-     * Sets the default mouse pointer for a <code>GdkSurface</code>.
-     * 
-     * Passing <code>null</code> for the @cursor argument means that @surface will use
+     * Sets the default mouse pointer for a {@code GdkSurface}.
+     * <p>
+     * Passing <code>null</code> for the {@code cursor} argument means that {@code surface} will use
      * the cursor of its parent surface. Most surfaces should use this default.
-     * Note that @cursor must be for the same display as @surface.
-     * 
-     * Use {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)} or {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}
-     * to create the cursor. To make the cursor invisible, use <code>GDK_BLANK_CURSOR</code>
+     * Note that {@code cursor} must be for the same display as {@code surface}.
+     * <p>
+     * Use {@code Gdk.Cursor.new_from_texture}
+     * to create the cursor. To make the cursor invisible, use {@code GDK_BLANK_CURSOR}.
      */
     public void setCursor(Cursor cursor) {
         gtk_h.gdk_surface_set_cursor(handle(), cursor.handle());
     }
     
     /**
-     * Sets a specific <code>GdkCursor</code> for a given device when it gets inside @surface.
-     * 
-     * Passing <code>null</code> for the @cursor argument means that @surface will use the
+     * Sets a specific {@code GdkCursor} for a given device when it gets inside {@code surface}.
+     * <p>
+     * Passing <code>null</code> for the {@code cursor} argument means that {@code surface} will use the
      * cursor of its parent surface. Most surfaces should use this default.
-     * 
-     * Use {@link [ctor@Gdk.Cursor.new_from_name] (ref=ctor)} or {@link [ctor@Gdk.Cursor.new_from_texture] (ref=ctor)}
-     * to create the cursor. To make the cursor invisible, use <code>GDK_BLANK_CURSOR</code>
+     * <p>
+     * Use {@code Gdk.Cursor.new_from_texture}
+     * to create the cursor. To make the cursor invisible, use {@code GDK_BLANK_CURSOR}.
      */
     public void setDeviceCursor(Device device, Cursor cursor) {
         gtk_h.gdk_surface_set_device_cursor(handle(), device.handle(), cursor.handle());
@@ -309,17 +310,17 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Apply the region to the surface for the purpose of event
      * handling.
-     * 
+     * <p>
      * Mouse events which happen while the pointer position corresponds
      * to an unset bit in the mask will be passed on the surface below
-     * @surface.
-     * 
+     * {@code surface}.
+     * <p>
      * An input region is typically used with RGBA surfaces. The alpha
      * channel of the surface defines which pixels are invisible and
      * allows for nicely antialiased borders, and the input region
-     * controls where the surface is &<code>#8220</code> clickable&<code>#8221</code> .
-     * 
-     * Use {@link org.gtk.gdk.Display<code>#supportsInputShapes</code>  to find out if
+     * controls where the surface is “clickable”.
+     * <p>
+     * Use {@link Display#supportsInputShapes} to find out if
      * a particular backend supports input regions.
      */
     public void setInputRegion(org.cairographics.Region region) {
@@ -327,21 +328,21 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Marks a region of the <code>GdkSurface</code> as opaque.
-     * 
+     * Marks a region of the {@code GdkSurface} as opaque.
+     * <p>
      * For optimisation purposes, compositing window managers may
      * like to not draw obscured regions of surfaces, or turn off blending
      * during for these regions. With RGB windows with no transparency,
      * this is just the shape of the window, but with ARGB32 windows, the
      * compositor does not know what regions of the window are transparent
      * or not.
-     * 
+     * <p>
      * This function only works for toplevel surfaces.
-     * 
-     * GTK will update this property automatically if the @surface background
+     * <p>
+     * GTK will update this property automatically if the {@code surface} background
      * is opaque, as we know where the opaque regions are. If your surface
      * background is not opaque, please update this property in your
-     * {@link org.gtk.gtk.Widget<code>#cssChanged</code>  handler.
+     * {@link org.gtk.gtk.Widget#cssChanged} handler.
      */
     public void setOpaqueRegion(org.cairographics.Region region) {
         gtk_h.gdk_surface_set_opaque_region(handle(), region.handle());
@@ -353,7 +354,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when @surface starts being present on the monitor.
+     * Emitted when {@code surface} starts being present on the monitor.
      */
     public SignalHandle onEnterMonitor(EnterMonitorHandler handler) {
         try {
@@ -376,7 +377,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when GDK receives an input event for @surface.
+     * Emitted when GDK receives an input event for {@code surface}.
      */
     public SignalHandle onEvent(EventHandler handler) {
         try {
@@ -399,11 +400,11 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the size of @surface is changed, or when relayout should
+     * Emitted when the size of {@code surface} is changed, or when relayout should
      * be performed.
-     * 
-     * Surface size is reported in &<code>#8221</code> application pixels&<code>#8221</code> , not
-     * &<code>#8221</code> device pixels&<code>#8221</code>  (see gdk_surface_get_scale_factor()).
+     * <p>
+     * Surface size is reported in ”application pixels”, not
+     * ”device pixels” (see gdk_surface_get_scale_factor()).
      */
     public SignalHandle onLayout(LayoutHandler handler) {
         try {
@@ -426,7 +427,7 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when @surface stops being present on the monitor.
+     * Emitted when {@code surface} stops being present on the monitor.
      */
     public SignalHandle onLeaveMonitor(LeaveMonitorHandler handler) {
         try {

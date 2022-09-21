@@ -8,51 +8,51 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A helper class for testing code which uses D-Bus without touching the user&<code>#39</code> s
+ * A helper class for testing code which uses D-Bus without touching the user's
  * session bus.
  * <p>
- * Note that {@link org.gtk.gio.TestDBus} modifies the user&<code>#8217</code> s environment, calling setenv().
- * This is not thread-safe, so all {@link org.gtk.gio.TestDBus} calls should be completed before
+ * Note that {@link TestDBus} modifies the user’s environment, calling setenv().
+ * This is not thread-safe, so all {@link TestDBus} calls should be completed before
  * threads are spawned, or should have appropriate locking to ensure no access
- * conflicts to environment variables shared between {@link org.gtk.gio.TestDBus} and other
+ * conflicts to environment variables shared between {@link TestDBus} and other
  * threads.
  * <p>
  * <h2>Creating unit tests using GTestDBus</h2>
  * <p>
  * Testing of D-Bus services can be tricky because normally we only ever run
  * D-Bus services over an existing instance of the D-Bus daemon thus we
- * usually don&<code>#39</code> t activate D-Bus services that are not yet installed into the
- * target system. The {@link org.gtk.gio.TestDBus} object makes this easier for us by taking care
+ * usually don't activate D-Bus services that are not yet installed into the
+ * target system. The {@link TestDBus} object makes this easier for us by taking care
  * of the lower level tasks such as running a private D-Bus daemon and looking
  * up uninstalled services in customizable locations, typically in your source
  * code tree.
  * <p>
  * The first thing you will need is a separate service description file for the
- * D-Bus daemon. Typically a <code>services</code> subdirectory of your <code>tests</code> directory
+ * D-Bus daemon. Typically a {@code services} subdirectory of your {@code tests} directory
  * is a good place to put this file.
  * <p>
  * The service file should list your service along with an absolute path to the
  * uninstalled service executable in your source tree. Using autotools we would
- * achieve this by adding a file such as <code>my-server.service.in</code> in the services
+ * achieve this by adding a file such as {@code my-server.service.in} in the services
  * directory and have it processed by configure.
- * |{@link [
- *     [D-BUS Service]}
+ * |[
+ *     [D-BUS Service]
  *     Name=org.gtk.GDBus.Examples.ObjectManager
- *     Exec=@abs_top_builddir@/gio/tests/gdbus-example-objectmanager-server
+ *     Exec={@code abs_top_builddir}{@code /gio}/tests/gdbus-example-objectmanager-server
  * ]|
  * You will also need to indicate this service directory in your test
  * fixtures, so you will need to pass the path while compiling your
  * test cases. Typically this is done with autotools with an added
  * preprocessor flag specified to compile your tests such as:
- * |{@link [
- *     -DTEST_SERVICES=\\&<code>#34</code> &<code>#34</code> $(abs_top_builddir)/tests/services&<code>#34</code> \\&<code>#34</code> 
- * ]}|
+ * |[
+ *     -DTEST_SERVICES=\\""$(abs_top_builddir)/tests/services"\\"
+ * ]|
  *     Once you have a service definition file which is local to your source tree,
- * you can proceed to set up a GTest fixture using the {@link org.gtk.gio.TestDBus} scaffolding.
+ * you can proceed to set up a GTest fixture using the {@link TestDBus} scaffolding.
  * <p>
  * An example of a test fixture for D-Bus services can be found
  * here:
- * {@link [gdbus-test-fixture.c]}(https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-test-fixture.c)
+ * <a href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-test-fixture.c">gdbus-test-fixture.c</a>
  * <p>
  * Note that these examples only deal with isolating the D-Bus aspect of your
  * service. To successfully run isolated unit tests on your service you may need
@@ -64,21 +64,22 @@ import java.lang.invoke.*;
  * <p>
  * Most of the time we can work around these obstacles using the
  * environment. Since the environment is inherited by the D-Bus daemon
- * created by {@link org.gtk.gio.TestDBus} and then in turn inherited by any services the
+ * created by {@link TestDBus} and then in turn inherited by any services the
  * D-Bus daemon activates, using the setup routine for your fixture is
  * a practical place to help sandbox your runtime environment. For the
- * rather typical GSettings case we can work around this by setting<code>GSETTINGS_SCHEMA_DIR</code> to the in tree directory holding your schemas
+ * rather typical GSettings case we can work around this by setting
+ * {@code GSETTINGS_SCHEMA_DIR} to the in tree directory holding your schemas
  * in the above fixture_setup() routine.
- * 
+ * <p>
  * The GSettings schemas need to be locally pre-compiled for this to work. This can be achieved
  * by compiling the schemas locally as a step before running test cases, an autotools setup might
  * do the following in the directory holding schemas:
- * |{@link [
+ * |[
  *     all-am:
  *             $(GLIB_COMPILE_SCHEMAS) .
- * 
+ * <p>
  *     CLEANFILES += gschemas.compiled
- * ]}|
+ * ]|
  */
 public class TestDBus extends org.gtk.gobject.Object {
 
@@ -97,14 +98,14 @@ public class TestDBus extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a new {@link org.gtk.gio.TestDBus} object.
+     * Create a new {@link TestDBus} object.
      */
     public TestDBus(int flags) {
         super(constructNew(flags));
     }
     
     /**
-     * Add a path where dbus-daemon will look up .service files. This can&<code>#39</code> t be
+     * Add a path where dbus-daemon will look up .service files. This can't be
      * called after g_test_dbus_up().
      */
     public void addServiceDir(java.lang.String path) {
@@ -113,9 +114,9 @@ public class TestDBus extends org.gtk.gobject.Object {
     
     /**
      * Stop the session bus started by g_test_dbus_up().
-     * 
+     * <p>
      * This will wait for the singleton returned by g_bus_get() or g_bus_get_sync()
-     * to be destroyed. This is done to ensure that the next unit test won&<code>#39</code> t get a
+     * to be destroyed. This is done to ensure that the next unit test won't get a
      * leaked singleton from this test.
      */
     public void down() {
@@ -133,7 +134,7 @@ public class TestDBus extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the flags of the {@link org.gtk.gio.TestDBus} object.
+     * Get the flags of the {@link TestDBus} object.
      */
     public int getFlags() {
         var RESULT = gtk_h.g_test_dbus_get_flags(handle());
@@ -142,8 +143,9 @@ public class TestDBus extends org.gtk.gobject.Object {
     
     /**
      * Stop the session bus started by g_test_dbus_up().
-     * 
-     * Unlike g_test_dbus_down(), this won&<code>#39</code> t verify the {@link org.gtk.gio.DBusConnection} singleton returned by g_bus_get() or g_bus_get_sync() is destroyed. Unit
+     * <p>
+     * Unlike g_test_dbus_down(), this won't verify the {@link DBusConnection}
+     * singleton returned by g_bus_get() or g_bus_get_sync() is destroyed. Unit
      * tests wanting to verify behaviour after the session bus has been stopped
      * can use this function but should still call g_test_dbus_down() when done.
      */
@@ -154,11 +156,11 @@ public class TestDBus extends org.gtk.gobject.Object {
     /**
      * Start a dbus-daemon instance and set DBUS_SESSION_BUS_ADDRESS. After this
      * call, it is safe for unit tests to start sending messages on the session bus.
-     * 
+     * <p>
      * If this function is called from setup callback of g_test_add(),
      * g_test_dbus_down() must be called in its teardown callback.
-     * 
-     * If this function is called from unit test&<code>#39</code> s main(), then g_test_dbus_down()
+     * <p>
+     * If this function is called from unit test's main(), then g_test_dbus_down()
      * must be called after g_test_run().
      */
     public void up() {
@@ -167,8 +169,8 @@ public class TestDBus extends org.gtk.gobject.Object {
     
     /**
      * Unset DISPLAY and DBUS_SESSION_BUS_ADDRESS env variables to ensure the test
-     * won&<code>#39</code> t use user&<code>#39</code> s session bus.
-     * 
+     * won't use user's session bus.
+     * <p>
      * This is useful for unit tests that want to verify behaviour when no session
      * bus is running. It is not necessary to call this if unit test already calls
      * g_test_dbus_up() before acquiring the session bus.

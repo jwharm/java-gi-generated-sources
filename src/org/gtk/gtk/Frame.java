@@ -8,44 +8,48 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkFrame</code> is a widget that surrounds its child with a decorative
+ * {@code GtkFrame} is a widget that surrounds its child with a decorative
  * frame and an optional label.
  * <p>
- * !{@link [An example GtkFrame]}(frame.png)
+ * <img src="./doc-files/frame.png" alt="An example GtkFrame">
  * <p>
  * If present, the label is drawn inside the top edge of the frame.
  * The horizontal position of the label can be controlled with
- * {@link org.gtk.gtk.Frame<code>#setLabelAlign</code> .
- * <p><code>GtkFrame</code> clips its child. You can use this to add rounded corners
+ * {@link Frame#setLabelAlign}.
+ * <p>
+ * {@code GtkFrame} clips its child. You can use this to add rounded corners
  * to widgets, but be aware that it also cuts off shadows.
  * <p>
  * <h1>GtkFrame as GtkBuildable</h1>
  * <p>
- * The <code>GtkFrame</code> implementation of the <code>GtkBuildable</code> interface supports
- * placing a child in the label position by specifying &<code>#8220</code> label&<code>#8221</code>  as the
- * &<code>#8220</code> type&<code>#8221</code>  attribute of a &<code>#60</code> child&<code>#62</code>  element. A normal content child can
- * be specified without specifying a &<code>#60</code> child&<code>#62</code>  type attribute.
+ * The {@code GtkFrame} implementation of the {@code GtkBuildable} interface supports
+ * placing a child in the label position by specifying “label” as the
+ * “type” attribute of a &lt;child&gt; element. A normal content child can
+ * be specified without specifying a &lt;child&gt; type attribute.
  * <p>
- * An example of a UI definition fragment with GtkFrame:<pre>xml
- * &<code>#60</code> object class=&<code>#34</code> GtkFrame&<code>#34</code> &<code>#62</code> 
- *   &<code>#60</code> child type=&<code>#34</code> label&<code>#34</code> &<code>#62</code> 
- *     &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code>  id=&<code>#34</code> frame_label&<code>#34</code> /&<code>#62</code> 
- *   &<code>#60</code> /child&<code>#62</code> 
- *   &<code>#60</code> child&<code>#62</code> 
- *     &<code>#60</code> object class=&<code>#34</code> GtkEntry&<code>#34</code>  id=&<code>#34</code> frame_content&<code>#34</code> /&<code>#62</code> 
- *   &<code>#60</code> /child&<code>#62</code> 
- * &<code>#60</code> /object&<code>#62</code> 
- * </pre>
+ * An example of a UI definition fragment with GtkFrame:
+ * <pre>{@code xml
+ * <object class="GtkFrame">
+ *   <child type="label">
+ *     <object class="GtkLabel" id="frame_label"/>
+ *   </child>
+ *   <child>
+ *     <object class="GtkEntry" id="frame_content"/>
+ *   </child>
+ * </object>
+ * }</pre>
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * frame
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> label widget&<code>#62</code> 
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- * </pre>
- * <p><code>GtkFrame</code> has a main CSS node with name &<code>#8220</code> frame&<code>#8221</code> , which is used to draw the
+ * ├── <label widget>
+ * ╰── <child>
+ * }</pre>
+ * <p>
+ * {@code GtkFrame} has a main CSS node with name “frame”, which is used to draw the
  * visible border. You can set the appearance of the border using CSS properties
- * like &<code>#8220</code> border-style&<code>#8221</code>  on this node.
+ * like “border-style” on this node.
  */
 public class Frame extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -64,16 +68,16 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Creates a new <code>GtkFrame</code>, with optional label @label.
-     * 
-     * If @label is <code>null</code>  the label is omitted.
+     * Creates a new {@code GtkFrame}, with optional label {@code label}.
+     * <p>
+     * If {@code label} is <code>null</code>, the label is omitted.
      */
     public Frame(java.lang.String label) {
         super(constructNew(label));
     }
     
     /**
-     * Gets the child widget of @frame.
+     * Gets the child widget of {@code frame}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_frame_get_child(handle());
@@ -83,7 +87,8 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns the frame labels text.
      * <p>
-     * If the frame&<code>#39</code> s label widget is not a <code>GtkLabel</code>, <code>null</code> is returned.
+     * If the frame's label widget is not a {@code GtkLabel}, <code>null</code>
+     * is returned.
      */
     public java.lang.String getLabel() {
         var RESULT = gtk_h.gtk_frame_get_label(handle());
@@ -91,7 +96,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Retrieves the X alignment of the frame&<code>#8217</code> s label.
+     * Retrieves the X alignment of the frame’s label.
      */
     public float getLabelAlign() {
         var RESULT = gtk_h.gtk_frame_get_label_align(handle());
@@ -107,14 +112,14 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets the child widget of @frame.
+     * Sets the child widget of {@code frame}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_frame_set_child(handle(), child.handle());
     }
     
     /**
-     * Creates a new <code>GtkLabel</code> with the @label and sets it as the frame&<code>#39</code> s
+     * Creates a new {@code GtkLabel} with the {@code label} and sets it as the frame's
      * label widget.
      */
     public void setLabel(java.lang.String label) {
@@ -122,8 +127,8 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets the X alignment of the frame widget&<code>#8217</code> s label.
-     * 
+     * Sets the X alignment of the frame widget’s label.
+     * <p>
      * The default value for a newly created frame is 0.0.
      */
     public void setLabelAlign(float xalign) {
@@ -132,7 +137,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     
     /**
      * Sets the label widget for the frame.
-     * 
+     * <p>
      * This is the widget that will appear embedded in the top edge
      * of the frame as a title.
      */

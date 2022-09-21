@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Specifies the {@link org.gtk.glib.Scanner} parser configuration. Most settings can
+ * Specifies the {@link Scanner} parser configuration. Most settings can
  * be changed during the parsing phase and will affect the lexical
  * parsing of the next unpeeked token.
  */

@@ -8,107 +8,111 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.File} is a high level abstraction for manipulating files on a
- * virtual file system. <code>#GFiles</code> are lightweight, immutable objects
+ * {@link File} is a high level abstraction for manipulating files on a
+ * virtual file system. {@code GFiles} are lightweight, immutable objects
  * that do no I/O upon creation. It is necessary to understand that
- * {@link org.gtk.gio.File} objects do not represent files, merely an identifier for a
+ * {@link File} objects do not represent files, merely an identifier for a
  * file. All file content I/O is implemented as streaming operations
- * (see {@link org.gtk.gio.InputStream} and {@link org.gtk.gio.OutputStream} .
- * 
- * To construct a {@link org.gtk.gio.File}  you can use:
- * - g_file_new_for_path() if you have a path.
- * - g_file_new_for_uri() if you have a URI.
- * - g_file_new_for_commandline_arg() for a command line argument.
- * - g_file_new_tmp() to create a temporary file from a template.
- * - g_file_parse_name() from a UTF-8 string gotten from g_file_get_parse_name().
- * - g_file_new_build_filename() to create a file from path elements.
- * 
- * One way to think of a {@link org.gtk.gio.File} is as an abstraction of a pathname. For
+ * (see {@link InputStream} and {@link OutputStream}).
+ * <p>
+ * To construct a {@link File}, you can use:
+ * <ul>
+ * <li>g_file_new_for_path() if you have a path.
+ * <li>g_file_new_for_uri() if you have a URI.
+ * <li>g_file_new_for_commandline_arg() for a command line argument.
+ * <li>g_file_new_tmp() to create a temporary file from a template.
+ * <li>g_file_parse_name() from a UTF-8 string gotten from g_file_get_parse_name().
+ * <li>g_file_new_build_filename() to create a file from path elements.
+ * </ul>
+ * <p>
+ * One way to think of a {@link File} is as an abstraction of a pathname. For
  * normal files the system pathname is what is stored internally, but as
- * <code>#GFiles</code> are extensible it could also be something else that corresponds
+ * {@code GFiles} are extensible it could also be something else that corresponds
  * to a pathname in a userspace implementation of a filesystem.
- * 
- * <code>#GFiles</code> make up hierarchies of directories and files that correspond to
+ * <p>
+ * {@code GFiles} make up hierarchies of directories and files that correspond to
  * the files on a filesystem. You can move through the file system with
- * {@link org.gtk.gio.File} using g_file_get_parent() to get an identifier for the parent
+ * {@link File} using g_file_get_parent() to get an identifier for the parent
  * directory, g_file_get_child() to get a child within a directory,
  * g_file_resolve_relative_path() to resolve a relative path between two
- * <code>#GFiles</code>  There can be multiple hierarchies, so you may not end up at
+ * {@code GFiles}. There can be multiple hierarchies, so you may not end up at
  * the same root if you repeatedly call g_file_get_parent() on two different
  * files.
- * 
- * All <code>#GFiles</code> have a basename (get with g_file_get_basename()). These names
+ * <p>
+ * All {@code GFiles} have a basename (get with g_file_get_basename()). These names
  * are byte strings that are used to identify the file on the filesystem
  * (relative to its parent directory) and there is no guarantees that they
  * have any particular charset encoding or even make any sense at all. If
  * you want to use filenames in a user interface you should use the display
  * name that you can get by requesting the
- * <code>G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME</code> attribute with g_file_query_info().
+ * {@code G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME} attribute with g_file_query_info().
  * This is guaranteed to be in UTF-8 and can be used in a user interface.
- * But always store the real basename or the {@link org.gtk.gio.File} to use to actually
+ * But always store the real basename or the {@link File} to use to actually
  * access the file, because there is no way to go from a display name to
  * the actual name.
- * 
- * Using {@link org.gtk.gio.File} as an identifier has the same weaknesses as using a path
+ * <p>
+ * Using {@link File} as an identifier has the same weaknesses as using a path
  * in that there may be multiple aliases for the same file. For instance,
- * hard or soft links may cause two different <code>#GFiles</code> to refer to the same
+ * hard or soft links may cause two different {@code GFiles} to refer to the same
  * file. Other possible causes for aliases are: case insensitive filesystems,
  * short and long names on FAT/NTFS, or bind mounts in Linux. If you want to
- * check if two <code>#GFiles</code> point to the same file you can query for the
- * <code>G_FILE_ATTRIBUTE_ID_FILE</code> attribute. Note that {@link org.gtk.gio.File} does some trivial
+ * check if two {@code GFiles} point to the same file you can query for the
+ * {@code G_FILE_ATTRIBUTE_ID_FILE} attribute. Note that {@link File} does some trivial
  * canonicalization of pathnames passed in, so that trivial differences in
  * the path string used at creation (duplicated slashes, slash at end of
- * path, &<code>#34</code> .&<code>#34</code>  or &<code>#34</code> ..&<code>#34</code>  path segments, etc) does not create different <code>#GFiles</code> 
- * 
- * Many {@link org.gtk.gio.File} operations have both synchronous and asynchronous versions
+ * path, "." or ".." path segments, etc) does not create different {@code GFiles}.
+ * <p>
+ * Many {@link File} operations have both synchronous and asynchronous versions
  * to suit your application. Asynchronous versions of synchronous functions
  * simply have _async() appended to their function names. The asynchronous
- * I/O functions call a {@link org.gtk.gio.AsyncReadyCallback} which is then used to finalize
+ * I/O functions call a {@link AsyncReadyCallback} which is then used to finalize
  * the operation, producing a GAsyncResult which is then passed to the
- * function&<code>#39</code> s matching _finish() operation.
- * 
+ * function's matching _finish() operation.
+ * <p>
  * It is highly recommended to use asynchronous calls when running within a
  * shared main loop, such as in the main thread of an application. This avoids
  * I/O operations blocking other sources on the main loop from being dispatched.
  * Synchronous I/O operations should be performed from worker threads. See the
- * {@link [introduction to asynchronous programming section]}{@link [async-programming]} for
+ * [introduction to asynchronous programming section][async-programming] for
  * more.
- * 
- * Some {@link org.gtk.gio.File} operations almost always take a noticeable amount of time, and
+ * <p>
+ * Some {@link File} operations almost always take a noticeable amount of time, and
  * so do not have synchronous analogs. Notable cases include:
- * - g_file_mount_mountable() to mount a mountable file.
- * - g_file_unmount_mountable_with_operation() to unmount a mountable file.
- * - g_file_eject_mountable_with_operation() to eject a mountable file.
- * 
- * <code>#</code>  Entity Tags <code>#</code> {<code>#gfile</code> etag}
- * 
- * One notable feature of <code>#GFiles</code> are entity tags, or &<code>#34</code> etags&<code>#34</code>  for
+ * <ul>
+ * <li>g_file_mount_mountable() to mount a mountable file.
+ * <li>g_file_unmount_mountable_with_operation() to unmount a mountable file.
+ * <li>g_file_eject_mountable_with_operation() to eject a mountable file.
+ * </ul>
+ * <p>
+ * <h2>Entity Tags # {#gfile-etag}</h2>
+ * <p>
+ * One notable feature of {@code GFiles} are entity tags, or "etags" for
  * short. Entity tags are somewhat like a more abstract version of the
  * traditional mtime, and can be used to quickly determine if the file
  * has been modified from the version on the file system. See the
  * HTTP 1.1
- * {@link [specification]}(http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html)
+ * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">specification</a>
  * for HTTP Etag headers, which are a very similar concept.
  */
 public interface File extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Gets an output stream for appending data to the file.
-     * If the file doesn&<code>#39</code> t already exist it is created.
-     * 
+     * If the file doesn't already exist it is created.
+     * <p>
      * By default files created are generally readable by everyone,
-     * but if you pass {@link org.gtk.gio.FileCreateFlags<code>#PRIVATE</code>  in @flags the file
+     * but if you pass {@link FileCreateFlags#PRIVATE} in {@code flags} the file
      * will be made readable only to the current user, to the level that
      * is supported on the target filesystem.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
-     * Some file systems don&<code>#39</code> t allow all file names, and may return an
-     * {@link org.gtk.gio.IOErrorEnum<code>#INVALID_FILENAME</code>  error. If the file is a directory the
-     * {@link org.gtk.gio.IOErrorEnum<code>#IS_DIRECTORY</code>  error will be returned. Other errors are
+     * <p>
+     * Some file systems don't allow all file names, and may return an
+     * {@link IOErrorEnum#INVALID_FILENAME} error. If the file is a directory the
+     * {@link IOErrorEnum#IS_DIRECTORY} error will be returned. Other errors are
      * possible too, and depend on what kind of filesystem the file is on.
      */
     public default FileOutputStream appendTo(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -121,12 +125,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously opens @file for appending.
-     * 
+     * Asynchronously opens {@code file} for appending.
+     * <p>
      * For more details, see g_file_append_to() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_append_to_finish() to get the result
      * of the operation.
      */
@@ -158,8 +162,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Prepares the file attribute query string for copying to @file.
-     * 
+     * Prepares the file attribute query string for copying to {@code file}.
+     * <p>
      * This function prepares an attribute query string to be
      * passed to g_file_query_info() to get a list of attributes
      * normally copied with the file (see g_file_copy_attributes()
@@ -178,44 +182,45 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Copies the file @source to the location specified by @destination.
+     * Copies the file {@code source} to the location specified by {@code destination}.
      * Can not handle recursive copies of directories.
-     * 
-     * If the flag {@link org.gtk.gio.FileCopyFlags<code>#OVERWRITE</code>  is specified an already
-     * existing @destination file is overwritten.
-     * 
-     * If the flag {@link org.gtk.gio.FileCopyFlags<code>#NOFOLLOW_SYMLINKS</code>  is specified then symlinks
+     * <p>
+     * If the flag {@link FileCopyFlags#OVERWRITE} is specified an already
+     * existing {@code destination} file is overwritten.
+     * <p>
+     * If the flag {@link FileCopyFlags#NOFOLLOW_SYMLINKS} is specified then symlinks
      * will be copied as symlinks, otherwise the target of the
-     * @source symlink will be copied.
-     * 
-     * If the flag {@link org.gtk.gio.FileCopyFlags<code>#ALL_METADATA</code>  is specified then all the metadata
+     * {@code source} symlink will be copied.
+     * <p>
+     * If the flag {@link FileCopyFlags#ALL_METADATA} is specified then all the metadata
      * that is possible to copy is copied, not just the default subset (which,
-     * for instance, does not include the owner, see {@link org.gtk.gio.FileInfo} .
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * for instance, does not include the owner, see {@link FileInfo}).
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * If @progress_callback is not <code>null</code>  then the operation can be monitored
-     * by setting this to a {@link org.gtk.gio.FileProgressCallback} function.
-     * @progress_callback_data will be passed to this function. It is guaranteed
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * If {@code progress_callback} is not <code>null</code>, then the operation can be monitored
+     * by setting this to a {@link FileProgressCallback} function.
+     * {@code progress_callback_data} will be passed to this function. It is guaranteed
      * that this callback will be called after all data has been transferred with
      * the total number of bytes copied during the operation.
-     * 
-     * If the @source file does not exist, then the {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  error
-     * is returned, independent on the status of the @destination.
-     * 
-     * If {@link org.gtk.gio.FileCopyFlags<code>#OVERWRITE</code>  is not specified and the target exists, then
-     * the error {@link org.gtk.gio.IOErrorEnum<code>#EXISTS</code>  is returned.
-     * 
-     * If trying to overwrite a file over a directory, the {@link org.gtk.gio.IOErrorEnum<code>#IS_DIRECTORY</code>  error is returned. If trying to overwrite a directory with a directory the
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_MERGE</code>  error is returned.
-     * 
+     * <p>
+     * If the {@code source} file does not exist, then the {@link IOErrorEnum#NOT_FOUND} error
+     * is returned, independent on the status of the {@code destination}.
+     * <p>
+     * If {@link FileCopyFlags#OVERWRITE} is not specified and the target exists, then
+     * the error {@link IOErrorEnum#EXISTS} is returned.
+     * <p>
+     * If trying to overwrite a file over a directory, the {@link IOErrorEnum#IS_DIRECTORY}
+     * error is returned. If trying to overwrite a directory with a directory the
+     * {@link IOErrorEnum#WOULD_MERGE} error is returned.
+     * <p>
      * If the source is a directory and the target does not exist, or
-     * {@link org.gtk.gio.FileCopyFlags<code>#OVERWRITE</code>  is specified and the target is a file, then the
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_RECURSE</code>  error is returned.
-     * 
-     * If you are interested in copying the {@link org.gtk.gio.File} object itself (not the on-disk
+     * {@link FileCopyFlags#OVERWRITE} is specified and the target is a file, then the
+     * {@link IOErrorEnum#WOULD_RECURSE} error is returned.
+     * <p>
+     * If you are interested in copying the {@link File} object itself (not the on-disk
      * file), see g_file_dup().
      */
     public default boolean copy(File destination, int flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
@@ -238,15 +243,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Copies the file @source to the location specified by @destination
+     * Copies the file {@code source} to the location specified by {@code destination}
      * asynchronously. For details of the behaviour, see g_file_copy().
-     * 
-     * If @progress_callback is not <code>null</code>  then that function that will be called
+     * <p>
+     * If {@code progress_callback} is not <code>null</code>, then that function that will be called
      * just like in g_file_copy(). The callback will run in the default main context
-     * of the thread calling g_file_copy_async() &<code>#8212</code>  the same context as @callback is
+     * of the thread calling g_file_copy_async() — the same context as {@code callback} is
      * run in.
-     * 
-     * When the operation is finished, @callback will be called. You can then call
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You can then call
      * g_file_copy_finish() to get the result of the operation.
      */
     public default void copyAsync(File destination, int flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
@@ -270,12 +275,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Copies the file attributes from @source to @destination.
-     * 
+     * Copies the file attributes from {@code source} to {@code destination}.
+     * <p>
      * Normally only a subset of the file attributes are copied,
      * those that are copies in a normal file copy operation
      * (which for instance does not include e.g. owner). However
-     * if {@link org.gtk.gio.FileCopyFlags<code>#ALL_METADATA</code>  is specified in @flags, then
+     * if {@link FileCopyFlags#ALL_METADATA} is specified in {@code flags}, then
      * all the metadata that is possible to copy is copied. This
      * is useful when implementing move by copy + delete source.
      */
@@ -303,20 +308,21 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Creates a new file and returns an output stream for writing to it.
      * The file must not already exist.
-     * 
+     * <p>
      * By default files created are generally readable by everyone,
-     * but if you pass {@link org.gtk.gio.FileCreateFlags<code>#PRIVATE</code>  in @flags the file
+     * but if you pass {@link FileCreateFlags#PRIVATE} in {@code flags} the file
      * will be made readable only to the current user, to the level
      * that is supported on the target filesystem.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
+     * <p>
      * If a file or directory with this name already exists the
-     * {@link org.gtk.gio.IOErrorEnum<code>#EXISTS</code>  error will be returned. Some file systems don&<code>#39</code> t
-     * allow all file names, and may return an {@link org.gtk.gio.IOErrorEnum<code>#INVALID_FILENAME</code>  error, and if the name is to long {@link org.gtk.gio.IOErrorEnum<code>#FILENAME_TOO_LONG</code>  will
+     * {@link IOErrorEnum#EXISTS} error will be returned. Some file systems don't
+     * allow all file names, and may return an {@link IOErrorEnum#INVALID_FILENAME}
+     * error, and if the name is to long {@link IOErrorEnum#FILENAME_TOO_LONG} will
      * be returned. Other errors are possible too, and depend on what kind
      * of filesystem the file is on.
      */
@@ -332,11 +338,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Asynchronously creates a new file and returns an output stream
      * for writing to it. The file must not already exist.
-     * 
+     * <p>
      * For more details, see g_file_create() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_create_finish() to get the result
      * of the operation.
      */
@@ -370,22 +376,24 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Creates a new file and returns a stream for reading and
      * writing to it. The file must not already exist.
-     * 
+     * <p>
      * By default files created are generally readable by everyone,
-     * but if you pass {@link org.gtk.gio.FileCreateFlags<code>#PRIVATE</code>  in @flags the file
+     * but if you pass {@link FileCreateFlags#PRIVATE} in {@code flags} the file
      * will be made readable only to the current user, to the level
      * that is supported on the target filesystem.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
+     * <p>
      * If a file or directory with this name already exists, the
-     * {@link org.gtk.gio.IOErrorEnum<code>#EXISTS</code>  error will be returned. Some file systems don&<code>#39</code> t
-     * allow all file names, and may return an {@link org.gtk.gio.IOErrorEnum<code>#INVALID_FILENAME</code>  error, and if the name is too long, {@link org.gtk.gio.IOErrorEnum<code>#FILENAME_TOO_LONG</code>  will be returned. Other errors are possible too, and depend on what
+     * {@link IOErrorEnum#EXISTS} error will be returned. Some file systems don't
+     * allow all file names, and may return an {@link IOErrorEnum#INVALID_FILENAME}
+     * error, and if the name is too long, {@link IOErrorEnum#FILENAME_TOO_LONG}
+     * will be returned. Other errors are possible too, and depend on what
      * kind of filesystem the file is on.
-     * 
+     * <p>
      * Note that in many non-local file cases read and write streams are
      * not supported, so make sure you really need to do read and write
      * streaming, rather than just opening for reading or writing.
@@ -402,11 +410,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Asynchronously creates a new file and returns a stream
      * for reading and writing to it. The file must not already exist.
-     * 
+     * <p>
      * For more details, see g_file_create_readwrite() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_create_readwrite_finish() to get
      * the result of the operation.
      */
@@ -438,27 +446,27 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Deletes a file. If the @file is a directory, it will only be
+     * Deletes a file. If the {@code file} is a directory, it will only be
      * deleted if it is empty. This has the same semantics as g_unlink().
-     * 
-     * If @file doesn&<code>#8217</code> t exist, {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  will be returned. This allows
+     * <p>
+     * If {@code file} doesn’t exist, {@link IOErrorEnum#NOT_FOUND} will be returned. This allows
      * for deletion to be implemented avoiding
-     * {@link [time-of-check to time-of-use races]}(https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use):
-     * |{@link [
+     * <a href="https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use">time-of-check to time-of-use races</a>:
+     * |[
      * g_autoptr(GError) local_error = NULL;
-     * if (!g_file_delete (my_file, my_cancellable, &<code>#38</code> local_error) &<code>#38</code> &<code>#38</code> 
+     * if (!g_file_delete (my_file, my_cancellable, &local_error) &&
      *     !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
      *   {
      *     // deletion failed for some reason other than the file not existing:
      *     // so report the error
-     *     g_warning (&<code>#34</code> Failed to delete <code>s</code>  <code>s</code> <code>#34</code> ,
-     *                g_file_peek_path (my_file), local_error-&<code>#62</code> message);
+     *     g_warning ("Failed to delete {@code s}: {@code s}",
+     *                g_file_peek_path (my_file), local_error->message);
      *   }
-     * ]}|
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * ]|
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean delete(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -470,7 +478,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously delete a file. If the @file is a directory, it will
+     * Asynchronously delete a file. If the {@code file} is a directory, it will
      * only be deleted if it is empty.  This has the same semantics as
      * g_unlink().
      */
@@ -501,15 +509,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Duplicates a {@link org.gtk.gio.File} handle. This operation does not duplicate
-     * the actual file or directory represented by the {@link org.gtk.gio.File}  see
+     * Duplicates a {@link File} handle. This operation does not duplicate
+     * the actual file or directory represented by the {@link File}; see
      * g_file_copy() if attempting to copy a file.
-     * 
+     * <p>
      * g_file_dup() is useful when a second handle is needed to the same underlying
-     * file, for use in a separate thread ({@link org.gtk.gio.File} is not thread-safe). For use
-     * within the same thread, use g_object_ref() to increment the existing object&<code>#8217</code> s
+     * file, for use in a separate thread ({@link File} is not thread-safe). For use
+     * within the same thread, use g_object_ref() to increment the existing object’s
      * reference count.
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default File dup() {
@@ -519,13 +527,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Starts an asynchronous eject on a mountable.
-     * When this operation has completed, @callback will be called with
-     * @user_user data, and the operation can be finalized with
+     * When this operation has completed, {@code callback} will be called with
+     * {@code user_user} data, and the operation can be finalized with
      * g_file_eject_mountable_with_operation_finish().
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default void ejectMountableWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -556,29 +564,30 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the requested information about the files in a directory.
-     * The result is a {@link org.gtk.gio.FileEnumerator} object that will give out
-     * {@link org.gtk.gio.FileInfo} objects for all the files in the directory.
-     * 
-     * The @attributes value is a string that specifies the file
+     * The result is a {@link FileEnumerator} object that will give out
+     * {@link FileInfo} objects for all the files in the directory.
+     * <p>
+     * The {@code attributes} value is a string that specifies the file
      * attributes that should be gathered. It is not an error if
-     * it&<code>#39</code> s not possible to read a particular requested attribute
-     * from a file - it just won&<code>#39</code> t be set. @attributes should
+     * it's not possible to read a particular requested attribute
+     * from a file - it just won't be set. {@code attributes} should
      * be a comma-separated list of attributes or attribute wildcards.
-     * The wildcard &<code>#34</code> *&<code>#34</code>  means all attributes, and a wildcard like
-     * &<code>#34</code> standard::*&<code>#34</code>  means all attributes in the standard namespace.
-     * An example attribute query be &<code>#34</code> standard::*,owner::user&<code>#34</code> .
+     * The wildcard "*" means all attributes, and a wildcard like
+     * "standard::*" means all attributes in the standard namespace.
+     * An example attribute query be "standard::*,owner::user".
      * The standard attributes are available as defines, like
-     * <code>G_FILE_ATTRIBUTE_STANDARD_NAME</code>  <code>G_FILE_ATTRIBUTE_STANDARD_NAME</code> should
+     * {@code G_FILE_ATTRIBUTE_STANDARD_NAME}. {@code G_FILE_ATTRIBUTE_STANDARD_NAME} should
      * always be specified if you plan to call g_file_enumerator_get_child() or
      * g_file_enumerator_iterate() on the returned enumerator.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
-     * If the file does not exist, the {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  error will
-     * be returned. If the file is not a directory, the {@link org.gtk.gio.IOErrorEnum<code>#NOT_DIRECTORY</code>  error will be returned. Other errors are possible too.
+     * <p>
+     * If the file does not exist, the {@link IOErrorEnum#NOT_FOUND} error will
+     * be returned. If the file is not a directory, the {@link IOErrorEnum#NOT_DIRECTORY}
+     * error will be returned. Other errors are possible too.
      */
     public default FileEnumerator enumerateChildren(java.lang.String attributes, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -591,13 +600,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Asynchronously gets the requested information about the files
-     * in a directory. The result is a {@link org.gtk.gio.FileEnumerator} object that will
-     * give out {@link org.gtk.gio.FileInfo} objects for all the files in the directory.
-     * 
+     * in a directory. The result is a {@link FileEnumerator} object that will
+     * give out {@link FileInfo} objects for all the files in the directory.
+     * <p>
      * For more details, see g_file_enumerate_children() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called. You can
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You can
      * then call g_file_enumerate_children_finish() to get the result of
      * the operation.
      */
@@ -629,12 +638,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if the two given <code>#GFiles</code> refer to the same file.
-     * 
-     * Note that two <code>#GFiles</code> that differ can still refer to the same
+     * Checks if the two given {@code GFiles} refer to the same file.
+     * <p>
+     * Note that two {@code GFiles} that differ can still refer to the same
      * file on the filesystem due to various forms of filename
      * aliasing.
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default boolean equal(File file2) {
@@ -643,15 +652,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets a {@link org.gtk.gio.Mount} for the {@link org.gtk.gio.File} 
-     * 
-     * {@link org.gtk.gio.Mount} is returned only for user interesting locations, see
-     * {@link org.gtk.gio.VolumeMonitor}  If the {@link org.gtk.gio.FileIface} for @file does not have a <code>#mount</code> 
-     * @error will be set to {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  and <code>null</code> <code>#will</code> be returned.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Gets a {@link Mount} for the {@link File}.
+     * <p>
+     * {@link Mount} is returned only for user interesting locations, see
+     * {@link VolumeMonitor}. If the {@link FileIface} for {@code file} does not have a {@code mount},
+     * {@code error} will be set to {@link IOErrorEnum#NOT_FOUND} and <code>null</code> {@code will} be returned.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default Mount findEnclosingMount(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -664,11 +673,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Asynchronously gets the mount for the file.
-     * 
+     * <p>
      * For more details, see g_file_find_enclosing_mount() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_find_enclosing_mount_finish() to
      * get the result of the operation.
      */
@@ -700,17 +709,18 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the base name (the last component of the path) for a given {@link org.gtk.gio.File} 
-     * 
+     * Gets the base name (the last component of the path) for a given {@link File}.
+     * <p>
      * If called for the top level of a system (such as the filesystem root
      * or a uri like sftp://host/) it will return a single directory separator
      * (and on Windows, possibly a drive letter).
-     * 
+     * <p>
      * The base name is a byte string (not UTF-8). It has no defined encoding
      * or rules other than it may not contain zero bytes.  If you want to use
      * filenames in a user interface you should use the display name that you
-     * can get by requesting the <code>G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME</code> attribute with g_file_query_info().
-     * 
+     * can get by requesting the {@code G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME}
+     * attribute with g_file_query_info().
+     * <p>
      * This call does no blocking I/O.
      */
     public default java.lang.String getBasename() {
@@ -719,12 +729,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets a child of @file with basename equal to @name.
-     * 
+     * Gets a child of {@code file} with basename equal to {@code name}.
+     * <p>
      * Note that the file with that specific name might not exist, but
-     * you can still have a {@link org.gtk.gio.File} that points to it. You can use this
+     * you can still have a {@link File} that points to it. You can use this
      * for instance to create that file.
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default File getChild(java.lang.String name) {
@@ -733,12 +743,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the child of @file for a given @display_name (i.e. a UTF-8
-     * version of the name). If this function fails, it returns <code>null</code> and @error will be set. This is very useful when constructing a
-     * {@link org.gtk.gio.File} for a new file and the user entered the filename in the
+     * Gets the child of {@code file} for a given {@code display_name} (i.e. a UTF-8
+     * version of the name). If this function fails, it returns <code>null</code>
+     * and {@code error} will be set. This is very useful when constructing a
+     * {@link File} for a new file and the user entered the filename in the
      * user interface, for instance when you select a directory and
      * type a filename in the file selector.
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default File getChildForDisplayName(java.lang.String displayName) throws io.github.jwharm.javagi.GErrorException {
@@ -751,10 +762,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the parent directory for the @file.
-     * If the @file represents the root directory of the
+     * Gets the parent directory for the {@code file}.
+     * If the {@code file} represents the root directory of the
      * file system, then <code>null</code> will be returned.
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default File getParent() {
@@ -763,19 +774,19 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the parse name of the @file.
+     * Gets the parse name of the {@code file}.
      * A parse name is a UTF-8 string that describes the
-     * file such that one can get the {@link org.gtk.gio.File} back using
+     * file such that one can get the {@link File} back using
      * g_file_parse_name().
-     * 
-     * This is generally used to show the {@link org.gtk.gio.File} as a nice
+     * <p>
+     * This is generally used to show the {@link File} as a nice
      * full-pathname kind of string in a user interface,
      * like in a location entry.
-     * 
+     * <p>
      * For local files with names that can safely be converted
      * to UTF-8 the pathname is used, otherwise the IRI is used
      * (a form of URI that allows UTF-8 characters unescaped).
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default java.lang.String getParseName() {
@@ -784,9 +795,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the local pathname for {@link org.gtk.gio.File}  if one exists. If non-<code>null</code>  this is
+     * Gets the local pathname for {@link File}, if one exists. If non-<code>null</code>, this is
      * guaranteed to be an absolute, canonical path. It might contain symlinks.
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default java.lang.String getPath() {
@@ -795,8 +806,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the path for @descendant relative to @parent.
-     * 
+     * Gets the path for {@code descendant} relative to {@code parent}.
+     * <p>
      * This call does no blocking I/O.
      */
     public default java.lang.String getRelativePath(File descendant) {
@@ -805,8 +816,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the URI for the @file.
-     * 
+     * Gets the URI for the {@code file}.
+     * <p>
      * This call does no blocking I/O.
      */
     public default java.lang.String getUri() {
@@ -815,16 +826,16 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the URI scheme for a {@link org.gtk.gio.File} 
+     * Gets the URI scheme for a {@link File}.
      * RFC 3986 decodes the scheme as:
-     * |{@link [
-     * URI = scheme &<code>#34</code> :&<code>#34</code>  hier-part [ &<code>#34</code> ?&<code>#34</code>  query ]} {@link [ &<code>#34</code> <code>#</code> <code>#34</code>  fragment ]}
+     * |[
+     * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
      * ]|
-     * Common schemes include &<code>#34</code> file&<code>#34</code> , &<code>#34</code> http&<code>#34</code> , &<code>#34</code> ftp&<code>#34</code> , etc.
-     * 
-     * The scheme can be different from the one used to construct the {@link org.gtk.gio.File} 
-     * in that it might be replaced with one that is logically equivalent to the {@link org.gtk.gio.File} 
-     * 
+     * Common schemes include "file", "http", "ftp", etc.
+     * <p>
+     * The scheme can be different from the one used to construct the {@link File},
+     * in that it might be replaced with one that is logically equivalent to the {@link File}.
+     * <p>
      * This call does no blocking I/O.
      */
     public default java.lang.String getUriScheme() {
@@ -833,11 +844,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if @file has a parent, and optionally, if it is @parent.
-     * 
-     * If @parent is <code>null</code> then this function returns <code>true</code> if @file has any
-     * parent at all.  If @parent is non-<code>null</code> then <code>true</code> is only returned
-     * if @file is an immediate child of @parent.
+     * Checks if {@code file} has a parent, and optionally, if it is {@code parent}.
+     * <p>
+     * If {@code parent} is <code>null</code> then this function returns <code>true</code> if {@code file} has any
+     * parent at all.  If {@code parent} is non-<code>null</code> then <code>true</code> is only returned
+     * if {@code file} is an immediate child of {@code parent}.
      */
     public default boolean hasParent(File parent) {
         var RESULT = gtk_h.g_file_has_parent(handle(), parent.handle());
@@ -845,20 +856,20 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks whether @file has the prefix specified by @prefix.
-     * 
-     * In other words, if the names of initial elements of @file&<code>#39</code> s
-     * pathname match @prefix. Only full pathname elements are matched,
+     * Checks whether {@code file} has the prefix specified by {@code prefix}.
+     * <p>
+     * In other words, if the names of initial elements of {@code file}'s
+     * pathname match {@code prefix}. Only full pathname elements are matched,
      * so a path like /foo is not considered a prefix of /foobar, only
      * of /foo/bar.
-     * 
-     * A {@link org.gtk.gio.File} is not a prefix of itself. If you want to check for
+     * <p>
+     * A {@link File} is not a prefix of itself. If you want to check for
      * equality, use g_file_equal().
-     * 
+     * <p>
      * This call does no I/O, as it works purely on names. As such it can
-     * sometimes return <code>false</code> even if @file is inside a @prefix (from a
-     * filesystem point of view), because the prefix of @file is an alias
-     * of @prefix.
+     * sometimes return <code>false</code> even if {@code file} is inside a {@code prefix} (from a
+     * filesystem point of view), because the prefix of {@code file} is an alias
+     * of {@code prefix}.
      */
     public default boolean hasPrefix(File prefix) {
         var RESULT = gtk_h.g_file_has_prefix(handle(), prefix.handle());
@@ -866,8 +877,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks to see if a {@link org.gtk.gio.File} has a given URI scheme.
-     * 
+     * Checks to see if a {@link File} has a given URI scheme.
+     * <p>
      * This call does no blocking I/O.
      */
     public default boolean hasUriScheme(java.lang.String uriScheme) {
@@ -876,8 +887,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Creates a hash value for a {@link org.gtk.gio.File} 
-     * 
+     * Creates a hash value for a {@link File}.
+     * <p>
      * This call does no blocking I/O.
      */
     public default int hash() {
@@ -887,15 +898,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Checks to see if a file is native to the platform.
-     * 
+     * <p>
      * A native file is one expressed in the platform-native filename format,
-     * e.g. &<code>#34</code> C:\\Windows&<code>#34</code>  or &<code>#34</code> /usr/bin/&<code>#34</code> . This does not mean the file is local,
+     * e.g. "C:\\Windows" or "/usr/bin/". This does not mean the file is local,
      * as it might be on a locally mounted remote filesystem.
-     * 
+     * <p>
      * On some systems non-native files may be available using the native
      * filesystem via a userspace filesystem (FUSE), in these cases this call
-     * will return <code>false</code>  but g_file_get_path() will still return a native path.
-     * 
+     * will return <code>false</code>, but g_file_get_path() will still return a native path.
+     * <p>
      * This call does no blocking I/O.
      */
     public default boolean isNative() {
@@ -904,14 +915,14 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Loads the contents of @file and returns it as {@link org.gtk.glib.Bytes} 
-     * 
-     * If @file is a resource:// based URI, the resulting bytes will reference the
+     * Loads the contents of {@code file} and returns it as {@link org.gtk.glib.Bytes}.
+     * <p>
+     * If {@code file} is a resource:// based URI, the resulting bytes will reference the
      * embedded resource instead of a copy. Otherwise, this is equivalent to calling
      * g_file_load_contents() and g_bytes_new_take().
-     * 
-     * For resources, @etag_out will be set to <code>null</code> 
-     * 
+     * <p>
+     * For resources, {@code etag_out} will be set to <code>null</code>.
+     * <p>
      * The data contained in the resulting {@link org.gtk.glib.Bytes} is always zero-terminated, but
      * this is not included in the {@link org.gtk.glib.Bytes} length. The resulting {@link org.gtk.glib.Bytes} should be
      * freed with g_bytes_unref() when no longer in use.
@@ -926,15 +937,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously loads the contents of @file as {@link org.gtk.glib.Bytes} 
-     * 
-     * If @file is a resource:// based URI, the resulting bytes will reference the
+     * Asynchronously loads the contents of {@code file} as {@link org.gtk.glib.Bytes}.
+     * <p>
+     * If {@code file} is a resource:// based URI, the resulting bytes will reference the
      * embedded resource instead of a copy. Otherwise, this is equivalent to calling
      * g_file_load_contents_async() and g_bytes_new_take().
-     * 
-     * @callback should call g_file_load_bytes_finish() to get the result of this
+     * <p>
+     * {@code callback} should call g_file_load_bytes_finish() to get the result of this
      * asynchronous operation.
-     * 
+     * <p>
      * See g_file_load_bytes() for more information.
      */
     public default void loadBytesAsync(Cancellable cancellable, AsyncReadyCallback callback) {
@@ -953,13 +964,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Completes an asynchronous request to g_file_load_bytes_async().
-     * 
-     * For resources, @etag_out will be set to <code>null</code> 
-     * 
+     * <p>
+     * For resources, {@code etag_out} will be set to <code>null</code>.
+     * <p>
      * The data contained in the resulting {@link org.gtk.glib.Bytes} is always zero-terminated, but
      * this is not included in the {@link org.gtk.glib.Bytes} length. The resulting {@link org.gtk.glib.Bytes} should be
      * freed with g_bytes_unref() when no longer in use.
-     * 
+     * <p>
      * See g_file_load_bytes() for more information.
      */
     public default org.gtk.glib.Bytes loadBytesFinish(AsyncResult result, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
@@ -972,19 +983,19 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Starts an asynchronous load of the @file&<code>#39</code> s contents.
-     * 
+     * Starts an asynchronous load of the {@code file}'s contents.
+     * <p>
      * For more details, see g_file_load_contents() which is
      * the synchronous version of this call.
-     * 
-     * When the load operation has completed, @callback will be called
-     * with @user data. To finish the operation, call
-     * g_file_load_contents_finish() with the {@link org.gtk.gio.AsyncResult} returned by
-     * the @callback.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * When the load operation has completed, {@code callback} will be called
+     * with {@code user} data. To finish the operation, call
+     * g_file_load_contents_finish() with the {@link AsyncResult} returned by
+     * the {@code callback}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default void loadContentsAsync(Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -1001,17 +1012,17 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Reads the partial contents of a file. A {@link org.gtk.gio.FileReadMoreCallback} should
+     * Reads the partial contents of a file. A {@link FileReadMoreCallback} should
      * be used to stop reading from the file when appropriate, else this
      * function will behave exactly as g_file_load_contents_async(). This
      * operation can be finished by g_file_load_partial_contents_finish().
-     * 
-     * Users of this function should be aware that @user_data is passed to
-     * both the @read_more_callback and the @callback.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * Users of this function should be aware that {@code user_data} is passed to
+     * both the {@code read_more_callback} and the {@code callback}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default void loadPartialContentsAsync(Cancellable cancellable, FileReadMoreCallback readMoreCallback, AsyncReadyCallback callback) {
         try {
@@ -1034,19 +1045,19 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Creates a directory. Note that this will only create a child directory
-     * of the immediate parent directory of the path or URI given by the {@link org.gtk.gio.File} 
+     * of the immediate parent directory of the path or URI given by the {@link File}.
      * To recursively create directories, see g_file_make_directory_with_parents().
      * This function will fail if the parent directory does not exist, setting
-     * @error to {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>   If the file system doesn&<code>#39</code> t support
-     * creating directories, this function will fail, setting @error to
-     * {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  
-     * 
-     * For a local {@link org.gtk.gio.File} the newly created directory will have the default
+     * {@code error} to {@link IOErrorEnum#NOT_FOUND}. If the file system doesn't support
+     * creating directories, this function will fail, setting {@code error} to
+     * {@link IOErrorEnum#NOT_SUPPORTED}.
+     * <p>
+     * For a local {@link File} the newly created directory will have the default
      * (current) ownership and permissions of the current process.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean makeDirectory(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1089,18 +1100,18 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Creates a directory and any parent directories that may not
-     * exist similar to &<code>#39</code> mkdir -p&<code>#39</code> . If the file system does not support
-     * creating directories, this function will fail, setting @error to
-     * {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>   If the directory itself already exists,
-     * this function will fail setting @error to {@link org.gtk.gio.IOErrorEnum<code>#EXISTS</code>   unlike
+     * exist similar to 'mkdir -p'. If the file system does not support
+     * creating directories, this function will fail, setting {@code error} to
+     * {@link IOErrorEnum#NOT_SUPPORTED}. If the directory itself already exists,
+     * this function will fail setting {@code error} to {@link IOErrorEnum#EXISTS}, unlike
      * the similar g_mkdir_with_parents().
-     * 
-     * For a local {@link org.gtk.gio.File} the newly created directories will have the default
+     * <p>
+     * For a local {@link File} the newly created directories will have the default
      * (current) ownership and permissions of the current process.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean makeDirectoryWithParents(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1112,12 +1123,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Creates a symbolic link named @file which contains the string
-     * @symlink_value.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Creates a symbolic link named {@code file} which contains the string
+     * {@code symlink_value}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean makeSymbolicLink(java.lang.String symlinkValue, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1129,8 +1140,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Recursively measures the disk usage of @file.
-     * 
+     * Recursively measures the disk usage of {@code file}.
+     * <p>
      * This is the asynchronous version of g_file_measure_disk_usage().  See
      * there for more information.
      */
@@ -1157,10 +1168,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Obtains a file or directory monitor for the given file,
      * depending on the type of the file.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default FileMonitor monitor(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1174,13 +1185,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Obtains a directory monitor for the given file.
      * This may fail if directory monitoring is not supported.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * It does not make sense for @flags to contain
-     * {@link org.gtk.gio.FileMonitorFlags<code>#WATCH_HARD_LINKS</code>   since hard links can not be made to
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * It does not make sense for {@code flags} to contain
+     * {@link FileMonitorFlags#WATCH_HARD_LINKS}, since hard links can not be made to
      * directories.  It is not possible to monitor all the files in a
      * directory for changes made via hard links; if you want to do this then
      * you must register individual watches with g_file_monitor().
@@ -1197,17 +1208,18 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Obtains a file monitor for the given file. If no file notification
      * mechanism exists, then regular polling of the file is used.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * If @flags contains {@link org.gtk.gio.FileMonitorFlags<code>#WATCH_HARD_LINKS</code>  then the monitor
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * If {@code flags} contains {@link FileMonitorFlags#WATCH_HARD_LINKS} then the monitor
      * will also attempt to report changes made to the file via another
      * filename (ie, a hard link). Without this flag, you can only rely on
-     * changes made through the filename contained in @file to be
+     * changes made through the filename contained in {@code file} to be
      * reported. Using this flag may result in an increase in resource
-     * usage, and may not have any effect depending on the {@link org.gtk.gio.FileMonitor} backend and/or filesystem type.
+     * usage, and may not have any effect depending on the {@link FileMonitor}
+     * backend and/or filesystem type.
      */
     public default FileMonitor monitorFile(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1219,16 +1231,16 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Starts a @mount_operation, mounting the volume that contains
-     * the file @location.
-     * 
-     * When this operation has completed, @callback will be called with
-     * @user_user data, and the operation can be finalized with
+     * Starts a {@code mount_operation}, mounting the volume that contains
+     * the file {@code location}.
+     * <p>
+     * When this operation has completed, {@code callback} will be called with
+     * {@code user_user} data, and the operation can be finalized with
      * g_file_mount_enclosing_volume_finish().
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default void mountEnclosingVolume(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -1258,14 +1270,14 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Mounts a file of type G_FILE_TYPE_MOUNTABLE.
-     * Using @mount_operation, you can request callbacks when, for instance,
+     * Using {@code mount_operation}, you can request callbacks when, for instance,
      * passwords are needed during authentication.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * When the operation is finished, @callback will be called.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
@@ -1285,7 +1297,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes a mount operation. See g_file_mount_mountable() for details.
-     * 
+     * <p>
      * Finish an asynchronous mount operation that was started
      * with g_file_mount_mountable().
      */
@@ -1299,37 +1311,39 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Tries to move the file or directory @source to the location specified
-     * by @destination. If native move operations are supported then this is
+     * Tries to move the file or directory {@code source} to the location specified
+     * by {@code destination}. If native move operations are supported then this is
      * used, otherwise a copy + delete fallback is used. The native
      * implementation may support moving directories (for instance on moves
      * inside the same filesystem), but the fallback code does not.
-     * 
-     * If the flag {@link org.gtk.gio.FileCopyFlags<code>#OVERWRITE</code>  is specified an already
-     * existing @destination file is overwritten.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If the flag {@link FileCopyFlags#OVERWRITE} is specified an already
+     * existing {@code destination} file is overwritten.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * If @progress_callback is not <code>null</code>  then the operation can be monitored
-     * by setting this to a {@link org.gtk.gio.FileProgressCallback} function.
-     * @progress_callback_data will be passed to this function. It is
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * If {@code progress_callback} is not <code>null</code>, then the operation can be monitored
+     * by setting this to a {@link FileProgressCallback} function.
+     * {@code progress_callback_data} will be passed to this function. It is
      * guaranteed that this callback will be called after all data has been
      * transferred with the total number of bytes copied during the operation.
-     * 
-     * If the @source file does not exist, then the {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  error is returned, independent on the status of the @destination.
-     * 
-     * If {@link org.gtk.gio.FileCopyFlags<code>#OVERWRITE</code>  is not specified and the target exists,
-     * then the error {@link org.gtk.gio.IOErrorEnum<code>#EXISTS</code>  is returned.
-     * 
-     * If trying to overwrite a file over a directory, the {@link org.gtk.gio.IOErrorEnum<code>#IS_DIRECTORY</code>  error is returned. If trying to overwrite a directory with a directory the
-     * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_MERGE</code>  error is returned.
-     * 
+     * <p>
+     * If the {@code source} file does not exist, then the {@link IOErrorEnum#NOT_FOUND}
+     * error is returned, independent on the status of the {@code destination}.
+     * <p>
+     * If {@link FileCopyFlags#OVERWRITE} is not specified and the target exists,
+     * then the error {@link IOErrorEnum#EXISTS} is returned.
+     * <p>
+     * If trying to overwrite a file over a directory, the {@link IOErrorEnum#IS_DIRECTORY}
+     * error is returned. If trying to overwrite a directory with a directory the
+     * {@link IOErrorEnum#WOULD_MERGE} error is returned.
+     * <p>
      * If the source is a directory and the target does not exist, or
-     * {@link org.gtk.gio.FileCopyFlags<code>#OVERWRITE</code>  is specified and the target is a file, then
-     * the {@link org.gtk.gio.IOErrorEnum<code>#WOULD_RECURSE</code>  error may be returned (if the native
-     * move operation isn&<code>#39</code> t available).
+     * {@link FileCopyFlags#OVERWRITE} is specified and the target is a file, then
+     * the {@link IOErrorEnum#WOULD_RECURSE} error may be returned (if the native
+     * move operation isn't available).
      */
     public default boolean move(File destination, int flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1351,14 +1365,14 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously moves a file @source to the location of @destination. For details of the behaviour, see g_file_move().
-     * 
-     * If @progress_callback is not <code>null</code>  then that function that will be called
+     * Asynchronously moves a file {@code source} to the location of {@code destination}. For details of the behaviour, see g_file_move().
+     * <p>
+     * If {@code progress_callback} is not <code>null</code>, then that function that will be called
      * just like in g_file_move(). The callback will run in the default main context
-     * of the thread calling g_file_move_async() &<code>#8212</code>  the same context as @callback is
+     * of the thread calling g_file_move_async() — the same context as {@code callback} is
      * run in.
-     * 
-     * When the operation is finished, @callback will be called. You can then call
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You can then call
      * g_file_move_finish() to get the result of the operation.
      */
     public default void moveAsync(File destination, int flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
@@ -1396,16 +1410,17 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Opens an existing file for reading and writing. The result is
-     * a {@link org.gtk.gio.FileIOStream} that can be used to read and write the contents
+     * a {@link FileIOStream} that can be used to read and write the contents
      * of the file.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
-     * If the file does not exist, the {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  error will
-     * be returned. If the file is a directory, the {@link org.gtk.gio.IOErrorEnum<code>#IS_DIRECTORY</code>  error will be returned. Other errors are possible too, and depend on
+     * <p>
+     * If the file does not exist, the {@link IOErrorEnum#NOT_FOUND} error will
+     * be returned. If the file is a directory, the {@link IOErrorEnum#IS_DIRECTORY}
+     * error will be returned. Other errors are possible too, and depend on
      * what kind of filesystem the file is on. Note that in many non-local
      * file cases read and write streams are not supported, so make sure you
      * really need to do read and write streaming, rather than just opening
@@ -1421,12 +1436,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously opens @file for reading and writing.
-     * 
+     * Asynchronously opens {@code file} for reading and writing.
+     * <p>
      * For more details, see g_file_open_readwrite() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_open_readwrite_finish() to get
      * the result of the operation.
      */
@@ -1460,10 +1475,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Exactly like g_file_get_path(), but caches the result via
      * g_object_set_qdata_full().  This is useful for example in C
-     * applications which mix <code>g_file_*</code> APIs with native ones.  It
+     * applications which mix {@code g_file_*} APIs with native ones.  It
      * also avoids an extra duplicated string when possible, so will be
      * generally more efficient.
-     * 
+     * <p>
      * This call does no blocking I/O.
      */
     public default java.lang.String peekPath() {
@@ -1472,13 +1487,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Polls a file of type {@link org.gtk.gio.FileType<code>#MOUNTABLE</code>  
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Polls a file of type {@link FileType#MOUNTABLE}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * When the operation is finished, @callback will be called.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
@@ -1498,7 +1513,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes a poll operation. See g_file_poll_mountable() for details.
-     * 
+     * <p>
      * Finish an asynchronous poll operation that was polled
      * with g_file_poll_mountable().
      */
@@ -1512,12 +1527,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Returns the {@link org.gtk.gio.AppInfo} that is registered as the default
-     * application to handle the file specified by @file.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Returns the {@link AppInfo} that is registered as the default
+     * application to handle the file specified by {@code file}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default AppInfo queryDefaultHandler(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1560,23 +1575,23 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Utility function to check if a particular file exists. This is
      * implemented using g_file_query_info() and as such does blocking I/O.
-     * 
-     * Note that in many cases it is {@link [racy to first check for file existence]}(https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use)
+     * <p>
+     * Note that in many cases it is <a href="https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use">racy to first check for file existence</a>
      * and then execute something based on the outcome of that, because the
      * file might have been created or removed in between the operations. The
      * general approach to handling that is to not check, but just do the
      * operation and handle the errors as they come.
-     * 
+     * <p>
      * As an example of race-free checking, take the case of reading a file,
-     * and if it doesn&<code>#39</code> t exist, creating it. There are two racy versions: read
+     * and if it doesn't exist, creating it. There are two racy versions: read
      * it, and on error create it; and: check if it exists, if not create it.
      * These can both result in two processes creating the file (with perhaps
      * a partially written file as the result). The correct approach is to
      * always try to create the file with g_file_create() which will either
-     * atomically create the file or fail with a {@link org.gtk.gio.IOErrorEnum<code>#EXISTS</code>  error.
-     * 
+     * atomically create the file or fail with a {@link IOErrorEnum#EXISTS} error.
+     * <p>
      * However, in many cases an existence check is useful in a user interface,
-     * for instance to make a menu item sensitive/insensitive, so that you don&<code>#39</code> t
+     * for instance to make a menu item sensitive/insensitive, so that you don't
      * have to fool users that something is possible and then just show an error
      * dialog. If you do this, you should make sure to also handle the errors
      * that can happen due to races when you execute the operation.
@@ -1587,9 +1602,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Utility function to inspect the {@link org.gtk.gio.FileType} of a file. This is
+     * Utility function to inspect the {@link FileType} of a file. This is
      * implemented using g_file_query_info() and as such does blocking I/O.
-     * 
+     * <p>
      * The primary use case of this method is to check if a file is
      * a regular file, directory, or symlink.
      */
@@ -1600,28 +1615,28 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Similar to g_file_query_info(), but obtains information
-     * about the filesystem the @file is on, rather than the file itself.
+     * about the filesystem the {@code file} is on, rather than the file itself.
      * For instance the amount of space available and the type of
      * the filesystem.
-     * 
-     * The @attributes value is a string that specifies the attributes
-     * that should be gathered. It is not an error if it&<code>#39</code> s not possible
+     * <p>
+     * The {@code attributes} value is a string that specifies the attributes
+     * that should be gathered. It is not an error if it's not possible
      * to read a particular requested attribute from a file - it just
-     * won&<code>#39</code> t be set. @attributes should be a comma-separated list of
-     * attributes or attribute wildcards. The wildcard &<code>#34</code> *&<code>#34</code>  means all
-     * attributes, and a wildcard like &<code>#34</code> filesystem::*&<code>#34</code>  means all attributes
+     * won't be set. {@code attributes} should be a comma-separated list of
+     * attributes or attribute wildcards. The wildcard "*" means all
+     * attributes, and a wildcard like "filesystem::*" means all attributes
      * in the filesystem namespace. The standard namespace for filesystem
-     * attributes is &<code>#34</code> filesystem&<code>#34</code> . Common attributes of interest are
-     * <code>G_FILE_ATTRIBUTE_FILESYSTEM_SIZE</code> (the total size of the filesystem
-     * in bytes), <code>G_FILE_ATTRIBUTE_FILESYSTEM_FREE</code> (number of bytes available),
-     * and <code>G_FILE_ATTRIBUTE_FILESYSTEM_TYPE</code> (type of the filesystem).
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * attributes is "filesystem". Common attributes of interest are
+     * {@code G_FILE_ATTRIBUTE_FILESYSTEM_SIZE} (the total size of the filesystem
+     * in bytes), {@code G_FILE_ATTRIBUTE_FILESYSTEM_FREE} (number of bytes available),
+     * and {@code G_FILE_ATTRIBUTE_FILESYSTEM_TYPE} (type of the filesystem).
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
-     * If the file does not exist, the {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  error will
+     * <p>
+     * If the file does not exist, the {@link IOErrorEnum#NOT_FOUND} error will
      * be returned. Other errors are possible too, and depend on what
      * kind of filesystem the file is on.
      */
@@ -1636,14 +1651,14 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Asynchronously gets the requested information about the filesystem
-     * that the specified @file is on. The result is a {@link org.gtk.gio.FileInfo} object
+     * that the specified {@code file} is on. The result is a {@link FileInfo} object
      * that contains key-value attributes (such as type or size for the
      * file).
-     * 
+     * <p>
      * For more details, see g_file_query_filesystem_info() which is the
      * synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called. You can
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You can
      * then call g_file_query_info_finish() to get the result of the
      * operation.
      */
@@ -1675,33 +1690,34 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the requested information about specified @file.
-     * The result is a {@link org.gtk.gio.FileInfo} object that contains key-value
+     * Gets the requested information about specified {@code file}.
+     * The result is a {@link FileInfo} object that contains key-value
      * attributes (such as the type or size of the file).
-     * 
-     * The @attributes value is a string that specifies the file
+     * <p>
+     * The {@code attributes} value is a string that specifies the file
      * attributes that should be gathered. It is not an error if
-     * it&<code>#39</code> s not possible to read a particular requested attribute
-     * from a file - it just won&<code>#39</code> t be set. @attributes should be a
+     * it's not possible to read a particular requested attribute
+     * from a file - it just won't be set. {@code attributes} should be a
      * comma-separated list of attributes or attribute wildcards.
-     * The wildcard &<code>#34</code> *&<code>#34</code>  means all attributes, and a wildcard like
-     * &<code>#34</code> standard::*&<code>#34</code>  means all attributes in the standard namespace.
-     * An example attribute query be &<code>#34</code> standard::*,owner::user&<code>#34</code> .
+     * The wildcard "*" means all attributes, and a wildcard like
+     * "standard::*" means all attributes in the standard namespace.
+     * An example attribute query be "standard::*,owner::user".
      * The standard attributes are available as defines, like
-     * <code>G_FILE_ATTRIBUTE_STANDARD_NAME</code> 
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * {@code G_FILE_ATTRIBUTE_STANDARD_NAME}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
+     * <p>
      * For symlinks, normally the information about the target of the
      * symlink is returned, rather than information about the symlink
-     * itself. However if you pass {@link org.gtk.gio.FileQueryInfoFlags<code>#NOFOLLOW_SYMLINKS</code>  in @flags the information about the symlink itself will be returned.
+     * itself. However if you pass {@link FileQueryInfoFlags#NOFOLLOW_SYMLINKS}
+     * in {@code flags} the information about the symlink itself will be returned.
      * Also, for symlinks that point to non-existing files the information
      * about the symlink itself will be returned.
-     * 
-     * If the file does not exist, the {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  error will be
+     * <p>
+     * If the file does not exist, the {@link IOErrorEnum#NOT_FOUND} error will be
      * returned. Other errors are possible too, and depend on what kind of
      * filesystem the file is on.
      */
@@ -1715,14 +1731,14 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously gets the requested information about specified @file.
-     * The result is a {@link org.gtk.gio.FileInfo} object that contains key-value attributes
+     * Asynchronously gets the requested information about specified {@code file}.
+     * The result is a {@link FileInfo} object that contains key-value attributes
      * (such as type or size for the file).
-     * 
+     * <p>
      * For more details, see g_file_query_info() which is the synchronous
      * version of this call.
-     * 
-     * When the operation is finished, @callback will be called. You can
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You can
      * then call g_file_query_info_finish() to get the result of the operation.
      */
     public default void queryInfoAsync(java.lang.String attributes, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -1754,15 +1770,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Obtain the list of settable attributes for the file.
-     * 
+     * <p>
      * Returns the type and full attribute name of all the attributes
-     * that can be set on this file. This doesn&<code>#39</code> t mean setting it will
+     * that can be set on this file. This doesn't mean setting it will
      * always succeed though, you might get an access failure, or some
      * specific file may not support a specific attribute.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default FileAttributeInfoList querySettableAttributes(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1776,11 +1792,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Obtain the list of attribute namespaces where new attributes
      * can be created by a user. An example of this is extended
-     * attributes (in the &<code>#34</code> xattr&<code>#34</code>  namespace).
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * attributes (in the "xattr" namespace).
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default FileAttributeInfoList queryWritableNamespaces(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1792,15 +1808,16 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Opens a file for reading. The result is a {@link org.gtk.gio.FileInputStream} that
+     * Opens a file for reading. The result is a {@link FileInputStream} that
      * can be used to read the contents of the file.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * If the file does not exist, the {@link org.gtk.gio.IOErrorEnum<code>#NOT_FOUND</code>  error will be
-     * returned. If the file is a directory, the {@link org.gtk.gio.IOErrorEnum<code>#IS_DIRECTORY</code>  error will be returned. Other errors are possible too, and depend
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * If the file does not exist, the {@link IOErrorEnum#NOT_FOUND} error will be
+     * returned. If the file is a directory, the {@link IOErrorEnum#IS_DIRECTORY}
+     * error will be returned. Other errors are possible too, and depend
      * on what kind of filesystem the file is on.
      */
     public default FileInputStream read(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -1813,12 +1830,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously opens @file for reading.
-     * 
+     * Asynchronously opens {@code file} for reading.
+     * <p>
      * For more details, see g_file_read() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_read_finish() to get the result
      * of the operation.
      */
@@ -1851,45 +1868,45 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Returns an output stream for overwriting the file, possibly
-     * creating a backup copy of the file first. If the file doesn&<code>#39</code> t exist,
+     * creating a backup copy of the file first. If the file doesn't exist,
      * it will be created.
-     * 
+     * <p>
      * This will try to replace the file in the safest way possible so
      * that any errors during the writing will not affect an already
      * existing copy of the file. For instance, for local files it
      * may write to a temporary file and then atomically rename over
      * the destination when the stream is closed.
-     * 
+     * <p>
      * By default files created are generally readable by everyone,
-     * but if you pass {@link org.gtk.gio.FileCreateFlags<code>#PRIVATE</code>  in @flags the file
+     * but if you pass {@link FileCreateFlags#PRIVATE} in {@code flags} the file
      * will be made readable only to the current user, to the level that
      * is supported on the target filesystem.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
-     * operation was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be
+     * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
-     * 
-     * If you pass in a non-<code>null</code> @etag value and @file already exists, then
+     * <p>
+     * If you pass in a non-<code>null</code> {@code etag} value and {@code file} already exists, then
      * this value is compared to the current entity tag of the file, and if
-     * they differ an {@link org.gtk.gio.IOErrorEnum<code>#WRONG_ETAG</code>  error is returned. This
+     * they differ an {@link IOErrorEnum#WRONG_ETAG} error is returned. This
      * generally means that the file has been changed since you last read
      * it. You can get the new etag from g_file_output_stream_get_etag()
-     * after you&<code>#39</code> ve finished writing and closed the {@link org.gtk.gio.FileOutputStream}  When
+     * after you've finished writing and closed the {@link FileOutputStream}. When
      * you load a new file you can use g_file_input_stream_query_info() to
      * get the etag of the file.
-     * 
-     * If @make_backup is <code>true</code>  this function will attempt to make a
+     * <p>
+     * If {@code make_backup} is <code>true</code>, this function will attempt to make a
      * backup of the current file before overwriting it. If this fails
-     * a {@link org.gtk.gio.IOErrorEnum<code>#CANT_CREATE_BACKUP</code>  error will be returned. If you
-     * want to replace anyway, try again with @make_backup set to <code>false</code> 
-     * 
-     * If the file is a directory the {@link org.gtk.gio.IOErrorEnum<code>#IS_DIRECTORY</code>  error will
+     * a {@link IOErrorEnum#CANT_CREATE_BACKUP} error will be returned. If you
+     * want to replace anyway, try again with {@code make_backup} set to <code>false</code>.
+     * <p>
+     * If the file is a directory the {@link IOErrorEnum#IS_DIRECTORY} error will
      * be returned, and if the file is some other form of non-regular file
-     * then a {@link org.gtk.gio.IOErrorEnum<code>#NOT_REGULAR_FILE</code>  error will be returned. Some
-     * file systems don&<code>#39</code> t allow all file names, and may return an
-     * {@link org.gtk.gio.IOErrorEnum<code>#INVALID_FILENAME</code>  error, and if the name is to long
-     * {@link org.gtk.gio.IOErrorEnum<code>#FILENAME_TOO_LONG</code>  will be returned. Other errors are
+     * then a {@link IOErrorEnum#NOT_REGULAR_FILE} error will be returned. Some
+     * file systems don't allow all file names, and may return an
+     * {@link IOErrorEnum#INVALID_FILENAME} error, and if the name is to long
+     * {@link IOErrorEnum#FILENAME_TOO_LONG} will be returned. Other errors are
      * possible too, and depend on what kind of filesystem the file is on.
      */
     public default FileOutputStream replace(java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -1904,11 +1921,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Asynchronously overwrites the file, replacing the contents,
      * possibly creating a backup copy of the file first.
-     * 
+     * <p>
      * For more details, see g_file_replace() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_replace_finish() to get the result
      * of the operation.
      */
@@ -1927,21 +1944,21 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Replaces the contents of @file with @contents of @length bytes.
-     * 
-     * If @etag is specified (not <code>null</code> , any existing file must have that etag,
-     * or the error {@link org.gtk.gio.IOErrorEnum<code>#WRONG_ETAG</code>  will be returned.
-     * 
-     * If @make_backup is <code>true</code>  this function will attempt to make a backup
-     * of @file. Internally, it uses g_file_replace(), so will try to replace the
+     * Replaces the contents of {@code file} with {@code contents} of {@code length} bytes.
+     * <p>
+     * If {@code etag} is specified (not <code>null</code>), any existing file must have that etag,
+     * or the error {@link IOErrorEnum#WRONG_ETAG} will be returned.
+     * <p>
+     * If {@code make_backup} is <code>true</code>, this function will attempt to make a backup
+     * of {@code file}. Internally, it uses g_file_replace(), so will try to replace the
      * file contents in the safest way possible. For example, atomic renames are
-     * used when replacing local files&<code>#8217</code>  contents.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * used when replacing local files’ contents.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * The returned @new_etag can be used to verify that the file hasn&<code>#39</code> t
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * The returned {@code new_etag} can be used to verify that the file hasn't
      * changed the next time it is saved over.
      */
     public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, int flags, java.lang.String[] newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -1954,23 +1971,23 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Starts an asynchronous replacement of @file with the given
-     * @contents of @length bytes. @etag will replace the document&<code>#39</code> s
+     * Starts an asynchronous replacement of {@code file} with the given
+     * {@code contents} of {@code length} bytes. {@code etag} will replace the document's
      * current entity tag.
-     * 
-     * When this operation has completed, @callback will be called with
-     * @user_user data, and the operation can be finalized with
+     * <p>
+     * When this operation has completed, {@code callback} will be called with
+     * {@code user_user} data, and the operation can be finalized with
      * g_file_replace_contents_finish().
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * If @make_backup is <code>true</code>  this function will attempt to
-     * make a backup of @file.
-     * 
-     * Note that no copy of @contents will be made, so it must stay valid
-     * until @callback is called. See g_file_replace_contents_bytes_async()
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * If {@code make_backup} is <code>true</code>, this function will attempt to
+     * make a backup of {@code file}.
+     * <p>
+     * Note that no copy of {@code contents} will be made, so it must stay valid
+     * until {@code callback} is called. See g_file_replace_contents_bytes_async()
      * for a {@link org.gtk.glib.Bytes} version that will automatically hold a reference to the
      * contents (without copying) for the duration of the call.
      */
@@ -1990,12 +2007,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Same as g_file_replace_contents_async() but takes a {@link org.gtk.glib.Bytes} input instead.
-     * This function will keep a ref on @contents until the operation is done.
+     * This function will keep a ref on {@code contents} until the operation is done.
      * Unlike g_file_replace_contents_async() this allows forgetting about the
      * content without waiting for the callback.
-     * 
-     * When this operation has completed, @callback will be called with
-     * @user_user data, and the operation can be finalized with
+     * <p>
+     * When this operation has completed, {@code callback} will be called with
+     * {@code user_user} data, and the operation can be finalized with
      * g_file_replace_contents_finish().
      */
     public default void replaceContentsBytesAsync(org.gtk.glib.Bytes contents, java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -2013,8 +2030,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Finishes an asynchronous replace of the given @file. See
-     * g_file_replace_contents_async(). Sets @new_etag to the new entity
+     * Finishes an asynchronous replace of the given {@code file}. See
+     * g_file_replace_contents_async(). Sets {@code new_etag} to the new entity
      * tag for the document, if present.
      */
     public default boolean replaceContentsFinish(AsyncResult res, java.lang.String[] newEtag) throws io.github.jwharm.javagi.GErrorException {
@@ -2041,12 +2058,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Returns an output stream for overwriting the file in readwrite mode,
-     * possibly creating a backup copy of the file first. If the file doesn&<code>#39</code> t
+     * possibly creating a backup copy of the file first. If the file doesn't
      * exist, it will be created.
-     * 
+     * <p>
      * For details about the behaviour, see g_file_replace() which does the
      * same thing but returns an output stream only.
-     * 
+     * <p>
      * Note that in many non-local file cases read and write streams are not
      * supported, so make sure you really need to do read and write streaming,
      * rather than just opening for reading or writing.
@@ -2064,11 +2081,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Asynchronously overwrites the file in read-write mode,
      * replacing the contents, possibly creating a backup copy
      * of the file first.
-     * 
+     * <p>
      * For more details, see g_file_replace_readwrite() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_replace_readwrite_finish() to get
      * the result of the operation.
      */
@@ -2100,12 +2117,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Resolves a relative path for @file to an absolute path.
-     * 
+     * Resolves a relative path for {@code file} to an absolute path.
+     * <p>
      * This call does no blocking I/O.
-     * 
-     * If the @relative_path is an absolute path name, the resolution
-     * is done absolutely (without taking @file path as base).
+     * <p>
+     * If the {@code relative_path} is an absolute path name, the resolution
+     * is done absolutely (without taking {@code file} path as base).
      */
     public default File resolveRelativePath(java.lang.String relativePath) {
         var RESULT = gtk_h.g_file_resolve_relative_path(handle(), Interop.allocateNativeString(relativePath).handle());
@@ -2113,14 +2130,14 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets an attribute in the file with attribute name @attribute to @value_p.
-     * 
-     * Some attributes can be unset by setting @type to
-     * {@link org.gtk.gio.FileAttributeType<code>#INVALID</code>  and @value_p to <code>null</code> 
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets an attribute in the file with attribute name {@code attribute} to {@code value_p}.
+     * <p>
+     * Some attributes can be unset by setting {@code type} to
+     * {@link FileAttributeType#INVALID} and {@code value_p} to <code>null</code>.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttribute(java.lang.String attribute, FileAttributeType type, jdk.incubator.foreign.MemoryAddress valueP, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2132,13 +2149,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets @attribute of type {@link org.gtk.gio.FileAttributeType<code>#BYTE_STRING</code>  to @value.
-     * If @attribute is of a different type, this operation will fail,
-     * returning <code>false</code> 
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets {@code attribute} of type {@link FileAttributeType#BYTE_STRING} to {@code value}.
+     * If {@code attribute} is of a different type, this operation will fail,
+     * returning <code>false</code>.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttributeByteString(java.lang.String attribute, java.lang.String value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2150,12 +2167,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets @attribute of type {@link org.gtk.gio.FileAttributeType<code>#INT32</code>  to @value.
-     * If @attribute is of a different type, this operation will fail.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets {@code attribute} of type {@link FileAttributeType#INT32} to {@code value}.
+     * If {@code attribute} is of a different type, this operation will fail.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttributeInt32(java.lang.String attribute, int value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2167,12 +2184,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets @attribute of type {@link org.gtk.gio.FileAttributeType<code>#INT64</code>  to @value.
-     * If @attribute is of a different type, this operation will fail.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets {@code attribute} of type {@link FileAttributeType#INT64} to {@code value}.
+     * If {@code attribute} is of a different type, this operation will fail.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttributeInt64(java.lang.String attribute, long value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2184,12 +2201,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets @attribute of type {@link org.gtk.gio.FileAttributeType<code>#STRING</code>  to @value.
-     * If @attribute is of a different type, this operation will fail.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets {@code attribute} of type {@link FileAttributeType#STRING} to {@code value}.
+     * If {@code attribute} is of a different type, this operation will fail.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttributeString(java.lang.String attribute, java.lang.String value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2201,12 +2218,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets @attribute of type {@link org.gtk.gio.FileAttributeType<code>#UINT32</code>  to @value.
-     * If @attribute is of a different type, this operation will fail.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets {@code attribute} of type {@link FileAttributeType#UINT32} to {@code value}.
+     * If {@code attribute} is of a different type, this operation will fail.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttributeUint32(java.lang.String attribute, int value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2218,12 +2235,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets @attribute of type {@link org.gtk.gio.FileAttributeType<code>#UINT64</code>  to @value.
-     * If @attribute is of a different type, this operation will fail.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets {@code attribute} of type {@link FileAttributeType#UINT64} to {@code value}.
+     * If {@code attribute} is of a different type, this operation will fail.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttributeUint64(java.lang.String attribute, long value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2235,12 +2252,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously sets the attributes of @file with @info.
-     * 
+     * Asynchronously sets the attributes of {@code file} with {@code info}.
+     * <p>
      * For more details, see g_file_set_attributes_from_info(),
      * which is the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_set_attributes_finish() to get
      * the result of the operation.
      */
@@ -2271,18 +2288,18 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Tries to set all attributes in the {@link org.gtk.gio.FileInfo} on the target
+     * Tries to set all attributes in the {@link FileInfo} on the target
      * values, not stopping on the first error.
-     * 
-     * If there is any error during this operation then @error will
+     * <p>
+     * If there is any error during this operation then {@code error} will
      * be set to the first error. Error on particular fields are flagged
-     * by setting the &<code>#34</code> status&<code>#34</code>  field in the attribute value to
-     * {@link org.gtk.gio.FileAttributeStatus<code>#ERROR_SETTING</code>   which means you can
+     * by setting the "status" field in the attribute value to
+     * {@link FileAttributeStatus#ERROR_SETTING}, which means you can
      * also detect further errors.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean setAttributesFromInfo(FileInfo info, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2294,21 +2311,21 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Renames @file to the specified display name.
-     * 
+     * Renames {@code file} to the specified display name.
+     * <p>
      * The display name is converted from UTF-8 to the correct encoding
-     * for the target filesystem if possible and the @file is renamed to this.
-     * 
+     * for the target filesystem if possible and the {@code file} is renamed to this.
+     * <p>
      * If you want to implement a rename operation in the user interface the
-     * edit name (<code>G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME</code>  should be used as the
+     * edit name ({@code G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME}) should be used as the
      * initial value in the rename widget, and then the result after editing
      * should be passed to g_file_set_display_name().
-     * 
+     * <p>
      * On success the resulting converted filename is returned.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default File setDisplayName(java.lang.String displayName, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2320,12 +2337,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously sets the display name for a given {@link org.gtk.gio.File} 
-     * 
+     * Asynchronously sets the display name for a given {@link File}.
+     * <p>
      * For more details, see g_file_set_display_name() which is
      * the synchronous version of this call.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_set_display_name_finish() to get
      * the result of the operation.
      */
@@ -2357,15 +2374,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Starts a file of type {@link org.gtk.gio.FileType<code>#MOUNTABLE</code>  
-     * Using @start_operation, you can request callbacks when, for instance,
+     * Starts a file of type {@link FileType#MOUNTABLE}.
+     * Using {@code start_operation}, you can request callbacks when, for instance,
      * passwords are needed during authentication.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * When the operation is finished, @callback will be called.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
@@ -2385,7 +2402,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes a start operation. See g_file_start_mountable() for details.
-     * 
+     * <p>
      * Finish an asynchronous start operation that was started
      * with g_file_start_mountable().
      */
@@ -2399,13 +2416,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Stops a file of type {@link org.gtk.gio.FileType<code>#MOUNTABLE</code>  
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Stops a file of type {@link FileType#MOUNTABLE}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * When the operation is finished, @callback will be called.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_stop_mountable_finish() to get
      * the result of the operation.
      */
@@ -2425,7 +2442,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes a stop operation, see g_file_stop_mountable() for details.
-     * 
+     * <p>
      * Finish an asynchronous stop operation that was started
      * with g_file_stop_mountable().
      */
@@ -2439,10 +2456,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if @file supports
-     * {@link [thread-default contexts]}{@link [g-main-context-push-thread-default-context]}.
-     * If this returns <code>false</code>  you cannot perform asynchronous operations on
-     * @file in a thread that has a thread-default context.
+     * Checks if {@code file} supports
+     * [thread-default contexts][g-main-context-push-thread-default-context].
+     * If this returns <code>false</code>, you cannot perform asynchronous operations on
+     * {@code file} in a thread that has a thread-default context.
      */
     public default boolean supportsThreadContexts() {
         var RESULT = gtk_h.g_file_supports_thread_contexts(handle());
@@ -2450,16 +2467,16 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sends @file to the &<code>#34</code> Trashcan&<code>#34</code> , if possible. This is similar to
+     * Sends {@code file} to the "Trashcan", if possible. This is similar to
      * deleting it, but the user can recover it before emptying the trashcan.
      * Not all file systems support trashing, so this call can return the
-     * {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  error. Since GLib 2.66, the <code>x-gvfs-notrash</code> unix
+     * {@link IOErrorEnum#NOT_SUPPORTED} error. Since GLib 2.66, the {@code x-gvfs-notrash} unix
      * mount option can be used to disable g_file_trash() support for certain
-     * mounts, the {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  error will be returned in that case.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * mounts, the {@link IOErrorEnum#NOT_SUPPORTED} error will be returned in that case.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean trash(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -2471,7 +2488,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously sends @file to the Trash location, if possible.
+     * Asynchronously sends {@code file} to the Trash location, if possible.
      */
     public default void trashAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -2501,13 +2518,13 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Unmounts a file of type {@link org.gtk.gio.FileType<code>#MOUNTABLE</code>  
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Unmounts a file of type {@link FileType#MOUNTABLE}.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
-     * 
-     * When the operation is finished, @callback will be called.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_file_unmount_mountable_finish() to get
      * the result of the operation.
      */
@@ -2528,7 +2545,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Finishes an unmount operation,
      * see g_file_unmount_mountable_with_operation() for details.
-     * 
+     * <p>
      * Finish an asynchronous unmount operation that was started
      * with g_file_unmount_mountable_with_operation().
      */
@@ -2542,20 +2559,20 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Creates a {@link org.gtk.gio.File} with the given argument from the command line.
-     * The value of @arg can be either a URI, an absolute path or a
+     * Creates a {@link File} with the given argument from the command line.
+     * The value of {@code arg} can be either a URI, an absolute path or a
      * relative path resolved relative to the current working directory.
      * This operation never fails, but the returned object might not
-     * support any I/O operation if @arg points to a malformed path.
-     * 
+     * support any I/O operation if {@code arg} points to a malformed path.
+     * <p>
      * Note that on Windows, this function expects its argument to be in
      * UTF-8 -- not the system code page.  This means that you
      * should not use this function with string from argv as it is passed
      * to main().  g_win32_get_command_line() will return a UTF-8 version of
-     * the commandline.  {@link org.gtk.gio.Application} also uses UTF-8 but
+     * the commandline.  {@link Application} also uses UTF-8 but
      * g_application_command_line_create_file_for_arg() may be more useful
      * for you there.  It is also always possible to use this function with
-     * {@link org.gtk.glib.OptionContext} arguments of type {@link org.gtk.glib.OptionArg<code>#FILENAME</code>
+     * {@link org.gtk.glib.OptionContext} arguments of type {@link org.gtk.glib.OptionArg#FILENAME}.
      */
     public static File newForCommandlineArg(java.lang.String arg) {
         var RESULT = gtk_h.g_file_new_for_commandline_arg(Interop.allocateNativeString(arg).handle());
@@ -2563,16 +2580,16 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Creates a {@link org.gtk.gio.File} with the given argument from the command line.
-     * 
+     * Creates a {@link File} with the given argument from the command line.
+     * <p>
      * This function is similar to g_file_new_for_commandline_arg() except
      * that it allows for passing the current working directory as an
      * argument instead of using the current working directory of the
      * process.
-     * 
+     * <p>
      * This is useful if the commandline argument was given in a context
      * other than the invocation of the current process.
-     * 
+     * <p>
      * See also g_application_command_line_create_file_for_arg().
      */
     public static File newForCommandlineArgAndCwd(java.lang.String arg, java.lang.String cwd) {
@@ -2581,9 +2598,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Constructs a {@link org.gtk.gio.File} for a given path. This operation never
+     * Constructs a {@link File} for a given path. This operation never
      * fails, but the returned object might not support any I/O
-     * operation if @path is malformed.
+     * operation if {@code path} is malformed.
      */
     public static File newForPath(java.lang.String path) {
         var RESULT = gtk_h.g_file_new_for_path(Interop.allocateNativeString(path).handle());
@@ -2591,9 +2608,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Constructs a {@link org.gtk.gio.File} for a given URI. This operation never
+     * Constructs a {@link File} for a given URI. This operation never
      * fails, but the returned object might not support any I/O
-     * operation if @uri is malformed or if the uri type is
+     * operation if {@code uri} is malformed or if the uri type is
      * not supported.
      */
     public static File newForUri(java.lang.String uri) {
@@ -2603,14 +2620,14 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Opens a file in the preferred directory for temporary files (as
-     * returned by g_get_tmp_dir()) and returns a {@link org.gtk.gio.File} and
-     * {@link org.gtk.gio.FileIOStream} pointing to it.
-     * 
-     * @tmpl should be a string in the GLib file name encoding
-     * containing a sequence of six &<code>#39</code> X&<code>#39</code>  characters, and containing no
-     * directory components. If it is <code>null</code>  a default template is used.
-     * 
-     * Unlike the other {@link org.gtk.gio.File} constructors, this will return <code>null</code> if
+     * returned by g_get_tmp_dir()) and returns a {@link File} and
+     * {@link FileIOStream} pointing to it.
+     * <p>
+     * {@code tmpl} should be a string in the GLib file name encoding
+     * containing a sequence of six 'X' characters, and containing no
+     * directory components. If it is <code>null</code>, a default template is used.
+     * <p>
+     * Unlike the other {@link File} constructors, this will return <code>null</code> if
      * a temporary file could not be created.
      */
     public static File newTmp(java.lang.String tmpl, FileIOStream[] iostream) throws io.github.jwharm.javagi.GErrorException {
@@ -2623,10 +2640,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Constructs a {@link org.gtk.gio.File} with the given @parse_name (i.e. something
+     * Constructs a {@link File} with the given {@code parse_name} (i.e. something
      * given by g_file_get_parse_name()). This operation never fails,
      * but the returned object might not support any I/O operation if
-     * the @parse_name cannot be parsed.
+     * the {@code parse_name} cannot be parsed.
      */
     public static File parseName(java.lang.String parseName) {
         var RESULT = gtk_h.g_file_parse_name(Interop.allocateNativeString(parseName).handle());

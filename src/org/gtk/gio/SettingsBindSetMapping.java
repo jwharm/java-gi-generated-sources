@@ -2,7 +2,7 @@ package org.gtk.gio;
 
 /**
  * The type for the function that is used to convert an object property
- * value to a {@link org.gtk.glib.Variant} for storing it in {@link org.gtk.gio.Settings}
+ * value to a {@link org.gtk.glib.Variant} for storing it in {@link Settings}.
  */
 @FunctionalInterface
 public interface SettingsBindSetMapping {

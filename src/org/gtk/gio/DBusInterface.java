@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.gio.DBusInterface} type is the base type for D-Bus interfaces both
- * on the service side (see {@link org.gtk.gio.DBusInterfaceSkeleton}  and client side
- * (see {@link org.gtk.gio.DBusProxy} .
+ * The {@link DBusInterface} type is the base type for D-Bus interfaces both
+ * on the service side (see {@link DBusInterfaceSkeleton}) and client side
+ * (see {@link DBusProxy}).
  */
 public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets the {@link org.gtk.gio.DBusObject} that @interface_ belongs to, if any.
+     * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
      */
     public default DBusObject dupObject() {
         var RESULT = gtk_h.g_dbus_interface_dup_object(handle());
@@ -24,7 +24,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets D-Bus introspection information for the D-Bus interface
-     * implemented by @interface_.
+     * implemented by {@code interface_}.
      */
     public default DBusInterfaceInfo getInfo() {
         var RESULT = gtk_h.g_dbus_interface_get_info(handle());
@@ -32,9 +32,9 @@ public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the {@link org.gtk.gio.DBusObject} that @interface_ belongs to, if any.
-     * 
-     * It is not safe to use the returned object if @interface_ or
+     * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
+     * <p>
+     * It is not safe to use the returned object if {@code interface_} or
      * the returned object is being used from other threads. See
      * g_dbus_interface_dup_object() for a thread-safe alternative.
      */
@@ -44,9 +44,9 @@ public interface DBusInterface extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets the {@link org.gtk.gio.DBusObject} for @interface_ to @object.
-     * 
-     * Note that @interface_ will hold a weak reference to @object.
+     * Sets the {@link DBusObject} for {@code interface_} to {@code object}.
+     * <p>
+     * Note that {@code interface_} will hold a weak reference to {@code object}.
      */
     public default void setObject(DBusObject object) {
         gtk_h.g_dbus_interface_set_object(handle(), object.handle());

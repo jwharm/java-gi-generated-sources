@@ -8,20 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkGestureLongPress</code> is a <code>GtkGesture</code> for long presses.
- * 
- * This gesture is also known as &<code>#8220</code> Press and Hold&<code>#8221</code> .
- * 
+ * {@code GtkGestureLongPress} is a {@code GtkGesture} for long presses.
+ * <p>
+ * This gesture is also known as “Press and Hold”.
+ * <p>
  * When the timeout is exceeded, the gesture is triggering the
- * {@link [signal@Gtk.GestureLongPress::pressed] (ref=signal)} signal.
- * 
+ * {@code Gtk.GestureLongPress::pressed} signal.
+ * <p>
  * If the touchpoint is lifted before the timeout passes, or if
  * it drifts too far of the initial press point, the
- * {@link [signal@Gtk.GestureLongPress::cancelled] (ref=signal)} signal will be emitted.
- * 
+ * {@code Gtk.GestureLongPress::cancelled} signal will be emitted.
+ * <p>
  * How long the timeout is before the ::pressed signal gets emitted is
- * determined by the {@link [property@Gtk.Settings:gtk-long-press-time] (ref=property)} setting.
- * It can be modified by the {@link [property@Gtk.GestureLongPress:delay-factor] (ref=property)}
+ * determined by the {@code Gtk.Settings:gtk-long-press-time} setting.
+ * It can be modified by the {@code Gtk.GestureLongPress:delay-factor}
  * property.
  */
 public class GestureLongPress extends GestureSingle {
@@ -41,7 +41,7 @@ public class GestureLongPress extends GestureSingle {
     }
     
     /**
-     * Returns a newly created <code>GtkGesture</code> that recognizes long presses.
+     * Returns a newly created {@code GtkGesture} that recognizes long presses.
      */
     public GestureLongPress() {
         super(constructNew());
@@ -57,9 +57,9 @@ public class GestureLongPress extends GestureSingle {
     
     /**
      * Applies the given delay factor.
-     * 
+     * <p>
      * The default long press time will be multiplied by this value.
-     * Valid values are in the range {@link [0.5..2.0]}.
+     * Valid values are in the range [0.5..2.0].
      */
     public void setDelayFactor(double delayFactor) {
         gtk_h.gtk_gesture_long_press_set_delay_factor(handle(), delayFactor);
@@ -72,7 +72,7 @@ public class GestureLongPress extends GestureSingle {
     
     /**
      * Emitted whenever a press moved too far, or was released
-     * before {@link [signal@Gtk.GestureLongPress::pressed] (ref=signal)} happened.
+     * before {@code Gtk.GestureLongPress::pressed} happened.
      */
     public SignalHandle onCancelled(CancelledHandler handler) {
         try {

@@ -2,18 +2,18 @@ package org.gtk.gdk;
 
 /**
  * Positioning hints for aligning a surface relative to a rectangle.
- * 
+ * <p>
  * These hints determine how the surface should be positioned in the case that
  * the surface would fall off-screen if placed in its ideal position.
- * 
- * For example, {@link org.gtk.gdk.AnchorHints<code>#FLIP_X</code>  will replace {@link org.gtk.gdk.Gravity<code>#NORTH_WEST</code>  with
- * {@link org.gtk.gdk.Gravity<code>#NORTH_EAST</code>  and vice versa if the surface extends beyond the left
+ * <p>
+ * For example, {@link AnchorHints#FLIP_X} will replace {@link Gravity#NORTH_WEST} with
+ * {@link Gravity#NORTH_EAST} and vice versa if the surface extends beyond the left
  * or right edges of the monitor.
- * 
- * If {@link org.gtk.gdk.AnchorHints<code>#SLIDE_X</code>  is set, the surface can be shifted horizontally to fit
- * on-screen. If {@link org.gtk.gdk.AnchorHints<code>#RESIZE_X</code>  is set, the surface can be shrunken
+ * <p>
+ * If {@link AnchorHints#SLIDE_X} is set, the surface can be shifted horizontally to fit
+ * on-screen. If {@link AnchorHints#RESIZE_X} is set, the surface can be shrunken
  * horizontally to fit.
- * 
+ * <p>
  * In general, when multiple flags are set, flipping should take precedence over
  * sliding, which should take precedence over resizing.
  */

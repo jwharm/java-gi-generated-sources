@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkShortcutAction</code> that invokes a callback.
+ * A {@code GtkShortcutAction} that invokes a callback.
  */
 public class CallbackAction extends ShortcutAction {
 
@@ -38,7 +38,7 @@ public class CallbackAction extends ShortcutAction {
     }
     
     /**
-     * Create a custom action that calls the given @callback when
+     * Create a custom action that calls the given {@code callback} when
      * activated.
      */
     public CallbackAction(ShortcutFunc callback) {

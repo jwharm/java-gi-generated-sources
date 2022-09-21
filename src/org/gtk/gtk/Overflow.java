@@ -2,9 +2,9 @@ package org.gtk.gtk;
 
 /**
  * Defines how content overflowing a given area should be handled.
- * 
- * This is used in {@link org.gtk.gtk.Widget<code>#setOverflow</code> . The
- * {@link [property@Gtk.Widget:overflow] (ref=property)} property is modeled after the
+ * <p>
+ * This is used in {@link Widget#setOverflow}. The
+ * {@code Gtk.Widget:overflow} property is modeled after the
  * CSS overflow property, but implements it only partially.
  */
 public enum Overflow {

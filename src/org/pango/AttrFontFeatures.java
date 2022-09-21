@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoAttrFontFeatures</code> structure is used to represent OpenType
+ * The {@code PangoAttrFontFeatures} structure is used to represent OpenType
  * font features as an attribute.
  */
 public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
@@ -19,7 +19,7 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Create a new font features tag attribute.
-     * 
+     * <p>
      * You can use this attribute to select OpenType font features like small-caps,
      * alternative glyphs, ligatures, etc. for fonts that support them.
      */

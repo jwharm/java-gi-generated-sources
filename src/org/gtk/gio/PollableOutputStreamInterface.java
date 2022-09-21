@@ -9,21 +9,21 @@ import java.lang.invoke.*;
 
 /**
  * The interface for pollable output streams.
- * 
- * The default implementation of @can_poll always returns <code>true</code> 
- * 
- * The default implementation of @write_nonblocking calls
+ * <p>
+ * The default implementation of {@code can_poll} always returns <code>true</code>.
+ * <p>
+ * The default implementation of {@code write_nonblocking} calls
  * g_pollable_output_stream_is_writable(), and then calls
- * g_output_stream_write() if it returns <code>true</code>  This means you only
- * need to override it if it is possible that your @is_writable
+ * g_output_stream_write() if it returns <code>true</code>. This means you only
+ * need to override it if it is possible that your {@code is_writable}
  * implementation may return <code>true</code> when the stream is not actually
  * writable.
- * 
- * The default implementation of @writev_nonblocking calls
+ * <p>
+ * The default implementation of {@code writev_nonblocking} calls
  * g_pollable_output_stream_write_nonblocking() for each vector, and converts
- * its return value and error (if set) to a {@link org.gtk.gio.PollableReturn}  You should
+ * its return value and error (if set) to a {@link PollableReturn}. You should
  * override this where possible to avoid having to allocate a {@link org.gtk.glib.Error} to return
- * {@link org.gtk.gio.IOErrorEnum<code>#WOULD_BLOCK</code>
+ * {@link IOErrorEnum#WOULD_BLOCK}.
  */
 public class PollableOutputStreamInterface extends io.github.jwharm.javagi.ResourceBase {
 

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Extends the {@link org.gtk.gio.Icon} interface and adds the ability to
+ * Extends the {@link Icon} interface and adds the ability to
  * load icons from streams.
  */
 public interface LoadableIcon extends io.github.jwharm.javagi.NativeAddress {

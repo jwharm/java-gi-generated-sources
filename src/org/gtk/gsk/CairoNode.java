@@ -27,10 +27,10 @@ public class CairoNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will render a cairo surface
-     * into the area given by @bounds.
-     * 
-     * You can draw to the cairo surface using {@link org.gtk.gsk.CairoNode<code>#getDrawContext</code> .
+     * Creates a {@code GskRenderNode} that will render a cairo surface
+     * into the area given by {@code bounds}.
+     * <p>
+     * You can draw to the cairo surface using {@link CairoNode#getDrawContext}.
      */
     public CairoNode(org.gtk.graphene.Rect bounds) {
         super(constructNew(bounds));
@@ -39,9 +39,9 @@ public class CairoNode extends RenderNode {
     /**
      * Creates a Cairo context for drawing using the surface associated
      * to the render node.
-     * 
+     * <p>
      * If no surface exists yet, a surface will be created optimized for
-     * rendering to @renderer.
+     * rendering to {@code renderer}.
      */
     public org.cairographics.Context getDrawContext() {
         var RESULT = gtk_h.gsk_cairo_node_get_draw_context(handle());

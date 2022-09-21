@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkBoolFilter</code> evaluates a boolean <code>GtkExpression</code>
+ * {@code GtkBoolFilter} evaluates a boolean {@code GtkExpression}
  * to determine whether to include items.
  */
 public class BoolFilter extends Filter {
@@ -54,8 +54,8 @@ public class BoolFilter extends Filter {
     /**
      * Sets the expression that the filter uses to check if items
      * should be filtered.
-     * 
-     * The expression must have a value type of <code>G_TYPE_BOOLEAN</code>
+     * <p>
+     * The expression must have a value type of {@code G_TYPE_BOOLEAN}.
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_bool_filter_set_expression(handle(), expression.handle());

@@ -8,32 +8,35 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkPopoverMenuBar</code> presents a horizontal bar of items that pop
+ * {@code GtkPopoverMenuBar} presents a horizontal bar of items that pop
  * up popover menus when clicked.
  * <p>
- * !{@link [An example GtkPopoverMenuBar]}(menubar.png)
+ * <img src="./doc-files/menubar.png" alt="An example GtkPopoverMenuBar">
  * <p>
- * The only way to create instances of <code>GtkPopoverMenuBar</code> is
- * from a <code>GMenuModel</code>.
+ * The only way to create instances of {@code GtkPopoverMenuBar} is
+ * from a {@code GMenuModel}.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * menubar
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  item{@link [.active]}
- * &<code>#9482</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  popover
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  item
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  popover
- * </pre>
- * <p><code>GtkPopoverMenuBar</code> has a single CSS node with name menubar, below which
+ * ├── item[.active]
+ * ┊   ╰── popover
+ * ╰── item
+ *     ╰── popover
+ * }</pre>
+ * <p>
+ * {@code GtkPopoverMenuBar} has a single CSS node with name menubar, below which
  * each item has its CSS node, and below that the corresponding popover.
  * <p>
  * The item whose popover is currently open gets the .active
  * style class.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkPopoverMenuBar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#MENU_BAR</code>  role,
- * the menu items use the {@link org.gtk.gtk.AccessibleRole<code>#MENU_ITEM</code>  role and
- * the menus use the {@link org.gtk.gtk.AccessibleRole<code>#MENU</code>  role.
+ * <p>
+ * {@code GtkPopoverMenuBar} uses the {@link AccessibleRole#MENU_BAR} role,
+ * the menu items use the {@link AccessibleRole#MENU_ITEM} role and
+ * the menus use the {@link AccessibleRole#MENU} role.
  */
 public class PopoverMenuBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -52,7 +55,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Creates a <code>GtkPopoverMenuBar</code> from a <code>GMenuModel</code>.
+     * Creates a {@code GtkPopoverMenuBar} from a {@code GMenuModel}.
      */
     public static PopoverMenuBar newFromModel(org.gtk.gio.MenuModel model) {
         return new PopoverMenuBar(constructNewFromModel(model));
@@ -61,8 +64,8 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
     /**
      * Adds a custom widget to a generated menubar.
      * <p>
-     * For this to work, the menu model of @bar must have an
-     * item with a <code>custom</code> attribute that matches @id.
+     * For this to work, the menu model of {@code bar} must have an
+     * item with a {@code custom} attribute that matches {@code id}.
      */
     public boolean addChild(Widget child, java.lang.String id) {
         var RESULT = gtk_h.gtk_popover_menu_bar_add_child(handle(), child.handle(), Interop.allocateNativeString(id).handle());
@@ -70,7 +73,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Returns the model from which the contents of @bar are taken.
+     * Returns the model from which the contents of {@code bar} are taken.
      */
     public org.gtk.gio.MenuModel getMenuModel() {
         var RESULT = gtk_h.gtk_popover_menu_bar_get_menu_model(handle());
@@ -87,7 +90,7 @@ public class PopoverMenuBar extends Widget implements Accessible, Buildable, Con
     }
     
     /**
-     * Sets a menu model from which @bar should take
+     * Sets a menu model from which {@code bar} should take
      * its contents.
      */
     public void setMenuModel(org.gtk.gio.MenuModel model) {

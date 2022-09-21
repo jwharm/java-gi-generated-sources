@@ -8,47 +8,50 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkSearchBar</code> is a container made to have a search entry.
+ * {@code GtkSearchBar} is a container made to have a search entry.
  * <p>
- * !{@link [An example GtkSearchBar]}(search-bar.png)
+ * <img src="./doc-files/search-bar.png" alt="An example GtkSearchBar">
  * <p>
  * It can also contain additional widgets, such as drop-down menus,
  * or buttons.  The search bar would appear when a search is started
- * through typing on the keyboard, or the application&<code>#8217</code> s search mode
+ * through typing on the keyboard, or the application’s search mode
  * is toggled on.
  * <p>
  * For keyboard presses to start a search, the search bar must be told
  * of a widget to capture key events from through
- * {@link org.gtk.gtk.SearchBar<code>#setKeyCaptureWidget</code> . This widget will
+ * {@link SearchBar#setKeyCaptureWidget}. This widget will
  * typically be the top-level window, or a parent container of the
  * search bar. Common shortcuts such as Ctrl+F should be handled as an
  * application action, or through the menu items.
  * <p>
  * You will also need to tell the search bar about which entry you
- * are using as your search entry using {@link org.gtk.gtk.SearchBar<code>#connectEntry</code> .
+ * are using as your search entry using {@link SearchBar#connectEntry}.
  * <p>
  * <h2>Creating a search bar</h2>
  * <p>
  * The following example shows you how to create a more complex search
  * entry.
  * <p>
- * {@link [A simple example]}(https://gitlab.gnome.org/GNOME/gtk/tree/main/examples/search-bar.c)
+ * <a href="https://gitlab.gnome.org/GNOME/gtk/tree/main/examples/search-bar.c">A simple example</a>
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * searchbar
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  revealer
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box
- *          &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [child]}
- *          &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [button.close]}
- * </pre>
- * <p><code>GtkSearchBar</code> has a main CSS node with name searchbar. It has a child
+ * ╰── revealer
+ *     ╰── box
+ *          ├── [child]
+ *          ╰── [button.close]
+ * }</pre>
+ * <p>
+ * {@code GtkSearchBar} has a main CSS node with name searchbar. It has a child
  * node with name revealer that contains a node with name box. The box node
  * contains both the CSS node of the child widget as well as an optional button
  * node which gets the .close style class applied.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkSearchBar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SEARCH</code>  role.
+ * <p>
+ * {@code GtkSearchBar} uses the {@link AccessibleRole#SEARCH} role.
  */
 public class SearchBar extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -67,21 +70,21 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Creates a <code>GtkSearchBar</code>.
-     * 
+     * Creates a {@code GtkSearchBar}.
+     * <p>
      * You will need to tell it about which widget is going to be your text
-     * entry using {@link org.gtk.gtk.SearchBar<code>#connectEntry</code> .
+     * entry using {@link SearchBar#connectEntry}.
      */
     public SearchBar() {
         super(constructNew());
     }
     
     /**
-     * Connects the <code>GtkEditable widget passed as the one to be used in
+     * Connects the `GtkEditable widget passed as the one to be used in
      * this search bar.
-     * 
+     * <p>
      * The entry should be a descendant of the search bar. Calling this
-     * function manually is only required if the entry isn&<code>#8217</code> t the direct
+     * function manually is only required if the entry isn’t the direct
      * child of the search bar (as in our main example).
      */
     public void connectEntry(Editable entry) {
@@ -89,7 +92,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Gets the child widget of @bar.
+     * Gets the child widget of {@code bar}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_search_bar_get_child(handle());
@@ -97,7 +100,7 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Gets the widget that @bar is capturing key events from.
+     * Gets the widget that {@code bar} is capturing key events from.
      */
     public Widget getKeyCaptureWidget() {
         var RESULT = gtk_h.gtk_search_bar_get_key_capture_widget(handle());
@@ -121,25 +124,25 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Sets the child widget of @bar.
+     * Sets the child widget of {@code bar}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_search_bar_set_child(handle(), child.handle());
     }
     
     /**
-     * Sets @widget as the widget that @bar will capture key events
+     * Sets {@code widget} as the widget that {@code bar} will capture key events
      * from.
-     * 
+     * <p>
      * If key events are handled by the search bar, the bar will
      * be shown, and the entry populated with the entered text.
-     * 
+     * <p>
      * Note that despite the name of this function, the events
-     * are only &<code>#39</code> captured&<code>#39</code>  in the bubble phase, which means that
-     * editable child widgets of @widget will receive text input
+     * are only 'captured' in the bubble phase, which means that
+     * editable child widgets of {@code widget} will receive text input
      * before it gets captured. If that is not desired, you can
      * capture and forward the events yourself with
-     * {@link org.gtk.gtk.EventControllerKey<code>#forward</code> .
+     * {@link EventControllerKey#forward}.
      */
     public void setKeyCaptureWidget(Widget widget) {
         gtk_h.gtk_search_bar_set_key_capture_widget(handle(), widget.handle());
@@ -154,8 +157,8 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
     
     /**
      * Shows or hides the close button.
-     * 
-     * Applications that already have a &<code>#8220</code> search&<code>#8221</code>  toggle button should not
+     * <p>
+     * Applications that already have a “search” toggle button should not
      * show a close button in their search bar, as it duplicates the role
      * of the toggle button.
      */

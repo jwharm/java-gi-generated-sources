@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * The type of the @method_call function in {@link org.gtk.gio.DBusInterfaceVTable}
+ * The type of the {@code method_call} function in {@link DBusInterfaceVTable}.
  */
 @FunctionalInterface
 public interface DBusInterfaceMethodCallFunc {

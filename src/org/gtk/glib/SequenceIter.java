@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.glib.SequenceIter} struct is an opaque data type representing an
- * iterator pointing into a {@link org.gtk.glib.Sequence}
+ * The {@link SequenceIter} struct is an opaque data type representing an
+ * iterator pointing into a {@link Sequence}.
  */
 public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
 
@@ -20,7 +20,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns a negative number if @a comes before @b, 0 if they are equal,
      * and a positive number if @a comes after @b.
-     * 
+     * <p>
      * The @a and @b iterators must point into the same sequence.
      */
     public int compare(SequenceIter b) {
@@ -29,7 +29,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the position of @iter
+     * Returns the position of {@code iter}
      */
     public int getPosition() {
         var RESULT = gtk_h.g_sequence_iter_get_position(handle());
@@ -37,7 +37,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the {@link org.gtk.glib.Sequence} that @iter points into.
+     * Returns the {@link Sequence} that {@code iter} points into.
      */
     public Sequence getSequence() {
         var RESULT = gtk_h.g_sequence_iter_get_sequence(handle());
@@ -45,7 +45,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns whether @iter is the begin iterator
+     * Returns whether {@code iter} is the begin iterator
      */
     public boolean isBegin() {
         var RESULT = gtk_h.g_sequence_iter_is_begin(handle());
@@ -53,7 +53,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns whether @iter is the end iterator
+     * Returns whether {@code iter} is the end iterator
      */
     public boolean isEnd() {
         var RESULT = gtk_h.g_sequence_iter_is_end(handle());
@@ -61,9 +61,9 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the {@link org.gtk.glib.SequenceIter} which is @delta positions away from @iter.
-     * If @iter is closer than -@delta positions to the beginning of the sequence,
-     * the begin iterator is returned. If @iter is closer than @delta positions
+     * Returns the {@link SequenceIter} which is {@code delta} positions away from {@code iter}.
+     * If {@code iter} is closer than -{@code delta} positions to the beginning of the sequence,
+     * the begin iterator is returned. If {@code iter} is closer than {@code delta} positions
      * to the end of the sequence, the end iterator is returned.
      */
     public SequenceIter move(int delta) {
@@ -72,8 +72,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns an iterator pointing to the next position after @iter.
-     * If @iter is the end iterator, the end iterator is returned.
+     * Returns an iterator pointing to the next position after {@code iter}.
+     * If {@code iter} is the end iterator, the end iterator is returned.
      */
     public SequenceIter next() {
         var RESULT = gtk_h.g_sequence_iter_next(handle());
@@ -81,8 +81,8 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns an iterator pointing to the previous position before @iter.
-     * If @iter is the begin iterator, the begin iterator is returned.
+     * Returns an iterator pointing to the previous position before {@code iter}.
+     * If {@code iter} is the begin iterator, the begin iterator is returned.
      */
     public SequenceIter prev() {
         var RESULT = gtk_h.g_sequence_iter_prev(handle());

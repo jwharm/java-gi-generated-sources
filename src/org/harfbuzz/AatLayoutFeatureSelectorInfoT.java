@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Structure representing a setting for an {@link org.harfbuzz.aat_layout_feature_type_t}
+ * Structure representing a setting for an {@link aat_layout_feature_type_t}.
  */
 public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.ResourceBase {
 

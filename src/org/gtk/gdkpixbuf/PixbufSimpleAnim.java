@@ -34,7 +34,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
     }
     
     /**
-     * Adds a new frame to @animation. The @pixbuf must
+     * Adds a new frame to {@code animation}. The {@code pixbuf} must
      * have the dimensions specified when the animation
      * was constructed.
      */
@@ -43,7 +43,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
     }
     
     /**
-     * Gets whether @animation should loop indefinitely when it reaches the end.
+     * Gets whether {@code animation} should loop indefinitely when it reaches the end.
      */
     public boolean getLoop() {
         var RESULT = gtk_h.gdk_pixbuf_simple_anim_get_loop(handle());
@@ -51,7 +51,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
     }
     
     /**
-     * Sets whether @animation should loop indefinitely when it reaches the end.
+     * Sets whether {@code animation} should loop indefinitely when it reaches the end.
      */
     public void setLoop(boolean loop) {
         gtk_h.gdk_pixbuf_simple_anim_set_loop(handle(), loop ? 1 : 0);

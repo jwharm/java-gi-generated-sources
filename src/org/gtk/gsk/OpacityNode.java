@@ -27,15 +27,15 @@ public class OpacityNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will drawn the @child with reduced
-     * @opacity.
+     * Creates a {@code GskRenderNode} that will drawn the {@code child} with reduced
+     * {@code opacity}.
      */
     public OpacityNode(RenderNode child, float opacity) {
         super(constructNew(child, opacity));
     }
     
     /**
-     * Gets the child node that is getting opacityed by the given @node.
+     * Gets the child node that is getting opacityed by the given {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_opacity_node_get_child(handle());

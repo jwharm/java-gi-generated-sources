@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Data type for languages. Each {@link org.harfbuzz.language_t} corresponds to a BCP 47
+ * Data type for languages. Each {@link language_t} corresponds to a BCP 47
  * language tag.
  */
 public class LanguageT extends io.github.jwharm.javagi.ResourceBase {
@@ -18,7 +18,7 @@ public class LanguageT extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts an {@link org.harfbuzz.language_t} to a string.
+     * Converts an {@link language_t} to a string.
      */
     public java.lang.String String() {
         var RESULT = gtk_h.hb_language_to_string(handle());

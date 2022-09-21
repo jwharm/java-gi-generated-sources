@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Describes the stage at which events are fed into a {@link [class@EventController]}.
+ * Describes the stage at which events are fed into a {@link EventController}.
  */
 public enum PropagationPhase {
 

@@ -3,7 +3,7 @@ package org.gtk.gobject;
 /**
  * These flags used to be passed to g_type_init_with_debug_flags() which
  * is now deprecated.
- * 
+ * <p>
  * If you need to enable debugging features, use the GOBJECT_DEBUG
  * environment variable.
  */

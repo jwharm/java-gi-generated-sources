@@ -8,60 +8,61 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GdkPaintable</code> is a simple interface used by GTK to represent content that
+ * {@code GdkPaintable} is a simple interface used by GTK to represent content that
  * can be painted.
  * <p>
- * The content of a <code>GdkPaintable</code> can be painted anywhere at any size
+ * The content of a {@code GdkPaintable} can be painted anywhere at any size
  * without requiring any sort of layout. The interface is inspired by
  * similar concepts elsewhere, such as
- * {@link [ClutterContent]}(https://developer.gnome.org/clutter/stable/ClutterContent.html),
- * {@link [HTML/CSS Paint Sources]}(https://www.w3.org/TR/css-images-4/<code>#paint</code> source),
- * or {@link [SVG Paint Servers]}(https://www.w3.org/TR/SVG2/pservers.html).
+ * <a href="https://developer.gnome.org/clutter/stable/ClutterContent.html">ClutterContent</a>,
+ * <a href="https://www.w3.org/TR/css-images-4/#paint-source">HTML/CSS Paint Sources</a>,
+ * or <a href="https://www.w3.org/TR/SVG2/pservers.html">SVG Paint Servers</a>.
  * <p>
- * A <code>GdkPaintable</code> can be snapshot at any time and size using
- * {@link org.gtk.gdk.Paintable<code>#snapshot</code> . How the paintable interprets that size and
+ * A {@code GdkPaintable} can be snapshot at any time and size using
+ * {@link Paintable#snapshot}. How the paintable interprets that size and
  * if it scales or centers itself into the given rectangle is implementation
- * defined, though if you are implementing a <code>GdkPaintable</code> and don&<code>#39</code> t know what
+ * defined, though if you are implementing a {@code GdkPaintable} and don't know what
  * to do, it is suggested that you scale your paintable ignoring any potential
  * aspect ratio.
  * <p>
- * The contents that a <code>GdkPaintable</code> produces may depend on the {@link [class@GdkSnapshot]}
+ * The contents that a {@code GdkPaintable} produces may depend on the {@link GdkSnapshot}
  * passed to it. For example, paintables may decide to use more detailed images
- * on higher resolution screens or when OpenGL is available. A <code>GdkPaintable</code>
+ * on higher resolution screens or when OpenGL is available. A {@code GdkPaintable}
  * will however always produce the same output for the same snapshot.
  * <p>
- * A <code>GdkPaintable</code> may change its contents, meaning that it will now produce
+ * A {@code GdkPaintable} may change its contents, meaning that it will now produce
  * a different output with the same snapshot. Once that happens, it will call
- * {@link org.gtk.gdk.Paintable<code>#invalidateContents</code>  which will emit the
- * {@link [signal@GdkPaintable::invalidate-contents] (ref=signal)} signal. If a paintable is known
- * to never change its contents, it will set the {@link org.gtk.gdk.PaintableFlags<code>#CONTENTS</code>  flag. If a consumer cannot deal with changing contents, it may call
- * {@link org.gtk.gdk.Paintable<code>#getCurrentImage</code>  which will return a static
+ * {@link Paintable#invalidateContents} which will emit the
+ * {@code GdkPaintable::invalidate-contents} signal. If a paintable is known
+ * to never change its contents, it will set the {@link PaintableFlags#CONTENTS}
+ * flag. If a consumer cannot deal with changing contents, it may call
+ * {@link Paintable#getCurrentImage} which will return a static
  * paintable and use that.
- * 
+ * <p>
  * A paintable can report an intrinsic (or preferred) size or aspect ratio it
- * wishes to be rendered at, though it doesn&<code>#39</code> t have to. Consumers of the interface
+ * wishes to be rendered at, though it doesn't have to. Consumers of the interface
  * can use this information to layout thepaintable appropriately. Just like the
  * contents, the size of a paintable can change. A paintable will indicate this
- * by calling {@link org.gtk.gdk.Paintable<code>#invalidateSize</code>  which will emit the
- * {@link [signal@GdkPaintable::invalidate-size] (ref=signal)} signal. And just like for contents,
+ * by calling {@link Paintable#invalidateSize} which will emit the
+ * {@code GdkPaintable::invalidate-size} signal. And just like for contents,
  * if a paintable is known to never change its size, it will set the
- * {@link org.gtk.gdk.PaintableFlags<code>#SIZE</code>  flag.
- * 
+ * {@link PaintableFlags#SIZE} flag.
+ * <p>
  * Besides API for applications, there are some functions that are only
  * useful for implementing subclasses and should not be used by applications:
- * {@link org.gtk.gdk.Paintable<code>#invalidateContents</code> ,
- * {@link org.gtk.gdk.Paintable<code>#invalidateSize</code> ,
- * {@link Gdk<code>#Paintable</code> .
+ * {@link Paintable#invalidateContents},
+ * {@link Paintable#invalidateSize},
+ * {@link Gdk#Paintable}.
  */
 public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets an immutable paintable for the current contents displayed by @paintable.
-     * 
+     * Gets an immutable paintable for the current contents displayed by {@code paintable}.
+     * <p>
      * This is useful when you want to retain the current state of an animation,
      * for example to take a screenshot of a running animation.
-     * 
-     * If the @paintable is already immutable, it will return itself.
+     * <p>
+     * If the {@code paintable} is already immutable, it will return itself.
      */
     public default Paintable getCurrentImage() {
         var RESULT = gtk_h.gdk_paintable_get_current_image(handle());
@@ -70,10 +71,10 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Get flags for the paintable.
-     * 
+     * <p>
      * This is oftentimes useful for optimizations.
-     * 
-     * See {@link [flags@Gdk.PaintableFlags] (ref=flags)} for the flags and what they mean.
+     * <p>
+     * See {@code Gdk.PaintableFlags} for the flags and what they mean.
      */
     public default int getFlags() {
         var RESULT = gtk_h.gdk_paintable_get_flags(handle());
@@ -81,22 +82,22 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the preferred aspect ratio the @paintable would like to be displayed at.
-     * 
+     * Gets the preferred aspect ratio the {@code paintable} would like to be displayed at.
+     * <p>
      * The aspect ratio is the width divided by the height, so a value of 0.5
-     * means that the @paintable prefers to be displayed twice as high as it
+     * means that the {@code paintable} prefers to be displayed twice as high as it
      * is wide. Consumers of this interface can use this to preserve aspect
      * ratio when displaying the paintable.
-     * 
+     * <p>
      * This is a purely informational value and does not in any way limit the
-     * values that may be passed to {@link org.gtk.gdk.Paintable<code>#snapshot</code> .
-     * 
-     * Usually when a @paintable returns nonzero values from
-     * {@link org.gtk.gdk.Paintable<code>#getIntrinsicWidth</code>  and
-     * {@link org.gtk.gdk.Paintable<code>#getIntrinsicHeight</code>  the aspect ratio
+     * values that may be passed to {@link Paintable#snapshot}.
+     * <p>
+     * Usually when a {@code paintable} returns nonzero values from
+     * {@link Paintable#getIntrinsicWidth} and
+     * {@link Paintable#getIntrinsicHeight} the aspect ratio
      * should conform to those values, though that is not required.
-     * 
-     * If the @paintable does not have a preferred aspect ratio,
+     * <p>
+     * If the {@code paintable} does not have a preferred aspect ratio,
      * it returns 0. Negative values are never returned.
      */
     public default double getIntrinsicAspectRatio() {
@@ -105,15 +106,15 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the preferred height the @paintable would like to be displayed at.
-     * 
+     * Gets the preferred height the {@code paintable} would like to be displayed at.
+     * <p>
      * Consumers of this interface can use this to reserve enough space to draw
      * the paintable.
-     * 
+     * <p>
      * This is a purely informational value and does not in any way limit the
-     * values that may be passed to {@link org.gtk.gdk.Paintable<code>#snapshot</code> .
-     * 
-     * If the @paintable does not have a preferred height, it returns 0.
+     * values that may be passed to {@link Paintable#snapshot}.
+     * <p>
+     * If the {@code paintable} does not have a preferred height, it returns 0.
      * Negative values are never returned.
      */
     public default int getIntrinsicHeight() {
@@ -122,15 +123,15 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the preferred width the @paintable would like to be displayed at.
-     * 
+     * Gets the preferred width the {@code paintable} would like to be displayed at.
+     * <p>
      * Consumers of this interface can use this to reserve enough space to draw
      * the paintable.
-     * 
+     * <p>
      * This is a purely informational value and does not in any way limit the
-     * values that may be passed to {@link org.gtk.gdk.Paintable<code>#snapshot</code> .
-     * 
-     * If the @paintable does not have a preferred width, it returns 0.
+     * values that may be passed to {@link Paintable#snapshot}.
+     * <p>
+     * If the {@code paintable} does not have a preferred width, it returns 0.
      * Negative values are never returned.
      */
     public default int getIntrinsicWidth() {
@@ -139,15 +140,15 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Called by implementations of <code>GdkPaintable</code> to invalidate their contents.
-     * 
+     * Called by implementations of {@code GdkPaintable} to invalidate their contents.
+     * <p>
      * Unless the contents are invalidated, implementations must guarantee that
-     * multiple calls of {@link org.gtk.gdk.Paintable<code>#snapshot</code>  produce the same output.
-     * 
-     * This function will emit the {@link [signal@Gdk.Paintable::invalidate-contents] (ref=signal)}
+     * multiple calls of {@link Paintable#snapshot} produce the same output.
+     * <p>
+     * This function will emit the {@code Gdk.Paintable::invalidate-contents}
      * signal.
-     * 
-     * If a @paintable reports the {@link org.gtk.gdk.PaintableFlags<code>#CONTENTS</code>  flag,
+     * <p>
+     * If a {@code paintable} reports the {@link PaintableFlags#CONTENTS} flag,
      * it must not call this function.
      */
     public default void invalidateContents() {
@@ -155,15 +156,15 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Called by implementations of <code>GdkPaintable</code> to invalidate their size.
-     * 
-     * As long as the size is not invalidated, @paintable must return the same
+     * Called by implementations of {@code GdkPaintable} to invalidate their size.
+     * <p>
+     * As long as the size is not invalidated, {@code paintable} must return the same
      * values for its intrinsic width, height and aspect ratio.
-     * 
-     * This function will emit the {@link [signal@Gdk.Paintable::invalidate-size] (ref=signal)}
+     * <p>
+     * This function will emit the {@code Gdk.Paintable::invalidate-size}
      * signal.
-     * 
-     * If a @paintable reports the {@link org.gtk.gdk.PaintableFlags<code>#SIZE</code>  flag,
+     * <p>
+     * If a {@code paintable} reports the {@link PaintableFlags#SIZE} flag,
      * it must not call this function.
      */
     public default void invalidateSize() {
@@ -171,10 +172,10 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Snapshots the given paintable with the given @width and @height.
-     * 
-     * The paintable is drawn at the current (0,0) offset of the @snapshot.
-     * If @width and @height are not larger than zero, this function will
+     * Snapshots the given paintable with the given {@code width} and {@code height}.
+     * <p>
+     * The paintable is drawn at the current (0,0) offset of the {@code snapshot}.
+     * If {@code width} and {@code height} are not larger than zero, this function will
      * do nothing.
      */
     public default void snapshot(Snapshot snapshot, double width, double height) {
@@ -183,9 +184,9 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Returns a paintable that has the given intrinsic size and draws nothing.
-     * 
+     * <p>
      * This is often useful for implementing the
-     * {@link org.gtk.gdk.Paintable<code>#getCurrentImage</code>  virtual function
+     * {@link Paintable#getCurrentImage} virtual function
      * when the paintable is in an incomplete state (like a
      * {@link org.gtk.gtk.MediaStream} before receiving the first frame).
      */
@@ -200,8 +201,8 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Emitted when the contents of the @paintable change.
-     * 
+     * Emitted when the contents of the {@code paintable} change.
+     * <p>
      * Examples for such an event would be videos changing to the next frame or
      * the icon theme for an icon changing.
      */
@@ -226,14 +227,14 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Emitted when the intrinsic size of the @paintable changes.
-     * 
+     * Emitted when the intrinsic size of the {@code paintable} changes.
+     * <p>
      * This means the values reported by at least one of
-     * {@link org.gtk.gdk.Paintable<code>#getIntrinsicWidth</code> ,
-     * {@link org.gtk.gdk.Paintable<code>#getIntrinsicHeight</code>  or
-     * {@link org.gtk.gdk.Paintable<code>#getIntrinsicAspectRatio</code> 
+     * {@link Paintable#getIntrinsicWidth},
+     * {@link Paintable#getIntrinsicHeight} or
+     * {@link Paintable#getIntrinsicAspectRatio}
      * has changed.
-     * 
+     * <p>
      * Examples for such an event would be a paintable displaying
      * the contents of a toplevel surface being resized.
      */

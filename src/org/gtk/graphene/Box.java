@@ -23,8 +23,8 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new {@link org.gtk.graphene.Box} 
-     * 
+     * Allocates a new {@link Box}.
+     * <p>
      * The contents of the returned structure are undefined.
      */
     public static Box alloc() {
@@ -32,8 +32,8 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the {@link org.gtk.graphene.Box} @a contains the given
-     * {@link org.gtk.graphene.Box} @b.
+     * Checks whether the {@link Box} @a contains the given
+     * {@link Box} @b.
      */
     public boolean containsBox(Box b) {
         var RESULT = gtk_h.graphene_box_contains_box(handle(), b.handle());
@@ -41,7 +41,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether @box contains the given @point.
+     * Checks whether {@code box} contains the given {@code point}.
      */
     public boolean containsPoint(Point3D point) {
         var RESULT = gtk_h.graphene_box_contains_point(handle(), point.handle());
@@ -57,24 +57,24 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Expands the dimensions of @box to include the coordinates at @point.
+     * Expands the dimensions of {@code box} to include the coordinates at {@code point}.
      */
     public void expand(Point3D point, Box res) {
         gtk_h.graphene_box_expand(handle(), point.handle(), res.handle());
     }
     
     /**
-     * Expands the dimensions of @box by the given @scalar value.
-     * 
-     * If @scalar is positive, the {@link org.gtk.graphene.Box} will grow; if @scalar is
-     * negative, the {@link org.gtk.graphene.Box} will shrink.
+     * Expands the dimensions of {@code box} by the given {@code scalar} value.
+     * <p>
+     * If {@code scalar} is positive, the {@link Box} will grow; if {@code scalar} is
+     * negative, the {@link Box} will shrink.
      */
     public void expandScalar(float scalar, Box res) {
         gtk_h.graphene_box_expand_scalar(handle(), scalar, res.handle());
     }
     
     /**
-     * Expands the dimensions of @box to include the coordinates of the
+     * Expands the dimensions of {@code box} to include the coordinates of the
      * given vector.
      */
     public void expandVec3(Vec3 vec, Box res) {
@@ -89,22 +89,22 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the bounding {@link org.gtk.graphene.Sphere} capable of containing the given
-     * {@link org.gtk.graphene.Box}
+     * Computes the bounding {@link Sphere} capable of containing the given
+     * {@link Box}.
      */
     public void getBoundingSphere(Sphere sphere) {
         gtk_h.graphene_box_get_bounding_sphere(handle(), sphere.handle());
     }
     
     /**
-     * Retrieves the coordinates of the center of a {@link org.gtk.graphene.Box}
+     * Retrieves the coordinates of the center of a {@link Box}.
      */
     public void getCenter(Point3D center) {
         gtk_h.graphene_box_get_center(handle(), center.handle());
     }
     
     /**
-     * Retrieves the size of the @box on the Z axis.
+     * Retrieves the size of the {@code box} on the Z axis.
      */
     public float getDepth() {
         var RESULT = gtk_h.graphene_box_get_depth(handle());
@@ -112,7 +112,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the size of the @box on the Y axis.
+     * Retrieves the size of the {@code box} on the Y axis.
      */
     public float getHeight() {
         var RESULT = gtk_h.graphene_box_get_height(handle());
@@ -121,7 +121,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the coordinates of the maximum point of the given
-     * {@link org.gtk.graphene.Box}
+     * {@link Box}.
      */
     public void getMax(Point3D max) {
         gtk_h.graphene_box_get_max(handle(), max.handle());
@@ -129,7 +129,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the coordinates of the minimum point of the given
-     * {@link org.gtk.graphene.Box}
+     * {@link Box}.
      */
     public void getMin(Point3D min) {
         gtk_h.graphene_box_get_min(handle(), min.handle());
@@ -137,21 +137,21 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the size of the box on all three axes, and stores
-     * it into the given @size vector.
+     * it into the given {@code size} vector.
      */
     public void getSize(Vec3 size) {
         gtk_h.graphene_box_get_size(handle(), size.handle());
     }
     
     /**
-     * Computes the vertices of the given {@link org.gtk.graphene.Box}
+     * Computes the vertices of the given {@link Box}.
      */
     public void getVertices(Vec3[] vertices) {
         gtk_h.graphene_box_get_vertices(handle(), Interop.allocateNativeArray(vertices).handle());
     }
     
     /**
-     * Retrieves the size of the @box on the X axis.
+     * Retrieves the size of the {@code box} on the X axis.
      */
     public float getWidth() {
         var RESULT = gtk_h.graphene_box_get_width(handle());
@@ -159,7 +159,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Box} with two vertices.
+     * Initializes the given {@link Box} with two vertices.
      */
     public Box init(Point3D min, Point3D max) {
         var RESULT = gtk_h.graphene_box_init(handle(), min.handle(), max.handle());
@@ -167,8 +167,8 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Box} with the vertices of
-     * another {@link org.gtk.graphene.Box}
+     * Initializes the given {@link Box} with the vertices of
+     * another {@link Box}.
      */
     public Box initFromBox(Box src) {
         var RESULT = gtk_h.graphene_box_init_from_box(handle(), src.handle());
@@ -176,10 +176,10 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Box} with the given array
+     * Initializes the given {@link Box} with the given array
      * of vertices.
-     * 
-     * If @n_points is 0, the returned box is initialized with
+     * <p>
+     * If {@code n_points} is 0, the returned box is initialized with
      * graphene_box_empty().
      */
     public Box initFromPoints(int nPoints, Point3D[] points) {
@@ -188,8 +188,8 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Box} with two vertices
-     * stored inside {@link org.gtk.graphene.Vec3}
+     * Initializes the given {@link Box} with two vertices
+     * stored inside {@link Vec3}.
      */
     public Box initFromVec3(Vec3 min, Vec3 max) {
         var RESULT = gtk_h.graphene_box_init_from_vec3(handle(), min.handle(), max.handle());
@@ -197,10 +197,10 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Box} with the given array
+     * Initializes the given {@link Box} with the given array
      * of vertices.
-     * 
-     * If @n_vectors is 0, the returned box is initialized with
+     * <p>
+     * If {@code n_vectors} is 0, the returned box is initialized with
      * graphene_box_empty().
      */
     public Box initFromVectors(int nVectors, Vec3[] vectors) {
@@ -209,9 +209,9 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Intersects the two given {@link org.gtk.graphene.Box} 
-     * 
-     * If the two boxes do not intersect, @res will contain a degenerate box
+     * Intersects the two given {@link Box}.
+     * <p>
+     * If the two boxes do not intersect, {@code res} will contain a degenerate box
      * initialized with graphene_box_empty().
      */
     public boolean intersection(Box b, Box res) {
@@ -220,15 +220,15 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Unions the two given {@link org.gtk.graphene.Box}
+     * Unions the two given {@link Box}.
      */
     public void union(Box b, Box res) {
         gtk_h.graphene_box_union(handle(), b.handle(), res.handle());
     }
     
     /**
-     * A degenerate {@link org.gtk.graphene.Box} that can only be expanded.
-     * 
+     * A degenerate {@link Box} that can only be expanded.
+     * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box empty() {
@@ -237,8 +237,8 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A degenerate {@link org.gtk.graphene.Box} that cannot be expanded.
-     * 
+     * A degenerate {@link Box} that cannot be expanded.
+     * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box infinite() {
@@ -247,9 +247,9 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A {@link org.gtk.graphene.Box} with the minimum vertex set at (-1, -1, -1) and the
+     * A {@link Box} with the minimum vertex set at (-1, -1, -1) and the
      * maximum vertex set at (0, 0, 0).
-     * 
+     * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box minusOne() {
@@ -258,9 +258,9 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A {@link org.gtk.graphene.Box} with the minimum vertex set at (0, 0, 0) and the
+     * A {@link Box} with the minimum vertex set at (0, 0, 0) and the
      * maximum vertex set at (1, 1, 1).
-     * 
+     * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box one() {
@@ -269,9 +269,9 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A {@link org.gtk.graphene.Box} with the minimum vertex set at (-1, -1, -1) and the
+     * A {@link Box} with the minimum vertex set at (-1, -1, -1) and the
      * maximum vertex set at (1, 1, 1).
-     * 
+     * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box oneMinusOne() {
@@ -280,8 +280,8 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A {@link org.gtk.graphene.Box} with both the minimum and maximum vertices set at (0, 0, 0).
-     * 
+     * A {@link Box} with both the minimum and maximum vertices set at (0, 0, 0).
+     * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
     public static Box zero() {

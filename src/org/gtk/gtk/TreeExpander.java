@@ -8,42 +8,45 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkTreeExpander</code> is a widget that provides an expander for a list.
+ * {@code GtkTreeExpander} is a widget that provides an expander for a list.
  * <p>
- * It is typically placed as a bottommost child into a <code>GtkListView</code>
+ * It is typically placed as a bottommost child into a {@code GtkListView}
  * to allow users to expand and collapse children in a list with a
- * {@link org.gtk.gtk.TreeListModel}. <code>GtkTreeExpander</code> provides the common UI
+ * {@link TreeListModel}. {@code GtkTreeExpander} provides the common UI
  * elements, gestures and keybindings for this purpose.
  * <p>
- * On top of this, the &<code>#34</code> listitem.expand&<code>#34</code> , &<code>#34</code> listitem.collapse&<code>#34</code>  and
- * &<code>#34</code> listitem.toggle-expand&<code>#34</code>  actions are provided to allow adding custom
+ * On top of this, the "listitem.expand", "listitem.collapse" and
+ * "listitem.toggle-expand" actions are provided to allow adding custom
  * UI for managing expanded state.
  * <p>
- * The <code>GtkTreeListModel</code> must be set to not be passthrough. Then it
- * will provide {@link org.gtk.gtk.TreeListRow} items which can be set via
- * {@link org.gtk.gtk.TreeExpander<code>#setListRow</code>  on the expander.
+ * The {@code GtkTreeListModel} must be set to not be passthrough. Then it
+ * will provide {@link TreeListRow} items which can be set via
+ * {@link TreeExpander#setListRow} on the expander.
  * The expander will then watch that row item automatically.
- * {@link org.gtk.gtk.TreeExpander<code>#setChild</code>  sets the widget that displays
+ * {@link TreeExpander#setChild} sets the widget that displays
  * the actual row contents.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * treeexpander
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [indent]}*
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [expander]}
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- * </pre>
- * <p><code>GtkTreeExpander</code> has zero or one CSS nodes with the name &<code>#34</code> expander&<code>#34</code>  that
- * should display the expander icon. The node will be <code>:checked</code> when it
- * is expanded. If the node is not expandable, an &<code>#34</code> indent&<code>#34</code>  node will be
+ * ├── [indent]*
+ * ├── [expander]
+ * ╰── <child>
+ * }</pre>
+ * <p>
+ * {@code GtkTreeExpander} has zero or one CSS nodes with the name "expander" that
+ * should display the expander icon. The node will be {@code :checked} when it
+ * is expanded. If the node is not expandable, an "indent" node will be
  * displayed instead.
  * <p>
- * For every level of depth, another &<code>#34</code> indent&<code>#34</code>  node is prepended.
+ * For every level of depth, another "indent" node is prepended.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkTreeExpander</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role. The expander icon
- * is represented as a {@link org.gtk.gtk.AccessibleRole<code>#BUTTON</code>   labelled by the expander&<code>#39</code> s
- * child, and toggling it will change the {@link org.gtk.gtk.AccessibleState<code>#EXPANDED</code>  state.
+ * <p>
+ * {@code GtkTreeExpander} uses the {@link AccessibleRole#GROUP} role. The expander icon
+ * is represented as a {@link AccessibleRole#BUTTON}, labelled by the expander's
+ * child, and toggling it will change the {@link AccessibleState#EXPANDED} state.
  */
 public class TreeExpander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -62,14 +65,14 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Creates a new <code>GtkTreeExpander</code>
+     * Creates a new {@code GtkTreeExpander}
      */
     public TreeExpander() {
         super(constructNew());
     }
     
     /**
-     * Gets the child widget displayed by @self.
+     * Gets the child widget displayed by {@code self}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_tree_expander_get_child(handle());
@@ -85,12 +88,13 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Forwards the item set on the <code>GtkTreeListRow</code> that @self is managing.
+     * Forwards the item set on the {@code GtkTreeListRow} that {@code self} is managing.
      * <p>
      * This call is essentially equivalent to calling:
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      * gtk_tree_list_row_get_item (gtk_tree_expander_get_list_row (@self));
-     * </pre>
+     * }</pre>
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_tree_expander_get_item(handle());
@@ -98,7 +102,7 @@ public class TreeExpander extends Widget implements Accessible, Buildable, Const
     }
     
     /**
-     * Gets the list row managed by @self.
+     * Gets the list row managed by {@code self}.
      */
     public TreeListRow getListRow() {
         var RESULT = gtk_h.gtk_tree_expander_get_list_row(handle());

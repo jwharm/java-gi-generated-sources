@@ -1,38 +1,39 @@
 package org.pango;
 
 /**
- * <code>PangoGravity</code> represents the orientation of glyphs in a segment
+ * {@code PangoGravity} represents the orientation of glyphs in a segment
  * of text.
  * <p>
  * This is useful when rendering vertical text layouts. In those situations,
- * the layout is rotated using a non-identity {@link [struct@Pango.Matrix] (ref=struct)}, and then
- * glyph orientation is controlled using <code>PangoGravity</code>.
+ * the layout is rotated using a non-identity {@code Pango.Matrix}, and then
+ * glyph orientation is controlled using {@code PangoGravity}.
  * <p>
- * Not every value in this enumeration makes sense for every usage of<code>PangoGravity</code>; for example, {@link org.pango.Gravity<code>#AUTO</code>  only can be passed to
- * {@link org.pango.Context<code>#setBaseGravity</code>  and can only be returned by
- * {@link org.pango.Context<code>#getBaseGravity</code> .
- * 
- * See also: {@link [enum@Pango.GravityHint] (ref=enum)}
+ * Not every value in this enumeration makes sense for every usage of
+ * {@code PangoGravity}; for example, {@link Gravity#AUTO} only can be passed to
+ * {@link Context#setBaseGravity} and can only be returned by
+ * {@link Context#getBaseGravity}.
+ * <p>
+ * See also: {@code Pango.GravityHint}
  */
 public enum Gravity {
 
     /**
-     * Glyphs stand upright (default) &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> center&<code>#34</code>  src=&<code>#34</code> m-south.png&<code>#34</code> &<code>#62</code>
+     * Glyphs stand upright (default) &lt;img align="right" valign="center" src="m-south.png"&gt;
      */
     SOUTH,
     
     /**
-     * Glyphs are rotated 90 degrees counter-clockwise. &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> center&<code>#34</code>  src=&<code>#34</code> m-east.png&<code>#34</code> &<code>#62</code>
+     * Glyphs are rotated 90 degrees counter-clockwise. &lt;img align="right" valign="center" src="m-east.png"&gt;
      */
     EAST,
     
     /**
-     * Glyphs are upside-down. &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> cener&<code>#34</code>  src=&<code>#34</code> m-north.png&<code>#34</code> &<code>#62</code>
+     * Glyphs are upside-down. &lt;img align="right" valign="cener" src="m-north.png"&gt;
      */
     NORTH,
     
     /**
-     * Glyphs are rotated 90 degrees clockwise. &<code>#60</code> img align=&<code>#34</code> right&<code>#34</code>  valign=&<code>#34</code> center&<code>#34</code>  src=&<code>#34</code> m-west.png&<code>#34</code> &<code>#62</code>
+     * Glyphs are rotated 90 degrees clockwise. &lt;img align="right" valign="center" src="m-west.png"&gt;
      */
     WEST,
     

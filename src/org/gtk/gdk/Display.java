@@ -8,20 +8,22 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GdkDisplay</code> objects are the GDK representation of a workstation.
- * 
+ * {@code GdkDisplay} objects are the GDK representation of a workstation.
+ * <p>
  * Their purpose are two-fold:
- * 
- * - To manage and provide information about input devices (pointers, keyboards, etc)
- * - To manage and provide information about output devices (monitors, projectors, etc)
- * 
+ * <p>
+ * <ul>
+ * <li>To manage and provide information about input devices (pointers, keyboards, etc)
+ * <li>To manage and provide information about output devices (monitors, projectors, etc)
+ * </ul>
+ * <p>
  * Most of the input device handling has been factored out into separate
- * {@link org.gtk.gdk.Seat} objects. Every display has a one or more seats, which
- * can be accessed with {@link org.gtk.gdk.Display<code>#getDefaultSeat</code>  and
- * {@link org.gtk.gdk.Display<code>#listSeats</code> .
- * 
- * Output devices are represented by {@link org.gtk.gdk.Monitor} objects, which can
- * be accessed with {@link org.gtk.gdk.Display<code>#getMonitorAtSurface</code>  and similar APIs.
+ * {@link Seat} objects. Every display has a one or more seats, which
+ * can be accessed with {@link Display#getDefaultSeat} and
+ * {@link Display#listSeats}.
+ * <p>
+ * Output devices are represented by {@link Monitor} objects, which can
+ * be accessed with {@link Display#getMonitorAtSurface} and similar APIs.
  */
 public class Display extends org.gtk.gobject.Object {
 
@@ -35,7 +37,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits a short beep on @display
+     * Emits a short beep on {@code display}
      */
     public void beep() {
         gtk_h.gdk_display_beep(handle());
@@ -43,7 +45,7 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Closes the connection to the windowing system for the given display.
-     * 
+     * <p>
      * This cleans up associated resources.
      */
     public void close() {
@@ -51,15 +53,15 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new <code>GdkGLContext</code> for the <code>GdkDisplay</code>.
+     * Creates a new {@code GdkGLContext} for the {@code GdkDisplay}.
      * <p>
      * The context is disconnected from any particular surface or surface
      * and cannot be used to draw to any surface. It can only be used to
      * draw to non-surface framebuffers like textures.
      * <p>
-     * If the creation of the <code>GdkGLContext</code> failed, @error will be set.
-     * Before using the returned <code>GdkGLContext</code>, you will need to
-     * call {@link org.gtk.gdk.GLContext<code>#makeCurrent</code>  or {@link org.gtk.gdk.GLContext<code>#realize</code> .
+     * If the creation of the {@code GdkGLContext} failed, {@code error} will be set.
+     * Before using the returned {@code GdkGLContext}, you will need to
+     * call {@code Gdk.GLContext.realize}.
      */
     public GLContext createGlContext() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -71,7 +73,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if there is an ongoing grab on @device for @display.
+     * Returns <code>true</code> if there is an ongoing grab on {@code device} for {@code display}.
      */
     public boolean deviceIsGrabbed(Device device) {
         var RESULT = gtk_h.gdk_display_device_is_grabbed(handle(), device.handle());
@@ -80,13 +82,13 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Flushes any requests queued for the windowing system.
-     * 
+     * <p>
      * This happens automatically when the main loop blocks waiting for new events,
      * but if your application is drawing without returning control to the main loop,
      * you may need to call this function explicitly. A common case where this function
      * needs to be called is when an application is executing drawing commands
      * from a thread other than the thread where the main loop is running.
-     * 
+     * <p>
      * This is most useful for X11. On windowing systems where requests are
      * handled synchronously, this function will do nothing.
      */
@@ -95,7 +97,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns a <code>GdkAppLaunchContext</code> suitable for launching
+     * Returns a {@code GdkAppLaunchContext} suitable for launching
      * applications on the given display.
      */
     public AppLaunchContext getAppLaunchContext() {
@@ -112,10 +114,10 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the default <code>GdkSeat</code> for this display.
-     * 
+     * Returns the default {@code GdkSeat} for this display.
+     * <p>
      * Note that a display may not have a seat. In this case,
-     * this function will return <code>null</code>
+     * this function will return <code>null</code>.
      */
     public Seat getDefaultSeat() {
         var RESULT = gtk_h.gdk_display_get_default_seat(handle());
@@ -123,10 +125,10 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the monitor in which the largest area of @surface
+     * Gets the monitor in which the largest area of {@code surface}
      * resides.
-     * 
-     * Returns a monitor close to @surface if it is outside
+     * <p>
+     * Returns a monitor close to {@code surface} if it is outside
      * of all monitors.
      */
     public Monitor getMonitorAtSurface(Surface surface) {
@@ -136,10 +138,10 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Gets the list of monitors associated with this display.
-     * 
+     * <p>
      * Subsequent calls to this function will always return the
      * same list for the same display.
-     * 
+     * <p>
      * You can listen to the GListModel::items-changed signal on
      * this list to monitor changes to the monitor of this display.
      */
@@ -158,7 +160,7 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Gets the clipboard used for the primary selection.
-     * 
+     * <p>
      * On backends where the primary clipboard is not supported natively,
      * GDK emulates this clipboard locally.
      */
@@ -169,7 +171,7 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Retrieves a desktop-wide setting such as double-click time
-     * for the @display.
+     * for the {@code display}.
      */
     public boolean getSetting(java.lang.String name, org.gtk.gobject.Value value) {
         var RESULT = gtk_h.gdk_display_get_setting(handle(), Interop.allocateNativeString(name).handle(), value.handle());
@@ -177,7 +179,8 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the startup notification ID for a Wayland display, or <code>null</code> if no ID has been defined.
+     * Gets the startup notification ID for a Wayland display, or <code>null</code>
+     * if no ID has been defined.
      */
     public java.lang.String getStartupNotificationId() {
         var RESULT = gtk_h.gdk_display_get_startup_notification_id(handle());
@@ -195,14 +198,14 @@ public class Display extends org.gtk.gobject.Object {
     /**
      * Returns whether surfaces can reasonably be expected to have
      * their alpha channel drawn correctly on the screen.
-     * 
-     * Check {@link org.gtk.gdk.Display<code>#isRgba</code>  for whether the display
+     * <p>
+     * Check {@link Display#isRgba} for whether the display
      * supports an alpha channel.
-     * 
+     * <p>
      * On X11 this function returns whether a compositing manager is
-     * compositing on @display.
-     * 
-     * On modern displays, this value is always <code>true</code>
+     * compositing on {@code display}.
+     * <p>
+     * On modern displays, this value is always <code>true</code>.
      */
     public boolean isComposited() {
         var RESULT = gtk_h.gdk_display_is_composited(handle());
@@ -210,17 +213,17 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns whether surfaces on this @display are created with an
+     * Returns whether surfaces on this {@code display} are created with an
      * alpha channel.
-     * 
+     * <p>
      * Even if a <code>true</code> is returned, it is possible that the
-     * surface&<code>#8217</code> s alpha channel won&<code>#8217</code> t be honored when displaying the
+     * surface’s alpha channel won’t be honored when displaying the
      * surface on the screen: in particular, for X an appropriate
      * windowing manager and compositing manager must be running to
-     * provide appropriate display. Use {@link org.gtk.gdk.Display<code>#isComposited</code> 
+     * provide appropriate display. Use {@link Display#isComposited}
      * to check if that is the case.
-     * 
-     * On modern displays, this value is always <code>true</code>
+     * <p>
+     * On modern displays, this value is always <code>true</code>.
      */
     public boolean isRgba() {
         var RESULT = gtk_h.gdk_display_is_rgba(handle());
@@ -228,7 +231,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the list of seats known to @display.
+     * Returns the list of seats known to {@code display}.
      */
     public org.gtk.glib.List listSeats() {
         var RESULT = gtk_h.gdk_display_list_seats(handle());
@@ -238,10 +241,10 @@ public class Display extends org.gtk.gobject.Object {
     /**
      * Indicates to the GUI environment that the application has
      * finished loading, using a given identifier.
-     * 
+     * <p>
      * GTK will call this function automatically for {@link org.gtk.gtk.Window}
      * with custom startup-notification identifier unless
-     * {@link org.gtk.gtk.Window<code>#setAutoStartupNotification</code> 
+     * {@link org.gtk.gtk.Window#setAutoStartupNotification}
      * is called to disable that feature.
      */
     public void notifyStartupComplete(java.lang.String startupId) {
@@ -249,17 +252,17 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Checks that OpenGL is available for @self and ensures that it is
+     * Checks that OpenGL is available for {@code self} and ensures that it is
      * properly initialized.
-     * When this fails, an @error will be set describing the error and this
-     * function returns <code>false</code> 
+     * When this fails, an {@code error} will be set describing the error and this
+     * function returns <code>false</code>.
      * <p>
-     * Note that even if this function succeeds, creating a <code>GdkGLContext</code>
+     * Note that even if this function succeeds, creating a {@code GdkGLContext}
      * may still fail.
-     * 
+     * <p>
      * This function is idempotent. Calling it multiple times will just
      * return the same value or error.
-     * 
+     * <p>
      * You never need to call this function, GDK will call it automatically
      * as needed. But you can use it as a check when setting up code that
      * might make use of OpenGL.
@@ -275,8 +278,8 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Appends the given event onto the front of the event
-     * queue for @display.
-     * 
+     * queue for {@code display}.
+     * <p>
      * This function is only useful in very special situations
      * and should not be used by applications.
      */
@@ -286,11 +289,11 @@ public class Display extends org.gtk.gobject.Object {
     
     /**
      * Returns <code>true</code> if the display supports input shapes.
-     * 
-     * This means that {@link org.gtk.gdk.Surface<code>#setInputRegion</code>  can
-     * be used to modify the input shape of surfaces on @display.
-     * 
-     * On modern displays, this value is always <code>true</code>
+     * <p>
+     * This means that {@link Surface#setInputRegion} can
+     * be used to modify the input shape of surfaces on {@code display}.
+     * <p>
+     * On modern displays, this value is always <code>true</code>.
      */
     public boolean supportsInputShapes() {
         var RESULT = gtk_h.gdk_display_supports_input_shapes(handle());
@@ -300,12 +303,12 @@ public class Display extends org.gtk.gobject.Object {
     /**
      * Flushes any requests queued for the windowing system and waits until all
      * requests have been handled.
-     * 
+     * <p>
      * This is often used for making sure that the display is synchronized
-     * with the current state of the program. Calling {@link org.gtk.gdk.Display<code>#sync</code> 
-     * before {@link gdkx11.Display<code>#errorTrapPop</code>  makes sure that any errors
+     * with the current state of the program. Calling {@link Display#sync}
+     * before {@link gdkx11.Display#errorTrapPop} makes sure that any errors
      * generated from earlier requests are handled before the error trap is removed.
-     * 
+     * <p>
      * This is most useful for X11. On windowing systems where requests are
      * handled synchronously, this function will do nothing.
      */
@@ -314,10 +317,10 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the default <code>GdkDisplay</code>.
-     * 
+     * Gets the default {@code GdkDisplay}.
+     * <p>
      * This is a convenience function for:
-     * 
+     * <p>
      *     gdk_display_manager_get_default_display (gdk_display_manager_get ())
      */
     public static Display getDefault() {
@@ -328,7 +331,7 @@ public class Display extends org.gtk.gobject.Object {
     /**
      * Opens a display.
      * <p>
-     * If opening the display fails, <code>NULL</code> is returned.
+     * If opening the display fails, {@code NULL} is returned.
      */
     public static Display open(java.lang.String displayName) {
         var RESULT = gtk_h.gdk_display_open(Interop.allocateNativeString(displayName).handle());
@@ -341,7 +344,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the connection to the windowing system for @display is closed.
+     * Emitted when the connection to the windowing system for {@code display} is closed.
      */
     public SignalHandle onClosed(ClosedHandler handler) {
         try {
@@ -364,7 +367,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the connection to the windowing system for @display is opened.
+     * Emitted when the connection to the windowing system for {@code display} is opened.
      */
     public SignalHandle onOpened(OpenedHandler handler) {
         try {

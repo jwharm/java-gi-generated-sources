@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Used to reference the layers of <code>GtkTextView</code> for the purpose of customized
+ * Used to reference the layers of {@code GtkTextView} for the purpose of customized
  * drawing with the ::snapshot_layer vfunc.
  */
 public enum TextViewLayer {

@@ -2,8 +2,8 @@ package org.gtk.gtk;
 
 /**
  * The result of a print operation.
- * 
- * A value of this type is returned by {@link org.gtk.gtk.PrintOperation<code>#run</code> .
+ * <p>
+ * A value of this type is returned by {@link PrintOperation#run}.
  */
 public enum PrintOperationResult {
 

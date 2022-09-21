@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkMultiFilter</code> is the base class for filters that combine multiple filters.
+ * {@code GtkMultiFilter} is the base class for filters that combine multiple filters.
  */
 public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Buildable {
 
@@ -22,17 +22,17 @@ public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Builda
     }
     
     /**
-     * Adds a @filter to @self to use for matching.
+     * Adds a {@code filter} to {@code self} to use for matching.
      */
     public void append(Filter filter) {
         gtk_h.gtk_multi_filter_append(handle(), filter.getReference().unowned().handle());
     }
     
     /**
-     * Removes the filter at the given @position from the list of filters used
-     * by @self.
-     * 
-     * If @position is larger than the number of filters, nothing happens and
+     * Removes the filter at the given {@code position} from the list of filters used
+     * by {@code self}.
+     * <p>
+     * If {@code position} is larger than the number of filters, nothing happens and
      * the function returns.
      */
     public void remove(int position) {

@@ -3,12 +3,12 @@ package org.gtk.gdkpixbuf;
 /**
  * Interpolation modes for scaling functions.
  * <p>
- * The <code>GDK_INTERP_NEAREST</code> mode is the fastest scaling method, but has
- * horrible quality when scaling down; <code>GDK_INTERP_BILINEAR</code> is the best
- * choice if you aren&<code>#39</code> t sure what to choose, it has a good speed/quality
+ * The {@code GDK_INTERP_NEAREST} mode is the fastest scaling method, but has
+ * horrible quality when scaling down; {@code GDK_INTERP_BILINEAR} is the best
+ * choice if you aren't sure what to choose, it has a good speed/quality
  * balance.
- * 
- * **Note**: Cubic filtering is missing from the list; hyperbolic
+ * <p>
+ * <strong>*Note*</strong>: Cubic filtering is missing from the list; hyperbolic
  * interpolation is just as fast and results in higher quality.
  */
 public enum InterpType {
@@ -41,11 +41,11 @@ public enum InterpType {
     /**
      * This is the slowest and highest quality
      *  reconstruction function. It is derived from the hyperbolic filters in
-     *  Wolberg&<code>#39</code> s &<code>#34</code> Digital Image Warping&<code>#34</code> , and is formally defined as the
+     *  Wolberg's "Digital Image Warping", and is formally defined as the
      *  hyperbolic-filter sampling the ideal hyperbolic-filter interpolated
      *  image (the filter is designed to be idempotent for 1:1 pixel mapping).
-     *  **Deprecated**: this interpolation filter is deprecated, as in reality
-     *  it has a lower quality than the @GDK_INTERP_BILINEAR filter
+     *  <strong>*Deprecated*</strong>: this interpolation filter is deprecated, as in reality
+     *  it has a lower quality than the {@code GDK_INTERP_BILINEAR} filter
      *  (Since: 2.38)
      */
     HYPER;

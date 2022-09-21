@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Error codes for <code>GtkIconTheme</code> operations.
+ * Error codes for {@code GtkIconTheme} operations.
  */
 public enum IconThemeError {
 

@@ -30,7 +30,7 @@ public class CrossingEvent extends Event {
     }
     
     /**
-     * Checks if the @event surface is the focus surface.
+     * Checks if the {@code event} surface is the focus surface.
      */
     public boolean getFocus() {
         var RESULT = gtk_h.gdk_crossing_event_get_focus(handle());

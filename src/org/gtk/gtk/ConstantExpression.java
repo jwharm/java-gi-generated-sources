@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A constant value in a <code>GtkExpression</code>.
+ * A constant value in a {@code GtkExpression}.
  */
 public class ConstantExpression extends Expression {
 
@@ -27,7 +27,7 @@ public class ConstantExpression extends Expression {
     }
     
     /**
-     * Creates an expression that always evaluates to the given <code>value</code>.
+     * Creates an expression that always evaluates to the given {@code value}.
      */
     public static ConstantExpression newForValue(org.gtk.gobject.Value value) {
         return new ConstantExpression(constructNewForValue(value));

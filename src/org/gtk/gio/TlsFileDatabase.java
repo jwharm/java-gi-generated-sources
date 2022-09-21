@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.TlsFileDatabase} is implemented by {@link org.gtk.gio.TlsDatabase} objects which load
+ * {@link TlsFileDatabase} is implemented by {@link TlsDatabase} objects which load
  * their certificate information from a file. It is an interface which
  * TLS library specific subtypes implement.
  */
 public interface TlsFileDatabase extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Creates a new {@link org.gtk.gio.TlsFileDatabase} which uses anchor certificate authorities
-     * in @anchors to verify certificate chains.
-     * 
-     * The certificates in @anchors must be PEM encoded.
+     * Creates a new {@link TlsFileDatabase} which uses anchor certificate authorities
+     * in {@code anchors} to verify certificate chains.
+     * <p>
+     * The certificates in {@code anchors} must be PEM encoded.
      */
     public static TlsFileDatabase new_(java.lang.String anchors) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

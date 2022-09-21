@@ -27,9 +27,9 @@ public class RepeatingLinearGradientNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will create a repeating linear gradient
+     * Creates a {@code GskRenderNode} that will create a repeating linear gradient
      * from the given points and color stops, and render that into the area
-     * given by @bounds.
+     * given by {@code bounds}.
      */
     public RepeatingLinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
         super(constructNew(bounds, start, end, colorStops, nColorStops));

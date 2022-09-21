@@ -8,76 +8,79 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.DBusObjectManagerClient} is used to create, monitor and delete object
- * proxies for remote objects exported by a {@link org.gtk.gio.DBusObjectManagerServer} (or any
+ * {@link DBusObjectManagerClient} is used to create, monitor and delete object
+ * proxies for remote objects exported by a {@link DBusObjectManagerServer} (or any
  * code implementing the
- * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html<code>#standard</code> interfaces-objectmanager)
+ * <a href="http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager">org.freedesktop.DBus.ObjectManager</a>
  * interface).
  * <p>
  * Once an instance of this type has been created, you can connect to
- * the {@link org.gtk.gio.DBusObjectManager} :object-added and
- * {@link org.gtk.gio.DBusObjectManager} :object-removed signals and inspect the
- * {@link org.gtk.gio.DBusObjectProxy} objects returned by
+ * the {@link DBusObjectManager}::object-added and
+ * {@link DBusObjectManager}::object-removed signals and inspect the
+ * {@link DBusObjectProxy} objects returned by
  * g_dbus_object_manager_get_objects().
  * <p>
- * If the name for a {@link org.gtk.gio.DBusObjectManagerClient} is not owned by anyone at
+ * If the name for a {@link DBusObjectManagerClient} is not owned by anyone at
  * object construction time, the default behavior is to request the
  * message bus to launch an owner for the name. This behavior can be
- * disabled using the {@link org.gtk.gio.DBusObjectManagerClientFlags<code>#DO_NOT_AUTO_START</code>  flag. It&<code>#39</code> s also worth noting that this only works if the name of
+ * disabled using the {@link DBusObjectManagerClientFlags#DO_NOT_AUTO_START}
+ * flag. It's also worth noting that this only works if the name of
  * interest is activatable in the first place. E.g. in some cases it
  * is not possible to launch an owner for the requested name. In this
- * case, {@link org.gtk.gio.DBusObjectManagerClient} object construction still succeeds but
+ * case, {@link DBusObjectManagerClient} object construction still succeeds but
  * there will be no object proxies
  * (e.g. g_dbus_object_manager_get_objects() returns the empty list) and
- * the {@link org.gtk.gio.DBusObjectManagerClient} name-owner property is <code>null</code> 
+ * the {@link DBusObjectManagerClient}:name-owner property is <code>null</code>.
  * <p>
  * The owner of the requested name can come and go (for example
- * consider a system service being restarted) &<code>#8211</code>  {@link org.gtk.gio.DBusObjectManagerClient} handles this case too; simply connect to the {@link org.gtk.gobject.Object} :notify
- * signal to watch for changes on the {@link org.gtk.gio.DBusObjectManagerClient} name-owner
+ * consider a system service being restarted) – {@link DBusObjectManagerClient}
+ * handles this case too; simply connect to the {@link org.gtk.gobject.Object}::notify
+ * signal to watch for changes on the {@link DBusObjectManagerClient}:name-owner
  * property. When the name owner vanishes, the behavior is that
- * {@link org.gtk.gio.DBusObjectManagerClient} name-owner is set to <code>null</code> (this includes
- * emission of the {@link org.gtk.gobject.Object} :notify signal) and then
- * {@link org.gtk.gio.DBusObjectManager} :object-removed signals are synthesized
+ * {@link DBusObjectManagerClient}:name-owner is set to <code>null</code> (this includes
+ * emission of the {@link org.gtk.gobject.Object}::notify signal) and then
+ * {@link DBusObjectManager}::object-removed signals are synthesized
  * for all currently existing object proxies. Since
- * {@link org.gtk.gio.DBusObjectManagerClient} name-owner is <code>null</code> when this happens, you can
+ * {@link DBusObjectManagerClient}:name-owner is <code>null</code> when this happens, you can
  * use this information to disambiguate a synthesized signal from a
  * genuine signal caused by object removal on the remote
- * {@link org.gtk.gio.DBusObjectManager}  Similarly, when a new name owner appears,
- * {@link org.gtk.gio.DBusObjectManager} :object-added signals are synthesized
- * while {@link org.gtk.gio.DBusObjectManagerClient} name-owner is still <code>null</code>  Only when all
- * object proxies have been added, the {@link org.gtk.gio.DBusObjectManagerClient} name-owner
+ * {@link DBusObjectManager}. Similarly, when a new name owner appears,
+ * {@link DBusObjectManager}::object-added signals are synthesized
+ * while {@link DBusObjectManagerClient}:name-owner is still <code>null</code>. Only when all
+ * object proxies have been added, the {@link DBusObjectManagerClient}:name-owner
  * is set to the new name owner (this includes emission of the
- * {@link org.gtk.gobject.Object} :notify signal).  Furthermore, you are guaranteed that
- * {@link org.gtk.gio.DBusObjectManagerClient} name-owner will alternate between a name owner
- * (e.g. <code>:1.42</code>) and <code>null</code> even in the case where
+ * {@link org.gtk.gobject.Object}::notify signal).  Furthermore, you are guaranteed that
+ * {@link DBusObjectManagerClient}:name-owner will alternate between a name owner
+ * (e.g. {@code :1.42}) and <code>null</code> even in the case where
  * the name of interest is atomically replaced
- * 
- * Ultimately, {@link org.gtk.gio.DBusObjectManagerClient} is used to obtain {@link org.gtk.gio.DBusProxy} instances. All signals (including the
+ * <p>
+ * Ultimately, {@link DBusObjectManagerClient} is used to obtain {@link DBusProxy}
+ * instances. All signals (including the
  * org.freedesktop.DBus.Properties::PropertiesChanged signal)
- * delivered to {@link org.gtk.gio.DBusProxy} instances are guaranteed to originate
+ * delivered to {@link DBusProxy} instances are guaranteed to originate
  * from the name owner. This guarantee along with the behavior
  * described above, means that certain race conditions including the
- * &<code>#34</code> half the proxy is from the old owner and the other half is from
- * the new owner&<code>#34</code>  problem cannot happen.
- * 
+ * "half the proxy is from the old owner and the other half is from
+ * the new owner" problem cannot happen.
+ * <p>
  * To avoid having the application connect to signals on the returned
- * {@link org.gtk.gio.DBusObjectProxy} and {@link org.gtk.gio.DBusProxy} objects, the
- * {@link org.gtk.gio.DBusObject} :interface-added,
- * {@link org.gtk.gio.DBusObject} :interface-removed,
- * {@link org.gtk.gio.DBusProxy} :g-properties-changed and
- * {@link org.gtk.gio.DBusProxy} :g-signal signals
- * are also emitted on the {@link org.gtk.gio.DBusObjectManagerClient} instance managing these
+ * {@link DBusObjectProxy} and {@link DBusProxy} objects, the
+ * {@link DBusObject}::interface-added,
+ * {@link DBusObject}::interface-removed,
+ * {@link DBusProxy}::g-properties-changed and
+ * {@link DBusProxy}::g-signal signals
+ * are also emitted on the {@link DBusObjectManagerClient} instance managing these
  * objects. The signals emitted are
- * {@link org.gtk.gio.DBusObjectManager} :interface-added,
- * {@link org.gtk.gio.DBusObjectManager} :interface-removed,
- * {@link org.gtk.gio.DBusObjectManagerClient} :interface-proxy-properties-changed and
- * {@link org.gtk.gio.DBusObjectManagerClient} :interface-proxy-signal.
- * 
+ * {@link DBusObjectManager}::interface-added,
+ * {@link DBusObjectManager}::interface-removed,
+ * {@link DBusObjectManagerClient}::interface-proxy-properties-changed and
+ * {@link DBusObjectManagerClient}::interface-proxy-signal.
+ * <p>
  * Note that all callbacks and signals are emitted in the
- * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
- * that the {@link org.gtk.gio.DBusObjectManagerClient} object was constructed
- * in. Additionally, the {@link org.gtk.gio.DBusObjectProxy} and {@link org.gtk.gio.DBusProxy} objects
- * originating from the {@link org.gtk.gio.DBusObjectManagerClient} object will be created in
+ * [thread-default main context][g-main-context-push-thread-default]
+ * that the {@link DBusObjectManagerClient} object was constructed
+ * in. Additionally, the {@link DBusObjectProxy} and {@link DBusProxy} objects
+ * originating from the {@link DBusObjectManagerClient} object will be created in
  * the same context and, consequently, will deliver signals in the
  * same main loop.
  */
@@ -145,9 +148,9 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Like g_dbus_object_manager_client_new_sync() but takes a {@link org.gtk.gio.BusType} instead
-     * of a {@link org.gtk.gio.DBusConnection} 
-     * 
+     * Like g_dbus_object_manager_client_new_sync() but takes a {@link BusType} instead
+     * of a {@link DBusConnection}.
+     * <p>
      * This is a synchronous failable constructor - the calling thread is
      * blocked until a reply is received. See g_dbus_object_manager_client_new_for_bus()
      * for the asynchronous version.
@@ -177,8 +180,8 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.DBusObjectManagerClient} object.
-     * 
+     * Creates a new {@link DBusObjectManagerClient} object.
+     * <p>
      * This is a synchronous failable constructor - the calling thread is
      * blocked until a reply is received. See g_dbus_object_manager_client_new()
      * for the asynchronous version.
@@ -188,7 +191,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Gets the {@link org.gtk.gio.DBusConnection} used by @manager.
+     * Gets the {@link DBusConnection} used by {@code manager}.
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_object_manager_client_get_connection(handle());
@@ -196,7 +199,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Gets the flags that @manager was constructed with.
+     * Gets the flags that {@code manager} was constructed with.
      */
     public int getFlags() {
         var RESULT = gtk_h.g_dbus_object_manager_client_get_flags(handle());
@@ -204,7 +207,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Gets the name that @manager is for, or <code>null</code> if not a message bus
+     * Gets the name that {@code manager} is for, or <code>null</code> if not a message bus
      * connection.
      */
     public java.lang.String getName() {
@@ -213,10 +216,10 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * The unique name that owns the name that @manager is for or <code>null</code> if
+     * The unique name that owns the name that {@code manager} is for or <code>null</code> if
      * no-one currently owns that name. You can connect to the
-     * {@link org.gtk.gobject.Object} :notify signal to track changes to the
-     * {@link org.gtk.gio.DBusObjectManagerClient} name-owner property.
+     * {@link org.gtk.gobject.Object}::notify signal to track changes to the
+     * {@link DBusObjectManagerClient}:name-owner property.
      */
     public java.lang.String getNameOwner() {
         var RESULT = gtk_h.g_dbus_object_manager_client_get_name_owner(handle());
@@ -224,11 +227,11 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Asynchronously creates a new {@link org.gtk.gio.DBusObjectManagerClient} object.
-     * 
+     * Asynchronously creates a new {@link DBusObjectManagerClient} object.
+     * <p>
      * This is an asynchronous failable constructor. When the result is
-     * ready, @callback will be invoked in the
-     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
+     * ready, {@code callback} will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
      * of the thread you are calling this method from. You can
      * then call g_dbus_object_manager_client_new_finish() to get the result. See
      * g_dbus_object_manager_client_new_sync() for the synchronous version.
@@ -255,12 +258,12 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Like g_dbus_object_manager_client_new() but takes a {@link org.gtk.gio.BusType} instead of a
-     * {@link org.gtk.gio.DBusConnection} 
-     * 
+     * Like g_dbus_object_manager_client_new() but takes a {@link BusType} instead of a
+     * {@link DBusConnection}.
+     * <p>
      * This is an asynchronous failable constructor. When the result is
-     * ready, @callback will be invoked in the
-     * {@link [thread-default main loop]}{@link [g-main-context-push-thread-default]}
+     * ready, {@code callback} will be invoked in the
+     * [thread-default main loop][g-main-context-push-thread-default]
      * of the thread you are calling this method from. You can
      * then call g_dbus_object_manager_client_new_for_bus_finish() to get the result. See
      * g_dbus_object_manager_client_new_for_bus_sync() for the synchronous version.
@@ -294,15 +297,15 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     /**
      * Emitted when one or more D-Bus properties on proxy changes. The
      * local cache has already been updated when this signal fires. Note
-     * that both @changed_properties and @invalidated_properties are
+     * that both {@code changed_properties} and {@code invalidated_properties} are
      * guaranteed to never be <code>null</code> (either may be empty though).
-     * 
+     * <p>
      * This signal exists purely as a convenience to avoid having to
-     * connect signals to all interface proxies managed by @manager.
-     * 
+     * connect signals to all interface proxies managed by {@code manager}.
+     * <p>
      * This signal is emitted in the
-     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
-     * that @manager was constructed in.
+     * [thread-default main context][g-main-context-push-thread-default]
+     * that {@code manager} was constructed in.
      */
     public SignalHandle onInterfaceProxyPropertiesChanged(InterfaceProxyPropertiesChangedHandler handler) {
         try {
@@ -325,14 +328,14 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Emitted when a D-Bus signal is received on @interface_proxy.
-     * 
+     * Emitted when a D-Bus signal is received on {@code interface_proxy}.
+     * <p>
      * This signal exists purely as a convenience to avoid having to
-     * connect signals to all interface proxies managed by @manager.
-     * 
+     * connect signals to all interface proxies managed by {@code manager}.
+     * <p>
      * This signal is emitted in the
-     * {@link [thread-default main context]}{@link [g-main-context-push-thread-default]}
-     * that @manager was constructed in.
+     * [thread-default main context][g-main-context-push-thread-default]
+     * that {@code manager} was constructed in.
      */
     public SignalHandle onInterfaceProxySignal(InterfaceProxySignalHandler handler) {
         try {

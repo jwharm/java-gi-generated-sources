@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.MemoryInputStream} is a class for using arbitrary
+ * {@link MemoryInputStream} is a class for using arbitrary
  * memory chunks as input for GIO streaming input operations.
- * 
- * As of GLib 2.34, {@link org.gtk.gio.MemoryInputStream} implements
- * {@link org.gtk.gio.PollableInputStream}
+ * <p>
+ * As of GLib 2.34, {@link MemoryInputStream} implements
+ * {@link PollableInputStream}.
  */
 public class MemoryInputStream extends InputStream implements PollableInputStream, Seekable {
 
@@ -31,7 +31,7 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
     }
     
     /**
-     * Creates a new empty {@link org.gtk.gio.MemoryInputStream}
+     * Creates a new empty {@link MemoryInputStream}.
      */
     public MemoryInputStream() {
         super(constructNew());
@@ -43,14 +43,14 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.MemoryInputStream} with data from the given @bytes.
+     * Creates a new {@link MemoryInputStream} with data from the given {@code bytes}.
      */
     public static MemoryInputStream newFromBytes(org.gtk.glib.Bytes bytes) {
         return new MemoryInputStream(constructNewFromBytes(bytes));
     }
     
     /**
-     * Appends @bytes to data that can be read from the input stream.
+     * Appends {@code bytes} to data that can be read from the input stream.
      */
     public void addBytes(org.gtk.glib.Bytes bytes) {
         gtk_h.g_memory_input_stream_add_bytes(handle(), bytes.handle());

@@ -8,23 +8,23 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkMediaStream</code> is the integration point for media playback inside GTK.
+ * {@code GtkMediaStream} is the integration point for media playback inside GTK.
  * <p>
- * GTK provides an implementation of the <code>GtkMediaStream</code> interface that
- * is called {@link org.gtk.gtk.MediaFile}.
+ * GTK provides an implementation of the {@code GtkMediaStream} interface that
+ * is called {@link MediaFile}.
  * <p>
- * Apart from application-facing API for stream playback, <code>GtkMediaStream</code>
+ * Apart from application-facing API for stream playback, {@code GtkMediaStream}
  * has a number of APIs that are only useful for implementations and should
  * not be used in applications:
- * {@link org.gtk.gtk.MediaStream<code>#prepared</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#unprepared</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#update</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#ended</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#seekSuccess</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#seekFailed</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#gerror</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#error</code> ,
- * {@link org.gtk.gtk.MediaStream<code>#errorValist</code> .
+ * {@link MediaStream#prepared},
+ * {@link MediaStream#unprepared},
+ * {@link MediaStream#update},
+ * {@link MediaStream#ended},
+ * {@link MediaStream#seekSuccess},
+ * {@link MediaStream#seekFailed},
+ * {@link MediaStream#gerror},
+ * {@link MediaStream#error},
+ * {@link MediaStream#errorValist}.
  */
 public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
 
@@ -38,9 +38,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     }
     
     /**
-     * Sets @self into an error state using a printf()-style format string.
-     * 
-     * This is a utility function that calls {@link org.gtk.gtk.MediaStream<code>#gerror</code> .
+     * Sets {@code self} into an error state using a printf()-style format string.
+     * <p>
+     * This is a utility function that calls {@link MediaStream#gerror}.
      * See that function for details.
      */
     public void errorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
@@ -48,18 +48,18 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     }
     
     /**
-     * Sets @self into an error state.
-     * 
+     * Sets {@code self} into an error state.
+     * <p>
      * This will pause the stream (you can check for an error
-     * via {@link org.gtk.gtk.MediaStream<code>#getError</code>  in your
+     * via {@link MediaStream#getError} in your
      * GtkMediaStream.pause() implementation), abort pending
      * seeks and mark the stream as prepared.
-     * 
+     * <p>
      * if the stream is already in an error state, this call
      * will be ignored and the existing error will be retained.
-     * 
+     * <p>
      * To unset an error, the stream must be reset via a call to
-     * {@link org.gtk.gtk.MediaStream<code>#unprepared</code> .
+     * {@link MediaStream#unprepared}.
      */
     public void gerror(org.gtk.glib.Error error) {
         gtk_h.gtk_media_stream_gerror(handle(), error.handle());
@@ -67,7 +67,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Gets the duration of the stream.
-     * 
+     * <p>
      * If the duration is not known, 0 will be returned.
      */
     public long getDuration() {
@@ -84,19 +84,20 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     }
     
     /**
-     * If the stream is in an error state, returns the <code>GError</code>
+     * If the stream is in an error state, returns the {@code GError}
      * explaining that state.
      * <p>
      * Any type of error can be reported here depending on the
      * implementation of the media stream.
      * <p>
      * A media stream in an error cannot be operated on, calls
-     * like {@link org.gtk.gtk.MediaStream<code>#play</code>  or
-     * {@link org.gtk.gtk.MediaStream<code>#seek</code>  will not have any effect.
-     * <p><code>GtkMediaStream</code> itself does not provide a way to unset
+     * like {@link MediaStream#play} or
+     * {@link MediaStream#seek} will not have any effect.
+     * <p>
+     * {@code GtkMediaStream} itself does not provide a way to unset
      * an error, but implementations may provide options. For example,
-     * a {@link org.gtk.gtk.MediaFile} will unset errors when a new source is
-     * set, e.g. with {@link org.gtk.gtk.MediaFile<code>#setFile</code> .
+     * a {@link MediaFile} will unset errors when a new source is
+     * set, e.g. with {@link MediaFile#setFile}.
      */
     public org.gtk.glib.Error getError() {
         var RESULT = gtk_h.gtk_media_stream_get_error(handle());
@@ -105,8 +106,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Returns whether the stream is set to loop.
-     * 
-     * See {@link org.gtk.gtk.MediaStream<code>#setLoop</code>  for details.
+     * <p>
+     * See {@link MediaStream#setLoop} for details.
      */
     public boolean getLoop() {
         var RESULT = gtk_h.gtk_media_stream_get_loop(handle());
@@ -115,8 +116,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Returns whether the audio for the stream is muted.
-     * 
-     * See {@link org.gtk.gtk.MediaStream<code>#setMuted</code>  for details.
+     * <p>
+     * See {@link MediaStream#setMuted} for details.
      */
     public boolean getMuted() {
         var RESULT = gtk_h.gtk_media_stream_get_muted(handle());
@@ -141,8 +142,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Returns the volume of the audio for the stream.
-     * 
-     * See {@link org.gtk.gtk.MediaStream<code>#setVolume</code>  for details.
+     * <p>
+     * See {@link MediaStream#setVolume} for details.
      */
     public double getVolume() {
         var RESULT = gtk_h.gtk_media_stream_get_volume(handle());
@@ -167,7 +168,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Returns whether the stream has finished initializing.
-     * 
+     * <p>
      * At this point the existence of audio and video is known.
      */
     public boolean isPrepared() {
@@ -177,13 +178,13 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Checks if a stream may be seekable.
-     * 
+     * <p>
      * This is meant to be a hint. Streams may not allow seeking even if
-     * this function returns <code>true</code>  However, if this function returns
-     * <code>false</code>  streams are guaranteed to not be seekable and user interfaces
+     * this function returns <code>true</code>. However, if this function returns
+     * <code>false</code>, streams are guaranteed to not be seekable and user interfaces
      * may hide controls that allow seeking.
-     * 
-     * It is allowed to call {@link org.gtk.gtk.MediaStream<code>#seek</code>  on a non-seekable
+     * <p>
+     * It is allowed to call {@link MediaStream#seek} on a non-seekable
      * stream, though it will not do anything.
      */
     public boolean isSeekable() {
@@ -201,7 +202,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Pauses playback of the stream.
-     * 
+     * <p>
      * If the stream is not playing, do nothing.
      */
     public void pause() {
@@ -210,7 +211,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Starts playing the stream.
-     * 
+     * <p>
      * If the stream is in error or already playing, do nothing.
      */
     public void play() {
@@ -218,21 +219,21 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     }
     
     /**
-     * Called by users to attach the media stream to a <code>GdkSurface</code> they manage.
+     * Called by users to attach the media stream to a {@code GdkSurface} they manage.
      * <p>
-     * The stream can then access the resources of @surface for its
+     * The stream can then access the resources of {@code surface} for its
      * rendering purposes. In particular, media streams might want to
-     * create a <code>GdkGLContext</code> or sync to the <code>GdkFrameClock</code>.
-     * 
+     * create a {@code GdkGLContext} or sync to the {@code GdkFrameClock}.
+     * <p>
      * Whoever calls this function is responsible for calling
-     * {@link org.gtk.gtk.MediaStream<code>#unrealize</code>  before either the stream
-     * or @surface get destroyed.
-     * 
+     * {@link MediaStream#unrealize} before either the stream
+     * or {@code surface} get destroyed.
+     * <p>
      * Multiple calls to this function may happen from different
-     * users of the video, even with the same @surface. Each of these
+     * users of the video, even with the same {@code surface}. Each of these
      * calls must be followed by its own call to
-     * {@link org.gtk.gtk.MediaStream<code>#unrealize</code> .
-     * 
+     * {@link MediaStream#unrealize}.
+     * <p>
      * It is not required to call this function to make a media stream work.
      */
     public void realize(org.gtk.gdk.Surface surface) {
@@ -240,14 +241,14 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     }
     
     /**
-     * Start a seek operation on @self to @timestamp.
-     * 
-     * If @timestamp is out of range, it will be clamped.
-     * 
+     * Start a seek operation on {@code self} to {@code timestamp}.
+     * <p>
+     * If {@code timestamp} is out of range, it will be clamped.
+     * <p>
      * Seek operations may not finish instantly. While a
-     * seek operation is in process, the {@link [property@Gtk.MediaStream:seeking] (ref=property)}
+     * seek operation is in process, the {@code Gtk.MediaStream:seeking}
      * property will be set.
-     * 
+     * <p>
      * When calling gtk_media_stream_seek() during an
      * ongoing seek operation, the new seek will override
      * any pending seek.
@@ -258,11 +259,11 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Ends a seek operation started via GtkMediaStream.seek() as a failure.
-     * 
+     * <p>
      * This will not cause an error on the stream and will assume that
      * playback continues as if no seek had happened.
-     * 
-     * See {@link org.gtk.gtk.MediaStream<code>#seekSuccess</code>  for the other way of
+     * <p>
+     * See {@link MediaStream#seekSuccess} for the other way of
      * ending a seek.
      */
     public void seekFailed() {
@@ -271,11 +272,11 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Ends a seek operation started via GtkMediaStream.seek() successfully.
-     * 
+     * <p>
      * This function will unset the GtkMediaStream:ended property
      * if it was set.
-     * 
-     * See {@link org.gtk.gtk.MediaStream<code>#seekFailed</code>  for the other way of
+     * <p>
+     * See {@link MediaStream#seekFailed} for the other way of
      * ending a seek.
      */
     public void seekSuccess() {
@@ -284,10 +285,10 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Sets whether the stream should loop.
-     * 
+     * <p>
      * In this case, it will attempt to restart playback
      * from the beginning instead of stopping at the end.
-     * 
+     * <p>
      * Not all streams may support looping, in particular
      * non-seekable streams. Those streams will ignore the
      * loop setting and just end.
@@ -298,11 +299,11 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Sets whether the audio stream should be muted.
-     * 
+     * <p>
      * Muting a stream will cause no audio to be played, but it
      * does not modify the volume. This means that muting and
      * then unmuting the stream will restore the volume settings.
-     * 
+     * <p>
      * If the stream has no audio, calling this function will
      * still work but it will not have an audible effect.
      */
@@ -319,13 +320,13 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Sets the volume of the audio stream.
-     * 
+     * <p>
      * This function call will work even if the stream is muted.
-     * 
-     * The given @volume should range from 0.0 for silence to 1.0
+     * <p>
+     * The given {@code volume} should range from 0.0 for silence to 1.0
      * for as loud as possible. Values outside of this range will
      * be clamped to the nearest value.
-     * 
+     * <p>
      * If the stream has no audio or is muted, calling this function
      * will still work but it will not have an immediate audible effect.
      * When the stream is unmuted, the new volume setting will take effect.
@@ -336,10 +337,10 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Pauses the media stream and marks it as ended.
-     * 
-     * This is a hint only, calls to {@link org.gtk.gtk.MediaStream<code>#play</code> 
+     * <p>
+     * This is a hint only, calls to {@link MediaStream#play}
      * may still happen.
-     * 
+     * <p>
      * The media stream must be prepared when this function is called.
      */
     public void streamEnded() {
@@ -347,16 +348,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     }
     
     /**
-     * Called by <code>GtkMediaStream</code> implementations to advertise the stream
+     * Called by {@code GtkMediaStream} implementations to advertise the stream
      * being ready to play and providing details about the stream.
-     * 
+     * <p>
      * Note that the arguments are hints. If the stream implementation
      * cannot determine the correct values, it is better to err on the
-     * side of caution and return <code>true</code>  User interfaces will use those
+     * side of caution and return <code>true</code>. User interfaces will use those
      * values to determine what controls to show.
-     * 
+     * <p>
      * This function may not be called again until the stream has been
-     * reset via {@link org.gtk.gtk.MediaStream<code>#streamUnprepared</code> .
+     * reset via {@link MediaStream#streamUnprepared}.
      */
     public void streamPrepared(boolean hasAudio, boolean hasVideo, boolean seekable, long duration) {
         gtk_h.gtk_media_stream_stream_prepared(handle(), hasAudio ? 1 : 0, hasVideo ? 1 : 0, seekable ? 1 : 0, duration);
@@ -364,9 +365,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Resets a given media stream implementation.
-     * 
-     * {@link org.gtk.gtk.MediaStream<code>#streamPrepared</code>  can then be called again.
-     * 
+     * <p>
+     * {@link MediaStream#streamPrepared} can then be called again.
+     * <p>
      * This function will also reset any error state the stream was in.
      */
     public void streamUnprepared() {
@@ -375,9 +376,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     /**
      * Undoes a previous call to gtk_media_stream_realize().
-     * 
+     * <p>
      * This causes the stream to release all resources it had
-     * allocated from @surface.
+     * allocated from {@code surface}.
      */
     public void unrealize(org.gtk.gdk.Surface surface) {
         gtk_h.gtk_media_stream_unrealize(handle(), surface.handle());
@@ -386,10 +387,10 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     /**
      * Media stream implementations should regularly call this
      * function to update the timestamp reported by the stream.
-     * 
+     * <p>
      * It is up to implementations to call this at the frequency
      * they deem appropriate.
-     * 
+     * <p>
      * The media stream must be prepared when this function is called.
      */
     public void update(long timestamp) {

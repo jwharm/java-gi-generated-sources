@@ -8,25 +8,26 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.MountOperation} provides a mechanism for interacting with the user.
+ * {@link MountOperation} provides a mechanism for interacting with the user.
  * It can be used for authenticating mountable operations, such as loop
  * mounting files, hard drive partitions or server locations. It can
  * also be used to ask the user questions or show a list of applications
  * preventing unmount or eject operations from completing.
- * 
- * Note that {@link org.gtk.gio.MountOperation} is used for more than just {@link org.gtk.gio.Mount} objects &<code>#8211</code>  for example it is also used in g_drive_start() and
+ * <p>
+ * Note that {@link MountOperation} is used for more than just {@link Mount}
+ * objects – for example it is also used in g_drive_start() and
  * g_drive_stop().
- * 
+ * <p>
  * Users should instantiate a subclass of this that implements all the
  * various callbacks to show the required dialogs, such as
- * {@link org.gtk.gtk.MountOperation}  If no user interaction is desired (for example
+ * {@link org.gtk.gtk.MountOperation}. If no user interaction is desired (for example
  * when automounting filesystems at login time), usually <code>null</code> can be
- * passed, see each method taking a {@link org.gtk.gio.MountOperation} for details.
- * 
- * The term &<code>#8216</code> TCRYPT&<code>#8217</code>  is used to mean &<code>#8216</code> compatible with TrueCrypt and VeraCrypt&<code>#8217</code> .
- * {@link [TrueCrypt]}(https://en.wikipedia.org/wiki/TrueCrypt) is a discontinued system for
+ * passed, see each method taking a {@link MountOperation} for details.
+ * <p>
+ * The term ‘TCRYPT’ is used to mean ‘compatible with TrueCrypt and VeraCrypt’.
+ * <a href="https://en.wikipedia.org/wiki/TrueCrypt">TrueCrypt</a> is a discontinued system for
  * encrypting file containers, partitions or whole disks, typically used with Windows.
- * {@link [VeraCrypt]}(https://www.veracrypt.fr/) is a maintained fork of TrueCrypt with various
+ * <a href="https://www.veracrypt.fr/">VeraCrypt</a> is a maintained fork of TrueCrypt with various
  * improvements and auditing fixes.
  */
 public class MountOperation extends org.gtk.gobject.Object {
@@ -128,14 +129,14 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits the {@link org.gtk.gio.MountOperation} :reply signal.
+     * Emits the {@link MountOperation}::reply signal.
      */
     public void reply(MountOperationResult result) {
         gtk_h.g_mount_operation_reply(handle(), result.getValue());
     }
     
     /**
-     * Sets the mount operation to use an anonymous user if @anonymous is <code>true</code>
+     * Sets the mount operation to use an anonymous user if {@code anonymous} is <code>true</code>.
      */
     public void setAnonymous(boolean anonymous) {
         gtk_h.g_mount_operation_set_anonymous(handle(), anonymous ? 1 : 0);
@@ -149,28 +150,28 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the mount operation&<code>#39</code> s domain.
+     * Sets the mount operation's domain.
      */
     public void setDomain(java.lang.String domain) {
         gtk_h.g_mount_operation_set_domain(handle(), Interop.allocateNativeString(domain).handle());
     }
     
     /**
-     * Sets the mount operation to use a hidden volume if @hidden_volume is <code>true</code>
+     * Sets the mount operation to use a hidden volume if {@code hidden_volume} is <code>true</code>.
      */
     public void setIsTcryptHiddenVolume(boolean hiddenVolume) {
         gtk_h.g_mount_operation_set_is_tcrypt_hidden_volume(handle(), hiddenVolume ? 1 : 0);
     }
     
     /**
-     * Sets the mount operation to use a system volume if @system_volume is <code>true</code>
+     * Sets the mount operation to use a system volume if {@code system_volume} is <code>true</code>.
      */
     public void setIsTcryptSystemVolume(boolean systemVolume) {
         gtk_h.g_mount_operation_set_is_tcrypt_system_volume(handle(), systemVolume ? 1 : 0);
     }
     
     /**
-     * Sets the mount operation&<code>#39</code> s password to @password.
+     * Sets the mount operation's password to {@code password}.
      */
     public void setPassword(java.lang.String password) {
         gtk_h.g_mount_operation_set_password(handle(), Interop.allocateNativeString(password).handle());
@@ -184,14 +185,14 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the mount operation&<code>#39</code> s PIM to @pim.
+     * Sets the mount operation's PIM to {@code pim}.
      */
     public void setPim(int pim) {
         gtk_h.g_mount_operation_set_pim(handle(), pim);
     }
     
     /**
-     * Sets the user name within @op to @username.
+     * Sets the user name within {@code op} to {@code username}.
      */
     public void setUsername(java.lang.String username) {
         gtk_h.g_mount_operation_set_username(handle(), Interop.allocateNativeString(username).handle());
@@ -205,7 +206,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     /**
      * Emitted by the backend when e.g. a device becomes unavailable
      * while a mount operation is in progress.
-     * 
+     * <p>
      * Implementations of GMountOperation should handle this signal
      * by dismissing open password dialogs.
      */
@@ -231,10 +232,10 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     /**
      * Emitted when a mount operation asks the user for a password.
-     * 
+     * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}
+     * primary text in a {@link org.gtk.gtk.MessageDialog}.
      */
     public SignalHandle onAskPassword(AskPasswordHandler handler) {
         try {
@@ -259,10 +260,10 @@ public class MountOperation extends org.gtk.gobject.Object {
     /**
      * Emitted when asking the user a question and gives a list of
      * choices for the user to choose from.
-     * 
+     * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}
+     * primary text in a {@link org.gtk.gtk.MessageDialog}.
      */
     public SignalHandle onAskQuestion(AskQuestionHandler handler) {
         try {
@@ -309,17 +310,17 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     /**
      * Emitted when one or more processes are blocking an operation
-     * e.g. unmounting/ejecting a {@link org.gtk.gio.Mount} or stopping a {@link org.gtk.gio.Drive} 
-     * 
+     * e.g. unmounting/ejecting a {@link Mount} or stopping a {@link Drive}.
+     * <p>
      * Note that this signal may be emitted several times to update the
      * list of blocking processes as processes close files. The
      * application should only respond with g_mount_operation_reply() to
-     * the latest signal (setting {@link org.gtk.gio.MountOperation} choice to the choice
+     * the latest signal (setting {@link MountOperation}:choice to the choice
      * the user made).
-     * 
+     * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}
+     * primary text in a {@link org.gtk.gtk.MessageDialog}.
      */
     public SignalHandle onShowProcesses(ShowProcessesHandler handler) {
         try {
@@ -344,20 +345,20 @@ public class MountOperation extends org.gtk.gobject.Object {
     /**
      * Emitted when an unmount operation has been busy for more than some time
      * (typically 1.5 seconds).
-     * 
+     * <p>
      * When unmounting or ejecting a volume, the kernel might need to flush
      * pending data in its buffers to the volume stable storage, and this operation
      * can take a considerable amount of time. This signal may be emitted several
      * times as long as the unmount operation is outstanding, and then one
-     * last time when the operation is completed, with @bytes_left set to zero.
-     * 
+     * last time when the operation is completed, with {@code bytes_left} set to zero.
+     * <p>
      * Implementations of GMountOperation should handle this signal by
      * showing an UI notification, and then dismiss it, or show another notification
-     * of completion, when @bytes_left reaches zero.
-     * 
+     * of completion, when {@code bytes_left} reaches zero.
+     * <p>
      * If the message contains a line break, the first line should be
      * presented as a heading. For example, it may be used as the
-     * primary text in a {@link org.gtk.gtk.MessageDialog}
+     * primary text in a {@link org.gtk.gtk.MessageDialog}.
      */
     public SignalHandle onShowUnmountProgress(ShowUnmountProgressHandler handler) {
         try {

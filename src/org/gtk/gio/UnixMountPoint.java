@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Defines a Unix mount point (e.g. &<code>#60</code> filename&<code>#62</code> /dev&<code>#60</code> /filename&<code>#62</code> ).
+ * Defines a Unix mount point (e.g. &lt;filename>/dev</filename&gt;).
  * This corresponds roughly to a fstab entry.
  */
 public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
@@ -26,7 +26,7 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Makes a copy of @mount_point.
+     * Makes a copy of {@code mount_point}.
      */
     public UnixMountPoint copy() {
         var RESULT = gtk_h.g_unix_mount_point_copy(handle());

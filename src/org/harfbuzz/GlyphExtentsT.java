@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * Glyph extent values, measured in font units.
- * 
- * Note that @height is negative, in coordinate systems that grow up.
+ * <p>
+ * Note that {@code height} is negative, in coordinate systems that grow up.
  */
 public class GlyphExtentsT extends io.github.jwharm.javagi.ResourceBase {
 

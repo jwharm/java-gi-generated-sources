@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.Menu} is a simple implementation of {@link org.gtk.gio.MenuModel} 
- * You populate a {@link org.gtk.gio.Menu} by adding {@link org.gtk.gio.MenuItem} instances to it.
- * 
+ * {@link Menu} is a simple implementation of {@link MenuModel}.
+ * You populate a {@link Menu} by adding {@link MenuItem} instances to it.
+ * <p>
  * There are some convenience functions to allow you to directly
- * add items (avoiding {@link org.gtk.gio.MenuItem}  for the common cases. To add
+ * add items (avoiding {@link MenuItem}) for the common cases. To add
  * a regular item, use g_menu_insert(). To add a section, use
  * g_menu_insert_section(). To add a submenu, use
  * g_menu_insert_submenu().
@@ -34,8 +34,8 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.Menu} 
-     * 
+     * Creates a new {@link Menu}.
+     * <p>
      * The new menu has no items.
      */
     public Menu() {
@@ -44,7 +44,7 @@ public class Menu extends MenuModel {
     
     /**
      * Convenience function for appending a normal menu item to the end of
-     * @menu.  Combine g_menu_item_new() and g_menu_insert_item() for a more
+     * {@code menu}.  Combine g_menu_item_new() and g_menu_insert_item() for a more
      * flexible alternative.
      */
     public void append(java.lang.String label, java.lang.String detailedAction) {
@@ -52,8 +52,8 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Appends @item to the end of @menu.
-     * 
+     * Appends {@code item} to the end of {@code menu}.
+     * <p>
      * See g_menu_insert_item() for more information.
      */
     public void appendItem(MenuItem item) {
@@ -62,7 +62,7 @@ public class Menu extends MenuModel {
     
     /**
      * Convenience function for appending a section menu item to the end of
-     * @menu.  Combine g_menu_item_new_section() and g_menu_insert_item() for a
+     * {@code menu}.  Combine g_menu_item_new_section() and g_menu_insert_item() for a
      * more flexible alternative.
      */
     public void appendSection(java.lang.String label, MenuModel section) {
@@ -71,7 +71,7 @@ public class Menu extends MenuModel {
     
     /**
      * Convenience function for appending a submenu menu item to the end of
-     * @menu.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for a
+     * {@code menu}.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for a
      * more flexible alternative.
      */
     public void appendSubmenu(java.lang.String label, MenuModel submenu) {
@@ -79,21 +79,21 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Marks @menu as frozen.
-     * 
+     * Marks {@code menu} as frozen.
+     * <p>
      * After the menu is frozen, it is an error to attempt to make any
-     * changes to it.  In effect this means that the {@link org.gtk.gio.Menu} API must no
+     * changes to it.  In effect this means that the {@link Menu} API must no
      * longer be used.
-     * 
+     * <p>
      * This function causes g_menu_model_is_mutable() to begin returning
-     * <code>false</code>  which has some positive performance implications.
+     * <code>false</code>, which has some positive performance implications.
      */
     public void freeze() {
         gtk_h.g_menu_freeze(handle());
     }
     
     /**
-     * Convenience function for inserting a normal menu item into @menu.
+     * Convenience function for inserting a normal menu item into {@code menu}.
      * Combine g_menu_item_new() and g_menu_insert_item() for a more flexible
      * alternative.
      */
@@ -102,22 +102,22 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Inserts @item into @menu.
-     * 
-     * The &<code>#34</code> insertion&<code>#34</code>  is actually done by copying all of the attribute and
-     * link values of @item and using them to form a new item within @menu.
-     * As such, @item itself is not really inserted, but rather, a menu item
-     * that is exactly the same as the one presently described by @item.
-     * 
-     * This means that @item is essentially useless after the insertion
+     * Inserts {@code item} into {@code menu}.
+     * <p>
+     * The "insertion" is actually done by copying all of the attribute and
+     * link values of {@code item} and using them to form a new item within {@code menu}.
+     * As such, {@code item} itself is not really inserted, but rather, a menu item
+     * that is exactly the same as the one presently described by {@code item}.
+     * <p>
+     * This means that {@code item} is essentially useless after the insertion
      * occurs.  Any changes you make to it are ignored unless it is inserted
      * again (at which point its updated values will be copied).
-     * 
-     * You should probably just free @item once you&<code>#39</code> re done.
-     * 
+     * <p>
+     * You should probably just free {@code item} once you're done.
+     * <p>
      * There are many convenience functions to take care of common cases.
      * See g_menu_insert(), g_menu_insert_section() and
-     * g_menu_insert_submenu() as well as &<code>#34</code> prepend&<code>#34</code>  and &<code>#34</code> append&<code>#34</code>  variants of
+     * g_menu_insert_submenu() as well as "prepend" and "append" variants of
      * each of these functions.
      */
     public void insertItem(int position, MenuItem item) {
@@ -125,7 +125,7 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Convenience function for inserting a section menu item into @menu.
+     * Convenience function for inserting a section menu item into {@code menu}.
      * Combine g_menu_item_new_section() and g_menu_insert_item() for a more
      * flexible alternative.
      */
@@ -134,7 +134,7 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Convenience function for inserting a submenu menu item into @menu.
+     * Convenience function for inserting a submenu menu item into {@code menu}.
      * Combine g_menu_item_new_submenu() and g_menu_insert_item() for a more
      * flexible alternative.
      */
@@ -144,7 +144,7 @@ public class Menu extends MenuModel {
     
     /**
      * Convenience function for prepending a normal menu item to the start
-     * of @menu.  Combine g_menu_item_new() and g_menu_insert_item() for a more
+     * of {@code menu}.  Combine g_menu_item_new() and g_menu_insert_item() for a more
      * flexible alternative.
      */
     public void prepend(java.lang.String label, java.lang.String detailedAction) {
@@ -152,8 +152,8 @@ public class Menu extends MenuModel {
     }
     
     /**
-     * Prepends @item to the start of @menu.
-     * 
+     * Prepends {@code item} to the start of {@code menu}.
+     * <p>
      * See g_menu_insert_item() for more information.
      */
     public void prependItem(MenuItem item) {
@@ -162,7 +162,7 @@ public class Menu extends MenuModel {
     
     /**
      * Convenience function for prepending a section menu item to the start
-     * of @menu.  Combine g_menu_item_new_section() and g_menu_insert_item() for
+     * of {@code menu}.  Combine g_menu_item_new_section() and g_menu_insert_item() for
      * a more flexible alternative.
      */
     public void prependSection(java.lang.String label, MenuModel section) {
@@ -171,7 +171,7 @@ public class Menu extends MenuModel {
     
     /**
      * Convenience function for prepending a submenu menu item to the start
-     * of @menu.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for
+     * of {@code menu}.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for
      * a more flexible alternative.
      */
     public void prependSubmenu(java.lang.String label, MenuModel submenu) {
@@ -180,12 +180,12 @@ public class Menu extends MenuModel {
     
     /**
      * Removes an item from the menu.
-     * 
-     * @position gives the index of the item to remove.
-     * 
+     * <p>
+     * {@code position} gives the index of the item to remove.
+     * <p>
      * It is an error if position is not in range the range from 0 to one
      * less than the number of items in the menu.
-     * 
+     * <p>
      * It is not possible to remove items by identity since items are added
      * to the menu simply by copying their links and attributes (ie:
      * identity of the item itself is not preserved).

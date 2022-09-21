@@ -2,8 +2,8 @@ package org.gtk.gtk;
 
 /**
  * Specifies the granularity of font selection
- * that is desired in a <code>GtkFontChooser</code>.
- * 
+ * that is desired in a {@code GtkFontChooser}.
+ * <p>
  * This enumeration may be extended in the future; applications should
  * ignore unknown values.
  */

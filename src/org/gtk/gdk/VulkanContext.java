@@ -8,13 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GdkVulkanContext</code> is an object representing the platform-specific
+ * {@code GdkVulkanContext} is an object representing the platform-specific
  * Vulkan draw context.
- * <p><code>GdkVulkanContext</code>s are created for a surface using
- * {@link org.gtk.gdk.Surface<code>#createVulkanContext</code> , and the context will match
+ * <p>
+ * {@code GdkVulkanContext}s are created for a surface using
+ * {@link Surface#createVulkanContext}, and the context will match
  * the characteristics of the surface.
  * <p>
- * Support for <code>GdkVulkanContext</code> is platform-specific and context creation
+ * Support for {@code GdkVulkanContext} is platform-specific and context creation
  * can fail, returning <code>null</code> context.
  */
 public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
@@ -35,7 +36,7 @@ public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
     
     /**
      * Emitted when the images managed by this context have changed.
-     * 
+     * <p>
      * Usually this means that the swapchain had to be recreated,
      * for example in response to a change of the surface size.
      */

@@ -8,9 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkEntryBuffer</code> that locks the underlying memory to prevent it
+ * A {@code GtkEntryBuffer} that locks the underlying memory to prevent it
  * from being swapped to disk.
- * <p><code>GtkPasswordEntry</code> uses a <code>GtkPasswordEntryBuffer</code>.
+ * <p>
+ * {@code GtkPasswordEntry} uses a {@code GtkPasswordEntryBuffer}.
  */
 public class PasswordEntryBuffer extends EntryBuffer {
 
@@ -29,7 +30,7 @@ public class PasswordEntryBuffer extends EntryBuffer {
     }
     
     /**
-     * Creates a new <code>GtkEntryBuffer</code> using secure memory allocations.
+     * Creates a new {@code GtkEntryBuffer} using secure memory allocations.
      */
     public PasswordEntryBuffer() {
         super(constructNew());

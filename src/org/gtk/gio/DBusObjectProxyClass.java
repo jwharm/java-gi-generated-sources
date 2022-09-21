@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.DBusObjectProxy}
+ * Class structure for {@link DBusObjectProxy}.
  */
 public class DBusObjectProxyClass extends io.github.jwharm.javagi.ResourceBase {
 

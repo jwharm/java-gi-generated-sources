@@ -8,32 +8,36 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkButton</code> widget is generally used to trigger a callback function that is
+ * The {@code GtkButton} widget is generally used to trigger a callback function that is
  * called when the button is pressed.
  * <p>
- * !{@link [An example GtkButton]}(button.png)
+ * <img src="./doc-files/button.png" alt="An example GtkButton">
  * <p>
- * The <code>GtkButton</code> widget can hold any valid child widget. That is, it can hold
- * almost any other standard <code>GtkWidget</code>. The most commonly used child is the<code>GtkLabel</code>.
+ * The {@code GtkButton} widget can hold any valid child widget. That is, it can hold
+ * almost any other standard {@code GtkWidget}. The most commonly used child is the
+ * {@code GtkLabel}.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkButton</code> has a single CSS node with name button. The node will get the
+ * <p>
+ * {@code GtkButton} has a single CSS node with name button. The node will get the
  * style classes .image-button or .text-button, if the content is just an
  * image or label, respectively. It may also receive the .flat style class.
  * When activating a button via the keyboard, the button will temporarily
  * gain the .keyboard-activating style class.
  * <p>
- * Other style classes that are commonly used with <code>GtkButton</code> include
+ * Other style classes that are commonly used with {@code GtkButton} include
  * .suggested-action and .destructive-action. In special cases, buttons
  * can be made round by adding the .circular style class.
  * <p>
- * Button-like widgets like {@link org.gtk.gtk.ToggleButton}, {@link org.gtk.gtk.MenuButton},
- * {@link org.gtk.gtk.VolumeButton}, {@link org.gtk.gtk.LockButton}, {@link org.gtk.gtk.ColorButton}
- * or {@link org.gtk.gtk.FontButton} use style classes such as .toggle, .popup, .scale,
- * .lock, .color on the button node to differentiate themselves from a plain<code>GtkButton</code>.
+ * Button-like widgets like {@code Gtk.MenuButton},
+ * {@code Gtk.ColorButton}
+ * or {@link FontButton} use style classes such as .toggle, .popup, .scale,
+ * .lock, .color on the button node to differentiate themselves from a plain
+ * {@code GtkButton}.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkButton</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#BUTTON</code>  role.
+ * <p>
+ * {@code GtkButton} uses the {@link AccessibleRole#BUTTON} role.
  */
 public class Button extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -52,9 +56,9 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Creates a new <code>GtkButton</code> widget.
-     * 
-     * To add a child widget to the button, use {@link org.gtk.gtk.Button<code>#setChild</code> .
+     * Creates a new {@code GtkButton} widget.
+     * <p>
+     * To add a child widget to the button, use {@link Button#setChild}.
      */
     public Button() {
         super(constructNew());
@@ -67,8 +71,8 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     
     /**
      * Creates a new button containing an icon from the current icon theme.
-     * 
-     * If the icon name isn&<code>#8217</code> t known, a &<code>#8220</code> broken image&<code>#8221</code>  icon will be
+     * <p>
+     * If the icon name isn’t known, a “broken image” icon will be
      * displayed instead. If the current icon theme is changed, the icon
      * will be updated appropriately.
      */
@@ -82,7 +86,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Creates a <code>GtkButton</code> widget with a <code>GtkLabel</code> child.
+     * Creates a {@code GtkButton} widget with a {@code GtkLabel} child.
      */
     public static Button newWithLabel(java.lang.String label) {
         return new Button(constructNewWithLabel(label));
@@ -94,10 +98,10 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Creates a new <code>GtkButton</code> containing a label.
-     * 
-     * If characters in @label are preceded by an underscore, they are underlined.
-     * If you need a literal underscore character in a label, use &<code>#8220</code> __&<code>#8221</code>  (two
+     * Creates a new {@code GtkButton} containing a label.
+     * <p>
+     * If characters in {@code label} are preceded by an underscore, they are underlined.
+     * If you need a literal underscore character in a label, use “__” (two
      * underscores). The first underlined character represents a keyboard
      * accelerator called a mnemonic. Pressing Alt and that key activates the button.
      */
@@ -106,7 +110,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Gets the child widget of @button.
+     * Gets the child widget of {@code button}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_button_get_child(handle());
@@ -123,10 +127,10 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     
     /**
      * Returns the icon name of the button.
-     * 
-     * If the icon name has not been set with {@link org.gtk.gtk.Button<code>#setIconName</code> 
-     * the return value will be <code>null</code>  This will be the case if you create
-     * an empty button with {@link [ctor@Gtk.Button.new] (ref=ctor)} to use as a container.
+     * <p>
+     * If the icon name has not been set with {@link Button#setIconName}
+     * the return value will be <code>null</code>. This will be the case if you create
+     * an empty button with {@link Button#Button} to use as a container.
      */
     public java.lang.String getIconName() {
         var RESULT = gtk_h.gtk_button_get_icon_name(handle());
@@ -135,10 +139,10 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     
     /**
      * Fetches the text from the label of the button.
-     * 
-     * If the label text has not been set with {@link org.gtk.gtk.Button<code>#setLabel</code> 
-     * the return value will be <code>null</code>  This will be the case if you create
-     * an empty button with {@link [ctor@Gtk.Button.new] (ref=ctor)} to use as a container.
+     * <p>
+     * If the label text has not been set with {@link Button#setLabel}
+     * the return value will be <code>null</code>. This will be the case if you create
+     * an empty button with {@link Button#Button} to use as a container.
      */
     public java.lang.String getLabel() {
         var RESULT = gtk_h.gtk_button_get_label(handle());
@@ -147,8 +151,8 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     
     /**
      * gets whether underlines are interpreted as mnemonics.
-     * 
-     * See {@link org.gtk.gtk.Button<code>#setUseUnderline</code> .
+     * <p>
+     * See {@link Button#setUseUnderline}.
      */
     public boolean getUseUnderline() {
         var RESULT = gtk_h.gtk_button_get_use_underline(handle());
@@ -156,13 +160,13 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Sets the child widget of @button.
-     * 
+     * Sets the child widget of {@code button}.
+     * <p>
      * Note that by using this API, you take full responsibility for setting
-     * up the proper accessibility label and description information for @button.
-     * Most likely, you&<code>#39</code> ll either set the accessibility label or description
-     * for @button explicitly, or you&<code>#39</code> ll set a labelled-by or described-by
-     * relations from @child to @button.
+     * up the proper accessibility label and description information for {@code button}.
+     * Most likely, you'll either set the accessibility label or description
+     * for {@code button} explicitly, or you'll set a labelled-by or described-by
+     * relations from {@code child} to {@code button}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_button_set_child(handle(), child.handle());
@@ -170,7 +174,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     
     /**
      * Sets the style of the button.
-     * 
+     * <p>
      * Buttons can has a flat appearance or have a frame drawn around them.
      */
     public void setHasFrame(boolean hasFrame) {
@@ -178,9 +182,9 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Adds a <code>GtkImage</code> with the given icon name as a child.
-     * 
-     * If @button already contains a child widget, that child widget will
+     * Adds a {@code GtkImage} with the given icon name as a child.
+     * <p>
+     * If {@code button} already contains a child widget, that child widget will
      * be removed and replaced with the image.
      */
     public void setIconName(java.lang.String iconName) {
@@ -188,8 +192,8 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     }
     
     /**
-     * Sets the text of the label of the button to @label.
-     * 
+     * Sets the text of the label of the button to {@code label}.
+     * <p>
      * This will also clear any previously set labels.
      */
     public void setLabel(java.lang.String label) {
@@ -198,7 +202,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     
     /**
      * Sets whether to use underlines as mnemonics.
-     * 
+     * <p>
      * If true, an underline in the text of the button label indicates
      * the next character should be used for the mnemonic accelerator key.
      */
@@ -213,9 +217,9 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
     
     /**
      * Emitted to animate press then release.
-     * 
+     * <p>
      * This is an action signal. Applications should never connect
-     * to this signal, but use the {@link [signal@Gtk.Button::clicked] (ref=signal)} signal.
+     * to this signal, but use the {@code Gtk.Button::clicked} signal.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {

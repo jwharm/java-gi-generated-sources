@@ -11,10 +11,7 @@ public enum BorderStyle {
     NONE,
     
     /**
-     * Same as 
-     *       
-     *       
-     *         Same as %GTK_BORDER_STYLE_NONE
+     * Same as {@link BorderStyle#NONE}
      */
     HIDDEN,
     

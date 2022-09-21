@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Message flags used in {@link org.gtk.gio.DBusMessage}
+ * Message flags used in {@link DBusMessage}.
  */
 public class DBusMessageFlags {
 

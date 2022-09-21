@@ -9,7 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * Structure used for scatter/gather data output.
- * You generally pass in an array of <code>#GOutputVectors</code> and the operation will use all the buffers as if they were
+ * You generally pass in an array of {@code GOutputVectors}
+ * and the operation will use all the buffers as if they were
  * one buffer.
  */
 public class OutputVector extends io.github.jwharm.javagi.ResourceBase {

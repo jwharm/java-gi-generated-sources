@@ -9,11 +9,11 @@ import java.lang.invoke.*;
 
 /**
  * Integer type representing a year.
- * 
- * The <code>G_DATE_BAD_YEAR</code> value is the invalid value. The year
- * must be 1 or higher; negative ({@link [BCE]}(https://en.wikipedia.org/wiki/Common_Era))
+ * <p>
+ * The {@code G_DATE_BAD_YEAR} value is the invalid value. The year
+ * must be 1 or higher; negative (<a href="https://en.wikipedia.org/wiki/Common_Era)">BCE</a>
  * years are not allowed.
- * 
+ * <p>
  * The year is represented with four digits.
  */
 public class DateYear {

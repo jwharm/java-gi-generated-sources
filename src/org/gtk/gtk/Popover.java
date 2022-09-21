@@ -8,75 +8,78 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkPopover</code> is a bubble-like context popup.
+ * {@code GtkPopover} is a bubble-like context popup.
  * <p>
- * !{@link [An example GtkPopover]}(popover.png)
+ * <img src="./doc-files/popover.png" alt="An example GtkPopover">
  * <p>
  * It is primarily meant to provide context-dependent information
  * or options. Popovers are attached to a parent widget. By default,
  * they point to the whole widget area, although this behavior can be
- * changed with {@link org.gtk.gtk.Popover<code>#setPointingTo</code> .
+ * changed with {@link Popover#setPointingTo}.
  * <p>
  * The position of a popover relative to the widget it is attached to
- * can also be changed with {@link org.gtk.gtk.Popover<code>#setPosition</code> 
+ * can also be changed with {@link Popover#setPosition}
  * <p>
- * By default, <code>GtkPopover</code> performs a grab, in order to ensure input
+ * By default, {@code GtkPopover} performs a grab, in order to ensure input
  * events get redirected to it while it is shown, and also so the popover
  * is dismissed in the expected situations (clicks outside the popover,
  * or the Escape key being pressed). If no such modal behavior is desired
- * on a popover, {@link org.gtk.gtk.Popover<code>#setAutohide</code>  may be called on it to
+ * on a popover, {@link Popover#setAutohide} may be called on it to
  * tweak its behavior.
  * <p>
  * <h2>GtkPopover as menu replacement</h2>
- * <p><code>GtkPopover</code> is often used to replace menus. The best was to do this
- * is to use the {@link org.gtk.gtk.PopoverMenu} subclass which supports being
- * populated from a <code>GMenuModel</code> with {@link [ctor@Gtk.PopoverMenu.new_from_model] (ref=ctor)}.
- * <p><pre>xml
- * &<code>#60</code> section&<code>#62</code> 
- *   &<code>#60</code> attribute name=&<code>#34</code> display-hint&<code>#34</code> &<code>#62</code> horizontal-buttons&<code>#60</code> /attribute&<code>#62</code> 
- *   &<code>#60</code> item&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Cut&<code>#60</code> /attribute&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> action&<code>#34</code> &<code>#62</code> app.cut&<code>#60</code> /attribute&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> verb-icon&<code>#34</code> &<code>#62</code> edit-cut-symbolic&<code>#60</code> /attribute&<code>#62</code> 
- *   &<code>#60</code> /item&<code>#62</code> 
- *   &<code>#60</code> item&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Copy&<code>#60</code> /attribute&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> action&<code>#34</code> &<code>#62</code> app.copy&<code>#60</code> /attribute&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> verb-icon&<code>#34</code> &<code>#62</code> edit-copy-symbolic&<code>#60</code> /attribute&<code>#62</code> 
- *   &<code>#60</code> /item&<code>#62</code> 
- *   &<code>#60</code> item&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> Paste&<code>#60</code> /attribute&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> action&<code>#34</code> &<code>#62</code> app.paste&<code>#60</code> /attribute&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> verb-icon&<code>#34</code> &<code>#62</code> edit-paste-symbolic&<code>#60</code> /attribute&<code>#62</code> 
- *   &<code>#60</code> /item&<code>#62</code> 
- * &<code>#60</code> /section&<code>#62</code> 
- * </pre>
+ * <p>
+ * {@code GtkPopover} is often used to replace menus. The best was to do this
+ * is to use the {@link PopoverMenu} subclass which supports being
+ * populated from a {@code GMenuModel} with {@link PopoverMenu#newFromModel}.
+ * <p>
+ * <pre>{@code xml
+ * <section>
+ *   <attribute name="display-hint">horizontal-buttons</attribute>
+ *   <item>
+ *     <attribute name="label">Cut</attribute>
+ *     <attribute name="action">app.cut</attribute>
+ *     <attribute name="verb-icon">edit-cut-symbolic</attribute>
+ *   </item>
+ *   <item>
+ *     <attribute name="label">Copy</attribute>
+ *     <attribute name="action">app.copy</attribute>
+ *     <attribute name="verb-icon">edit-copy-symbolic</attribute>
+ *   </item>
+ *   <item>
+ *     <attribute name="label">Paste</attribute>
+ *     <attribute name="action">app.paste</attribute>
+ *     <attribute name="verb-icon">edit-paste-symbolic</attribute>
+ *   </item>
+ * </section>
+ * }</pre>
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * popover{@link [.menu]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  arrow
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  contents.background
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- * </pre>
+ * <p>
+ * <pre>{@code 
+ * popover[.menu]
+ * ├── arrow
+ * ╰── contents.background
+ *     ╰── <child>
+ * }</pre>
  * <p>
  * The contents child node always gets the .background style class
  * and the popover itself gets the .menu style class if the popover
- * is menu-like (i.e. <code>GtkPopoverMenu</code>).
+ * is menu-like (i.e. {@code GtkPopoverMenu}).
  * <p>
- * Particular uses of <code>GtkPopover</code>, such as touch selection popups or
- * magnifiers in <code>GtkEntry</code> or <code>GtkTextView</code> get style classes like
+ * Particular uses of {@code GtkPopover}, such as touch selection popups or
+ * magnifiers in {@code GtkEntry} or {@code GtkTextView} get style classes like
  * .touch-selection or .magnifier to differentiate from plain popovers.
  * <p>
  * When styling a popover directly, the popover node should usually
  * not have any background. The visible part of the popover can have
  * a shadow. To specify it in CSS, set the box-shadow of the contents node.
  * <p>
- * Note that, in order to accomplish appropriate arrow visuals, <code>GtkPopover</code>
+ * Note that, in order to accomplish appropriate arrow visuals, {@code GtkPopover}
  * uses custom drawing for the arrow node. This makes it possible for the
  * arrow to change its shape dynamically, but it also limits the possibilities
  * of styling it using CSS. In particular, the arrow gets drawn over the
- * content node&<code>#39</code> s border and shadow, so they look like one shape, which
+ * content node's border and shadow, so they look like one shape, which
  * means that the border width of the content node and the arrow node should
  * be the same. The arrow also does not support any border shape other than
  * solid, no border-radius, only one border width (border-bottom-width is
@@ -99,7 +102,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Creates a new <code>GtkPopover</code>.
+     * Creates a new {@code GtkPopover}.
      */
     public Popover() {
         super(constructNew());
@@ -107,8 +110,8 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Returns whether the popover is modal.
-     * 
-     * See {@link org.gtk.gtk.Popover<code>#setAutohide</code>  for the
+     * <p>
+     * See {@link Popover#setAutohide} for the
      * implications of this.
      */
     public boolean getAutohide() {
@@ -125,7 +128,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Gets the child widget of @popover.
+     * Gets the child widget of {@code popover}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_popover_get_child(handle());
@@ -151,10 +154,10 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Gets the rectangle that the popover points to.
-     * 
+     * <p>
      * If a rectangle to point to has been set, this function will
-     * return <code>true</code> and fill in @rect with such rectangle, otherwise
-     * it will return <code>false</code> and fill in @rect with the parent
+     * return <code>true</code> and fill in {@code rect} with such rectangle, otherwise
+     * it will return <code>false</code> and fill in {@code rect} with the parent
      * widget coordinates.
      */
     public boolean getPointingTo(org.gtk.gdk.Rectangle rect) {
@@ -163,7 +166,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Returns the preferred position of @popover.
+     * Returns the preferred position of {@code popover}.
      */
     public PositionType getPosition() {
         var RESULT = gtk_h.gtk_popover_get_position(handle());
@@ -171,17 +174,17 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Pops @popover down.
-     * 
+     * Pops {@code popover} down.
+     * <p>
      * This may have the side-effect of closing a parent popover
-     * as well. See {@link [property@Gtk.Popover:cascade-popdown] (ref=property)}.
+     * as well. See {@code Gtk.Popover:cascade-popdown}.
      */
     public void popdown() {
         gtk_h.gtk_popover_popdown(handle());
     }
     
     /**
-     * Pops @popover up.
+     * Pops {@code popover} up.
      */
     public void popup() {
         gtk_h.gtk_popover_popup(handle());
@@ -195,12 +198,12 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Sets whether @popover is modal.
-     * 
+     * Sets whether {@code popover} is modal.
+     * <p>
      * A modal popover will grab the keyboard focus on it when being
      * displayed. Focus will wrap around within the popover. Clicking
      * outside the popover area or pressing Esc will dismiss the popover.
-     * 
+     * <p>
      * Called this function on an already showing popup with a new
      * autohide value different from the current one, will cause the
      * popup to be hidden.
@@ -210,28 +213,28 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If @cascade_popdown is <code>true</code>  the popover will be
+     * If {@code cascade_popdown} is <code>true</code>, the popover will be
      * closed when a child modal popover is closed.
-     * 
-     * If <code>false</code>  @popover will stay visible.
+     * <p>
+     * If <code>false</code>, {@code popover} will stay visible.
      */
     public void setCascadePopdown(boolean cascadePopdown) {
         gtk_h.gtk_popover_set_cascade_popdown(handle(), cascadePopdown ? 1 : 0);
     }
     
     /**
-     * Sets the child widget of @popover.
+     * Sets the child widget of {@code popover}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_popover_set_child(handle(), child.handle());
     }
     
     /**
-     * Sets the default widget of a <code>GtkPopover</code>.
+     * Sets the default widget of a {@code GtkPopover}.
      * <p>
-     * The default widget is the widget that&<code>#8217</code> s activated when the user
+     * The default widget is the widget that’s activated when the user
      * presses Enter in a dialog (for example). This function sets or
-     * unsets the default widget for a <code>GtkPopover</code>.
+     * unsets the default widget for a {@code GtkPopover}.
      */
     public void setDefaultWidget(Widget widget) {
         gtk_h.gtk_popover_set_default_widget(handle(), widget.handle());
@@ -255,8 +258,8 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     /**
      * Sets the offset to use when calculating the position
      * of the popover.
-     * 
-     * These values are used when preparing the {@link [struct@Gdk.PopupLayout] (ref=struct)}
+     * <p>
+     * These values are used when preparing the {@code Gdk.PopupLayout}
      * for positioning the popover.
      */
     public void setOffset(int xOffset, int yOffset) {
@@ -264,22 +267,23 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Sets the rectangle that @popover points to.
-     * 
-     * This is in the coordinate space of the @popover parent.
+     * Sets the rectangle that {@code popover} points to.
+     * <p>
+     * This is in the coordinate space of the {@code popover} parent.
      */
     public void setPointingTo(org.gtk.gdk.Rectangle rect) {
         gtk_h.gtk_popover_set_pointing_to(handle(), rect.handle());
     }
     
     /**
-     * Sets the preferred position for @popover to appear.
+     * Sets the preferred position for {@code popover} to appear.
      * <p>
-     * If the @popover is currently visible, it will be immediately
+     * If the {@code popover} is currently visible, it will be immediately
      * updated.
      * <p>
      * This preference will be respected where possible, although
-     * on lack of space (eg. if close to the window edges), the<code>GtkPopover</code> may choose to appear on the opposite side.
+     * on lack of space (eg. if close to the window edges), the
+     * {@code GtkPopover} may choose to appear on the opposite side.
      */
     public void setPosition(PositionType position) {
         gtk_h.gtk_popover_set_position(handle(), position.getValue());
@@ -292,8 +296,8 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Emitted whend the user activates the default widget.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      */
     public SignalHandle onActivateDefault(ActivateDefaultHandler handler) {
         try {

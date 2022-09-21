@@ -8,27 +8,29 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkBuilderListItemFactory</code> is a <code>GtkListItemFactory</code> that creates
- * widgets by instantiating <code>GtkBuilder</code> UI templates.
+ * {@code GtkBuilderListItemFactory} is a {@code GtkListItemFactory} that creates
+ * widgets by instantiating {@code GtkBuilder} UI templates.
  * <p>
- * The templates must be extending <code>GtkListItem</code>, and typically use<code>GtkExpression</code>s to obtain data from the items in the model.
+ * The templates must be extending {@code GtkListItem}, and typically use
+ * {@code GtkExpression}s to obtain data from the items in the model.
  * <p>
- * Example:<pre>xml
- *   &<code>#60</code> interface&<code>#62</code> 
- *     &<code>#60</code> template class=&<code>#34</code> GtkListItem&<code>#34</code> &<code>#62</code> 
- *       &<code>#60</code> property name=&<code>#34</code> child&<code>#34</code> &<code>#62</code> 
- *         &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code> &<code>#62</code> 
- *           &<code>#60</code> property name=&<code>#34</code> xalign&<code>#34</code> &<code>#62</code> 0&<code>#60</code> /property&<code>#62</code> 
- *           &<code>#60</code> binding name=&<code>#34</code> label&<code>#34</code> &<code>#62</code> 
- *             &<code>#60</code> lookup name=&<code>#34</code> name&<code>#34</code>  type=&<code>#34</code> SettingsKey&<code>#34</code> &<code>#62</code> 
- *               &<code>#60</code> lookup name=&<code>#34</code> item&<code>#34</code> &<code>#62</code> GtkListItem&<code>#60</code> /lookup&<code>#62</code> 
- *             &<code>#60</code> /lookup&<code>#62</code> 
- *           &<code>#60</code> /binding&<code>#62</code> 
- *         &<code>#60</code> /object&<code>#62</code> 
- *       &<code>#60</code> /property&<code>#62</code> 
- *     &<code>#60</code> /template&<code>#62</code> 
- *   &<code>#60</code> /interface&<code>#62</code> 
- * </pre>
+ * Example:
+ * <pre>{@code xml
+ *   <interface>
+ *     <template class="GtkListItem">
+ *       <property name="child">
+ *         <object class="GtkLabel">
+ *           <property name="xalign">0</property>
+ *           <binding name="label">
+ *             <lookup name="name" type="SettingsKey">
+ *               <lookup name="item">GtkListItem</lookup>
+ *             </lookup>
+ *           </binding>
+ *         </object>
+ *       </property>
+ *     </template>
+ *   </interface>
+ * }</pre>
  */
 public class BuilderListItemFactory extends ListItemFactory {
 
@@ -47,8 +49,8 @@ public class BuilderListItemFactory extends ListItemFactory {
     }
     
     /**
-     * Creates a new <code>GtkBuilderListItemFactory</code> that instantiates widgets
-     * using @bytes as the data to pass to <code>GtkBuilder</code>.
+     * Creates a new {@code GtkBuilderListItemFactory} that instantiates widgets
+     * using {@code bytes} as the data to pass to {@code GtkBuilder}.
      */
     public static BuilderListItemFactory newFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
         return new BuilderListItemFactory(constructNewFromBytes(scope, bytes));
@@ -60,15 +62,15 @@ public class BuilderListItemFactory extends ListItemFactory {
     }
     
     /**
-     * Creates a new <code>GtkBuilderListItemFactory</code> that instantiates widgets
-     * using data read from the given @resource_path to pass to <code>GtkBuilder</code>.
+     * Creates a new {@code GtkBuilderListItemFactory} that instantiates widgets
+     * using data read from the given {@code resource_path} to pass to {@code GtkBuilder}.
      */
     public static BuilderListItemFactory newFromResource(BuilderScope scope, java.lang.String resourcePath) {
         return new BuilderListItemFactory(constructNewFromResource(scope, resourcePath));
     }
     
     /**
-     * Gets the data used as the <code>GtkBuilder</code> UI template for constructing
+     * Gets the data used as the {@code GtkBuilder} UI template for constructing
      * listitems.
      */
     public org.gtk.glib.Bytes getBytes() {

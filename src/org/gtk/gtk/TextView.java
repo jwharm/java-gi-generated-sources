@@ -8,26 +8,28 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A widget that displays the contents of a {@link org.gtk.gtk.TextBuffer}.
+ * A widget that displays the contents of a {@link TextBuffer}.
  * <p>
- * !{@link [An example GtkTextview]}(multiline-text.png)
+ * <img src="./doc-files/multiline-text.png" alt="An example GtkTextview">
  * <p>
- * You may wish to begin by reading the {@link [conceptual overview]}(section-text-widget.html),
+ * You may wish to begin by reading the <a href="section-text-widget.html">conceptual overview</a>,
  * which gives an overview of all the objects and data types related to the
  * text widget and how they work together.
  * <p>
  * <h2>CSS nodes</h2>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * textview.view
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  border.top
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  border.left
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  text
- * &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [selection]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  border.right
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  border.bottom
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [window.popup]}
- * </pre>
- * <p><code>GtkTextView</code> has a main css node with name textview and style class .view,
+ * ├── border.top
+ * ├── border.left
+ * ├── text
+ * │   ╰── [selection]
+ * ├── border.right
+ * ├── border.bottom
+ * ╰── [window.popup]
+ * }</pre>
+ * <p>
+ * {@code GtkTextView} has a main css node with name textview and style class .view,
  * and subnodes for each of the border windows, and the main text area,
  * with names border and text, respectively. The border nodes each get
  * one of the style classes .left, .right, .top or .bottom.
@@ -38,7 +40,8 @@ import java.lang.invoke.*;
  * of the main node.
  * <p>
  * <h2>Accessibility</h2>
- * <p><code>GtkTextView</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#TEXT_BOX</code>  role.
+ * <p>
+ * {@code GtkTextView} uses the {@link AccessibleRole#TEXT_BOX} role.
  */
 public class TextView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
@@ -57,12 +60,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkTextView</code>.
-     * 
-     * If you don&<code>#8217</code> t call {@link org.gtk.gtk.TextView<code>#setBuffer</code>  before using the
+     * Creates a new {@code GtkTextView}.
+     * <p>
+     * If you don’t call {@link TextView#setBuffer} before using the
      * text view, an empty default buffer will be created for you. Get the
-     * buffer with {@link org.gtk.gtk.TextView<code>#getBuffer</code> . If you want to specify
-     * your own buffer, consider {@link [ctor@Gtk.TextView.new_with_buffer] (ref=ctor)}.
+     * buffer with {@link TextView#getBuffer}. If you want to specify
+     * your own buffer, consider {@link TextView#newWithBuffer}.
      */
     public TextView() {
         super(constructNew());
@@ -74,10 +77,11 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkTextView</code> widget displaying the buffer @buffer.
-     * 
-     * One buffer can be shared among many widgets. @buffer may be <code>null</code> to create a default buffer, in which case this function is equivalent
-     * to {@link [ctor@Gtk.TextView.new] (ref=ctor)}. The text view adds its own reference count
+     * Creates a new {@code GtkTextView} widget displaying the buffer {@code buffer}.
+     * <p>
+     * One buffer can be shared among many widgets. {@code buffer} may be <code>null</code>
+     * to create a default buffer, in which case this function is equivalent
+     * to {@link TextView#TextView}. The text view adds its own reference count
      * to the buffer; it does not take over an existing reference.
      */
     public static TextView newWithBuffer(TextBuffer buffer) {
@@ -85,37 +89,38 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Adds a child widget in the text buffer, at the given @anchor.
+     * Adds a child widget in the text buffer, at the given {@code anchor}.
      */
     public void addChildAtAnchor(Widget child, TextChildAnchor anchor) {
         gtk_h.gtk_text_view_add_child_at_anchor(handle(), child.handle(), anchor.handle());
     }
     
     /**
-     * Adds @child at a fixed coordinate in the <code>GtkTextView</code>&<code>#39</code> s text window.
+     * Adds {@code child} at a fixed coordinate in the {@code GtkTextView}'s text window.
      * <p>
-     * The @xpos and @ypos must be in buffer coordinates (see
-     * {@link org.gtk.gtk.TextView<code>#getIterLocation</code>  to convert to
+     * The {@code xpos} and {@code ypos} must be in buffer coordinates (see
+     * {@link TextView#getIterLocation} to convert to
      * buffer coordinates).
      * <p>
-     * @child will scroll with the text view.
+     * {@code child} will scroll with the text view.
      * <p>
-     * If instead you want a widget that will not move with the<code>GtkTextView</code> contents see <code>GtkOverlay</code>.
+     * If instead you want a widget that will not move with the
+     * {@code GtkTextView} contents see {@code GtkOverlay}.
      */
     public void addOverlay(Widget child, int xpos, int ypos) {
         gtk_h.gtk_text_view_add_overlay(handle(), child.handle(), xpos, ypos);
     }
     
     /**
-     * Moves the given @iter backward by one display (wrapped) line.
+     * Moves the given {@code iter} backward by one display (wrapped) line.
      * <p>
      * A display line is different from a paragraph. Paragraphs are
      * separated by newlines or other paragraph separator characters.
      * Display lines are created by line-wrapping a paragraph. If
      * wrapping is turned off, display lines and paragraphs will be the
      * same. Display lines are divided differently for each view, since
-     * they depend on the view&<code>#8217</code> s width; paragraphs are the same in all
-     * views, since they depend on the contents of the <code>GtkTextBuffer</code>.
+     * they depend on the view’s width; paragraphs are the same in all
+     * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
     public boolean backwardDisplayLine(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_backward_display_line(handle(), iter.handle());
@@ -123,15 +128,15 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Moves the given @iter backward to the next display line start.
+     * Moves the given {@code iter} backward to the next display line start.
      * <p>
      * A display line is different from a paragraph. Paragraphs are
      * separated by newlines or other paragraph separator characters.
      * Display lines are created by line-wrapping a paragraph. If
      * wrapping is turned off, display lines and paragraphs will be the
      * same. Display lines are divided differently for each view, since
-     * they depend on the view&<code>#8217</code> s width; paragraphs are the same in all
-     * views, since they depend on the contents of the <code>GtkTextBuffer</code>.
+     * they depend on the view’s width; paragraphs are the same in all
+     * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
     public boolean backwardDisplayLineStart(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_backward_display_line_start(handle(), iter.handle());
@@ -139,15 +144,15 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Moves the given @iter forward by one display (wrapped) line.
+     * Moves the given {@code iter} forward by one display (wrapped) line.
      * <p>
      * A display line is different from a paragraph. Paragraphs are
      * separated by newlines or other paragraph separator characters.
      * Display lines are created by line-wrapping a paragraph. If
      * wrapping is turned off, display lines and paragraphs will be the
      * same. Display lines are divided differently for each view, since
-     * they depend on the view&<code>#8217</code> s width; paragraphs are the same in all
-     * views, since they depend on the contents of the <code>GtkTextBuffer</code>.
+     * they depend on the view’s width; paragraphs are the same in all
+     * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
     public boolean forwardDisplayLine(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_forward_display_line(handle(), iter.handle());
@@ -155,15 +160,15 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Moves the given @iter forward to the next display line end.
+     * Moves the given {@code iter} forward to the next display line end.
      * <p>
      * A display line is different from a paragraph. Paragraphs are
      * separated by newlines or other paragraph separator characters.
      * Display lines are created by line-wrapping a paragraph. If
      * wrapping is turned off, display lines and paragraphs will be the
      * same. Display lines are divided differently for each view, since
-     * they depend on the view&<code>#8217</code> s width; paragraphs are the same in all
-     * views, since they depend on the contents of the <code>GtkTextBuffer</code>.
+     * they depend on the view’s width; paragraphs are the same in all
+     * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
     public boolean forwardDisplayLineEnd(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_forward_display_line_end(handle(), iter.handle());
@@ -171,9 +176,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns whether pressing the &<code>#60</code> kbd&<code>#62</code> Tab&<code>#60</code> /kbd&<code>#62</code>  key inserts a tab characters.
-     * 
-     * See {@link org.gtk.gtk.TextView<code>#setAcceptsTab</code> .
+     * Returns whether pressing the &lt;kbd>Tab</kbd&gt; key inserts a tab characters.
+     * <p>
+     * See {@link TextView#setAcceptsTab}.
      */
     public boolean getAcceptsTab() {
         var RESULT = gtk_h.gtk_text_view_get_accepts_tab(handle());
@@ -181,7 +186,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the bottom margin for text in the @text_view.
+     * Gets the bottom margin for text in the {@code text_view}.
      */
     public int getBottomMargin() {
         var RESULT = gtk_h.gtk_text_view_get_bottom_margin(handle());
@@ -189,10 +194,10 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the <code>GtkTextBuffer</code> being displayed by this text view.
-     * 
+     * Returns the {@code GtkTextBuffer} being displayed by this text view.
+     * <p>
      * The reference count on the buffer is not incremented; the caller
-     * of this function won&<code>#8217</code> t own a new reference.
+     * of this function won’t own a new reference.
      */
     public TextBuffer getBuffer() {
         var RESULT = gtk_h.gtk_text_view_get_buffer(handle());
@@ -201,24 +206,24 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Determine the positions of the strong and weak cursors if the
-     * insertion point is at @iter.
-     * 
+     * insertion point is at {@code iter}.
+     * <p>
      * The position of each cursor is stored as a zero-width rectangle.
      * The strong cursor location is the location where characters of
      * the directionality equal to the base direction of the paragraph
      * are inserted. The weak cursor location is the location where
      * characters of the directionality opposite to the base direction
      * of the paragraph are inserted.
-     * 
-     * If @iter is <code>null</code>  the actual cursor position is used.
-     * 
-     * Note that if @iter happens to be the actual cursor position, and
+     * <p>
+     * If {@code iter} is <code>null</code>, the actual cursor position is used.
+     * <p>
+     * Note that if {@code iter} happens to be the actual cursor position, and
      * there is currently an IM preedit sequence being entered, the
      * returned locations will be adjusted to account for the preedit
-     * cursor&<code>#8217</code> s offset within the preedit sequence.
-     * 
+     * cursor’s offset within the preedit sequence.
+     * <p>
      * The rectangle position is in buffer coordinates; use
-     * {@link org.gtk.gtk.TextView<code>#bufferToWindowCoords</code>  to convert these
+     * {@link TextView#bufferToWindowCoords} to convert these
      * coordinates to coordinates for one of the windows in the text view.
      */
     public void getCursorLocations(TextIter iter, org.gtk.gdk.Rectangle strong, org.gtk.gdk.Rectangle weak) {
@@ -234,8 +239,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns the default editability of the <code>GtkTextView</code>.
-     * 
+     * Returns the default editability of the {@code GtkTextView}.
+     * <p>
      * Tags in the buffer may override this setting for some ranges of text.
      */
     public boolean getEditable() {
@@ -253,12 +258,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets a <code>GtkWidget</code> that has previously been set as gutter.
-     * 
-     * See {@link org.gtk.gtk.TextView<code>#setGutter</code> .
-     * 
-     * @win must be one of {@link org.gtk.gtk.TextWindowType<code>#LEFT</code>   {@link org.gtk.gtk.TextWindowType<code>#RIGHT</code>  
-     * {@link org.gtk.gtk.TextWindowType<code>#TOP</code>   or {@link org.gtk.gtk.TextWindowType<code>#BOTTOM</code>
+     * Gets a {@code GtkWidget} that has previously been set as gutter.
+     * <p>
+     * See {@link TextView#setGutter}.
+     * <p>
+     * {@code win} must be one of {@link TextWindowType#LEFT}, {@link TextWindowType#RIGHT},
+     * {@link TextWindowType#TOP}, or {@link TextWindowType#BOTTOM}.
      */
     public Widget getGutter(TextWindowType win) {
         var RESULT = gtk_h.gtk_text_view_get_gutter(handle(), win.getValue());
@@ -266,9 +271,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the default indentation of paragraphs in @text_view.
-     * 
-     * Tags in the view&<code>#8217</code> s buffer may override the default.
+     * Gets the default indentation of paragraphs in {@code text_view}.
+     * <p>
+     * Tags in the view’s buffer may override the default.
      * The indentation may be negative.
      */
     public int getIndent() {
@@ -277,7 +282,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the <code>input-hints</code> of the <code>GtkTextView</code>.
+     * Gets the {@code input-hints} of the {@code GtkTextView}.
      */
     public int getInputHints() {
         var RESULT = gtk_h.gtk_text_view_get_input_hints(handle());
@@ -285,7 +290,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the <code>input-purpose</code> of the <code>GtkTextView</code>.
+     * Gets the {@code input-purpose} of the {@code GtkTextView}.
      */
     public InputPurpose getInputPurpose() {
         var RESULT = gtk_h.gtk_text_view_get_input_purpose(handle());
@@ -294,11 +299,11 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Retrieves the iterator at buffer coordinates @x and @y.
-     * 
+     * <p>
      * Buffer coordinates are coordinates for the entire buffer, not just
      * the currently-displayed portion. If you have coordinates from an
      * event, you have to convert those to buffer coordinates with
-     * {@link org.gtk.gtk.TextView<code>#windowToBufferCoords</code> .
+     * {@link TextView#windowToBufferCoords}.
      */
     public boolean getIterAtLocation(TextIter iter, int x, int y) {
         var RESULT = gtk_h.gtk_text_view_get_iter_at_location(handle(), iter.handle(), x, y);
@@ -306,10 +311,10 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets a rectangle which roughly contains the character at @iter.
-     * 
+     * Gets a rectangle which roughly contains the character at {@code iter}.
+     * <p>
      * The rectangle position is in buffer coordinates; use
-     * {@link org.gtk.gtk.TextView<code>#bufferToWindowCoords</code>  to convert these
+     * {@link TextView#bufferToWindowCoords} to convert these
      * coordinates to coordinates for one of the windows in the text view.
      */
     public void getIterLocation(TextIter iter, org.gtk.gdk.Rectangle location) {
@@ -317,8 +322,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the default justification of paragraphs in @text_view.
-     * 
+     * Gets the default justification of paragraphs in {@code text_view}.
+     * <p>
      * Tags in the buffer may override the default.
      */
     public Justification getJustification() {
@@ -327,8 +332,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the default left margin size of paragraphs in the @text_view.
-     * 
+     * Gets the default left margin size of paragraphs in the {@code text_view}.
+     * <p>
      * Tags in the buffer may override the default.
      */
     public int getLeftMargin() {
@@ -337,9 +342,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the <code>PangoContext</code> that is used for rendering LTR directed
+     * Gets the {@code PangoContext} that is used for rendering LTR directed
      * text layouts.
-     * 
+     * <p>
      * The context may be replaced when CSS changes occur.
      */
     public org.pango.Context getLtrContext() {
@@ -348,7 +353,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets whether the <code>GtkTextView</code> uses monospace styling.
+     * Gets whether the {@code GtkTextView} uses monospace styling.
      */
     public boolean getMonospace() {
         var RESULT = gtk_h.gtk_text_view_get_monospace(handle());
@@ -356,7 +361,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns whether the <code>GtkTextView</code> is in overwrite mode or not.
+     * Returns whether the {@code GtkTextView} is in overwrite mode or not.
      */
     public boolean getOverwrite() {
         var RESULT = gtk_h.gtk_text_view_get_overwrite(handle());
@@ -365,8 +370,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets the default number of pixels to put above paragraphs.
-     * 
-     * Adding this function with {@link org.gtk.gtk.TextView<code>#getPixelsBelowLines</code> 
+     * <p>
+     * Adding this function with {@link TextView#getPixelsBelowLines}
      * is equal to the line space between each paragraph.
      */
     public int getPixelsAboveLines() {
@@ -376,9 +381,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets the default number of pixels to put below paragraphs.
-     * 
+     * <p>
      * The line space is the sum of the value returned by this function and
-     * the value returned by {@link org.gtk.gtk.TextView<code>#getPixelsAboveLines</code> .
+     * the value returned by {@link TextView#getPixelsAboveLines}.
      */
     public int getPixelsBelowLines() {
         var RESULT = gtk_h.gtk_text_view_get_pixels_below_lines(handle());
@@ -395,8 +400,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the default right margin for text in @text_view.
-     * 
+     * Gets the default right margin for text in {@code text_view}.
+     * <p>
      * Tags in the buffer may override the default.
      */
     public int getRightMargin() {
@@ -405,9 +410,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the <code>PangoContext</code> that is used for rendering RTL directed
+     * Gets the {@code PangoContext} that is used for rendering RTL directed
      * text layouts.
-     * 
+     * <p>
      * The context may be replaced when CSS changes occur.
      */
     public org.pango.Context getRtlContext() {
@@ -416,11 +421,11 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the default tabs for @text_view.
-     * 
+     * Gets the default tabs for {@code text_view}.
+     * <p>
      * Tags in the buffer may override the defaults. The returned array
-     * will be <code>null</code> if &<code>#8220</code> standard&<code>#8221</code>  (8-space) tabs are used. Free the
-     * return value with {@link org.pango.TabArray<code>#free</code> .
+     * will be <code>null</code> if “standard” (8-space) tabs are used. Free the
+     * return value with {@link org.pango.TabArray#free}.
      */
     public org.pango.TabArray getTabs() {
         var RESULT = gtk_h.gtk_text_view_get_tabs(handle());
@@ -428,7 +433,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the top margin for text in the @text_view.
+     * Gets the top margin for text in the {@code text_view}.
      */
     public int getTopMargin() {
         var RESULT = gtk_h.gtk_text_view_get_top_margin(handle());
@@ -436,11 +441,11 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Fills @visible_rect with the currently-visible
+     * Fills {@code visible_rect} with the currently-visible
      * region of the buffer, in buffer coordinates.
-     * 
+     * <p>
      * Convert to window coordinates with
-     * {@link org.gtk.gtk.TextView<code>#bufferToWindowCoords</code> .
+     * {@link TextView#bufferToWindowCoords}.
      */
     public void getVisibleRect(org.gtk.gdk.Rectangle visibleRect) {
         gtk_h.gtk_text_view_get_visible_rect(handle(), visibleRect.handle());
@@ -455,24 +460,25 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Allow the <code>GtkTextView</code> input method to internally handle key press
+     * Allow the {@code GtkTextView} input method to internally handle key press
      * and release events.
      * <p>
-     * If this function returns <code>true</code>  then no further processing should be
-     * done for this key event. See {@link org.gtk.gtk.IMContext<code>#filterKeypress</code> .
+     * If this function returns <code>true</code>, then no further processing should be
+     * done for this key event. See {@link IMContext#filterKeypress}.
      * <p>
      * Note that you are expected to call this function from your handler
      * when overriding key event handling. This is needed in the case when
      * you need to insert your own key handling between the input method
-     * and the default key event handling of the <code>GtkTextView</code>.
-     * <p><pre>c
+     * and the default key event handling of the {@code GtkTextView}.
+     * <p>
+     * <pre>{@code c
      * static gboolean
      * gtk_foo_bar_key_press_event (GtkWidget *widget,
      *                              GdkEvent  *event)
      * {
      *   guint keyval;
      * 
-     *   gdk_event_get_keyval ((GdkEvent*)event, &<code>#38</code> keyval);
+     *   gdk_event_get_keyval ((GdkEvent*)event, &keyval);
      * 
      *   if (keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter)
      *     {
@@ -482,9 +488,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * 
      *   // Do some stuff
      * 
-     *   return GTK_WIDGET_CLASS (gtk_foo_bar_parent_class)-&<code>#62</code> key_press_event (widget, event);
+     *   return GTK_WIDGET_CLASS (gtk_foo_bar_parent_class)->key_press_event (widget, event);
      * }
-     * </pre>
+     * }</pre>
      */
     public boolean imContextFilterKeypress(org.gtk.gdk.Event event) {
         var RESULT = gtk_h.gtk_text_view_im_context_filter_keypress(handle(), event.handle());
@@ -492,7 +498,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Moves a mark within the buffer so that it&<code>#39</code> s
+     * Moves a mark within the buffer so that it's
      * located within the currently-visible text area.
      */
     public boolean moveMarkOnscreen(TextMark mark) {
@@ -502,8 +508,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Updates the position of a child.
-     * 
-     * See {@link org.gtk.gtk.TextView<code>#addOverlay</code> .
+     * <p>
+     * See {@link TextView#addOverlay}.
      */
     public void moveOverlay(Widget child, int xpos, int ypos) {
         gtk_h.gtk_text_view_move_overlay(handle(), child.handle(), xpos, ypos);
@@ -512,12 +518,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Move the iterator a given number of characters visually, treating
      * it as the strong cursor position.
-     * 
-     * If @count is positive, then the new strong cursor position will
-     * be @count positions to the right of the old cursor position.
-     * If @count is negative then the new strong cursor position will
-     * be @count positions to the left of the old cursor position.
-     * 
+     * <p>
+     * If {@code count} is positive, then the new strong cursor position will
+     * be {@code count} positions to the right of the old cursor position.
+     * If {@code count} is negative then the new strong cursor position will
+     * be {@code count} positions to the left of the old cursor position.
+     * <p>
      * In the presence of bi-directional text, the correspondence
      * between logical and visual order will depend on the direction
      * of the current run, and there may be jumps when the cursor
@@ -538,7 +544,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Removes a child widget from @text_view.
+     * Removes a child widget from {@code text_view}.
      */
     public void remove(Widget child) {
         gtk_h.gtk_text_view_remove(handle(), child.handle());
@@ -546,12 +552,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Ensures that the cursor is shown.
-     * 
+     * <p>
      * This also resets the time that it will stay blinking (or
      * visible, in case blinking is disabled).
-     * 
+     * <p>
      * This function should be called in response to user input
-     * (e.g. from derived classes that override the textview&<code>#39</code> s
+     * (e.g. from derived classes that override the textview's
      * event handlers).
      */
     public void resetCursorBlink() {
@@ -560,7 +566,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Reset the input method context of the text view if needed.
-     * 
+     * <p>
      * This can be necessary in the case where modifying the buffer
      * would confuse on-going input method behavior.
      */
@@ -569,7 +575,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Scrolls @text_view the minimum distance such that @mark is contained
+     * Scrolls {@code text_view} the minimum distance such that {@code mark} is contained
      * within the visible area of the widget.
      */
     public void scrollMarkOnscreen(TextMark mark) {
@@ -577,20 +583,20 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Scrolls @text_view so that @iter is on the screen in the position
-     * indicated by @xalign and @yalign.
-     * 
+     * Scrolls {@code text_view} so that {@code iter} is on the screen in the position
+     * indicated by {@code xalign} and {@code yalign}.
+     * <p>
      * An alignment of 0.0 indicates left or top, 1.0 indicates right or
-     * bottom, 0.5 means center. If @use_align is <code>false</code>  the text scrolls
+     * bottom, 0.5 means center. If {@code use_align} is <code>false</code>, the text scrolls
      * the minimal distance to get the mark onscreen, possibly not scrolling
      * at all. The effective screen for purposes of this function is reduced
-     * by a margin of size @within_margin.
-     * 
+     * by a margin of size {@code within_margin}.
+     * <p>
      * Note that this function uses the currently-computed height of the
      * lines in the text buffer. Line heights are computed in an idle
-     * handler; so this function may not have the desired effect if it&<code>#8217</code> s
+     * handler; so this function may not have the desired effect if it’s
      * called before the height computations. To avoid oddness, consider
-     * using {@link org.gtk.gtk.TextView<code>#scrollToMark</code>  which saves a point to be
+     * using {@link TextView#scrollToMark} which saves a point to be
      * scrolled to after line validation.
      */
     public boolean scrollToIter(TextIter iter, double withinMargin, boolean useAlign, double xalign, double yalign) {
@@ -599,23 +605,23 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Scrolls @text_view so that @mark is on the screen in the position
-     * indicated by @xalign and @yalign.
-     * 
+     * Scrolls {@code text_view} so that {@code mark} is on the screen in the position
+     * indicated by {@code xalign} and {@code yalign}.
+     * <p>
      * An alignment of 0.0 indicates left or top, 1.0 indicates right or
-     * bottom, 0.5 means center. If @use_align is <code>false</code>  the text scrolls
+     * bottom, 0.5 means center. If {@code use_align} is <code>false</code>, the text scrolls
      * the minimal distance to get the mark onscreen, possibly not scrolling
      * at all. The effective screen for purposes of this function is reduced
-     * by a margin of size @within_margin.
+     * by a margin of size {@code within_margin}.
      */
     public void scrollToMark(TextMark mark, double withinMargin, boolean useAlign, double xalign, double yalign) {
         gtk_h.gtk_text_view_scroll_to_mark(handle(), mark.handle(), withinMargin, useAlign ? 1 : 0, xalign, yalign);
     }
     
     /**
-     * Sets the behavior of the text widget when the &<code>#60</code> kbd&<code>#62</code> Tab&<code>#60</code> /kbd&<code>#62</code>  key is pressed.
-     * 
-     * If @accepts_tab is <code>true</code>  a tab character is inserted. If @accepts_tab
+     * Sets the behavior of the text widget when the &lt;kbd>Tab</kbd&gt; key is pressed.
+     * <p>
+     * If {@code accepts_tab} is <code>true</code>, a tab character is inserted. If {@code accepts_tab}
      * is <code>false</code> the keyboard focus is moved to the next widget in the focus
      * chain.
      */
@@ -624,8 +630,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the bottom margin for text in @text_view.
-     * 
+     * Sets the bottom margin for text in {@code text_view}.
+     * <p>
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
@@ -634,12 +640,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets @buffer as the buffer being displayed by @text_view.
+     * Sets {@code buffer} as the buffer being displayed by {@code text_view}.
      * <p>
      * The previous buffer displayed by the text view is unreferenced, and
-     * a reference is added to @buffer. If you owned a reference to @buffer
+     * a reference is added to {@code buffer}. If you owned a reference to {@code buffer}
      * before passing it to this function, you must remove that reference
-     * yourself; <code>GtkTextView</code> will not &<code>#8220</code> adopt&<code>#8221</code>  it.
+     * yourself; {@code GtkTextView} will not “adopt” it.
      */
     public void setBuffer(TextBuffer buffer) {
         gtk_h.gtk_text_view_set_buffer(handle(), buffer.handle());
@@ -647,22 +653,22 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Toggles whether the insertion point should be displayed.
-     * 
-     * A buffer with no editable text probably shouldn&<code>#8217</code> t have a visible
+     * <p>
+     * A buffer with no editable text probably shouldn’t have a visible
      * cursor, so you may want to turn the cursor off.
-     * 
+     * <p>
      * Note that this property may be overridden by the
-     * {@link [property@GtkSettings:gtk-keynav-use-caret] (ref=property)} setting.
+     * {@code GtkSettings:gtk-keynav-use-caret} setting.
      */
     public void setCursorVisible(boolean setting) {
         gtk_h.gtk_text_view_set_cursor_visible(handle(), setting ? 1 : 0);
     }
     
     /**
-     * Sets the default editability of the <code>GtkTextView</code>.
-     * 
+     * Sets the default editability of the {@code GtkTextView}.
+     * <p>
      * You can override this default setting with tags in the buffer,
-     * using the &<code>#8220</code> editable&<code>#8221</code>  attribute of tags.
+     * using the “editable” attribute of tags.
      */
     public void setEditable(boolean setting) {
         gtk_h.gtk_text_view_set_editable(handle(), setting ? 1 : 0);
@@ -670,8 +676,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets a menu model to add when constructing the context
-     * menu for @text_view.
-     * 
+     * menu for {@code text_view}.
+     * <p>
      * You can pass <code>null</code> to remove a previously set extra menu.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
@@ -679,18 +685,18 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Places @widget into the gutter specified by @win.
-     * 
-     * @win must be one of {@link org.gtk.gtk.TextWindowType<code>#LEFT</code>   {@link org.gtk.gtk.TextWindowType<code>#RIGHT</code>  
-     * {@link org.gtk.gtk.TextWindowType<code>#TOP</code>   or {@link org.gtk.gtk.TextWindowType<code>#BOTTOM</code>
+     * Places {@code widget} into the gutter specified by {@code win}.
+     * <p>
+     * {@code win} must be one of {@link TextWindowType#LEFT}, {@link TextWindowType#RIGHT},
+     * {@link TextWindowType#TOP}, or {@link TextWindowType#BOTTOM}.
      */
     public void setGutter(TextWindowType win, Widget widget) {
         gtk_h.gtk_text_view_set_gutter(handle(), win.getValue(), widget.handle());
     }
     
     /**
-     * Sets the default indentation for paragraphs in @text_view.
-     * 
+     * Sets the default indentation for paragraphs in {@code text_view}.
+     * <p>
      * Tags in the buffer may override the default.
      */
     public void setIndent(int indent) {
@@ -698,9 +704,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the <code>input-hints</code> of the <code>GtkTextView</code>.
+     * Sets the {@code input-hints} of the {@code GtkTextView}.
      * <p>
-     * The <code>input-hints</code> allow input methods to fine-tune
+     * The {@code input-hints} allow input methods to fine-tune
      * their behaviour.
      */
     public void setInputHints(int hints) {
@@ -708,9 +714,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the <code>input-purpose</code> of the <code>GtkTextView</code>.
+     * Sets the {@code input-purpose} of the {@code GtkTextView}.
      * <p>
-     * The <code>input-purpose</code> can be used by on-screen keyboards
+     * The {@code input-purpose} can be used by on-screen keyboards
      * and other input methods to adjust their behaviour.
      */
     public void setInputPurpose(InputPurpose purpose) {
@@ -718,19 +724,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the default justification of text in @text_view.
-     * 
-     * Tags in the view&<code>#8217</code> s buffer may override the default.
+     * Sets the default justification of text in {@code text_view}.
+     * <p>
+     * Tags in the view’s buffer may override the default.
      */
     public void setJustification(Justification justification) {
         gtk_h.gtk_text_view_set_justification(handle(), justification.getValue());
     }
     
     /**
-     * Sets the default left margin for text in @text_view.
-     * 
+     * Sets the default left margin for text in {@code text_view}.
+     * <p>
      * Tags in the buffer may override the default.
-     * 
+     * <p>
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
@@ -739,7 +745,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets whether the <code>GtkTextView</code> should display text in
+     * Sets whether the {@code GtkTextView} should display text in
      * monospace styling.
      */
     public void setMonospace(boolean monospace) {
@@ -747,16 +753,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Changes the <code>GtkTextView</code> overwrite mode.
+     * Changes the {@code GtkTextView} overwrite mode.
      */
     public void setOverwrite(boolean overwrite) {
         gtk_h.gtk_text_view_set_overwrite(handle(), overwrite ? 1 : 0);
     }
     
     /**
-     * Sets the default number of blank pixels above paragraphs in @text_view.
-     * 
-     * Tags in the buffer for @text_view may override the defaults.
+     * Sets the default number of blank pixels above paragraphs in {@code text_view}.
+     * <p>
+     * Tags in the buffer for {@code text_view} may override the defaults.
      */
     public void setPixelsAboveLines(int pixelsAboveLines) {
         gtk_h.gtk_text_view_set_pixels_above_lines(handle(), pixelsAboveLines);
@@ -764,9 +770,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the default number of pixels of blank space
-     * to put below paragraphs in @text_view.
-     * 
-     * May be overridden by tags applied to @text_view&<code>#8217</code> s buffer.
+     * to put below paragraphs in {@code text_view}.
+     * <p>
+     * May be overridden by tags applied to {@code text_view}’s buffer.
      */
     public void setPixelsBelowLines(int pixelsBelowLines) {
         gtk_h.gtk_text_view_set_pixels_below_lines(handle(), pixelsBelowLines);
@@ -775,8 +781,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the default number of pixels of blank space to leave between
      * display/wrapped lines within a paragraph.
-     * 
-     * May be overridden by tags in @text_view&<code>#8217</code> s buffer.
+     * <p>
+     * May be overridden by tags in {@code text_view}’s buffer.
      */
     public void setPixelsInsideWrap(int pixelsInsideWrap) {
         gtk_h.gtk_text_view_set_pixels_inside_wrap(handle(), pixelsInsideWrap);
@@ -784,9 +790,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the default right margin for text in the text view.
-     * 
+     * <p>
      * Tags in the buffer may override the default.
-     * 
+     * <p>
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
@@ -795,8 +801,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the default tab stops for paragraphs in @text_view.
-     * 
+     * Sets the default tab stops for paragraphs in {@code text_view}.
+     * <p>
      * Tags in the buffer may override the default.
      */
     public void setTabs(org.pango.TabArray tabs) {
@@ -804,8 +810,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the top margin for text in @text_view.
-     * 
+     * Sets the top margin for text in {@code text_view}.
+     * <p>
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
@@ -821,9 +827,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Determines whether @iter is at the start of a display line.
-     * 
-     * See {@link org.gtk.gtk.TextView<code>#forwardDisplayLine</code>  for an
+     * Determines whether {@code iter} is at the start of a display line.
+     * <p>
+     * See {@link TextView#forwardDisplayLine} for an
      * explanation of display lines vs. paragraphs.
      */
     public boolean startsDisplayLine(TextIter iter) {
@@ -838,11 +844,11 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted when the user asks for it.
-     * 
-     * The ::backspace signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * The ::backspace signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Backspace&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Backspace&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Backspace</kbd> and <kbd>Shift</kbd>-<kbd>Backspace</kbd&gt;.
      */
     public SignalHandle onBackspace(BackspaceHandler handler) {
         try {
@@ -866,12 +872,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted to copy the selection to the clipboard.
-     * 
-     * The ::copy-clipboard signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * The ::copy-clipboard signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> c&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Insert&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Ctrl</kbd>-<kbd>c</kbd&gt; and
+     * &lt;kbd>Ctrl</kbd>-<kbd>Insert</kbd&gt;.
      */
     public SignalHandle onCopyClipboard(CopyClipboardHandler handler) {
         try {
@@ -895,12 +901,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted to cut the selection to the clipboard.
-     * 
-     * The ::cut-clipboard signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * The ::cut-clipboard signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> x&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Delete&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Ctrl</kbd>-<kbd>x</kbd&gt; and
+     * &lt;kbd>Shift</kbd>-<kbd>Delete</kbd&gt;.
      */
     public SignalHandle onCutClipboard(CutClipboardHandler handler) {
         try {
@@ -924,16 +930,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted when the user initiates a text deletion.
-     * 
-     * The ::delete-from-cursor signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * If the @type is {@link org.gtk.gtk.DeleteType<code>#CHARS</code>   GTK deletes the selection
+     * <p>
+     * The ::delete-from-cursor signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * If the {@code type} is {@link DeleteType#CHARS}, GTK deletes the selection
      * if there is one, otherwise it deletes the requested number
      * of characters.
-     * 
-     * The default bindings for this signal are &<code>#60</code> kbd&<code>#62</code> Delete&<code>#60</code> /kbd&<code>#62</code>  for
-     * deleting a character, &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Delete&<code>#60</code> /kbd&<code>#62</code>  for
-     * deleting a word and &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Backspace&<code>#60</code> /kbd&<code>#62</code>  for
+     * <p>
+     * The default bindings for this signal are &lt;kbd>Delete</kbd&gt; for
+     * deleting a character, &lt;kbd>Ctrl</kbd>-<kbd>Delete</kbd&gt; for
+     * deleting a word and &lt;kbd>Ctrl</kbd>-<kbd>Backspace</kbd&gt; for
      * deleting a word backwards.
      */
     public SignalHandle onDeleteFromCursor(DeleteFromCursorHandler handler) {
@@ -957,7 +963,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Emitted when the selection needs to be extended at @location.
+     * Emitted when the selection needs to be extended at {@code location}.
      */
     public SignalHandle onExtendSelection(ExtendSelectionHandler handler) {
         try {
@@ -982,9 +988,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets emitted when the user initiates the insertion of a
      * fixed string at the cursor.
-     * 
-     * The ::insert-at-cursor signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * The ::insert-at-cursor signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * This signal has no default bindings.
      */
     public SignalHandle onInsertAtCursor(InsertAtCursorHandler handler) {
@@ -1008,13 +1014,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets emitted to present the Emoji chooser for the @text_view.
-     * 
-     * The ::insert-emoji signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * Gets emitted to present the Emoji chooser for the {@code text_view}.
+     * <p>
+     * The ::insert-emoji signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> .&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> ;&<code>#60</code> /kbd&<code>#62</code>
+     * &lt;kbd>Ctrl</kbd>-<kbd>.</kbd&gt; and
+     * &lt;kbd>Ctrl</kbd>-<kbd>;</kbd&gt;
      */
     public SignalHandle onInsertEmoji(InsertEmojiHandler handler) {
         try {
@@ -1038,27 +1044,28 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted when the user initiates a cursor movement.
-     * 
-     * The ::move-cursor signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * If the cursor is not visible in @text_view, this signal causes
+     * <p>
+     * The ::move-cursor signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * If the cursor is not visible in {@code text_view}, this signal causes
      * the viewport to be moved instead.
-     * 
+     * <p>
      * Applications should not connect to it, but may emit it with
      * g_signal_emit_by_name() if they need to control the cursor
      * programmatically.
-     * 
+     * <p>
      * 
      * The default bindings for this signal come in two variants,
-     * the variant with the &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code>  modifier extends the
+     * the variant with the &lt;kbd>Shift</kbd&gt; modifier extends the
      * selection, the variant without it does not.
      * There are too many key combinations to list them all here.
-     * 
-     * - &<code>#60</code> kbd&<code>#62</code> &<code>#8592</code> &<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> &<code>#8594</code> &<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> &<code>#8593</code> &<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> &<code>#8595</code> &<code>#60</code> /kbd&<code>#62</code> 
+     * <p>
+     * <ul>
+     * <li>&lt;kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd&gt;
      *   move by individual characters/lines
-     * - &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> &<code>#8594</code> &<code>#60</code> /kbd&<code>#62</code> , etc. move by words/paragraphs
-     * - &<code>#60</code> kbd&<code>#62</code> Home&<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> End&<code>#60</code> /kbd&<code>#62</code>  move to the ends of the buffer
-     * - &<code>#60</code> kbd&<code>#62</code> PgUp&<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> PgDn&<code>#60</code> /kbd&<code>#62</code>  move vertically by pages
-     * - &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> PgUp&<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> PgDn&<code>#60</code> /kbd&<code>#62</code> 
+     * <li>&lt;kbd>Ctrl</kbd>-<kbd>→</kbd&gt;, etc. move by words/paragraphs
+     * <li>&lt;kbd>Home</kbd>, <kbd>End</kbd&gt; move to the ends of the buffer
+     * <li>&lt;kbd>PgUp</kbd>, <kbd>PgDn</kbd&gt; move vertically by pages
+     * <li>&lt;kbd>Ctrl</kbd>-<kbd>PgUp</kbd>, <kbd>Ctrl</kbd>-<kbd>PgDn</kbd&gt;
      *   move horizontally by pages
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
@@ -1083,12 +1090,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted to move the viewport.
-     * 
-     * The ::move-viewport signal is a {@link [keybinding signal]}(class.SignalAction.html),
+     * <p>
+     * The ::move-viewport signal is a <a href="class.SignalAction.html">keybinding signal</a>,
      * which can be bound to key combinations to allow the user to move the viewport,
      * i.e. change what part of the text view is visible in a containing scrolled
      * window.
-     * 
+     * <p>
      * There are no default bindings for this signal.
      */
     public SignalHandle onMoveViewport(MoveViewportHandler handler) {
@@ -1114,12 +1121,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets emitted to paste the contents of the clipboard
      * into the text view.
-     * 
-     * The ::paste-clipboard signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * The ::paste-clipboard signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> v&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Insert&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Ctrl</kbd>-<kbd>v</kbd&gt; and
+     * &lt;kbd>Shift</kbd>-<kbd>Insert</kbd&gt;.
      */
     public SignalHandle onPasteClipboard(PasteClipboardHandler handler) {
         try {
@@ -1143,11 +1150,11 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Emitted when preedit text of the active IM changes.
-     * 
+     * <p>
      * If an input method is used, the typed text will not immediately
      * be committed to the buffer. So if you are interested in the text,
      * connect to this signal.
-     * 
+     * <p>
      * This signal is only emitted if the text at the given position
      * is actually editable.
      */
@@ -1173,14 +1180,14 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted to select or unselect the complete contents of the text view.
-     * 
-     * The ::select-all signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * The ::select-all signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> a&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> /&<code>#60</code> /kbd&<code>#62</code>  for selecting and
-     * &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> a&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> \\&<code>#60</code> /kbd&<code>#62</code>  for unselecting.
+     * &lt;kbd>Ctrl</kbd>-<kbd>a</kbd&gt; and
+     * &lt;kbd>Ctrl</kbd>-<kbd>/</kbd&gt; for selecting and
+     * &lt;kbd>Shift</kbd>-<kbd>Ctrl</kbd>-<kbd>a</kbd&gt; and
+     * &lt;kbd>Ctrl</kbd>-<kbd>\\</kbd&gt; for unselecting.
      */
     public SignalHandle onSelectAll(SelectAllHandler handler) {
         try {
@@ -1203,13 +1210,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets emitted when the user initiates settings the &<code>#34</code> anchor&<code>#34</code>  mark.
-     * 
-     * The ::set-anchor signal is a {@link [keybinding signal]}(class.SignalAction.html)
-     * which gets emitted when the user initiates setting the &<code>#34</code> anchor&<code>#34</code> 
-     * mark. The &<code>#34</code> anchor&<code>#34</code>  mark gets placed at the same position as the
-     * &<code>#34</code> insert&<code>#34</code>  mark.
-     * 
+     * Gets emitted when the user initiates settings the "anchor" mark.
+     * <p>
+     * The ::set-anchor signal is a <a href="class.SignalAction.html">keybinding signal</a>
+     * which gets emitted when the user initiates setting the "anchor"
+     * mark. The "anchor" mark gets placed at the same position as the
+     * "insert" mark.
+     * <p>
      * This signal has no default bindings.
      */
     public SignalHandle onSetAnchor(SetAnchorHandler handler) {
@@ -1233,12 +1240,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets emitted to toggle the <code>cursor-visible</code> property.
-     * 
+     * Gets emitted to toggle the {@code cursor-visible} property.
+     * <p>
      * The ::toggle-cursor-visible signal is a
-     * {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> F7&<code>#60</code> /kbd&<code>#62</code> .
+     * <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding for this signal is &lt;kbd>F7</kbd&gt;.
      */
     public SignalHandle onToggleCursorVisible(ToggleCursorVisibleHandler handler) {
         try {
@@ -1262,10 +1269,10 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets emitted to toggle the overwrite mode of the text view.
-     * 
-     * The ::toggle-overwrite signal is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Insert&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * The ::toggle-overwrite signal is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding for this signal is &lt;kbd>Insert</kbd&gt;.
      */
     public SignalHandle onToggleOverwrite(ToggleOverwriteHandler handler) {
         try {

@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoCoverage</code> structure is a map from Unicode characters
- * to {@link [enum@Pango.CoverageLevel] (ref=enum)} values.
+ * A {@code PangoCoverage} structure is a map from Unicode characters
+ * to {@code Pango.CoverageLevel} values.
  * <p>
  * It is often necessary in Pango to determine if a particular
  * font can represent a particular character, and also how well
- * it can represent that character. The <code>PangoCoverage</code> is a data
+ * it can represent that character. The {@code PangoCoverage} is a data
  * structure that is used to represent that information. It is an
  * opaque structure with no public fields.
  */
@@ -34,14 +34,14 @@ public class Coverage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a new <code>PangoCoverage</code>
+     * Create a new {@code PangoCoverage}
      */
     public Coverage() {
         super(constructNew());
     }
     
     /**
-     * Copy an existing <code>PangoCoverage</code>.
+     * Copy an existing {@code PangoCoverage}.
      */
     public Coverage copy() {
         var RESULT = gtk_h.pango_coverage_copy(handle());
@@ -49,7 +49,7 @@ public class Coverage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Determine whether a particular index is covered by @coverage.
+     * Determine whether a particular index is covered by {@code coverage}.
      */
     public CoverageLevel get(int index) {
         var RESULT = gtk_h.pango_coverage_get(handle(), index);
@@ -57,7 +57,7 @@ public class Coverage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Modify a particular index within @coverage
+     * Modify a particular index within {@code coverage}
      */
     public void set(int index, CoverageLevel level) {
         gtk_h.pango_coverage_set(handle(), index, level.getValue());

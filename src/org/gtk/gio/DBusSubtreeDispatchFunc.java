@@ -1,9 +1,9 @@
 package org.gtk.gio;
 
 /**
- * The type of the @dispatch function in {@link org.gtk.gio.DBusSubtreeVTable} 
- * 
- * Subtrees are flat.  @node, if non-<code>null</code>  is always exactly one
+ * The type of the {@code dispatch} function in {@link DBusSubtreeVTable}.
+ * <p>
+ * Subtrees are flat.  {@code node}, if non-<code>null</code>, is always exactly one
  * segment of the object path (ie: it never contains a slash).
  */
 @FunctionalInterface

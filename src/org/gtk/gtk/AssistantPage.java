@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkAssistantPage</code> is an auxiliary object used by <code>GtkAssistant.
+ * {@code GtkAssistantPage} is an auxiliary object used by `GtkAssistant.
  */
 public class AssistantPage extends org.gtk.gobject.Object {
 
@@ -22,7 +22,7 @@ public class AssistantPage extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the child to which @page belongs.
+     * Returns the child to which {@code page} belongs.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_assistant_page_get_child(handle());

@@ -8,12 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkBookmarkList</code> is a list model that wraps <code>GBookmarkFile</code>.
+ * {@code GtkBookmarkList} is a list model that wraps {@code GBookmarkFile}.
  * <p>
- * It presents a <code>GListModel</code> and fills it asynchronously with the<code>GFileInfo</code>s returned from that function.
+ * It presents a {@code GListModel} and fills it asynchronously with the
+ * {@code GFileInfo}s returned from that function.
  * <p>
- * The <code>GFileInfo</code>s in the list have some attributes in the recent
- * namespace added: <code>recent::private</code> (boolean) and <code>recent:applications</code>
+ * The {@code GFileInfo}s in the list have some attributes in the recent
+ * namespace added: {@code recent::private} (boolean) and {@code recent:applications}
  * (stringv).
  */
 public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
@@ -33,7 +34,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Creates a new <code>GtkBookmarkList</code> with the given @attributes.
+     * Creates a new {@code GtkBookmarkList} with the given {@code attributes}.
      */
     public BookmarkList(java.lang.String filename, java.lang.String attributes) {
         super(constructNew(filename, attributes));
@@ -66,8 +67,8 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     
     /**
      * Returns <code>true</code> if the files are currently being loaded.
-     * 
-     * Files will be added to @self from time to time while loading is
+     * <p>
+     * Files will be added to {@code self} from time to time while loading is
      * going on. The order in which are added is undefined and may change
      * in between runs.
      */
@@ -77,10 +78,10 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Sets the @attributes to be enumerated and starts the enumeration.
+     * Sets the {@code attributes} to be enumerated and starts the enumeration.
      * <p>
-     * If @attributes is <code>null</code>  no attributes will be queried, but a list
-     * of <code>GFileInfo</code>s will still be created.
+     * If {@code attributes} is <code>null</code>, no attributes will be queried, but a list
+     * of {@code GFileInfo}s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
         gtk_h.gtk_bookmark_list_set_attributes(handle(), Interop.allocateNativeString(attributes).handle());
@@ -88,8 +89,8 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     
     /**
      * Sets the IO priority to use while loading files.
-     * 
-     * The default IO priority is <code>G_PRIORITY_DEFAULT</code>
+     * <p>
+     * The default IO priority is {@code G_PRIORITY_DEFAULT}.
      */
     public void setIoPriority(int ioPriority) {
         gtk_h.gtk_bookmark_list_set_io_priority(handle(), ioPriority);

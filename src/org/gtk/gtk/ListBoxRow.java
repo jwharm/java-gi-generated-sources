@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkListBoxRow</code> is the kind of widget that can be added to a <code>GtkListBox</code>.
+ * {@code GtkListBoxRow} is the kind of widget that can be added to a {@code GtkListBox}.
  */
 public class ListBoxRow extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -27,30 +27,30 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     }
     
     /**
-     * Creates a new <code>GtkListBoxRow</code>.
+     * Creates a new {@code GtkListBoxRow}.
      */
     public ListBoxRow() {
         super(constructNew());
     }
     
     /**
-     * Marks @row as changed, causing any state that depends on this
+     * Marks {@code row} as changed, causing any state that depends on this
      * to be updated.
-     * 
+     * <p>
      * This affects sorting, filtering and headers.
-     * 
+     * <p>
      * Note that calls to this method must be in sync with the data
      * used for the row functions. For instance, if the list is
-     * mirroring some external data set, and *two* rows changed in the
+     * mirroring some external data set, and <strong>two</strong> rows changed in the
      * external data set then when you call gtk_list_box_row_changed()
      * on the first row the sort function must only read the new data
      * for the first of the two changed rows, otherwise the resorting
      * of the rows will be wrong.
-     * 
-     * This generally means that if you don&<code>#8217</code> t fully control the data
+     * <p>
+     * This generally means that if you don’t fully control the data
      * model you have to duplicate the data that affects the listbox
      * row functions into the row widgets themselves. Another alternative
-     * is to call {@link org.gtk.gtk.ListBox<code>#invalidateSort</code>  on any model change,
+     * is to call {@link ListBox#invalidateSort} on any model change,
      * but that is more expensive.
      */
     public void changed() {
@@ -66,7 +66,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     }
     
     /**
-     * Gets the child widget of @row.
+     * Gets the child widget of {@code row}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_list_box_row_get_child(handle());
@@ -74,10 +74,10 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     }
     
     /**
-     * Returns the current header of the @row.
-     * 
+     * Returns the current header of the {@code row}.
+     * <p>
      * This can be used
-     * in a {@link [callback@Gtk.ListBoxUpdateHeaderFunc] (ref=callback)} to see if
+     * in a {@code Gtk.ListBoxUpdateHeaderFunc} to see if
      * there is a header set already, and if so to update
      * the state of it.
      */
@@ -87,7 +87,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     }
     
     /**
-     * Gets the current index of the @row in its <code>GtkListBox</code> container.
+     * Gets the current index of the {@code row} in its {@code GtkListBox} container.
      */
     public int getIndex() {
         var RESULT = gtk_h.gtk_list_box_row_get_index(handle());
@@ -103,7 +103,8 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     }
     
     /**
-     * Returns whether the child is currently selected in its<code>GtkListBox</code> container.
+     * Returns whether the child is currently selected in its
+     * {@code GtkListBox} container.
      */
     public boolean isSelected() {
         var RESULT = gtk_h.gtk_list_box_row_is_selected(handle());
@@ -118,17 +119,17 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     }
     
     /**
-     * Sets the child widget of @self.
+     * Sets the child widget of {@code self}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_list_box_row_set_child(handle(), child.handle());
     }
     
     /**
-     * Sets the current header of the @row.
-     * 
+     * Sets the current header of the {@code row}.
+     * <p>
      * This is only allowed to be called
-     * from a {@link [callback@Gtk.ListBoxUpdateHeaderFunc] (ref=callback)}.
+     * from a {@code Gtk.ListBoxUpdateHeaderFunc}.
      * It will replace any existing header in the row,
      * and be shown in front of the row in the listbox.
      */
@@ -152,7 +153,8 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * This is a keybinding signal, which will cause this row to be activated.
      * <p>
      * If you want to be notified when the user activates a row (by key or not),
-     * use the {@link [signal@Gtk.ListBox::row-activated] (ref=signal)} signal on the row&<code>#8217</code> s parent<code>GtkListBox</code>.
+     * use the {@code Gtk.ListBox::row-activated} signal on the row’s parent
+     * {@code GtkListBox}.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {

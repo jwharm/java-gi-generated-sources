@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for double properties.
+ * A {@link ParamSpec} derived structure that contains the meta data for double properties.
  */
 public class ParamSpecDouble extends ParamSpec {
 

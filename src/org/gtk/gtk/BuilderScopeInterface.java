@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual function table to implement for <code>GtkBuilderScope</code> implementations.
+ * The virtual function table to implement for {@code GtkBuilderScope} implementations.
  * Default implementations for each function do exist, but they usually just fail,
  * so it is suggested that implementations implement all of them.
  */

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The interface vtable for <code>GtkActionable</code>.
+ * The interface vtable for {@code GtkActionable}.
  */
 public class ActionableInterface extends io.github.jwharm.javagi.ResourceBase {
 

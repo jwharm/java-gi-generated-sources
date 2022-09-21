@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * The type of license for an application.
- * 
+ * <p>
  * This enumeration can be expanded at later date.
  */
 public enum License {

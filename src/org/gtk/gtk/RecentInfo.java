@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkRecentInfo</code> contains the metadata associated with an item in the
+ * {@code GtkRecentInfo} contains the metadata associated with an item in the
  * recently used files list.
  */
 public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
@@ -18,10 +18,10 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a <code>GAppInfo</code> for the specified <code>GtkRecentInfo</code>
-     * 
-     * In case of error, @error will be set either with a
-     * <code>GTK_RECENT_MANAGER_ERROR</code> or a or a %G_IO_ERROR
+     * Creates a {@code GAppInfo} for the specified {@code GtkRecentInfo}
+     * <p>
+     * In case of error, {@code error} will be set either with a
+     * {@code GTK_RECENT_MANAGER_ERROR} or a {@code G_IO_ERROR}
      */
     public org.gtk.gio.AppInfo createAppInfo(java.lang.String appName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -33,7 +33,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the resource pointed by @info still exists.
+     * Checks whether the resource pointed by {@code info} still exists.
      * At the moment this check is done only on resources pointing
      * to local files.
      */
@@ -53,7 +53,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the number of days elapsed since the last update
-     * of the resource pointed by @info.
+     * of the resource pointed by {@code info}.
      */
     public int getAge() {
         var RESULT = gtk_h.gtk_recent_info_get_age(handle());
@@ -70,7 +70,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the name of the resource.
-     * 
+     * <p>
      * If none has been defined, the basename
      * of the resource is obtained.
      */
@@ -105,8 +105,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the value of the &<code>#8220</code> private&<code>#8221</code>  flag.
-     * 
+     * Gets the value of the “private” flag.
+     * <p>
      * Resources in the recently used list that have this flag
      * set to <code>true</code> should only be displayed by the applications
      * that have registered them.
@@ -119,9 +119,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes a valid UTF-8 string that can be used as the
      * name of the item in a menu or list.
-     * 
+     * <p>
      * For example, calling this function on an item that refers
-     * to &<code>#8220</code> file:///foo/bar.txt&<code>#8221</code>  will yield &<code>#8220</code> bar.txt&<code>#8221</code> .
+     * to “file:///foo/bar.txt” will yield “bar.txt”.
      */
     public java.lang.String getShortName() {
         var RESULT = gtk_h.gtk_recent_info_get_short_name(handle());
@@ -137,11 +137,11 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets a displayable version of the resource&<code>#8217</code> s URI.
-     * 
+     * Gets a displayable version of the resource’s URI.
+     * <p>
      * If the resource is local, it returns a local path; if the
      * resource is not local, it returns the UTF-8 encoded content
-     * of {@link org.gtk.gtk.RecentInfo<code>#getUri</code> .
+     * of {@link RecentInfo#getUri}.
      */
     public java.lang.String getUriDisplay() {
         var RESULT = gtk_h.gtk_recent_info_get_uri_display(handle());
@@ -158,7 +158,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether an application registered this resource using @app_name.
+     * Checks whether an application registered this resource using {@code app_name}.
      */
     public boolean hasApplication(java.lang.String appName) {
         var RESULT = gtk_h.gtk_recent_info_has_application(handle(), Interop.allocateNativeString(appName).handle());
@@ -166,8 +166,8 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether @group_name appears inside the groups
-     * registered for the recently used item @info.
+     * Checks whether {@code group_name} appears inside the groups
+     * registered for the recently used item {@code info}.
      */
     public boolean hasGroup(java.lang.String groupName) {
         var RESULT = gtk_h.gtk_recent_info_has_group(handle(), Interop.allocateNativeString(groupName).handle());
@@ -185,7 +185,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the name of the last application that have registered the
-     * recently used resource represented by @info.
+     * recently used resource represented by {@code info}.
      */
     public java.lang.String lastApplication() {
         var RESULT = gtk_h.gtk_recent_info_last_application(handle());
@@ -193,7 +193,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether two <code>GtkRecentInfo</code> point to the same resource.
+     * Checks whether two {@code GtkRecentInfo} point to the same resource.
      */
     public boolean match(RecentInfo infoB) {
         var RESULT = gtk_h.gtk_recent_info_match(handle(), infoB.handle());
@@ -201,7 +201,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count of @recent_info by one.
+     * Increases the reference count of {@code recent_info} by one.
      */
     public RecentInfo ref() {
         var RESULT = gtk_h.gtk_recent_info_ref(handle());
@@ -209,9 +209,9 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count of @info by one.
-     * 
-     * If the reference count reaches zero, @info is
+     * Decreases the reference count of {@code info} by one.
+     * <p>
+     * If the reference count reaches zero, {@code info} is
      * deallocated, and the memory freed.
      */
     public void unref() {

@@ -22,12 +22,12 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Exports @interface_ at @object_path on @connection.
-     * 
-     * This can be called multiple times to export the same @interface_
-     * onto multiple connections however the @object_path provided must be
+     * Exports {@code interface_} at {@code object_path} on {@code connection}.
+     * <p>
+     * This can be called multiple times to export the same {@code interface_}
+     * onto multiple connections however the {@code object_path} provided must be
      * the same for all connections.
-     * 
+     * <p>
      * Use g_dbus_interface_skeleton_unexport() to unexport the object.
      */
     public boolean export(DBusConnection connection, java.lang.String objectPath) throws io.github.jwharm.javagi.GErrorException {
@@ -40,11 +40,12 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * If @interface_ has outstanding changes, request for these changes to be
+     * If {@code interface_} has outstanding changes, request for these changes to be
      * emitted immediately.
      * <p>
      * For example, an exported D-Bus interface may queue up property
-     * changes and emit the<code>org.freedesktop.DBus.Properties.PropertiesChanged</code>
+     * changes and emit the
+     * {@code org.freedesktop.DBus.Properties.PropertiesChanged}
      * signal later (e.g. in an idle handler). This technique is useful
      * for collapsing multiple property changes into one.
      */
@@ -53,7 +54,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Gets the first connection that @interface_ is exported on, if any.
+     * Gets the first connection that {@code interface_} is exported on, if any.
      */
     public DBusConnection getConnection() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_connection(handle());
@@ -61,7 +62,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Gets a list of the connections that @interface_ is exported on.
+     * Gets a list of the connections that {@code interface_} is exported on.
      */
     public org.gtk.glib.List getConnections() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_connections(handle());
@@ -69,8 +70,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Gets the {@link org.gtk.gio.DBusInterfaceSkeletonFlags} that describes what the behavior
-     * of @interface_
+     * Gets the {@link DBusInterfaceSkeletonFlags} that describes what the behavior
+     * of {@code interface_}
      */
     public int getFlags() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_flags(handle());
@@ -79,7 +80,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     
     /**
      * Gets D-Bus introspection information for the D-Bus interface
-     * implemented by @interface_.
+     * implemented by {@code interface_}.
      */
     public DBusInterfaceInfo getInfo() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_info(handle());
@@ -87,7 +88,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Gets the object path that @interface_ is exported on, if any.
+     * Gets the object path that {@code interface_} is exported on, if any.
      */
     public java.lang.String getObjectPath() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_object_path(handle());
@@ -95,7 +96,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Gets all D-Bus properties for @interface_.
+     * Gets all D-Bus properties for {@code interface_}.
      */
     public org.gtk.glib.Variant getProperties() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_properties(handle());
@@ -104,8 +105,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     
     /**
      * Gets the interface vtable for the D-Bus interface implemented by
-     * @interface_. The returned function pointers should expect @interface_
-     * itself to be passed as @user_data.
+     * {@code interface_}. The returned function pointers should expect {@code interface_}
+     * itself to be passed as {@code user_data}.
      */
     public DBusInterfaceVTable getVtable() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_vtable(handle());
@@ -113,7 +114,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Checks if @interface_ is exported on @connection.
+     * Checks if {@code interface_} is exported on {@code connection}.
      */
     public boolean hasConnection(DBusConnection connection) {
         var RESULT = gtk_h.g_dbus_interface_skeleton_has_connection(handle(), connection.handle());
@@ -121,16 +122,16 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Sets flags describing what the behavior of @skeleton should be.
+     * Sets flags describing what the behavior of {@code skeleton} should be.
      */
     public void setFlags(int flags) {
         gtk_h.g_dbus_interface_skeleton_set_flags(handle(), flags);
     }
     
     /**
-     * Stops exporting @interface_ on all connections it is exported on.
-     * 
-     * To unexport @interface_ from only a single connection, use
+     * Stops exporting {@code interface_} on all connections it is exported on.
+     * <p>
+     * To unexport {@code interface_} from only a single connection, use
      * g_dbus_interface_skeleton_unexport_from_connection()
      */
     public void unexport() {
@@ -138,8 +139,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     }
     
     /**
-     * Stops exporting @interface_ on @connection.
-     * 
+     * Stops exporting {@code interface_} on {@code connection}.
+     * <p>
      * To stop exporting on all connections the interface is exported on,
      * use g_dbus_interface_skeleton_unexport().
      */
@@ -155,35 +156,36 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     /**
      * Emitted when a method is invoked by a remote caller and used to
      * determine if the method call is authorized.
-     * 
+     * <p>
      * Note that this signal is emitted in a thread dedicated to
      * handling the method call so handlers are allowed to perform
      * blocking IO. This means that it is appropriate to call e.g.
-     * {@link [polkit_authority_check_authorization_sync()]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html<code>#polkit</code> authority-check-authorization-sync)
+     * <a href="http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#polkit-authority-check-authorization-sync">polkit_authority_check_authorization_sync()</a>
      * with the
-     * {@link [POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION]}(http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html<code>#POLKIT</code> CHECK-AUTHORIZATION-FLAGS-ALLOW-USER-INTERACTION:CAPS)
+     * <a href="http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#POLKIT-CHECK-AUTHORIZATION-FLAGS-ALLOW-USER-INTERACTION:CAPS">POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION</a>
      * flag set.
-     * 
+     * <p>
      * If <code>false</code> is returned then no further handlers are run and the
-     * signal handler must take a reference to @invocation and finish
+     * signal handler must take a reference to {@code invocation} and finish
      * handling the call (e.g. return an error via
      * g_dbus_method_invocation_return_error()).
-     * 
+     * <p>
      * Otherwise, if <code>true</code> is returned, signal emission continues. If no
-     * handlers return <code>false</code>  then the method is dispatched. If
-     * @interface has an enclosing {@link org.gtk.gio.DBusObjectSkeleton}  then the
-     * {@link org.gtk.gio.DBusObjectSkeleton} :authorize-method signal handlers run before
+     * handlers return <code>false</code>, then the method is dispatched. If
+     * {@code interface} has an enclosing {@link DBusObjectSkeleton}, then the
+     * {@link DBusObjectSkeleton}::authorize-method signal handlers run before
      * the handlers for this signal.
-     * 
-     * The default class handler just returns <code>true</code> 
-     * 
+     * <p>
+     * The default class handler just returns <code>true</code>.
+     * <p>
      * Please note that the common case is optimized: if no signals
-     * handlers are connected and the default class handler isn&<code>#39</code> t
-     * overridden (for both @interface and the enclosing
-     * {@link org.gtk.gio.DBusObjectSkeleton}  if any) and {@link org.gtk.gio.DBusInterfaceSkeleton} g-flags does
+     * handlers are connected and the default class handler isn't
+     * overridden (for both {@code interface} and the enclosing
+     * {@link DBusObjectSkeleton}, if any) and {@link DBusInterfaceSkeleton}:g-flags does
      * not have the
-     * {@link org.gtk.gio.DBusInterfaceSkeletonFlags<code>#HANDLE_METHOD_INVOCATIONS_IN_THREAD</code>  flags set, no dedicated thread is ever used and the call will be
-     * handled in the same thread as the object that @interface belongs
+     * {@link DBusInterfaceSkeletonFlags#HANDLE_METHOD_INVOCATIONS_IN_THREAD}
+     * flags set, no dedicated thread is ever used and the call will be
+     * handled in the same thread as the object that {@code interface} belongs
      * to was exported in.
      */
     public SignalHandle onGAuthorizeMethod(GAuthorizeMethodHandler handler) {

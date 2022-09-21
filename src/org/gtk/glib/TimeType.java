@@ -2,9 +2,9 @@ package org.gtk.glib;
 
 /**
  * Disambiguates a given time in two ways.
- * 
+ * <p>
  * First, specifies if the given time is in universal or local time.
- * 
+ * <p>
  * Second, if the time is in local time, specifies if it is local
  * standard time or local daylight time.  This is important for the case
  * where the same local time occurs twice (during daylight savings time

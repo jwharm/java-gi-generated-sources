@@ -2,7 +2,7 @@ package org.harfbuzz;
 
 /**
  * The direction of a text segment or buffer.
- * 
+ * <p>
  * A segment can also be tested for horizontal or vertical
  * orientation (irrespective of specific direction) with
  * HB_DIRECTION_IS_HORIZONTAL() or HB_DIRECTION_IS_VERTICAL().

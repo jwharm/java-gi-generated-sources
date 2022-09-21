@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEventControllerLegacy</code> is an event controller that provides raw
+ * {@code GtkEventControllerLegacy} is an event controller that provides raw
  * access to the event stream.
- * 
+ * <p>
  * It should only be used as a last resort if none of the other event
  * controllers or gestures do the job.
  */
@@ -43,7 +43,7 @@ public class EventControllerLegacy extends EventController {
     }
     
     /**
-     * Emitted for each GDK event delivered to @controller.
+     * Emitted for each GDK event delivered to {@code controller}.
      */
     public SignalHandle onEvent(EventHandler handler) {
         try {

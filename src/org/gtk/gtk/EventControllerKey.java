@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEventControllerKey</code> is an event controller that provides access
+ * {@code GtkEventControllerKey} is an event controller that provides access
  * to key events.
  */
 public class EventControllerKey extends EventController {
@@ -35,12 +35,12 @@ public class EventControllerKey extends EventController {
     }
     
     /**
-     * Forwards the current event of this @controller to a @widget.
-     * 
+     * Forwards the current event of this {@code controller} to a {@code widget}.
+     * <p>
      * This function can only be used in handlers for the
-     * {@link [signal@Gtk.EventControllerKey::key-pressed] (ref=signal)},
-     * {@link [signal@Gtk.EventControllerKey::key-released] (ref=signal)}
-     * or {@link [signal@Gtk.EventControllerKey::modifiers] (ref=signal)} signals.
+     * {@code Gtk.EventControllerKey::key-pressed},
+     * {@code Gtk.EventControllerKey::key-released}
+     * or {@code Gtk.EventControllerKey::modifiers} signals.
      */
     public boolean forward(Widget widget) {
         var RESULT = gtk_h.gtk_event_controller_key_forward(handle(), widget.handle());
@@ -48,9 +48,9 @@ public class EventControllerKey extends EventController {
     }
     
     /**
-     * Gets the key group of the current event of this @controller.
-     * 
-     * See {@link org.gtk.gdk.KeyEvent<code>#getLayout</code> .
+     * Gets the key group of the current event of this {@code controller}.
+     * <p>
+     * See {@link org.gtk.gdk.KeyEvent#getLayout}.
      */
     public int getGroup() {
         var RESULT = gtk_h.gtk_event_controller_key_get_group(handle());
@@ -58,7 +58,7 @@ public class EventControllerKey extends EventController {
     }
     
     /**
-     * Gets the input method context of the key @controller.
+     * Gets the input method context of the key {@code controller}.
      */
     public IMContext getImContext() {
         var RESULT = gtk_h.gtk_event_controller_key_get_im_context(handle());
@@ -66,7 +66,7 @@ public class EventControllerKey extends EventController {
     }
     
     /**
-     * Sets the input method context of the key @controller.
+     * Sets the input method context of the key {@code controller}.
      */
     public void setImContext(IMContext imContext) {
         gtk_h.gtk_event_controller_key_set_im_context(handle(), imContext.handle());
@@ -79,10 +79,10 @@ public class EventControllerKey extends EventController {
     
     /**
      * Emitted whenever the input method context filters away
-     * a keypress and prevents the @controller receiving it.
-     * 
-     * See {@link org.gtk.gtk.EventControllerKey<code>#setImContext</code>  and
-     * {@link org.gtk.gtk.IMContext<code>#filterKeypress</code> .
+     * a keypress and prevents the {@code controller} receiving it.
+     * <p>
+     * See {@link EventControllerKey#setImContext} and
+     * {@link IMContext#filterKeypress}.
      */
     public SignalHandle onImUpdate(ImUpdateHandler handler) {
         try {

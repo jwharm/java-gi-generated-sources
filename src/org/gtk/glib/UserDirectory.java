@@ -4,50 +4,50 @@ package org.gtk.glib;
  * These are logical ids for special directories which are defined
  * depending on the platform used. You should use g_get_user_special_dir()
  * to retrieve the full path associated to the logical id.
- * 
- * The {@link org.gtk.glib.UserDirectory} enumeration can be extended at later date. Not
+ * <p>
+ * The {@link UserDirectory} enumeration can be extended at later date. Not
  * every platform has a directory for every logical id in this
  * enumeration.
  */
 public enum UserDirectory {
 
     /**
-     * the user&<code>#39</code> s Desktop directory
+     * the user's Desktop directory
      */
     DIRECTORY_DESKTOP,
     
     /**
-     * the user&<code>#39</code> s Documents directory
+     * the user's Documents directory
      */
     DIRECTORY_DOCUMENTS,
     
     /**
-     * the user&<code>#39</code> s Downloads directory
+     * the user's Downloads directory
      */
     DIRECTORY_DOWNLOAD,
     
     /**
-     * the user&<code>#39</code> s Music directory
+     * the user's Music directory
      */
     DIRECTORY_MUSIC,
     
     /**
-     * the user&<code>#39</code> s Pictures directory
+     * the user's Pictures directory
      */
     DIRECTORY_PICTURES,
     
     /**
-     * the user&<code>#39</code> s shared directory
+     * the user's shared directory
      */
     DIRECTORY_PUBLIC_SHARE,
     
     /**
-     * the user&<code>#39</code> s Templates directory
+     * the user's Templates directory
      */
     DIRECTORY_TEMPLATES,
     
     /**
-     * the user&<code>#39</code> s Movies directory
+     * the user's Movies directory
      */
     DIRECTORY_VIDEOS,
     

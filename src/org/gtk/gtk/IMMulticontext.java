@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkIMMulticontext</code> is an input method context supporting multiple,
+ * {@code GtkIMMulticontext} is an input method context supporting multiple,
  * switchable input methods.
  * <p>
- * Text widgets such as <code>GtkText</code> or <code>GtkTextView</code> use a <code>GtkIMMultiContext</code>
- * to implement their <code>im-module</code> property for switching between different
+ * Text widgets such as {@code GtkText} or {@code GtkTextView} use a {@code GtkIMMultiContext}
+ * to implement their {@code im-module} property for switching between different
  * input methods.
  */
 public class IMMulticontext extends IMContext {
@@ -32,14 +32,14 @@ public class IMMulticontext extends IMContext {
     }
     
     /**
-     * Creates a new <code>GtkIMMulticontext</code>.
+     * Creates a new {@code GtkIMMulticontext}.
      */
     public IMMulticontext() {
         super(constructNew());
     }
     
     /**
-     * Gets the id of the currently active delegate of the @context.
+     * Gets the id of the currently active delegate of the {@code context}.
      */
     public java.lang.String getContextId() {
         var RESULT = gtk_h.gtk_im_multicontext_get_context_id(handle());
@@ -47,13 +47,13 @@ public class IMMulticontext extends IMContext {
     }
     
     /**
-     * Sets the context id for @context.
-     * 
-     * This causes the currently active delegate of @context to be
+     * Sets the context id for {@code context}.
+     * <p>
+     * This causes the currently active delegate of {@code context} to be
      * replaced by the delegate corresponding to the new context id.
-     * 
+     * <p>
      * Setting this to a non-<code>null</code> value overrides the system-wide
-     * IM module setting. See the {@link [property@Gtk.Settings:gtk-im-module] (ref=property)}
+     * IM module setting. See the {@code Gtk.Settings:gtk-im-module}
      * property.
      */
     public void setContextId(java.lang.String contextId) {

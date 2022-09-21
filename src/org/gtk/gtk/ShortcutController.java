@@ -8,41 +8,45 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkShortcutController</code> is an event controller that manages shortcuts.
+ * {@code GtkShortcutController} is an event controller that manages shortcuts.
  * <p>
  * Most common shortcuts are using this controller implicitly, e.g. by
- * adding a mnemonic underline to a <code>GtkLabel</code>, or by installing a key
- * binding using {@link org.gtk.gtk.WidgetClass<code>#addBinding</code> , or by adding accelerators
- * to global actions using {@link org.gtk.gtk.Application<code>#setAccelsForAction</code> .
+ * adding a mnemonic underline to a {@code GtkLabel}, or by installing a key
+ * binding using {@link WidgetClass#addBinding}, or by adding accelerators
+ * to global actions using {@link Application#setAccelsForAction}.
  * <p>
  * But it is possible to create your own shortcut controller, and add
  * shortcuts to it.
- * <p><code>GtkShortcutController</code> implements <code>GListModel</code> for querying the
+ * <p>
+ * {@code GtkShortcutController} implements {@code GListModel} for querying the
  * shortcuts that have been added to it.
  * <p>
  * <h1>GtkShortcutController as a GtkBuildable</h1>
- * <p><code>GtkShortcutControllers</code> can be creates in ui files to set up
+ * <p>
+ * {@code GtkShortcutControllers} can be creates in ui files to set up
  * shortcuts in the same place as the widgets.
  * <p>
- * An example of a UI definition fragment with <code>GtkShortcutController</code>:<pre>xml
- *   &<code>#60</code> object class=&<code>#39</code> GtkButton&<code>#39</code> &<code>#62</code> 
- *     &<code>#60</code> child&<code>#62</code> 
- *       &<code>#60</code> object class=&<code>#39</code> GtkShortcutController&<code>#39</code> &<code>#62</code> 
- *         &<code>#60</code> property name=&<code>#39</code> scope&<code>#39</code> &<code>#62</code> managed&<code>#60</code> /property&<code>#62</code> 
- *         &<code>#60</code> child&<code>#62</code> 
- *           &<code>#60</code> object class=&<code>#39</code> GtkShortcut&<code>#39</code> &<code>#62</code> 
- *             &<code>#60</code> property name=&<code>#39</code> trigger&<code>#39</code> &<code>#62</code> &<code>#38</code> lt;Control&<code>#38</code> gt;k&<code>#60</code> /property&<code>#62</code> 
- *             &<code>#60</code> property name=&<code>#39</code> action&<code>#39</code> &<code>#62</code> activate&<code>#60</code> /property&<code>#62</code> 
- *           &<code>#60</code> /object&<code>#62</code> 
- *         &<code>#60</code> /child&<code>#62</code> 
- *       &<code>#60</code> /object&<code>#62</code> 
- *     &<code>#60</code> /child&<code>#62</code> 
- *   &<code>#60</code> /object&<code>#62</code> 
- * </pre>
+ * An example of a UI definition fragment with {@code GtkShortcutController}:
+ * <pre>{@code xml
+ *   <object class='GtkButton'>
+ *     <child>
+ *       <object class='GtkShortcutController'>
+ *         <property name='scope'>managed</property>
+ *         <child>
+ *           <object class='GtkShortcut'>
+ *             <property name='trigger'>&lt;Control&gt;k</property>
+ *             <property name='action'>activate</property>
+ *           </object>
+ *         </child>
+ *       </object>
+ *     </child>
+ *   </object>
+ * }</pre>
  * <p>
- * This example creates a {@link org.gtk.gtk.ActivateAction} for triggering the<code>activate</code> signal of the <code>GtkButton</code>. See {@link [ctor@Gtk.ShortcutAction.parse_string] (ref=ctor)}
- * for the syntax for other kinds of <code>GtkShortcutAction</code>. See
- * {@link [ctor@Gtk.ShortcutTrigger.parse_string] (ref=ctor)} to learn more about the syntax
+ * This example creates a {@link ActivateAction} for triggering the
+ * {@code activate} signal of the {@code GtkButton}. See {@link ShortcutAction#parseString}
+ * for the syntax for other kinds of {@code GtkShortcutAction}. See
+ * {@link ShortcutTrigger#parseString} to learn more about the syntax
  * for triggers.
  */
 public class ShortcutController extends EventController implements org.gtk.gio.ListModel, Buildable {
@@ -76,7 +80,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
     /**
      * Creates a new shortcut controller that takes its shortcuts from
      * the given list model.
-     * 
+     * <p>
      * A controller created by this function does not let you add or
      * remove individual shortcuts using the shortcut controller api,
      * but you can change the contents of the model.
@@ -86,8 +90,8 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
     }
     
     /**
-     * Adds @shortcut to the list of shortcuts handled by @self.
-     * 
+     * Adds {@code shortcut} to the list of shortcuts handled by {@code self}.
+     * <p>
      * If this controller uses an external shortcut list, this
      * function does nothing.
      */
@@ -105,8 +109,8 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
     
     /**
      * Gets the scope for when this controller activates its shortcuts.
-     * 
-     * See {@link org.gtk.gtk.ShortcutController<code>#setScope</code>  for details.
+     * <p>
+     * See {@link ShortcutController#setScope} for details.
      */
     public ShortcutScope getScope() {
         var RESULT = gtk_h.gtk_shortcut_controller_get_scope(handle());
@@ -114,9 +118,9 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
     }
     
     /**
-     * Removes @shortcut from the list of shortcuts handled by @self.
-     * 
-     * If @shortcut had not been added to @controller or this controller
+     * Removes {@code shortcut} from the list of shortcuts handled by {@code self}.
+     * <p>
+     * If {@code shortcut} had not been added to {@code controller} or this controller
      * uses an external shortcut list, this function does nothing.
      */
     public void removeShortcut(Shortcut shortcut) {
@@ -129,11 +133,11 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * The mnemonics modifiers determines which modifiers need to be pressed to allow
      * activation of shortcuts with mnemonics triggers.
      * <p>
-     * GTK normally uses the Alt modifier for mnemonics, except in <code>GtkPopoverMenu</code>s,
+     * GTK normally uses the Alt modifier for mnemonics, except in {@code GtkPopoverMenu}s,
      * where mnemonics can be triggered without any modifiers. It should be very
      * rarely necessary to change this, and doing so is likely to interfere with
      * other shortcuts.
-     * 
+     * <p>
      * This value is only relevant for local shortcut controllers. Global and managed
      * shortcut controllers will have their shortcuts activated from other places which
      * have their own modifiers for activating mnemonics.
@@ -143,14 +147,14 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
     }
     
     /**
-     * Sets the controller to have the given @scope.
-     * 
+     * Sets the controller to have the given {@code scope}.
+     * <p>
      * The scope allows shortcuts to be activated outside of the normal
      * event propagation. In particular, it allows installing global
      * keyboard shortcuts that can be activated even when a widget does
      * not have focus.
-     * 
-     * With {@link org.gtk.gtk.ShortcutScope<code>#LOCAL</code>   shortcuts will only be activated
+     * <p>
+     * With {@link ShortcutScope#LOCAL}, shortcuts will only be activated
      * when the widget has focus.
      */
     public void setScope(ShortcutScope scope) {

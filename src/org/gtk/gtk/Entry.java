@@ -8,34 +8,35 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEntry</code> is a single line text entry widget.
+ * {@code GtkEntry} is a single line text entry widget.
  * <p>
- * !{@link [An example GtkEntry]}(entry.png)
+ * <img src="./doc-files/entry.png" alt="An example GtkEntry">
  * <p>
  * A fairly large set of key bindings are supported by default. If the
  * entered text is longer than the allocation of the widget, the widget
  * will scroll so that the cursor position is visible.
  * <p>
  * When using an entry for passwords and other sensitive information, it
- * can be put into &<code>#8220</code> password mode&<code>#8221</code>  using {@link org.gtk.gtk.Entry<code>#setVisibility</code> .
- * In this mode, entered text is displayed using a &<code>#8220</code> invisible&<code>#8221</code>  character.
+ * can be put into “password mode” using {@link Entry#setVisibility}.
+ * In this mode, entered text is displayed using a “invisible” character.
  * By default, GTK picks the best invisible character that is available
  * in the current font, but it can be changed with
- * {@link org.gtk.gtk.Entry<code>#setInvisibleChar</code> .
- * <p><code>GtkEntry</code> has the ability to display progress or activity
- * information behind the text. To make an entry display such information,
- * use {@link org.gtk.gtk.Entry<code>#setProgressFraction</code>  or
- * {@link org.gtk.gtk.Entry<code>#setProgressPulseStep</code> .
+ * {@link Entry#setInvisibleChar}.
  * <p>
- * Additionally, <code>GtkEntry</code> can show icons at either side of the entry.
+ * {@code GtkEntry} has the ability to display progress or activity
+ * information behind the text. To make an entry display such information,
+ * use {@link Entry#setProgressFraction} or
+ * {@link Entry#setProgressPulseStep}.
+ * <p>
+ * Additionally, {@code GtkEntry} can show icons at either side of the entry.
  * These icons can be activatable by clicking, can be set up as drag source
  * and can have tooltips. To add an icon, use
- * {@link org.gtk.gtk.Entry<code>#setIconFromGicon</code>  or one of the various other functions
+ * {@link Entry#setIconFromGicon} or one of the various other functions
  * that set an icon from an icon name or a paintable. To trigger an action when
- * the user clicks an icon, connect to the {@link [signal@Gtk.Entry::icon-press] (ref=signal)} signal.
+ * the user clicks an icon, connect to the {@code Gtk.Entry::icon-press} signal.
  * To allow DND operations from an icon, use
- * {@link org.gtk.gtk.Entry<code>#setIconDragSource</code> . To set a tooltip on an icon, use
- * {@link org.gtk.gtk.Entry<code>#setIconTooltipText</code>  or the corresponding function
+ * {@link Entry#setIconDragSource}. To set a tooltip on an icon, use
+ * {@link Entry#setIconTooltipText} or the corresponding function
  * for markup.
  * <p>
  * Note that functionality or information that is only available by clicking
@@ -45,14 +46,16 @@ import java.lang.invoke.*;
  * via the context menu of the entry.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * entry{@link [.flat]}{@link [.warning]}{@link [.error]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  text{@link [.readonly]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  image.left
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  image.right
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [progress[.pulse]}]
- * </pre>
- * <p><code>GtkEntry</code> has a main node with the name entry. Depending on the properties
+ * <p>
+ * <pre>{@code 
+ * entry[.flat][.warning][.error]
+ * ├── text[.readonly]
+ * ├── image.left
+ * ├── image.right
+ * ╰── [progress[.pulse]]
+ * }</pre>
+ * <p>
+ * {@code GtkEntry} has a main node with the name entry. Depending on the properties
  * of the entry, the style classes .read-only and .flat may appear. The style
  * classes .warning and .error may also be used with entries.
  * <p>
@@ -63,24 +66,25 @@ import java.lang.invoke.*;
  * The node has the style class .pulse when the shown progress is pulsing.
  * <p>
  * For all the subnodes added to the text node in various situations,
- * see {@link org.gtk.gtk.Text}.
+ * see {@link Text}.
  * <p>
  * <h1>GtkEntry as GtkBuildable</h1>
  * <p>
- * The <code>GtkEntry</code> implementation of the <code>GtkBuildable</code> interface supports a
- * custom &<code>#60</code> attributes&<code>#62</code>  element, which supports any number of &<code>#60</code> attribute&<code>#62</code> 
- * elements. The &<code>#60</code> attribute&<code>#62</code>  element has attributes named &<code>#8220</code> name&<code>#8220</code> , &<code>#8220</code> value&<code>#8220</code> ,
- * &<code>#8220</code> start&<code>#8220</code>  and &<code>#8220</code> end&<code>#8220</code>  and allows you to specify <code>PangoAttribute</code> values for
+ * The {@code GtkEntry} implementation of the {@code GtkBuildable} interface supports a
+ * custom &lt;attributes> element, which supports any number of <attribute&gt;
+ * elements. The &lt;attribute&gt; element has attributes named “name“, “value“,
+ * “start“ and “end“ and allows you to specify {@code PangoAttribute} values for
  * this label.
  * <p>
- * An example of a UI definition fragment specifying Pango attributes:<pre>xml
- * &<code>#60</code> object class=&<code>#34</code> GtkEntry&<code>#34</code> &<code>#62</code> 
- *   &<code>#60</code> attributes&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> weight&<code>#34</code>  value=&<code>#34</code> PANGO_WEIGHT_BOLD&<code>#34</code> /&<code>#62</code> 
- *     &<code>#60</code> attribute name=&<code>#34</code> background&<code>#34</code>  value=&<code>#34</code> red&<code>#34</code>  start=&<code>#34</code> 5&<code>#34</code>  end=&<code>#34</code> 10&<code>#34</code> /&<code>#62</code> 
- *   &<code>#60</code> /attributes&<code>#62</code> 
- * &<code>#60</code> /object&<code>#62</code> 
- * </pre>
+ * An example of a UI definition fragment specifying Pango attributes:
+ * <pre>{@code xml
+ * <object class="GtkEntry">
+ *   <attributes>
+ *     <attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+ *     <attribute name="background" value="red" start="5" end="10"/>
+ *   </attributes>
+ * </object>
+ * }</pre>
  * <p>
  * The start and end attributes specify the range of characters to which the
  * Pango attribute applies. If start and end are not specified, the attribute
@@ -89,7 +93,8 @@ import java.lang.invoke.*;
  * content instead.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkEntry</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#TEXT_BOX</code>  role.
+ * <p>
+ * {@code GtkEntry} uses the {@link AccessibleRole#TEXT_BOX} role.
  */
 public class Entry extends Widget implements Accessible, Buildable, CellEditable, ConstraintTarget, Editable {
 
@@ -136,8 +141,8 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Gets the value set by gtk_entry_set_alignment().
-     * 
-     * See also: {@link [property@Gtk.Editable:xalign] (ref=property)}
+     * <p>
+     * See also: {@code Gtk.Editable:xalign}
      */
     public float getAlignment() {
         var RESULT = gtk_h.gtk_entry_get_alignment(handle());
@@ -145,9 +150,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Gets the attribute list of the <code>GtkEntry</code>.
-     * 
-     * See {@link org.gtk.gtk.Entry<code>#setAttributes</code> .
+     * Gets the attribute list of the {@code GtkEntry}.
+     * <p>
+     * See {@link Entry#setAttributes}.
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = gtk_h.gtk_entry_get_attributes(handle());
@@ -155,7 +160,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Get the <code>GtkEntryBuffer</code> object which holds the text for
+     * Get the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public EntryBuffer getBuffer() {
@@ -165,7 +170,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Returns the auxiliary completion object currently
-     * in use by @entry.
+     * in use by {@code entry}.
      */
     public EntryCompletion getCompletion() {
         var RESULT = gtk_h.gtk_entry_get_completion(handle());
@@ -206,15 +211,15 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Gets the area where entry&<code>#8217</code> s icon at @icon_pos is drawn.
-     * 
+     * Gets the area where entry’s icon at {@code icon_pos} is drawn.
+     * <p>
      * This function is useful when drawing something to the
      * entry in a draw callback.
-     * 
+     * <p>
      * If the entry is not realized or has no icon at the given
-     * position, @icon_area is filled with zeros. Otherwise,
-     * @icon_area will be filled with the icon&<code>#39</code> s allocation,
-     * relative to @entry&<code>#39</code> s allocation.
+     * position, {@code icon_area} is filled with zeros. Otherwise,
+     * {@code icon_area} will be filled with the icon's allocation,
+     * relative to {@code entry}'s allocation.
      */
     public void getIconArea(EntryIconPosition iconPos, org.gtk.gdk.Rectangle iconArea) {
         gtk_h.gtk_entry_get_icon_area(handle(), iconPos.getValue(), iconArea.handle());
@@ -222,11 +227,11 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Finds the icon at the given position and return its index.
-     * 
-     * The position&<code>#8217</code> s coordinates are relative to the @entry&<code>#8217</code> s
-     * top left corner. If @x, @y doesn&<code>#8217</code> t lie inside an icon,
+     * <p>
+     * The position’s coordinates are relative to the {@code entry}’s
+     * top left corner. If @x, @y doesn’t lie inside an icon,
      * -1 is returned. This function is intended for use in a
-     *  {@link [signal@Gtk.Widget::query-tooltip] (ref=signal)} signal handler.
+     *  {@code Gtk.Widget::query-tooltip} signal handler.
      */
     public int getIconAtPos(int x, int y) {
         var RESULT = gtk_h.gtk_entry_get_icon_at_pos(handle(), x, y);
@@ -234,10 +239,10 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Retrieves the <code>GIcon</code> used for the icon.
+     * Retrieves the {@code GIcon} used for the icon.
      * <p>
      * <code>null</code> will be returned if there is no icon or if the icon was
-     * set by some other method (e.g., by <code>GdkPaintable</code> or icon name).
+     * set by some other method (e.g., by {@code GdkPaintable} or icon name).
      */
     public org.gtk.gio.Icon getIconGicon(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_gicon(handle(), iconPos.getValue());
@@ -248,7 +253,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Retrieves the icon name used for the icon.
      * <p>
      * <code>null</code> is returned if there is no icon or if the icon was set
-     * by some other method (e.g., by <code>GdkPaintable</code> or gicon).
+     * by some other method (e.g., by {@code GdkPaintable} or gicon).
      */
     public java.lang.String getIconName(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_name(handle(), iconPos.getValue());
@@ -256,9 +261,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Retrieves the <code>GdkPaintable</code> used for the icon.
+     * Retrieves the {@code GdkPaintable} used for the icon.
      * <p>
-     * If no <code>GdkPaintable</code> was used for the icon, <code>null</code> is returned.
+     * If no {@code GdkPaintable} was used for the icon, <code>null</code> is returned.
      */
     public org.gtk.gdk.Paintable getIconPaintable(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_paintable(handle(), iconPos.getValue());
@@ -276,9 +281,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Gets the type of representation being used by the icon
      * to store image data.
-     * 
+     * <p>
      * If the icon has no image data, the return value will
-     * be {@link org.gtk.gtk.ImageType<code>#EMPTY</code>
+     * be {@link ImageType#EMPTY}.
      */
     public ImageType getIconStorageType(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_storage_type(handle(), iconPos.getValue());
@@ -287,7 +292,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Gets the contents of the tooltip on the icon at the specified
-     * position in @entry.
+     * position in {@code entry}.
      */
     public java.lang.String getIconTooltipMarkup(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_tooltip_markup(handle(), iconPos.getValue());
@@ -296,7 +301,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Gets the contents of the tooltip on the icon at the specified
-     * position in @entry.
+     * position in {@code entry}.
      */
     public java.lang.String getIconTooltipText(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_tooltip_text(handle(), iconPos.getValue());
@@ -304,7 +309,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Gets the input hints of this <code>GtkEntry</code>.
+     * Gets the input hints of this {@code GtkEntry}.
      */
     public int getInputHints() {
         var RESULT = gtk_h.gtk_entry_get_input_hints(handle());
@@ -312,7 +317,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Gets the input purpose of the <code>GtkEntry</code>.
+     * Gets the input purpose of the {@code GtkEntry}.
      */
     public InputPurpose getInputPurpose() {
         var RESULT = gtk_h.gtk_entry_get_input_purpose(handle());
@@ -321,7 +326,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Retrieves the character displayed in place of the actual text
-     * in &<code>#8220</code> password mode&<code>#8221</code> .
+     * in “password mode”.
      */
     public int getInvisibleChar() {
         var RESULT = gtk_h.gtk_entry_get_invisible_char(handle());
@@ -329,9 +334,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Retrieves the maximum allowed length of the text in @entry.
-     * 
-     * See {@link org.gtk.gtk.Entry<code>#setMaxLength</code> .
+     * Retrieves the maximum allowed length of the text in {@code entry}.
+     * <p>
+     * See {@link Entry#setMaxLength}.
      */
     public int getMaxLength() {
         var RESULT = gtk_h.gtk_entry_get_max_length(handle());
@@ -339,7 +344,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Gets whether the <code>GtkEntry</code> is in overwrite mode.
+     * Gets whether the {@code GtkEntry} is in overwrite mode.
      */
     public boolean getOverwriteMode() {
         var RESULT = gtk_h.gtk_entry_get_overwrite_mode(handle());
@@ -347,7 +352,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Retrieves the text that will be displayed when @entry
+     * Retrieves the text that will be displayed when {@code entry}
      * is empty and unfocused
      */
     public java.lang.String getPlaceholderText() {
@@ -356,9 +361,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Returns the current fraction of the task that&<code>#8217</code> s been completed.
-     * 
-     * See {@link org.gtk.gtk.Entry<code>#setProgressFraction</code> .
+     * Returns the current fraction of the task that’s been completed.
+     * <p>
+     * See {@link Entry#setProgressFraction}.
      */
     public double getProgressFraction() {
         var RESULT = gtk_h.gtk_entry_get_progress_fraction(handle());
@@ -375,9 +380,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Gets the tabstops of the <code>GtkEntry.
-     * 
-     * See {@link org.gtk.gtk.Entry<code>#setTabs</code> .
+     * Gets the tabstops of the `GtkEntry.
+     * <p>
+     * See {@link Entry#setTabs}.
      */
     public org.pango.TabArray getTabs() {
         var RESULT = gtk_h.gtk_entry_get_tabs(handle());
@@ -385,10 +390,10 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Retrieves the current length of the text in @entry.
+     * Retrieves the current length of the text in {@code entry}.
      * <p>
-     * This is equivalent to getting @entry&<code>#39</code> s <code>GtkEntryBuffer</code>
-     * and calling {@link org.gtk.gtk.EntryBuffer<code>#getLength</code>  on it.
+     * This is equivalent to getting {@code entry}'s {@code GtkEntryBuffer}
+     * and calling {@link EntryBuffer#getLength} on it.
      */
     public short getTextLength() {
         var RESULT = gtk_h.gtk_entry_get_text_length(handle());
@@ -396,9 +401,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Retrieves whether the text in @entry is visible.
-     * 
-     * See {@link org.gtk.gtk.Entry<code>#setVisibility</code> .
+     * Retrieves whether the text in {@code entry} is visible.
+     * <p>
+     * See {@link Entry#setVisibility}.
      */
     public boolean getVisibility() {
         var RESULT = gtk_h.gtk_entry_get_visibility(handle());
@@ -406,11 +411,11 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Causes @entry to have keyboard focus.
-     * 
-     * It behaves like {@link org.gtk.gtk.Widget<code>#grabFocus</code> , except that it doesn&<code>#39</code> t
+     * Causes {@code entry} to have keyboard focus.
+     * <p>
+     * It behaves like {@link Widget#grabFocus}, except that it doesn't
      * select the contents of the entry. You only want to call this on some
-     * special entries which the user usually doesn&<code>#39</code> t want to replace all text
+     * special entries which the user usually doesn't want to replace all text
      * in, such as search-as-you-type entries.
      */
     public boolean grabFocusWithoutSelecting() {
@@ -419,14 +424,14 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Indicates that some progress is made, but you don&<code>#8217</code> t
+     * Indicates that some progress is made, but you don’t
      * know how much.
-     * 
-     * Causes the entry&<code>#8217</code> s progress indicator to enter &<code>#8220</code> activity
-     * mode&<code>#8221</code> , where a block bounces back and forth. Each call to
+     * <p>
+     * Causes the entry’s progress indicator to enter “activity
+     * mode”, where a block bounces back and forth. Each call to
      * gtk_entry_progress_pulse() causes the block to move by a
      * little bit (the amount of movement per pulse is determined
-     * by {@link org.gtk.gtk.Entry<code>#setProgressPulseStep</code> ).
+     * by {@link Entry#setProgressPulseStep}).
      */
     public void progressPulse() {
         gtk_h.gtk_entry_progress_pulse(handle());
@@ -434,7 +439,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Reset the input method context of the entry if needed.
-     * 
+     * <p>
      * This can be necessary in the case where modifying the buffer
      * would confuse on-going input method behavior.
      */
@@ -443,9 +448,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Sets whether pressing Enter in the @entry will activate the default
+     * Sets whether pressing Enter in the {@code entry} will activate the default
      * widget for the window containing the entry.
-     * 
+     * <p>
      * This usually means that the dialog containing the entry will be closed,
      * since the default widget is usually one of the dialog buttons.
      */
@@ -455,21 +460,21 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Sets the alignment for the contents of the entry.
-     * 
+     * <p>
      * This controls the horizontal positioning of the contents when
      * the displayed text is shorter than the width of the entry.
-     * 
-     * See also: {@link [property@Gtk.Editable:xalign] (ref=property)}
+     * <p>
+     * See also: {@code Gtk.Editable:xalign}
      */
     public void setAlignment(float xalign) {
         gtk_h.gtk_entry_set_alignment(handle(), xalign);
     }
     
     /**
-     * Sets a <code>PangoAttrList</code>.
-     * 
+     * Sets a {@code PangoAttrList}.
+     * <p>
      * The attributes in the list are applied to the entry text.
-     * 
+     * <p>
      * Since the attributes will be applies to text that changes
      * as the user types, it makes most sense to use attributes
      * with unlimited extent.
@@ -479,7 +484,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Set the <code>GtkEntryBuffer</code> object which holds the text for
+     * Set the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public void setBuffer(EntryBuffer buffer) {
@@ -487,12 +492,12 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Sets @completion to be the auxiliary completion object
-     * to use with @entry.
+     * Sets {@code completion} to be the auxiliary completion object
+     * to use with {@code entry}.
      * <p>
      * All further configuration of the completion mechanism is
-     * done on @completion using the <code>GtkEntryCompletion</code> API.
-     * Completion is disabled if @completion is set to <code>null</code>
+     * done on {@code completion} using the {@code GtkEntryCompletion} API.
+     * Completion is disabled if {@code completion} is set to <code>null</code>.
      */
     public void setCompletion(EntryCompletion completion) {
         gtk_h.gtk_entry_set_completion(handle(), completion.handle());
@@ -500,7 +505,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Sets a menu model to add when constructing
-     * the context menu for @entry.
+     * the context menu for {@code entry}.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
         gtk_h.gtk_entry_set_extra_menu(handle(), model.handle());
@@ -522,7 +527,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Sets up the icon at the given position as drag source.
-     * 
+     * <p>
      * This makes it so that GTK will start a drag
      * operation when the user clicks and drags the icon.
      */
@@ -533,11 +538,11 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Sets the icon shown in the entry at the specified position
      * from the current icon theme.
-     * 
-     * If the icon isn&<code>#8217</code> t known, a &<code>#8220</code> broken image&<code>#8221</code>  icon will be
+     * <p>
+     * If the icon isn’t known, a “broken image” icon will be
      * displayed instead.
-     * 
-     * If @icon is <code>null</code>  no icon will be shown in the
+     * <p>
+     * If {@code icon} is <code>null</code>, no icon will be shown in the
      * specified position.
      */
     public void setIconFromGicon(EntryIconPosition iconPos, org.gtk.gio.Icon icon) {
@@ -547,11 +552,11 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Sets the icon shown in the entry at the specified position
      * from the current icon theme.
-     * 
-     * If the icon name isn&<code>#8217</code> t known, a &<code>#8220</code> broken image&<code>#8221</code>  icon will be
+     * <p>
+     * If the icon name isn’t known, a “broken image” icon will be
      * displayed instead.
-     * 
-     * If @icon_name is <code>null</code>  no icon will be shown in the
+     * <p>
+     * If {@code icon_name} is <code>null</code>, no icon will be shown in the
      * specified position.
      */
     public void setIconFromIconName(EntryIconPosition iconPos, java.lang.String iconName) {
@@ -559,9 +564,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Sets the icon shown in the specified position using a <code>GdkPaintable</code>.
-     * 
-     * If @paintable is <code>null</code>  no icon will be shown in the specified position.
+     * Sets the icon shown in the specified position using a {@code GdkPaintable}.
+     * <p>
+     * If {@code paintable} is <code>null</code>, no icon will be shown in the specified position.
      */
     public void setIconFromPaintable(EntryIconPosition iconPos, org.gtk.gdk.Paintable paintable) {
         gtk_h.gtk_entry_set_icon_from_paintable(handle(), iconPos.getValue(), paintable.handle());
@@ -575,36 +580,36 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Sets @tooltip as the contents of the tooltip for the icon at
+     * Sets {@code tooltip} as the contents of the tooltip for the icon at
      * the specified position.
-     * 
-     * @tooltip is assumed to be marked up with Pango Markup.
-     * 
-     * Use <code>null</code> for @tooltip to remove an existing tooltip.
-     * 
-     * See also {@link org.gtk.gtk.Widget<code>#setTooltipMarkup</code>  and
-     * {@link org.gtk.gtk.Entry<code>#setIconTooltipText</code> .
+     * <p>
+     * {@code tooltip} is assumed to be marked up with Pango Markup.
+     * <p>
+     * Use <code>null</code> for {@code tooltip} to remove an existing tooltip.
+     * <p>
+     * See also {@link Widget#setTooltipMarkup} and
+     * {@link Entry#setIconTooltipText}.
      */
     public void setIconTooltipMarkup(EntryIconPosition iconPos, java.lang.String tooltip) {
         gtk_h.gtk_entry_set_icon_tooltip_markup(handle(), iconPos.getValue(), Interop.allocateNativeString(tooltip).handle());
     }
     
     /**
-     * Sets @tooltip as the contents of the tooltip for the icon
+     * Sets {@code tooltip} as the contents of the tooltip for the icon
      * at the specified position.
-     * 
-     * Use <code>null</code> for @tooltip to remove an existing tooltip.
-     * 
-     * See also {@link org.gtk.gtk.Widget<code>#setTooltipText</code>  and
-     * {@link org.gtk.gtk.Entry<code>#setIconTooltipMarkup</code> .
-     * 
+     * <p>
+     * Use <code>null</code> for {@code tooltip} to remove an existing tooltip.
+     * <p>
+     * See also {@link Widget#setTooltipText} and
+     * {@link Entry#setIconTooltipMarkup}.
+     * <p>
      * If you unset the widget tooltip via
-     * {@link org.gtk.gtk.Widget<code>#setTooltipText</code>  or
-     * {@link org.gtk.gtk.Widget<code>#setTooltipMarkup</code> , this sets
-     * {@link [property@Gtk.Widget:has-tooltip] (ref=property)} to <code>false</code>  which suppresses
+     * {@link Widget#setTooltipText} or
+     * {@link Widget#setTooltipMarkup}, this sets
+     * {@code Gtk.Widget:has-tooltip} to <code>false</code>, which suppresses
      * icon tooltips too. You can resolve this by then calling
-     * {@link org.gtk.gtk.Widget<code>#setHasTooltip</code>  to set
-     * {@link [property@Gtk.Widget:has-tooltip] (ref=property)} back to <code>true</code>  or
+     * {@link Widget#setHasTooltip} to set
+     * {@code Gtk.Widget:has-tooltip} back to <code>true</code>, or
      * setting at least one non-empty tooltip on any icon
      * achieves the same result.
      */
@@ -630,11 +635,11 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Sets the character to use in place of the actual text
-     * in &<code>#8220</code> password mode&<code>#8221</code> .
-     * 
-     * See {@link org.gtk.gtk.Entry<code>#setVisibility</code>  for how to enable
-     * &<code>#8220</code> password mode&<code>#8221</code> .
-     * 
+     * in “password mode”.
+     * <p>
+     * See {@link Entry#setVisibility} for how to enable
+     * “password mode”.
+     * <p>
      * By default, GTK picks the best invisible char available in
      * the current font. If you set the invisible char to 0, then
      * the user will get no feedback at all; there will be no text
@@ -650,34 +655,34 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If the current contents are longer than the given length, then
      * they will be truncated to fit. The length is is in characters.
      * <p>
-     * This is equivalent to getting @entry&<code>#39</code> s <code>GtkEntryBuffer</code> and
-     * calling {@link org.gtk.gtk.EntryBuffer<code>#setMaxLength</code>  on it.
+     * This is equivalent to getting {@code entry}'s {@code GtkEntryBuffer} and
+     * calling {@link EntryBuffer#setMaxLength} on it.
      */
     public void setMaxLength(int max) {
         gtk_h.gtk_entry_set_max_length(handle(), max);
     }
     
     /**
-     * Sets whether the text is overwritten when typing in the <code>GtkEntry</code>.
+     * Sets whether the text is overwritten when typing in the {@code GtkEntry}.
      */
     public void setOverwriteMode(boolean overwrite) {
         gtk_h.gtk_entry_set_overwrite_mode(handle(), overwrite ? 1 : 0);
     }
     
     /**
-     * Sets text to be displayed in @entry when it is empty.
+     * Sets text to be displayed in {@code entry} when it is empty.
      * <p>
      * This can be used to give a visual hint of the expected
-     * contents of the <code>GtkEntry</code>.
+     * contents of the {@code GtkEntry}.
      */
     public void setPlaceholderText(java.lang.String text) {
         gtk_h.gtk_entry_set_placeholder_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
-     * Causes the entry&<code>#8217</code> s progress indicator to &<code>#8220</code> fill in&<code>#8221</code>  the given
+     * Causes the entry’s progress indicator to “fill in” the given
      * fraction of the bar.
-     * 
+     * <p>
      * The fraction should be between 0.0 and 1.0, inclusive.
      */
     public void setProgressFraction(double fraction) {
@@ -687,8 +692,8 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Sets the fraction of total entry width to move the progress
      * bouncing block for each pulse.
-     * 
-     * Use {@link org.gtk.gtk.Entry<code>#progressPulse</code>  to pulse
+     * <p>
+     * Use {@link Entry#progressPulse} to pulse
      * the progress.
      */
     public void setProgressPulseStep(double fraction) {
@@ -696,8 +701,8 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     }
     
     /**
-     * Sets a <code>PangoTabArray</code>.
-     * 
+     * Sets a {@code PangoTabArray}.
+     * <p>
      * The tabstops in the array are applied to the entry text.
      */
     public void setTabs(org.pango.TabArray tabs) {
@@ -706,19 +711,19 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Sets whether the contents of the entry are visible or not.
-     * 
-     * When visibility is set to <code>false</code>  characters are displayed
+     * <p>
+     * When visibility is set to <code>false</code>, characters are displayed
      * as the invisible char, and will also appear that way when
      * the text in the entry widget is copied elsewhere.
-     * 
+     * <p>
      * By default, GTK picks the best invisible character available
      * in the current font, but it can be changed with
-     * {@link org.gtk.gtk.Entry<code>#setInvisibleChar</code> .
-     * 
-     * Note that you probably want to set {@link [property@Gtk.Entry:input-purpose] (ref=property)}
-     * to {@link org.gtk.gtk.InputPurpose<code>#PASSWORD</code>  or {@link org.gtk.gtk.InputPurpose<code>#PIN</code>  to
+     * {@link Entry#setInvisibleChar}.
+     * <p>
+     * Note that you probably want to set {@code Gtk.Entry:input-purpose}
+     * to {@link InputPurpose#PASSWORD} or {@link InputPurpose#PIN} to
      * inform input methods about the purpose of this entry,
-     * in addition to setting visibility to <code>false</code>
+     * in addition to setting visibility to <code>false</code>.
      */
     public void setVisibility(boolean visible) {
         gtk_h.gtk_entry_set_visibility(handle(), visible ? 1 : 0);
@@ -726,7 +731,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Unsets the invisible char, so that the default invisible char
-     * is used again. See {@link org.gtk.gtk.Entry<code>#setInvisibleChar</code> .
+     * is used again. See {@link Entry#setInvisibleChar}.
      */
     public void unsetInvisibleChar() {
         gtk_h.gtk_entry_unset_invisible_char(handle());
@@ -739,7 +744,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     
     /**
      * Emitted when the entry is activated.
-     * 
+     * <p>
      * The keybindings for this signal are all forms of the Enter key.
      */
     public SignalHandle onActivate(ActivateHandler handler) {

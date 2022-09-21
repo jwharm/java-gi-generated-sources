@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkLayoutChild</code> is the base class for objects that are meant to hold
+ * {@code GtkLayoutChild} is the base class for objects that are meant to hold
  * layout properties.
  * <p>
- * If a <code>GtkLayoutManager</code> has per-child properties, like their packing type,
+ * If a {@code GtkLayoutManager} has per-child properties, like their packing type,
  * or the horizontal and vertical span, or the icon name, then the layout
- * manager should use a <code>GtkLayoutChild</code> implementation to store those properties.
+ * manager should use a {@code GtkLayoutChild} implementation to store those properties.
  * <p>
- * A <code>GtkLayoutChild</code> instance is only ever valid while a widget is part
+ * A {@code GtkLayoutChild} instance is only ever valid while a widget is part
  * of a layout.
  */
 public class LayoutChild extends org.gtk.gobject.Object {
@@ -30,7 +30,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the <code>GtkWidget</code> associated to the given @layout_child.
+     * Retrieves the {@code GtkWidget} associated to the given {@code layout_child}.
      */
     public Widget getChildWidget() {
         var RESULT = gtk_h.gtk_layout_child_get_child_widget(handle());
@@ -38,8 +38,8 @@ public class LayoutChild extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the <code>GtkLayoutManager</code> instance that created the
-     * given @layout_child.
+     * Retrieves the {@code GtkLayoutManager} instance that created the
+     * given {@code layout_child}.
      */
     public LayoutManager getLayoutManager() {
         var RESULT = gtk_h.gtk_layout_child_get_layout_manager(handle());

@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * The available modes for {@link [property@Gtk.CellRendererAccel:accel-mode] (ref=property)}.
+ * The available modes for {@code Gtk.CellRendererAccel:accel-mode}.
  */
 public enum CellRendererAccelMode {
 

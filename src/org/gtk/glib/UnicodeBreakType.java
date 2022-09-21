@@ -2,11 +2,11 @@ package org.gtk.glib;
 
 /**
  * These are the possible line break classifications.
- * 
+ * <p>
  * Since new unicode versions may add new types here, applications should be ready
- * to handle unknown values. They may be regarded as {@link org.gtk.glib.UnicodeBreakType<code>#UNKNOWN</code>  
- * 
- * See {@link [Unicode Line Breaking Algorithm]}(http://www.unicode.org/unicode/reports/tr14/).
+ * to handle unknown values. They may be regarded as {@link UnicodeBreakType#UNKNOWN}.
+ * <p>
+ * See <a href="http://www.unicode.org/unicode/reports/tr14/">Unicode Line Breaking Algorithm</a>.
  */
 public enum UnicodeBreakType {
 
@@ -46,7 +46,7 @@ public enum UnicodeBreakType {
     INSEPARABLE,
     
     /**
-     * Non-breaking (&<code>#34</code> Glue&<code>#34</code> ) (GL)
+     * Non-breaking ("Glue") (GL)
      */
     NON_BREAKING_GLUE,
     
@@ -191,7 +191,7 @@ public enum UnicodeBreakType {
     HANGUL_LVT_SYLLABLE,
     
     /**
-     * Closing Parenthesis (CP). Since 2.28. Deprecated: 2.70: Use {@link org.gtk.glib.UnicodeBreakType<code>#CLOSE_PARENTHESIS</code>  instead.
+     * Closing Parenthesis (CP). Since 2.28. Deprecated: 2.70: Use {@link UnicodeBreakType#CLOSE_PARENTHESIS} instead.
      */
     CLOSE_PARANTHESIS,
     

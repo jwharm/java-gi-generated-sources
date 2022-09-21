@@ -9,11 +9,11 @@ import java.lang.invoke.*;
 
 /**
  * Glyph draw callbacks.
- * 
- * {@link org.harfbuzz.draw_move_to_func_t}  {@link org.harfbuzz.draw_line_to_func_t} and
- * {@link org.harfbuzz.draw_cubic_to_func_t} calls are necessary to be defined but we translate
- * {@link org.harfbuzz.draw_quadratic_to_func_t} calls to {@link org.harfbuzz.draw_cubic_to_func_t} if the
- * callback isn&<code>#39</code> t defined.
+ * <p>
+ * {@link draw_move_to_func_t}, {@link draw_line_to_func_t} and
+ * {@link draw_cubic_to_func_t} calls are necessary to be defined but we translate
+ * {@link draw_quadratic_to_func_t} calls to {@link draw_cubic_to_func_t} if the
+ * callback isn't defined.
  */
 public class DrawFuncsT extends io.github.jwharm.javagi.ResourceBase {
 

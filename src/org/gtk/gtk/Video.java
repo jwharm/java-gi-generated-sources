@@ -8,18 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkVideo</code> is a widget to show a <code>GtkMediaStream</code> with media controls.
+ * {@code GtkVideo} is a widget to show a {@code GtkMediaStream} with media controls.
  * <p>
- * !{@link [An example GtkVideo]}(video.png)
+ * <img src="./doc-files/video.png" alt="An example GtkVideo">
  * <p>
- * The controls are available separately as {@link org.gtk.gtk.MediaControls}.
+ * The controls are available separately as {@link MediaControls}.
  * If you just want to display a video without controls, you can treat it
- * like any other paintable and for example put it into a {@link org.gtk.gtk.Picture}.
- * <p><code>GtkVideo</code> aims to cover use cases such as previews, embedded animations,
+ * like any other paintable and for example put it into a {@link Picture}.
+ * <p>
+ * {@code GtkVideo} aims to cover use cases such as previews, embedded animations,
  * etc. It supports autoplay, looping, and simple media controls. It does
  * not have support for video overlays, multichannel audio, device
  * selection, or input. If you are writing a full-fledged video player,
- * you may want to use the {@link [iface@Gdk.Paintable] (ref=iface)} API and a media framework
+ * you may want to use the {@code Gdk.Paintable} API and a media framework
  * such as Gstreamer directly.
  */
 public class Video extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -39,7 +40,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Creates a new empty <code>GtkVideo</code>.
+     * Creates a new empty {@code GtkVideo}.
      */
     public Video() {
         super(constructNew());
@@ -51,7 +52,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Creates a <code>GtkVideo</code> to play back the given @file.
+     * Creates a {@code GtkVideo} to play back the given {@code file}.
      */
     public static Video newForFile(org.gtk.gio.File file) {
         return new Video(constructNewForFile(file));
@@ -63,9 +64,9 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Creates a <code>GtkVideo</code> to play back the given @filename.
-     * 
-     * This is a utility function that calls {@link [ctor@Gtk.Video.new_for_file] (ref=ctor)},
+     * Creates a {@code GtkVideo} to play back the given {@code filename}.
+     * <p>
+     * This is a utility function that calls {@link Video#newForFile},
      * See that function for details.
      */
     public static Video newForFilename(java.lang.String filename) {
@@ -78,7 +79,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Creates a <code>GtkVideo</code> to play back the given @stream.
+     * Creates a {@code GtkVideo} to play back the given {@code stream}.
      */
     public static Video newForMediaStream(MediaStream stream) {
         return new Video(constructNewForMediaStream(stream));
@@ -90,10 +91,10 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Creates a <code>GtkVideo</code> to play back the resource at the
-     * given @resource_path.
-     * 
-     * This is a utility function that calls {@link [ctor@Gtk.Video.new_for_file] (ref=ctor)}.
+     * Creates a {@code GtkVideo} to play back the resource at the
+     * given {@code resource_path}.
+     * <p>
+     * This is a utility function that calls {@link Video#newForFile}.
      */
     public static Video newForResource(java.lang.String resourcePath) {
         return new Video(constructNewForResource(resourcePath));
@@ -108,7 +109,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Gets the file played by @self or <code>null</code> if not playing back
+     * Gets the file played by {@code self} or <code>null</code> if not playing back
      * a file.
      */
     public org.gtk.gio.File getFile() {
@@ -125,7 +126,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Gets the media stream managed by @self or <code>null</code> if none.
+     * Gets the media stream managed by {@code self} or <code>null</code> if none.
      */
     public MediaStream getMediaStream() {
         var RESULT = gtk_h.gtk_video_get_media_stream(handle());
@@ -133,7 +134,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets whether @self automatically starts playback when it
+     * Sets whether {@code self} automatically starts playback when it
      * becomes visible or when a new file gets loaded.
      */
     public void setAutoplay(boolean autoplay) {
@@ -141,15 +142,15 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Makes @self play the given @file.
+     * Makes {@code self} play the given {@code file}.
      */
     public void setFile(org.gtk.gio.File file) {
         gtk_h.gtk_video_set_file(handle(), file.handle());
     }
     
     /**
-     * Makes @self play the given @filename.
-     * 
+     * Makes {@code self} play the given {@code filename}.
+     * <p>
      * This is a utility function that calls gtk_video_set_file(),
      */
     public void setFilename(java.lang.String filename) {
@@ -157,7 +158,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets whether new files loaded by @self should be set to loop.
+     * Sets whether new files loaded by {@code self} should be set to loop.
      */
     public void setLoop(boolean loop) {
         gtk_h.gtk_video_set_loop(handle(), loop ? 1 : 0);
@@ -165,12 +166,12 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     
     /**
      * Sets the media stream to be played back.
-     * 
-     * @self will take full control of managing the media stream. If you
+     * <p>
+     * {@code self} will take full control of managing the media stream. If you
      * want to manage a media stream yourself, consider using a
-     * {@link org.gtk.gtk.Picture} for display.
-     * 
-     * If you want to display a file, consider using {@link org.gtk.gtk.Video<code>#setFile</code> 
+     * {@link Picture} for display.
+     * <p>
+     * If you want to display a file, consider using {@link Video#setFile}
      * instead.
      */
     public void setMediaStream(MediaStream stream) {
@@ -178,9 +179,9 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Makes @self play the resource at the given @resource_path.
-     * 
-     * This is a utility function that calls {@link org.gtk.gtk.Video<code>#setFile</code> .
+     * Makes {@code self} play the resource at the given {@code resource_path}.
+     * <p>
+     * This is a utility function that calls {@link Video#setFile}.
      */
     public void setResource(java.lang.String resourcePath) {
         gtk_h.gtk_video_set_resource(handle(), Interop.allocateNativeString(resourcePath).handle());

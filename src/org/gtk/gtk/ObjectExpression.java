@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GObject</code> value in a <code>GtkExpression</code>.
+ * A {@code GObject} value in a {@code GtkExpression}.
  */
 public class ObjectExpression extends Expression {
 
@@ -27,13 +27,13 @@ public class ObjectExpression extends Expression {
     }
     
     /**
-     * Creates an expression evaluating to the given <code>object</code> with a weak reference.
+     * Creates an expression evaluating to the given {@code object} with a weak reference.
      * <p>
-     * Once the <code>object</code> is disposed, it will fail to evaluate.
+     * Once the {@code object} is disposed, it will fail to evaluate.
      * <p>
      * This expression is meant to break reference cycles.
      * <p>
-     * If you want to keep a reference to <code>object</code>, use {@link [ctor@Gtk.ConstantExpression.new] (ref=ctor)}.
+     * If you want to keep a reference to {@code object}, use {@link ConstantExpression#ConstantExpression}.
      */
     public ObjectExpression(org.gtk.gobject.Object object) {
         super(constructNew(object));

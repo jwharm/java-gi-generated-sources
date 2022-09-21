@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * vtable for a {@link org.gtk.gio.DtlsServerConnection} implementation.
+ * vtable for a {@link DtlsServerConnection} implementation.
  */
 public class DtlsServerConnectionInterface extends io.github.jwharm.javagi.ResourceBase {
 

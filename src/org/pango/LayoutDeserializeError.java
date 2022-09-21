@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * Errors that can be returned by {@link Pango<code>#Layout</code> .
+ * Errors that can be returned by {@link Pango#Layout}.
  */
 public enum LayoutDeserializeError {
 

@@ -17,7 +17,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @info is statically allocated does nothing. Otherwise increases
+     * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.
      */
     public DBusAnnotationInfo ref() {
@@ -26,8 +26,8 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @info is statically allocated, does nothing. Otherwise decreases
-     * the reference count of @info. When its reference count drops to 0,
+     * If {@code info} is statically allocated, does nothing. Otherwise decreases
+     * the reference count of {@code info}. When its reference count drops to 0,
      * the memory used is freed.
      */
     public void unref() {
@@ -36,7 +36,7 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up the value of an annotation.
-     * 
+     * <p>
      * The cost of this function is O(n) in number of annotations.
      */
     public static java.lang.String lookup(DBusAnnotationInfo[] annotations, java.lang.String name) {

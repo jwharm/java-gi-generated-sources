@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoFontFamily</code> is used to represent a family of related
+ * A {@code PangoFontFamily} is used to represent a family of related
  * font faces.
- * 
+ * <p>
  * The font faces in a family share a common design, but differ in
  * slant, weight, width or other aspects.
  */
@@ -26,7 +26,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     }
     
     /**
-     * Gets the <code>PangoFontFace</code> of @family with the given name.
+     * Gets the {@code PangoFontFace} of {@code family} with the given name.
      */
     public FontFace getFace(java.lang.String name) {
         var RESULT = gtk_h.pango_font_family_get_face(handle(), Interop.allocateNativeString(name).handle());
@@ -37,7 +37,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Gets the name of the family.
      * <p>
      * The name is unique among all fonts for the font backend and can
-     * be used in a <code>PangoFontDescription</code> to specify that a face from
+     * be used in a {@code PangoFontDescription} to specify that a face from
      * this family is desired.
      */
     public java.lang.String getName() {
@@ -48,17 +48,17 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     /**
      * A monospace font is a font designed for text display where the the
      * characters form a regular grid.
-     * 
+     * <p>
      * For Western languages this would
      * mean that the advance width of all characters are the same, but
      * this categorization also includes Asian fonts which include
      * double-width characters: characters that occupy two grid cells.
      * g_unichar_iswide() returns a result that indicates whether a
      * character is typically double-width in a monospace font.
-     * 
+     * <p>
      * The best way to find out the grid-cell size is to call
-     * {@link org.pango.FontMetrics<code>#getApproximateDigitWidth</code> , since the
-     * results of {@link org.pango.FontMetrics<code>#getApproximateCharWidth</code>  may
+     * {@link FontMetrics#getApproximateDigitWidth}, since the
+     * results of {@link FontMetrics#getApproximateCharWidth} may
      * be affected by double-width characters.
      */
     public boolean isMonospace() {
@@ -69,9 +69,9 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     /**
      * A variable font is a font which has axes that can be modified to
      * produce different faces.
-     * 
+     * <p>
      * Such axes are also known as _variations_; see
-     * {@link org.pango.FontDescription<code>#setVariations</code>  for more information.
+     * {@link FontDescription#setVariations} for more information.
      */
     public boolean isVariable() {
         var RESULT = gtk_h.pango_font_family_is_variable(handle());

@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Message types used in {@link org.gtk.gio.DBusMessage}
+ * Message types used in {@link DBusMessage}.
  */
 public enum DBusMessageType {
 

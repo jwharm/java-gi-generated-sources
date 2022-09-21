@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEventControllerFocus</code> is an event controller to keep track of
+ * {@code GtkEventControllerFocus} is an event controller to keep track of
  * keyboard focus.
- * 
- * The event controller offers {@link [signal@Gtk.EventControllerFocus::enter] (ref=signal)}
- * and {@link [signal@Gtk.EventControllerFocus::leave] (ref=signal)} signals, as well as
- * {@link [property@Gtk.EventControllerFocus:is-focus] (ref=property)} and
- * {@link [property@Gtk.EventControllerFocus:contains-focus] (ref=property)} properties
+ * <p>
+ * The event controller offers {@code Gtk.EventControllerFocus::enter}
+ * and {@code Gtk.EventControllerFocus::leave} signals, as well as
+ * {@code Gtk.EventControllerFocus:is-focus} and
+ * {@code Gtk.EventControllerFocus:contains-focus} properties
  * which are updated to reflect focus changes inside the widget hierarchy
  * that is rooted at the controllers widget.
  */
@@ -42,7 +42,7 @@ public class EventControllerFocus extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if focus is within @self or one of its children.
+     * Returns <code>true</code> if focus is within {@code self} or one of its children.
      */
     public boolean containsFocus() {
         var RESULT = gtk_h.gtk_event_controller_focus_contains_focus(handle());
@@ -50,7 +50,7 @@ public class EventControllerFocus extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if focus is within @self, but not one of its children.
+     * Returns <code>true</code> if focus is within {@code self}, but not one of its children.
      */
     public boolean isFocus() {
         var RESULT = gtk_h.gtk_event_controller_focus_is_focus(handle());
@@ -65,13 +65,13 @@ public class EventControllerFocus extends EventController {
     /**
      * Emitted whenever the focus enters into the widget or one
      * of its descendents.
-     * 
+     * <p>
      * Note that this means you may not get an ::enter signal
      * even though the widget becomes the focus location, in
      * certain cases (such as when the focus moves from a descendent
      * of the widget to the widget itself). If you are interested
      * in these cases, you can monitor the
-     * {@link [property@Gtk.EventControllerFocus:is-focus] (ref=property)}
+     * {@code Gtk.EventControllerFocus:is-focus}
      * property for changes.
      */
     public SignalHandle onEnter(EnterHandler handler) {
@@ -97,12 +97,12 @@ public class EventControllerFocus extends EventController {
     /**
      * Emitted whenever the focus leaves the widget hierarchy
      * that is rooted at the widget that the controller is attached to.
-     * 
+     * <p>
      * Note that this means you may not get a ::leave signal
      * even though the focus moves away from the widget, in
      * certain cases (such as when the focus moves from the widget
      * to a descendent). If you are interested in these cases, you
-     * can monitor the {@link [property@Gtk.EventControllerFocus:is-focus] (ref=property)}
+     * can monitor the {@code Gtk.EventControllerFocus:is-focus}
      * property for changes.
      */
     public SignalHandle onLeave(LeaveHandler handler) {

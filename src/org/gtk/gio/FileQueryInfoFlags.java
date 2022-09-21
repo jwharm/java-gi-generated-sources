@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used when querying a {@link org.gtk.gio.FileInfo}
+ * Flags used when querying a {@link FileInfo}.
  */
 public class FileQueryInfoFlags {
 
@@ -11,7 +11,7 @@ public class FileQueryInfoFlags {
     public static final int NONE = 0;
     
     /**
-     * Don&<code>#39</code> t follow symlinks.
+     * Don't follow symlinks.
      */
     public static final int NOFOLLOW_SYMLINKS = 1;
     

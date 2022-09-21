@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.DtlsServerConnection} is the server-side subclass of {@link org.gtk.gio.DtlsConnection} 
+ * {@link DtlsServerConnection} is the server-side subclass of {@link DtlsConnection},
  * representing a server-side DTLS connection.
  */
 public interface DtlsServerConnection extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Creates a new {@link org.gtk.gio.DtlsServerConnection} wrapping @base_socket.
+     * Creates a new {@link DtlsServerConnection} wrapping {@code base_socket}.
      */
     public static DtlsServerConnection new_(DatagramBased baseSocket, TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

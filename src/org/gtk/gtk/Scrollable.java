@@ -8,33 +8,40 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkScrollable</code> is an interface for widgets with native scrolling ability.
- * 
+ * {@code GtkScrollable} is an interface for widgets with native scrolling ability.
+ * <p>
  * To implement this interface you should override the
- * {@link [property@Gtk.Scrollable:hadjustment] (ref=property)} and
- * {@link [property@Gtk.Scrollable:vadjustment] (ref=property)} properties.
- * 
- * <code>#</code>  Creating a scrollable widget
- * 
+ * {@code Gtk.Scrollable:hadjustment} and
+ * {@code Gtk.Scrollable:vadjustment} properties.
+ * <p>
+ * <h2>Creating a scrollable widget</h2>
+ * <p>
  * All scrollable widgets should do the following.
- * 
- * - When a parent widget sets the scrollable child widget&<code>#8217</code> s adjustments,
- *   the widget should connect to the {@link [signal@Gtk.Adjustment::value-changed] (ref=signal)}
- *   signal. The child widget should then populate the adjustments&<code>#8217</code>  properties
+ * <p>
+ * <ul>
+ * <li>When a parent widget sets the scrollable child widget’s adjustments,
+ *   the widget should connect to the {@code Gtk.Adjustment::value-changed}
+ *   signal. The child widget should then populate the adjustments’ properties
  *   as soon as possible, which usually means queueing an allocation right away
- *   and populating the properties in the {@link org.gtk.gtk.Widget<code>#sizeAllocate</code> 
+ *   and populating the properties in the {@link Widget#sizeAllocate}
  *   implementation.
- * 
- * - Because its preferred size is the size for a fully expanded widget,
+ * </ul>
+ * <p>
+ * <ul>
+ * <li>Because its preferred size is the size for a fully expanded widget,
  *   the scrollable widget must be able to cope with underallocations.
  *   This means that it must accept any value passed to its
- *   {@link org.gtk.gtk.Widget<code>#sizeAllocate</code>  implementation.
- * 
- * - When the parent allocates space to the scrollable child widget,
- *   the widget must ensure the adjustments&<code>#8217</code>  property values are correct and up
- *   to date, for example using {@link org.gtk.gtk.Adjustment<code>#configure</code> .
- * 
- * - When any of the adjustments emits the {@link [signal@Gtk.Adjustment::value-changed] (ref=signal)}
+ *   {@link Widget#sizeAllocate} implementation.
+ * </ul>
+ * <p>
+ * <ul>
+ * <li>When the parent allocates space to the scrollable child widget,
+ *   the widget must ensure the adjustments’ property values are correct and up
+ *   to date, for example using {@link Adjustment#configure}.
+ * </ul>
+ * <p>
+ * <ul>
+ * <li>When any of the adjustments emits the {@code Gtk.Adjustment::value-changed}
  *   signal, the scrollable widget should scroll its contents.
  */
 public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
@@ -42,7 +49,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Returns the size of a non-scrolling border around the
      * outside of the scrollable.
-     * 
+     * <p>
      * An example for this would be treeview headers. GTK can use
      * this information to display overlaid graphics, like the
      * overshoot indication, at the right position.
@@ -53,7 +60,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Retrieves the <code>GtkAdjustment</code> used for horizontal scrolling.
+     * Retrieves the {@code GtkAdjustment} used for horizontal scrolling.
      */
     public default Adjustment getHadjustment() {
         var RESULT = gtk_h.gtk_scrollable_get_hadjustment(handle());
@@ -61,7 +68,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the horizontal <code>GtkScrollablePolicy</code>.
+     * Gets the horizontal {@code GtkScrollablePolicy}.
      */
     public default ScrollablePolicy getHscrollPolicy() {
         var RESULT = gtk_h.gtk_scrollable_get_hscroll_policy(handle());
@@ -69,7 +76,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Retrieves the <code>GtkAdjustment</code> used for vertical scrolling.
+     * Retrieves the {@code GtkAdjustment} used for vertical scrolling.
      */
     public default Adjustment getVadjustment() {
         var RESULT = gtk_h.gtk_scrollable_get_vadjustment(handle());
@@ -77,7 +84,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the vertical <code>GtkScrollablePolicy</code>.
+     * Gets the vertical {@code GtkScrollablePolicy}.
      */
     public default ScrollablePolicy getVscrollPolicy() {
         var RESULT = gtk_h.gtk_scrollable_get_vscroll_policy(handle());
@@ -85,15 +92,15 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets the horizontal adjustment of the <code>GtkScrollable</code>.
+     * Sets the horizontal adjustment of the {@code GtkScrollable}.
      */
     public default void setHadjustment(Adjustment hadjustment) {
         gtk_h.gtk_scrollable_set_hadjustment(handle(), hadjustment.handle());
     }
     
     /**
-     * Sets the <code>GtkScrollablePolicy</code>.
-     * 
+     * Sets the {@code GtkScrollablePolicy}.
+     * <p>
      * The policy determines whether horizontal scrolling should start
      * below the minimum width or below the natural width.
      */
@@ -102,15 +109,15 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets the vertical adjustment of the <code>GtkScrollable</code>.
+     * Sets the vertical adjustment of the {@code GtkScrollable}.
      */
     public default void setVadjustment(Adjustment vadjustment) {
         gtk_h.gtk_scrollable_set_vadjustment(handle(), vadjustment.handle());
     }
     
     /**
-     * Sets the <code>GtkScrollablePolicy</code>.
-     * 
+     * Sets the {@code GtkScrollablePolicy}.
+     * <p>
      * The policy determines whether vertical scrolling should start
      * below the minimum height or below the natural height.
      */

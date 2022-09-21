@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A struct that specifies a border around a rectangular area.
- * 
+ * <p>
  * Each side can have different width.
  */
 public class Border extends io.github.jwharm.javagi.ResourceBase {
@@ -24,14 +24,14 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new <code>GtkBorder</code> struct and initializes its elements to zero.
+     * Allocates a new {@code GtkBorder} struct and initializes its elements to zero.
      */
     public Border() {
         super(constructNew());
     }
     
     /**
-     * Copies a <code>GtkBorder</code>.
+     * Copies a {@code GtkBorder}.
      */
     public Border copy() {
         var RESULT = gtk_h.gtk_border_copy(handle());
@@ -39,7 +39,7 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a <code>GtkBorder</code>.
+     * Frees a {@code GtkBorder}.
      */
     public void free() {
         gtk_h.gtk_border_free(handle());

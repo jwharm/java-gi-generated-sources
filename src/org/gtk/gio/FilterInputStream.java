@@ -33,7 +33,7 @@ public class FilterInputStream extends InputStream {
     }
     
     /**
-     * Returns whether the base stream will be closed when @stream is
+     * Returns whether the base stream will be closed when {@code stream} is
      * closed.
      */
     public boolean getCloseBaseStream() {
@@ -42,7 +42,7 @@ public class FilterInputStream extends InputStream {
     }
     
     /**
-     * Sets whether the base stream will be closed when @stream is closed.
+     * Sets whether the base stream will be closed when {@code stream} is closed.
      */
     public void setCloseBaseStream(boolean closeBase) {
         gtk_h.g_filter_input_stream_set_close_base_stream(handle(), closeBase ? 1 : 0);

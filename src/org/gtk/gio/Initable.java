@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.Initable} is implemented by objects that can fail during
+ * {@link Initable} is implemented by objects that can fail during
  * initialization. If an object implements this interface then
  * it must be initialized as the first thing after construction,
  * either via g_initable_init() or g_async_initable_init_async()
- * (the latter is only available if it also implements {@link org.gtk.gio.AsyncInitable} .
- * 
+ * (the latter is only available if it also implements {@link AsyncInitable}).
+ * <p>
  * If the object is not initialized, or initialization returns with an
  * error, then all operations on the object except g_object_ref() and
  * g_object_unref() are considered to be invalid, and have undefined
  * behaviour. They will often fail with g_critical() or g_warning(), but
  * this must not be relied on.
- * 
+ * <p>
  * Users of objects implementing this are not intended to use
  * the interface method directly, instead it will be used automatically
  * in various ways. For C applications you generally just call
@@ -27,49 +27,50 @@ import java.lang.invoke.*;
  * This will call g_initable_init() under the cover, returning <code>null</code> and
  * setting a {@link org.gtk.glib.Error} on failure (at which point the instance is
  * unreferenced).
- * 
+ * <p>
  * For bindings in languages where the native constructor supports
- * exceptions the binding could check for objects implementing <code>GInitable</code> during normal construction and automatically initialize them, throwing
+ * exceptions the binding could check for objects implementing {@code GInitable}
+ * during normal construction and automatically initialize them, throwing
  * an exception on failure.
  */
 public interface Initable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Initializes the object implementing the interface.
-     * 
+     * <p>
      * This method is intended for language bindings. If writing in C,
      * g_initable_new() should typically be used instead.
-     * 
+     * <p>
      * The object must be initialized before any real use after initial
      * construction, either with this function or g_async_initable_init_async().
-     * 
-     * Implementations may also support cancellation. If @cancellable is not <code>null</code> 
+     * <p>
+     * Implementations may also support cancellation. If {@code cancellable} is not <code>null</code>,
      * then initialization can be cancelled by triggering the cancellable object
      * from another thread. If the operation was cancelled, the error
-     * {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If @cancellable is not <code>null</code> and
-     * the object doesn&<code>#39</code> t support cancellable initialization the error
-     * {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  will be returned.
-     * 
+     * {@link IOErrorEnum#CANCELLED} will be returned. If {@code cancellable} is not <code>null</code> and
+     * the object doesn't support cancellable initialization the error
+     * {@link IOErrorEnum#NOT_SUPPORTED} will be returned.
+     * <p>
      * If the object is not initialized, or initialization returns with an
      * error, then all operations on the object except g_object_ref() and
      * g_object_unref() are considered to be invalid, and have undefined
-     * behaviour. See the {@link [introduction]}{@link [ginitable]} for more details.
-     * 
-     * Callers should not assume that a class which implements {@link org.gtk.gio.Initable} can be
+     * behaviour. See the [introduction][ginitable] for more details.
+     * <p>
+     * Callers should not assume that a class which implements {@link Initable} can be
      * initialized multiple times, unless the class explicitly documents itself as
-     * supporting this. Generally, a class&<code>#8217</code>  implementation of init() can assume
+     * supporting this. Generally, a class’ implementation of init() can assume
      * (and assert) that it will only be called once. Previously, this documentation
-     * recommended all {@link org.gtk.gio.Initable} implementations should be idempotent; that
+     * recommended all {@link Initable} implementations should be idempotent; that
      * recommendation was relaxed in GLib 2.54.
-     * 
+     * <p>
      * If a class explicitly supports being initialized multiple times, it is
      * recommended that the method is idempotent: multiple calls with the same
      * arguments should return the same results. Only the first call initializes
      * the object; further calls return the result of the first call.
-     * 
+     * <p>
      * One reason why a class might need to support idempotent initialization is if
      * it is designed to be used via the singleton pattern, with a
-     * {@link org.gtk.gobject.ObjectClass} constructor that sometimes returns an existing instance.
+     * {@link org.gtk.gobject.ObjectClass}.constructor that sometimes returns an existing instance.
      * In this pattern, a caller would expect to be able to call g_initable_init()
      * on the result of g_object_new(), regardless of whether it is in fact a new
      * instance.
@@ -84,9 +85,9 @@ public interface Initable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Helper function for constructing {@link org.gtk.gio.Initable} object. This is
+     * Helper function for constructing {@link Initable} object. This is
      * similar to g_object_new_valist() but also initializes the object
-     * and returns <code>null</code>  setting an error on failure.
+     * and returns <code>null</code>, setting an error on failure.
      */
     public static org.gtk.gobject.Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

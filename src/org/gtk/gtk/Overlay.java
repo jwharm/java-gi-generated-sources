@@ -8,36 +8,38 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkOverlay</code> is a container which contains a single main child, on top
- * of which it can place &<code>#8220</code> overlay&<code>#8221</code>  widgets.
+ * {@code GtkOverlay} is a container which contains a single main child, on top
+ * of which it can place “overlay” widgets.
  * <p>
- * !{@link [An example GtkOverlay]}(overlay.png)
+ * <img src="./doc-files/overlay.png" alt="An example GtkOverlay">
  * <p>
  * The position of each overlay widget is determined by its
- * {@link [property@Gtk.Widget:halign] (ref=property)} and {@link [property@Gtk.Widget:valign] (ref=property)}
- * properties. E.g. a widget with both alignments set to {@link org.gtk.gtk.Align<code>#START</code>  will be placed at the top left corner of the <code>GtkOverlay</code> container,
- * whereas an overlay with halign set to {@link org.gtk.gtk.Align<code>#CENTER</code>  and valign set
- * to {@link org.gtk.gtk.Align<code>#END</code>  will be placed a the bottom edge of the <code>GtkOverlay</code>,
+ * {@code Gtk.Widget:valign}
+ * properties. E.g. a widget with both alignments set to {@link Align#START}
+ * will be placed at the top left corner of the {@code GtkOverlay} container,
+ * whereas an overlay with halign set to {@link Align#CENTER} and valign set
+ * to {@link Align#END} will be placed a the bottom edge of the {@code GtkOverlay},
  * horizontally centered. The position can be adjusted by setting the margin
  * properties of the child to non-zero values.
  * <p>
  * More complicated placement of overlays is possible by connecting
- * to the {@link [signal@Gtk.Overlay::get-child-position] (ref=signal)} signal.
+ * to the {@code Gtk.Overlay::get-child-position} signal.
  * <p>
- * An overlay&<code>#8217</code> s minimum and natural sizes are those of its main child.
+ * An overlay’s minimum and natural sizes are those of its main child.
  * The sizes of overlay children are not considered when measuring these
  * preferred sizes.
  * <p>
  * <h1>GtkOverlay as GtkBuildable</h1>
  * <p>
- * The <code>GtkOverlay</code> implementation of the <code>GtkBuildable</code> interface
- * supports placing a child as an overlay by specifying &<code>#8220</code> overlay&<code>#8221</code>  as
- * the &<code>#8220</code> type&<code>#8221</code>  attribute of a <code>&<code>#60</code> child&<code>#62</code> </code> element.
+ * The {@code GtkOverlay} implementation of the {@code GtkBuildable} interface
+ * supports placing a child as an overlay by specifying “overlay” as
+ * the “type” attribute of a {@code <child>} element.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkOverlay</code> has a single CSS node with the name &<code>#8220</code> overlay&<code>#8221</code> . Overlay children
+ * <p>
+ * {@code GtkOverlay} has a single CSS node with the name “overlay”. Overlay children
  * whose alignments cause them to be positioned at an edge get the style classes
- * &<code>#8220</code> .left&<code>#8221</code> , &<code>#8220</code> .right&<code>#8221</code> , &<code>#8220</code> .top&<code>#8221</code> , and/or &<code>#8220</code> .bottom&<code>#8221</code>  according to their position.
+ * “.left”, “.right”, “.top”, and/or “.bottom” according to their position.
  */
 public class Overlay extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -56,28 +58,28 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Creates a new <code>GtkOverlay</code>.
+     * Creates a new {@code GtkOverlay}.
      */
     public Overlay() {
         super(constructNew());
     }
     
     /**
-     * Adds @widget to @overlay.
-     * 
+     * Adds {@code widget} to {@code overlay}.
+     * <p>
      * The widget will be stacked on top of the main widget
-     * added with {@link org.gtk.gtk.Overlay<code>#setChild</code> .
-     * 
-     * The position at which @widget is placed is determined
-     * from its {@link [property@Gtk.Widget:halign] (ref=property)} and
-     * {@link [property@Gtk.Widget:valign] (ref=property)} properties.
+     * added with {@link Overlay#setChild}.
+     * <p>
+     * The position at which {@code widget} is placed is determined
+     * from its {@code Gtk.Widget:halign} and
+     * {@code Gtk.Widget:valign} properties.
      */
     public void addOverlay(Widget widget) {
         gtk_h.gtk_overlay_add_overlay(handle(), widget.handle());
     }
     
     /**
-     * Gets the child widget of @overlay.
+     * Gets the child widget of {@code overlay}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_overlay_get_child(handle());
@@ -85,7 +87,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Gets whether @widget should be clipped within the parent.
+     * Gets whether {@code widget} should be clipped within the parent.
      */
     public boolean getClipOverlay(Widget widget) {
         var RESULT = gtk_h.gtk_overlay_get_clip_overlay(handle(), widget.handle());
@@ -93,8 +95,8 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Gets whether @widget&<code>#39</code> s size is included in the measurement of
-     * @overlay.
+     * Gets whether {@code widget}'s size is included in the measurement of
+     * {@code overlay}.
      */
     public boolean getMeasureOverlay(Widget widget) {
         var RESULT = gtk_h.gtk_overlay_get_measure_overlay(handle(), widget.handle());
@@ -109,25 +111,25 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Sets the child widget of @overlay.
+     * Sets the child widget of {@code overlay}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_overlay_set_child(handle(), child.handle());
     }
     
     /**
-     * Sets whether @widget should be clipped within the parent.
+     * Sets whether {@code widget} should be clipped within the parent.
      */
     public void setClipOverlay(Widget widget, boolean clipOverlay) {
         gtk_h.gtk_overlay_set_clip_overlay(handle(), widget.handle(), clipOverlay ? 1 : 0);
     }
     
     /**
-     * Sets whether @widget is included in the measured size of @overlay.
-     * 
+     * Sets whether {@code widget} is included in the measured size of {@code overlay}.
+     * <p>
      * The overlay will request the size of the largest child that has
-     * this property set to <code>true</code>  Children who are not included may
-     * be drawn outside of @overlay&<code>#39</code> s allocation if they are too large.
+     * this property set to <code>true</code>. Children who are not included may
+     * be drawn outside of {@code overlay}'s allocation if they are too large.
      */
     public void setMeasureOverlay(Widget widget, boolean measure) {
         gtk_h.gtk_overlay_set_measure_overlay(handle(), widget.handle(), measure ? 1 : 0);
@@ -142,15 +144,16 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * Emitted to determine the position and size of any overlay
      * child widgets.
      * <p>
-     * A handler for this signal should fill @allocation with
-     * the desired position and size for @widget, relative to
-     * the &<code>#39</code> main&<code>#39</code>  child of @overlay.
+     * A handler for this signal should fill {@code allocation} with
+     * the desired position and size for {@code widget}, relative to
+     * the 'main' child of {@code overlay}.
      * <p>
-     * The default handler for this signal uses the @widget&<code>#39</code> s
+     * The default handler for this signal uses the {@code widget}'s
      * halign and valign properties to determine the position
      * and gives the widget its natural size (except that an
-     * alignment of {@link org.gtk.gtk.Align<code>#FILL</code>  will cause the overlay to
-     * be full-width/height). If the main child is a<code>GtkScrolledWindow</code>, the overlays are placed relative
+     * alignment of {@link Align#FILL} will cause the overlay to
+     * be full-width/height). If the main child is a
+     * {@code GtkScrolledWindow}, the overlays are placed relative
      * to its contents.
      */
     public SignalHandle onGetChildPosition(GetChildPositionHandler handler) {

@@ -1,9 +1,9 @@
 package org.pango;
 
 /**
- * <code>PangoEllipsizeMode</code> describes what sort of ellipsization
+ * {@code PangoEllipsizeMode} describes what sort of ellipsization
  * should be applied to text.
- * 
+ * <p>
  * In the ellipsization process characters are removed from the
  * text in order to make it fit to a given width and replaced
  * with an ellipsis.

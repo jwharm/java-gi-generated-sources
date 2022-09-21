@@ -1,7 +1,7 @@
 package org.gtk.gsk;
 
 /**
- * The corner indices used by <code>GskRoundedRect</code>.
+ * The corner indices used by {@code GskRoundedRect}.
  */
 public enum Corner {
 

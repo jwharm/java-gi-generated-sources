@@ -10,36 +10,36 @@ import java.lang.invoke.*;
 /**
  * Interface for widgets that can be used for editing cells
  * <p>
- * The <code>GtkCellEditable</code> interface must be implemented for widgets to be usable
- * to edit the contents of a <code>GtkTreeView</code> cell. It provides a way to specify how
+ * The {@code GtkCellEditable} interface must be implemented for widgets to be usable
+ * to edit the contents of a {@code GtkTreeView} cell. It provides a way to specify how
  * temporary widgets should be configured for editing, get the new value, etc.
  */
 public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Emits the <code>GtkCellEditable::editing-done</code> signal.
+     * Emits the {@code GtkCellEditable::editing-done} signal.
      */
     public default void editingDone() {
         gtk_h.gtk_cell_editable_editing_done(handle());
     }
     
     /**
-     * Emits the <code>GtkCellEditable::remove-widget</code> signal.
+     * Emits the {@code GtkCellEditable::remove-widget} signal.
      */
     public default void removeWidget() {
         gtk_h.gtk_cell_editable_remove_widget(handle());
     }
     
     /**
-     * Begins editing on a @cell_editable.
+     * Begins editing on a {@code cell_editable}.
      * <p>
-     * The <code>GtkCellRenderer</code> for the cell creates and returns a <code>GtkCellEditable</code> from
-     * gtk_cell_renderer_start_editing(), configured for the <code>GtkCellRenderer</code> type.
+     * The {@code GtkCellRenderer} for the cell creates and returns a {@code GtkCellEditable} from
+     * gtk_cell_renderer_start_editing(), configured for the {@code GtkCellRenderer} type.
      * <p>
-     * gtk_cell_editable_start_editing() can then set up @cell_editable suitably for
-     * editing a cell, e.g. making the Esc key emit <code>GtkCellEditable::editing-done</code>.
-     * 
-     * Note that the @cell_editable is created on-demand for the current edit; its
+     * gtk_cell_editable_start_editing() can then set up {@code cell_editable} suitably for
+     * editing a cell, e.g. making the Esc key emit {@code GtkCellEditable::editing-done}.
+     * <p>
+     * Note that the {@code cell_editable} is created on-demand for the current edit; its
      * lifetime is temporary and does not persist across other edits and/or cells.
      */
     public default void startEditing(org.gtk.gdk.Event event) {
@@ -53,15 +53,16 @@ public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * This signal is a sign for the cell renderer to update its
-     * value from the @cell_editable.
+     * value from the {@code cell_editable}.
      * <p>
-     * Implementations of <code>GtkCellEditable</code> are responsible for
-     * emitting this signal when they are done editing, e.g.<code>GtkEntry</code> emits this signal when the user presses Enter. Typical things to
+     * Implementations of {@code GtkCellEditable} are responsible for
+     * emitting this signal when they are done editing, e.g.
+     * {@code GtkEntry} emits this signal when the user presses Enter. Typical things to
      * do in a handler for ::editing-done are to capture the edited value,
-     * disconnect the @cell_editable from signals on the <code>GtkCellRenderer</code>, etc.
+     * disconnect the {@code cell_editable} from signals on the {@code GtkCellRenderer}, etc.
      * <p>
      * gtk_cell_editable_editing_done() is a convenience method
-     * for emitting <code>GtkCellEditable::editing-done</code>.
+     * for emitting {@code GtkCellEditable::editing-done}.
      */
     public default SignalHandle onEditingDone(EditingDoneHandler handler) {
         try {
@@ -85,17 +86,17 @@ public interface CellEditable extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * This signal is meant to indicate that the cell is finished
-     * editing, and the @cell_editable widget is being removed and may
+     * editing, and the {@code cell_editable} widget is being removed and may
      * subsequently be destroyed.
      * <p>
-     * Implementations of <code>GtkCellEditable</code> are responsible for
+     * Implementations of {@code GtkCellEditable} are responsible for
      * emitting this signal when they are done editing. It must
-     * be emitted after the <code>GtkCellEditable::editing-done</code> signal,
-     * to give the cell renderer a chance to update the cell&<code>#39</code> s value
+     * be emitted after the {@code GtkCellEditable::editing-done} signal,
+     * to give the cell renderer a chance to update the cell's value
      * before the widget is removed.
      * <p>
      * gtk_cell_editable_remove_widget() is a convenience method
-     * for emitting <code>GtkCellEditable::remove-widget</code>.
+     * for emitting {@code GtkCellEditable::remove-widget}.
      */
     public default SignalHandle onRemoveWidget(RemoveWidgetHandler handler) {
         try {

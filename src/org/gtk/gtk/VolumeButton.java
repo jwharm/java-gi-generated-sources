@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkVolumeButton</code> is a <code>GtkScaleButton</code> subclass tailored for
+ * {@code GtkVolumeButton} is a {@code GtkScaleButton} subclass tailored for
  * volume control.
- * 
- * !{@link [An example GtkVolumeButton]}(volumebutton.png)
+ * <p>
+ * <img src="./doc-files/volumebutton.png" alt="An example GtkVolumeButton">
  */
 public class VolumeButton extends ScaleButton implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -30,11 +30,11 @@ public class VolumeButton extends ScaleButton implements Accessible, Buildable, 
     }
     
     /**
-     * Creates a <code>GtkVolumeButton</code>.
-     * 
+     * Creates a {@code GtkVolumeButton}.
+     * <p>
      * The button has a range between 0.0 and 1.0, with a stepping of 0.02.
      * Volume values can be obtained and modified using the functions from
-     * {@link org.gtk.gtk.ScaleButton}.
+     * {@link ScaleButton}.
      */
     public VolumeButton() {
         super(constructNew());

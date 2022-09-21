@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.ProxyResolver} provides synchronous and asynchronous network proxy
- * resolution. {@link org.gtk.gio.ProxyResolver} is used within {@link org.gtk.gio.SocketClient} through
+ * {@link ProxyResolver} provides synchronous and asynchronous network proxy
+ * resolution. {@link ProxyResolver} is used within {@link SocketClient} through
  * the method g_socket_connectable_proxy_enumerate().
- * 
- * Implementations of {@link org.gtk.gio.ProxyResolver} based on libproxy and GNOME settings can
+ * <p>
+ * Implementations of {@link ProxyResolver} based on libproxy and GNOME settings can
  * be found in glib-networking. GIO comes with an implementation for use inside
  * Flatpak portals.
  */
 public interface ProxyResolver extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Checks if @resolver can be used on this system. (This is used
+     * Checks if {@code resolver} can be used on this system. (This is used
      * internally; g_proxy_resolver_get_default() will only return a proxy
      * resolver that returns <code>true</code> for this method.)
      */
@@ -47,7 +47,7 @@ public interface ProxyResolver extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the default {@link org.gtk.gio.ProxyResolver} for the system.
+     * Gets the default {@link ProxyResolver} for the system.
      */
     public static ProxyResolver getDefault() {
         var RESULT = gtk_h.g_proxy_resolver_get_default();

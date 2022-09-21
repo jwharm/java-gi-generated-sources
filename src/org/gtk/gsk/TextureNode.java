@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A render node for a <code>GdkTexture</code>.
+ * A render node for a {@code GdkTexture}.
  */
 public class TextureNode extends RenderNode {
 
@@ -27,15 +27,15 @@ public class TextureNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will render the given
-     * @texture into the area given by @bounds.
+     * Creates a {@code GskRenderNode} that will render the given
+     * {@code texture} into the area given by {@code bounds}.
      */
     public TextureNode(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
         super(constructNew(texture, bounds));
     }
     
     /**
-     * Retrieves the <code>GdkTexture</code> used when creating this <code>GskRenderNode</code>.
+     * Retrieves the {@code GdkTexture} used when creating this {@code GskRenderNode}.
      */
     public org.gtk.gdk.Texture getTexture() {
         var RESULT = gtk_h.gsk_texture_node_get_texture(handle());

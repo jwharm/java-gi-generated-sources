@@ -6,26 +6,31 @@ package org.gtk.gio;
  * as lists of {@link org.gtk.glib.Variant} tuples. Each record type has different values in
  * the variant tuples returned.
  * <p>
- * {@link org.gtk.gio.ResolverRecordType<code>#SRV</code>  records are returned as variants with the signature<code>(qqqs)</code>, containing a <code>guint16</code> with the priority, a <code>guint16</code> with the
- * weight, a <code>guint16</code> with the port, and a string of the hostname.
+ * {@link ResolverRecordType#SRV} records are returned as variants with the signature
+ * {@code (qqqs)}, containing a {@code guint16} with the priority, a {@code guint16} with the
+ * weight, a {@code guint16} with the port, and a string of the hostname.
  * <p>
- * {@link org.gtk.gio.ResolverRecordType<code>#MX</code>  records are returned as variants with the signature<code>(qs)</code>, representing a <code>guint16</code> with the preference, and a string containing
+ * {@link ResolverRecordType#MX} records are returned as variants with the signature
+ * {@code (qs)}, representing a {@code guint16} with the preference, and a string containing
  * the mail exchanger hostname.
  * <p>
- * {@link org.gtk.gio.ResolverRecordType<code>#TXT</code>  records are returned as variants with the signature<code>(as)</code>, representing an array of the strings in the text record. Note: Most TXT
+ * {@link ResolverRecordType#TXT} records are returned as variants with the signature
+ * {@code (as)}, representing an array of the strings in the text record. Note: Most TXT
  * records only contain a single string, but
- * {@link [RFC 1035]}(https://tools.ietf.org/html/rfc1035<code>#section</code> 3.3.14) does allow a
+ * <a href="https://tools.ietf.org/html/rfc1035#section-3.3.14">RFC 1035</a> does allow a
  * record to contain multiple strings. The RFC which defines the interpretation
  * of a specific TXT record will likely require concatenation of multiple
  * strings if they are present, as with
- * {@link [RFC 7208]}(https://tools.ietf.org/html/rfc7208<code>#section</code> 3.3).
+ * <a href="https://tools.ietf.org/html/rfc7208#section-3.3">RFC 7208</a>.
  * <p>
- * {@link org.gtk.gio.ResolverRecordType<code>#SOA</code>  records are returned as variants with the signature<code>(ssuuuuu)</code>, representing a string containing the primary name server, a
- * string containing the administrator, the serial as a <code>guint32</code>, the refresh
- * interval as a <code>guint32</code>, the retry interval as a <code>guint32</code>, the expire timeout
- * as a <code>guint32</code>, and the TTL as a <code>guint32</code>.
+ * {@link ResolverRecordType#SOA} records are returned as variants with the signature
+ * {@code (ssuuuuu)}, representing a string containing the primary name server, a
+ * string containing the administrator, the serial as a {@code guint32}, the refresh
+ * interval as a {@code guint32}, the retry interval as a {@code guint32}, the expire timeout
+ * as a {@code guint32}, and the TTL as a {@code guint32}.
  * <p>
- * {@link org.gtk.gio.ResolverRecordType<code>#NS</code>  records are returned as variants with the signature<code>(s)</code>, representing a string of the hostname of the name server.
+ * {@link ResolverRecordType#NS} records are returned as variants with the signature
+ * {@code (s)}, representing a string of the hostname of the name server.
  */
 public enum ResolverRecordType {
 

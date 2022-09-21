@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.InetAddressMask} represents a range of IPv4 or IPv6 addresses
+ * {@link InetAddressMask} represents a range of IPv4 or IPv6 addresses
  * described by a base address and a length indicating how many bits
  * of the base address are relevant for matching purposes. These are
- * often given in string form. Eg, &<code>#34</code> 10.0.0.0/8&<code>#34</code> , or &<code>#34</code> fe80::/10&<code>#34</code> .
+ * often given in string form. Eg, "10.0.0.0/8", or "fe80::/10".
  */
 public class InetAddressMask extends org.gtk.gobject.Object implements Initable {
 
@@ -34,8 +34,8 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.InetAddressMask} representing all addresses whose
-     * first @length bits match @addr.
+     * Creates a new {@link InetAddressMask} representing all addresses whose
+     * first {@code length} bits match {@code addr}.
      */
     public InetAddressMask(InetAddress addr, int length) throws GErrorException {
         super(constructNew(addr, length));
@@ -51,9 +51,9 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Parses @mask_string as an IP address and (optional) length, and
-     * creates a new {@link org.gtk.gio.InetAddressMask}  The length, if present, is
-     * delimited by a &<code>#34</code> /&<code>#34</code> . If it is not present, then the length is
+     * Parses {@code mask_string} as an IP address and (optional) length, and
+     * creates a new {@link InetAddressMask}. The length, if present, is
+     * delimited by a "/". If it is not present, then the length is
      * assumed to be the full length of the address.
      */
     public static InetAddressMask newFromString(java.lang.String maskString) throws GErrorException {
@@ -61,7 +61,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Tests if @mask and @mask2 are the same mask.
+     * Tests if {@code mask} and {@code mask2} are the same mask.
      */
     public boolean equal(InetAddressMask mask2) {
         var RESULT = gtk_h.g_inet_address_mask_equal(handle(), mask2.handle());
@@ -69,7 +69,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets @mask&<code>#39</code> s base address
+     * Gets {@code mask}'s base address
      */
     public InetAddress getAddress() {
         var RESULT = gtk_h.g_inet_address_mask_get_address(handle());
@@ -77,7 +77,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets the {@link org.gtk.gio.SocketFamily} of @mask&<code>#39</code> s address
+     * Gets the {@link SocketFamily} of {@code mask}'s address
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_mask_get_family(handle());
@@ -85,7 +85,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Gets @mask&<code>#39</code> s length
+     * Gets {@code mask}'s length
      */
     public int getLength() {
         var RESULT = gtk_h.g_inet_address_mask_get_length(handle());
@@ -93,7 +93,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Tests if @address falls within the range described by @mask.
+     * Tests if {@code address} falls within the range described by {@code mask}.
      */
     public boolean matches(InetAddress address) {
         var RESULT = gtk_h.g_inet_address_mask_matches(handle(), address.handle());
@@ -101,7 +101,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
     }
     
     /**
-     * Converts @mask back to its corresponding string form.
+     * Converts {@code mask} back to its corresponding string form.
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.g_inet_address_mask_to_string(handle());

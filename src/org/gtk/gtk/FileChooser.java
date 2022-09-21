@@ -8,41 +8,48 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkFileChooser</code> is an interface that can be implemented by file
+ * {@code GtkFileChooser} is an interface that can be implemented by file
  * selection widgets.
  * <p>
  * In GTK, the main objects that implement this interface are
- * {@link org.gtk.gtk.FileChooserWidget} and {@link org.gtk.gtk.FileChooserDialog}.
+ * {@code Gtk.FileChooserDialog}.
  * <p>
- * You do not need to write an object that implements the <code>GtkFileChooser</code>
+ * You do not need to write an object that implements the {@code GtkFileChooser}
  * interface unless you are trying to adapt an existing file selector to
  * expose a standard programming interface.
- * <p><code>GtkFileChooser</code> allows for shortcuts to various places in the filesystem.
+ * <p>
+ * {@code GtkFileChooser} allows for shortcuts to various places in the filesystem.
  * In the default implementation these are displayed in the left pane. It
  * may be a bit confusing at first that these shortcuts come from various
  * sources and in various flavours, so lets explain the terminology here:
  * <p>
+ * <ul>
  * <li>Bookmarks: are created by the user, by dragging folders from the
- *   right pane to the left pane, or by using the &<code>#8220</code> Add&<code>#8221</code> . Bookmarks
+ *   right pane to the left pane, or by using the “Add”. Bookmarks
  *   can be renamed and deleted by the user.
+ * </ul>
  * <p>
+ * <ul>
  * <li>Shortcuts: can be provided by the application. For example, a Paint
  *   program may want to add a shortcut for a Clipart folder. Shortcuts
  *   cannot be modified by the user.
+ * </ul>
  * <p>
+ * <ul>
  * <li>Volumes: are provided by the underlying filesystem abstraction. They are
- *   the &<code>#8220</code> roots&<code>#8221</code>  of the filesystem.
+ *   the “roots” of the filesystem.
+ * </ul>
  * <p>
  * <h1>File Names and Encodings</h1>
  * <p>
- * When the user is finished selecting files in a <code>GtkFileChooser</code>, your
- * program can get the selected filenames as <code>GFile</code>s.
- * 
- * <code>#</code> Adding options
- * 
+ * When the user is finished selecting files in a {@code GtkFileChooser}, your
+ * program can get the selected filenames as {@code GFile}s.
+ * <p>
+ * <h1>Adding options</h1>
+ * <p>
  * You can add extra widgets to a file chooser to provide options
  * that are not present in the default design, by using
- * {@link org.gtk.gtk.FileChooser<code>#addChoice</code> . Each choice has an identifier and
+ * {@link FileChooser#addChoice}. Each choice has an identifier and
  * a user visible label; additionally, each choice can have multiple
  * options. If a choice has no option, it will be rendered as a
  * check button with the given label; if a choice has options, it will
@@ -51,26 +58,26 @@ import java.lang.invoke.*;
 public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Adds a &<code>#39</code> choice&<code>#39</code>  to the file chooser.
-     * 
+     * Adds a 'choice' to the file chooser.
+     * <p>
      * This is typically implemented as a combobox or, for boolean choices,
      * as a checkbutton. You can select a value using
-     * {@link org.gtk.gtk.FileChooser<code>#setChoice</code>  before the dialog is shown,
+     * {@link FileChooser#setChoice} before the dialog is shown,
      * and you can obtain the user-selected value in the
-     * {@link [signal@Gtk.Dialog::response] (ref=signal)} signal handler using
-     * {@link org.gtk.gtk.FileChooser<code>#getChoice</code> .
+     * {@code Gtk.Dialog::response} signal handler using
+     * {@link FileChooser#getChoice}.
      */
     public default void addChoice(java.lang.String id, java.lang.String label, java.lang.String[] options, java.lang.String[] optionLabels) {
         gtk_h.gtk_file_chooser_add_choice(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeArray(options).handle(), Interop.allocateNativeArray(optionLabels).handle());
     }
     
     /**
-     * Adds @filter to the list of filters that the user can select between.
-     * 
+     * Adds {@code filter} to the list of filters that the user can select between.
+     * <p>
      * When a filter is selected, only files that are passed by that
      * filter are displayed.
-     * 
-     * Note that the @chooser takes ownership of the filter if it is floating,
+     * <p>
+     * Note that the {@code chooser} takes ownership of the filter if it is floating,
      * so you have to ref and sink it if you want to keep a reference.
      */
     public default void addFilter(FileFilter filter) {
@@ -99,7 +106,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the currently selected option in the &<code>#39</code> choice&<code>#39</code>  with the given ID.
+     * Gets the currently selected option in the 'choice' with the given ID.
      */
     public default java.lang.String getChoice(java.lang.String id) {
         var RESULT = gtk_h.gtk_file_chooser_get_choice(handle(), Interop.allocateNativeString(id).handle());
@@ -115,7 +122,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the current folder of @chooser as <code>GFile</code>.
+     * Gets the current folder of {@code chooser} as {@code GFile}.
      */
     public default org.gtk.gio.File getCurrentFolder() {
         var RESULT = gtk_h.gtk_file_chooser_get_current_folder(handle());
@@ -124,7 +131,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the current name in the file selector, as entered by the user.
-     * 
+     * <p>
      * This is meant to be used in save dialogs, to get the currently typed
      * filename when the file itself does not exist yet.
      */
@@ -134,12 +141,12 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the <code>GFile</code> for the currently selected file in
+     * Gets the {@code GFile} for the currently selected file in
      * the file selector.
-     * 
+     * <p>
      * If multiple files are selected, one of the files will be
      * returned at random.
-     * 
+     * <p>
      * If the file chooser is in folder mode, this function returns
      * the selected folder.
      */
@@ -150,7 +157,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Lists all the selected files and subfolders in the current folder
-     * of @chooser as <code>GFile</code>.
+     * of {@code chooser} as {@code GFile}.
      */
     public default org.gtk.gio.ListModel getFiles() {
         var RESULT = gtk_h.gtk_file_chooser_get_files(handle());
@@ -167,12 +174,12 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the current set of user-selectable filters, as a list model.
-     * 
-     * See {@link org.gtk.gtk.FileChooser<code>#addFilter</code>  and
-     * {@link org.gtk.gtk.FileChooser<code>#removeFilter</code>  for changing individual filters.
-     * 
+     * <p>
+     * See {@link FileChooser#addFilter} and
+     * {@link FileChooser#removeFilter} for changing individual filters.
+     * <p>
      * You should not modify the returned list model. Future changes to
-     * @chooser may or may not affect the returned model.
+     * {@code chooser} may or may not affect the returned model.
      */
     public default org.gtk.gio.ListModel getFilters() {
         var RESULT = gtk_h.gtk_file_chooser_get_filters(handle());
@@ -190,9 +197,9 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Queries the list of shortcut folders in the file chooser.
-     * 
+     * <p>
      * You should not modify the returned list model. Future changes to
-     * @chooser may or may not affect the returned model.
+     * {@code chooser} may or may not affect the returned model.
      */
     public default org.gtk.gio.ListModel getShortcutFolders() {
         var RESULT = gtk_h.gtk_file_chooser_get_shortcut_folders(handle());
@@ -200,14 +207,14 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Removes a &<code>#39</code> choice&<code>#39</code>  that has been added with gtk_file_chooser_add_choice().
+     * Removes a 'choice' that has been added with gtk_file_chooser_add_choice().
      */
     public default void removeChoice(java.lang.String id) {
         gtk_h.gtk_file_chooser_remove_choice(handle(), Interop.allocateNativeString(id).handle());
     }
     
     /**
-     * Removes @filter from the list of filters that the user can select between.
+     * Removes {@code filter} from the list of filters that the user can select between.
      */
     public default void removeFilter(FileFilter filter) {
         gtk_h.gtk_file_chooser_remove_filter(handle(), filter.handle());
@@ -227,22 +234,22 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets the type of operation that the chooser is performing.
-     * 
+     * <p>
      * The user interface is adapted to suit the selected action.
-     * 
+     * <p>
      * For example, an option to create a new folder might be shown
-     * if the action is {@link org.gtk.gtk.FileChooserAction<code>#SAVE</code>  but not if the
-     * action is {@link org.gtk.gtk.FileChooserAction<code>#OPEN</code>
+     * if the action is {@link FileChooserAction#SAVE} but not if the
+     * action is {@link FileChooserAction#OPEN}.
      */
     public default void setAction(FileChooserAction action) {
         gtk_h.gtk_file_chooser_set_action(handle(), action.getValue());
     }
     
     /**
-     * Selects an option in a &<code>#39</code> choice&<code>#39</code>  that has been added with
+     * Selects an option in a 'choice' that has been added with
      * gtk_file_chooser_add_choice().
-     * 
-     * For a boolean choice, the possible options are &<code>#34</code> true&<code>#34</code>  and &<code>#34</code> false&<code>#34</code> .
+     * <p>
+     * For a boolean choice, the possible options are "true" and "false".
      */
     public default void setChoice(java.lang.String id, java.lang.String option) {
         gtk_h.gtk_file_chooser_set_choice(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(option).handle());
@@ -250,16 +257,16 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets whether file chooser will offer to create new folders.
-     * 
+     * <p>
      * This is only relevant if the action is not set to be
-     * {@link org.gtk.gtk.FileChooserAction<code>#OPEN</code>
+     * {@link FileChooserAction#OPEN}.
      */
     public default void setCreateFolders(boolean createFolders) {
         gtk_h.gtk_file_chooser_set_create_folders(handle(), createFolders ? 1 : 0);
     }
     
     /**
-     * Sets the current folder for @chooser from a <code>GFile</code>.
+     * Sets the current folder for {@code chooser} from a {@code GFile}.
      */
     public default boolean setCurrentFolder(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -273,43 +280,44 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the current name in the file selector, as if entered
      * by the user.
-     * 
+     * <p>
      * Note that the name passed in here is a UTF-8 string rather
      * than a filename. This function is meant for such uses as a
-     * suggested name in a &<code>#8220</code> Save As...&<code>#8221</code>  dialog.  You can pass
-     * &<code>#8220</code> Untitled.doc&<code>#8221</code>  or a similarly suitable suggestion for the @name.
-     * 
+     * suggested name in a “Save As...” dialog.  You can pass
+     * “Untitled.doc” or a similarly suitable suggestion for the {@code name}.
+     * <p>
      * If you want to preselect a particular existing file, you should
-     * use {@link org.gtk.gtk.FileChooser<code>#setFile</code>  instead.
-     * 
+     * use {@link FileChooser#setFile} instead.
+     * <p>
      * Please see the documentation for those functions for an example
-     * of using {@link org.gtk.gtk.FileChooser<code>#setCurrentName</code>  as well.
+     * of using {@link FileChooser#setCurrentName} as well.
      */
     public default void setCurrentName(java.lang.String name) {
         gtk_h.gtk_file_chooser_set_current_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
-     * Sets @file as the current filename for the file chooser.
+     * Sets {@code file} as the current filename for the file chooser.
      * <p>
-     * This includes changing to the file&<code>#8217</code> s parent folder and actually selecting
-     * the file in list. If the @chooser is in {@link org.gtk.gtk.FileChooserAction<code>#SAVE</code>  mode,
-     * the file&<code>#8217</code> s base name will also appear in the dialog&<code>#8217</code> s file name entry.
+     * This includes changing to the file’s parent folder and actually selecting
+     * the file in list. If the {@code chooser} is in {@link FileChooserAction#SAVE} mode,
+     * the file’s base name will also appear in the dialog’s file name entry.
      * <p>
-     * If the file name isn&<code>#8217</code> t in the current folder of @chooser, then the current
-     * folder of @chooser will be changed to the folder containing @file.
+     * If the file name isn’t in the current folder of {@code chooser}, then the current
+     * folder of {@code chooser} will be changed to the folder containing {@code file}.
      * <p>
      * Note that the file must exist, or nothing will be done except
      * for the directory change.
      * <p>
      * If you are implementing a save dialog, you should use this function if
      * you already have a file name to which the user may save; for example,
-     * when the user opens an existing file and then does &<code>#8220</code> Save As&<code>#8230</code> &<code>#8221</code> . If you
-     * don&<code>#8217</code> t have a file name already &<code>#8212</code>  for example, if the user just created
+     * when the user opens an existing file and then does “Save As…”. If you
+     * don’t have a file name already — for example, if the user just created
      * a new file and is saving it for the first time, do not call this function.
      * <p>
      * Instead, use something similar to this:
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      * static void
      * prepare_file_chooser (GtkFileChooser *chooser,
      *                       GFile          *existing_file)
@@ -318,10 +326,10 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
      * 
      *   if (document_is_new)
      *     {
-     *       GFile *default_file_for_saving = g_file_new_for_path (&<code>#34</code> ./out.txt&<code>#34</code> );
+     *       GFile *default_file_for_saving = g_file_new_for_path ("./out.txt");
      *       // the user just created a new document
      *       gtk_file_chooser_set_current_folder (chooser, default_file_for_saving, NULL);
-     *       gtk_file_chooser_set_current_name (chooser, &<code>#34</code> Untitled document&<code>#34</code> );
+     *       gtk_file_chooser_set_current_name (chooser, "Untitled document");
      *       g_object_unref (default_file_for_saving);
      *     }
      *   else
@@ -330,7 +338,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
      *       gtk_file_chooser_set_file (chooser, existing_file, NULL);
      *     }
      * }
-     * </pre>
+     * }</pre>
      */
     public default boolean setFile(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -343,11 +351,11 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets the current filter.
-     * 
+     * <p>
      * Only the files that pass the filter will be displayed.
      * If the user-selectable list of filters is non-empty, then
      * the filter should be one of the filters in that list.
-     * 
+     * <p>
      * Setting the current filter when the list of filters is
      * empty is useful if you want to restrict the displayed
      * set of files without letting the user change it.
@@ -358,10 +366,10 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets whether multiple files can be selected in the file chooser.
-     * 
+     * <p>
      * This is only relevant if the action is set to be
-     * {@link org.gtk.gtk.FileChooserAction<code>#OPEN</code>  or
-     * {@link org.gtk.gtk.FileChooserAction<code>#SELECT_FOLDER</code>
+     * {@link FileChooserAction#OPEN} or
+     * {@link FileChooserAction#SELECT_FOLDER}.
      */
     public default void setSelectMultiple(boolean selectMultiple) {
         gtk_h.gtk_file_chooser_set_select_multiple(handle(), selectMultiple ? 1 : 0);

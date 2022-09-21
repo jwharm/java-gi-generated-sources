@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags to define future {@link org.gtk.gio.TestDBus} behaviour.
+ * Flags to define future {@link TestDBus} behaviour.
  */
 public class TestDBusFlags {
 

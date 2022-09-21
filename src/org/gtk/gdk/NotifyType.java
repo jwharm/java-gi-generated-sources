@@ -2,7 +2,7 @@ package org.gtk.gdk;
 
 /**
  * Specifies the kind of crossing for enter and leave events.
- * 
+ * <p>
  * See the X11 protocol specification of LeaveNotify for
  * full details of crossing event generation.
  */

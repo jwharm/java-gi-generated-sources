@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkShortcutTrigger</code> that combines two triggers.
+ * A {@code GtkShortcutTrigger} that combines two triggers.
  * <p>
- * The <code>GtkAlternativeTrigger</code> triggers when either of two trigger.
- * 
+ * The {@code GtkAlternativeTrigger} triggers when either of two trigger.
+ * <p>
  * This can be cascaded to combine more than two triggers.
  */
 public class AlternativeTrigger extends ShortcutTrigger {
@@ -31,9 +31,9 @@ public class AlternativeTrigger extends ShortcutTrigger {
     }
     
     /**
-     * Creates a <code>GtkShortcutTrigger</code> that will trigger whenever
+     * Creates a {@code GtkShortcutTrigger} that will trigger whenever
      * either of the two given triggers gets triggered.
-     * 
+     * <p>
      * Note that nesting is allowed, so if you want more than two
      * alternative, create a new alternative trigger for each option.
      */
@@ -43,9 +43,9 @@ public class AlternativeTrigger extends ShortcutTrigger {
     
     /**
      * Gets the first of the two alternative triggers that may
-     * trigger @self.
-     * 
-     * {@link org.gtk.gtk.AlternativeTrigger<code>#getSecond</code>  will return
+     * trigger {@code self}.
+     * <p>
+     * {@link AlternativeTrigger#getSecond} will return
      * the other one.
      */
     public ShortcutTrigger getFirst() {
@@ -55,9 +55,9 @@ public class AlternativeTrigger extends ShortcutTrigger {
     
     /**
      * Gets the second of the two alternative triggers that may
-     * trigger @self.
-     * 
-     * {@link org.gtk.gtk.AlternativeTrigger<code>#getFirst</code>  will return
+     * trigger {@code self}.
+     * <p>
+     * {@link AlternativeTrigger#getFirst} will return
      * the other one.
      */
     public ShortcutTrigger getSecond() {

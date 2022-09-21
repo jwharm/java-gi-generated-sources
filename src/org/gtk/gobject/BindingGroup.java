@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.gobject.BindingGroup} can be used to bind multiple properties
+ * The {@link BindingGroup} can be used to bind multiple properties
  * from an object collectively.
- * 
+ * <p>
  * Use the various methods to bind properties from a single source
  * object to multiple destination objects. Properties can be bound
  * bidirectionally and are connected when the source object is set
@@ -33,18 +33,18 @@ public class BindingGroup extends Object {
     }
     
     /**
-     * Creates a new {@link org.gtk.gobject.BindingGroup}
+     * Creates a new {@link BindingGroup}.
      */
     public BindingGroup() {
         super(constructNew());
     }
     
     /**
-     * Creates a binding between @source_property on the source object
-     * and @target_property on @target. Whenever the @source_property
-     * is changed the @target_property is updated using the same value.
-     * The binding flag {@link org.gtk.gobject.BindingFlags<code>#SYNC_CREATE</code>  is automatically specified.
-     * 
+     * Creates a binding between {@code source_property} on the source object
+     * and {@code target_property} on {@code target}. Whenever the {@code source_property}
+     * is changed the {@code target_property} is updated using the same value.
+     * The binding flag {@link BindingFlags#SYNC_CREATE} is automatically specified.
+     * <p>
      * See g_object_bind_property() for more information.
      */
     public void bind(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
@@ -52,11 +52,11 @@ public class BindingGroup extends Object {
     }
     
     /**
-     * Creates a binding between @source_property on the source object and
-     * @target_property on @target, allowing you to set the transformation
+     * Creates a binding between {@code source_property} on the source object and
+     * {@code target_property} on {@code target}, allowing you to set the transformation
      * functions to be used by the binding. The binding flag
-     * {@link org.gtk.gobject.BindingFlags<code>#SYNC_CREATE</code>  is automatically specified.
-     * 
+     * {@link BindingFlags#SYNC_CREATE} is automatically specified.
+     * <p>
      * See g_object_bind_property_full() for more information.
      */
     public void bindFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
@@ -80,14 +80,15 @@ public class BindingGroup extends Object {
     }
     
     /**
-     * Creates a binding between @source_property on the source object and
-     * @target_property on @target, allowing you to set the transformation
+     * Creates a binding between {@code source_property} on the source object and
+     * {@code target_property} on {@code target}, allowing you to set the transformation
      * functions to be used by the binding. The binding flag
-     * {@link org.gtk.gobject.BindingFlags<code>#SYNC_CREATE</code>  is automatically specified.
-     * 
+     * {@link BindingFlags#SYNC_CREATE} is automatically specified.
+     * <p>
      * This function is the language bindings friendly version of
-     * g_binding_group_bind_property_full(), using <code>#GClosures</code> instead of function pointers.
-     * 
+     * g_binding_group_bind_property_full(), using {@code GClosures}
+     * instead of function pointers.
+     * <p>
      * See g_object_bind_property_with_closures() for more information.
      */
     public void bindWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
@@ -103,11 +104,11 @@ public class BindingGroup extends Object {
     }
     
     /**
-     * Sets @source as the source object used for creating property
+     * Sets {@code source} as the source object used for creating property
      * bindings. If there is already a source object all bindings from it
      * will be removed.
-     * 
-     * Note that all properties that have been bound must exist on @source.
+     * <p>
+     * Note that all properties that have been bound must exist on {@code source}.
      */
     public void setSource(Object source) {
         gtk_h.g_binding_group_set_source(handle(), source.handle());

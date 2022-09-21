@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkPixbufFormat</code> contains information about the image format accepted
+ * A {@code GdkPixbufFormat} contains information about the image format accepted
  * by a module.
  * <p>
  * Only modules should access the fields directly, applications should
- * use the <code>gdk_pixbuf_format_*</code> family of functions.
+ * use the {@code gdk_pixbuf_format_*} family of functions.
  */
 public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
 
@@ -21,7 +21,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a copy of <code>format</code>.
+     * Creates a copy of {@code format}.
      */
     public PixbufFormat copy() {
         var RESULT = gtk_h.gdk_pixbuf_format_copy(handle());
@@ -29,7 +29,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the resources allocated when copying a <code>GdkPixbufFormat</code>
+     * Frees the resources allocated when copying a {@code GdkPixbufFormat}
      * using gdk_pixbuf_format_copy()
      */
     public void free() {
@@ -46,9 +46,9 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns information about the license of the image loader for the format.
-     * 
+     * <p>
      * The returned string should be a shorthand for a well known license, e.g.
-     * &<code>#34</code> LGPL&<code>#34</code> , &<code>#34</code> GPL&<code>#34</code> , &<code>#34</code> QPL&<code>#34</code> , &<code>#34</code> GPL/QPL&<code>#34</code> , or &<code>#34</code> other&<code>#34</code>  to indicate some other license.
+     * "LGPL", "GPL", "QPL", "GPL/QPL", or "other" to indicate some other license.
      */
     public java.lang.String getLicense() {
         var RESULT = gtk_h.gdk_pixbuf_format_get_license(handle());
@@ -65,7 +65,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns whether this image format is disabled.
-     * 
+     * <p>
      * See gdk_pixbuf_format_set_disabled().
      */
     public boolean isDisabled() {
@@ -74,9 +74,9 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>TRUE</code> if the save option specified by @option_key is supported when
-     * saving a pixbuf using the module implementing @format.
-     * 
+     * Returns {@code TRUE} if the save option specified by {@code option_key} is supported when
+     * saving a pixbuf using the module implementing {@code format}.
+     * <p>
      * See gdk_pixbuf_save() for more information about option keys.
      */
     public boolean isSaveOptionSupported(java.lang.String optionKey) {
@@ -86,7 +86,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns whether this image format is scalable.
-     * 
+     * <p>
      * If a file is in a scalable format, it is preferable to load it at
      * the desired size, rather than loading it at the default size and
      * scaling the resulting pixbuf to the desired size.
@@ -106,10 +106,10 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Disables or enables an image format.
-     * 
-     * If a format is disabled, GdkPixbuf won&<code>#39</code> t use the image loader for
+     * <p>
+     * If a format is disabled, GdkPixbuf won't use the image loader for
      * this format to load images.
-     * 
+     * <p>
      * Applications can use this to avoid using image loaders with an
      * inappropriate license, see gdk_pixbuf_format_get_license().
      */

@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used when creating a {@link org.gtk.gio.Socket}  Some protocols may not implement
+ * Flags used when creating a {@link Socket}. Some protocols may not implement
  * all the socket types.
  */
 public enum SocketType {

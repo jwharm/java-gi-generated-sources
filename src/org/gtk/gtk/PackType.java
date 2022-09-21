@@ -2,8 +2,8 @@ package org.gtk.gtk;
 
 /**
  * Represents the packing location of a children in its parent.
- * 
- * See {@link [class@WindowControls]} for example.
+ * <p>
+ * See {@link WindowControls} for example.
  */
 public enum PackType {
 

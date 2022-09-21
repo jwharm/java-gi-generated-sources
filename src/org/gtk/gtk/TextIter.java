@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * An iterator for the contents of a <code>GtkTextBuffer</code>.
- * 
+ * An iterator for the contents of a {@code GtkTextBuffer}.
+ * <p>
  * You may wish to begin by reading the
- * {@link [text widget conceptual overview]}(section-text-widget.html),
+ * <a href="section-text-widget.html">text widget conceptual overview</a>,
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
  */
@@ -22,11 +22,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Assigns the value of @other to @iter.
+     * Assigns the value of {@code other} to {@code iter}.
      * <p>
      * This function is not useful in applications, because
-     * iterators can be assigned with <code>GtkTextIter i = j;</code>.
-     * 
+     * iterators can be assigned with {@code GtkTextIter i = j;}.
+     * <p>
      * The function is used by language bindings.
      */
     public void assign(TextIter other) {
@@ -35,9 +35,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves backward by one character offset.
-     * 
-     * Returns <code>true</code> if movement was possible; if @iter was the first
-     * in the buffer (character offset 0), this function returns <code>false</code> for convenience when writing loops.
+     * <p>
+     * Returns <code>true</code> if movement was possible; if {@code iter} was the first
+     * in the buffer (character offset 0), this function returns <code>false</code>
+     * for convenience when writing loops.
      */
     public boolean backwardChar() {
         var RESULT = gtk_h.gtk_text_iter_backward_char(handle());
@@ -45,15 +46,15 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @count characters backward, if possible.
-     * 
-     * If @count would move past the start or end of the buffer, moves
+     * Moves {@code count} characters backward, if possible.
+     * <p>
+     * If {@code count} would move past the start or end of the buffer, moves
      * to the start or end of the buffer.
-     * 
+     * <p>
      * The return value indicates whether the iterator moved
-     * onto a dereferenceable position; if the iterator didn&<code>#8217</code> t move, or
-     * moved onto the end iterator, then <code>false</code> is returned. If @count is 0,
-     * the function does nothing and returns <code>false</code>
+     * onto a dereferenceable position; if the iterator didn’t move, or
+     * moved onto the end iterator, then <code>false</code> is returned. If {@code count} is 0,
+     * the function does nothing and returns <code>false</code>.
      */
     public boolean backwardChars(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_chars(handle(), count);
@@ -69,9 +70,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves up to @count cursor positions.
-     * 
-     * See {@link org.gtk.gtk.TextIter<code>#forwardCursorPosition</code>  for details.
+     * Moves up to {@code count} cursor positions.
+     * <p>
+     * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean backwardCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_cursor_positions(handle(), count);
@@ -80,7 +81,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Same as gtk_text_iter_forward_find_char(),
-     * but goes backward from @iter.
+     * but goes backward from {@code iter}.
      */
     public boolean backwardFindChar(TextCharPredicate pred, TextIter limit) {
         try {
@@ -98,13 +99,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter to the start of the previous line.
-     * 
-     * Returns <code>true</code> if @iter could be moved; i.e. if @iter was at
-     * character offset 0, this function returns <code>false</code>  Therefore,
-     * if @iter was already on line 0, but not at the start of the line,
-     * @iter is snapped to the start of the line and the function returns
-     * <code>true</code>  (Note that this implies that
+     * Moves {@code iter} to the start of the previous line.
+     * <p>
+     * Returns <code>true</code> if {@code iter} could be moved; i.e. if {@code iter} was at
+     * character offset 0, this function returns <code>false</code>. Therefore,
+     * if {@code iter} was already on line 0, but not at the start of the line,
+     * {@code iter} is snapped to the start of the line and the function returns
+     * <code>true</code>. (Note that this implies that
      * in a loop calling this function, the line number may not change on
      * every iteration, if your first iteration is on line 0.)
      */
@@ -114,16 +115,16 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @count lines backward, if possible.
-     * 
-     * If @count would move past the start or end of the buffer, moves to
+     * Moves {@code count} lines backward, if possible.
+     * <p>
+     * If {@code count} would move past the start or end of the buffer, moves to
      * the start or end of the buffer.
-     * 
+     * <p>
      * The return value indicates whether the iterator moved
-     * onto a dereferenceable position; if the iterator didn&<code>#8217</code> t move, or
-     * moved onto the end iterator, then <code>false</code> is returned. If @count is 0,
-     * the function does nothing and returns <code>false</code>  If @count is negative,
-     * moves forward by 0 - @count lines.
+     * onto a dereferenceable position; if the iterator didn’t move, or
+     * moved onto the end iterator, then <code>false</code> is returned. If {@code count} is 0,
+     * the function does nothing and returns <code>false</code>. If {@code count} is negative,
+     * moves forward by 0 - {@code count} lines.
      */
     public boolean backwardLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_lines(handle(), count);
@@ -133,8 +134,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Same as gtk_text_iter_forward_search(), but moves backward.
      * <p>
-     * @match_end will never be set to a <code>GtkTextIter</code> located after @iter,
-     * even if there is a possible @match_start before or at @iter.
+     * {@code match_end} will never be set to a {@code GtkTextIter} located after {@code iter},
+     * even if there is a possible {@code match_start} before or at {@code iter}.
      */
     public boolean backwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
         var RESULT = gtk_h.gtk_text_iter_backward_search(handle(), Interop.allocateNativeString(str).handle(), flags, matchStart.handle(), matchEnd.handle(), limit.handle());
@@ -143,10 +144,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves backward to the previous sentence start.
-     * 
-     * If @iter is already at the start of a sentence, moves backward
+     * <p>
+     * If {@code iter} is already at the start of a sentence, moves backward
      * to the next one.
-     * 
+     * <p>
      * Sentence boundaries are determined by Pango and should
      * be correct for nearly any language.
      */
@@ -156,9 +157,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls gtk_text_iter_backward_sentence_start() up to @count times.
-     * 
-     * If @count is negative, moves forward instead of backward.
+     * Calls gtk_text_iter_backward_sentence_start() up to {@code count} times.
+     * <p>
+     * If {@code count} is negative, moves forward instead of backward.
      */
     public boolean backwardSentenceStarts(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_sentence_starts(handle(), count);
@@ -167,12 +168,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves backward to the next toggle (on or off) of the
-     * @tag, or to the next toggle of any tag if
-     * @tag is <code>null</code> 
-     * 
+     * {@code tag}, or to the next toggle of any tag if
+     * {@code tag} is <code>null</code>.
+     * <p>
      * If no matching tag toggles are found,
-     * returns <code>false</code>  otherwise <code>true</code>  Does not return toggles
-     * located at @iter, only toggles before @iter. Sets @iter
+     * returns <code>false</code>, otherwise <code>true</code>. Does not return toggles
+     * located at {@code iter}, only toggles before {@code iter}. Sets {@code iter}
      * to the location of the toggle, or the start of the buffer
      * if no toggle is found.
      */
@@ -182,9 +183,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter forward to the previous visible cursor position.
-     * 
-     * See {@link org.gtk.gtk.TextIter<code>#backwardCursorPosition</code>  for details.
+     * Moves {@code iter} forward to the previous visible cursor position.
+     * <p>
+     * See {@link TextIter#backwardCursorPosition} for details.
      */
     public boolean backwardVisibleCursorPosition() {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_position(handle());
@@ -192,9 +193,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves up to @count visible cursor positions.
-     * 
-     * See {@link org.gtk.gtk.TextIter<code>#backwardCursorPosition</code>  for details.
+     * Moves up to {@code count} visible cursor positions.
+     * <p>
+     * See {@link TextIter#backwardCursorPosition} for details.
      */
     public boolean backwardVisibleCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_cursor_positions(handle(), count);
@@ -202,13 +203,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter to the start of the previous visible line.
-     * 
+     * Moves {@code iter} to the start of the previous visible line.
+     * <p>
      * Returns <code>true</code> if
-     * @iter could be moved; i.e. if @iter was at character offset 0, this
-     * function returns <code>false</code>  Therefore if @iter was already on line 0,
-     * but not at the start of the line, @iter is snapped to the start of
-     * the line and the function returns <code>true</code>  (Note that this implies that
+     * {@code iter} could be moved; i.e. if {@code iter} was at character offset 0, this
+     * function returns <code>false</code>. Therefore if {@code iter} was already on line 0,
+     * but not at the start of the line, {@code iter} is snapped to the start of
+     * the line and the function returns <code>true</code>. (Note that this implies that
      * in a loop calling this function, the line number may not change on
      * every iteration, if your first iteration is on line 0.)
      */
@@ -218,16 +219,16 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @count visible lines backward, if possible.
-     * 
-     * If @count would move past the start or end of the buffer, moves to
+     * Moves {@code count} visible lines backward, if possible.
+     * <p>
+     * If {@code count} would move past the start or end of the buffer, moves to
      * the start or end of the buffer.
-     * 
+     * <p>
      * The return value indicates whether the iterator moved
-     * onto a dereferenceable position; if the iterator didn&<code>#8217</code> t move, or
-     * moved onto the end iterator, then <code>false</code> is returned. If @count is 0,
-     * the function does nothing and returns <code>false</code>  If @count is negative,
-     * moves forward by 0 - @count lines.
+     * onto a dereferenceable position; if the iterator didn’t move, or
+     * moved onto the end iterator, then <code>false</code> is returned. If {@code count} is 0,
+     * the function does nothing and returns <code>false</code>. If {@code count} is negative,
+     * moves forward by 0 - {@code count} lines.
      */
     public boolean backwardVisibleLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_lines(handle(), count);
@@ -236,10 +237,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves backward to the previous visible word start.
-     * 
-     * If @iter is currently on a word start, moves backward to the
+     * <p>
+     * If {@code iter} is currently on a word start, moves backward to the
      * next one after that.
-     * 
+     * <p>
      * Word breaks are determined by Pango and should be correct
      * for nearly any language.
      */
@@ -249,7 +250,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls gtk_text_iter_backward_visible_word_start() up to @count times.
+     * Calls gtk_text_iter_backward_visible_word_start() up to {@code count} times.
      */
     public boolean backwardVisibleWordStarts(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_visible_word_starts(handle(), count);
@@ -258,10 +259,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves backward to the previous word start.
-     * 
-     * If @iter is currently on a word start, moves backward to the
+     * <p>
+     * If {@code iter} is currently on a word start, moves backward to the
      * next one after that.
-     * 
+     * <p>
      * Word breaks are determined by Pango and should be correct
      * for nearly any language
      */
@@ -271,7 +272,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls gtk_text_iter_backward_word_start() up to @count times.
+     * Calls gtk_text_iter_backward_word_start() up to {@code count} times.
      */
     public boolean backwardWordStarts(int count) {
         var RESULT = gtk_h.gtk_text_iter_backward_word_starts(handle(), count);
@@ -280,12 +281,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Considering the default editability of the buffer, and tags that
-     * affect editability, determines whether text inserted at @iter would
+     * affect editability, determines whether text inserted at {@code iter} would
      * be editable.
-     * 
-     * If text inserted at @iter would be editable then the
-     * user should be allowed to insert text at @iter.
-     * {@link org.gtk.gtk.TextBuffer<code>#insertInteractive</code>  uses this function
+     * <p>
+     * If text inserted at {@code iter} would be editable then the
+     * user should be allowed to insert text at {@code iter}.
+     * {@link TextBuffer#insertInteractive} uses this function
      * to decide whether insertions are allowed at a given position.
      */
     public boolean canInsert(boolean defaultEditability) {
@@ -294,9 +295,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * A qsort()-style function that returns negative if @lhs is less than
-     * @rhs, positive if @lhs is greater than @rhs, and 0 if they&<code>#8217</code> re equal.
-     * 
+     * A qsort()-style function that returns negative if {@code lhs} is less than
+     * {@code rhs}, positive if {@code lhs} is greater than {@code rhs}, and 0 if they’re equal.
+     * <p>
      * Ordering is in character offset order, i.e. the first character
      * in the buffer is less than the second character in the buffer.
      */
@@ -310,8 +311,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is not useful in applications, because
      * iterators can be copied with a simple assignment
-     * (<code>GtkTextIter i = j;</code>).
-     * 
+     * ({@code GtkTextIter i = j;}).
+     * <p>
      * The function is used by language bindings.
      */
     public TextIter copy() {
@@ -320,18 +321,18 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns whether the character at @iter is within an editable region
+     * Returns whether the character at {@code iter} is within an editable region
      * of text.
      * <p>
-     * Non-editable text is &<code>#8220</code> locked&<code>#8221</code>  and can&<code>#8217</code> t be changed by the
-     * user via <code>GtkTextView</code>. If no tags applied to this text affect
-     * editability, @default_setting will be returned.
-     * 
-     * You don&<code>#8217</code> t want to use this function to decide whether text can be
-     * inserted at @iter, because for insertion you don&<code>#8217</code> t want to know
-     * whether the char at @iter is inside an editable range, you want to
-     * know whether a new character inserted at @iter would be inside an
-     * editable range. Use {@link org.gtk.gtk.TextIter<code>#canInsert</code>  to handle this
+     * Non-editable text is “locked” and can’t be changed by the
+     * user via {@code GtkTextView}. If no tags applied to this text affect
+     * editability, {@code default_setting} will be returned.
+     * <p>
+     * You don’t want to use this function to decide whether text can be
+     * inserted at {@code iter}, because for insertion you don’t want to know
+     * whether the char at {@code iter} is inside an editable range, you want to
+     * know whether a new character inserted at {@code iter} would be inside an
+     * editable range. Use {@link TextIter#canInsert} to handle this
      * case.
      */
     public boolean editable(boolean defaultSetting) {
@@ -340,13 +341,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @iter points to the start of the paragraph
+     * Returns <code>true</code> if {@code iter} points to the start of the paragraph
      * delimiter characters for a line.
-     * 
+     * <p>
      * Delimiters will be either a newline, a carriage return, a carriage
      * return followed by a newline, or a Unicode paragraph separator
      * character.
-     * 
+     * <p>
      * Note that an iterator pointing to the \\n of a \\r\\n pair will not be
      * counted as the end of a line, the line ends before the \\r. The end
      * iterator is considered to be at the end of a line, even though there
@@ -358,8 +359,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines whether @iter ends a sentence.
-     * 
+     * Determines whether {@code iter} ends a sentence.
+     * <p>
      * Sentence boundaries are determined by Pango and should
      * be correct for nearly any language.
      */
@@ -369,15 +370,15 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @tag is toggled off at exactly this point.
-     * 
-     * If @tag is <code>null</code>  returns <code>true</code> if any tag is toggled off at this point.
-     * 
-     * Note that if this function returns <code>true</code>  it means that
-     * @iter is at the end of the tagged range, but that the character
-     * at @iter is outside the tagged range. In other words,
-     * unlike {@link org.gtk.gtk.TextIter<code>#startsTag</code> , if this function
-     * returns <code>true</code>  {@link org.gtk.gtk.TextIter<code>#hasTag</code>  will return
+     * Returns <code>true</code> if {@code tag} is toggled off at exactly this point.
+     * <p>
+     * If {@code tag} is <code>null</code>, returns <code>true</code> if any tag is toggled off at this point.
+     * <p>
+     * Note that if this function returns <code>true</code>, it means that
+     * {@code iter} is at the end of the tagged range, but that the character
+     * at {@code iter} is outside the tagged range. In other words,
+     * unlike {@link TextIter#startsTag}, if this function
+     * returns <code>true</code>, {@link TextIter#hasTag} will return
      * <code>false</code> for the same parameters.
      */
     public boolean endsTag(TextTag tag) {
@@ -386,8 +387,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines whether @iter ends a natural-language word.
-     * 
+     * Determines whether {@code iter} ends a natural-language word.
+     * <p>
      * Word breaks are determined by Pango and should be correct
      * for nearly any language.
      */
@@ -399,11 +400,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Tests whether two iterators are equal, using the fastest possible
      * mechanism.
-     * 
+     * <p>
      * This function is very fast; you can expect it to perform
      * better than e.g. getting the character offset for each
-     * iterator and comparing the offsets yourself. Also, it&<code>#8217</code> s a
-     * bit faster than {@link org.gtk.gtk.TextIter<code>#compare</code> .
+     * iterator and comparing the offsets yourself. Also, it’s a
+     * bit faster than {@link TextIter#compare}.
      */
     public boolean equal(TextIter rhs) {
         var RESULT = gtk_h.gtk_text_iter_equal(handle(), rhs.handle());
@@ -411,12 +412,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter forward by one character offset.
-     * 
+     * Moves {@code iter} forward by one character offset.
+     * <p>
      * Note that images embedded in the buffer occupy 1 character slot, so
      * this function may actually move onto an image instead of a character,
-     * if you have images in your buffer. If @iter is the end iterator or
-     * one character before it, @iter will now point at the end iterator,
+     * if you have images in your buffer. If {@code iter} is the end iterator or
+     * one character before it, {@code iter} will now point at the end iterator,
      * and this function returns <code>false</code> for convenience when writing loops.
      */
     public boolean forwardChar() {
@@ -425,15 +426,15 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @count characters if possible.
-     * 
-     * If @count would move past the start or end of the buffer,
+     * Moves {@code count} characters if possible.
+     * <p>
+     * If {@code count} would move past the start or end of the buffer,
      * moves to the start or end of the buffer.
-     * 
+     * <p>
      * The return value indicates whether the new position of
-     * @iter is different from its original position, and dereferenceable
-     * (the last iterator in the buffer is not dereferenceable). If @count
-     * is 0, the function does nothing and returns <code>false</code>
+     * {@code iter} is different from its original position, and dereferenceable
+     * (the last iterator in the buffer is not dereferenceable). If {@code count}
+     * is 0, the function does nothing and returns <code>false</code>.
      */
     public boolean forwardChars(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_chars(handle(), count);
@@ -441,20 +442,20 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter forward by a single cursor position.
-     * 
+     * Moves {@code iter} forward by a single cursor position.
+     * <p>
      * Cursor positions are (unsurprisingly) positions where the
      * cursor can appear. Perhaps surprisingly, there may not be
      * a cursor position between all characters. The most common
      * example for European languages would be a carriage return/newline
      * sequence.
-     * 
-     * For some Unicode characters, the equivalent of say the letter &<code>#8220</code> a&<code>#8221</code> 
+     * <p>
+     * For some Unicode characters, the equivalent of say the letter “a”
      * with an accent mark will be represented as two characters, first
-     * the letter then a &<code>#34</code> combining mark&<code>#34</code>  that causes the accent to be
-     * rendered; so the cursor can&<code>#8217</code> t go between those two characters.
-     * 
-     * See also the {@link [struct@Pango.LogAttr] (ref=struct)} struct and the {@link Pango<code>#break_</code> 
+     * the letter then a "combining mark" that causes the accent to be
+     * rendered; so the cursor can’t go between those two characters.
+     * <p>
+     * See also the {@code Pango.break}
      * function.
      */
     public boolean forwardCursorPosition() {
@@ -463,9 +464,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves up to @count cursor positions.
-     * 
-     * See {@link org.gtk.gtk.TextIter<code>#forwardCursorPosition</code>  for details.
+     * Moves up to {@code count} cursor positions.
+     * <p>
+     * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean forwardCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_cursor_positions(handle(), count);
@@ -473,11 +474,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Advances @iter, calling @pred on each character.
-     * 
-     * If @pred returns <code>true</code>  returns <code>true</code> and stops scanning.
-     * If @pred never returns <code>true</code>  @iter is set to @limit if
-     * @limit is non-<code>null</code>  otherwise to the end iterator.
+     * Advances {@code iter}, calling {@code pred} on each character.
+     * <p>
+     * If {@code pred} returns <code>true</code>, returns <code>true</code> and stops scanning.
+     * If {@code pred} never returns <code>true</code>, {@code iter} is set to {@code limit} if
+     * {@code limit} is non-<code>null</code>, otherwise to the end iterator.
      */
     public boolean forwardFindChar(TextCharPredicate pred, TextIter limit) {
         try {
@@ -495,12 +496,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter to the start of the next line.
-     * 
+     * Moves {@code iter} to the start of the next line.
+     * <p>
      * If the iter is already on the last line of the buffer,
      * moves the iter to the end of the current line. If after
      * the operation, the iter is at the end of the buffer and not
-     * dereferenceable, returns <code>false</code>  Otherwise, returns <code>true</code>
+     * dereferenceable, returns <code>false</code>. Otherwise, returns <code>true</code>.
      */
     public boolean forwardLine() {
         var RESULT = gtk_h.gtk_text_iter_forward_line(handle());
@@ -508,16 +509,16 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @count lines forward, if possible.
-     * 
-     * If @count would move past the start or end of the buffer, moves to
+     * Moves {@code count} lines forward, if possible.
+     * <p>
+     * If {@code count} would move past the start or end of the buffer, moves to
      * the start or end of the buffer.
-     * 
+     * <p>
      * The return value indicates whether the iterator moved
-     * onto a dereferenceable position; if the iterator didn&<code>#8217</code> t move, or
-     * moved onto the end iterator, then <code>false</code> is returned. If @count is 0,
-     * the function does nothing and returns <code>false</code>  If @count is negative,
-     * moves backward by 0 - @count lines.
+     * onto a dereferenceable position; if the iterator didn’t move, or
+     * moved onto the end iterator, then <code>false</code> is returned. If {@code count} is 0,
+     * the function does nothing and returns <code>false</code>. If {@code count} is negative,
+     * moves backward by 0 - {@code count} lines.
      */
     public boolean forwardLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_lines(handle(), count);
@@ -525,16 +526,16 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Searches forward for @str.
+     * Searches forward for {@code str}.
      * <p>
-     * Any match is returned by setting @match_start to the first character
-     * of the match and @match_end to the first character after the match.
-     * The search will not continue past @limit. Note that a search is a
-     * linear or O(n) operation, so you may wish to use @limit to avoid
+     * Any match is returned by setting {@code match_start} to the first character
+     * of the match and {@code match_end} to the first character after the match.
+     * The search will not continue past {@code limit}. Note that a search is a
+     * linear or O(n) operation, so you may wish to use {@code limit} to avoid
      * locking up your UI on large buffers.
      * <p>
-     * @match_start will never be set to a <code>GtkTextIter</code> located before @iter,
-     * even if there is a possible @match_end after or at @iter.
+     * {@code match_start} will never be set to a {@code GtkTextIter} located before {@code iter},
+     * even if there is a possible {@code match_end} after or at {@code iter}.
      */
     public boolean forwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
         var RESULT = gtk_h.gtk_text_iter_forward_search(handle(), Interop.allocateNativeString(str).handle(), flags, matchStart.handle(), matchEnd.handle(), limit.handle());
@@ -543,10 +544,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves forward to the next sentence end.
-     * 
-     * If @iter is at the end of a sentence, moves to the next
+     * <p>
+     * If {@code iter} is at the end of a sentence, moves to the next
      * end of sentence.
-     * 
+     * <p>
      * Sentence boundaries are determined by Pango and should
      * be correct for nearly any language.
      */
@@ -556,9 +557,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls gtk_text_iter_forward_sentence_end() @count times.
-     * 
-     * If @count is negative, moves backward instead of forward.
+     * Calls gtk_text_iter_forward_sentence_end() {@code count} times.
+     * <p>
+     * If {@code count} is negative, moves backward instead of forward.
      */
     public boolean forwardSentenceEnds(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_sentence_ends(handle(), count);
@@ -566,9 +567,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter forward to the &<code>#8220</code> end iterator&<code>#8221</code> , which points
+     * Moves {@code iter} forward to the “end iterator”, which points
      * one past the last valid character in the buffer.
-     * 
+     * <p>
      * gtk_text_iter_get_char() called on the end iterator
      * returns 0, which is convenient for writing loops.
      */
@@ -578,16 +579,16 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves the iterator to point to the paragraph delimiter characters.
-     * 
+     * <p>
      * The possible characters are either a newline, a carriage return,
      * a carriage return/newline in sequence, or the Unicode paragraph
      * separator character.
-     * 
+     * <p>
      * If the iterator is already at the paragraph delimiter
      * characters, moves to the paragraph delimiter characters for the
-     * next line. If @iter is on the last line in the buffer, which does
+     * next line. If {@code iter} is on the last line in the buffer, which does
      * not end in paragraph delimiters, moves to the end iterator (end of
-     * the last line), and returns <code>false</code>
+     * the last line), and returns <code>false</code>.
      */
     public boolean forwardToLineEnd() {
         var RESULT = gtk_h.gtk_text_iter_forward_to_line_end(handle());
@@ -596,12 +597,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves forward to the next toggle (on or off) of the
-     * @tag, or to the next toggle of any tag if
-     * @tag is <code>null</code> 
-     * 
+     * {@code tag}, or to the next toggle of any tag if
+     * {@code tag} is <code>null</code>.
+     * <p>
      * If no matching tag toggles are found,
-     * returns <code>false</code>  otherwise <code>true</code>  Does not return toggles
-     * located at @iter, only toggles after @iter. Sets @iter to
+     * returns <code>false</code>, otherwise <code>true</code>. Does not return toggles
+     * located at {@code iter}, only toggles after {@code iter}. Sets {@code iter} to
      * the location of the toggle, or to the end of the buffer
      * if no toggle is found.
      */
@@ -611,9 +612,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter forward to the next visible cursor position.
-     * 
-     * See {@link org.gtk.gtk.TextIter<code>#forwardCursorPosition</code>  for details.
+     * Moves {@code iter} forward to the next visible cursor position.
+     * <p>
+     * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean forwardVisibleCursorPosition() {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_position(handle());
@@ -621,9 +622,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves up to @count visible cursor positions.
-     * 
-     * See {@link org.gtk.gtk.TextIter<code>#forwardCursorPosition</code>  for details.
+     * Moves up to {@code count} visible cursor positions.
+     * <p>
+     * See {@link TextIter#forwardCursorPosition} for details.
      */
     public boolean forwardVisibleCursorPositions(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_cursor_positions(handle(), count);
@@ -631,11 +632,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter to the start of the next visible line.
-     * 
+     * Moves {@code iter} to the start of the next visible line.
+     * <p>
      * Returns <code>true</code> if there
-     * was a next line to move to, and <code>false</code> if @iter was simply moved to
-     * the end of the buffer and is now not dereferenceable, or if @iter was
+     * was a next line to move to, and <code>false</code> if {@code iter} was simply moved to
+     * the end of the buffer and is now not dereferenceable, or if {@code iter} was
      * already at the end of the buffer.
      */
     public boolean forwardVisibleLine() {
@@ -644,16 +645,16 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @count visible lines forward, if possible.
-     * 
-     * If @count would move past the start or end of the buffer, moves to
+     * Moves {@code count} visible lines forward, if possible.
+     * <p>
+     * If {@code count} would move past the start or end of the buffer, moves to
      * the start or end of the buffer.
-     * 
+     * <p>
      * The return value indicates whether the iterator moved
-     * onto a dereferenceable position; if the iterator didn&<code>#8217</code> t move, or
-     * moved onto the end iterator, then <code>false</code> is returned. If @count is 0,
-     * the function does nothing and returns <code>false</code>  If @count is negative,
-     * moves backward by 0 - @count lines.
+     * onto a dereferenceable position; if the iterator didn’t move, or
+     * moved onto the end iterator, then <code>false</code> is returned. If {@code count} is 0,
+     * the function does nothing and returns <code>false</code>. If {@code count} is negative,
+     * moves backward by 0 - {@code count} lines.
      */
     public boolean forwardVisibleLines(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_lines(handle(), count);
@@ -662,10 +663,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves forward to the next visible word end.
-     * 
-     * If @iter is currently on a word end, moves forward to the
+     * <p>
+     * If {@code iter} is currently on a word end, moves forward to the
      * next one after that.
-     * 
+     * <p>
      * Word breaks are determined by Pango and should be correct
      * for nearly any language
      */
@@ -675,7 +676,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls gtk_text_iter_forward_visible_word_end() up to @count times.
+     * Calls gtk_text_iter_forward_visible_word_end() up to {@code count} times.
      */
     public boolean forwardVisibleWordEnds(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_visible_word_ends(handle(), count);
@@ -684,10 +685,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Moves forward to the next word end.
-     * 
-     * If @iter is currently on a word end, moves forward to the
+     * <p>
+     * If {@code iter} is currently on a word end, moves forward to the
      * next one after that.
-     * 
+     * <p>
      * Word breaks are determined by Pango and should be correct
      * for nearly any language.
      */
@@ -697,7 +698,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls gtk_text_iter_forward_word_end() up to @count times.
+     * Calls gtk_text_iter_forward_word_end() up to {@code count} times.
      */
     public boolean forwardWordEnds(int count) {
         var RESULT = gtk_h.gtk_text_iter_forward_word_ends(handle(), count);
@@ -706,7 +707,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Free an iterator allocated on the heap.
-     * 
+     * <p>
      * This function is intended for use in language bindings,
      * and is not especially useful for applications, because
      * iterators can simply be allocated on the stack.
@@ -716,7 +717,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the <code>GtkTextBuffer</code> this iterator is associated with.
+     * Returns the {@code GtkTextBuffer} this iterator is associated with.
      */
     public TextBuffer getBuffer() {
         var RESULT = gtk_h.gtk_text_iter_get_buffer(handle());
@@ -724,7 +725,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the number of bytes in the line containing @iter,
+     * Returns the number of bytes in the line containing {@code iter},
      * including the paragraph delimiters.
      */
     public int getBytesInLine() {
@@ -734,13 +735,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * The Unicode character at this iterator is returned.
-     * 
+     * <p>
      * Equivalent to operator* on a C++ iterator. If the element at
      * this iterator is a non-character element, such as an image
-     * embedded in the buffer, the Unicode &<code>#8220</code> unknown&<code>#8221</code>  character 0xFFFC
+     * embedded in the buffer, the Unicode “unknown” character 0xFFFC
      * is returned. If invoked on the end iterator, zero is returned;
      * zero is not a valid Unicode character.
-     * 
+     * <p>
      * So you can write a loop which ends when this function returns 0.
      */
     public int getChar() {
@@ -749,7 +750,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the number of characters in the line containing @iter,
+     * Returns the number of characters in the line containing {@code iter},
      * including the paragraph delimiters.
      */
     public int getCharsInLine() {
@@ -758,9 +759,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If the location at @iter contains a child anchor, the
+     * If the location at {@code iter} contains a child anchor, the
      * anchor is returned.
-     * 
+     * <p>
      * Otherwise, <code>null</code> is returned.
      */
     public TextChildAnchor getChildAnchor() {
@@ -769,10 +770,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the language in effect at @iter.
-     * 
-     * If no tags affecting language apply to @iter, the return
-     * value is identical to that of {@link Gtk<code>#getDefaultLanguage</code> .
+     * Returns the language in effect at {@code iter}.
+     * <p>
+     * If no tags affecting language apply to {@code iter}, the return
+     * value is identical to that of {@link Gtk#getDefaultLanguage}.
      */
     public org.pango.Language getLanguage() {
         var RESULT = gtk_h.gtk_text_iter_get_language(handle());
@@ -782,7 +783,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the line number containing the iterator.
      * <p>
-     * Lines in a <code>GtkTextBuffer</code> are numbered beginning
+     * Lines in a {@code GtkTextBuffer} are numbered beginning
      * with 0 for the first line in the buffer.
      */
     public int getLine() {
@@ -794,7 +795,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * Returns the byte index of the iterator, counting
      * from the start of a newline-terminated line.
      * <p>
-     * Remember that <code>GtkTextBuffer</code> encodes text in
+     * Remember that {@code GtkTextBuffer} encodes text in
      * UTF-8, and that characters can require a variable
      * number of bytes to represent.
      */
@@ -806,7 +807,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the character offset of the iterator,
      * counting from the start of a newline-terminated line.
-     * 
+     * <p>
      * The first character on the line has offset 0.
      */
     public int getLineOffset() {
@@ -815,12 +816,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a list of all <code>GtkTextMark</code> at this location.
-     * 
-     * Because marks are not iterable (they don&<code>#8217</code> t take up any &<code>#34</code> space&<code>#34</code> 
+     * Returns a list of all {@code GtkTextMark} at this location.
+     * <p>
+     * Because marks are not iterable (they don’t take up any "space"
      * in the buffer, they are just marks in between iterable locations),
      * multiple marks can exist in the same place.
-     * 
+     * <p>
      * The returned list is not in any meaningful order.
      */
     public org.gtk.glib.SList getMarks() {
@@ -831,9 +832,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the character offset of an iterator.
      * <p>
-     * Each character in a <code>GtkTextBuffer</code> has an offset,
+     * Each character in a {@code GtkTextBuffer} has an offset,
      * starting with 0 for the first character in the buffer.
-     * Use {@link [method@Gtk,TextBuffer.get_iter_at_offset]} to convert
+     * Use {@link gtk,textbuffer.get_iter_at_offset#null} to convert
      * an offset back into an iterator.
      */
     public int getOffset() {
@@ -842,8 +843,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If the element at @iter is a paintable, the paintable is returned.
-     * 
+     * If the element at {@code iter} is a paintable, the paintable is returned.
+     * <p>
      * Otherwise, <code>null</code> is returned.
      */
     public org.gtk.gdk.Paintable getPaintable() {
@@ -853,9 +854,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the text in the given range.
-     * 
-     * A &<code>#8220</code> slice&<code>#8221</code>  is an array of characters encoded in UTF-8 format,
-     * including the Unicode &<code>#8220</code> unknown&<code>#8221</code>  character 0xFFFC for iterable
+     * <p>
+     * A “slice” is an array of characters encoded in UTF-8 format,
+     * including the Unicode “unknown” character 0xFFFC for iterable
      * non-character elements in the buffer, such as images.
      * Because images are encoded in the slice, byte and
      * character offsets in the returned array will correspond to byte
@@ -869,12 +870,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a list of tags that apply to @iter, in ascending order of
+     * Returns a list of tags that apply to {@code iter}, in ascending order of
      * priority.
      * <p>
      * The highest-priority tags are last.
      * <p>
-     * The <code>GtkTextTag</code>s in the list don&<code>#8217</code> t have a reference added,
+     * The {@code GtkTextTag}s in the list don’t have a reference added,
      * but you have to free the list itself.
      */
     public org.gtk.glib.SList getTags() {
@@ -884,12 +885,12 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns text in the given range.
-     * 
+     * <p>
      * If the range
      * contains non-text elements such as images, the character and byte
      * offsets in the returned string will not correspond to character and
      * byte offsets in the buffer. If you want offsets to correspond, see
-     * {@link org.gtk.gtk.TextIter<code>#getSlice</code> .
+     * {@link TextIter#getSlice}.
      */
     public java.lang.String getText(TextIter end) {
         var RESULT = gtk_h.gtk_text_iter_get_text(handle(), end.handle());
@@ -897,13 +898,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a list of <code>GtkTextTag</code> that are toggled on or off at this
+     * Returns a list of {@code GtkTextTag} that are toggled on or off at this
      * point.
-     * 
-     * If @toggled_on is <code>true</code>  the list contains tags that are
-     * toggled on. If a tag is toggled on at @iter, then some non-empty
-     * range of characters following @iter has that tag applied to it.  If
-     * a tag is toggled off, then some non-empty range following @iter
+     * <p>
+     * If {@code toggled_on} is <code>true</code>, the list contains tags that are
+     * toggled on. If a tag is toggled on at {@code iter}, then some non-empty
+     * range of characters following {@code iter} has that tag applied to it.  If
+     * a tag is toggled off, then some non-empty range following {@code iter}
      * does not have the tag applied to it.
      */
     public org.gtk.glib.SList getToggledTags(boolean toggledOn) {
@@ -913,8 +914,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the number of bytes from the start of the
-     * line to the given @iter, not counting bytes that
-     * are invisible due to tags with the &<code>#8220</code> invisible&<code>#8221</code>  flag
+     * line to the given {@code iter}, not counting bytes that
+     * are invisible due to tags with the “invisible” flag
      * toggled on.
      */
     public int getVisibleLineIndex() {
@@ -924,8 +925,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the offset in characters from the start of the
-     * line to the given @iter, not counting characters that
-     * are invisible due to tags with the &<code>#8220</code> invisible&<code>#8221</code>  flag
+     * line to the given {@code iter}, not counting characters that
+     * are invisible due to tags with the “invisible” flag
      * toggled on.
      */
     public int getVisibleLineOffset() {
@@ -936,9 +937,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns visible text in the given range.
      * <p>
-     * Like {@link org.gtk.gtk.TextIter<code>#getSlice</code> , but invisible text
+     * Like {@link TextIter#getSlice}, but invisible text
      * is not included. Invisible text is usually invisible because
-     * a <code>GtkTextTag</code> with the &<code>#8220</code> invisible&<code>#8221</code>  attribute turned on has
+     * a {@code GtkTextTag} with the “invisible” attribute turned on has
      * been applied to it.
      */
     public java.lang.String getVisibleSlice(TextIter end) {
@@ -949,9 +950,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns visible text in the given range.
      * <p>
-     * Like {@link org.gtk.gtk.TextIter<code>#getText</code> , but invisible text
+     * Like {@link TextIter#getText}, but invisible text
      * is not included. Invisible text is usually invisible because
-     * a <code>GtkTextTag</code> with the &<code>#8220</code> invisible&<code>#8221</code>  attribute turned on has
+     * a {@code GtkTextTag} with the “invisible” attribute turned on has
      * been applied to it.
      */
     public java.lang.String getVisibleText(TextIter end) {
@@ -960,11 +961,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @iter points to a character that is part
-     * of a range tagged with @tag.
-     * 
-     * See also {@link org.gtk.gtk.TextIter<code>#startsTag</code>  and
-     * {@link org.gtk.gtk.TextIter<code>#endsTag</code> .
+     * Returns <code>true</code> if {@code iter} points to a character that is part
+     * of a range tagged with {@code tag}.
+     * <p>
+     * See also {@link TextIter#startsTag} and
+     * {@link TextIter#endsTag}.
      */
     public boolean hasTag(TextTag tag) {
         var RESULT = gtk_h.gtk_text_iter_has_tag(handle(), tag.handle());
@@ -972,15 +973,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether @iter falls in the range 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Checks whether @iter falls in the range [@start, @end).
-     * 
-     * @start and @end must be in ascending order.
+     * Checks whether {@code iter} falls in the range [{@code start}, {@code end}).
+     * <p>
+     * {@code start} and {@code end} must be in ascending order.
      */
     public boolean inRange(TextIter start, TextIter end) {
         var RESULT = gtk_h.gtk_text_iter_in_range(handle(), start.handle(), end.handle());
@@ -988,10 +983,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines whether @iter is inside a sentence (as opposed to in
+     * Determines whether {@code iter} is inside a sentence (as opposed to in
      * between two sentences, e.g. after a period and before the first
      * letter of the next sentence).
-     * 
+     * <p>
      * Sentence boundaries are determined by Pango and should be correct
      * for nearly any language.
      */
@@ -1001,14 +996,14 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines whether the character pointed by @iter is part of a
+     * Determines whether the character pointed by {@code iter} is part of a
      * natural-language word (as opposed to say inside some whitespace).
-     * 
+     * <p>
      * Word breaks are determined by Pango and should be correct
      * for nearly any language.
-     * 
-     * Note that if {@link org.gtk.gtk.TextIter<code>#startsWord</code>  returns <code>true</code> 
-     * then this function returns <code>true</code> too, since @iter points to
+     * <p>
+     * Note that if {@link TextIter#startsWord} returns <code>true</code>,
+     * then this function returns <code>true</code> too, since {@code iter} points to
      * the first character of the word.
      */
     public boolean insideWord() {
@@ -1017,10 +1012,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determine if @iter is at a cursor position.
-     * 
-     * See {@link org.gtk.gtk.TextIter<code>#forwardCursorPosition</code>  or
-     * {@link [struct@Pango.LogAttr] (ref=struct)} or {@link Pango<code>#break_</code>  for details
+     * Determine if {@code iter} is at a cursor position.
+     * <p>
+     * See {@link TextIter#forwardCursorPosition} or
+     * {@code Pango.break} for details
      * on what a cursor position is.
      */
     public boolean isCursorPosition() {
@@ -1029,8 +1024,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @iter is the end iterator.
-     * 
+     * Returns <code>true</code> if {@code iter} is the end iterator.
+     * <p>
      * This means it is one past the last dereferenceable iterator
      * in the buffer. gtk_text_iter_is_end() is the most efficient
      * way to check whether an iterator is the end iterator.
@@ -1041,7 +1036,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @iter is the first iterator in the buffer.
+     * Returns <code>true</code> if {@code iter} is the first iterator in the buffer.
      */
     public boolean isStart() {
         var RESULT = gtk_h.gtk_text_iter_is_start(handle());
@@ -1049,14 +1044,14 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Swaps the value of @first and @second if @second comes before
-     * @first in the buffer.
-     * 
-     * That is, ensures that @first and @second are in sequence.
+     * Swaps the value of {@code first} and {@code second} if {@code second} comes before
+     * {@code first} in the buffer.
+     * <p>
+     * That is, ensures that {@code first} and {@code second} are in sequence.
      * Most text buffer functions that take a range call this
-     * automatically on your behalf, so there&<code>#8217</code> s no real reason to
+     * automatically on your behalf, so there’s no real reason to
      * call it yourself in those cases. There are some exceptions,
-     * such as {@link org.gtk.gtk.TextIter<code>#inRange</code> , that expect a
+     * such as {@link TextIter#inRange}, that expect a
      * pre-sorted range.
      */
     public void order(TextIter second) {
@@ -1064,10 +1059,10 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves iterator @iter to the start of the line @line_number.
-     * 
-     * If @line_number is negative or larger than or equal to the number of lines
-     * in the buffer, moves @iter to the start of the last line in the buffer.
+     * Moves iterator {@code iter} to the start of the line {@code line_number}.
+     * <p>
+     * If {@code line_number} is negative or larger than or equal to the number of lines
+     * in the buffer, moves {@code iter} to the start of the last line in the buffer.
      */
     public void setLine(int lineNumber) {
         gtk_h.gtk_text_iter_set_line(handle(), lineNumber);
@@ -1076,7 +1071,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Same as gtk_text_iter_set_line_offset(), but works with a
      * byte index. The given byte index must be at
-     * the start of a character, it can&<code>#8217</code> t be in the middle of a UTF-8
+     * the start of a character, it can’t be in the middle of a UTF-8
      * encoded character.
      */
     public void setLineIndex(int byteOnLine) {
@@ -1084,11 +1079,11 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @iter within a line, to a new character (not byte) offset.
-     * 
+     * Moves {@code iter} within a line, to a new character (not byte) offset.
+     * <p>
      * The given character offset must be less than or equal to the number
-     * of characters in the line; if equal, @iter moves to the start of the
-     * next line. See {@link org.gtk.gtk.TextIter<code>#setLineIndex</code>  if you have a byte
+     * of characters in the line; if equal, {@code iter} moves to the start of the
+     * next line. See {@link TextIter#setLineIndex} if you have a byte
      * index rather than a character offset.
      */
     public void setLineOffset(int charOnLine) {
@@ -1096,9 +1091,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets @iter to point to @char_offset.
-     * 
-     * @char_offset counts from the start
+     * Sets {@code iter} to point to {@code char_offset}.
+     * <p>
+     * {@code char_offset} counts from the start
      * of the entire text buffer, starting with 0.
      */
     public void setOffset(int charOffset) {
@@ -1124,13 +1119,13 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @iter begins a paragraph.
-     * 
-     * This is the case if {@link org.gtk.gtk.TextIter<code>#getLineOffset</code> 
+     * Returns <code>true</code> if {@code iter} begins a paragraph.
+     * <p>
+     * This is the case if {@link TextIter#getLineOffset}
      * would return 0. However this function is potentially more
-     * efficient than {@link org.gtk.gtk.TextIter<code>#getLineOffset</code> , because
-     * it doesn&<code>#8217</code> t have to compute the offset, it just has to see
-     * whether it&<code>#8217</code> s 0.
+     * efficient than {@link TextIter#getLineOffset}, because
+     * it doesn’t have to compute the offset, it just has to see
+     * whether it’s 0.
      */
     public boolean startsLine() {
         var RESULT = gtk_h.gtk_text_iter_starts_line(handle());
@@ -1138,8 +1133,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines whether @iter begins a sentence.
-     * 
+     * Determines whether {@code iter} begins a sentence.
+     * <p>
      * Sentence boundaries are determined by Pango and
      * should be correct for nearly any language.
      */
@@ -1149,16 +1144,15 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @tag is toggled on at exactly this point.
-     * 
-     * If @tag is <code>null</code>  returns <code>true</code> if any tag is toggled on at this point.
-     * 
-     * Note that if this function returns <code>true</code>  it means that
-     * @iter is at the beginning of the tagged range, and that the
-     * character at @iter is inside the tagged range. In other
-     * words, unlike {@link org.gtk.gtk.TextIter<code>#endsTag</code> , if
-     * this function returns <code>true</code>  , if
-     * this function returns <code>true</code>  [method@Gtk.TextIter.has_tag
+     * Returns <code>true</code> if {@code tag} is toggled on at exactly this point.
+     * <p>
+     * If {@code tag} is <code>null</code>, returns <code>true</code> if any tag is toggled on at this point.
+     * <p>
+     * Note that if this function returns <code>true</code>, it means that
+     * {@code iter} is at the beginning of the tagged range, and that the
+     * character at {@code iter} is inside the tagged range. In other
+     * words, unlike {@link TextIter#endsTag}, if
+     * this function returns <code>true</code>, [method{@code Gtk}.TextIter.has_tag
      * will also return <code>true</code> for the same parameters.
      */
     public boolean startsTag(TextTag tag) {
@@ -1167,8 +1161,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines whether @iter begins a natural-language word.
-     * 
+     * Determines whether {@code iter} begins a natural-language word.
+     * <p>
      * Word breaks are determined by Pango and should be correct
      * for nearly any language.
      */
@@ -1178,9 +1172,9 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets whether a range with @tag applied to it begins
-     * or ends at @iter.
-     * 
+     * Gets whether a range with {@code tag} applied to it begins
+     * or ends at {@code iter}.
+     * <p>
      * This is equivalent to (gtk_text_iter_starts_tag() ||
      * gtk_text_iter_ends_tag())
      */

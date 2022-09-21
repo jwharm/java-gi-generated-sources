@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * A function used with gtk_text_tag_table_foreach(),
- * to iterate over every <code>GtkTextTag</code> inside a <code>GtkTextTagTable</code>.
+ * to iterate over every {@code GtkTextTag} inside a {@code GtkTextTagTable}.
  */
 @FunctionalInterface
 public interface TextTagTableForeach {

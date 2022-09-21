@@ -2,21 +2,21 @@ package org.gtk.gdk;
 
 /**
  * Specifies the current state of a touchpad gesture.
- * 
+ * <p>
  * All gestures are guaranteed to begin with an event with phase
- * {@link org.gtk.gdk.TouchpadGesturePhase<code>#BEGIN</code>   followed by 0 or several events
- * with phase {@link org.gtk.gdk.TouchpadGesturePhase<code>#UPDATE</code>  
- * 
+ * {@link TouchpadGesturePhase#BEGIN}, followed by 0 or several events
+ * with phase {@link TouchpadGesturePhase#UPDATE}.
+ * <p>
  * A finished gesture may have 2 possible outcomes, an event with phase
- * {@link org.gtk.gdk.TouchpadGesturePhase<code>#END</code>  will be emitted when the gesture is
+ * {@link TouchpadGesturePhase#END} will be emitted when the gesture is
  * considered successful, this should be used as the hint to perform any
  * permanent changes.
- * 
+ * <p>
  * Cancelled gestures may be so for a variety of reasons, due to hardware
  * or the compositor, or due to the gesture recognition layers hinting the
  * gesture did not finish resolutely (eg. a 3rd finger being added during
  * a pinch gesture). In these cases, the last event will report the phase
- * {@link org.gtk.gdk.TouchpadGesturePhase<code>#CANCEL</code>   this should be used as a hint
+ * {@link TouchpadGesturePhase#CANCEL}, this should be used as a hint
  * to undo any visible/permanent changes that were done throughout the
  * progress of the gesture.
  */

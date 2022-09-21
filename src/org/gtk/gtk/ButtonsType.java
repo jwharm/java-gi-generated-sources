@@ -1,13 +1,14 @@
 package org.gtk.gtk;
 
 /**
- * Prebuilt sets of buttons for <code>GtkDialog</code>.
- * 
+ * Prebuilt sets of buttons for {@code GtkDialog}.
+ * <p>
  * If none of these choices are appropriate, simply use
- * {@link org.gtk.gtk.ButtonsType<code>#NONE</code>  and call {@link org.gtk.gtk.Dialog<code>#addButtons</code> .
- * 
- * &<code>#62</code>  Please note that {@link org.gtk.gtk.ButtonsType<code>#OK</code>   {@link org.gtk.gtk.ButtonsType<code>#YES_NO</code>  &<code>#62</code>  and {@link org.gtk.gtk.ButtonsType<code>#OK_CANCEL</code>  are discouraged by the
- * &<code>#62</code>  {@link [GNOME Human Interface Guidelines]}(http://library.gnome.org/devel/hig-book/stable/).
+ * {@link ButtonsType#NONE} and call {@link Dialog#addButtons}.
+ * <p>
+ * > Please note that {@link ButtonsType#OK}, {@link ButtonsType#YES_NO}
+ * > and {@link ButtonsType#OK_CANCEL} are discouraged by the
+ * > <a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines</a>.
  */
 public enum ButtonsType {
 

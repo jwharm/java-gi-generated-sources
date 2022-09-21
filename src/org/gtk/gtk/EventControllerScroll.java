@@ -8,38 +8,38 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEventControllerScroll</code> is an event controller that handles scroll
+ * {@code GtkEventControllerScroll} is an event controller that handles scroll
  * events.
  * <p>
  * It is capable of handling both discrete and continuous scroll
  * events from mice or touchpads, abstracting them both with the
- * {@link [signal@Gtk.EventControllerScroll::scroll] (ref=signal)} signal. Deltas in
+ * {@code Gtk.EventControllerScroll::scroll} signal. Deltas in
  * the discrete case are multiples of 1.
  * <p>
- * In the case of continuous scroll events, <code>GtkEventControllerScroll</code>
- * encloses all {@link [signal@Gtk.EventControllerScroll::scroll] (ref=signal)} emissions
- * between two {@link [signal@Gtk.EventControllerScroll::scroll-begin] (ref=signal)} and
- * {@link [signal@Gtk.EventControllerScroll::scroll-end] (ref=signal)} signals.
- * 
+ * In the case of continuous scroll events, {@code GtkEventControllerScroll}
+ * encloses all {@code Gtk.EventControllerScroll::scroll} emissions
+ * between two {@code Gtk.EventControllerScroll::scroll-begin} and
+ * {@code Gtk.EventControllerScroll::scroll-end} signals.
+ * <p>
  * The behavior of the event controller can be modified by the flags
  * given at creation time, or modified at a later point through
- * {@link org.gtk.gtk.EventControllerScroll<code>#setFlags</code>  (e.g. because the scrolling
+ * {@link EventControllerScroll#setFlags} (e.g. because the scrolling
  * conditions of the widget changed).
- * 
+ * <p>
  * The controller can be set up to emit motion for either/both vertical
- * and horizontal scroll events through {@link org.gtk.gtk.EventControllerScrollFlags<code>#VERTICAL</code>  
- * {@link org.gtk.gtk.EventControllerScrollFlags<code>#HORIZONTAL</code>  and {@link org.gtk.gtk.EventControllerScrollFlags<code>#BOTH_AXES</code>  
- * If any axis is disabled, the respective {@link [signal@Gtk.EventControllerScroll::scroll] (ref=signal)}
+ * and horizontal scroll events through {@link EventControllerScrollFlags#VERTICAL},
+ * {@link EventControllerScrollFlags#HORIZONTAL} and {@link EventControllerScrollFlags#BOTH_AXES}.
+ * If any axis is disabled, the respective {@code Gtk.EventControllerScroll::scroll}
  * delta will be 0. Vertical scroll events will be translated to horizontal
  * motion for the devices incapable of horizontal scrolling.
- * 
+ * <p>
  * The event controller can also be forced to emit discrete events on all
- * devices through {@link org.gtk.gtk.EventControllerScrollFlags<code>#DISCRETE</code>   This can be used
+ * devices through {@link EventControllerScrollFlags#DISCRETE}. This can be used
  * to implement discrete actions triggered through scroll events (e.g.
  * switching across combobox options).
- * 
- * The {@link org.gtk.gtk.EventControllerScrollFlags<code>#KINETIC</code>  flag toggles the emission of the
- * {@link [signal@Gtk.EventControllerScroll::decelerate] (ref=signal)} signal, emitted at the end
+ * <p>
+ * The {@link EventControllerScrollFlags#KINETIC} flag toggles the emission of the
+ * {@code Gtk.EventControllerScroll::decelerate} signal, emitted at the end
  * of scrolling with two X/Y velocity arguments that are consistent with the
  * motion that was received.
  */
@@ -88,10 +88,10 @@ public class EventControllerScroll extends EventController {
     
     /**
      * Emitted after scroll is finished if the
-     * {@link org.gtk.gtk.EventControllerScrollFlags<code>#KINETIC</code>  flag is set.
-     * 
-     * @vel_x and @vel_y express the initial velocity that was
-     * imprinted by the scroll events. @vel_x and @vel_y are expressed in
+     * {@link EventControllerScrollFlags#KINETIC} flag is set.
+     * <p>
+     * {@code vel_x} and {@code vel_y} express the initial velocity that was
+     * imprinted by the scroll events. {@code vel_x} and {@code vel_y} are expressed in
      * pixels/ms.
      */
     public SignalHandle onDecelerate(DecelerateHandler handler) {
@@ -116,7 +116,7 @@ public class EventControllerScroll extends EventController {
     
     /**
      * Signals that the widget should scroll by the
-     * amount specified by @dx and @dy.
+     * amount specified by {@code dx} and {@code dy}.
      */
     public SignalHandle onScroll(ScrollHandler handler) {
         try {
@@ -140,7 +140,7 @@ public class EventControllerScroll extends EventController {
     
     /**
      * Signals that a new scrolling operation has begun.
-     * 
+     * <p>
      * It will only be emitted on devices capable of it.
      */
     public SignalHandle onScrollBegin(ScrollBeginHandler handler) {
@@ -165,7 +165,7 @@ public class EventControllerScroll extends EventController {
     
     /**
      * Signals that a scrolling operation has finished.
-     * 
+     * <p>
      * It will only be emitted on devices capable of it.
      */
     public SignalHandle onScrollEnd(ScrollEndHandler handler) {

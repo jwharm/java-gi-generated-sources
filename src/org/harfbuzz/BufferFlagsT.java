@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 /**
- * Flags for {@link org.harfbuzz.buffer_t}
+ * Flags for {@link buffer_t}.
  */
 public class BufferFlagsT {
 
@@ -21,7 +21,7 @@ public class BufferFlagsT {
     /**
      * flag indicating that special handling of the end of text
      *                      paragraph can be applied to this buffer, similar to
-     *                      @HB_BUFFER_FLAG_BOT.
+     *                      {@code HB_BUFFER_FLAG_BOT}.
      */
     public static final int EOT = 2;
     
@@ -31,7 +31,7 @@ public class BufferFlagsT {
      *                      from the font, instead of hiding them (done by
      *                      replacing them with the space glyph and zeroing the
      *                      advance width.)  This flag takes precedence over
-     *                      @HB_BUFFER_FLAG_REMOVE_DEFAULT_IGNORABLES.
+     *                      {@code HB_BUFFER_FLAG_REMOVE_DEFAULT_IGNORABLES}.
      */
     public static final int PRESERVE_DEFAULT_IGNORABLES = 4;
     
@@ -40,7 +40,7 @@ public class BufferFlagsT {
      *                      Unicode property should be removed from glyph string
      *                      instead of hiding them (done by replacing them with the
      *                      space glyph and zeroing the advance width.)
-     *                      @HB_BUFFER_FLAG_PRESERVE_DEFAULT_IGNORABLES takes
+     *                      {@code HB_BUFFER_FLAG_PRESERVE_DEFAULT_IGNORABLES} takes
      *                      precedence over this flag. Since: 1.8.0
      */
     public static final int REMOVE_DEFAULT_IGNORABLES = 8;
@@ -48,7 +48,7 @@ public class BufferFlagsT {
     /**
      * flag indicating that a dotted circle should
      *                      not be inserted in the rendering of incorrect
-     *                      character sequences (such at &<code>#60</code> 0905 093E&<code>#62</code> ). Since: 2.4.0
+     *                      character sequences (such at &lt;0905 093E&gt;). Since: 2.4.0
      */
     public static final int DO_NOT_INSERT_DOTTED_CIRCLE = 16;
     
@@ -64,7 +64,7 @@ public class BufferFlagsT {
     public static final int VERIFY = 32;
     
     /**
-     * flag indicating that the @HB_GLYPH_FLAG_UNSAFE_TO_CONCAT
+     * flag indicating that the {@code HB_GLYPH_FLAG_UNSAFE_TO_CONCAT}
      *                      glyph-flag should be produced by the shaper. By default
      *                      it will not be produced since it incurs a cost. Since: 4.0.0
      */

@@ -7,7 +7,8 @@ public class FileTest {
 
     /**
      * <code>true</code> if the file is a regular file
-     *     (not a directory). Note that this test will also return <code>true</code>     if the tested file is a symlink to a regular file.
+     *     (not a directory). Note that this test will also return <code>true</code>
+     *     if the tested file is a symlink to a regular file.
      */
     public static final int IS_REGULAR = 1;
     

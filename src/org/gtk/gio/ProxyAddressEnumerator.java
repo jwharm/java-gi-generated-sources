@@ -8,13 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.ProxyAddressEnumerator} is a wrapper around {@link org.gtk.gio.SocketAddressEnumerator} which
- * takes the {@link org.gtk.gio.SocketAddress} instances returned by the {@link org.gtk.gio.SocketAddressEnumerator} and wraps them in {@link org.gtk.gio.ProxyAddress} instances, using the given
- * {@link org.gtk.gio.ProxyAddressEnumerator} proxy-resolver.
- * 
+ * {@link ProxyAddressEnumerator} is a wrapper around {@link SocketAddressEnumerator} which
+ * takes the {@link SocketAddress} instances returned by the {@link SocketAddressEnumerator}
+ * and wraps them in {@link ProxyAddress} instances, using the given
+ * {@link ProxyAddressEnumerator}:proxy-resolver.
+ * <p>
  * This enumerator will be returned (for example, by
  * g_socket_connectable_enumerate()) as appropriate when a proxy is configured;
- * there should be no need to manually wrap a {@link org.gtk.gio.SocketAddressEnumerator} instance
+ * there should be no need to manually wrap a {@link SocketAddressEnumerator} instance
  * with one.
  */
 public class ProxyAddressEnumerator extends SocketAddressEnumerator {

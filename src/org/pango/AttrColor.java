@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoAttrColor</code> structure is used to represent attributes that
+ * The {@code PangoAttrColor} structure is used to represent attributes that
  * are colors.
  */
 public class AttrColor extends io.github.jwharm.javagi.ResourceBase {

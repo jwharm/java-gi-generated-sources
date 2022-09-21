@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.UnixOutputStream} implements {@link org.gtk.gio.OutputStream} for writing to a UNIX
+ * {@link UnixOutputStream} implements {@link OutputStream} for writing to a UNIX
  * file descriptor, including asynchronous operations. (If the file
  * descriptor refers to a socket or pipe, this will use poll() to do
  * asynchronous I/O. If it refers to a regular file, it will fall back
  * to doing asynchronous I/O in another thread.)
  * <p>
- * Note that <code>&<code>#60</code> gio/gunixoutputstream.h&<code>#62</code> </code> belongs to the UNIX-specific GIO
- * interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config file
+ * Note that {@code <gio/gunixoutputstream.h>} belongs to the UNIX-specific GIO
+ * interfaces, thus you have to use the {@code gio-unix-2.0.pc} pkg-config file
  * when using it.
  */
 public class UnixOutputStream extends OutputStream implements FileDescriptorBased, PollableOutputStream {
@@ -35,9 +35,9 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.UnixOutputStream} for the given @fd.
-     * 
-     * If @close_fd, is <code>true</code>  the file descriptor will be closed when
+     * Creates a new {@link UnixOutputStream} for the given {@code fd}.
+     * <p>
+     * If {@code close_fd}, is <code>true</code>, the file descriptor will be closed when
      * the output stream is destroyed.
      */
     public UnixOutputStream(int fd, boolean closeFd) {
@@ -45,7 +45,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
     }
     
     /**
-     * Returns whether the file descriptor of @stream will be
+     * Returns whether the file descriptor of {@code stream} will be
      * closed when the stream is closed.
      */
     public boolean getCloseFd() {
@@ -62,7 +62,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
     }
     
     /**
-     * Sets whether the file descriptor of @stream shall be closed
+     * Sets whether the file descriptor of {@code stream} shall be closed
      * when the stream is closed.
      */
     public void setCloseFd(boolean closeFd) {

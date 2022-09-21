@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * <p>
  * Settings these flags causes GTK to print out different
  * types of debugging information. Some of these flags are
- * only available when GTK has been configured with <code>-Ddebug=true</code>.
+ * only available when GTK has been configured with {@code -Ddebug=true}.
  */
 public class DebugFlags {
 

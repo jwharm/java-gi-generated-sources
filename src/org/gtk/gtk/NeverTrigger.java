@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkShortcutTrigger</code> that never triggers.
+ * A {@code GtkShortcutTrigger} that never triggers.
  */
 public class NeverTrigger extends ShortcutTrigger {
 
@@ -23,7 +23,7 @@ public class NeverTrigger extends ShortcutTrigger {
     
     /**
      * Gets the never trigger.
-     * 
+     * <p>
      * This is a singleton for a trigger that never triggers.
      * Use this trigger instead of <code>null</code> because it implements
      * all virtual functions.

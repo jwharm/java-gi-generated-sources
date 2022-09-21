@@ -8,20 +8,22 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkSeparator</code> is a horizontal or vertical separator widget.
+ * {@code GtkSeparator} is a horizontal or vertical separator widget.
  * <p>
- * !{@link [An example GtkSeparator]}(separators.png)
+ * <img src="./doc-files/separators.png" alt="An example GtkSeparator">
  * <p>
- * A <code>GtkSeparator</code> can be used to group the widgets within a window.
+ * A {@code GtkSeparator} can be used to group the widgets within a window.
  * It displays a line with a shadow to make it appear sunken into the
  * interface.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkSeparator</code> has a single CSS node with name separator. The node
+ * <p>
+ * {@code GtkSeparator} has a single CSS node with name separator. The node
  * gets one of the .horizontal or .vertical style classes.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkSeparator</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SEPARATOR</code>  role.
+ * <p>
+ * {@code GtkSeparator} uses the {@link AccessibleRole#SEPARATOR} role.
  */
 public class Separator extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -40,7 +42,7 @@ public class Separator extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Creates a new <code>GtkSeparator</code> with the given orientation.
+     * Creates a new {@code GtkSeparator} with the given orientation.
      */
     public Separator(Orientation orientation) {
         super(constructNew(orientation));

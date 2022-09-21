@@ -38,7 +38,7 @@ public final class HarfBuzz {
     public static final java.lang.String VERSION_STRING = "4.0.0";
 
     /**
-     * Fetches the name identifier of the specified feature type in the face&<code>#39</code> s <code>name</code> table.
+     * Fetches the name identifier of the specified feature type in the face's {@code name} table.
      */
     public static OtNameIdT aatLayoutFeatureTypeGetNameId(FaceT face, AatLayoutFeatureTypeT featureType) {
         var RESULT = gtk_h.hb_aat_layout_feature_type_get_name_id(face.handle(), featureType.getValue());
@@ -47,9 +47,9 @@ public final class HarfBuzz {
     
     /**
      * Tests whether the specified face includes any positioning information
-     * in the <code>kerx</code> table.
+     * in the {@code kerx} table.
      * <p>
-     * &<code>#60</code> note&<code>#62</code> Note: does not examine the <code>GPOS</code> table.&<code>#60</code> /note&<code>#62</code>
+     * &lt;note>Note: does not examine the `GPOS` table.</note&gt;
      */
     public static BoolT aatLayoutHasPositioning(FaceT face) {
         var RESULT = gtk_h.hb_aat_layout_has_positioning(face.handle());
@@ -57,9 +57,10 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether the specified face includes any substitutions in the<code>morx</code> or <code>mort</code> tables.
+     * Tests whether the specified face includes any substitutions in the
+     * {@code morx} or {@code mort} tables.
      * <p>
-     * &<code>#60</code> note&<code>#62</code> Note: does not examine the <code>GSUB</code> table.&<code>#60</code> /note&<code>#62</code>
+     * &lt;note>Note: does not examine the `GSUB` table.</note&gt;
      */
     public static BoolT aatLayoutHasSubstitution(FaceT face) {
         var RESULT = gtk_h.hb_aat_layout_has_substitution(face.handle());
@@ -68,7 +69,7 @@ public final class HarfBuzz {
     
     /**
      * Tests whether the specified face includes any tracking information
-     * in the <code>trak</code> table.
+     * in the {@code trak} table.
      */
     public static BoolT aatLayoutHasTracking(FaceT face) {
         var RESULT = gtk_h.hb_aat_layout_has_tracking(face.handle());
@@ -76,7 +77,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Makes a writable copy of @blob.
+     * Makes a writable copy of {@code blob}.
      */
     public static BlobT blobCopyWritableOrFail(BlobT blob) {
         var RESULT = gtk_h.hb_blob_copy_writable_or_fail(blob.handle());
@@ -102,13 +103,13 @@ public final class HarfBuzz {
     }
     
     /**
-     * Returns a blob that represents a range of bytes in @parent.  The new
-     * blob is always created with <code>#HB_MEMORY_MODE_READONLY</code>  meaning that it
+     * Returns a blob that represents a range of bytes in {@code parent}.  The new
+     * blob is always created with {@code HB_MEMORY_MODE_READONLY}, meaning that it
      * will never modify data in the parent blob.  The parent data is not
      * expected to be modified, and will result in undefined behavior if it
      * is.
-     * 
-     * Makes @parent immutable.
+     * <p>
+     * Makes {@code parent} immutable.
      */
     public static BlobT blobCreateSubBlob(BlobT parent, int offset, int length) {
         var RESULT = gtk_h.hb_blob_create_sub_blob(parent.handle(), offset, length);
@@ -116,10 +117,10 @@ public final class HarfBuzz {
     }
     
     /**
-     * Decreases the reference count on @blob, and if it reaches zero, destroys
-     * @blob, freeing all memory, possibly calling the destroy-callback the blob
+     * Decreases the reference count on {@code blob}, and if it reaches zero, destroys
+     * {@code blob}, freeing all memory, possibly calling the destroy-callback the blob
      * was created for if it has not been called already.
-     * 
+     * <p>
      * See TODO:link object types for more information.
      */
     public static void blobDestroy(BlobT blob) {
@@ -128,7 +129,7 @@ public final class HarfBuzz {
     
     /**
      * Returns the singleton empty blob.
-     * 
+     * <p>
      * See TODO:link object types for more information.
      */
     public static BlobT blobGetEmpty() {
@@ -137,7 +138,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the length of a blob&<code>#39</code> s data.
+     * Fetches the length of a blob's data.
      */
     public static int blobGetLength(BlobT blob) {
         var RESULT = gtk_h.hb_blob_get_length(blob.handle());
@@ -169,8 +170,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Increases the reference count on @blob.
-     * 
+     * Increases the reference count on {@code blob}.
+     * <p>
      * See TODO:link object types for more information.
      */
     public static BlobT blobReference(BlobT blob) {
@@ -179,13 +180,13 @@ public final class HarfBuzz {
     }
     
     /**
-     * Appends a character with the Unicode value of @codepoint to @buffer, and
-     * gives it the initial cluster value of @cluster. Clusters can be any thing
+     * Appends a character with the Unicode value of {@code codepoint} to {@code buffer}, and
+     * gives it the initial cluster value of {@code cluster}. Clusters can be any thing
      * the client wants, they are usually used to refer to the index of the
      * character in the input text stream and are output in
-     * {@link org.harfbuzz.glyph_info_t} cluster field.
-     * 
-     * This function does not check the validity of @codepoint, it is up to the
+     * {@link glyph_info_t}.cluster field.
+     * <p>
+     * This function does not check the validity of {@code codepoint}, it is up to the
      * caller to ensure it is a valid Unicode code point.
      */
     public static void bufferAdd(BufferT buffer, CodepointT codepoint, int cluster) {
@@ -193,17 +194,17 @@ public final class HarfBuzz {
     }
     
     /**
-     * Appends characters from @text array to @buffer. The @item_offset is the
-     * position of the first character from @text that will be appended, and
-     * @item_length is the number of character. When shaping part of a larger text
+     * Appends characters from {@code text} array to {@code buffer}. The {@code item_offset} is the
+     * position of the first character from {@code text} that will be appended, and
+     * {@code item_length} is the number of character. When shaping part of a larger text
      * (e.g. a run of text from a paragraph), instead of passing just the substring
      * corresponding to the run, it is preferable to pass the whole
-     * paragraph and specify the run start and length as @item_offset and
-     * @item_length, respectively, to give HarfBuzz the full context to be able,
+     * paragraph and specify the run start and length as {@code item_offset} and
+     * {@code item_length}, respectively, to give HarfBuzz the full context to be able,
      * for example, to do cross-run Arabic shaping or properly handle combining
      * marks at stat of run.
-     * 
-     * This function does not check the validity of @text, it is up to the caller
+     * <p>
+     * This function does not check the validity of {@code text}, it is up to the caller
      * to ensure it contains a valid Unicode code points.
      */
     public static void bufferAddCodepoints(BufferT buffer, CodepointT[] text, int textLength, int itemOffset, int itemLength) {
@@ -213,8 +214,8 @@ public final class HarfBuzz {
     /**
      * Similar to hb_buffer_add_codepoints(), but allows only access to first 256
      * Unicode code points that can fit in 8-bit strings.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Has nothing to do with non-Unicode Latin-1 encoding.&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note>Has nothing to do with non-Unicode Latin-1 encoding.</note&gt;
      */
     public static void bufferAddLatin1(BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
         gtk_h.hb_buffer_add_latin1(buffer.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, text)).handle(), textLength, itemOffset, itemLength);
@@ -222,8 +223,8 @@ public final class HarfBuzz {
     
     /**
      * See hb_buffer_add_codepoints().
-     * 
-     * Replaces invalid UTF-16 characters with the @buffer replacement code point,
+     * <p>
+     * Replaces invalid UTF-16 characters with the {@code buffer} replacement code point,
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf16(BufferT buffer, short[] text, int textLength, int itemOffset, int itemLength) {
@@ -232,8 +233,8 @@ public final class HarfBuzz {
     
     /**
      * See hb_buffer_add_codepoints().
-     * 
-     * Replaces invalid UTF-32 characters with the @buffer replacement code point,
+     * <p>
+     * Replaces invalid UTF-32 characters with the {@code buffer} replacement code point,
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf32(BufferT buffer, int[] text, int textLength, int itemOffset, int itemLength) {
@@ -242,8 +243,8 @@ public final class HarfBuzz {
     
     /**
      * See hb_buffer_add_codepoints().
-     * 
-     * Replaces invalid UTF-8 characters with the @buffer replacement code point,
+     * <p>
+     * Replaces invalid UTF-8 characters with the {@code buffer} replacement code point,
      * see hb_buffer_set_replacement_codepoint().
      */
     public static void bufferAddUtf8(BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
@@ -274,7 +275,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Creates a new {@link org.harfbuzz.buffer_t} with all properties to defaults.
+     * Creates a new {@link buffer_t} with all properties to defaults.
      */
     public static BufferT bufferCreate() {
         var RESULT = gtk_h.hb_buffer_create();
@@ -282,8 +283,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Creates a new {@link org.harfbuzz.buffer_t}  similar to hb_buffer_create(). The only
-     * difference is that the buffer is configured similarly to @src.
+     * Creates a new {@link buffer_t}, similar to hb_buffer_create(). The only
+     * difference is that the buffer is configured similarly to {@code src}.
      */
     public static BufferT bufferCreateSimilar(BufferT src) {
         var RESULT = gtk_h.hb_buffer_create_similar(src.handle());
@@ -291,7 +292,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Deserializes glyphs @buffer from textual representation in the format
+     * Deserializes glyphs {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_glyphs().
      */
     public static BoolT bufferDeserializeGlyphs(BufferT buffer, java.lang.String[] buf, int bufLen, java.lang.String[] endPtr, FontT font, BufferSerializeFormatT format) {
@@ -300,7 +301,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Deserializes Unicode @buffer from textual representation in the format
+     * Deserializes Unicode {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_unicode().
      */
     public static BoolT bufferDeserializeUnicode(BufferT buffer, java.lang.String[] buf, int bufLen, java.lang.String[] endPtr, BufferSerializeFormatT format) {
@@ -309,16 +310,17 @@ public final class HarfBuzz {
     }
     
     /**
-     * Deallocate the @buffer.
-     * Decreases the reference count on @buffer by one. If the result is zero, then
-     * @buffer and all associated resources are freed. See hb_buffer_reference().
+     * Deallocate the {@code buffer}.
+     * Decreases the reference count on {@code buffer} by one. If the result is zero, then
+     * {@code buffer} and all associated resources are freed. See hb_buffer_reference().
      */
     public static void bufferDestroy(BufferT buffer) {
         gtk_h.hb_buffer_destroy(buffer.handle());
     }
     
     /**
-     * If dottedcircle_glyph is (hb_codepoint_t) -1 then <code>#HB_BUFFER_DIFF_FLAG_DOTTED_CIRCLE_PRESENT</code> and <code>#HB_BUFFER_DIFF_FLAG_NOTDEF_PRESENT</code> are never returned.  This should be used by most
+     * If dottedcircle_glyph is (hb_codepoint_t) -1 then {@code HB_BUFFER_DIFF_FLAG_DOTTED_CIRCLE_PRESENT}
+     * and {@code HB_BUFFER_DIFF_FLAG_NOTDEF_PRESENT} are never returned.  This should be used by most
      * callers if just comparing two buffers is needed.
      */
     public static int bufferDiff(BufferT buffer, BufferT reference, CodepointT dottedcircleGlyph, int positionFuzz) {
@@ -327,7 +329,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the cluster level of a buffer. The {@link org.harfbuzz.buffer_cluster_level_t} dictates one aspect of how HarfBuzz will treat non-base characters
+     * Fetches the cluster level of a buffer. The {@link buffer_cluster_level_t}
+     * dictates one aspect of how HarfBuzz will treat non-base characters
      * during shaping.
      */
     public static BufferClusterLevelT bufferGetClusterLevel(BufferT buffer) {
@@ -336,7 +339,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the type of @buffer contents. Buffers are either empty, contain
+     * Fetches the type of {@code buffer} contents. Buffers are either empty, contain
      * characters (before shaping), or contain glyphs (the result of shaping).
      */
     public static BufferContentTypeT bufferGetContentType(BufferT buffer) {
@@ -353,7 +356,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches an empty {@link org.harfbuzz.buffer_t}
+     * Fetches an empty {@link buffer_t}.
      */
     public static BufferT bufferGetEmpty() {
         var RESULT = gtk_h.hb_buffer_get_empty();
@@ -361,7 +364,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the {@link org.harfbuzz.buffer_flags_t} of @buffer.
+     * Fetches the {@link buffer_flags_t} of {@code buffer}.
      */
     public static int bufferGetFlags(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_flags(buffer.handle());
@@ -401,8 +404,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the {@link org.harfbuzz.codepoint_t} that replaces invalid entries for a given encoding
-     * when adding text to @buffer.
+     * Fetches the {@link codepoint_t} that replaces invalid entries for a given encoding
+     * when adding text to {@code buffer}.
      */
     public static CodepointT bufferGetReplacementCodepoint(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_replacement_codepoint(buffer.handle());
@@ -410,7 +413,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the script of @buffer.
+     * Fetches the script of {@code buffer}.
      */
     public static ScriptT bufferGetScript(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_script(buffer.handle());
@@ -418,7 +421,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets @props to the {@link org.harfbuzz.segment_properties_t} of @buffer.
+     * Sets {@code props} to the {@link segment_properties_t} of {@code buffer}.
      */
     public static void bufferGetSegmentProperties(BufferT buffer, SegmentPropertiesT props) {
         gtk_h.hb_buffer_get_segment_properties(buffer.handle(), props.handle());
@@ -444,21 +447,21 @@ public final class HarfBuzz {
     /**
      * Sets unset buffer segment properties based on buffer Unicode
      * contents.  If buffer is not empty, it must have content type
-     * <code>#HB_BUFFER_CONTENT_TYPE_UNICODE</code> 
-     * 
-     * If buffer script is not set (ie. is <code>#HB_SCRIPT_INVALID</code> , it
+     * {@code HB_BUFFER_CONTENT_TYPE_UNICODE}.
+     * <p>
+     * If buffer script is not set (ie. is {@code HB_SCRIPT_INVALID}), it
      * will be set to the Unicode script of the first character in
-     * the buffer that has a script other than <code>#HB_SCRIPT_COMMON</code> 
-     * <code>#HB_SCRIPT_INHERITED</code>  and <code>#HB_SCRIPT_UNKNOWN</code> 
-     * 
-     * Next, if buffer direction is not set (ie. is <code>#HB_DIRECTION_INVALID</code> ,
+     * the buffer that has a script other than {@code HB_SCRIPT_COMMON},
+     * {@code HB_SCRIPT_INHERITED}, and {@code HB_SCRIPT_UNKNOWN}.
+     * <p>
+     * Next, if buffer direction is not set (ie. is {@code HB_DIRECTION_INVALID}),
      * it will be set to the natural horizontal direction of the
      * buffer script as returned by hb_script_get_horizontal_direction().
-     * If hb_script_get_horizontal_direction() returns <code>#HB_DIRECTION_INVALID</code> 
-     * then <code>#HB_DIRECTION_LTR</code> is used.
-     * 
-     * Finally, if buffer language is not set (ie. is <code>#HB_LANGUAGE_INVALID</code> ,
-     * it will be set to the process&<code>#39</code> s default language as returned by
+     * If hb_script_get_horizontal_direction() returns {@code HB_DIRECTION_INVALID},
+     * then {@code HB_DIRECTION_LTR} is used.
+     * <p>
+     * Finally, if buffer language is not set (ie. is {@code HB_LANGUAGE_INVALID}),
+     * it will be set to the process's default language as returned by
      * hb_language_get_default().  This may change in the future by
      * taking buffer script into consideration when choosing a language.
      * Note that hb_language_get_default() is NOT threadsafe the first time
@@ -469,7 +472,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Returns whether @buffer has glyph position data.
+     * Returns whether {@code buffer} has glyph position data.
      * A buffer gains position data when hb_buffer_get_glyph_positions() is called on it,
      * and cleared of position data when hb_buffer_clear_contents() is called.
      */
@@ -481,15 +484,15 @@ public final class HarfBuzz {
     /**
      * Reorders a glyph buffer to have canonical in-cluster glyph order / position.
      * The resulting clusters should behave identical to pre-reordering clusters.
-     * 
-     * &<code>#60</code> note&<code>#62</code> This has nothing to do with Unicode normalization.&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note>This has nothing to do with Unicode normalization.</note&gt;
      */
     public static void bufferNormalizeGlyphs(BufferT buffer) {
         gtk_h.hb_buffer_normalize_glyphs(buffer.handle());
     }
     
     /**
-     * Pre allocates memory for @buffer to fit at least @size number of items.
+     * Pre allocates memory for {@code buffer} to fit at least {@code size} number of items.
      */
     public static BoolT bufferPreAllocate(BufferT buffer, int size) {
         var RESULT = gtk_h.hb_buffer_pre_allocate(buffer.handle(), size);
@@ -497,7 +500,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Increases the reference count on @buffer by one. This prevents @buffer from
+     * Increases the reference count on {@code buffer} by one. This prevents {@code buffer} from
      * being destroyed until a matching call to hb_buffer_destroy() is made.
      */
     public static BufferT bufferReference(BufferT buffer) {
@@ -530,15 +533,15 @@ public final class HarfBuzz {
     }
     
     /**
-     * Reverses buffer contents between @start and @end.
+     * Reverses buffer contents between {@code start} and {@code end}.
      */
     public static void bufferReverseRange(BufferT buffer, int start, int end) {
         gtk_h.hb_buffer_reverse_range(buffer.handle(), start, end);
     }
     
     /**
-     * Parses a string into an {@link org.harfbuzz.buffer_serialize_format_t}  Does not check if
-     * @str is a valid buffer serialization format, use
+     * Parses a string into an {@link buffer_serialize_format_t}. Does not check if
+     * {@code str} is a valid buffer serialization format, use
      * hb_buffer_serialize_list_formats() to get the list of supported formats.
      */
     public static BufferSerializeFormatT bufferSerializeFormatFromString(byte[] str, int len) {
@@ -547,8 +550,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts @format to the string corresponding it, or <code>null</code> if it is not a valid
-     * {@link org.harfbuzz.buffer_serialize_format_t}
+     * Converts {@code format} to the string corresponding it, or <code>null</code> if it is not a valid
+     * {@link buffer_serialize_format_t}.
      */
     public static java.lang.String bufferSerializeFormatToString(BufferSerializeFormatT format) {
         var RESULT = gtk_h.hb_buffer_serialize_format_to_string(format.getValue());
@@ -556,7 +559,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets the cluster level of a buffer. The {@link org.harfbuzz.buffer_cluster_level_t} dictates one aspect of how HarfBuzz will treat non-base characters
+     * Sets the cluster level of a buffer. The {@link buffer_cluster_level_t}
+     * dictates one aspect of how HarfBuzz will treat non-base characters
      * during shaping.
      */
     public static void bufferSetClusterLevel(BufferT buffer, BufferClusterLevelT clusterLevel) {
@@ -564,7 +568,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets the type of @buffer contents. Buffers are either empty, contain
+     * Sets the type of {@code buffer} contents. Buffers are either empty, contain
      * characters (before shaping), or contain glyphs (the result of shaping).
      */
     public static void bufferSetContentType(BufferT buffer, BufferContentTypeT contentType) {
@@ -573,7 +577,7 @@ public final class HarfBuzz {
     
     /**
      * Set the text flow direction of the buffer. No shaping can happen without
-     * setting @buffer direction, and it controls the visual direction for the
+     * setting {@code buffer} direction, and it controls the visual direction for the
      * output glyphs; for RTL direction the glyphs will be reversed. Many layout
      * features depend on the proper setting of the direction, for example,
      * reversing RTL text before shaping, then shaping with LTR direction is not
@@ -585,14 +589,14 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets @buffer flags to @flags. See {@link org.harfbuzz.buffer_flags_t}
+     * Sets {@code buffer} flags to {@code flags}. See {@link buffer_flags_t}.
      */
     public static void bufferSetFlags(BufferT buffer, int flags) {
         gtk_h.hb_buffer_set_flags(buffer.handle(), flags);
     }
     
     /**
-     * Sets the {@link org.harfbuzz.codepoint_t} that replaces invisible characters in
+     * Sets the {@link codepoint_t} that replaces invisible characters in
      * the shaping result.  If set to zero (default), the glyph for the
      * U+0020 SPACE character is used.  Otherwise, this value is used
      * verbatim.
@@ -602,15 +606,15 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets the language of @buffer to @language.
-     * 
+     * Sets the language of {@code buffer} to {@code language}.
+     * <p>
      * Languages are crucial for selecting which OpenType feature to apply to the
      * buffer which can result in applying language-specific behaviour. Languages
      * are orthogonal to the scripts, and though they are related, they are
      * different concepts and should not be confused with each other.
-     * 
+     * <p>
      * Use hb_language_from_string() to convert from BCP 47 language tags to
-     * {@link org.harfbuzz.language_t}
+     * {@link language_t}.
      */
     public static void bufferSetLanguage(BufferT buffer, LanguageT language) {
         gtk_h.hb_buffer_set_language(buffer.handle(), language.handle());
@@ -626,34 +630,34 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets the {@link org.harfbuzz.codepoint_t} that replaces characters not found in
+     * Sets the {@link codepoint_t} that replaces characters not found in
      * the font during shaping.
-     * 
+     * <p>
      * The not-found glyph defaults to zero, sometimes knows as the
-     * &<code>#34</code> .notdef&<code>#34</code>  glyph.  This API allows for differentiating the two.
+     * ".notdef" glyph.  This API allows for differentiating the two.
      */
     public static void bufferSetNotFoundGlyph(BufferT buffer, CodepointT notFound) {
         gtk_h.hb_buffer_set_not_found_glyph(buffer.handle(), notFound.getValue());
     }
     
     /**
-     * Sets the {@link org.harfbuzz.codepoint_t} that replaces invalid entries for a given encoding
-     * when adding text to @buffer.
-     * 
-     * Default is <code>#HB_BUFFER_REPLACEMENT_CODEPOINT_DEFAULT</code>
+     * Sets the {@link codepoint_t} that replaces invalid entries for a given encoding
+     * when adding text to {@code buffer}.
+     * <p>
+     * Default is {@code HB_BUFFER_REPLACEMENT_CODEPOINT_DEFAULT}.
      */
     public static void bufferSetReplacementCodepoint(BufferT buffer, CodepointT replacement) {
         gtk_h.hb_buffer_set_replacement_codepoint(buffer.handle(), replacement.getValue());
     }
     
     /**
-     * Sets the script of @buffer to @script.
-     * 
+     * Sets the script of {@code buffer} to {@code script}.
+     * <p>
      * Script is crucial for choosing the proper shaping behaviour for scripts that
      * require it (e.g. Arabic) and the which OpenType features defined in the font
      * to be applied.
-     * 
-     * You can pass one of the predefined {@link org.harfbuzz.script_t} values, or use
+     * <p>
+     * You can pass one of the predefined {@link script_t} values, or use
      * hb_script_from_string() or hb_script_from_iso15924_tag() to get the
      * corresponding script from an ISO 15924 script tag.
      */
@@ -672,14 +676,14 @@ public final class HarfBuzz {
     
     /**
      * Sets the Unicode-functions structure of a buffer to
-     * @unicode_funcs.
+     * {@code unicode_funcs}.
      */
     public static void bufferSetUnicodeFuncs(BufferT buffer, UnicodeFuncsT unicodeFuncs) {
         gtk_h.hb_buffer_set_unicode_funcs(buffer.handle(), unicodeFuncs.handle());
     }
     
     /**
-     * Fetches the alpha channel of the given @color.
+     * Fetches the alpha channel of the given {@code color}.
      */
     public static byte colorGetAlpha(ColorT color) {
         var RESULT = gtk_h.hb_color_get_alpha(color.getValue());
@@ -687,7 +691,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the blue channel of the given @color.
+     * Fetches the blue channel of the given {@code color}.
      */
     public static byte colorGetBlue(ColorT color) {
         var RESULT = gtk_h.hb_color_get_blue(color.getValue());
@@ -695,7 +699,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the green channel of the given @color.
+     * Fetches the green channel of the given {@code color}.
      */
     public static byte colorGetGreen(ColorT color) {
         var RESULT = gtk_h.hb_color_get_green(color.getValue());
@@ -703,7 +707,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the red channel of the given @color.
+     * Fetches the red channel of the given {@code color}.
      */
     public static byte colorGetRed(ColorT color) {
         var RESULT = gtk_h.hb_color_get_red(color.getValue());
@@ -711,12 +715,12 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts a string to an {@link org.harfbuzz.direction_t} 
-     * 
+     * Converts a string to an {@link direction_t}.
+     * <p>
      * Matching is loose and applies only to the first letter. For
-     * examples, &<code>#34</code> LTR&<code>#34</code>  and &<code>#34</code> left-to-right&<code>#34</code>  will both return <code>#HB_DIRECTION_LTR</code> 
-     * 
-     * Unmatched strings will return <code>#HB_DIRECTION_INVALID</code>
+     * examples, "LTR" and "left-to-right" will both return {@code HB_DIRECTION_LTR}.
+     * <p>
+     * Unmatched strings will return {@code HB_DIRECTION_INVALID}.
      */
     public static DirectionT directionFromString(byte[] str, int len) {
         var RESULT = gtk_h.hb_direction_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
@@ -724,7 +728,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts an {@link org.harfbuzz.direction_t} to a string.
+     * Converts an {@link direction_t} to a string.
      */
     public static java.lang.String directionToString(DirectionT direction) {
         var RESULT = gtk_h.hb_direction_to_string(direction.getValue());
@@ -732,14 +736,14 @@ public final class HarfBuzz {
     }
     
     /**
-     * Perform a &<code>#34</code> close-path&<code>#34</code>  draw operation.
+     * Perform a "close-path" draw operation.
      */
     public static void drawClosePath(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st) {
         gtk_h.hb_draw_close_path(dfuncs.handle(), drawData, st.handle());
     }
     
     /**
-     * Perform a &<code>#34</code> cubic-to&<code>#34</code>  draw operation.
+     * Perform a "cubic-to" draw operation.
      */
     public static void drawCubicTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
         gtk_h.hb_draw_cubic_to(dfuncs.handle(), drawData, st.handle(), control1X, control1Y, control2X, control2Y, toX, toY);
@@ -754,16 +758,16 @@ public final class HarfBuzz {
     }
     
     /**
-     * Deallocate the @dfuncs.
-     * Decreases the reference count on @dfuncs by one. If the result is zero, then
-     * @dfuncs and all associated resources are freed. See hb_draw_funcs_reference().
+     * Deallocate the {@code dfuncs}.
+     * Decreases the reference count on {@code dfuncs} by one. If the result is zero, then
+     * {@code dfuncs} and all associated resources are freed. See hb_draw_funcs_reference().
      */
     public static void drawFuncsDestroy(DrawFuncsT dfuncs) {
         gtk_h.hb_draw_funcs_destroy(dfuncs.handle());
     }
     
     /**
-     * Checks whether @dfuncs is immutable.
+     * Checks whether {@code dfuncs} is immutable.
      */
     public static BoolT drawFuncsIsImmutable(DrawFuncsT dfuncs) {
         var RESULT = gtk_h.hb_draw_funcs_is_immutable(dfuncs.handle());
@@ -771,14 +775,14 @@ public final class HarfBuzz {
     }
     
     /**
-     * Makes @dfuncs object immutable.
+     * Makes {@code dfuncs} object immutable.
      */
     public static void drawFuncsMakeImmutable(DrawFuncsT dfuncs) {
         gtk_h.hb_draw_funcs_make_immutable(dfuncs.handle());
     }
     
     /**
-     * Increases the reference count on @dfuncs by one. This prevents @buffer from
+     * Increases the reference count on {@code dfuncs} by one. This prevents {@code buffer} from
      * being destroyed until a matching call to hb_draw_funcs_destroy() is made.
      */
     public static DrawFuncsT drawFuncsReference(DrawFuncsT dfuncs) {
@@ -787,28 +791,28 @@ public final class HarfBuzz {
     }
     
     /**
-     * Perform a &<code>#34</code> line-to&<code>#34</code>  draw operation.
+     * Perform a "line-to" draw operation.
      */
     public static void drawLineTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
         gtk_h.hb_draw_line_to(dfuncs.handle(), drawData, st.handle(), toX, toY);
     }
     
     /**
-     * Perform a &<code>#34</code> move-to&<code>#34</code>  draw operation.
+     * Perform a "move-to" draw operation.
      */
     public static void drawMoveTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
         gtk_h.hb_draw_move_to(dfuncs.handle(), drawData, st.handle(), toX, toY);
     }
     
     /**
-     * Perform a &<code>#34</code> quadratic-to&<code>#34</code>  draw operation.
+     * Perform a "quadratic-to" draw operation.
      */
     public static void drawQuadraticTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float controlX, float controlY, float toX, float toY) {
         gtk_h.hb_draw_quadratic_to(dfuncs.handle(), drawData, st.handle(), controlX, controlY, toX, toY);
     }
     
     /**
-     * Add table for @tag with data provided by @blob to the face.  @face must
+     * Add table for {@code tag} with data provided by {@code blob} to the face.  {@code face} must
      * be created using hb_face_builder_create().
      */
     public static BoolT faceBuilderAddTable(FaceT face, TagT tag, BlobT blob) {
@@ -817,7 +821,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Creates a {@link org.harfbuzz.face_t} that can be used with hb_face_builder_add_table().
+     * Creates a {@link face_t} that can be used with hb_face_builder_add_table().
      * After tables are added to the face, it can be compiled to a binary
      * font file by calling hb_face_reference_blob().
      */
@@ -827,24 +831,24 @@ public final class HarfBuzz {
     }
     
     /**
-     * Collects all of the Unicode characters covered by @face and adds
-     * them to the {@link org.harfbuzz.set_t} set @out.
+     * Collects all of the Unicode characters covered by {@code face} and adds
+     * them to the {@link set_t} set {@code out}.
      */
     public static void faceCollectUnicodes(FaceT face, SetT out) {
         gtk_h.hb_face_collect_unicodes(face.handle(), out.handle());
     }
     
     /**
-     * Collects all Unicode &<code>#34</code> Variation Selector&<code>#34</code>  characters covered by @face and adds
-     * them to the {@link org.harfbuzz.set_t} set @out.
+     * Collects all Unicode "Variation Selector" characters covered by {@code face} and adds
+     * them to the {@link set_t} set {@code out}.
      */
     public static void faceCollectVariationSelectors(FaceT face, SetT out) {
         gtk_h.hb_face_collect_variation_selectors(face.handle(), out.handle());
     }
     
     /**
-     * Collects all Unicode characters for @variation_selector covered by @face and adds
-     * them to the {@link org.harfbuzz.set_t} set @out.
+     * Collects all Unicode characters for {@code variation_selector} covered by {@code face} and adds
+     * them to the {@link set_t} set {@code out}.
      */
     public static void faceCollectVariationUnicodes(FaceT face, CodepointT variationSelector, SetT out) {
         gtk_h.hb_face_collect_variation_unicodes(face.handle(), variationSelector.getValue(), out.handle());
@@ -861,18 +865,18 @@ public final class HarfBuzz {
     /**
      * Constructs a new face object from the specified blob and
      * a face index into that blob.
-     * 
+     * <p>
      * The face index is used for blobs of file formats such as TTC and
      * and DFont that can contain more than one face.  Face indices within
      * such collections are zero-based.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: If the blob font format is not a collection, @index
-     * is ignored.  Otherwise, only the lower 16-bits of @index are used.
-     * The unmodified @index can be accessed via hb_face_get_index().&<code>#60</code> /note&<code>#62</code> 
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: The high 16-bits of @index, if non-zero, are used by
+     * <p>
+     * &lt;note&gt;Note: If the blob font format is not a collection, {@code index}
+     * is ignored.  Otherwise, only the lower 16-bits of {@code index} are used.
+     * The unmodified {@code index} can be accessed via hb_face_get_index().&lt;/note&gt;
+     * <p>
+     * &lt;note&gt;Note: The high 16-bits of {@code index}, if non-zero, are used by
      * hb_font_create() to load named-instances in variable fonts.  See
-     * hb_font_create() for details.&<code>#60</code> /note&<code>#62</code>
+     * hb_font_create() for details.&lt;/note&gt;
      */
     public static FaceT faceCreate(BlobT blob, int index) {
         var RESULT = gtk_h.hb_face_create(blob.handle(), index);
@@ -906,8 +910,8 @@ public final class HarfBuzz {
     
     /**
      * Fetches the face-index corresponding to the given face.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: face indices within a collection are zero-based.&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note>Note: face indices within a collection are zero-based.</note&gt;
      */
     public static int faceGetIndex(FaceT face) {
         var RESULT = gtk_h.hb_face_get_index(face.handle());
@@ -981,11 +985,11 @@ public final class HarfBuzz {
     }
     
     /**
-     * Assigns the specified face-index to @face. Fails if the
+     * Assigns the specified face-index to {@code face}. Fails if the
      * face is immutable.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: changing the index has no effect on the face itself
-     * This only changes the value returned by hb_face_get_index().&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note&gt;Note: changing the index has no effect on the face itself
+     * This only changes the value returned by hb_face_get_index().&lt;/note&gt;
      */
     public static void faceSetIndex(FaceT face, int index) {
         gtk_h.hb_face_set_index(face.handle(), index);
@@ -999,43 +1003,43 @@ public final class HarfBuzz {
     }
     
     /**
-     * Parses a string into a {@link org.harfbuzz.feature_t} 
-     * 
+     * Parses a string into a {@link feature_t}.
+     * <p>
      * The format for specifying feature strings follows. All valid CSS
-     * font-feature-settings values other than &<code>#39</code> normal&<code>#39</code>  and the global values are
+     * font-feature-settings values other than 'normal' and the global values are
      * also accepted, though not documented below. CSS string escapes are not
      * supported.
-     * 
+     * <p>
      * The range indices refer to the positions between Unicode characters. The
      * position before the first character is always 0.
-     * 
+     * <p>
      * The format is Python-esque.  Here is how it all works:
-     * 
-     * &<code>#60</code> informaltable pgwide=&<code>#39</code> 1&<code>#39</code>  align=&<code>#39</code> left&<code>#39</code>  frame=&<code>#39</code> none&<code>#39</code> &<code>#62</code> 
-     * &<code>#60</code> tgroup cols=&<code>#39</code> 5&<code>#39</code> &<code>#62</code> 
-     * &<code>#60</code> thead&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> Syntax&<code>#60</code> /entry&<code>#62</code>     &<code>#60</code> entry&<code>#62</code> Value&<code>#60</code> /entry&<code>#62</code>  &<code>#60</code> entry&<code>#62</code> Start&<code>#60</code> /entry&<code>#62</code>  &<code>#60</code> entry&<code>#62</code> End&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> /thead&<code>#62</code> 
-     * &<code>#60</code> tbody&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> Setting value:&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> +kern&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> -kern&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature off&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern=0&<code>#60</code> /entry&<code>#62</code>     &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature off&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern=1&<code>#60</code> /entry&<code>#62</code>     &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> aalt=2&<code>#60</code> /entry&<code>#62</code>     &<code>#60</code> entry&<code>#62</code> 2&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Choose 2nd alternate&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> Setting index:&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern{@link []}&<code>#60</code> /entry&<code>#62</code>     &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern{@link [:]}&<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern{@link [5:]}&<code>#60</code> /entry&<code>#62</code>   &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 5&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> &<code>#8734</code> &<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on, partial&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern{@link [:5]}&<code>#60</code> /entry&<code>#62</code>   &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 0&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> 5&<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on, partial&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern{@link [3:5]}&<code>#60</code> /entry&<code>#62</code>  &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 3&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> 5&<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn feature on, range&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> kern{@link [3]}&<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> 1&<code>#60</code> /entry&<code>#62</code>      &<code>#60</code> entry&<code>#62</code> 3&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> 3+1&<code>#60</code> /entry&<code>#62</code>  &<code>#60</code> entry&<code>#62</code> Turn feature on, single char&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> Mixing it all:&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> row&<code>#62</code> &<code>#60</code> entry&<code>#62</code> aalt{@link [3:5]}=2&<code>#60</code> /entry&<code>#62</code>  &<code>#60</code> entry&<code>#62</code> 2&<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> 3&<code>#60</code> /entry&<code>#62</code>       &<code>#60</code> entry&<code>#62</code> 5&<code>#60</code> /entry&<code>#62</code>    &<code>#60</code> entry&<code>#62</code> Turn 2nd alternate on for range&<code>#60</code> /entry&<code>#62</code> &<code>#60</code> /row&<code>#62</code> 
-     * &<code>#60</code> /tbody&<code>#62</code> 
-     * &<code>#60</code> /tgroup&<code>#62</code> 
-     * &<code>#60</code> /informaltable&<code>#62</code>
+     * <p>
+     * &lt;informaltable pgwide='1' align='left' frame='none'&gt;
+     * &lt;tgroup cols='5'&gt;
+     * &lt;thead&gt;
+     * &lt;row><entry>Syntax</entry>    <entry>Value</entry> <entry>Start</entry> <entry>End</entry></row&gt;
+     * &lt;/thead&gt;
+     * &lt;tbody&gt;
+     * &lt;row><entry>Setting value:</entry></row&gt;
+     * &lt;row><entry>kern</entry>      <entry>1</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Turn feature on</entry></row&gt;
+     * &lt;row><entry>+kern</entry>     <entry>1</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Turn feature on</entry></row&gt;
+     * &lt;row><entry>-kern</entry>     <entry>0</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Turn feature off</entry></row&gt;
+     * &lt;row><entry>kern=0</entry>    <entry>0</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Turn feature off</entry></row&gt;
+     * &lt;row><entry>kern=1</entry>    <entry>1</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Turn feature on</entry></row&gt;
+     * &lt;row><entry>aalt=2</entry>    <entry>2</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Choose 2nd alternate</entry></row&gt;
+     * &lt;row><entry>Setting index:</entry></row&gt;
+     * &lt;row><entry>kern[]</entry>    <entry>1</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Turn feature on</entry></row&gt;
+     * &lt;row><entry>kern[:]</entry>   <entry>1</entry>     <entry>0</entry>      <entry>∞</entry>   <entry>Turn feature on</entry></row&gt;
+     * &lt;row><entry>kern[5:]</entry>  <entry>1</entry>     <entry>5</entry>      <entry>∞</entry>   <entry>Turn feature on, partial</entry></row&gt;
+     * &lt;row><entry>kern[:5]</entry>  <entry>1</entry>     <entry>0</entry>      <entry>5</entry>   <entry>Turn feature on, partial</entry></row&gt;
+     * &lt;row><entry>kern[3:5]</entry> <entry>1</entry>     <entry>3</entry>      <entry>5</entry>   <entry>Turn feature on, range</entry></row&gt;
+     * &lt;row><entry>kern[3]</entry>   <entry>1</entry>     <entry>3</entry>      <entry>3+1</entry> <entry>Turn feature on, single char</entry></row&gt;
+     * &lt;row><entry>Mixing it all:</entry></row&gt;
+     * &lt;row><entry>aalt[3:5]=2</entry> <entry>2</entry>   <entry>3</entry>      <entry>5</entry>   <entry>Turn 2nd alternate on for range</entry></row&gt;
+     * &lt;/tbody&gt;
+     * &lt;/tgroup&gt;
+     * &lt;/informaltable&gt;
      */
     public static BoolT featureFromString(byte[] str, int len, FeatureT feature) {
         var RESULT = gtk_h.hb_feature_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len, feature.handle());
@@ -1043,9 +1047,9 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts a {@link org.harfbuzz.feature_t} into a <code>null</code> terminated string in the format
+     * Converts a {@link feature_t} into a <code>null</code>-terminated string in the format
      * understood by hb_feature_from_string(). The client in responsible for
-     * allocating big enough size for @buf, 128 bytes is more than enough.
+     * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
     public static void featureToString(FeatureT feature, java.lang.String[] buf, int size) {
         gtk_h.hb_feature_to_string(feature.handle(), Interop.allocateNativeArray(buf).handle(), size);
@@ -1053,13 +1057,13 @@ public final class HarfBuzz {
     
     /**
      * Constructs a new font object from the specified face.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: If @face&<code>#39</code> s index value (as passed to hb_face_create()
+     * <p>
+     * &lt;note&gt;Note: If {@code face}'s index value (as passed to hb_face_create()
      * has non-zero top 16-bits, those bits minus one are passed to
      * hb_font_set_var_named_instance(), effectively loading a named-instance
      * of a variable font, instead of the default-instance.  This allows
      * specifying which named-instance to load by default when creating the
-     * face.&<code>#60</code> /note&<code>#62</code>
+     * face.&lt;/note&gt;
      */
     public static FontT fontCreate(FaceT face) {
         var RESULT = gtk_h.hb_font_create(face.handle());
@@ -1067,8 +1071,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Constructs a sub-font font object from the specified @parent font,
-     * replicating the parent&<code>#39</code> s properties.
+     * Constructs a sub-font font object from the specified {@code parent} font,
+     * replicating the parent's properties.
      */
     public static FontT fontCreateSubFont(FontT parent) {
         var RESULT = gtk_h.hb_font_create_sub_font(parent.handle());
@@ -1085,7 +1089,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Creates a new {@link org.harfbuzz.font_funcs_t} structure of font functions.
+     * Creates a new {@link font_funcs_t} structure of font functions.
      */
     public static FontFuncsT fontFuncsCreate() {
         var RESULT = gtk_h.hb_font_funcs_create();
@@ -1152,9 +1156,9 @@ public final class HarfBuzz {
     /**
      * Fetches the extents for a font in a text segment of the
      * specified direction.
-     * 
+     * <p>
      * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
+     * or vertical) depending on the value of {@code direction}.
      */
     public static void fontGetExtentsForDirection(FontT font, DirectionT direction, FontExtentsT extents) {
         gtk_h.hb_font_get_extents_for_direction(font.handle(), direction.getValue(), extents.handle());
@@ -1169,7 +1173,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the {@link org.harfbuzz.glyph_extents_t} data for a glyph ID
+     * Fetches the {@link glyph_extents_t} data for a glyph ID
      * in the specified font.
      */
     public static BoolT fontGetGlyphExtents(FontT font, CodepointT glyph, GlyphExtentsT extents) {
@@ -1178,12 +1182,12 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the {@link org.harfbuzz.glyph_extents_t} data for a glyph ID
+     * Fetches the {@link glyph_extents_t} data for a glyph ID
      * in the specified font, with respect to the origin in
      * a text segment in the specified direction.
-     * 
+     * <p>
      * Calls the appropriate direction-specific variant (horizontal
-     * or vertical) depending on the value of @direction.
+     * or vertical) depending on the value of {@code direction}.
      */
     public static BoolT fontGetGlyphExtentsForOrigin(FontT font, CodepointT glyph, DirectionT direction, GlyphExtentsT extents) {
         var RESULT = gtk_h.hb_font_get_glyph_extents_for_origin(font.handle(), glyph.getValue(), direction.getValue(), extents.handle());
@@ -1202,9 +1206,9 @@ public final class HarfBuzz {
     /**
      * Fetches the kerning-adjustment value for a glyph-pair in
      * the specified font, for horizontal text segments.
-     * 
-     * &<code>#60</code> note&<code>#62</code> It handles legacy kerning only (as returned by the corresponding
-     * {@link org.harfbuzz.font_funcs_t} function).&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note&gt;It handles legacy kerning only (as returned by the corresponding
+     * {@link font_funcs_t} function).&lt;/note&gt;
      */
     public static PositionT fontGetGlyphHKerning(FontT font, CodepointT leftGlyph, CodepointT rightGlyph) {
         var RESULT = gtk_h.hb_font_get_glyph_h_kerning(font.handle(), leftGlyph.getValue(), rightGlyph.getValue());
@@ -1212,7 +1216,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the glyph-name string for a glyph ID in the specified @font.
+     * Fetches the glyph-name string for a glyph ID in the specified {@code font}.
      */
     public static BoolT fontGetGlyphName(FontT font, CodepointT glyph, java.lang.String[] name, int size) {
         var RESULT = gtk_h.hb_font_get_glyph_name(font.handle(), glyph.getValue(), Interop.allocateNativeArray(name).handle(), size);
@@ -1220,9 +1224,9 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the glyph shape that corresponds to a glyph in the specified @font.
-     * The shape is returned by way of calls to the callsbacks of the @dfuncs
-     * objects, with @draw_data passed to them.
+     * Fetches the glyph shape that corresponds to a glyph in the specified {@code font}.
+     * The shape is returned by way of calls to the callsbacks of the {@code dfuncs}
+     * objects, with {@code draw_data} passed to them.
      */
     public static void fontGetGlyphShape(FontT font, CodepointT glyph, DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData) {
         gtk_h.hb_font_get_glyph_shape(font.handle(), glyph.getValue(), dfuncs.handle(), drawData);
@@ -1247,7 +1251,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the parent font of @font.
+     * Fetches the parent font of {@code font}.
      */
     public static FontT fontGetParent(FontT font) {
         var RESULT = gtk_h.hb_font_get_parent(font.handle());
@@ -1255,7 +1259,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the &<code>#34</code> point size&<code>#34</code>  of a font. Used in CoreText to
+     * Fetches the "point size" of a font. Used in CoreText to
      * implement optical sizing.
      */
     public static float fontGetPtem(FontT font) {
@@ -1264,7 +1268,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the &<code>#34</code> synthetic slant&<code>#34</code>  of a font.
+     * Fetches the "synthetic slant" of a font.
      */
     public static float fontGetSyntheticSlant(FontT font) {
         var RESULT = gtk_h.hb_font_get_synthetic_slant(font.handle());
@@ -1290,11 +1294,11 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the name of the specified glyph ID in @font and returns
+     * Fetches the name of the specified glyph ID in {@code font} and returns
      * it in string @s.
      * <p>
-     * If the glyph ID has no name in @font, a string of the form <code>gidDDD</code> is
-     * generated, with <code>DDD</code> being the glyph ID.
+     * If the glyph ID has no name in {@code font}, a string of the form {@code gidDDD} is
+     * generated, with {@code DDD} being the glyph ID.
      */
     public static void fontGlyphToString(FontT font, CodepointT glyph, java.lang.String[] s, int size) {
         gtk_h.hb_font_glyph_to_string(font.handle(), glyph.getValue(), Interop.allocateNativeArray(s).handle(), size);
@@ -1309,7 +1313,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Makes @font immutable.
+     * Makes {@code font} immutable.
      */
     public static void fontMakeImmutable(FontT font) {
         gtk_h.hb_font_make_immutable(font.handle());
@@ -1324,14 +1328,14 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets @face as the font-face value of @font.
+     * Sets {@code face} as the font-face value of {@code font}.
      */
     public static void fontSetFace(FontT font, FaceT face) {
         gtk_h.hb_font_set_face(font.handle(), face.handle());
     }
     
     /**
-     * Sets the parent font of @font.
+     * Sets the parent font of {@code font}.
      */
     public static void fontSetParent(FontT font, FontT parent) {
         gtk_h.hb_font_set_parent(font.handle(), parent.handle());
@@ -1345,10 +1349,10 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets the &<code>#34</code> point size&<code>#34</code>  of a font. Set to zero to unset.
+     * Sets the "point size" of a font. Set to zero to unset.
      * Used in CoreText to implement optical sizing.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: There are 72 points in an inch.&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note>Note: There are 72 points in an inch.</note&gt;
      */
     public static void fontSetPtem(FontT font, float ptem) {
         gtk_h.hb_font_set_ptem(font.handle(), ptem);
@@ -1362,19 +1366,19 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets the &<code>#34</code> synthetic slant&<code>#34</code>  of a font.  By default is zero.
+     * Sets the "synthetic slant" of a font.  By default is zero.
      * Synthetic slant is the graphical skew applied to the font
      * at rendering time.
-     * 
+     * <p>
      * HarfBuzz needs to know this value to adjust shaping results,
      * metrics, and style values to match the slanted rendering.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: The glyph shape fetched via the
+     * <p>
+     * &lt;note&gt;Note: The glyph shape fetched via the
      * hb_font_get_glyph_shape() is slanted to reflect this value
-     * as well.&<code>#60</code> /note&<code>#62</code> 
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: The slant value is a ratio.  For example, a
-     * 20<code></code> slant would be represented as a 0.2 value.&<code>#60</code> /note&<code>#62</code>
+     * as well.&lt;/note&gt;
+     * <p>
+     * &lt;note&gt;Note: The slant value is a ratio.  For example, a
+     * 20% slant would be represented as a 0.2 value.&lt;/note&gt;
      */
     public static void fontSetSyntheticSlant(FontT font, float slant) {
         gtk_h.hb_font_set_synthetic_slant(font.handle(), slant);
@@ -1383,9 +1387,9 @@ public final class HarfBuzz {
     /**
      * Applies a list of variation coordinates (in design-space units)
      * to a font.
-     * 
-     * Note that this overrides all existing variations set on @font.
-     * Axes not included in @coords will be effectively set to their
+     * <p>
+     * Note that this overrides all existing variations set on {@code font}.
+     * Axes not included in {@code coords} will be effectively set to their
      * default values.
      */
     public static void fontSetVarCoordsDesign(FontT font, float[] coords, int coordsLength) {
@@ -1395,12 +1399,12 @@ public final class HarfBuzz {
     /**
      * Applies a list of variation coordinates (in normalized units)
      * to a font.
-     * 
-     * Note that this overrides all existing variations set on @font.
-     * Axes not included in @coords will be effectively set to their
+     * <p>
+     * Note that this overrides all existing variations set on {@code font}.
+     * Axes not included in {@code coords} will be effectively set to their
      * default values.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: Coordinates should be normalized to 2.14.&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note>Note: Coordinates should be normalized to 2.14.</note&gt;
      */
     public static void fontSetVarCoordsNormalized(FontT font, int[] coords, int coordsLength) {
         gtk_h.hb_font_set_var_coords_normalized(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, coords)).handle(), coordsLength);
@@ -1415,9 +1419,9 @@ public final class HarfBuzz {
     
     /**
      * Applies a list of font-variation settings to a font.
-     * 
-     * Note that this overrides all existing variations set on @font.
-     * Axes not included in @variations will be effectively set to their
+     * <p>
+     * Note that this overrides all existing variations set on {@code font}.
+     * Axes not included in {@code variations} will be effectively set to their
      * default values.
      */
     public static void fontSetVariations(FontT font, VariationT[] variations, int variationsLength) {
@@ -1425,7 +1429,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Refreshes the state of @font when the underlying FT_Face has changed.
+     * Refreshes the state of {@code font} when the underlying FT_Face has changed.
      * This function should be called after changing the size or
      * variation-axis settings on the FT_Face.
      */
@@ -1434,13 +1438,10 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the FT_Load_Glyph load flags of the specified {@link org.harfbuzz.font_t} 
-     * 
+     * Fetches the FT_Load_Glyph load flags of the specified {@link font_t}.
+     * <p>
      * For more information, see
-     * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html
-     * 
-     * For more information, see
-     * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#ft_load_xxx
+     * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html{@code ft_load_xxx}
      */
     public static int ftFontGetLoadFlags(FontT font) {
         var RESULT = gtk_h.hb_ft_font_get_load_flags(font.handle());
@@ -1449,33 +1450,30 @@ public final class HarfBuzz {
     
     /**
      * Configures the font-functions structure of the specified
-     * {@link org.harfbuzz.font_t} font object to use FreeType font functions.
-     * 
+     * {@link font_t} font object to use FreeType font functions.
+     * <p>
      * In particular, you can use this function to configure an
-     * existing {@link org.harfbuzz.face_t} face object for use with FreeType font
-     * functions even if that {@link org.harfbuzz.face_t} face object was initially
+     * existing {@link face_t} face object for use with FreeType font
+     * functions even if that {@link face_t} face object was initially
      * created with hb_face_create(), and therefore was not
      * initially configured to use FreeType font functions.
-     * 
-     * An {@link org.harfbuzz.face_t} face object created with hb_ft_face_create()
+     * <p>
+     * An {@link face_t} face object created with hb_ft_face_create()
      * is preconfigured for FreeType font functions and does not
      * require this function to be used.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note: Internally, this function creates an FT_Face.
-     * &<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note&gt;Note: Internally, this function creates an FT_Face.
+     * &lt;/note&gt;
      */
     public static void ftFontSetFuncs(FontT font) {
         gtk_h.hb_ft_font_set_funcs(font.handle());
     }
     
     /**
-     * Sets the FT_Load_Glyph load flags for the specified {@link org.harfbuzz.font_t} 
-     * 
+     * Sets the FT_Load_Glyph load flags for the specified {@link font_t}.
+     * <p>
      * For more information, see
-     * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html
-     * 
-     * For more information, see
-     * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html#ft_load_xxx
+     * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html{@code ft_load_xxx}
      */
     public static void ftFontSetLoadFlags(FontT font, int loadFlags) {
         gtk_h.hb_ft_font_set_load_flags(font.handle(), loadFlags);
@@ -1489,7 +1487,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Creates an {@link org.harfbuzz.blob_t} blob from the specified
+     * Creates an {@link blob_t} blob from the specified
      * GBytes data structure.
      */
     public static BlobT glibBlobCreate(org.gtk.glib.Bytes gbytes) {
@@ -1508,7 +1506,7 @@ public final class HarfBuzz {
     
     /**
      * Fetches the GUnicodeScript identifier that corresponds to the
-     * specified {@link org.harfbuzz.script_t} script.
+     * specified {@link script_t} script.
      */
     public static org.gtk.glib.UnicodeScript glibScriptFromScript(ScriptT script) {
         var RESULT = gtk_h.hb_glib_script_from_script(script.getValue());
@@ -1516,7 +1514,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the {@link org.harfbuzz.script_t} script that corresponds to the
+     * Fetches the {@link script_t} script that corresponds to the
      * specified GUnicodeScript identifier.
      */
     public static ScriptT glibScriptToScript(org.gtk.glib.UnicodeScript script) {
@@ -1525,7 +1523,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Returns glyph flags encoded within a {@link org.harfbuzz.glyph_info_t}
+     * Returns glyph flags encoded within a {@link glyph_info_t}.
      */
     public static int glyphInfoGetGlyphFlags(GlyphInfoT info) {
         var RESULT = gtk_h.hb_glyph_info_get_glyph_flags(info.handle());
@@ -1533,8 +1531,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts @str representing a BCP 47 language tag to the corresponding
-     * {@link org.harfbuzz.language_t}
+     * Converts {@code str} representing a BCP 47 language tag to the corresponding
+     * {@link language_t}.
      */
     public static LanguageT languageFromString(byte[] str, int len) {
         var RESULT = gtk_h.hb_language_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
@@ -1543,13 +1541,13 @@ public final class HarfBuzz {
     
     /**
      * Fetch the default language from current locale.
-     * 
-     * &<code>#60</code> note&<code>#62</code> Note that the first time this function is called, it calls
-     * &<code>#34</code> setlocale (LC_CTYPE, nullptr)&<code>#34</code>  to fetch current locale.  The underlying
+     * <p>
+     * &lt;note&gt;Note that the first time this function is called, it calls
+     * "setlocale (LC_CTYPE, nullptr)" to fetch current locale.  The underlying
      * setlocale function is, in many implementations, NOT threadsafe.  To avoid
      * problems, call this function once before multiple threads can call it.
      * This function is only used from hb_buffer_guess_segment_properties() by
-     * HarfBuzz itself.&<code>#60</code> /note&<code>#62</code>
+     * HarfBuzz itself.&lt;/note&gt;
      */
     public static LanguageT languageGetDefault() {
         var RESULT = gtk_h.hb_language_get_default();
@@ -1557,7 +1555,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts an {@link org.harfbuzz.language_t} to a string.
+     * Converts an {@link language_t} to a string.
      */
     public static java.lang.String languageToString(LanguageT language) {
         var RESULT = gtk_h.hb_language_to_string(language.handle());
@@ -1573,7 +1571,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Clears out the contents of @map.
+     * Clears out the contents of {@code map}.
      */
     public static void mapClear(MapT map) {
         gtk_h.hb_map_clear(map.handle());
@@ -1588,7 +1586,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Removes @key and its stored value from @map.
+     * Removes {@code key} and its stored value from {@code map}.
      */
     public static void mapDel(MapT map, CodepointT key) {
         gtk_h.hb_map_del(map.handle(), key.getValue());
@@ -1604,7 +1602,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the value stored for @key in @map.
+     * Fetches the value stored for {@code key} in {@code map}.
      */
     public static CodepointT mapGet(MapT map, CodepointT key) {
         var RESULT = gtk_h.hb_map_get(map.handle(), key.getValue());
@@ -1612,7 +1610,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the singleton empty {@link org.harfbuzz.map_t}
+     * Fetches the singleton empty {@link map_t}.
      */
     public static MapT mapGetEmpty() {
         var RESULT = gtk_h.hb_map_get_empty();
@@ -1637,7 +1635,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether @key is an element of @map.
+     * Tests whether {@code key} is an element of {@code map}.
      */
     public static BoolT mapHas(MapT map, CodepointT key) {
         var RESULT = gtk_h.hb_map_has(map.handle(), key.getValue());
@@ -1645,7 +1643,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether @map is empty (contains no elements).
+     * Tests whether {@code map} is empty (contains no elements).
      */
     public static BoolT mapIsEmpty(MapT map) {
         var RESULT = gtk_h.hb_map_is_empty(map.handle());
@@ -1661,7 +1659,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Stores @key:@value in the map.
+     * Stores {@code key}:{@code value} in the map.
      */
     public static void mapSet(MapT map, CodepointT key, CodepointT value) {
         gtk_h.hb_map_set(map.handle(), key.getValue(), value.getValue());
@@ -1669,9 +1667,9 @@ public final class HarfBuzz {
     
     /**
      * Fetches the PNG image for a glyph. This function takes a font object, not a face object,
-     * as input. To get an optimally sized PNG blob, the UPEM value must be set on the @font
+     * as input. To get an optimally sized PNG blob, the UPEM value must be set on the {@code font}
      * object. If UPEM is unset, the blob returned will be the largest PNG available.
-     * 
+     * <p>
      * If the glyph has no PNG image, the singleton empty blob is returned.
      */
     public static BlobT otColorGlyphReferencePng(FontT font, CodepointT glyph) {
@@ -1681,7 +1679,7 @@ public final class HarfBuzz {
     
     /**
      * Fetches the SVG document for a glyph. The blob may be either plain text or gzip-encoded.
-     * 
+     * <p>
      * If the glyph has no SVG document, the singleton empty blob is returned.
      */
     public static BlobT otColorGlyphReferenceSvg(FaceT face, CodepointT glyph) {
@@ -1690,7 +1688,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether a face includes any <code>COLR</code> color layers.
+     * Tests whether a face includes any {@code COLR} color layers.
      */
     public static BoolT otColorHasLayers(FaceT face) {
         var RESULT = gtk_h.hb_ot_color_has_layers(face.handle());
@@ -1698,7 +1696,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether a face includes a <code>CPAL</code> color-palette table.
+     * Tests whether a face includes a {@code CPAL} color-palette table.
      */
     public static BoolT otColorHasPalettes(FaceT face) {
         var RESULT = gtk_h.hb_ot_color_has_palettes(face.handle());
@@ -1706,7 +1704,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether a face has PNG glyph images (either in <code>CBDT</code> or <code>sbix</code> tables).
+     * Tests whether a face has PNG glyph images (either in {@code CBDT} or {@code sbix} tables).
      */
     public static BoolT otColorHasPng(FaceT face) {
         var RESULT = gtk_h.hb_ot_color_has_png(face.handle());
@@ -1714,7 +1712,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether a face includes any <code>SVG</code> glyph images.
+     * Tests whether a face includes any {@code SVG} glyph images.
      */
     public static BoolT otColorHasSvg(FaceT face) {
         var RESULT = gtk_h.hb_ot_color_has_svg(face.handle());
@@ -1722,11 +1720,11 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the <code>name</code> table Name ID that provides display names for
-     * the specified color in a face&<code>#39</code> s <code>CPAL</code> color palette.
-     * 
-     * Display names can be generic (e.g., &<code>#34</code> Background&<code>#34</code> ) or specific
-     * (e.g., &<code>#34</code> Eye color&<code>#34</code> ).
+     * Fetches the {@code name} table Name ID that provides display names for
+     * the specified color in a face's {@code CPAL} color palette.
+     * <p>
+     * Display names can be generic (e.g., "Background") or specific
+     * (e.g., "Eye color").
      */
     public static OtNameIdT otColorPaletteColorGetNameId(FaceT face, int colorIndex) {
         var RESULT = gtk_h.hb_ot_color_palette_color_get_name_id(face.handle(), colorIndex);
@@ -1750,11 +1748,11 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the <code>name</code> table Name ID that provides display names for
-     * a <code>CPAL</code> color palette.
-     * 
-     * Palette display names can be generic (e.g., &<code>#34</code> Default&<code>#34</code> ) or provide
-     * specific, themed names (e.g., &<code>#34</code> Spring&<code>#34</code> , &<code>#34</code> Summer&<code>#34</code> , &<code>#34</code> Fall&<code>#34</code> , and &<code>#34</code> Winter&<code>#34</code> ).
+     * Fetches the {@code name} table Name ID that provides display names for
+     * a {@code CPAL} color palette.
+     * <p>
+     * Palette display names can be generic (e.g., "Default") or provide
+     * specific, themed names (e.g., "Spring", "Summer", "Fall", and "Winter").
      */
     public static OtNameIdT otColorPaletteGetNameId(FaceT face, int paletteIndex) {
         var RESULT = gtk_h.hb_ot_color_palette_get_name_id(face.handle(), paletteIndex);
@@ -1762,7 +1760,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Sets the font functions to use when working with @font.
+     * Sets the font functions to use when working with {@code font}.
      */
     public static void otFontSetFuncs(FontT font) {
         gtk_h.hb_ot_font_set_funcs(font.handle());
@@ -1778,14 +1776,14 @@ public final class HarfBuzz {
     
     /**
      * Retrieves the set of all glyphs from the face that belong to the requested
-     * glyph class in the face&<code>#39</code> s GDEF table.
+     * glyph class in the face's GDEF table.
      */
     public static void otLayoutGetGlyphsInClass(FaceT face, OtLayoutGlyphClassT klass, SetT glyphs) {
         gtk_h.hb_ot_layout_get_glyphs_in_class(face.handle(), klass.getValue(), glyphs.handle());
     }
     
     /**
-     * Fetches the dominant horizontal baseline tag used by @script.
+     * Fetches the dominant horizontal baseline tag used by {@code script}.
      */
     public static OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(ScriptT script) {
         var RESULT = gtk_h.hb_ot_layout_get_horizontal_baseline_tag_for_script(script.getValue());
@@ -1818,7 +1816,7 @@ public final class HarfBuzz {
     
     /**
      * Fetches a list of all glyphs affected by the specified lookup in the
-     * specified face&<code>#39</code> s GSUB table or GPOS table.
+     * specified face's GSUB table or GPOS table.
      */
     public static void otLayoutLookupCollectGlyphs(FaceT face, TagT tableTag, int lookupIndex, SetT glyphsBefore, SetT glyphsInput, SetT glyphsAfter, SetT glyphsOutput) {
         gtk_h.hb_ot_layout_lookup_collect_glyphs(face.handle(), tableTag.getValue(), lookupIndex, glyphsBefore.handle(), glyphsInput.handle(), glyphsAfter.handle(), glyphsOutput.handle());
@@ -1842,7 +1840,7 @@ public final class HarfBuzz {
     
     /**
      * Fetches the total number of lookups enumerated in the specified
-     * face&<code>#39</code> s GSUB table or GPOS table.
+     * face's GSUB table or GPOS table.
      */
     public static int otLayoutTableGetLookupCount(FaceT face, TagT tableTag) {
         var RESULT = gtk_h.hb_ot_layout_table_get_lookup_count(face.handle(), tableTag.getValue());
@@ -1851,11 +1849,11 @@ public final class HarfBuzz {
     
     /**
      * Fetches the specified math constant. For most constants, the value returned
-     * is an {@link org.harfbuzz.position_t} 
-     * 
-     * However, if the requested constant is <code>#HB_OT_MATH_CONSTANT_SCRIPT_PERCENT_SCALE_DOWN</code> 
-     * <code>#HB_OT_MATH_CONSTANT_SCRIPT_SCRIPT_PERCENT_SCALE_DOWN</code> or
-     * <code>#HB_OT_MATH_CONSTANT_SCRIPT_PERCENT_SCALE_DOWN</code>  then the return value is
+     * is an {@link position_t}.
+     * <p>
+     * However, if the requested constant is {@code HB_OT_MATH_CONSTANT_SCRIPT_PERCENT_SCALE_DOWN},
+     * {@code HB_OT_MATH_CONSTANT_SCRIPT_SCRIPT_PERCENT_SCALE_DOWN} or
+     * {@code HB_OT_MATH_CONSTANT_SCRIPT_PERCENT_SCALE_DOWN}, then the return value is
      * an integer between 0 and 100 representing that percentage.
      */
     public static PositionT otMathGetConstant(FontT font, OtMathConstantT constant) {
@@ -1874,10 +1872,10 @@ public final class HarfBuzz {
     
     /**
      * Fetches the math kerning (cut-ins) value for the specified font, glyph index, and
-     * @kern.
-     * 
+     * {@code kern}.
+     * <p>
      * If the MathKern table is found, the function examines it to find a height
-     * value that is greater or equal to @correction_height. If such a height
+     * value that is greater or equal to {@code correction_height}. If such a height
      * value is found, corresponding kerning value from the table is returned. If
      * no such height value is found, the last kerning value is returned.
      */
@@ -1891,10 +1889,10 @@ public final class HarfBuzz {
      * glyph index.
      * <p>
      * For any glyph that does not have a top-accent-attachment value - that is,
-     * a glyph not covered by the <code>MathTopAccentAttachment</code> table (or, when
-     * @font has no <code>MathTopAccentAttachment</code> table or no <code>MATH</code> table, any
+     * a glyph not covered by the {@code MathTopAccentAttachment} table (or, when
+     * {@code font} has no {@code MathTopAccentAttachment} table or no {@code MATH} table, any
      * glyph) - the function synthesizes a value, returning the position at
-     * one-half the glyph&<code>#39</code> s advance width.
+     * one-half the glyph's advance width.
      */
     public static PositionT otMathGetGlyphTopAccentAttachment(FontT font, CodepointT glyph) {
         var RESULT = gtk_h.hb_ot_math_get_glyph_top_accent_attachment(font.handle(), glyph.getValue());
@@ -1905,10 +1903,11 @@ public final class HarfBuzz {
      * Fetches the MathVariants table for the specified font and returns the
      * minimum overlap of connecting glyphs that are required to draw a glyph
      * assembly in the specified direction.
-     * 
-     * &<code>#60</code> note&<code>#62</code> The @direction parameter is only used to select between horizontal
-     * or vertical directions for the construction. Even though all {@link org.harfbuzz.direction_t} values are accepted, only the result of <code>#HB_DIRECTION_IS_HORIZONTAL</code> is
-     * considered.&<code>#60</code> /note&<code>#62</code>
+     * <p>
+     * &lt;note&gt;The {@code direction} parameter is only used to select between horizontal
+     * or vertical directions for the construction. Even though all {@link direction_t}
+     * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
+     * considered.&lt;/note&gt;
      */
     public static PositionT otMathGetMinConnectorOverlap(FontT font, DirectionT direction) {
         var RESULT = gtk_h.hb_ot_math_get_min_connector_overlap(font.handle(), direction.getValue());
@@ -1916,7 +1915,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether a face has a <code>MATH</code> table.
+     * Tests whether a face has a {@code MATH} table.
      */
     public static BoolT otMathHasData(FaceT face) {
         var RESULT = gtk_h.hb_ot_math_has_data(face.handle());
@@ -1940,7 +1939,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches metrics value corresponding to @metrics_tag from @font with the
+     * Fetches metrics value corresponding to {@code metrics_tag} from {@code font} with the
      * current font variation settings applied.
      */
     public static float otMetricsGetVariation(FontT font, OtMetricsTagT metricsTag) {
@@ -1949,7 +1948,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches horizontal metrics value corresponding to @metrics_tag from @font
+     * Fetches horizontal metrics value corresponding to {@code metrics_tag} from {@code font}
      * with the current font variation settings applied.
      */
     public static PositionT otMetricsGetXVariation(FontT font, OtMetricsTagT metricsTag) {
@@ -1958,7 +1957,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches vertical metrics value corresponding to @metrics_tag from @font with
+     * Fetches vertical metrics value corresponding to {@code metrics_tag} from {@code font} with
      * the current font variation settings applied.
      */
     public static PositionT otMetricsGetYVariation(FontT font, OtMetricsTagT metricsTag) {
@@ -1977,7 +1976,7 @@ public final class HarfBuzz {
     
     /**
      * Computes the complete set of GSUB or GPOS lookups that are applicable
-     * under a given @shape_plan.
+     * under a given {@code shape_plan}.
      */
     public static void otShapePlanCollectLookups(ShapePlanT shapePlan, TagT tableTag, SetT lookupIndexes) {
         gtk_h.hb_ot_shape_plan_collect_lookups(shapePlan.handle(), tableTag.getValue(), lookupIndexes.handle());
@@ -1989,7 +1988,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts a language tag to an {@link org.harfbuzz.language_t}
+     * Converts a language tag to an {@link language_t}.
      */
     public static LanguageT otTagToLanguage(TagT tag) {
         var RESULT = gtk_h.hb_ot_tag_to_language(tag.getValue());
@@ -1997,7 +1996,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts a script tag to an {@link org.harfbuzz.script_t}
+     * Converts a script tag to an {@link script_t}.
      */
     public static ScriptT otTagToScript(TagT tag) {
         var RESULT = gtk_h.hb_ot_tag_to_script(tag.getValue());
@@ -2030,7 +2029,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether a face includes any OpenType variation data in the <code>fvar</code> table.
+     * Tests whether a face includes any OpenType variation data in the {@code fvar} table.
      */
     public static BoolT otVarHasData(FaceT face) {
         var RESULT = gtk_h.hb_ot_var_has_data(face.handle());
@@ -2038,8 +2037,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the <code>name</code> table Name ID that provides display names for
-     * the &<code>#34</code> PostScript name&<code>#34</code>  defined for the given named instance in the face.
+     * Fetches the {@code name} table Name ID that provides display names for
+     * the "PostScript name" defined for the given named instance in the face.
      */
     public static OtNameIdT otVarNamedInstanceGetPostscriptNameId(FaceT face, int instanceIndex) {
         var RESULT = gtk_h.hb_ot_var_named_instance_get_postscript_name_id(face.handle(), instanceIndex);
@@ -2047,8 +2046,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the <code>name</code> table Name ID that provides display names for
-     * the &<code>#34</code> Subfamily name&<code>#34</code>  defined for the given named instance in the face.
+     * Fetches the {@code name} table Name ID that provides display names for
+     * the "Subfamily name" defined for the given named instance in the face.
      */
     public static OtNameIdT otVarNamedInstanceGetSubfamilyNameId(FaceT face, int instanceIndex) {
         var RESULT = gtk_h.hb_ot_var_named_instance_get_subfamily_name_id(face.handle(), instanceIndex);
@@ -2063,7 +2062,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts an ISO 15924 script tag to a corresponding {@link org.harfbuzz.script_t}
+     * Converts an ISO 15924 script tag to a corresponding {@link script_t}.
      */
     public static ScriptT scriptFromIso15924Tag(TagT tag) {
         var RESULT = gtk_h.hb_script_from_iso15924_tag(tag.getValue());
@@ -2071,8 +2070,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts a string @str representing an ISO 15924 script tag to a
-     * corresponding {@link org.harfbuzz.script_t}  Shorthand for hb_tag_from_string() then
+     * Converts a string {@code str} representing an ISO 15924 script tag to a
+     * corresponding {@link script_t}. Shorthand for hb_tag_from_string() then
      * hb_script_from_iso15924_tag().
      */
     public static ScriptT scriptFromString(byte[] str, int len) {
@@ -2081,12 +2080,12 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the {@link org.harfbuzz.direction_t} of a script when it is
+     * Fetches the {@link direction_t} of a script when it is
      * set horizontally. All right-to-left scripts will return
-     * <code>#HB_DIRECTION_RTL</code>  All left-to-right scripts will return
-     * <code>#HB_DIRECTION_LTR</code>   Scripts that can be written either
-     * horizontally or vertically will return <code>#HB_DIRECTION_INVALID</code> 
-     * Unknown scripts will return <code>#HB_DIRECTION_LTR</code>
+     * {@code HB_DIRECTION_RTL}. All left-to-right scripts will return
+     * {@code HB_DIRECTION_LTR}.  Scripts that can be written either
+     * horizontally or vertically will return {@code HB_DIRECTION_INVALID}.
+     * Unknown scripts will return {@code HB_DIRECTION_LTR}.
      */
     public static DirectionT scriptGetHorizontalDirection(ScriptT script) {
         var RESULT = gtk_h.hb_script_get_horizontal_direction(script.getValue());
@@ -2094,7 +2093,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts an {@link org.harfbuzz.script_t} to a corresponding ISO&<code>#160</code> 15924 script tag.
+     * Converts an {@link script_t} to a corresponding ISO 15924 script tag.
      */
     public static TagT scriptToIso15924Tag(ScriptT script) {
         var RESULT = gtk_h.hb_script_to_iso15924_tag(script.getValue());
@@ -2102,7 +2101,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Checks the equality of two {@link org.harfbuzz.segment_properties_t} <code>#39</code> s.
+     * Checks the equality of two {@link segment_properties_t}'s.
      */
     public static BoolT segmentPropertiesEqual(SegmentPropertiesT a, SegmentPropertiesT b) {
         var RESULT = gtk_h.hb_segment_properties_equal(a.handle(), b.handle());
@@ -2118,31 +2117,31 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fills in missing fields of @p from @src in a considered manner.
-     * 
-     * First, if @p does not have direction set, direction is copied from @src.
-     * 
-     * Next, if @p and @src have the same direction (which can be unset), if @p
-     * does not have script set, script is copied from @src.
-     * 
-     * Finally, if @p and @src have the same direction and script (which either
+     * Fills in missing fields of @p from {@code src} in a considered manner.
+     * <p>
+     * First, if @p does not have direction set, direction is copied from {@code src}.
+     * <p>
+     * Next, if @p and {@code src} have the same direction (which can be unset), if @p
+     * does not have script set, script is copied from {@code src}.
+     * <p>
+     * Finally, if @p and {@code src} have the same direction and script (which either
      * can be unset), if @p does not have language set, language is copied from
-     * @src.
+     * {@code src}.
      */
     public static void segmentPropertiesOverlay(SegmentPropertiesT p, SegmentPropertiesT src) {
         gtk_h.hb_segment_properties_overlay(p.handle(), src.handle());
     }
     
     /**
-     * Adds @codepoint to @set.
+     * Adds {@code codepoint} to {@code set}.
      */
     public static void setAdd(SetT set, CodepointT codepoint) {
         gtk_h.hb_set_add(set.handle(), codepoint.getValue());
     }
     
     /**
-     * Adds all of the elements from @first to @last
-     * (inclusive) to @set.
+     * Adds all of the elements from {@code first} to {@code last}
+     * (inclusive) to {@code set}.
      */
     public static void setAddRange(SetT set, CodepointT first, CodepointT last) {
         gtk_h.hb_set_add_range(set.handle(), first.getValue(), last.getValue());
@@ -2164,7 +2163,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Allocate a copy of @set.
+     * Allocate a copy of {@code set}.
      */
     public static SetT setCopy(SetT set) {
         var RESULT = gtk_h.hb_set_copy(set.handle());
@@ -2180,18 +2179,18 @@ public final class HarfBuzz {
     }
     
     /**
-     * Removes @codepoint from @set.
+     * Removes {@code codepoint} from {@code set}.
      */
     public static void setDel(SetT set, CodepointT codepoint) {
         gtk_h.hb_set_del(set.handle(), codepoint.getValue());
     }
     
     /**
-     * Removes all of the elements from @first to @last
-     * (inclusive) from @set.
-     * 
-     * If @last is <code>#HB_SET_VALUE_INVALID</code>  then all values
-     * greater than or equal to @first are removed.
+     * Removes all of the elements from {@code first} to {@code last}
+     * (inclusive) from {@code set}.
+     * <p>
+     * If {@code last} is {@code HB_SET_VALUE_INVALID}, then all values
+     * greater than or equal to {@code first} are removed.
      */
     public static void setDelRange(SetT set, CodepointT first, CodepointT last) {
         gtk_h.hb_set_del_range(set.handle(), first.getValue(), last.getValue());
@@ -2207,7 +2206,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Fetches the singleton empty {@link org.harfbuzz.set_t}
+     * Fetches the singleton empty {@link set_t}.
      */
     public static SetT setGetEmpty() {
         var RESULT = gtk_h.hb_set_get_empty();
@@ -2248,7 +2247,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether @codepoint belongs to @set.
+     * Tests whether {@code codepoint} belongs to {@code set}.
      */
     public static BoolT setHas(SetT set, CodepointT codepoint) {
         var RESULT = gtk_h.hb_set_has(set.handle(), codepoint.getValue());
@@ -2256,14 +2255,14 @@ public final class HarfBuzz {
     }
     
     /**
-     * Makes @set the intersection of @set and @other.
+     * Makes {@code set} the intersection of {@code set} and {@code other}.
      */
     public static void setIntersect(SetT set, SetT other) {
         gtk_h.hb_set_intersect(set.handle(), other.handle());
     }
     
     /**
-     * Inverts the contents of @set.
+     * Inverts the contents of {@code set}.
      */
     public static void setInvert(SetT set) {
         gtk_h.hb_set_invert(set.handle());
@@ -2278,7 +2277,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether @set and @other are equal (contain the same
+     * Tests whether {@code set} and {@code other} are equal (contain the same
      * elements).
      */
     public static BoolT setIsEqual(SetT set, SetT other) {
@@ -2287,7 +2286,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Tests whether @set is a subset of @larger_set.
+     * Tests whether {@code set} is a subset of {@code larger_set}.
      */
     public static BoolT setIsSubset(SetT set, SetT largerSet) {
         var RESULT = gtk_h.hb_set_is_subset(set.handle(), largerSet.handle());
@@ -2303,38 +2302,38 @@ public final class HarfBuzz {
     }
     
     /**
-     * Makes the contents of @set equal to the contents of @other.
+     * Makes the contents of {@code set} equal to the contents of {@code other}.
      */
     public static void setSet(SetT set, SetT other) {
         gtk_h.hb_set_set(set.handle(), other.handle());
     }
     
     /**
-     * Subtracts the contents of @other from @set.
+     * Subtracts the contents of {@code other} from {@code set}.
      */
     public static void setSubtract(SetT set, SetT other) {
         gtk_h.hb_set_subtract(set.handle(), other.handle());
     }
     
     /**
-     * Makes @set the symmetric difference of @set
-     * and @other.
+     * Makes {@code set} the symmetric difference of {@code set}
+     * and {@code other}.
      */
     public static void setSymmetricDifference(SetT set, SetT other) {
         gtk_h.hb_set_symmetric_difference(set.handle(), other.handle());
     }
     
     /**
-     * Makes @set the union of @set and @other.
+     * Makes {@code set} the union of {@code set} and {@code other}.
      */
     public static void setUnion(SetT set, SetT other) {
         gtk_h.hb_set_union(set.handle(), other.handle());
     }
     
     /**
-     * Shapes @buffer using @font turning its Unicode characters content to
-     * positioned glyphs. If @features is not <code>null</code>  it will be used to control the
-     * features applied during shaping. If two @features have the same tag but
+     * Shapes {@code buffer} using {@code font} turning its Unicode characters content to
+     * positioned glyphs. If {@code features} is not <code>null</code>, it will be used to control the
+     * features applied during shaping. If two {@code features} have the same tag but
      * overlapping ranges the value of the feature with the higher index takes
      * precedence.
      */
@@ -2343,7 +2342,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * See hb_shape() for details. If @shaper_list is not <code>null</code>  the specified
+     * See hb_shape() for details. If {@code shaper_list} is not <code>null</code>, the specified
      * shapers will be used in the given order, otherwise the default shapers list
      * will be used.
      */
@@ -2353,8 +2352,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Constructs a shaping plan for a combination of @face, @user_features, @props,
-     * and @shaper_list.
+     * Constructs a shaping plan for a combination of {@code face}, {@code user_features}, {@code props},
+     * and {@code shaper_list}.
      */
     public static ShapePlanT shapePlanCreate(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
@@ -2362,9 +2361,9 @@ public final class HarfBuzz {
     }
     
     /**
-     * The variable-font version of <code>#hb_shape_plan_create</code> 
-     * Constructs a shaping plan for a combination of @face, @user_features, @props,
-     * and @shaper_list, plus the variation-space coordinates @coords.
+     * The variable-font version of {@code hb_shape_plan_create}.
+     * Constructs a shaping plan for a combination of {@code face}, {@code user_features}, {@code props},
+     * and {@code shaper_list}, plus the variation-space coordinates {@code coords}.
      */
     public static ShapePlanT shapePlanCreate2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, coords)).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
@@ -2373,7 +2372,7 @@ public final class HarfBuzz {
     
     /**
      * Creates a cached shaping plan suitable for reuse, for a combination
-     * of @face, @user_features, @props, and @shaper_list.
+     * of {@code face}, {@code user_features}, {@code props}, and {@code shaper_list}.
      */
     public static ShapePlanT shapePlanCreateCached(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create_cached(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, Interop.allocateNativeArray(shaperList).handle());
@@ -2381,10 +2380,10 @@ public final class HarfBuzz {
     }
     
     /**
-     * The variable-font version of <code>#hb_shape_plan_create_cached</code> 
+     * The variable-font version of {@code hb_shape_plan_create_cached}.
      * Creates a cached shaping plan suitable for reuse, for a combination
-     * of @face, @user_features, @props, and @shaper_list, plus the
-     * variation-space coordinates @coords.
+     * of {@code face}, {@code user_features}, {@code props}, and {@code shaper_list}, plus the
+     * variation-space coordinates {@code coords}.
      */
     public static ShapePlanT shapePlanCreateCached2(FaceT face, SegmentPropertiesT props, FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
         var RESULT = gtk_h.hb_shape_plan_create_cached2(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures).handle(), numUserFeatures, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, coords)).handle(), numCoords, Interop.allocateNativeArray(shaperList).handle());
@@ -2402,7 +2401,7 @@ public final class HarfBuzz {
     
     /**
      * Executes the given shaping plan on the specified buffer, using
-     * the given @font and @features.
+     * the given {@code font} and {@code features}.
      */
     public static BoolT shapePlanExecute(ShapePlanT shapePlan, FontT font, BufferT buffer, FeatureT[] features, int numFeatures) {
         var RESULT = gtk_h.hb_shape_plan_execute(shapePlan.handle(), font.handle(), buffer.handle(), Interop.allocateNativeArray(features).handle(), numFeatures);
@@ -2443,7 +2442,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Searches variation axes of a {@link org.harfbuzz.font_t} object for a specific axis first,
+     * Searches variation axes of a {@link font_t} object for a specific axis first,
      * if not set, then tries to get default style values from different
      * tables of the font.
      */
@@ -2453,7 +2452,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts a string into an {@link org.harfbuzz.tag_t}  Valid tags
+     * Converts a string into an {@link tag_t}. Valid tags
      * are four characters. Shorter input strings will be
      * padded with spaces. Longer input strings will be
      * truncated.
@@ -2464,7 +2463,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts an {@link org.harfbuzz.tag_t} to a string and returns it in @buf.
+     * Converts an {@link tag_t} to a string and returns it in {@code buf}.
      * Strings will be four characters long.
      */
     public static void tagToString(TagT tag, byte[] buf) {
@@ -2473,7 +2472,7 @@ public final class HarfBuzz {
     
     /**
      * Retrieves the Canonical Combining Class (ccc) property
-     * of code point @unicode.
+     * of code point {@code unicode}.
      */
     public static UnicodeCombiningClassT unicodeCombiningClass(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_combining_class(ufuncs.handle(), unicode.getValue());
@@ -2481,7 +2480,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Creates a new {@link org.harfbuzz.unicode_funcs_t} structure of Unicode functions.
+     * Creates a new {@link unicode_funcs_t} structure of Unicode functions.
      */
     public static UnicodeFuncsT unicodeFuncsCreate(UnicodeFuncsT parent) {
         var RESULT = gtk_h.hb_unicode_funcs_create(parent.handle());
@@ -2499,7 +2498,7 @@ public final class HarfBuzz {
     
     /**
      * Fetches a pointer to the default Unicode-functions structure that is used
-     * when no functions are explicitly set on {@link org.harfbuzz.buffer_t}
+     * when no functions are explicitly set on {@link buffer_t}.
      */
     public static UnicodeFuncsT unicodeFuncsGetDefault() {
         var RESULT = gtk_h.hb_unicode_funcs_get_default();
@@ -2516,7 +2515,7 @@ public final class HarfBuzz {
     
     /**
      * Fetches the parent of the Unicode-functions structure
-     * @ufuncs.
+     * {@code ufuncs}.
      */
     public static UnicodeFuncsT unicodeFuncsGetParent(UnicodeFuncsT ufuncs) {
         var RESULT = gtk_h.hb_unicode_funcs_get_parent(ufuncs.handle());
@@ -2559,7 +2558,7 @@ public final class HarfBuzz {
     
     /**
      * Retrieves the General Category (gc) property
-     * of code point @unicode.
+     * of code point {@code unicode}.
      */
     public static UnicodeGeneralCategoryT unicodeGeneralCategory(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_general_category(ufuncs.handle(), unicode.getValue());
@@ -2568,7 +2567,7 @@ public final class HarfBuzz {
     
     /**
      * Retrieves the Bi-directional Mirroring Glyph code
-     * point defined for code point @unicode.
+     * point defined for code point {@code unicode}.
      */
     public static CodepointT unicodeMirroring(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_mirroring(ufuncs.handle(), unicode.getValue());
@@ -2576,8 +2575,8 @@ public final class HarfBuzz {
     }
     
     /**
-     * Retrieves the {@link org.harfbuzz.script_t} script to which code
-     * point @unicode belongs.
+     * Retrieves the {@link script_t} script to which code
+     * point {@code unicode} belongs.
      */
     public static ScriptT unicodeScript(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_script(ufuncs.handle(), unicode.getValue());
@@ -2585,14 +2584,14 @@ public final class HarfBuzz {
     }
     
     /**
-     * Parses a string into a {@link org.harfbuzz.variation_t} 
+     * Parses a string into a {@link variation_t}.
      * <p>
      * The format for specifying variation settings follows. All valid CSS
-     * font-variation-settings values other than &<code>#39</code> normal&<code>#39</code>  and &<code>#39</code> inherited&<code>#39</code>  are also
+     * font-variation-settings values other than 'normal' and 'inherited' are also
      * accepted, though, not documented below.
      * <p>
      * The format is a tag, optionally followed by an equals sign, followed by a
-     * number. For example <code>wght=500</code>, or <code>slnt=-7.5</code>.
+     * number. For example {@code wght=500}, or {@code slnt=-7.5}.
      */
     public static BoolT variationFromString(byte[] str, int len, VariationT variation) {
         var RESULT = gtk_h.hb_variation_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len, variation.handle());
@@ -2600,9 +2599,9 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts an {@link org.harfbuzz.variation_t} into a <code>null</code> terminated string in the format
+     * Converts an {@link variation_t} into a <code>null</code>-terminated string in the format
      * understood by hb_variation_from_string(). The client in responsible for
-     * allocating big enough size for @buf, 128 bytes is more than enough.
+     * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
     public static void variationToString(VariationT variation, java.lang.String[] buf, int size) {
         gtk_h.hb_variation_to_string(variation.handle(), Interop.allocateNativeArray(buf).handle(), size);

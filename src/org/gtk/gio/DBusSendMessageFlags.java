@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used when sending <code>#GDBusMessages</code> on a {@link org.gtk.gio.DBusConnection}
+ * Flags used when sending {@code GDBusMessages} on a {@link DBusConnection}.
  */
 public class DBusSendMessageFlags {
 
@@ -12,7 +12,7 @@ public class DBusSendMessageFlags {
     
     /**
      * Do not automatically
-     * assign a serial number from the {@link org.gtk.gio.DBusConnection} object when
+     * assign a serial number from the {@link DBusConnection} object when
      * sending a message.
      */
     public static final int PRESERVE_SERIAL = 1;

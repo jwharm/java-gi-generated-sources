@@ -8,7 +8,7 @@ package org.gtk.gio;
 public class SettingsBindFlags {
 
     /**
-     * Equivalent to <code>G_SETTINGS_BIND_GET|G_SETTINGS_BIND_SET</code>
+     * Equivalent to {@code G_SETTINGS_BIND_GET|G_SETTINGS_BIND_SET}
      */
     public static final int DEFAULT = 0;
     
@@ -25,12 +25,12 @@ public class SettingsBindFlags {
     public static final int SET = 2;
     
     /**
-     * Do not try to bind a &<code>#34</code> sensitivity&<code>#34</code>  property to the writability of the setting
+     * Do not try to bind a "sensitivity" property to the writability of the setting
      */
     public static final int NO_SENSITIVITY = 4;
     
     /**
-     * When set in addition to {@link org.gtk.gio.SettingsBindFlags<code>#GET</code>   set the {@link org.gtk.gobject.Object} property
+     * When set in addition to {@link SettingsBindFlags#GET}, set the {@link org.gtk.gobject.Object} property
      *     value initially from the setting, but do not listen for changes of the setting
      */
     public static final int GET_NO_CHANGES = 8;

@@ -8,49 +8,52 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkProgressBar</code> is typically used to display the progress of a long
+ * {@code GtkProgressBar} is typically used to display the progress of a long
  * running operation.
  * <p>
- * It provides a visual clue that processing is underway. <code>GtkProgressBar</code>
+ * It provides a visual clue that processing is underway. {@code GtkProgressBar}
  * can be used in two different modes: percentage mode and activity mode.
  * <p>
- * !{@link [An example GtkProgressBar]}(progressbar.png)
+ * <img src="./doc-files/progressbar.png" alt="An example GtkProgressBar">
  * <p>
  * When an application can determine how much work needs to take place
  * (e.g. read a fixed number of bytes from a file) and can monitor its
- * progress, it can use the <code>GtkProgressBar</code> in percentage mode and the
+ * progress, it can use the {@code GtkProgressBar} in percentage mode and the
  * user sees a growing bar indicating the percentage of the work that
  * has been completed. In this mode, the application is required to call
- * {@link org.gtk.gtk.ProgressBar<code>#setFraction</code>  periodically to update the progress bar.
+ * {@link ProgressBar#setFraction} periodically to update the progress bar.
  * <p>
  * When an application has no accurate way of knowing the amount of work
- * to do, it can use the <code>GtkProgressBar</code> in activity mode, which shows
+ * to do, it can use the {@code GtkProgressBar} in activity mode, which shows
  * activity by a block moving back and forth within the progress area. In
- * this mode, the application is required to call {@link org.gtk.gtk.ProgressBar<code>#pulse</code> 
+ * this mode, the application is required to call {@link ProgressBar#pulse}
  * periodically to update the progress bar.
  * <p>
  * There is quite a bit of flexibility provided to control the appearance
- * of the <code>GtkProgressBar</code>. Functions are provided to control the orientation
+ * of the {@code GtkProgressBar}. Functions are provided to control the orientation
  * of the bar, optional text can be displayed along with the bar, and the
  * step size used in activity mode can be set.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * progressbar{@link [.osd]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [text]}
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  trough{@link [.empty]}{@link [.full]}
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  progress{@link [.pulse]}
- * </pre>
- * <p><code>GtkProgressBar</code> has a main CSS node with name progressbar and subnodes with
+ * <p>
+ * <pre>{@code 
+ * progressbar[.osd]
+ * ├── [text]
+ * ╰── trough[.empty][.full]
+ *     ╰── progress[.pulse]
+ * }</pre>
+ * <p>
+ * {@code GtkProgressBar} has a main CSS node with name progressbar and subnodes with
  * names text and trough, of which the latter has a subnode named progress. The
  * text subnode is only present if text is shown. The progress subnode has the
  * style class .pulse when in activity mode. It gets the style classes .left,
- * .right, .top or .bottom added when the progress &<code>#39</code> touches&<code>#39</code>  the corresponding
+ * .right, .top or .bottom added when the progress 'touches' the corresponding
  * end of the GtkProgressBar. The .osd class on the progressbar node is for use
  * in overlays like the one Epiphany has for page loading progress.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkProgressBar</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#PROGRESS_BAR</code>  role.
+ * <p>
+ * {@code GtkProgressBar} uses the {@link AccessibleRole#PROGRESS_BAR} role.
  */
 public class ProgressBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -69,7 +72,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Creates a new <code>GtkProgressBar</code>.
+     * Creates a new {@code GtkProgressBar}.
      */
     public ProgressBar() {
         super(constructNew());
@@ -77,8 +80,8 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Returns the ellipsizing position of the progress bar.
-     * 
-     * See {@link org.gtk.gtk.ProgressBar<code>#setEllipsize</code> .
+     * <p>
+     * See {@link ProgressBar#setEllipsize}.
      */
     public org.pango.EllipsizeMode getEllipsize() {
         var RESULT = gtk_h.gtk_progress_bar_get_ellipsize(handle());
@@ -86,7 +89,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Returns the current fraction of the task that&<code>#8217</code> s been completed.
+     * Returns the current fraction of the task that’s been completed.
      */
     public double getFraction() {
         var RESULT = gtk_h.gtk_progress_bar_get_fraction(handle());
@@ -103,8 +106,8 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Retrieves the pulse step.
-     * 
-     * See {@link org.gtk.gtk.ProgressBar<code>#setPulseStep</code> .
+     * <p>
+     * See {@link ProgressBar#setPulseStep}.
      */
     public double getPulseStep() {
         var RESULT = gtk_h.gtk_progress_bar_get_pulse_step(handle());
@@ -112,9 +115,9 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Returns whether the <code>GtkProgressBar</code> shows text.
-     * 
-     * See {@link org.gtk.gtk.ProgressBar<code>#setShowText</code> .
+     * Returns whether the {@code GtkProgressBar} shows text.
+     * <p>
+     * See {@link ProgressBar#setShowText}.
      */
     public boolean getShowText() {
         var RESULT = gtk_h.gtk_progress_bar_get_show_text(handle());
@@ -123,7 +126,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Retrieves the text that is displayed with the progress bar.
-     * 
+     * <p>
      * The return value is a reference to the text, not a copy of it,
      * so will become invalid if you change the text in the progress bar.
      */
@@ -133,12 +136,12 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Indicates that some progress has been made, but you don&<code>#8217</code> t know how much.
-     * 
-     * Causes the progress bar to enter &<code>#8220</code> activity mode,&<code>#8221</code>  where a block
-     * bounces back and forth. Each call to {@link org.gtk.gtk.ProgressBar<code>#pulse</code> 
+     * Indicates that some progress has been made, but you don’t know how much.
+     * <p>
+     * Causes the progress bar to enter “activity mode,” where a block
+     * bounces back and forth. Each call to {@link ProgressBar#pulse}
      * causes the block to move by a little bit (the amount of movement
-     * per pulse is determined by {@link org.gtk.gtk.ProgressBar<code>#setPulseStep</code> ).
+     * per pulse is determined by {@link ProgressBar#setPulseStep}).
      */
     public void pulse() {
         gtk_h.gtk_progress_bar_pulse(handle());
@@ -146,7 +149,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Sets the mode used to ellipsize the text.
-     * 
+     * <p>
      * The text is ellipsized if there is not enough space
      * to render the entire string.
      */
@@ -155,9 +158,9 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Causes the progress bar to &<code>#8220</code> fill in&<code>#8221</code>  the given fraction
+     * Causes the progress bar to “fill in” the given fraction
      * of the bar.
-     * 
+     * <p>
      * The fraction should be between 0.0 and 1.0, inclusive.
      */
     public void setFraction(double fraction) {
@@ -166,7 +169,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Sets whether the progress bar is inverted.
-     * 
+     * <p>
      * Progress bars normally grow from top to bottom or left to right.
      * Inverted progress bars grow in the opposite direction.
      */
@@ -177,8 +180,8 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     /**
      * Sets the fraction of total progress bar length to move the
      * bouncing block.
-     * 
-     * The bouncing block is moved when {@link org.gtk.gtk.ProgressBar<code>#pulse</code> 
+     * <p>
+     * The bouncing block is moved when {@link ProgressBar#pulse}
      * is called.
      */
     public void setPulseStep(double fraction) {
@@ -187,31 +190,31 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Sets whether the progress bar will show text next to the bar.
-     * 
-     * The shown text is either the value of the {@link [property@Gtk.ProgressBar:text] (ref=property)}
-     * property or, if that is <code>null</code>  the {@link [property@Gtk.ProgressBar:fraction] (ref=property)} value,
+     * <p>
+     * The shown text is either the value of the {@code Gtk.ProgressBar:text}
+     * property or, if that is <code>null</code>, the {@code Gtk.ProgressBar:fraction} value,
      * as a percentage.
-     * 
+     * <p>
      * To make a progress bar that is styled and sized suitably for containing
-     * text (even if the actual text is blank), set {@link [property@Gtk.ProgressBar:show-text] (ref=property)}
-     * to <code>true</code> and {@link [property@Gtk.ProgressBar:text] (ref=property)} to the empty string (not <code>null</code> .
+     * text (even if the actual text is blank), set {@code Gtk.ProgressBar:show-text}
+     * to <code>true</code> and {@code Gtk.ProgressBar:text} to the empty string (not <code>null</code>).
      */
     public void setShowText(boolean showText) {
         gtk_h.gtk_progress_bar_set_show_text(handle(), showText ? 1 : 0);
     }
     
     /**
-     * Causes the given @text to appear next to the progress bar.
-     * 
-     * If @text is <code>null</code> and {@link [property@Gtk.ProgressBar:show-text] (ref=property)} is <code>true</code> 
-     * the current value of {@link [property@Gtk.ProgressBar:fraction] (ref=property)} will be displayed
+     * Causes the given {@code text} to appear next to the progress bar.
+     * <p>
+     * If {@code text} is <code>null</code> and {@code Gtk.ProgressBar:show-text} is <code>true</code>,
+     * the current value of {@code Gtk.ProgressBar:fraction} will be displayed
      * as a percentage.
-     * 
-     * If @text is non-<code>null</code> and {@link [property@Gtk.ProgressBar:show-text] (ref=property)} is <code>true</code> 
+     * <p>
+     * If {@code text} is non-<code>null</code> and {@code Gtk.ProgressBar:show-text} is <code>true</code>,
      * the text will be displayed. In this case, it will not display the progress
-     * percentage. If @text is the empty string, the progress bar will still
+     * percentage. If {@code text} is the empty string, the progress bar will still
      * be styled and sized suitably for containing text, as long as
-     * {@link [property@Gtk.ProgressBar:show-text] (ref=property)} is <code>true</code>
+     * {@code Gtk.ProgressBar:show-text} is <code>true</code>.
      */
     public void setText(java.lang.String text) {
         gtk_h.gtk_progress_bar_set_text(handle(), Interop.allocateNativeString(text).handle());

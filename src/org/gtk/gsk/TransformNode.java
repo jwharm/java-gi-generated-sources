@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A render node applying a <code>GskTransform</code> to its single child node.
+ * A render node applying a {@code GskTransform} to its single child node.
  */
 public class TransformNode extends RenderNode {
 
@@ -27,15 +27,15 @@ public class TransformNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will transform the given @child
-     * with the given @transform.
+     * Creates a {@code GskRenderNode} that will transform the given {@code child}
+     * with the given {@code transform}.
      */
     public TransformNode(RenderNode child, Transform transform) {
         super(constructNew(child, transform));
     }
     
     /**
-     * Gets the child node that is getting transformed by the given @node.
+     * Gets the child node that is getting transformed by the given {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_transform_node_get_child(handle());
@@ -43,7 +43,7 @@ public class TransformNode extends RenderNode {
     }
     
     /**
-     * Retrieves the <code>GskTransform</code> used by the @node.
+     * Retrieves the {@code GskTransform} used by the {@code node}.
      */
     public Transform getTransform() {
         var RESULT = gtk_h.gsk_transform_node_get_transform(handle());

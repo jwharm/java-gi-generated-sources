@@ -1,9 +1,9 @@
 package org.gtk.gio;
 
 /**
- * Describes an event occurring on a {@link org.gtk.gio.SocketListener}  See the
- * {@link org.gtk.gio.SocketListener} :event signal for more details.
- * 
+ * Describes an event occurring on a {@link SocketListener}. See the
+ * {@link SocketListener}::event signal for more details.
+ * <p>
  * Additional values may be added to this type in the future.
  */
 public enum SocketListenerEvent {

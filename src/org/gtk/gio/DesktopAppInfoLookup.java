@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.DesktopAppInfoLookup} is an opaque data structure and can only be accessed
+ * {@link DesktopAppInfoLookup} is an opaque data structure and can only be accessed
  * using the following functions.
  */
 public interface DesktopAppInfoLookup extends io.github.jwharm.javagi.NativeAddress {

@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkDropControllerMotion</code> is an event controller tracking
+ * {@code GtkDropControllerMotion} is an event controller tracking
  * the pointer during Drag-and-Drop operations.
- * 
- * It is modeled after {@link org.gtk.gtk.EventControllerMotion} so if you
+ * <p>
+ * It is modeled after {@link EventControllerMotion} so if you
  * have used that, this should feel really familiar.
- * 
- * This controller is not able to accept drops, use {@link org.gtk.gtk.DropTarget}
+ * <p>
+ * This controller is not able to accept drops, use {@link DropTarget}
  * for that purpose.
  */
 public class DropControllerMotion extends EventController {
@@ -43,7 +43,7 @@ public class DropControllerMotion extends EventController {
     
     /**
      * Returns if a Drag-and-Drop operation is within the widget
-     * @self or one of its children.
+     * {@code self} or one of its children.
      */
     public boolean containsPointer() {
         var RESULT = gtk_h.gtk_drop_controller_motion_contains_pointer(handle());
@@ -51,8 +51,8 @@ public class DropControllerMotion extends EventController {
     }
     
     /**
-     * Returns the <code>GdkDrop</code> of a current Drag-and-Drop operation
-     * over the widget of @self.
+     * Returns the {@code GdkDrop} of a current Drag-and-Drop operation
+     * over the widget of {@code self}.
      */
     public org.gtk.gdk.Drop getDrop() {
         var RESULT = gtk_h.gtk_drop_controller_motion_get_drop(handle());
@@ -61,7 +61,7 @@ public class DropControllerMotion extends EventController {
     
     /**
      * Returns if a Drag-and-Drop operation is within the widget
-     * @self, not one of its children.
+     * {@code self}, not one of its children.
      */
     public boolean isPointer() {
         var RESULT = gtk_h.gtk_drop_controller_motion_is_pointer(handle());

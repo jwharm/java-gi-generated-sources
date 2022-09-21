@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoAttrLanguage</code> structure is used to represent attributes that
+ * The {@code PangoAttrLanguage} structure is used to represent attributes that
  * are languages.
  */
 public class AttrLanguage extends io.github.jwharm.javagi.ResourceBase {

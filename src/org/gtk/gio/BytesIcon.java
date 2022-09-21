@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.BytesIcon} specifies an image held in memory in a common format (usually
+ * {@link BytesIcon} specifies an image held in memory in a common format (usually
  * png) to be used as icon.
  */
 public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableIcon {
@@ -29,7 +29,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
     
     /**
      * Creates a new icon for a bytes.
-     * 
+     * <p>
      * This cannot fail, but loading and interpreting the bytes may fail later on
      * (for example, if g_loadable_icon_load() is called) if the image is invalid.
      */
@@ -38,7 +38,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
     }
     
     /**
-     * Gets the {@link org.gtk.glib.Bytes} associated with the given @icon.
+     * Gets the {@link org.gtk.glib.Bytes} associated with the given {@code icon}.
      */
     public org.gtk.glib.Bytes getBytes() {
         var RESULT = gtk_h.g_bytes_icon_get_bytes(handle());

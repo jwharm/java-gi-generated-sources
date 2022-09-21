@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoScriptIter</code> is used to iterate through a string
+ * A {@code PangoScriptIter} is used to iterate through a string
  * and identify ranges in different scripts.
  */
 public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
@@ -23,28 +23,28 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Create a new <code>PangoScriptIter</code>, used to break a string of
+     * Create a new {@code PangoScriptIter}, used to break a string of
      * Unicode text into runs by Unicode script.
-     * 
-     * No copy is made of @text, so the caller needs to make
+     * <p>
+     * No copy is made of {@code text}, so the caller needs to make
      * sure it remains valid until the iterator is freed with
-     * {@link org.pango.ScriptIter<code>#free</code> .
+     * {@link ScriptIter#free}.
      */
     public ScriptIter(java.lang.String text, int length) {
         super(constructNew(text, length));
     }
     
     /**
-     * Frees a <code>PangoScriptIter</code>.
+     * Frees a {@code PangoScriptIter}.
      */
     public void free() {
         gtk_h.pango_script_iter_free(handle());
     }
     
     /**
-     * Advances a <code>PangoScriptIter</code> to the next range.
-     * 
-     * If @iter is already at the end, it is left unchanged
+     * Advances a {@code PangoScriptIter} to the next range.
+     * <p>
+     * If {@code iter} is already at the end, it is left unchanged
      * and <code>false</code> is returned.
      */
     public boolean next() {

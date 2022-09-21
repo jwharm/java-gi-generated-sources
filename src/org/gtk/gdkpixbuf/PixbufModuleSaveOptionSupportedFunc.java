@@ -1,7 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 /**
- * Checks whether the given <code>option_key</code> is supported when saving.
+ * Checks whether the given {@code option_key} is supported when saving.
  */
 @FunctionalInterface
 public interface PixbufModuleSaveOptionSupportedFunc {

@@ -8,25 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkBuildable</code> allows objects to extend and customize their deserialization
+ * {@code GtkBuildable} allows objects to extend and customize their deserialization
  * from ui files.
  * <p>
  * The interface includes methods for setting names and properties of objects,
  * parsing custom tags and constructing child objects.
  * <p>
- * The <code>GtkBuildable</code> interface is implemented by all widgets and
+ * The {@code GtkBuildable} interface is implemented by all widgets and
  * many of the non-widget objects that are provided by GTK. The
- * main user of this interface is {@link org.gtk.gtk.Builder}. There should be
+ * main user of this interface is {@link Builder}. There should be
  * very little need for applications to call any of these functions directly.
  * <p>
- * An object only needs to implement this interface if it needs to extend the<code>GtkBuilder</code> XML format or run any extra routines at deserialization time.
+ * An object only needs to implement this interface if it needs to extend the
+ * {@code GtkBuilder} XML format or run any extra routines at deserialization time.
  */
 public interface Buildable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets the ID of the @buildable object.
-     * <p><code>GtkBuilder</code> sets the name based on the ID attribute
-     * of the &<code>#60</code> object&<code>#62</code>  tag used to construct the @buildable.
+     * Gets the ID of the {@code buildable} object.
+     * <p>
+     * {@code GtkBuilder} sets the name based on the ID attribute
+     * of the &lt;object&gt; tag used to construct the {@code buildable}.
      */
     public default java.lang.String getBuildableId() {
         var RESULT = gtk_h.gtk_buildable_get_buildable_id(handle());

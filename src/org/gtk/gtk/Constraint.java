@@ -8,19 +8,20 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkConstraint</code> describes a constraint between attributes of two widgets,
+ * {@code GtkConstraint} describes a constraint between attributes of two widgets,
  *  expressed as a linear equation.
  * <p>
  * The typical equation for a constraint is:
- * <p><pre>
- *   target.target_attr = source.source_attr &<code>#215</code>  multiplier + constant
- * </pre>
  * <p>
- * Each <code>GtkConstraint</code> is part of a system that will be solved by a
- * {@link org.gtk.gtk.ConstraintLayout} in order to allocate and position each
+ * <pre>{@code 
+ *   target.target_attr = source.source_attr × multiplier + constant
+ * }</pre>
+ * <p>
+ * Each {@code GtkConstraint} is part of a system that will be solved by a
+ * {@link ConstraintLayout} in order to allocate and position each
  * child widget or guide.
  * <p>
- * The source and target, as well as their attributes, of a <code>GtkConstraint</code>
+ * The source and target, as well as their attributes, of a {@code GtkConstraint}
  * instance are immutable after creation.
  */
 public class Constraint extends org.gtk.gobject.Object {
@@ -61,7 +62,7 @@ public class Constraint extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the constant factor added to the source attributes&<code>#39</code>  value.
+     * Retrieves the constant factor added to the source attributes' value.
      */
     public double getConstant() {
         var RESULT = gtk_h.gtk_constraint_get_constant(handle());
@@ -70,7 +71,7 @@ public class Constraint extends org.gtk.gobject.Object {
     
     /**
      * Retrieves the multiplication factor applied to the source
-     * attribute&<code>#39</code> s value.
+     * attribute's value.
      */
     public double getMultiplier() {
         var RESULT = gtk_h.gtk_constraint_get_multiplier(handle());
@@ -86,11 +87,11 @@ public class Constraint extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the {@link [iface@Gtk.ConstraintTarget] (ref=iface)} used as the source for the
+     * Retrieves the {@code Gtk.ConstraintTarget} used as the source for the
      * constraint.
      * <p>
-     * If the source is set to <code>NULL</code> at creation, the constraint will use
-     * the widget using the {@link org.gtk.gtk.ConstraintLayout} as the source.
+     * If the source is set to {@code NULL} at creation, the constraint will use
+     * the widget using the {@link ConstraintLayout} as the source.
      */
     public ConstraintTarget getSource() {
         var RESULT = gtk_h.gtk_constraint_get_source(handle());
@@ -114,11 +115,11 @@ public class Constraint extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the {@link [iface@Gtk.ConstraintTarget] (ref=iface)} used as the target for
+     * Retrieves the {@code Gtk.ConstraintTarget} used as the target for
      * the constraint.
      * <p>
-     * If the targe is set to <code>NULL</code> at creation, the constraint will use
-     * the widget using the {@link org.gtk.gtk.ConstraintLayout} as the target.
+     * If the targe is set to {@code NULL} at creation, the constraint will use
+     * the widget using the {@link ConstraintLayout} as the target.
      */
     public ConstraintTarget getTarget() {
         var RESULT = gtk_h.gtk_constraint_get_target(handle());
@@ -134,7 +135,7 @@ public class Constraint extends org.gtk.gobject.Object {
     }
     
     /**
-     * Checks whether the constraint is attached to a {@link org.gtk.gtk.ConstraintLayout},
+     * Checks whether the constraint is attached to a {@link ConstraintLayout},
      * and it is contributing to the layout.
      */
     public boolean isAttached() {
@@ -144,7 +145,7 @@ public class Constraint extends org.gtk.gobject.Object {
     
     /**
      * Checks whether the constraint describes a relation between an attribute
-     * on the {@link [property@Gtk.Constraint:target] (ref=property)} and a constant value.
+     * on the {@code Gtk.Constraint:target} and a constant value.
      */
     public boolean isConstant() {
         var RESULT = gtk_h.gtk_constraint_is_constant(handle());

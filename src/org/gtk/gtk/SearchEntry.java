@@ -8,46 +8,50 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkSearchEntry</code> is an entry widget that has been tailored for use
+ * {@code GtkSearchEntry} is an entry widget that has been tailored for use
  * as a search entry.
  * <p>
- * The main API for interacting with a <code>GtkSearchEntry</code> as entry
- * is the <code>GtkEditable</code> interface.
+ * The main API for interacting with a {@code GtkSearchEntry} as entry
+ * is the {@code GtkEditable} interface.
  * <p>
- * !{@link [An example GtkSearchEntry]}(search-entry.png)
+ * <img src="./doc-files/search-entry.png" alt="An example GtkSearchEntry">
  * <p>
- * It will show an inactive symbolic &<code>#8220</code> find&<code>#8221</code>  icon when the search
- * entry is empty, and a symbolic &<code>#8220</code> clear&<code>#8221</code>  icon when there is text.
- * Clicking on the &<code>#8220</code> clear&<code>#8221</code>  icon will empty the search entry.
+ * It will show an inactive symbolic “find” icon when the search
+ * entry is empty, and a symbolic “clear” icon when there is text.
+ * Clicking on the “clear” icon will empty the search entry.
  * <p>
  * To make filtering appear more reactive, it is a good idea to
  * not react to every change in the entry text immediately, but
- * only after a short delay. To support this, <code>GtkSearchEntry</code>
- * emits the {@link [signal@Gtk.SearchEntry::search-changed] (ref=signal)} signal which
- * can be used instead of the {@link [signal@Gtk.Editable::changed] (ref=signal)} signal.
+ * only after a short delay. To support this, {@code GtkSearchEntry}
+ * emits the {@code Gtk.SearchEntry::search-changed} signal which
+ * can be used instead of the {@code Gtk.Editable::changed} signal.
  * <p>
- * The {@link [signal@Gtk.SearchEntry::previous-match] (ref=signal)},
- * {@link [signal@Gtk.SearchEntry::next-match] (ref=signal)} and
- * {@link [signal@Gtk.SearchEntry::stop-search] (ref=signal)} signals can be used to
+ * The {@code Gtk.SearchEntry::previous-match},
+ * {@code Gtk.SearchEntry::next-match} and
+ * {@code Gtk.SearchEntry::stop-search} signals can be used to
  * implement moving between search results and ending the search.
  * <p>
- * Often, <code>GtkSearchEntry</code> will be fed events by means of being
- * placed inside a {@link org.gtk.gtk.SearchBar}. If that is not the case,
- * you can use {@link org.gtk.gtk.SearchEntry<code>#setKeyCaptureWidget</code>  to
+ * Often, {@code GtkSearchEntry} will be fed events by means of being
+ * placed inside a {@link SearchBar}. If that is not the case,
+ * you can use {@link SearchEntry#setKeyCaptureWidget} to
  * let it capture key input from another widget.
- * <p><code>GtkSearchEntry</code> provides only minimal API and should be used with
- * the {@link [iface@Gtk.Editable] (ref=iface)} API.
+ * <p>
+ * {@code GtkSearchEntry} provides only minimal API and should be used with
+ * the {@code Gtk.Editable} API.
  * <p>
  * <h2>CSS Nodes</h2>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * entry.search
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  text
- * </pre>
- * <p><code>GtkSearchEntry</code> has a single CSS node with name entry that carries
- * a <code>.search</code> style class, and the text node is a child of that.
+ * ╰── text
+ * }</pre>
+ * <p>
+ * {@code GtkSearchEntry} has a single CSS node with name entry that carries
+ * a {@code .search} style class, and the text node is a child of that.
  * <p>
  * <h2>Accessibility</h2>
- * <p><code>GtkSearchEntry</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SEARCH_BOX</code>  role.
+ * <p>
+ * {@code GtkSearchEntry} uses the {@link AccessibleRole#SEARCH_BOX} role.
  */
 public class SearchEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
@@ -66,14 +70,14 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Creates a <code>GtkSearchEntry</code>.
+     * Creates a {@code GtkSearchEntry}.
      */
     public SearchEntry() {
         super(constructNew());
     }
     
     /**
-     * Gets the widget that @entry is capturing key events from.
+     * Gets the widget that {@code entry} is capturing key events from.
      */
     public Widget getKeyCaptureWidget() {
         var RESULT = gtk_h.gtk_search_entry_get_key_capture_widget(handle());
@@ -81,23 +85,23 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Sets @widget as the widget that @entry will capture key
+     * Sets {@code widget} as the widget that {@code entry} will capture key
      * events from.
      * <p>
      * Key events are consumed by the search entry to start or
      * continue a search.
      * <p>
-     * If the entry is part of a <code>GtkSearchBar</code>, it is preferable
-     * to call {@link org.gtk.gtk.SearchBar<code>#setKeyCaptureWidget</code>  instead,
+     * If the entry is part of a {@code GtkSearchBar}, it is preferable
+     * to call {@link SearchBar#setKeyCaptureWidget} instead,
      * which will reveal the entry in addition to triggering the
      * search entry.
-     * 
+     * <p>
      * Note that despite the name of this function, the events
-     * are only &<code>#39</code> captured&<code>#39</code>  in the bubble phase, which means that
-     * editable child widgets of @widget will receive text input
+     * are only 'captured' in the bubble phase, which means that
+     * editable child widgets of {@code widget} will receive text input
      * before it gets captured. If that is not desired, you can
      * capture and forward the events yourself with
-     * {@link org.gtk.gtk.EventControllerKey<code>#forward</code> .
+     * {@link EventControllerKey#forward}.
      */
     public void setKeyCaptureWidget(Widget widget) {
         gtk_h.gtk_search_entry_set_key_capture_widget(handle(), widget.handle());
@@ -110,7 +114,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Emitted when the entry is activated.
-     * 
+     * <p>
      * The keybindings for this signal are all forms of the Enter key.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
@@ -136,12 +140,12 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     /**
      * Emitted when the user initiates a move to the next match
      * for the current search string.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * Applications should connect to it, to implement moving
      * between matches.
-     * 
+     * <p>
      * The default bindings for this signal is Ctrl-g.
      */
     public SignalHandle onNextMatch(NextMatchHandler handler) {
@@ -167,12 +171,12 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     /**
      * Emitted when the user initiates a move to the previous match
      * for the current search string.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * Applications should connect to it, to implement moving
      * between matches.
-     * 
+     * <p>
      * The default bindings for this signal is Ctrl-Shift-g.
      */
     public SignalHandle onPreviousMatch(PreviousMatchHandler handler) {
@@ -244,12 +248,12 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Emitted when the user stops a search via keyboard input.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * Applications should connect to it, to implement hiding
      * the search entry in this case.
-     * 
+     * <p>
      * The default bindings for this signal is Escape.
      */
     public SignalHandle onStopSearch(StopSearchHandler handler) {

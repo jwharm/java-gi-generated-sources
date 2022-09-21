@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * List of flags that can be passed to action activation.
- * 
+ * <p>
  * More flags may be added in the future.
  */
 public class ShortcutActionFlags {

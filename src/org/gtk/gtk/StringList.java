@@ -8,30 +8,32 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkStringList</code> is a list model that wraps an array of strings.
+ * {@code GtkStringList} is a list model that wraps an array of strings.
  * <p>
- * The objects in the model have a &<code>#34</code> string&<code>#34</code>  property.
- * <p><code>GtkStringList</code> is well-suited for any place where you would
- * typically use a <code>char*{@link []}</code>, but need a list model.
+ * The objects in the model have a "string" property.
+ * <p>
+ * {@code GtkStringList} is well-suited for any place where you would
+ * typically use a {@code char*[]}, but need a list model.
  * <p>
  * <h1>GtkStringList as GtkBuildable</h1>
  * <p>
- * The <code>GtkStringList</code> implementation of the <code>GtkBuildable</code> interface
- * supports adding items directly using the &<code>#60</code> items&<code>#62</code>  element and
- * specifying &<code>#60</code> item&<code>#62</code>  elements for each item. Each &<code>#60</code> item&<code>#62</code>  element
- * supports the regular translation attributes &<code>#8220</code> translatable&<code>#8221</code> ,
- * &<code>#8220</code> context&<code>#8221</code>  and &<code>#8220</code> comments&<code>#8221</code> .
+ * The {@code GtkStringList} implementation of the {@code GtkBuildable} interface
+ * supports adding items directly using the &lt;items&gt; element and
+ * specifying &lt;item> elements for each item. Each <item&gt; element
+ * supports the regular translation attributes “translatable”,
+ * “context” and “comments”.
  * <p>
- * Here is a UI definition fragment specifying a <code>GtkStringList</code>
- * <p><pre>xml
- * &<code>#60</code> object class=&<code>#34</code> GtkStringList&<code>#34</code> &<code>#62</code> 
- *   &<code>#60</code> items&<code>#62</code> 
- *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Factory&<code>#60</code> /item&<code>#62</code> 
- *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Home&<code>#60</code> /item&<code>#62</code> 
- *     &<code>#60</code> item translatable=&<code>#34</code> yes&<code>#34</code> &<code>#62</code> Subway&<code>#60</code> /item&<code>#62</code> 
- *   &<code>#60</code> /items&<code>#62</code> 
- * &<code>#60</code> /object&<code>#62</code> 
- * </pre>
+ * Here is a UI definition fragment specifying a {@code GtkStringList}
+ * <p>
+ * <pre>{@code xml
+ * <object class="GtkStringList">
+ *   <items>
+ *     <item translatable="yes">Factory</item>
+ *     <item translatable="yes">Home</item>
+ *     <item translatable="yes">Subway</item>
+ *   </items>
+ * </object>
+ * }</pre>
  */
 public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, Buildable {
 
@@ -50,27 +52,27 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     }
     
     /**
-     * Creates a new <code>GtkStringList</code> with the given @strings.
+     * Creates a new {@code GtkStringList} with the given {@code strings}.
      */
     public StringList(java.lang.String[] strings) {
         super(constructNew(strings));
     }
     
     /**
-     * Appends @string to @self.
-     * 
-     * The @string will be copied. See
-     * {@link org.gtk.gtk.StringList<code>#take</code>  for a way to avoid that.
+     * Appends {@code string} to {@code self}.
+     * <p>
+     * The {@code string} will be copied. See
+     * {@link StringList#take} for a way to avoid that.
      */
     public void append(java.lang.String string) {
         gtk_h.gtk_string_list_append(handle(), Interop.allocateNativeString(string).handle());
     }
     
     /**
-     * Gets the string that is at @position in @self.
-     * 
-     * If @self does not contain @position items, <code>null</code> is returned.
-     * 
+     * Gets the string that is at {@code position} in {@code self}.
+     * <p>
+     * If {@code self} does not contain {@code position} items, <code>null</code> is returned.
+     * <p>
      * This function returns the const char *. To get the
      * object wrapping it, use g_list_model_get_item().
      */
@@ -80,9 +82,9 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     }
     
     /**
-     * Removes the string at @position from @self.
-     * 
-     * @position must be smaller than the current
+     * Removes the string at {@code position} from {@code self}.
+     * <p>
+     * {@code position} must be smaller than the current
      * length of the list.
      */
     public void remove(int position) {
@@ -90,17 +92,17 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     }
     
     /**
-     * Changes @self by removing @n_removals strings and adding @additions
+     * Changes {@code self} by removing {@code n_removals} strings and adding {@code additions}
      * to it.
-     * 
-     * This function is more efficient than {@link org.gtk.gtk.StringList<code>#append</code> 
-     * and {@link org.gtk.gtk.StringList<code>#remove</code> , because it only emits the
+     * <p>
+     * This function is more efficient than {@link StringList#append}
+     * and {@link StringList#remove}, because it only emits the
      * ::items-changed signal once for the change.
-     * 
-     * This function copies the strings in @additions.
-     * 
-     * The parameters @position and @n_removals must be correct (ie:
-     * @position + @n_removals must be less than or equal to the length
+     * <p>
+     * This function copies the strings in {@code additions}.
+     * <p>
+     * The parameters {@code position} and {@code n_removals} must be correct (ie:
+     * {@code position} + {@code n_removals} must be less than or equal to the length
      * of the list at the time this function is called).
      */
     public void splice(int position, int nRemovals, java.lang.String[] additions) {
@@ -108,14 +110,15 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     }
     
     /**
-     * Adds @string to self at the end, and takes
+     * Adds {@code string} to self at the end, and takes
      * ownership of it.
      * <p>
-     * This variant of {@link org.gtk.gtk.StringList<code>#append</code> 
+     * This variant of {@link StringList#append}
      * is convenient for formatting strings:
-     * <p><pre>c
-     * gtk_string_list_take (self, g_strdup_print (&<code>#34</code> <code>d</code> dollars&<code>#34</code> , lots));
-     * </pre>
+     * <p>
+     * <pre>{@code c
+     * gtk_string_list_take (self, g_strdup_print ("%d dollars", lots));
+     * }</pre>
      */
     public void take(java.lang.String string) {
         gtk_h.gtk_string_list_take(handle(), Interop.allocateNativeString(string).handle());

@@ -8,112 +8,113 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.glib.Variant} is a variant datatype; it can contain one or more values
+ * {@link Variant} is a variant datatype; it can contain one or more values
  * along with information about the type of the values.
- * 
- * A {@link org.gtk.glib.Variant} may contain simple types, like an integer, or a boolean value;
+ * <p>
+ * A {@link Variant} may contain simple types, like an integer, or a boolean value;
  * or complex types, like an array of two strings, or a dictionary of key
- * value pairs. A {@link org.gtk.glib.Variant} is also immutable: once it&<code>#39</code> s been created neither
+ * value pairs. A {@link Variant} is also immutable: once it's been created neither
  * its type nor its content can be modified further.
- * 
+ * <p>
  * GVariant is useful whenever data needs to be serialized, for example when
  * sending method parameters in D-Bus, or when saving settings using GSettings.
- * 
- * When creating a new {@link org.gtk.glib.Variant}  you pass the data you want to store in it
+ * <p>
+ * When creating a new {@link Variant}, you pass the data you want to store in it
  * along with a string representing the type of data you wish to pass to it.
- * 
- * For instance, if you want to create a {@link org.gtk.glib.Variant} holding an integer value you
+ * <p>
+ * For instance, if you want to create a {@link Variant} holding an integer value you
  * can use:
- * 
- * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
- *   GVariant *v = g_variant_new (&<code>#34</code> u&<code>#34</code> , 40);
- * ]}|
- * 
- * The string &<code>#34</code> u&<code>#34</code>  in the first argument tells {@link org.gtk.glib.Variant} that the data passed to
+ * <p>
+ * |[&lt;!-- language="C" --&gt;
+ *   GVariant *v = g_variant_new ("u", 40);
+ * ]|
+ * <p>
+ * The string "u" in the first argument tells {@link Variant} that the data passed to
  * the constructor (40) is going to be an unsigned integer.
- * 
- * More advanced examples of {@link org.gtk.glib.Variant} in use can be found in documentation for
- * {@link [GVariant format strings]}{@link [gvariant-format-strings-pointers]}.
- * 
+ * <p>
+ * More advanced examples of {@link Variant} in use can be found in documentation for
+ * [GVariant format strings][gvariant-format-strings-pointers].
+ * <p>
  * The range of possible values is determined by the type.
- * 
- * The type system used by {@link org.gtk.glib.Variant} is {@link org.gtk.glib.VariantType} 
- * 
- * {@link org.gtk.glib.Variant} instances always have a type and a value (which are given
- * at construction time).  The type and value of a {@link org.gtk.glib.Variant} instance
- * can never change other than by the {@link org.gtk.glib.Variant} itself being
- * destroyed.  A {@link org.gtk.glib.Variant} cannot contain a pointer.
- * 
- * {@link org.gtk.glib.Variant} is reference counted using g_variant_ref() and
- * g_variant_unref().  {@link org.gtk.glib.Variant} also has floating reference counts --
+ * <p>
+ * The type system used by {@link Variant} is {@link VariantType}.
+ * <p>
+ * {@link Variant} instances always have a type and a value (which are given
+ * at construction time).  The type and value of a {@link Variant} instance
+ * can never change other than by the {@link Variant} itself being
+ * destroyed.  A {@link Variant} cannot contain a pointer.
+ * <p>
+ * {@link Variant} is reference counted using g_variant_ref() and
+ * g_variant_unref().  {@link Variant} also has floating reference counts --
  * see g_variant_ref_sink().
- * 
- * {@link org.gtk.glib.Variant} is completely threadsafe.  A {@link org.gtk.glib.Variant} instance can be
+ * <p>
+ * {@link Variant} is completely threadsafe.  A {@link Variant} instance can be
  * concurrently accessed in any way from any number of threads without
  * problems.
- * 
- * {@link org.gtk.glib.Variant} is heavily optimised for dealing with data in serialized
+ * <p>
+ * {@link Variant} is heavily optimised for dealing with data in serialized
  * form.  It works particularly well with data located in memory-mapped
  * files.  It can perform nearly all deserialization operations in a
  * small constant time, usually touching only a single memory page.
- * Serialized {@link org.gtk.glib.Variant} data can also be sent over the network.
- * 
- * {@link org.gtk.glib.Variant} is largely compatible with D-Bus.  Almost all types of
- * {@link org.gtk.glib.Variant} instances can be sent over D-Bus.  See {@link org.gtk.glib.VariantType} for
- * exceptions.  (However, {@link org.gtk.glib.Variant} <code>#39</code> s serialization format is not the same
- * as the serialization format of a D-Bus message body: use {@link org.gtk.gio.DBusMessage} 
+ * Serialized {@link Variant} data can also be sent over the network.
+ * <p>
+ * {@link Variant} is largely compatible with D-Bus.  Almost all types of
+ * {@link Variant} instances can be sent over D-Bus.  See {@link VariantType} for
+ * exceptions.  (However, {@link Variant}'s serialization format is not the same
+ * as the serialization format of a D-Bus message body: use {@link org.gtk.gio.DBusMessage},
  * in the gio library, for those.)
- * 
- * For space-efficiency, the {@link org.gtk.glib.Variant} serialization format does not
- * automatically include the variant&<code>#39</code> s length, type or endianness,
+ * <p>
+ * For space-efficiency, the {@link Variant} serialization format does not
+ * automatically include the variant's length, type or endianness,
  * which must either be implied from context (such as knowledge that a
  * particular file format always contains a little-endian
- * <code>G_VARIANT_TYPE_VARIANT</code> which occupies the whole length of the file)
+ * {@code G_VARIANT_TYPE_VARIANT} which occupies the whole length of the file)
  * or supplied out-of-band (for instance, a length, type and/or endianness
  * indicator could be placed at the beginning of a file, network message
  * or network stream).
- * 
- * A {@link org.gtk.glib.Variant} <code>#39</code> s size is limited mainly by any lower level operating
- * system constraints, such as the number of bits in <code>#gsize</code>   For
+ * <p>
+ * A {@link Variant}'s size is limited mainly by any lower level operating
+ * system constraints, such as the number of bits in {@code gsize}.  For
  * example, it is reasonable to have a 2GB file mapped into memory
- * with {@link org.gtk.glib.MappedFile}  and call g_variant_new_from_data() on it.
- * 
- * For convenience to C programmers, {@link org.gtk.glib.Variant} features powerful
+ * with {@link MappedFile}, and call g_variant_new_from_data() on it.
+ * <p>
+ * For convenience to C programmers, {@link Variant} features powerful
  * varargs-based value construction and destruction.  This feature is
  * designed to be embedded in other libraries.
- * 
- * There is a Python-inspired text language for describing {@link org.gtk.glib.Variant} values.  {@link org.gtk.glib.Variant} includes a printer for this language and a parser
+ * <p>
+ * There is a Python-inspired text language for describing {@link Variant}
+ * values.  {@link Variant} includes a printer for this language and a parser
  * with type inferencing.
- * 
- * <code>#</code>  Memory Use
- * 
- * {@link org.gtk.glib.Variant} tries to be quite efficient with respect to memory use.
+ * <p>
+ * <h2>Memory Use</h2>
+ * <p>
+ * {@link Variant} tries to be quite efficient with respect to memory use.
  * This section gives a rough idea of how much memory is used by the
  * current implementation.  The information here is subject to change
  * in the future.
- * 
- * The memory allocated by {@link org.gtk.glib.Variant} can be grouped into 4 broad
+ * <p>
+ * The memory allocated by {@link Variant} can be grouped into 4 broad
  * purposes: memory for serialized data, memory for the type
  * information cache, buffer management memory and memory for the
- * {@link org.gtk.glib.Variant} structure itself.
- * 
- * <code>#</code>  Serialized Data Memory
- * 
+ * {@link Variant} structure itself.
+ * <p>
+ * <h2>Serialized Data Memory</h2>
+ * <p>
  * This is the memory that is used for storing GVariant data in
  * serialized form.  This is what would be sent over the network or
  * what would end up on disk, not counting any indicator of the
  * endianness, or of the length or type of the top-level variant.
- * 
+ * <p>
  * The amount of memory required to store a boolean is 1 byte. 16,
  * 32 and 64 bit integers and double precision floating point numbers
- * use their &<code>#34</code> natural&<code>#34</code>  size.  Strings (including object path and
+ * use their "natural" size.  Strings (including object path and
  * signature strings) are stored with a nul terminator, and as such
  * use the length of the string plus 1 byte.
- * 
+ * <p>
  * Maybe types use no space at all to represent the null value and
  * use the same amount of space (sometimes plus one byte) as the
  * equivalent non-maybe-typed value to represent the non-null case.
- * 
+ * <p>
  * Arrays use the amount of space required to store each of their
  * members, concatenated.  Additionally, if the items stored in an
  * array are not of a fixed-size (ie: strings, other arrays, etc)
@@ -121,128 +122,128 @@ import java.lang.invoke.*;
  * size of this offset is either 1, 2 or 4 bytes depending on the
  * overall size of the container.  Additionally, extra padding bytes
  * are added as required for alignment of child values.
- * 
+ * <p>
  * Tuples (including dictionary entries) use the amount of space
  * required to store each of their members, concatenated, plus one
  * framing offset (as per arrays) for each non-fixed-sized item in
  * the tuple, except for the last one.  Additionally, extra padding
  * bytes are added as required for alignment of child values.
- * 
+ * <p>
  * Variants use the same amount of space as the item inside of the
  * variant, plus 1 byte, plus the length of the type string for the
  * item inside the variant.
- * 
+ * <p>
  * As an example, consider a dictionary mapping strings to variants.
  * In the case that the dictionary is empty, 0 bytes are required for
  * the serialization.
- * 
- * If we add an item &<code>#34</code> width&<code>#34</code>  that maps to the int32 value of 500 then
+ * <p>
+ * If we add an item "width" that maps to the int32 value of 500 then
  * we will use 4 byte to store the int32 (so 6 for the variant
  * containing it) and 6 bytes for the string.  The variant must be
- * aligned to 8 after the 6 bytes of the string, so that&<code>#39</code> s 2 extra
+ * aligned to 8 after the 6 bytes of the string, so that's 2 extra
  * bytes.  6 (string) + 2 (padding) + 6 (variant) is 14 bytes used
  * for the dictionary entry.  An additional 1 byte is added to the
  * array as a framing offset making a total of 15 bytes.
- * 
- * If we add another entry, &<code>#34</code> title&<code>#34</code>  that maps to a nullable string
+ * <p>
+ * If we add another entry, "title" that maps to a nullable string
  * that happens to have a value of null, then we use 0 bytes for the
  * null value (and 3 bytes for the variant to contain it along with
  * its type string) plus 6 bytes for the string.  Again, we need 2
  * padding bytes.  That makes a total of 6 + 2 + 3 = 11 bytes.
- * 
+ * <p>
  * We now require extra padding between the two items in the array.
- * After the 14 bytes of the first item, that&<code>#39</code> s 2 bytes required.
+ * After the 14 bytes of the first item, that's 2 bytes required.
  * We now require 2 framing offsets for an extra two
  * bytes. 14 + 2 + 11 + 2 = 29 bytes to encode the entire two-item
  * dictionary.
- * 
- * <code>#</code>  Type Information Cache
- * 
+ * <p>
+ * <h2>Type Information Cache</h2>
+ * <p>
  * For each GVariant type that currently exists in the program a type
  * information structure is kept in the type information cache.  The
  * type information structure is required for rapid deserialization.
- * 
- * Continuing with the above example, if a {@link org.gtk.glib.Variant} exists with the
- * type &<code>#34</code> a{sv}&<code>#34</code>  then a type information struct will exist for
- * &<code>#34</code> a{sv}&<code>#34</code> , &<code>#34</code> {sv}&<code>#34</code> , &<code>#34</code> s&<code>#34</code> , and &<code>#34</code> v&<code>#34</code> .  Multiple uses of the same type
+ * <p>
+ * Continuing with the above example, if a {@link Variant} exists with the
+ * type "a{sv}" then a type information struct will exist for
+ * "a{sv}", "{sv}", "s", and "v".  Multiple uses of the same type
  * will share the same type information.  Additionally, all
  * single-digit types are stored in read-only static memory and do
  * not contribute to the writable memory footprint of a program using
- * {@link org.gtk.glib.Variant} 
- * 
+ * {@link Variant}.
+ * <p>
  * Aside from the type information structures stored in read-only
  * memory, there are two forms of type information.  One is used for
  * container types where there is a single element type: arrays and
  * maybe types.  The other is used for container types where there
  * are multiple element types: tuples and dictionary entries.
- * 
- * Array type info structures are 6 * sizeof (void *), plus the
+ * <p>
+ * Array type info structures are 6 <strong> sizeof (void </strong>), plus the
  * memory required to store the type string itself.  This means that
- * on 32-bit systems, the cache entry for &<code>#34</code> a{sv}&<code>#34</code>  would require 30
+ * on 32-bit systems, the cache entry for "a{sv}" would require 30
  * bytes of memory (plus malloc overhead).
- * 
- * Tuple type info structures are 6 * sizeof (void *), plus 4 *
+ * <p>
+ * Tuple type info structures are 6 <strong> sizeof (void *), plus 4 </strong>
  * sizeof (void *) for each item in the tuple, plus the memory
  * required to store the type string itself.  A 2-item tuple, for
  * example, would have a type information structure that consumed
- * writable memory in the size of 14 * sizeof (void *) (plus type
+ * writable memory in the size of 14 <strong> sizeof (void </strong>) (plus type
  * string)  This means that on 32-bit systems, the cache entry for
- * &<code>#34</code> {sv}&<code>#34</code>  would require 61 bytes of memory (plus malloc overhead).
- * 
- * This means that in total, for our &<code>#34</code> a{sv}&<code>#34</code>  example, 91 bytes of
+ * "{sv}" would require 61 bytes of memory (plus malloc overhead).
+ * <p>
+ * This means that in total, for our "a{sv}" example, 91 bytes of
  * type information would be allocated.
- * 
- * The type information cache, additionally, uses a {@link org.gtk.glib.HashTable} to
+ * <p>
+ * The type information cache, additionally, uses a {@link HashTable} to
  * store and look up the cached items and stores a pointer to this
  * hash table in static storage.  The hash table is freed when there
  * are zero items in the type cache.
- * 
+ * <p>
  * Although these sizes may seem large it is important to remember
  * that a program will probably only have a very small number of
  * different types of values in it and that only one type information
  * structure is required for many different values of the same type.
- * 
- * <code>#</code>  Buffer Management Memory
- * 
- * {@link org.gtk.glib.Variant} uses an internal buffer management structure to deal
+ * <p>
+ * <h2>Buffer Management Memory</h2>
+ * <p>
+ * {@link Variant} uses an internal buffer management structure to deal
  * with the various different possible sources of serialized data
  * that it uses.  The buffer is responsible for ensuring that the
  * correct call is made when the data is no longer in use by
- * {@link org.gtk.glib.Variant}   This may involve a g_free() or a g_slice_free() or
+ * {@link Variant}.  This may involve a g_free() or a g_slice_free() or
  * even g_mapped_file_unref().
- * 
+ * <p>
  * One buffer management structure is used for each chunk of
  * serialized data.  The size of the buffer management structure
- * is 4 * (void *).  On 32-bit systems, that&<code>#39</code> s 16 bytes.
- * 
- * <code>#</code>  GVariant structure
- * 
- * The size of a {@link org.gtk.glib.Variant} structure is 6 * (void *).  On 32-bit
- * systems, that&<code>#39</code> s 24 bytes.
- * 
- * {@link org.gtk.glib.Variant} structures only exist if they are explicitly created
- * with API calls.  For example, if a {@link org.gtk.glib.Variant} is constructed out of
+ * is 4 <strong> (void </strong>).  On 32-bit systems, that's 16 bytes.
+ * <p>
+ * <h2>GVariant structure</h2>
+ * <p>
+ * The size of a {@link Variant} structure is 6 <strong> (void </strong>).  On 32-bit
+ * systems, that's 24 bytes.
+ * <p>
+ * {@link Variant} structures only exist if they are explicitly created
+ * with API calls.  For example, if a {@link Variant} is constructed out of
  * serialized data for the example given above (with the dictionary)
  * then although there are 9 individual values that comprise the
  * entire dictionary (two keys, two values, two variants containing
  * the values, two dictionary entries, plus the dictionary itself),
- * only 1 {@link org.gtk.glib.Variant} instance exists -- the one referring to the
+ * only 1 {@link Variant} instance exists -- the one referring to the
  * dictionary.
- * 
+ * <p>
  * If calls are made to start accessing the other values then
- * {@link org.gtk.glib.Variant} instances will exist for those values only for as long
+ * {@link Variant} instances will exist for those values only for as long
  * as they are in use (ie: until you call g_variant_unref()).  The
  * type information is shared.  The serialized data and the buffer
  * management structure for that serialized data is shared by the
  * child.
- * 
- * <code>#</code>  Summary
- * 
+ * <p>
+ * <h2>Summary</h2>
+ * <p>
  * To put the entire example together, for our dictionary mapping
  * strings to variants (with two entries, as given above), we are
  * using 91 bytes of memory for type information, 29 bytes of memory
  * for the serialized data, 16 bytes for buffer management and 24
- * bytes for the {@link org.gtk.glib.Variant} instance, or a total of 160 bytes, plus
+ * bytes for the {@link Variant} instance, or a total of 160 bytes, plus
  * malloc overhead.  If we were to use g_variant_get_child_value() to
  * access the two dictionary entries, we would use an additional 48
  * bytes.  If we were to have other dictionaries of the same type, we
@@ -262,20 +263,20 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new {@link org.gtk.glib.Variant} array from @children.
-     * 
-     * @child_type must be non-<code>null</code> if @n_children is zero.  Otherwise, the
+     * Creates a new {@link Variant} array from {@code children}.
+     * <p>
+     * {@code child_type} must be non-<code>null</code> if {@code n_children} is zero.  Otherwise, the
      * child type is determined by inspecting the first element of the
-     * @children array.  If @child_type is non-<code>null</code> then it must be a
+     * {@code children} array.  If {@code child_type} is non-<code>null</code> then it must be a
      * definite type.
-     * 
-     * The items of the array are taken from the @children array.  No entry
-     * in the @children array may be <code>null</code> 
-     * 
+     * <p>
+     * The items of the array are taken from the {@code children} array.  No entry
+     * in the {@code children} array may be <code>null</code>.
+     * <p>
      * All items in the array must have the same type, which must be the
-     * same as @child_type, if given.
-     * 
-     * If the @children are floating references (see g_variant_ref_sink()), the
+     * same as {@code child_type}, if given.
+     * <p>
+     * If the {@code children} are floating references (see g_variant_ref_sink()), the
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newArray(VariantType childType, Variant[] children, long nChildren) {
@@ -288,7 +289,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new boolean {@link org.gtk.glib.Variant} instance -- either <code>true</code> or <code>false</code>
+     * Creates a new boolean {@link Variant} instance -- either <code>true</code> or <code>false</code>.
      */
     public static Variant newBoolean(boolean value) {
         return new Variant(constructNewBoolean(value));
@@ -300,7 +301,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new byte {@link org.gtk.glib.Variant} instance.
+     * Creates a new byte {@link Variant} instance.
      */
     public static Variant newByte(byte value) {
         return new Variant(constructNewByte(value));
@@ -312,10 +313,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates an array-of-bytes {@link org.gtk.glib.Variant} with the contents of @string.
+     * Creates an array-of-bytes {@link Variant} with the contents of {@code string}.
      * This function is just like g_variant_new_string() except that the
      * string need not be valid UTF-8.
-     * 
+     * <p>
      * The nul terminator character at the end of the string is stored in
      * the array.
      */
@@ -329,10 +330,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Constructs an array of bytestring {@link org.gtk.glib.Variant} from the given array of
+     * Constructs an array of bytestring {@link Variant} from the given array of
      * strings.
-     * 
-     * If @length is -1 then @strv is <code>null</code> terminated.
+     * <p>
+     * If {@code length} is -1 then {@code strv} is <code>null</code>-terminated.
      */
     public static Variant newBytestringArray(java.lang.String[] strv, long length) {
         return new Variant(constructNewBytestringArray(strv, length));
@@ -344,10 +345,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new dictionary entry {@link org.gtk.glib.Variant}  @key and @value must be
-     * non-<code>null</code>  @key must be a value of a basic type (ie: not a container).
-     * 
-     * If the @key or @value are floating references (see g_variant_ref_sink()),
+     * Creates a new dictionary entry {@link Variant}. {@code key} and {@code value} must be
+     * non-<code>null</code>. {@code key} must be a value of a basic type (ie: not a container).
+     * <p>
+     * If the {@code key} or {@code value} are floating references (see g_variant_ref_sink()),
      * the new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newDictEntry(Variant key, Variant value) {
@@ -360,7 +361,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new double {@link org.gtk.glib.Variant} instance.
+     * Creates a new double {@link Variant} instance.
      */
     public static Variant newDouble(double value) {
         return new Variant(constructNewDouble(value));
@@ -372,19 +373,19 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Constructs a new array {@link org.gtk.glib.Variant} instance, where the elements are
-     * of @element_type type.
-     * 
-     * @elements must be an array with fixed-sized elements.  Numeric types are
+     * Constructs a new array {@link Variant} instance, where the elements are
+     * of {@code element_type} type.
+     * <p>
+     * {@code elements} must be an array with fixed-sized elements.  Numeric types are
      * fixed-size as are tuples containing only other fixed-sized types.
-     * 
-     * @element_size must be the size of a single element in the array.
+     * <p>
+     * {@code element_size} must be the size of a single element in the array.
      * For example, if calling this function for an array of 32-bit integers,
-     * you might say sizeof(gint32). This value isn&<code>#39</code> t used except for the purpose
-     * of a double-check that the form of the serialized data matches the caller&<code>#39</code> s
+     * you might say sizeof(gint32). This value isn't used except for the purpose
+     * of a double-check that the form of the serialized data matches the caller's
      * expectation.
-     * 
-     * @n_elements must be the length of the @elements array.
+     * <p>
+     * {@code n_elements} must be the length of the {@code elements} array.
      */
     public static Variant newFixedArray(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
         return new Variant(constructNewFixedArray(elementType, elements, nElements, elementSize));
@@ -396,13 +397,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Constructs a new serialized-mode {@link org.gtk.glib.Variant} instance.  This is the
+     * Constructs a new serialized-mode {@link Variant} instance.  This is the
      * inner interface for creation of new serialized values that gets
      * called from various functions in gvariant.c.
-     * 
-     * A reference is taken on @bytes.
-     * 
-     * The data in @bytes must be aligned appropriately for the @type being loaded.
+     * <p>
+     * A reference is taken on {@code bytes}.
+     * <p>
+     * The data in {@code bytes} must be aligned appropriately for the {@code type} being loaded.
      * Otherwise this function will internally create a copy of the memory (since
      * GLib 2.60) or (in older versions) fail and exit the process.
      */
@@ -417,33 +418,33 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new {@link org.gtk.glib.Variant} instance from serialized data.
-     * 
-     * @type is the type of {@link org.gtk.glib.Variant} instance that will be constructed.
-     * The interpretation of @data depends on knowing the type.
-     * 
-     * @data is not modified by this function and must remain valid with an
-     * unchanging value until such a time as @notify is called with
-     * @user_data.  If the contents of @data change before that time then
+     * Creates a new {@link Variant} instance from serialized data.
+     * <p>
+     * {@code type} is the type of {@link Variant} instance that will be constructed.
+     * The interpretation of {@code data} depends on knowing the type.
+     * <p>
+     * {@code data} is not modified by this function and must remain valid with an
+     * unchanging value until such a time as {@code notify} is called with
+     * {@code user_data}.  If the contents of {@code data} change before that time then
      * the result is undefined.
-     * 
-     * If @data is trusted to be serialized data in normal form then
-     * @trusted should be <code>true</code>   This applies to serialized data created
+     * <p>
+     * If {@code data} is trusted to be serialized data in normal form then
+     * {@code trusted} should be <code>true</code>.  This applies to serialized data created
      * within this process or read from a trusted location on the disk (such
      * as a file installed in /usr/lib alongside your application).  You
-     * should set trusted to <code>false</code> if @data is read from the network, a
-     * file in the user&<code>#39</code> s home directory, etc.
-     * 
-     * If @data was not stored in this machine&<code>#39</code> s native endianness, any multi-byte
+     * should set trusted to <code>false</code> if {@code data} is read from the network, a
+     * file in the user's home directory, etc.
+     * <p>
+     * If {@code data} was not stored in this machine's native endianness, any multi-byte
      * numeric values in the returned variant will also be in non-native
      * endianness. g_variant_byteswap() can be used to recover the original values.
-     * 
-     * @notify will be called with @user_data when @data is no longer
+     * <p>
+     * {@code notify} will be called with {@code user_data} when {@code data} is no longer
      * needed.  The exact time of this call is unspecified and might even be
      * before this function returns.
-     * 
-     * Note: @data must be backed by memory that is aligned appropriately for the
-     * @type being loaded. Otherwise this function will internally create a copy of
+     * <p>
+     * Note: {@code data} must be backed by memory that is aligned appropriately for the
+     * {@code type} being loaded. Otherwise this function will internally create a copy of
      * the memory (since GLib 2.60) or (in older versions) fail and exit the
      * process.
      */
@@ -457,11 +458,11 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new handle {@link org.gtk.glib.Variant} instance.
-     * 
+     * Creates a new handle {@link Variant} instance.
+     * <p>
      * By convention, handles are indexes into an array of file descriptors
-     * that are sent alongside a D-Bus message.  If you&<code>#39</code> re not interacting
-     * with D-Bus, you probably don&<code>#39</code> t need them.
+     * that are sent alongside a D-Bus message.  If you're not interacting
+     * with D-Bus, you probably don't need them.
      */
     public static Variant newHandle(int value) {
         return new Variant(constructNewHandle(value));
@@ -473,7 +474,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new int16 {@link org.gtk.glib.Variant} instance.
+     * Creates a new int16 {@link Variant} instance.
      */
     public static Variant newInt16(short value) {
         return new Variant(constructNewInt16(value));
@@ -485,7 +486,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new int32 {@link org.gtk.glib.Variant} instance.
+     * Creates a new int32 {@link Variant} instance.
      */
     public static Variant newInt32(int value) {
         return new Variant(constructNewInt32(value));
@@ -497,7 +498,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new int64 {@link org.gtk.glib.Variant} instance.
+     * Creates a new int64 {@link Variant} instance.
      */
     public static Variant newInt64(long value) {
         return new Variant(constructNewInt64(value));
@@ -509,16 +510,16 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Depending on if @child is <code>null</code>  either wraps @child inside of a
-     * maybe container or creates a Nothing instance for the given @type.
-     * 
-     * At least one of @child_type and @child must be non-<code>null</code> 
-     * If @child_type is non-<code>null</code> then it must be a definite type.
-     * If they are both non-<code>null</code> then @child_type must be the type
-     * of @child.
-     * 
-     * If @child is a floating reference (see g_variant_ref_sink()), the new
-     * instance takes ownership of @child.
+     * Depending on if {@code child} is <code>null</code>, either wraps {@code child} inside of a
+     * maybe container or creates a Nothing instance for the given {@code type}.
+     * <p>
+     * At least one of {@code child_type} and {@code child} must be non-<code>null</code>.
+     * If {@code child_type} is non-<code>null</code> then it must be a definite type.
+     * If they are both non-<code>null</code> then {@code child_type} must be the type
+     * of {@code child}.
+     * <p>
+     * If {@code child} is a floating reference (see g_variant_ref_sink()), the new
+     * instance takes ownership of {@code child}.
      */
     public static Variant newMaybe(VariantType childType, Variant child) {
         return new Variant(constructNewMaybe(childType, child));
@@ -530,9 +531,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a D-Bus object path {@link org.gtk.glib.Variant} with the contents of @string.
-     * @string must be a valid D-Bus object path.  Use
-     * g_variant_is_object_path() if you&<code>#39</code> re not sure.
+     * Creates a D-Bus object path {@link Variant} with the contents of {@code string}.
+     * {@code string} must be a valid D-Bus object path.  Use
+     * g_variant_is_object_path() if you're not sure.
      */
     public static Variant newObjectPath(java.lang.String objectPath) {
         return new Variant(constructNewObjectPath(objectPath));
@@ -544,13 +545,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Constructs an array of object paths {@link org.gtk.glib.Variant} from the given array of
+     * Constructs an array of object paths {@link Variant} from the given array of
      * strings.
-     * 
-     * Each string must be a valid {@link org.gtk.glib.Variant} object path; see
+     * <p>
+     * Each string must be a valid {@link Variant} object path; see
      * g_variant_is_object_path().
-     * 
-     * If @length is -1 then @strv is <code>null</code> terminated.
+     * <p>
+     * If {@code length} is -1 then {@code strv} is <code>null</code>-terminated.
      */
     public static Variant newObjv(java.lang.String[] strv, long length) {
         return new Variant(constructNewObjv(strv, length));
@@ -562,21 +563,21 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Parses @format and returns the result.
-     * 
+     * Parses {@code format} and returns the result.
+     * <p>
      * This is the version of g_variant_new_parsed() intended to be used
      * from libraries.
-     * 
+     * <p>
      * The return value will be floating if it was a newly created GVariant
-     * instance.  In the case that @format simply specified the collection
-     * of a {@link org.gtk.glib.Variant} pointer (eg: @format was &<code>#34</code> <code></code> &<code>#34</code> ) then the collected
-     * {@link org.gtk.glib.Variant} pointer will be returned unmodified, without adding any
+     * instance.  In the case that {@code format} simply specified the collection
+     * of a {@link Variant} pointer (eg: {@code format} was "%*") then the collected
+     * {@link Variant} pointer will be returned unmodified, without adding any
      * additional references.
-     * 
-     * Note that the arguments in @app must be of the correct width for their types
-     * specified in @format when collected into the <code>#va_list</code>  See
-     * the {@link [GVariant varargs documentation]}{@link [gvariant-varargs]}.
-     * 
+     * <p>
+     * Note that the arguments in {@code app} must be of the correct width for their types
+     * specified in {@code format} when collected into the {@code va_list}. See
+     * the [GVariant varargs documentation][gvariant-varargs].
+     * <p>
      * In order to behave correctly in all cases it is necessary for the
      * calling function to g_variant_ref_sink() the return result before
      * returning control to the user that originally provided the pointer.
@@ -594,9 +595,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a D-Bus type signature {@link org.gtk.glib.Variant} with the contents of
-     * @string.  @string must be a valid D-Bus type signature.  Use
-     * g_variant_is_signature() if you&<code>#39</code> re not sure.
+     * Creates a D-Bus type signature {@link Variant} with the contents of
+     * {@code string}.  {@code string} must be a valid D-Bus type signature.  Use
+     * g_variant_is_signature() if you're not sure.
      */
     public static Variant newSignature(java.lang.String signature) {
         return new Variant(constructNewSignature(signature));
@@ -608,11 +609,11 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a string {@link org.gtk.glib.Variant} with the contents of @string.
+     * Creates a string {@link Variant} with the contents of {@code string}.
      * <p>
-     * @string must be valid UTF-8, and must not be <code>null</code>  To encode
-     * potentially-<code>null</code> strings, use g_variant_new() with <code>ms</code> as the
-     * {@link [format string]}{@link [gvariant-format-strings-maybe-types]}.
+     * {@code string} must be valid UTF-8, and must not be <code>null</code>. To encode
+     * potentially-<code>null</code> strings, use g_variant_new() with {@code ms} as the
+     * [format string][gvariant-format-strings-maybe-types].
      */
     public static Variant newString(java.lang.String string) {
         return new Variant(constructNewString(string));
@@ -624,10 +625,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Constructs an array of strings {@link org.gtk.glib.Variant} from the given array of
+     * Constructs an array of strings {@link Variant} from the given array of
      * strings.
-     * 
-     * If @length is -1 then @strv is <code>null</code> terminated.
+     * <p>
+     * If {@code length} is -1 then {@code strv} is <code>null</code>-terminated.
      */
     public static Variant newStrv(java.lang.String[] strv, long length) {
         return new Variant(constructNewStrv(strv, length));
@@ -639,16 +640,16 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a string {@link org.gtk.glib.Variant} with the contents of @string.
-     * 
-     * @string must be valid UTF-8, and must not be <code>null</code>  To encode
+     * Creates a string {@link Variant} with the contents of {@code string}.
+     * <p>
+     * {@code string} must be valid UTF-8, and must not be <code>null</code>. To encode
      * potentially-<code>null</code> strings, use this with g_variant_new_maybe().
-     * 
-     * This function consumes @string.  g_free() will be called on @string
+     * <p>
+     * This function consumes {@code string}.  g_free() will be called on {@code string}
      * when it is no longer required.
-     * 
-     * You must not modify or access @string in any other way after passing
-     * it to this function.  It is even possible that @string is immediately
+     * <p>
+     * You must not modify or access {@code string} in any other way after passing
+     * it to this function.  It is even possible that {@code string} is immediately
      * freed.
      */
     public static Variant newTakeString(java.lang.String string) {
@@ -661,13 +662,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new tuple {@link org.gtk.glib.Variant} out of the items in @children.  The
-     * type is determined from the types of @children.  No entry in the
-     * @children array may be <code>null</code> 
-     * 
-     * If @n_children is 0 then the unit tuple is constructed.
-     * 
-     * If the @children are floating references (see g_variant_ref_sink()), the
+     * Creates a new tuple {@link Variant} out of the items in {@code children}.  The
+     * type is determined from the types of {@code children}.  No entry in the
+     * {@code children} array may be <code>null</code>.
+     * <p>
+     * If {@code n_children} is 0 then the unit tuple is constructed.
+     * <p>
+     * If the {@code children} are floating references (see g_variant_ref_sink()), the
      * new instance takes ownership of them as if via g_variant_ref_sink().
      */
     public static Variant newTuple(Variant[] children, long nChildren) {
@@ -680,7 +681,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new uint16 {@link org.gtk.glib.Variant} instance.
+     * Creates a new uint16 {@link Variant} instance.
      */
     public static Variant newUint16(short value) {
         return new Variant(constructNewUint16(value));
@@ -692,7 +693,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new uint32 {@link org.gtk.glib.Variant} instance.
+     * Creates a new uint32 {@link Variant} instance.
      */
     public static Variant newUint32(int value) {
         return new Variant(constructNewUint32(value));
@@ -704,7 +705,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new uint64 {@link org.gtk.glib.Variant} instance.
+     * Creates a new uint64 {@link Variant} instance.
      */
     public static Variant newUint64(long value) {
         return new Variant(constructNewUint64(value));
@@ -717,35 +718,35 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * This function is intended to be used by libraries based on
-     * {@link org.gtk.glib.Variant} that want to provide g_variant_new()-like functionality
+     * {@link Variant} that want to provide g_variant_new()-like functionality
      * to their users.
-     * 
+     * <p>
      * The API is more general than g_variant_new() to allow a wider range
      * of possible uses.
-     * 
-     * @format_string must still point to a valid format string, but it only
-     * needs to be nul-terminated if @endptr is <code>null</code>   If @endptr is
+     * <p>
+     * {@code format_string} must still point to a valid format string, but it only
+     * needs to be nul-terminated if {@code endptr} is <code>null</code>.  If {@code endptr} is
      * non-<code>null</code> then it is updated to point to the first character past the
      * end of the format string.
-     * 
-     * @app is a pointer to a <code>#va_list</code>   The arguments, according to
-     * @format_string, are collected from this <code>#va_list</code> and the list is left
+     * <p>
+     * {@code app} is a pointer to a {@code va_list}.  The arguments, according to
+     * {@code format_string}, are collected from this {@code va_list} and the list is left
      * pointing to the argument following the last.
-     * 
-     * Note that the arguments in @app must be of the correct width for their
-     * types specified in @format_string when collected into the <code>#va_list</code> 
-     * See the {@link [GVariant varargs documentation]}{@link [gvariant-varargs]}.
-     * 
+     * <p>
+     * Note that the arguments in {@code app} must be of the correct width for their
+     * types specified in {@code format_string} when collected into the {@code va_list}.
+     * See the [GVariant varargs documentation][gvariant-varargs].
+     * <p>
      * These two generalisations allow mixing of multiple calls to
      * g_variant_new_va() and g_variant_get_va() within a single actual
      * varargs call by the user.
-     * 
+     * <p>
      * The return value will be floating if it was a newly created GVariant
-     * instance (for example, if the format string was &<code>#34</code> (ii)&<code>#34</code> ).  In the case
-     * that the format_string was &<code>#39</code> *&<code>#39</code> , &<code>#39</code> ?&<code>#39</code> , &<code>#39</code> r&<code>#39</code> , or a format starting with
-     * &<code>#39</code> @&<code>#39</code>  then the collected {@link org.gtk.glib.Variant} pointer will be returned unmodified,
+     * instance (for example, if the format string was "(ii)").  In the case
+     * that the format_string was '*', '?', 'r', or a format starting with
+     * '@' then the collected {@link Variant} pointer will be returned unmodified,
      * without adding any additional references.
-     * 
+     * <p>
      * In order to behave correctly in all cases it is necessary for the
      * calling function to g_variant_ref_sink() the return result before
      * returning control to the user that originally provided the pointer.
@@ -763,27 +764,27 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Boxes @value.  The result is a {@link org.gtk.glib.Variant} instance representing a
+     * Boxes {@code value}.  The result is a {@link Variant} instance representing a
      * variant containing the original value.
-     * 
-     * If @child is a floating reference (see g_variant_ref_sink()), the new
-     * instance takes ownership of @child.
+     * <p>
+     * If {@code child} is a floating reference (see g_variant_ref_sink()), the new
+     * instance takes ownership of {@code child}.
      */
     public static Variant newVariant(Variant value) {
         return new Variant(constructNewVariant(value));
     }
     
     /**
-     * Performs a byteswapping operation on the contents of @value.  The
-     * result is that all multi-byte numeric data contained in @value is
+     * Performs a byteswapping operation on the contents of {@code value}.  The
+     * result is that all multi-byte numeric data contained in {@code value} is
      * byteswapped.  That includes 16, 32, and 64bit signed and unsigned
      * integers as well as file handles and double precision floating point
      * values.
-     * 
+     * <p>
      * This function is an identity mapping on any value that does not
      * contain multi-byte numeric data.  That include strings, booleans,
      * bytes and containers containing only these things (recursively).
-     * 
+     * <p>
      * The returned value is always in normal form and is marked as trusted.
      */
     public Variant byteswap() {
@@ -792,19 +793,19 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if calling g_variant_get() with @format_string on @value would
-     * be valid from a type-compatibility standpoint.  @format_string is
+     * Checks if calling g_variant_get() with {@code format_string} on {@code value} would
+     * be valid from a type-compatibility standpoint.  {@code format_string} is
      * assumed to be a valid format string (from a syntactic standpoint).
-     * 
-     * If @copy_only is <code>true</code> then this function additionally checks that it
-     * would be safe to call g_variant_unref() on @value immediately after
+     * <p>
+     * If {@code copy_only} is <code>true</code> then this function additionally checks that it
+     * would be safe to call g_variant_unref() on {@code value} immediately after
      * the call to g_variant_get() without invalidating the result.  This is
      * only possible if deep copies are made (ie: there are no pointers to
-     * the data inside of the soon-to-be-freed {@link org.gtk.glib.Variant} instance).  If this
+     * the data inside of the soon-to-be-freed {@link Variant} instance).  If this
      * check fails then a g_critical() is printed and <code>false</code> is returned.
-     * 
+     * <p>
      * This function is meant to be used by functions that wish to provide
-     * varargs accessors to {@link org.gtk.glib.Variant} values of uncertain values (eg:
+     * varargs accessors to {@link Variant} values of uncertain values (eg:
      * g_variant_lookup() or g_menu_model_get_item_attribute()).
      */
     public boolean checkFormatString(java.lang.String formatString, boolean copyOnly) {
@@ -813,7 +814,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Classifies @value according to its top-level type.
+     * Classifies {@code value} according to its top-level type.
      */
     public VariantClass classify() {
         var RESULT = gtk_h.g_variant_classify(handle());
@@ -821,23 +822,23 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares @one and @two.
-     * 
-     * The types of @one and @two are <code>#gconstpointer</code> only to allow use of
-     * this function with {@link org.gtk.glib.Tree}  {@link org.gtk.glib.PtrArray}  etc.  They must each be a
-     * {@link org.gtk.glib.Variant} 
-     * 
+     * Compares {@code one} and {@code two}.
+     * <p>
+     * The types of {@code one} and {@code two} are {@code gconstpointer} only to allow use of
+     * this function with {@link Tree}, {@link PtrArray}, etc.  They must each be a
+     * {@link Variant}.
+     * <p>
      * Comparison is only defined for basic types (ie: booleans, numbers,
-     * strings).  For booleans, <code>false</code> is less than <code>true</code>   Numbers are
+     * strings).  For booleans, <code>false</code> is less than <code>true</code>.  Numbers are
      * ordered in the usual way.  Strings are in ASCII lexographical order.
-     * 
+     * <p>
      * It is a programmer error to attempt to compare container values or
      * two values that have types that are not exactly equal.  For example,
      * you cannot compare a 32-bit signed integer with a 32-bit unsigned
      * integer.  Also note that this function is not particularly
      * well-behaved when it comes to comparison of doubles; in particular,
      * the handling of incomparable values (ie: NaN) is undefined.
-     * 
+     * <p>
      * If you only require an equality comparison, g_variant_equal() is more
      * general.
      */
@@ -847,10 +848,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if @one and @two have the same type and value.
-     * 
-     * The types of @one and @two are <code>#gconstpointer</code> only to allow use of
-     * this function with {@link org.gtk.glib.HashTable}   They must each be a {@link org.gtk.glib.Variant}
+     * Checks if {@code one} and {@code two} have the same type and value.
+     * <p>
+     * The types of {@code one} and {@code two} are {@code gconstpointer} only to allow use of
+     * this function with {@link HashTable}.  They must each be a {@link Variant}.
      */
     public boolean equal(Variant two) {
         var RESULT = gtk_h.g_variant_equal(handle(), two.handle());
@@ -858,10 +859,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the boolean value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_BOOLEAN</code>
+     * Returns the boolean value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_BOOLEAN}.
      */
     public boolean getBoolean() {
         var RESULT = gtk_h.g_variant_get_boolean(handle());
@@ -869,10 +870,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the byte value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_BYTE</code>
+     * Returns the byte value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_BYTE}.
      */
     public byte getByte() {
         var RESULT = gtk_h.g_variant_get_byte(handle());
@@ -880,28 +881,28 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Reads a child item out of a container {@link org.gtk.glib.Variant} instance.  This
+     * Reads a child item out of a container {@link Variant} instance.  This
      * includes variants, maybes, arrays, tuples and dictionary
      * entries.  It is an error to call this function on any other type of
-     * {@link org.gtk.glib.Variant} 
-     * 
-     * It is an error if @index_ is greater than the number of child items
+     * {@link Variant}.
+     * <p>
+     * It is an error if {@code index_} is greater than the number of child items
      * in the container.  See g_variant_n_children().
-     * 
+     * <p>
      * The returned value is never floating.  You should free it with
-     * g_variant_unref() when you&<code>#39</code> re done with it.
-     * 
+     * g_variant_unref() when you're done with it.
+     * <p>
      * Note that values borrowed from the returned child are not guaranteed to
      * still be valid after the child is freed even if you still hold a reference
-     * to @value, if @value has not been serialized at the time this function is
-     * called. To avoid this, you can serialize @value by calling
+     * to {@code value}, if {@code value} has not been serialized at the time this function is
+     * called. To avoid this, you can serialize {@code value} by calling
      * g_variant_get_data() and optionally ignoring the return value.
-     * 
+     * <p>
      * There may be implementation specific restrictions on deeply nested values,
      * which would result in the unit tuple being returned as the child value,
-     * instead of further nested children. {@link org.gtk.glib.Variant} is guaranteed to handle
+     * instead of further nested children. {@link Variant} is guaranteed to handle
      * nesting up to at least 64 levels.
-     * 
+     * <p>
      * This function is O(1).
      */
     public Variant getChildValue(long index) {
@@ -910,29 +911,29 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a pointer to the serialized form of a {@link org.gtk.glib.Variant} instance.
+     * Returns a pointer to the serialized form of a {@link Variant} instance.
      * The returned data may not be in fully-normalised form if read from an
      * untrusted source.  The returned data must not be freed; it remains
-     * valid for as long as @value exists.
-     * 
-     * If @value is a fixed-sized value that was deserialized from a
+     * valid for as long as {@code value} exists.
+     * <p>
+     * If {@code value} is a fixed-sized value that was deserialized from a
      * corrupted serialized container then <code>null</code> may be returned.  In this
      * case, the proper thing to do is typically to use the appropriate
-     * number of nul bytes in place of @value.  If @value is not fixed-sized
+     * number of nul bytes in place of {@code value}.  If {@code value} is not fixed-sized
      * then <code>null</code> is never returned.
-     * 
-     * In the case that @value is already in serialized form, this function
+     * <p>
+     * In the case that {@code value} is already in serialized form, this function
      * is O(1).  If the value is not already in serialized form,
      * serialization occurs implicitly and is approximately O(n) in the size
      * of the result.
-     * 
+     * <p>
      * To deserialize the data returned by this function, in addition to the
-     * serialized data, you must know the type of the {@link org.gtk.glib.Variant}  and (if the
+     * serialized data, you must know the type of the {@link Variant}, and (if the
      * machine might be different) the endianness of the machine that stored
      * it. As a result, file formats or network messages that incorporate
-     * serialized <code>#GVariants</code> must include this information either
-     * implicitly (for instance &<code>#34</code> the file always contains a
-     * <code>G_VARIANT_TYPE_VARIANT</code> and it is always in little-endian order&<code>#34</code> ) or
+     * serialized {@code GVariants} must include this information either
+     * implicitly (for instance "the file always contains a
+     * {@code G_VARIANT_TYPE_VARIANT} and it is always in little-endian order") or
      * explicitly (by storing the type and/or endianness in addition to the
      * serialized data).
      */
@@ -942,9 +943,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns a pointer to the serialized form of a {@link org.gtk.glib.Variant} instance.
+     * Returns a pointer to the serialized form of a {@link Variant} instance.
      * The semantics of this function are exactly the same as
-     * g_variant_get_data(), except that the returned {@link org.gtk.glib.Bytes} holds
+     * g_variant_get_data(), except that the returned {@link Bytes} holds
      * a reference to the variant data.
      */
     public Bytes getDataAsBytes() {
@@ -953,10 +954,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the double precision floating point value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_DOUBLE</code>
+     * Returns the double precision floating point value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_DOUBLE}.
      */
     public double getDouble() {
         var RESULT = gtk_h.g_variant_get_double(handle());
@@ -964,14 +965,14 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the 32-bit signed integer value of @value.
-     * 
-     * It is an error to call this function with a @value of any type other
-     * than <code>G_VARIANT_TYPE_HANDLE</code> 
-     * 
+     * Returns the 32-bit signed integer value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type other
+     * than {@code G_VARIANT_TYPE_HANDLE}.
+     * <p>
      * By convention, handles are indexes into an array of file descriptors
-     * that are sent alongside a D-Bus message.  If you&<code>#39</code> re not interacting
-     * with D-Bus, you probably don&<code>#39</code> t need them.
+     * that are sent alongside a D-Bus message.  If you're not interacting
+     * with D-Bus, you probably don't need them.
      */
     public int getHandle() {
         var RESULT = gtk_h.g_variant_get_handle(handle());
@@ -979,10 +980,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the 16-bit signed integer value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_INT16</code>
+     * Returns the 16-bit signed integer value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_INT16}.
      */
     public short getInt16() {
         var RESULT = gtk_h.g_variant_get_int16(handle());
@@ -990,10 +991,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the 32-bit signed integer value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_INT32</code>
+     * Returns the 32-bit signed integer value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_INT32}.
      */
     public int getInt32() {
         var RESULT = gtk_h.g_variant_get_int32(handle());
@@ -1001,10 +1002,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the 64-bit signed integer value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_INT64</code>
+     * Returns the 64-bit signed integer value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_INT64}.
      */
     public long getInt64() {
         var RESULT = gtk_h.g_variant_get_int64(handle());
@@ -1012,8 +1013,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Given a maybe-typed {@link org.gtk.glib.Variant} instance, extract its value.  If the
-     * value is Nothing, then this function returns <code>null</code>
+     * Given a maybe-typed {@link Variant} instance, extract its value.  If the
+     * value is Nothing, then this function returns <code>null</code>.
      */
     public Variant getMaybe() {
         var RESULT = gtk_h.g_variant_get_maybe(handle());
@@ -1021,25 +1022,26 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets a {@link org.gtk.glib.Variant} instance that has the same value as @value and is
+     * Gets a {@link Variant} instance that has the same value as {@code value} and is
      * trusted to be in normal form.
-     * 
-     * If @value is already trusted to be in normal form then a new
-     * reference to @value is returned.
-     * 
-     * If @value is not already trusted, then it is scanned to check if it
+     * <p>
+     * If {@code value} is already trusted to be in normal form then a new
+     * reference to {@code value} is returned.
+     * <p>
+     * If {@code value} is not already trusted, then it is scanned to check if it
      * is in normal form.  If it is found to be in normal form then it is
      * marked as trusted and a new reference to it is returned.
-     * 
-     * If @value is found not to be in normal form then a new trusted
-     * {@link org.gtk.glib.Variant} is created with the same value as @value.
-     * 
-     * It makes sense to call this function if you&<code>#39</code> ve received {@link org.gtk.glib.Variant} data from untrusted sources and you want to ensure your serialized
+     * <p>
+     * If {@code value} is found not to be in normal form then a new trusted
+     * {@link Variant} is created with the same value as {@code value}.
+     * <p>
+     * It makes sense to call this function if you've received {@link Variant}
+     * data from untrusted sources and you want to ensure your serialized
      * output is definitely in normal form.
-     * 
-     * If @value is already in normal form, a new reference will be returned
-     * (which will be floating if @value is floating). If it is not in normal form,
-     * the newly created {@link org.gtk.glib.Variant} will be returned with a single non-floating
+     * <p>
+     * If {@code value} is already in normal form, a new reference will be returned
+     * (which will be floating if {@code value} is floating). If it is not in normal form,
+     * the newly created {@link Variant} will be returned with a single non-floating
      * reference. Typically, g_variant_take_ref() should be called on the return
      * value from this function to guarantee ownership of a single non-floating
      * reference to it.
@@ -1050,13 +1052,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines the number of bytes that would be required to store @value
+     * Determines the number of bytes that would be required to store {@code value}
      * with g_variant_store().
-     * 
-     * If @value has a fixed-sized type then this function always returned
+     * <p>
+     * If {@code value} has a fixed-sized type then this function always returned
      * that fixed size.
-     * 
-     * In the case that @value is already in serialized form or the size has
+     * <p>
+     * In the case that {@code value} is already in serialized form or the size has
      * already been calculated (ie: this function has been called before)
      * then this function is O(1).  Otherwise, the size is calculated, an
      * operation which is approximately O(n) in the number of values
@@ -1068,9 +1070,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines the type of @value.
-     * 
-     * The return value is valid for the lifetime of @value and must not
+     * Determines the type of {@code value}.
+     * <p>
+     * The return value is valid for the lifetime of {@code value} and must not
      * be freed.
      */
     public VariantType getType() {
@@ -1079,9 +1081,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the type string of @value.  Unlike the result of calling
+     * Returns the type string of {@code value}.  Unlike the result of calling
      * g_variant_type_peek_string(), this string is nul-terminated.  This
-     * string belongs to {@link org.gtk.glib.Variant} and must not be freed.
+     * string belongs to {@link Variant} and must not be freed.
      */
     public java.lang.String getTypeString() {
         var RESULT = gtk_h.g_variant_get_type_string(handle());
@@ -1089,10 +1091,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the 16-bit unsigned integer value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_UINT16</code>
+     * Returns the 16-bit unsigned integer value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_UINT16}.
      */
     public short getUint16() {
         var RESULT = gtk_h.g_variant_get_uint16(handle());
@@ -1100,10 +1102,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the 32-bit unsigned integer value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_UINT32</code>
+     * Returns the 32-bit unsigned integer value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_UINT32}.
      */
     public int getUint32() {
         var RESULT = gtk_h.g_variant_get_uint32(handle());
@@ -1111,10 +1113,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the 64-bit unsigned integer value of @value.
-     * 
-     * It is an error to call this function with a @value of any type
-     * other than <code>G_VARIANT_TYPE_UINT64</code>
+     * Returns the 64-bit unsigned integer value of {@code value}.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than {@code G_VARIANT_TYPE_UINT64}.
      */
     public long getUint64() {
         var RESULT = gtk_h.g_variant_get_uint64(handle());
@@ -1122,37 +1124,38 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * This function is intended to be used by libraries based on {@link org.gtk.glib.Variant} that want to provide g_variant_get()-like functionality to their
+     * This function is intended to be used by libraries based on {@link Variant}
+     * that want to provide g_variant_get()-like functionality to their
      * users.
-     * 
+     * <p>
      * The API is more general than g_variant_get() to allow a wider range
      * of possible uses.
-     * 
-     * @format_string must still point to a valid format string, but it only
-     * need to be nul-terminated if @endptr is <code>null</code>   If @endptr is
+     * <p>
+     * {@code format_string} must still point to a valid format string, but it only
+     * need to be nul-terminated if {@code endptr} is <code>null</code>.  If {@code endptr} is
      * non-<code>null</code> then it is updated to point to the first character past the
      * end of the format string.
-     * 
-     * @app is a pointer to a <code>#va_list</code>   The arguments, according to
-     * @format_string, are collected from this <code>#va_list</code> and the list is left
+     * <p>
+     * {@code app} is a pointer to a {@code va_list}.  The arguments, according to
+     * {@code format_string}, are collected from this {@code va_list} and the list is left
      * pointing to the argument following the last.
-     * 
+     * <p>
      * These two generalisations allow mixing of multiple calls to
      * g_variant_new_va() and g_variant_get_va() within a single actual
      * varargs call by the user.
-     * 
-     * @format_string determines the C types that are used for unpacking
+     * <p>
+     * {@code format_string} determines the C types that are used for unpacking
      * the values and also determines if the values are copied or borrowed,
      * see the section on
-     * {@link [GVariant format strings]}{@link [gvariant-format-strings-pointers]}.
+     * [GVariant format strings][gvariant-format-strings-pointers].
      */
     public void getVa(java.lang.String formatString, java.lang.String[] endptr, VaList app) {
         gtk_h.g_variant_get_va(handle(), Interop.allocateNativeString(formatString).handle(), Interop.allocateNativeArray(endptr).handle(), app);
     }
     
     /**
-     * Unboxes @value.  The result is the {@link org.gtk.glib.Variant} instance that was
-     * contained in @value.
+     * Unboxes {@code value}.  The result is the {@link Variant} instance that was
+     * contained in {@code value}.
      */
     public Variant getVariant() {
         var RESULT = gtk_h.g_variant_get_variant(handle());
@@ -1160,15 +1163,15 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Generates a hash value for a {@link org.gtk.glib.Variant} instance.
-     * 
+     * Generates a hash value for a {@link Variant} instance.
+     * <p>
      * The output of this function is guaranteed to be the same for a given
      * value only per-process.  It may change between different processor
      * architectures or even different versions of GLib.  Do not use this
      * function as a basis for building protocols or file formats.
-     * 
-     * The type of @value is <code>#gconstpointer</code> only to allow use of this
-     * function with {@link org.gtk.glib.HashTable}   @value must be a {@link org.gtk.glib.Variant}
+     * <p>
+     * The type of {@code value} is {@code gconstpointer} only to allow use of this
+     * function with {@link HashTable}.  {@code value} must be a {@link Variant}.
      */
     public int hash() {
         var RESULT = gtk_h.g_variant_hash(handle());
@@ -1176,7 +1179,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if @value is a container.
+     * Checks if {@code value} is a container.
      */
     public boolean isContainer() {
         var RESULT = gtk_h.g_variant_is_container(handle());
@@ -1184,13 +1187,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether @value has a floating reference count.
-     * 
+     * Checks whether {@code value} has a floating reference count.
+     * <p>
      * This function should only ever be used to assert that a given variant
      * is or is not floating, or for debug purposes. To acquire a reference
      * to a variant that might be floating, always use g_variant_ref_sink()
      * or g_variant_take_ref().
-     * 
+     * <p>
      * See g_variant_ref_sink() for more information about floating reference
      * counts.
      */
@@ -1200,16 +1203,17 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if @value is in normal form.
-     * 
+     * Checks if {@code value} is in normal form.
+     * <p>
      * The main reason to do this is to detect if a given chunk of
-     * serialized data is in normal form: load the data into a {@link org.gtk.glib.Variant} using g_variant_new_from_data() and then use this function to
+     * serialized data is in normal form: load the data into a {@link Variant}
+     * using g_variant_new_from_data() and then use this function to
      * check.
-     * 
-     * If @value is found to be in normal form then it will be marked as
+     * <p>
+     * If {@code value} is found to be in normal form then it will be marked as
      * being trusted.  If the value was already marked as being trusted then
-     * this function will immediately return <code>true</code> 
-     * 
+     * this function will immediately return <code>true</code>.
+     * <p>
      * There may be implementation specific restrictions on deeply nested values.
      * GVariant is guaranteed to handle nesting up to at least 64 levels.
      */
@@ -1227,13 +1231,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a heap-allocated {@link org.gtk.glib.VariantIter} for iterating over the items
-     * in @value.
-     * 
+     * Creates a heap-allocated {@link VariantIter} for iterating over the items
+     * in {@code value}.
+     * <p>
      * Use g_variant_iter_free() to free the return value when you no longer
      * need it.
-     * 
-     * A reference is taken to @value and will be released only when
+     * <p>
+     * A reference is taken to {@code value} and will be released only when
      * g_variant_iter_free() is called.
      */
     public VariantIter iterNew() {
@@ -1242,27 +1246,27 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Looks up a value in a dictionary {@link org.gtk.glib.Variant} 
-     * 
+     * Looks up a value in a dictionary {@link Variant}.
+     * <p>
      * This function works with dictionaries of the type a{s*} (and equally
      * well with type a{o*}, but we only further discuss the string case
      * for sake of clarity).
-     * 
-     * In the event that @dictionary has the type a{sv}, the @expected_type
+     * <p>
+     * In the event that {@code dictionary} has the type a{sv}, the {@code expected_type}
      * string specifies what type of value is expected to be inside of the
      * variant. If the value inside the variant has a different type then
-     * <code>null</code> is returned. In the event that @dictionary has a value type other
-     * than v then @expected_type must directly match the value type and it is
+     * <code>null</code> is returned. In the event that {@code dictionary} has a value type other
+     * than v then {@code expected_type} must directly match the value type and it is
      * used to unpack the value directly or an error occurs.
-     * 
-     * In either case, if @key is not found in @dictionary, <code>null</code> is returned.
-     * 
+     * <p>
+     * In either case, if {@code key} is not found in {@code dictionary}, <code>null</code> is returned.
+     * <p>
      * If the key is found and the value has the correct type, it is
-     * returned.  If @expected_type was specified then any non-<code>null</code> return
+     * returned.  If {@code expected_type} was specified then any non-<code>null</code> return
      * value will have this type.
-     * 
+     * <p>
      * This function is currently implemented with a linear scan.  If you
-     * plan to do many lookups then {@link org.gtk.glib.VariantDict} may be more efficient.
+     * plan to do many lookups then {@link VariantDict} may be more efficient.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {
         var RESULT = gtk_h.g_variant_lookup_value(handle(), Interop.allocateNativeString(key).handle(), expectedType.handle());
@@ -1270,16 +1274,16 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Determines the number of children in a container {@link org.gtk.glib.Variant} instance.
+     * Determines the number of children in a container {@link Variant} instance.
      * This includes variants, maybes, arrays, tuples and dictionary
      * entries.  It is an error to call this function on any other type of
-     * {@link org.gtk.glib.Variant} 
-     * 
+     * {@link Variant}.
+     * <p>
      * For variants, the return value is always 1.  For values with maybe
      * types, it is always zero or one.  For arrays, it is the length of the
      * array.  For tuples it is the number of tuple items (which depends
      * only on the type).  For dictionary entries, it is always 2
-     * 
+     * <p>
      * This function is O(1).
      */
     public long nChildren() {
@@ -1288,11 +1292,11 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pretty-prints @value in the format understood by g_variant_parse().
-     * 
-     * The format is described {@link [here]}{@link [gvariant-text]}.
-     * 
-     * If @type_annotate is <code>true</code>  then type information is included in
+     * Pretty-prints {@code value} in the format understood by g_variant_parse().
+     * <p>
+     * The format is described [here][gvariant-text].
+     * <p>
+     * If {@code type_annotate} is <code>true</code>, then type information is included in
      * the output.
      */
     public java.lang.String print(boolean typeAnnotate) {
@@ -1301,10 +1305,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Behaves as g_variant_print(), but operates on a {@link org.gtk.glib.String} 
-     * 
-     * If @string is non-<code>null</code> then it is appended to and returned.  Else,
-     * a new empty {@link org.gtk.glib.String} is allocated and it is returned.
+     * Behaves as g_variant_print(), but operates on a {@link String}.
+     * <p>
+     * If {@code string} is non-<code>null</code> then it is appended to and returned.  Else,
+     * a new empty {@link String} is allocated and it is returned.
      */
     public String printString(String string, boolean typeAnnotate) {
         var RESULT = gtk_h.g_variant_print_string(handle(), string.handle(), typeAnnotate ? 1 : 0);
@@ -1312,7 +1316,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count of @value.
+     * Increases the reference count of {@code value}.
      */
     public Variant ref() {
         var RESULT = gtk_h.g_variant_ref(handle());
@@ -1320,21 +1324,21 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * {@link org.gtk.glib.Variant} uses a floating reference count system.  All functions with
-     * names starting with <code>g_variant_new_</code> return floating
+     * {@link Variant} uses a floating reference count system.  All functions with
+     * names starting with {@code g_variant_new_} return floating
      * references.
-     * 
-     * Calling g_variant_ref_sink() on a {@link org.gtk.glib.Variant} with a floating reference
+     * <p>
+     * Calling g_variant_ref_sink() on a {@link Variant} with a floating reference
      * will convert the floating reference into a full reference.  Calling
-     * g_variant_ref_sink() on a non-floating {@link org.gtk.glib.Variant} results in an
+     * g_variant_ref_sink() on a non-floating {@link Variant} results in an
      * additional normal reference being added.
-     * 
-     * In other words, if the @value is floating, then this call &<code>#34</code> assumes
-     * ownership&<code>#34</code>  of the floating reference, converting it to a normal
-     * reference.  If the @value is not floating, then this call adds a
+     * <p>
+     * In other words, if the {@code value} is floating, then this call "assumes
+     * ownership" of the floating reference, converting it to a normal
+     * reference.  If the {@code value} is not floating, then this call adds a
      * new normal reference increasing the reference count by one.
-     * 
-     * All calls that result in a {@link org.gtk.glib.Variant} instance being inserted into a
+     * <p>
+     * All calls that result in a {@link Variant} instance being inserted into a
      * container will call g_variant_ref_sink() on the instance.  This means
      * that if the value was just created (and has only its floating
      * reference) then the container will assume sole ownership of the value
@@ -1349,51 +1353,51 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Stores the serialized form of @value at @data.  @data should be
+     * Stores the serialized form of {@code value} at {@code data}.  {@code data} should be
      * large enough.  See g_variant_get_size().
-     * 
+     * <p>
      * The stored data is in machine native byte order but may not be in
      * fully-normalised form if read from an untrusted source.  See
      * g_variant_get_normal_form() for a solution.
-     * 
+     * <p>
      * As with g_variant_get_data(), to be able to deserialize the
      * serialized variant successfully, its type and (if the destination
      * machine might be different) its endianness must also be available.
-     * 
-     * This function is approximately O(n) in the size of @data.
+     * <p>
+     * This function is approximately O(n) in the size of {@code data}.
      */
     public void store(jdk.incubator.foreign.MemoryAddress data) {
         gtk_h.g_variant_store(handle(), data);
     }
     
     /**
-     * If @value is floating, sink it.  Otherwise, do nothing.
-     * 
+     * If {@code value} is floating, sink it.  Otherwise, do nothing.
+     * <p>
      * Typically you want to use g_variant_ref_sink() in order to
      * automatically do the correct thing with respect to floating or
      * non-floating references, but there is one specific scenario where
      * this function is helpful.
-     * 
+     * <p>
      * The situation where this function is helpful is when creating an API
      * that allows the user to provide a callback function that returns a
-     * {@link org.gtk.glib.Variant}   We certainly want to allow the user the flexibility to
+     * {@link Variant}.  We certainly want to allow the user the flexibility to
      * return a non-floating reference from this callback (for the case
      * where the value that is being returned already exists).
-     * 
-     * At the same time, the style of the {@link org.gtk.glib.Variant} API makes it likely that
-     * for newly-created {@link org.gtk.glib.Variant} instances, the user can be saved some
-     * typing if they are allowed to return a {@link org.gtk.glib.Variant} with a floating
+     * <p>
+     * At the same time, the style of the {@link Variant} API makes it likely that
+     * for newly-created {@link Variant} instances, the user can be saved some
+     * typing if they are allowed to return a {@link Variant} with a floating
      * reference.
-     * 
-     * Using this function on the return value of the user&<code>#39</code> s callback allows
+     * <p>
+     * Using this function on the return value of the user's callback allows
      * the user to do whichever is more convenient for them.  The caller
      * will always receives exactly one full reference to the value: either
      * the one that was returned in the first place, or a floating reference
      * that has been converted to a full reference.
-     * 
+     * <p>
      * This function has an odd interaction when combined with
      * g_variant_ref_sink() running at the same time in another thread on
-     * the same {@link org.gtk.glib.Variant} instance.  If g_variant_ref_sink() runs first then
+     * the same {@link Variant} instance.  If g_variant_ref_sink() runs first then
      * the result will be that the floating reference is converted to a hard
      * reference.  If g_variant_take_ref() runs first then the result will
      * be that the floating reference is converted to a hard reference and
@@ -1406,7 +1410,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count of @value.  When its reference count
+     * Decreases the reference count of {@code value}.  When its reference count
      * drops to 0, the memory used by the variant is freed.
      */
     public void unref() {
@@ -1418,10 +1422,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * should ensure that a string is a valid D-Bus object path before
      * passing it to g_variant_new_object_path().
      * <p>
-     * A valid object path starts with <code>/</code> followed by zero or more
-     * sequences of characters separated by <code>/</code> characters.  Each sequence
-     * must contain only the characters <code>{@link [A-Z]}{@link [a-z]}{@link [0-9]}_</code>.  No sequence
-     * (including the one following the final <code>/</code> character) may be empty.
+     * A valid object path starts with {@code /} followed by zero or more
+     * sequences of characters separated by {@code /} characters.  Each sequence
+     * must contain only the characters {@code [A-Z][a-z][0-9]_}.  No sequence
+     * (including the one following the final {@code /} character) may be empty.
      */
     public static boolean isObjectPath(java.lang.String string) {
         var RESULT = gtk_h.g_variant_is_object_path(Interop.allocateNativeString(string).handle());
@@ -1432,8 +1436,9 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Determines if a given string is a valid D-Bus type signature.  You
      * should ensure that a string is a valid D-Bus type signature before
      * passing it to g_variant_new_signature().
-     * 
-     * D-Bus type signatures consist of zero or more definite {@link org.gtk.glib.VariantType} strings in sequence.
+     * <p>
+     * D-Bus type signatures consist of zero or more definite {@link VariantType}
+     * strings in sequence.
      */
     public static boolean isSignature(java.lang.String string) {
         var RESULT = gtk_h.g_variant_is_signature(Interop.allocateNativeString(string).handle());
@@ -1441,38 +1446,40 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Parses a {@link org.gtk.glib.Variant} from a text representation.
-     * 
-     * A single {@link org.gtk.glib.Variant} is parsed from the content of @text.
-     * 
-     * The format is described {@link [here]}{@link [gvariant-text]}.
-     * 
-     * The memory at @limit will never be accessed and the parser behaves as
-     * if the character at @limit is the nul terminator.  This has the
-     * effect of bounding @text.
-     * 
-     * If @endptr is non-<code>null</code> then @text is permitted to contain data
-     * following the value that this function parses and @endptr will be
+     * Parses a {@link Variant} from a text representation.
+     * <p>
+     * A single {@link Variant} is parsed from the content of {@code text}.
+     * <p>
+     * The format is described [here][gvariant-text].
+     * <p>
+     * The memory at {@code limit} will never be accessed and the parser behaves as
+     * if the character at {@code limit} is the nul terminator.  This has the
+     * effect of bounding {@code text}.
+     * <p>
+     * If {@code endptr} is non-<code>null</code> then {@code text} is permitted to contain data
+     * following the value that this function parses and {@code endptr} will be
      * updated to point to the first character past the end of the text
-     * parsed by this function.  If @endptr is <code>null</code> and there is extra data
+     * parsed by this function.  If {@code endptr} is <code>null</code> and there is extra data
      * then an error is returned.
-     * 
-     * If @type is non-<code>null</code> then the value will be parsed to have that
+     * <p>
+     * If {@code type} is non-<code>null</code> then the value will be parsed to have that
      * type.  This may result in additional parse errors (in the case that
-     * the parsed value doesn&<code>#39</code> t fit the type) but may also result in fewer
+     * the parsed value doesn't fit the type) but may also result in fewer
      * errors (in the case that the type would have been ambiguous, such as
      * with empty arrays).
-     * 
-     * In the event that the parsing is successful, the resulting {@link org.gtk.glib.Variant} is returned. It is never floating, and must be freed with
+     * <p>
+     * In the event that the parsing is successful, the resulting {@link Variant}
+     * is returned. It is never floating, and must be freed with
      * g_variant_unref().
-     * 
-     * In case of any error, <code>null</code> will be returned.  If @error is non-<code>null</code> then it will be set to reflect the error that occurred.
-     * 
-     * Officially, the language understood by the parser is &<code>#34</code> any string
-     * produced by g_variant_print()&<code>#34</code> .
-     * 
+     * <p>
+     * In case of any error, <code>null</code> will be returned.  If {@code error} is non-<code>null</code>
+     * then it will be set to reflect the error that occurred.
+     * <p>
+     * Officially, the language understood by the parser is "any string
+     * produced by g_variant_print()".
+     * <p>
      * There may be implementation specific restrictions on deeply nested values,
-     * which would result in a {@link org.gtk.glib.VariantParseError<code>#RECURSION</code>  error. {@link org.gtk.glib.Variant} is
+     * which would result in a {@link VariantParseError#RECURSION} error. {@link Variant} is
      * guaranteed to handle nesting up to at least 64 levels.
      */
     public static Variant parse(VariantType type, java.lang.String text, java.lang.String limit, java.lang.String[] endptr) throws io.github.jwharm.javagi.GErrorException {
@@ -1485,33 +1492,33 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pretty-prints a message showing the context of a {@link org.gtk.glib.Variant} parse
+     * Pretty-prints a message showing the context of a {@link Variant} parse
      * error within the string for which parsing was attempted.
-     * 
+     * <p>
      * The resulting string is suitable for output to the console or other
      * monospace media where newlines are treated in the usual way.
-     * 
+     * <p>
      * The message will typically look something like one of the following:
-     * 
-     * |{@link [
+     * <p>
+     * |[
      * unterminated string constant:
-     *   (1, 2, 3, &<code>#39</code> abc
+     *   (1, 2, 3, 'abc
      *             ^^^^
-     * ]}|
-     * 
+     * ]|
+     * <p>
      * or
-     * 
-     * |{@link [
+     * <p>
+     * |[
      * unable to find a common type:
-     *   [1, 2, 3, &<code>#39</code> str&<code>#39</code> ]}
+     *   [1, 2, 3, 'str']
      *    ^        ^^^^^
      * ]|
-     * 
+     * <p>
      * The format of the message may change in a future version.
-     * 
-     * @error must have come from a failed attempt to g_variant_parse() and
-     * @source_str must be exactly the same string that caused the error.
-     * If @source_str was not nul-terminated when you passed it to
+     * <p>
+     * {@code error} must have come from a failed attempt to g_variant_parse() and
+     * {@code source_str} must be exactly the same string that caused the error.
+     * If {@code source_str} was not nul-terminated when you passed it to
      * g_variant_parse() then you must add nul termination before using this
      * function.
      */

@@ -6,9 +6,10 @@ package org.gtk.gtk;
  * Icon sizes default to being inherited. Where they cannot be
  * inherited, text size is the default.
  * <p>
- * All widgets which use <code>GtkIconSize</code> set the normal-icons or
+ * All widgets which use {@code GtkIconSize} set the normal-icons or
  * large-icons style classes correspondingly, and let themes
- * determine the actual size to be used with the<code>-gtk-icon-size</code> CSS property.
+ * determine the actual size to be used with the
+ * {@code -gtk-icon-size} CSS property.
  */
 public enum IconSize {
 

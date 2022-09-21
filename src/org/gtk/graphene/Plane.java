@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A 2D plane that extends infinitely in a 3D volume.
  * <p>
- * The contents of the <code>graphene_plane_t</code> are private, and should not be
+ * The contents of the {@code graphene_plane_t} are private, and should not be
  * modified directly.
  */
 public class Plane extends io.github.jwharm.javagi.ResourceBase {
@@ -25,8 +25,8 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new {@link org.gtk.graphene.Plane} structure.
-     * 
+     * Allocates a new {@link Plane} structure.
+     * <p>
      * The contents of the returned structure are undefined.
      */
     public static Plane alloc() {
@@ -34,7 +34,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Computes the distance of @point from a {@link org.gtk.graphene.Plane}
+     * Computes the distance of {@code point} from a {@link Plane}.
      */
     public float distance(Point3D point) {
         var RESULT = gtk_h.graphene_plane_distance(handle(), point.handle());
@@ -42,7 +42,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given {@link org.gtk.graphene.Plane} are equal.
+     * Checks whether the two given {@link Plane} are equal.
      */
     public boolean equal(Plane b) {
         var RESULT = gtk_h.graphene_plane_equal(handle(), b.handle());
@@ -58,7 +58,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the distance along the normal vector of the
-     * given {@link org.gtk.graphene.Plane} from the origin.
+     * given {@link Plane} from the origin.
      */
     public float getConstant() {
         var RESULT = gtk_h.graphene_plane_get_constant(handle());
@@ -67,15 +67,15 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves the normal vector pointing towards the origin of the
-     * given {@link org.gtk.graphene.Plane}
+     * given {@link Plane}.
      */
     public void getNormal(Vec3 normal) {
         gtk_h.graphene_plane_get_normal(handle(), normal.handle());
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Plane} using the given @normal vector
-     * and @constant values.
+     * Initializes the given {@link Plane} using the given {@code normal} vector
+     * and {@code constant} values.
      */
     public Plane init(Vec3 normal, float constant) {
         var RESULT = gtk_h.graphene_plane_init(handle(), normal.handle(), constant);
@@ -83,8 +83,8 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Plane} using the normal
-     * vector and constant of another {@link org.gtk.graphene.Plane}
+     * Initializes the given {@link Plane} using the normal
+     * vector and constant of another {@link Plane}.
      */
     public Plane initFromPlane(Plane src) {
         var RESULT = gtk_h.graphene_plane_init_from_plane(handle(), src.handle());
@@ -92,7 +92,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Plane} using the given normal vector
+     * Initializes the given {@link Plane} using the given normal vector
      * and an arbitrary co-planar point.
      */
     public Plane initFromPoint(Vec3 normal, Point3D point) {
@@ -101,9 +101,9 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Plane} using the 3 provided co-planar
+     * Initializes the given {@link Plane} using the 3 provided co-planar
      * points.
-     * 
+     * <p>
      * The winding order is counter-clockwise, and determines which direction
      * the normal vector will point.
      */
@@ -113,8 +113,8 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given {@link org.gtk.graphene.Plane} using the components of
-     * the given {@link org.gtk.graphene.Vec4} vector.
+     * Initializes the given {@link Plane} using the components of
+     * the given {@link Vec4} vector.
      */
     public Plane initFromVec4(Vec4 src) {
         var RESULT = gtk_h.graphene_plane_init_from_vec4(handle(), src.handle());
@@ -122,7 +122,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Negates the normal vector and constant of a {@link org.gtk.graphene.Plane}  effectively
+     * Negates the normal vector and constant of a {@link Plane}, effectively
      * mirroring the plane across the origin.
      */
     public void negate(Plane res) {
@@ -130,7 +130,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Normalizes the vector of the given {@link org.gtk.graphene.Plane} 
+     * Normalizes the vector of the given {@link Plane},
      * and adjusts the constant accordingly.
      */
     public void normalize(Plane res) {
@@ -138,12 +138,12 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transforms a {@link org.gtk.graphene.Plane} @p using the given @matrix
-     * and @normal_matrix.
-     * 
-     * If @normal_matrix is <code>null</code>  a transformation matrix for the plane
-     * normal will be computed from @matrix. If you are transforming
-     * multiple planes using the same @matrix it&<code>#39</code> s recommended to compute
+     * Transforms a {@link Plane} @p using the given {@code matrix}
+     * and {@code normal_matrix}.
+     * <p>
+     * If {@code normal_matrix} is <code>null</code>, a transformation matrix for the plane
+     * normal will be computed from {@code matrix}. If you are transforming
+     * multiple planes using the same {@code matrix} it's recommended to compute
      * the normal matrix beforehand to avoid incurring in the cost of
      * recomputing it every time.
      */

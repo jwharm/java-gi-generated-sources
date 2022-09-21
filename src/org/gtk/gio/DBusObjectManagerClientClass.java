@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.DBusObjectManagerClient}
+ * Class structure for {@link DBusObjectManagerClient}.
  */
 public class DBusObjectManagerClientClass extends io.github.jwharm.javagi.ResourceBase {
 

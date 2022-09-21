@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual function table for {@link org.gtk.gio.ActionMap}
+ * The virtual function table for {@link ActionMap}.
  */
 public class ActionMapInterface extends io.github.jwharm.javagi.ResourceBase {
 

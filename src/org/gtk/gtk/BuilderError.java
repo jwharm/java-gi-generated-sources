@@ -1,37 +1,38 @@
 package org.gtk.gtk;
 
 /**
- * Error codes that identify various errors that can occur while using<code>GtkBuilder</code>.
+ * Error codes that identify various errors that can occur while using
+ * {@code GtkBuilder}.
  */
 public enum BuilderError {
 
     /**
-     * A type-func attribute didn&<code>#8217</code> t name
-     *  a function that returns a <code>GType</code>.
+     * A type-func attribute didn’t name
+     *  a function that returns a {@code GType}.
      */
     INVALID_TYPE_FUNCTION,
     
     /**
-     * The input contained a tag that <code>GtkBuilder</code>
-     *  can&<code>#8217</code> t handle.
+     * The input contained a tag that {@code GtkBuilder}
+     *  can’t handle.
      */
     UNHANDLED_TAG,
     
     /**
      * An attribute that is required by
-     *  <code>GtkBuilder</code> was missing.
+     *  {@code GtkBuilder} was missing.
      */
     MISSING_ATTRIBUTE,
     
     /**
-     * <code>GtkBuilder</code> found an attribute that
-     *  it doesn&<code>#8217</code> t understand.
+     * {@code GtkBuilder} found an attribute that
+     *  it doesn’t understand.
      */
     INVALID_ATTRIBUTE,
     
     /**
-     * <code>GtkBuilder</code> found a tag that
-     *  it doesn&<code>#8217</code> t understand.
+     * {@code GtkBuilder} found a tag that
+     *  it doesn’t understand.
      */
     INVALID_TAG,
     
@@ -42,7 +43,7 @@ public enum BuilderError {
     MISSING_PROPERTY_VALUE,
     
     /**
-     * <code>GtkBuilder</code> couldn&<code>#8217</code> t parse
+     * {@code GtkBuilder} couldn’t parse
      *  some attribute value.
      */
     INVALID_VALUE,
@@ -65,7 +66,7 @@ public enum BuilderError {
     OBJECT_TYPE_REFUSED,
     
     /**
-     * The wrong type was specified in a composite class&<code>#8217</code> s template XML
+     * The wrong type was specified in a composite class’s template XML
      */
     TEMPLATE_MISMATCH,
     
@@ -87,7 +88,7 @@ public enum BuilderError {
     /**
      * A function could not be found. This often happens
      *   when symbols are set to be kept private. Compiling code with -rdynamic or using the
-     *   <code>gmodule-export-2.0</code> pkgconfig module can fix this problem.
+     *   {@code gmodule-export-2.0} pkgconfig module can fix this problem.
      */
     INVALID_FUNCTION;
     

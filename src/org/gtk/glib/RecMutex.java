@@ -9,15 +9,15 @@ import java.lang.invoke.*;
 
 /**
  * The GRecMutex struct is an opaque data structure to represent a
- * recursive mutex. It is similar to a {@link org.gtk.glib.Mutex} with the difference
+ * recursive mutex. It is similar to a {@link Mutex} with the difference
  * that it is possible to lock a GRecMutex multiple times in the same
  * thread without deadlock. When doing so, care has to be taken to
  * unlock the recursive mutex as often as it has been locked.
- * 
- * If a {@link org.gtk.glib.RecMutex} is allocated in static storage then it can be used
+ * <p>
+ * If a {@link RecMutex} is allocated in static storage then it can be used
  * without initialisation.  Otherwise, you should call
  * g_rec_mutex_init() on it and g_rec_mutex_clear() when done.
- * 
+ * <p>
  * A GRecMutex should only be accessed with the
  * g_rec_mutex_ functions.
  */
@@ -30,13 +30,13 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated to a recursive mutex with
      * g_rec_mutex_init().
-     * 
-     * This function should not be used with a {@link org.gtk.glib.RecMutex} that has been
+     * <p>
+     * This function should not be used with a {@link RecMutex} that has been
      * statically allocated.
-     * 
+     * <p>
      * Calling g_rec_mutex_clear() on a locked recursive mutex leads
      * to undefined behaviour.
-     * 
+     * <p>
      * Sine: 2.32
      */
     public void clear() {
@@ -44,29 +44,30 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.glib.RecMutex} so that it can be used.
-     * 
+     * Initializes a {@link RecMutex} so that it can be used.
+     * <p>
      * This function is useful to initialize a recursive mutex
      * that has been allocated on the stack, or as part of a larger
      * structure.
-     * 
+     * <p>
      * It is not necessary to initialise a recursive mutex that has been
      * statically allocated.
-     * 
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * <p>
+     * |[&lt;!-- language="C" --&gt;
      *   typedef struct {
      *     GRecMutex m;
      *     ...
      *   } Blob;
-     * 
+     * <p>
      * Blob *b;
-     * 
+     * <p>
      * b = g_new (Blob, 1);
-     * g_rec_mutex_init (&<code>#38</code> b-&<code>#62</code> m);
-     * ]}|
-     * 
-     * Calling g_rec_mutex_init() on an already initialized {@link org.gtk.glib.RecMutex} leads to undefined behaviour.
-     * 
+     * g_rec_mutex_init (&b->m);
+     * ]|
+     * <p>
+     * Calling g_rec_mutex_init() on an already initialized {@link RecMutex}
+     * leads to undefined behaviour.
+     * <p>
      * To undo the effect of g_rec_mutex_init() when a recursive mutex
      * is no longer needed, use g_rec_mutex_clear().
      */
@@ -75,10 +76,10 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Locks @rec_mutex. If @rec_mutex is already locked by another
-     * thread, the current thread will block until @rec_mutex is
-     * unlocked by the other thread. If @rec_mutex is already locked
-     * by the current thread, the &<code>#39</code> lock count&<code>#39</code>  of @rec_mutex is increased.
+     * Locks {@code rec_mutex}. If {@code rec_mutex} is already locked by another
+     * thread, the current thread will block until {@code rec_mutex} is
+     * unlocked by the other thread. If {@code rec_mutex} is already locked
+     * by the current thread, the 'lock count' of {@code rec_mutex} is increased.
      * The mutex will only become available again when it is unlocked
      * as many times as it has been locked.
      */
@@ -87,9 +88,9 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Tries to lock @rec_mutex. If @rec_mutex is already locked
-     * by another thread, it immediately returns <code>false</code>  Otherwise
-     * it locks @rec_mutex and returns <code>true</code>
+     * Tries to lock {@code rec_mutex}. If {@code rec_mutex} is already locked
+     * by another thread, it immediately returns <code>false</code>. Otherwise
+     * it locks {@code rec_mutex} and returns <code>true</code>.
      */
     public boolean trylock() {
         var RESULT = gtk_h.g_rec_mutex_trylock(handle());
@@ -97,10 +98,10 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Unlocks @rec_mutex. If another thread is blocked in a
-     * g_rec_mutex_lock() call for @rec_mutex, it will become unblocked
-     * and can lock @rec_mutex itself.
-     * 
+     * Unlocks {@code rec_mutex}. If another thread is blocked in a
+     * g_rec_mutex_lock() call for {@code rec_mutex}, it will become unblocked
+     * and can lock {@code rec_mutex} itself.
+     * <p>
      * Calling g_rec_mutex_unlock() on a recursive mutex that is not
      * locked by the current thread leads to undefined behaviour.
      */

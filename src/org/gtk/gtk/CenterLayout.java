@@ -8,13 +8,13 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkCenterLayout</code> is a layout manager that manages up to three children.
- * 
+ * {@code GtkCenterLayout} is a layout manager that manages up to three children.
+ * <p>
  * The start widget is allocated at the start of the layout (left in
  * left-to-right locales and right in right-to-left ones), and the end
  * widget at the end.
- * 
- * The center widget is centered regarding the full width of the layout&<code>#39</code> s.
+ * <p>
+ * The center widget is centered regarding the full width of the layout's.
  */
 public class CenterLayout extends LayoutManager {
 
@@ -33,7 +33,7 @@ public class CenterLayout extends LayoutManager {
     }
     
     /**
-     * Creates a new <code>GtkCenterLayout</code>.
+     * Creates a new {@code GtkCenterLayout}.
      */
     public CenterLayout() {
         super(constructNew());
@@ -80,41 +80,41 @@ public class CenterLayout extends LayoutManager {
     }
     
     /**
-     * Sets the new baseline position of @self
+     * Sets the new baseline position of {@code self}
      */
     public void setBaselinePosition(BaselinePosition baselinePosition) {
         gtk_h.gtk_center_layout_set_baseline_position(handle(), baselinePosition.getValue());
     }
     
     /**
-     * Sets the new center widget of @self.
-     * 
-     * To remove the existing center widget, pass <code>null</code>
+     * Sets the new center widget of {@code self}.
+     * <p>
+     * To remove the existing center widget, pass <code>null</code>.
      */
     public void setCenterWidget(Widget widget) {
         gtk_h.gtk_center_layout_set_center_widget(handle(), widget.handle());
     }
     
     /**
-     * Sets the new end widget of @self.
-     * 
-     * To remove the existing center widget, pass <code>null</code>
+     * Sets the new end widget of {@code self}.
+     * <p>
+     * To remove the existing center widget, pass <code>null</code>.
      */
     public void setEndWidget(Widget widget) {
         gtk_h.gtk_center_layout_set_end_widget(handle(), widget.handle());
     }
     
     /**
-     * Sets the orientation of @self.
+     * Sets the orientation of {@code self}.
      */
     public void setOrientation(Orientation orientation) {
         gtk_h.gtk_center_layout_set_orientation(handle(), orientation.getValue());
     }
     
     /**
-     * Sets the new start widget of @self.
-     * 
-     * To remove the existing start widget, pass <code>null</code>
+     * Sets the new start widget of {@code self}.
+     * <p>
+     * To remove the existing start widget, pass <code>null</code>.
      */
     public void setStartWidget(Widget widget) {
         gtk_h.gtk_center_layout_set_start_widget(handle(), widget.handle());

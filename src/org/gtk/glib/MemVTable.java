@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A set of functions used to perform memory allocation. The same {@link org.gtk.glib.MemVTable} must
+ * A set of functions used to perform memory allocation. The same {@link MemVTable} must
  * be used for all allocations in the same program; a call to g_mem_set_vtable(),
  * if it exists, should be prior to any use of GLib.
- * 
+ * <p>
  * This functions related to this has been deprecated in 2.46, and no longer work.
  */
 public class MemVTable extends io.github.jwharm.javagi.ResourceBase {

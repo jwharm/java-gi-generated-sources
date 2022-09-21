@@ -9,11 +9,11 @@ import java.lang.invoke.*;
 
 /**
  * An opaque, stack-allocated struct for iterating
- * over the elements of a <code>GtkBitset</code>.
+ * over the elements of a {@code GtkBitset}.
  * <p>
- * Before a <code>GtkBitsetIter</code> can be used, it needs to be initialized with
- * {@link Gtk<code>#BitsetIter</code> , {@link Gtk<code>#BitsetIter</code> 
- * or {@link Gtk<code>#BitsetIter</code> .
+ * Before a {@code GtkBitsetIter} can be used, it needs to be initialized with
+ * {@code Gtk.BitsetIter.init_last}
+ * or {@link Gtk#BitsetIter}.
  */
 public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
 
@@ -22,10 +22,10 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the current value that @iter points to.
-     * 
-     * If @iter is not valid and {@link org.gtk.gtk.BitsetIter<code>#isValid</code> 
-     * returns <code>false</code>  this function returns 0.
+     * Gets the current value that {@code iter} points to.
+     * <p>
+     * If {@code iter} is not valid and {@link BitsetIter#isValid}
+     * returns <code>false</code>, this function returns 0.
      */
     public int getValue() {
         var RESULT = gtk_h.gtk_bitset_iter_get_value(handle());
@@ -33,7 +33,7 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if @iter points to a valid value.
+     * Checks if {@code iter} points to a valid value.
      */
     public boolean isValid() {
         var RESULT = gtk_h.gtk_bitset_iter_is_valid(handle());

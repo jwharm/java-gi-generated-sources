@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual function table for {@link org.gtk.gio.DebugControllerDBus}
+ * The virtual function table for {@link DebugControllerDBus}.
  */
 public class DebugControllerDBusClass extends io.github.jwharm.javagi.ResourceBase {
 

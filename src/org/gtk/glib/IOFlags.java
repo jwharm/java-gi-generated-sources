@@ -1,20 +1,21 @@
 package org.gtk.glib;
 
 /**
- * Specifies properties of a {@link org.gtk.glib.IOChannel}  Some of the flags can only be
+ * Specifies properties of a {@link IOChannel}. Some of the flags can only be
  * read with g_io_channel_get_flags(), but not changed with
  * g_io_channel_set_flags().
  */
 public class IOFlags {
 
     /**
-     * turns on append mode, corresponds to <code>O_APPEND</code>     (see the documentation of the UNIX open() syscall)
+     * turns on append mode, corresponds to {@code O_APPEND}
+     *     (see the documentation of the UNIX open() syscall)
      */
     public static final int APPEND = 1;
     
     /**
      * turns on nonblocking mode, corresponds to
-     *     <code>O_NONBLOCK</code> <code>O_NDELAY</code> (see the documentation of the UNIX open()
+     *     {@code O_NONBLOCK}/{@code O_NDELAY} (see the documentation of the UNIX open()
      *     syscall)
      */
     public static final int NONBLOCK = 2;
@@ -32,7 +33,7 @@ public class IOFlags {
     public static final int IS_WRITABLE = 8;
     
     /**
-     * a misspelled version of @G_IO_FLAG_IS_WRITABLE
+     * a misspelled version of {@code G_IO_FLAG_IS_WRITABLE}
      *     that existed before the spelling was fixed in GLib 2.30. It is kept
      *     here for compatibility reasons. Deprecated since 2.30
      */

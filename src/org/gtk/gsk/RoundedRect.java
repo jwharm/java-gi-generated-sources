@@ -11,16 +11,16 @@ import java.lang.invoke.*;
  * A rectangular region with rounded corners.
  * <p>
  * Application code should normalize rectangles using
- * {@link org.gtk.gsk.RoundedRect<code>#normalize</code> ; this function will ensure that
+ * {@link RoundedRect#normalize}; this function will ensure that
  * the bounds of the rectangle are normalized and ensure that the corner
  * values are positive and the corners do not overlap.
  * <p>
- * All functions taking a <code>GskRoundedRect</code> as an argument will internally
- * operate on a normalized copy; all functions returning a <code>GskRoundedRect</code>
+ * All functions taking a {@code GskRoundedRect} as an argument will internally
+ * operate on a normalized copy; all functions returning a {@code GskRoundedRect}
  * will always return a normalized one.
- * 
+ * <p>
  * The algorithm used for normalizing corner sizes is described in
- * {@link [the CSS specification]}(https://drafts.csswg.org/css-backgrounds-3/<code>#border</code> radius).
+ * <a href="https://drafts.csswg.org/css-backgrounds-3/#border-radius">the CSS specification</a>.
  */
 public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
 
@@ -29,7 +29,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if the given @point is inside the rounded rectangle.
+     * Checks if the given {@code point} is inside the rounded rectangle.
      */
     public boolean containsPoint(org.gtk.graphene.Point point) {
         var RESULT = gtk_h.gsk_rounded_rect_contains_point(handle(), point.handle());
@@ -37,7 +37,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if the given @rect is contained inside the rounded rectangle.
+     * Checks if the given {@code rect} is contained inside the rounded rectangle.
      */
     public boolean containsRect(org.gtk.graphene.Rect rect) {
         var RESULT = gtk_h.gsk_rounded_rect_contains_rect(handle(), rect.handle());
@@ -45,9 +45,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes the given <code>GskRoundedRect</code> with the given values.
+     * Initializes the given {@code GskRoundedRect} with the given values.
      * <p>
-     * This function will implicitly normalize the <code>GskRoundedRect</code>
+     * This function will implicitly normalize the {@code GskRoundedRect}
      * before returning.
      */
     public RoundedRect init(org.gtk.graphene.Rect bounds, org.gtk.graphene.Size topLeft, org.gtk.graphene.Size topRight, org.gtk.graphene.Size bottomRight, org.gtk.graphene.Size bottomLeft) {
@@ -56,9 +56,9 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @self using the given @src rectangle.
+     * Initializes {@code self} using the given {@code src} rectangle.
      * <p>
-     * This function will not normalize the <code>GskRoundedRect</code>,
+     * This function will not normalize the {@code GskRoundedRect},
      * so make sure the source is normalized.
      */
     public RoundedRect initCopy(RoundedRect src) {
@@ -67,8 +67,8 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @self to the given @bounds and sets the radius
-     * of all four corners to @radius.
+     * Initializes {@code self} to the given {@code bounds} and sets the radius
+     * of all four corners to {@code radius}.
      */
     public RoundedRect initFromRect(org.gtk.graphene.Rect bounds, float radius) {
         var RESULT = gtk_h.gsk_rounded_rect_init_from_rect(handle(), bounds.handle(), radius);
@@ -76,7 +76,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if part of the given @rect is contained inside the rounded rectangle.
+     * Checks if part of the given {@code rect} is contained inside the rounded rectangle.
      */
     public boolean intersectsRect(org.gtk.graphene.Rect rect) {
         var RESULT = gtk_h.gsk_rounded_rect_intersects_rect(handle(), rect.handle());
@@ -84,11 +84,11 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks if all corners of @self are right angles and the
+     * Checks if all corners of {@code self} are right angles and the
      * rectangle covers all of its bounds.
-     * 
-     * This information can be used to decide if {@link [ctor@Gsk.ClipNode.new] (ref=ctor)}
-     * or {@link [ctor@Gsk.RoundedClipNode.new] (ref=ctor)} should be called.
+     * <p>
+     * This information can be used to decide if {@link ClipNode#ClipNode}
+     * or {@link RoundedClipNode#RoundedClipNode} should be called.
      */
     public boolean isRectilinear() {
         var RESULT = gtk_h.gsk_rounded_rect_is_rectilinear(handle());
@@ -97,7 +97,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Normalizes the passed rectangle.
-     * 
+     * <p>
      * This function will ensure that the bounds of the rectangle
      * are normalized and ensure that the corner values are positive
      * and the corners do not overlap.
@@ -108,8 +108,8 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Offsets the bound&<code>#39</code> s origin by @dx and @dy.
-     * 
+     * Offsets the bound's origin by {@code dx} and {@code dy}.
+     * <p>
      * The size and corners of the rectangle are unchanged.
      */
     public RoundedRect offset(float dx, float dy) {
@@ -120,12 +120,12 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Shrinks (or grows) the given rectangle by moving the 4 sides
      * according to the offsets given.
-     * 
+     * <p>
      * The corner radii will be changed in a way that tries to keep
      * the center of the corner circle intact. This emulates CSS behavior.
-     * 
+     * <p>
      * This function also works for growing rectangles if you pass
-     * negative values for the @top, @right, @bottom or @left.
+     * negative values for the {@code top}, {@code right}, {@code bottom} or {@code left}.
      */
     public RoundedRect shrink(float top, float right, float bottom, float left) {
         var RESULT = gtk_h.gsk_rounded_rect_shrink(handle(), top, right, bottom, left);

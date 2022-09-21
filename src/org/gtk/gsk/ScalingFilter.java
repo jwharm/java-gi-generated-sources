@@ -2,7 +2,7 @@ package org.gtk.gsk;
 
 /**
  * The filters used when scaling texture data.
- * 
+ * <p>
  * The actual implementation of each filter is deferred to the
  * rendering pipeline.
  */

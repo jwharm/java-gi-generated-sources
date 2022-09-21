@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkShortcutAction</code> that activates an action by name.
+ * A {@code GtkShortcutAction} that activates an action by name.
  */
 public class NamedAction extends ShortcutAction {
 
@@ -29,10 +29,10 @@ public class NamedAction extends ShortcutAction {
     /**
      * Creates an action that when activated, activates
      * the named action on the widget.
-     * 
+     * <p>
      * It also passes the given arguments to it.
-     * 
-     * See {@link org.gtk.gtk.Widget<code>#insertActionGroup</code>  for
+     * <p>
+     * See {@link Widget#insertActionGroup} for
      * how to add actions to widgets.
      */
     public NamedAction(java.lang.String name) {

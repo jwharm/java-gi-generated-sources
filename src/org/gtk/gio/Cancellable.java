@@ -29,12 +29,13 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.Cancellable} object.
-     * 
+     * Creates a new {@link Cancellable} object.
+     * <p>
      * Applications that want to start one or more operations
-     * that should be cancellable should create a {@link org.gtk.gio.Cancellable} and pass it to the operations.
-     * 
-     * One {@link org.gtk.gio.Cancellable} can be used in multiple consecutive
+     * that should be cancellable should create a {@link Cancellable}
+     * and pass it to the operations.
+     * <p>
+     * One {@link Cancellable} can be used in multiple consecutive
      * operations or in multiple concurrent operations.
      */
     public Cancellable() {
@@ -42,21 +43,21 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Will set @cancellable to cancelled, and will emit the
-     * {@link org.gtk.gio.Cancellable} :cancelled signal. (However, see the warning about
+     * Will set {@code cancellable} to cancelled, and will emit the
+     * {@link Cancellable}::cancelled signal. (However, see the warning about
      * race conditions in the documentation for that signal if you are
      * planning to connect to it.)
-     * 
+     * <p>
      * This function is thread-safe. In other words, you can safely call
      * it from a thread other than the one running the operation that was
-     * passed the @cancellable.
-     * 
-     * If @cancellable is <code>null</code>  this function returns immediately for convenience.
-     * 
+     * passed the {@code cancellable}.
+     * <p>
+     * If {@code cancellable} is <code>null</code>, this function returns immediately for convenience.
+     * <p>
      * The convention within GIO is that cancelling an asynchronous
      * operation causes it to complete asynchronously. That is, if you
      * cancel the operation from the same thread in which it is running,
-     * then the operation&<code>#39</code> s {@link org.gtk.gio.AsyncReadyCallback} will not be invoked until
+     * then the operation's {@link AsyncReadyCallback} will not be invoked until
      * the application returns to the main loop.
      */
     public void cancel() {
@@ -64,22 +65,22 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Convenience function to connect to the {@link org.gtk.gio.Cancellable} :cancelled
+     * Convenience function to connect to the {@link Cancellable}::cancelled
      * signal. Also handles the race condition that may happen
      * if the cancellable is cancelled right before connecting.
-     * 
-     * @callback is called at most once, either directly at the
-     * time of the connect if @cancellable is already cancelled,
-     * or when @cancellable is cancelled in some thread.
-     * 
-     * @data_destroy_func will be called when the handler is
+     * <p>
+     * {@code callback} is called at most once, either directly at the
+     * time of the connect if {@code cancellable} is already cancelled,
+     * or when {@code cancellable} is cancelled in some thread.
+     * <p>
+     * {@code data_destroy_func} will be called when the handler is
      * disconnected, or immediately if the cancellable is already
      * cancelled.
-     * 
-     * See {@link org.gtk.gio.Cancellable} :cancelled for details on how to use this.
-     * 
-     * Since GLib 2.40, the lock protecting @cancellable is not held when
-     * @callback is invoked.  This lifts a restriction in place for
+     * <p>
+     * See {@link Cancellable}::cancelled for details on how to use this.
+     * <p>
+     * Since GLib 2.40, the lock protecting {@code cancellable} is not held when
+     * {@code callback} is invoked.  This lifts a restriction in place for
      * earlier GLib versions which now makes it easier to write cleanup
      * code that unconditionally invokes e.g. g_cancellable_cancel().
      */
@@ -104,15 +105,15 @@ public class Cancellable extends org.gtk.gobject.Object {
      * g_signal_handler_disconnect().  Additionally, in the event that a
      * signal handler is currently running, this call will block until the
      * handler has finished.  Calling this function from a
-     * {@link org.gtk.gio.Cancellable} :cancelled signal handler will therefore result in a
+     * {@link Cancellable}::cancelled signal handler will therefore result in a
      * deadlock.
      * <p>
      * This avoids a race condition where a thread cancels at the
      * same time as the cancellable operation is finished and the
-     * signal handler is removed. See {@link org.gtk.gio.Cancellable} :cancelled for
+     * signal handler is removed. See {@link Cancellable}::cancelled for
      * details on how to use this.
      * <p>
-     * If @cancellable is <code>null</code> or @handler_id is <code>0</code> this function does
+     * If {@code cancellable} is <code>null</code> or {@code handler_id} is {@code 0} this function does
      * nothing.
      */
     public void disconnect(long handlerId) {
@@ -122,16 +123,16 @@ public class Cancellable extends org.gtk.gobject.Object {
     /**
      * Gets the file descriptor for a cancellable job. This can be used to
      * implement cancellable operations on Unix systems. The returned fd will
-     * turn readable when @cancellable is cancelled.
-     * 
+     * turn readable when {@code cancellable} is cancelled.
+     * <p>
      * You are not supposed to read from the fd yourself, just check for
      * readable status. Reading to unset the readable status is done
      * with g_cancellable_reset().
-     * 
+     * <p>
      * After a successful return from this function, you should use
      * g_cancellable_release_fd() to free up resources allocated for
      * the returned file descriptor.
-     * 
+     * <p>
      * See also g_cancellable_make_pollfd().
      */
     public int getFd() {
@@ -148,21 +149,21 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a {@link org.gtk.glib.PollFD} corresponding to @cancellable; this can be passed
+     * Creates a {@link org.gtk.glib.PollFD} corresponding to {@code cancellable}; this can be passed
      * to g_poll() and used to poll for cancellation. This is useful both
      * for unix systems without a native poll and for portability to
      * windows.
-     * 
-     * When this function returns <code>true</code>  you should use
+     * <p>
+     * When this function returns <code>true</code>, you should use
      * g_cancellable_release_fd() to free up resources allocated for the
-     * @pollfd. After a <code>false</code> return, do not call g_cancellable_release_fd().
-     * 
-     * If this function returns <code>false</code>  either no @cancellable was given or
+     * {@code pollfd}. After a <code>false</code> return, do not call g_cancellable_release_fd().
+     * <p>
+     * If this function returns <code>false</code>, either no {@code cancellable} was given or
      * resource limits prevent this function from allocating the necessary
      * structures for polling. (On Linux, you will likely have reached
      * the maximum number of file descriptors.) The suggested way to handle
-     * these cases is to ignore the @cancellable.
-     * 
+     * these cases is to ignore the {@code cancellable}.
+     * <p>
      * You are not supposed to read from the fd yourself, just check for
      * readable status. Reading to unset the readable status is done
      * with g_cancellable_reset().
@@ -173,7 +174,7 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Pops @cancellable off the cancellable stack (verifying that @cancellable
+     * Pops {@code cancellable} off the cancellable stack (verifying that {@code cancellable}
      * is on the top of the stack).
      */
     public void popCurrent() {
@@ -181,13 +182,13 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Pushes @cancellable onto the cancellable stack. The current
+     * Pushes {@code cancellable} onto the cancellable stack. The current
      * cancellable can then be received using g_cancellable_get_current().
-     * 
+     * <p>
      * This is useful when implementing cancellable operations in
      * code that does not allow you to pass down the cancellable object.
-     * 
-     * This is typically called automatically by e.g. {@link org.gtk.gio.File} operations,
+     * <p>
+     * This is typically called automatically by e.g. {@link File} operations,
      * so you rarely have to call this yourself.
      */
     public void pushCurrent() {
@@ -197,24 +198,24 @@ public class Cancellable extends org.gtk.gobject.Object {
     /**
      * Releases a resources previously allocated by g_cancellable_get_fd()
      * or g_cancellable_make_pollfd().
-     * 
+     * <p>
      * For compatibility reasons with older releases, calling this function
      * is not strictly required, the resources will be automatically freed
-     * when the @cancellable is finalized. However, the @cancellable will
+     * when the {@code cancellable} is finalized. However, the {@code cancellable} will
      * block scarce file descriptors until it is finalized if this function
      * is not called. This can cause the application to run out of file
-     * descriptors when many <code>#GCancellables</code> are used at the same time.
+     * descriptors when many {@code GCancellables} are used at the same time.
      */
     public void releaseFd() {
         gtk_h.g_cancellable_release_fd(handle());
     }
     
     /**
-     * Resets @cancellable to its uncancelled state.
-     * 
+     * Resets {@code cancellable} to its uncancelled state.
+     * <p>
      * If cancellable is currently in use by any cancellable operation
      * then the behavior of this function is undefined.
-     * 
+     * <p>
      * Note that it is generally not a good idea to reuse an existing
      * cancellable for more operations after it has been cancelled once,
      * as this function might tempt you to do. The recommended practice
@@ -227,7 +228,7 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * If the @cancellable is cancelled, sets the error to notify
+     * If the {@code cancellable} is cancelled, sets the error to notify
      * that the operation was cancelled.
      */
     public boolean setErrorIfCancelled() throws io.github.jwharm.javagi.GErrorException {
@@ -240,15 +241,15 @@ public class Cancellable extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a source that triggers if @cancellable is cancelled and
-     * calls its callback of type {@link org.gtk.gio.CancellableSourceFunc}  This is
+     * Creates a source that triggers if {@code cancellable} is cancelled and
+     * calls its callback of type {@link CancellableSourceFunc}. This is
      * primarily useful for attaching to another (non-cancellable) source
      * with g_source_add_child_source() to add cancellability to it.
-     * 
-     * For convenience, you can call this with a <code>null</code> {@link org.gtk.gio.Cancellable} 
+     * <p>
+     * For convenience, you can call this with a <code>null</code> {@link Cancellable},
      * in which case the source will never trigger.
-     * 
-     * The new {@link org.gtk.glib.Source} will hold a reference to the {@link org.gtk.gio.Cancellable}
+     * <p>
+     * The new {@link org.gtk.glib.Source} will hold a reference to the {@link Cancellable}.
      */
     public org.gtk.glib.Source sourceNew() {
         var RESULT = gtk_h.g_cancellable_source_new(handle());
@@ -270,53 +271,53 @@ public class Cancellable extends org.gtk.gobject.Object {
     
     /**
      * Emitted when the operation has been cancelled.
-     * 
+     * <p>
      * Can be used by implementations of cancellable operations. If the
      * operation is cancelled from another thread, the signal will be
      * emitted in the thread that cancelled the operation, not the
      * thread that is running the operation.
-     * 
+     * <p>
      * Note that disconnecting from this signal (or any signal) in a
      * multi-threaded program is prone to race conditions. For instance
      * it is possible that a signal handler may be invoked even after
      * a call to g_signal_handler_disconnect() for that handler has
      * already returned.
-     * 
+     * <p>
      * There is also a problem when cancellation happens right before
      * connecting to the signal. If this happens the signal will
      * unexpectedly not be emitted, and checking before connecting to
      * the signal leaves a race condition where this is still happening.
-     * 
+     * <p>
      * In order to make it safe and easy to connect handlers there
      * are two helper functions: g_cancellable_connect() and
      * g_cancellable_disconnect() which protect against problems
      * like this.
-     * 
+     * <p>
      * An example of how to us this:
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
-     *     // Make sure we don&<code>#39</code> t do unnecessary work if already cancelled
+     * |[&lt;!-- language="C" --&gt;
+     *     // Make sure we don't do unnecessary work if already cancelled
      *     if (g_cancellable_set_error_if_cancelled (cancellable, error))
      *       return;
-     * 
+     * <p>
      *     // Set up all the data needed to be able to handle cancellation
      *     // of the operation
      *     my_data = my_data_new (...);
-     * 
+     * <p>
      *     id = 0;
      *     if (cancellable)
      *       id = g_cancellable_connect (cancellable,
      *     			      G_CALLBACK (cancelled_handler)
      *     			      data, NULL);
-     * 
+     * <p>
      *     // cancellable operation here...
-     * 
+     * <p>
      *     g_cancellable_disconnect (cancellable, id);
-     * 
+     * <p>
      *     // cancelled_handler is never called after this, it is now safe
      *     // to free the data
      *     my_data_free (my_data);
-     * ]}|
-     * 
+     * ]|
+     * <p>
      * Note that the cancelled signal is emitted in the thread that
      * the user cancelled from, which may be the main thread. So, the
      * cancellable signal should not do something that can block.

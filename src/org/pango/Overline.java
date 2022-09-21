@@ -1,7 +1,7 @@
 package org.pango;
 
 /**
- * The <code>PangoOverline</code> enumeration is used to specify whether text
+ * The {@code PangoOverline} enumeration is used to specify whether text
  * should be overlined, and if so, the type of line.
  */
 public enum Overline {

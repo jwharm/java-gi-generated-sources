@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoFontFace</code> is used to represent a group of fonts with
+ * A {@code PangoFontFace} is used to represent a group of fonts with
  * the same family, slant, weight, and width, but varying sizes.
  */
 public class FontFace extends org.gtk.gobject.Object {
@@ -24,7 +24,7 @@ public class FontFace extends org.gtk.gobject.Object {
     
     /**
      * Returns a font description that matches the face.
-     * 
+     * <p>
      * The resulting font description will have the family, style,
      * variant, weight and stretch of the face, but its size field
      * will be unset.
@@ -36,7 +36,7 @@ public class FontFace extends org.gtk.gobject.Object {
     
     /**
      * Gets a name representing the style of this face.
-     * 
+     * <p>
      * Note that a font family may contain multiple faces
      * with the same name (e.g. a variable and a non-variable
      * face for the same style).
@@ -47,7 +47,7 @@ public class FontFace extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the <code>PangoFontFamily</code> that @face belongs to.
+     * Gets the {@code PangoFontFamily} that {@code face} belongs to.
      */
     public FontFamily getFamily() {
         var RESULT = gtk_h.pango_font_face_get_family(handle());
@@ -55,8 +55,8 @@ public class FontFace extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns whether a <code>PangoFontFace</code> is synthesized.
-     * 
+     * Returns whether a {@code PangoFontFace} is synthesized.
+     * <p>
      * This will be the case if the underlying font rendering engine
      * creates this face from another face, by shearing, emboldening,
      * lightening or modifying it in some other way.

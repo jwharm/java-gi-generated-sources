@@ -8,25 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.Seekable} is implemented by streams (implementations of
- * {@link org.gtk.gio.InputStream} or {@link org.gtk.gio.OutputStream}  that support seeking.
- * 
+ * {@link Seekable} is implemented by streams (implementations of
+ * {@link InputStream} or {@link OutputStream}) that support seeking.
+ * <p>
  * Seekable streams largely fall into two categories: resizable and
  * fixed-size.
- * 
- * {@link org.gtk.gio.Seekable} on fixed-sized streams is approximately the same as POSIX
+ * <p>
+ * {@link Seekable} on fixed-sized streams is approximately the same as POSIX
  * lseek() on a block device (for example: attempting to seek past the
  * end of the device is an error).  Fixed streams typically cannot be
  * truncated.
- * 
- * {@link org.gtk.gio.Seekable} on resizable streams is approximately the same as POSIX
+ * <p>
+ * {@link Seekable} on resizable streams is approximately the same as POSIX
  * lseek() on a normal file.  Seeking past the end and writing data will
  * usually cause the stream to resize by introducing zero bytes.
  */
 public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Tests if the stream supports the {@link org.gtk.gio.SeekableIface}
+     * Tests if the stream supports the {@link SeekableIface}.
      */
     public default boolean canSeek() {
         var RESULT = gtk_h.g_seekable_can_seek(handle());
@@ -43,20 +43,20 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Seeks in the stream by the given @offset, modified by @type.
-     * 
+     * Seeks in the stream by the given {@code offset}, modified by {@code type}.
+     * <p>
      * Attempting to seek past the end of the stream will have different
      * results depending on if the stream is fixed-sized or resizable.  If
      * the stream is resizable then seeking past the end and then writing
      * will result in zeros filling the empty space.  Seeking past the end
      * of a resizable stream and reading will result in EOF.  Seeking past
      * the end of a fixed-sized stream will fail.
-     * 
+     * <p>
      * Any operation that would result in a negative offset will fail.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned.
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
     public default boolean seek(long offset, org.gtk.glib.SeekType type, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -76,13 +76,13 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Sets the length of the stream to @offset. If the stream was previously
-     * larger than @offset, the extra data is discarded. If the stream was
-     * previously shorter than @offset, it is extended with NUL (&<code>#39</code> \\0&<code>#39</code> ) bytes.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * Sets the length of the stream to {@code offset}. If the stream was previously
+     * larger than {@code offset}, the extra data is discarded. If the stream was
+     * previously shorter than {@code offset}, it is extended with NUL ('\\0') bytes.
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be returned. If an
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
      */

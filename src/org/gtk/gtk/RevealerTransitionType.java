@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * These enumeration values describe the possible transitions
- * when the child of a <code>GtkRevealer</code> widget is shown or hidden.
+ * when the child of a {@code GtkRevealer} widget is shown or hidden.
  */
 public enum RevealerTransitionType {
 

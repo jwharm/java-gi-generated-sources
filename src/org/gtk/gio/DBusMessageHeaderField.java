@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Header fields used in {@link org.gtk.gio.DBusMessage}
+ * Header fields used in {@link DBusMessage}.
  */
 public enum DBusMessageHeaderField {
 

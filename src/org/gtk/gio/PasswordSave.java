@@ -1,9 +1,9 @@
 package org.gtk.gio;
 
 /**
- * {@link org.gtk.gio.PasswordSave} is used to indicate the lifespan of a saved password.
- * 
- * <code>#Gvfs</code> stores passwords in the Gnome keyring when this flag allows it
+ * {@link PasswordSave} is used to indicate the lifespan of a saved password.
+ * <p>
+ * {@code Gvfs} stores passwords in the Gnome keyring when this flag allows it
  * to, and later retrieves it again from there.
  */
 public enum PasswordSave {

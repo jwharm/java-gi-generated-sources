@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Used for justifying the text inside a {@link [class@Label]} widget.
+ * Used for justifying the text inside a {@link Label} widget.
  */
 public enum Justification {
 

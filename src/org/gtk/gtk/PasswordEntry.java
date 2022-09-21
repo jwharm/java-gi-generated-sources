@@ -8,34 +8,38 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkPasswordEntry</code> is an entry that has been tailored for entering secrets.
+ * {@code GtkPasswordEntry} is an entry that has been tailored for entering secrets.
  * <p>
- * !{@link [An example GtkPasswordEntry]}(password-entry.png)
+ * <img src="./doc-files/password-entry.png" alt="An example GtkPasswordEntry">
  * <p>
  * It does not show its contents in clear text, does not allow to copy it
  * to the clipboard, and it shows a warning when Caps Lock is engaged. If
- * the underlying platform allows it, <code>GtkPasswordEntry</code> will also place
+ * the underlying platform allows it, {@code GtkPasswordEntry} will also place
  * the text in a non-pageable memory area, to avoid it being written out
  * to disk by the operating system.
  * <p>
  * Optionally, it can offer a way to reveal the contents in clear text.
- * <p><code>GtkPasswordEntry</code> provides only minimal API and should be used with
- * the {@link [iface@Gtk.Editable] (ref=iface)} API.
+ * <p>
+ * {@code GtkPasswordEntry} provides only minimal API and should be used with
+ * the {@code Gtk.Editable} API.
  * <p>
  * <h1>CSS Nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * entry.password
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  text
- *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  image.caps-lock-indicator
- *     &<code>#9482</code> 
- * </pre>
- * <p><code>GtkPasswordEntry</code> has a single CSS node with name entry that carries
+ * ╰── text
+ *     ├── image.caps-lock-indicator
+ *     ┊
+ * }</pre>
+ * <p>
+ * {@code GtkPasswordEntry} has a single CSS node with name entry that carries
  * a .passwordstyle class. The text Css node below it has a child with
  * name image and style class .caps-lock-indicator for the Caps Lock
  * icon, and possibly other children.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkPasswordEntry</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#TEXT_BOX</code>  role.
+ * <p>
+ * {@code GtkPasswordEntry} uses the {@link AccessibleRole#TEXT_BOX} role.
  */
 public class PasswordEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
 
@@ -54,7 +58,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Creates a <code>GtkPasswordEntry</code>.
+     * Creates a {@code GtkPasswordEntry}.
      */
     public PasswordEntry() {
         super(constructNew());
@@ -79,7 +83,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
     
     /**
      * Sets a menu model to add when constructing
-     * the context menu for @entry.
+     * the context menu for {@code entry}.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
         gtk_h.gtk_password_entry_set_extra_menu(handle(), model.handle());
@@ -88,7 +92,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
     /**
      * Sets whether the entry should have a clickable icon
      * to reveal the contents.
-     * 
+     * <p>
      * Setting this to <code>false</code> also hides the text again.
      */
     public void setShowPeekIcon(boolean showPeekIcon) {
@@ -102,7 +106,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
     
     /**
      * Emitted when the entry is activated.
-     * 
+     * <p>
      * The keybindings for this signal are all forms of the Enter key.
      */
     public SignalHandle onActivate(ActivateHandler handler) {

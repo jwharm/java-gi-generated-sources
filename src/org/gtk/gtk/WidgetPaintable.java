@@ -8,24 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkWidgetPaintable</code> is a <code>GdkPaintable</code> that displays the contents
+ * {@code GtkWidgetPaintable} is a {@code GdkPaintable} that displays the contents
  * of a widget.
- * <p><code>GtkWidgetPaintable</code> will also take care of the widget not being in a
- * state where it can be drawn (like when it isn&<code>#39</code> t shown) and just draw
+ * <p>
+ * {@code GtkWidgetPaintable} will also take care of the widget not being in a
+ * state where it can be drawn (like when it isn't shown) and just draw
  * nothing or where it does not have a size (like when it is hidden) and
  * report no size in that case.
  * <p>
- * Of course, <code>GtkWidgetPaintable</code> allows you to monitor widgets for size
- * changes by emitting the {@link [signal@Gdk.Paintable::invalidate-size] (ref=signal)} signal
+ * Of course, {@code GtkWidgetPaintable} allows you to monitor widgets for size
+ * changes by emitting the {@code Gdk.Paintable::invalidate-size} signal
  * whenever the size of the widget changes as well as for visual changes by
- * emitting the {@link [signal@Gdk.Paintable::invalidate-contents] (ref=signal)} signal whenever
+ * emitting the {@code Gdk.Paintable::invalidate-contents} signal whenever
  * the widget changes.
  * <p>
- * You can use a <code>GtkWidgetPaintable</code> everywhere a <code>GdkPaintable</code> is allowed,
- * including using it on a <code>GtkPicture</code> (or one of its parents) that it was
+ * You can use a {@code GtkWidgetPaintable} everywhere a {@code GdkPaintable} is allowed,
+ * including using it on a {@code GtkPicture} (or one of its parents) that it was
  * set on itself via gtk_picture_set_paintable(). The paintable will take care
  * of recursion when this happens. If you do this however, ensure that the
- * {@link [property@Gtk.Picture:can-shrink] (ref=property)} property is set to <code>true</code> or you might
+ * {@code Gtk.Picture:can-shrink} property is set to <code>true</code> or you might
  * end up with an infinitely growing widget.
  */
 public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {

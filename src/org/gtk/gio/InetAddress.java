@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.InetAddress} represents an IPv4 or IPv6 internet address. Use
+ * {@link InetAddress} represents an IPv4 or IPv6 internet address. Use
  * g_resolver_lookup_by_name() or g_resolver_lookup_by_name_async() to
- * look up the {@link org.gtk.gio.InetAddress} for a hostname. Use
+ * look up the {@link InetAddress} for a hostname. Use
  * g_resolver_lookup_by_address() or
  * g_resolver_lookup_by_address_async() to look up the hostname for a
- * {@link org.gtk.gio.InetAddress} 
- * 
+ * {@link InetAddress}.
+ * <p>
  * To actually connect to a remote host, you will need a
- * {@link org.gtk.gio.InetSocketAddress} (which includes a {@link org.gtk.gio.InetAddress} as well as a
+ * {@link InetSocketAddress} (which includes a {@link InetAddress} as well as a
  * port number).
  */
 public class InetAddress extends org.gtk.gobject.Object {
@@ -36,8 +36,8 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a {@link org.gtk.gio.InetAddress} for the &<code>#34</code> any&<code>#34</code>  address (unassigned/&<code>#34</code> don&<code>#39</code> t
-     * care&<code>#34</code> ) for @family.
+     * Creates a {@link InetAddress} for the "any" address (unassigned/"don't
+     * care") for {@code family}.
      */
     public static InetAddress newAny(SocketFamily family) {
         return new InetAddress(constructNewAny(family));
@@ -49,9 +49,9 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.InetAddress} from the given @family and @bytes.
-     * @bytes should be 4 bytes for {@link org.gtk.gio.SocketFamily<code>#IPV4</code>  and 16 bytes for
-     * {@link org.gtk.gio.SocketFamily<code>#IPV6</code>
+     * Creates a new {@link InetAddress} from the given {@code family} and {@code bytes}.
+     * {@code bytes} should be 4 bytes for {@link SocketFamily#IPV4} and 16 bytes for
+     * {@link SocketFamily#IPV6}.
      */
     public static InetAddress newFromBytes(byte[] bytes, SocketFamily family) {
         return new InetAddress(constructNewFromBytes(bytes, family));
@@ -63,7 +63,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Parses @string as an IP address and creates a new {@link org.gtk.gio.InetAddress}
+     * Parses {@code string} as an IP address and creates a new {@link InetAddress}.
      */
     public static InetAddress newFromString(java.lang.String string) {
         return new InetAddress(constructNewFromString(string));
@@ -75,14 +75,14 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a {@link org.gtk.gio.InetAddress} for the loopback address for @family.
+     * Creates a {@link InetAddress} for the loopback address for {@code family}.
      */
     public static InetAddress newLoopback(SocketFamily family) {
         return new InetAddress(constructNewLoopback(family));
     }
     
     /**
-     * Checks if two {@link org.gtk.gio.InetAddress} instances are equal, e.g. the same address.
+     * Checks if two {@link InetAddress} instances are equal, e.g. the same address.
      */
     public boolean equal(InetAddress otherAddress) {
         var RESULT = gtk_h.g_inet_address_equal(handle(), otherAddress.handle());
@@ -90,7 +90,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets @address&<code>#39</code> s family
+     * Gets {@code address}'s family
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_get_family(handle());
@@ -98,7 +98,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is the &<code>#34</code> any&<code>#34</code>  address for its family.
+     * Tests whether {@code address} is the "any" address for its family.
      */
     public boolean getIsAny() {
         var RESULT = gtk_h.g_inet_address_get_is_any(handle());
@@ -106,7 +106,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is a link-local address (that is, if it
+     * Tests whether {@code address} is a link-local address (that is, if it
      * identifies a host on a local network that is not connected to the
      * Internet).
      */
@@ -116,7 +116,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is the loopback address for its family.
+     * Tests whether {@code address} is the loopback address for its family.
      */
     public boolean getIsLoopback() {
         var RESULT = gtk_h.g_inet_address_get_is_loopback(handle());
@@ -124,7 +124,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is a global multicast address.
+     * Tests whether {@code address} is a global multicast address.
      */
     public boolean getIsMcGlobal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_global(handle());
@@ -132,7 +132,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is a link-local multicast address.
+     * Tests whether {@code address} is a link-local multicast address.
      */
     public boolean getIsMcLinkLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_link_local(handle());
@@ -140,7 +140,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is a node-local multicast address.
+     * Tests whether {@code address} is a node-local multicast address.
      */
     public boolean getIsMcNodeLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_node_local(handle());
@@ -148,7 +148,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is an organization-local multicast address.
+     * Tests whether {@code address} is an organization-local multicast address.
      */
     public boolean getIsMcOrgLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_org_local(handle());
@@ -156,7 +156,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is a site-local multicast address.
+     * Tests whether {@code address} is a site-local multicast address.
      */
     public boolean getIsMcSiteLocal() {
         var RESULT = gtk_h.g_inet_address_get_is_mc_site_local(handle());
@@ -164,7 +164,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is a multicast address.
+     * Tests whether {@code address} is a multicast address.
      */
     public boolean getIsMulticast() {
         var RESULT = gtk_h.g_inet_address_get_is_multicast(handle());
@@ -172,7 +172,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Tests whether @address is a site-local address such as 10.0.0.1
+     * Tests whether {@code address} is a site-local address such as 10.0.0.1
      * (that is, the address identifies a host on a local network that can
      * not be reached directly from the Internet, but which may have
      * outgoing Internet connectivity via a NAT or firewall).
@@ -183,7 +183,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the size of the native raw binary address for @address. This
+     * Gets the size of the native raw binary address for {@code address}. This
      * is the size of the data that you get from g_inet_address_to_bytes().
      */
     public long getNativeSize() {
@@ -192,7 +192,7 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
-     * Converts @address to string form.
+     * Converts {@code address} to string form.
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.g_inet_address_to_string(handle());

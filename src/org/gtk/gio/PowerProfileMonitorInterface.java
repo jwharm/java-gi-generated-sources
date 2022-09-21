@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual function table for {@link org.gtk.gio.PowerProfileMonitor}
+ * The virtual function table for {@link PowerProfileMonitor}.
  */
 public class PowerProfileMonitorInterface extends io.github.jwharm.javagi.ResourceBase {
 

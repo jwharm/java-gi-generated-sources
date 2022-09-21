@@ -8,47 +8,47 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.gio.DBusAuthObserver} type provides a mechanism for participating
- * in how a {@link org.gtk.gio.DBusServer} (or a {@link org.gtk.gio.DBusConnection}  authenticates remote
- * peers. Simply instantiate a {@link org.gtk.gio.DBusAuthObserver} and connect to the
+ * The {@link DBusAuthObserver} type provides a mechanism for participating
+ * in how a {@link DBusServer} (or a {@link DBusConnection}) authenticates remote
+ * peers. Simply instantiate a {@link DBusAuthObserver} and connect to the
  * signals you are interested in. Note that new signals may be added
  * in the future
  * <p>
  * <h2>Controlling Authentication Mechanisms</h2>
  * <p>
- * By default, a {@link org.gtk.gio.DBusServer} or server-side {@link org.gtk.gio.DBusConnection} will allow
+ * By default, a {@link DBusServer} or server-side {@link DBusConnection} will allow
  * any authentication mechanism to be used. If you only
- * want to allow D-Bus connections with the <code>EXTERNAL</code> mechanism,
+ * want to allow D-Bus connections with the {@code EXTERNAL} mechanism,
  * which makes use of credentials passing and is the recommended
  * mechanism for modern Unix platforms such as Linux and the BSD family,
  * you would use a signal handler like this:
  * <p>
- * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+ * |[&lt;!-- language="C" --&gt;
  * static gboolean
  * on_allow_mechanism (GDBusAuthObserver *observer,
  *                     const gchar       *mechanism,
  *                     gpointer           user_data)
  * {
- *   if (g_strcmp0 (mechanism, &<code>#34</code> EXTERNAL&<code>#34</code> ) == 0)
+ *   if (g_strcmp0 (mechanism, "EXTERNAL") == 0)
  *     {
  *       return TRUE;
  *     }
  * <p>
  *   return FALSE;
  * }
- * ]}|
+ * ]|
  * <p>
- * <h2>Controlling Authorization <code>#</code> {<code>#auth</code> observer}</h2>
+ * <h2>Controlling Authorization # {#auth-observer}</h2>
  * <p>
- * By default, a {@link org.gtk.gio.DBusServer} or server-side {@link org.gtk.gio.DBusConnection} will accept
+ * By default, a {@link DBusServer} or server-side {@link DBusConnection} will accept
  * connections from any successfully authenticated user (but not from
- * anonymous connections using the <code>ANONYMOUS</code> mechanism). If you only
+ * anonymous connections using the {@code ANONYMOUS} mechanism). If you only
  * want to allow D-Bus connections from processes owned by the same uid
  * as the server, since GLib 2.68, you should use the
- * {@link org.gtk.gio.DBusServerFlags<code>#AUTHENTICATION_REQUIRE_SAME_USER</code>  flag. It&<code>#8217</code> s equivalent
+ * {@link DBusServerFlags#AUTHENTICATION_REQUIRE_SAME_USER} flag. It’s equivalent
  * to the following signal handler:
- * 
- * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+ * <p>
+ * |[&lt;!-- language="C" --&gt;
  * static gboolean
  * on_authorize_authenticated_peer (GDBusAuthObserver *observer,
  *                                  GIOStream         *stream,
@@ -56,7 +56,7 @@ import java.lang.invoke.*;
  *                                  gpointer           user_data)
  * {
  *   gboolean authorized;
- * 
+ * <p>
  *   authorized = FALSE;
  *   if (credentials != NULL)
  *     {
@@ -66,10 +66,10 @@ import java.lang.invoke.*;
  *         authorized = TRUE;
  *       g_object_unref (own_credentials);
  *     }
- * 
+ * <p>
  *   return authorized;
  * }
- * ]}|
+ * ]|
  */
 public class DBusAuthObserver extends org.gtk.gobject.Object {
 
@@ -88,14 +88,14 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.DBusAuthObserver} object.
+     * Creates a new {@link DBusAuthObserver} object.
      */
     public DBusAuthObserver() {
         super(constructNew());
     }
     
     /**
-     * Emits the {@link org.gtk.gio.DBusAuthObserver} :allow-mechanism signal on @observer.
+     * Emits the {@link DBusAuthObserver}::allow-mechanism signal on {@code observer}.
      */
     public boolean allowMechanism(java.lang.String mechanism) {
         var RESULT = gtk_h.g_dbus_auth_observer_allow_mechanism(handle(), Interop.allocateNativeString(mechanism).handle());
@@ -103,7 +103,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits the {@link org.gtk.gio.DBusAuthObserver} :authorize-authenticated-peer signal on @observer.
+     * Emits the {@link DBusAuthObserver}::authorize-authenticated-peer signal on {@code observer}.
      */
     public boolean authorizeAuthenticatedPeer(IOStream stream, Credentials credentials) {
         var RESULT = gtk_h.g_dbus_auth_observer_authorize_authenticated_peer(handle(), stream.handle(), credentials.handle());
@@ -116,7 +116,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted to check if @mechanism is allowed to be used.
+     * Emitted to check if {@code mechanism} is allowed to be used.
      */
     public SignalHandle onAllowMechanism(AllowMechanismHandler handler) {
         try {

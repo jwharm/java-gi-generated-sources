@@ -24,17 +24,17 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the name of another entry in the directory, or <code>null</code> 
+     * Retrieves the name of another entry in the directory, or <code>null</code>.
      * The order of entries returned from this function is not defined,
      * and may vary by file system or other operating-system dependent
      * factors.
      * <p>
      * <code>null</code> may also be returned in case of errors. On Unix, you can
-     * check <code>errno</code> to find out if <code>null</code> was returned because of an error.
-     * 
-     * On Unix, the &<code>#39</code> .&<code>#39</code>  and &<code>#39</code> ..&<code>#39</code>  entries are omitted, and the returned
+     * check {@code errno} to find out if <code>null</code> was returned because of an error.
+     * <p>
+     * On Unix, the '.' and '..' entries are omitted, and the returned
      * name is in the on-disk encoding.
-     * 
+     * <p>
      * On Windows, as is true of all GLib functions which operate on
      * filenames, the returned name is in UTF-8.
      */
@@ -54,14 +54,14 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a subdirectory in the preferred directory for temporary
      * files (as returned by g_get_tmp_dir()).
-     * 
-     * @tmpl should be a string in the GLib file name encoding containing
-     * a sequence of six &<code>#39</code> X&<code>#39</code>  characters, as the parameter to g_mkstemp().
+     * <p>
+     * {@code tmpl} should be a string in the GLib file name encoding containing
+     * a sequence of six 'X' characters, as the parameter to g_mkstemp().
      * However, unlike these functions, the template should only be a
      * basename, no directory components are allowed. If template is
-     * <code>null</code>  a default template is used.
-     * 
-     * Note that in contrast to g_mkdtemp() (and mkdtemp()) @tmpl is not
+     * <code>null</code>, a default template is used.
+     * <p>
+     * Note that in contrast to g_mkdtemp() (and mkdtemp()) {@code tmpl} is not
      * modified, and might thus be a read-only literal string.
      */
     public static java.lang.String makeTmp(java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {

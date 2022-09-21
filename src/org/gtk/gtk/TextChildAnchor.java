@@ -8,9 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkTextChildAnchor</code> is a spot in a <code>GtkTextBuffer</code> where child widgets can
- * be &<code>#8220</code> anchored&<code>#8221</code> .
- * 
+ * A {@code GtkTextChildAnchor} is a spot in a {@code GtkTextBuffer} where child widgets can
+ * be “anchored”.
+ * <p>
  * The anchor can have multiple widgets anchored, to allow for multiple views.
  */
 public class TextChildAnchor extends org.gtk.gobject.Object {
@@ -30,12 +30,12 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new <code>GtkTextChildAnchor</code>.
+     * Creates a new {@code GtkTextChildAnchor}.
      * <p>
-     * Usually you would then insert it into a <code>GtkTextBuffer</code> with
-     * {@link org.gtk.gtk.TextBuffer<code>#insertChildAnchor</code> . To perform the
+     * Usually you would then insert it into a {@code GtkTextBuffer} with
+     * {@link TextBuffer#insertChildAnchor}. To perform the
      * creation and insertion in one step, use the convenience
-     * function {@link org.gtk.gtk.TextBuffer<code>#createChildAnchor</code> .
+     * function {@link TextBuffer#createChildAnchor}.
      */
     public TextChildAnchor() {
         super(constructNew());
@@ -47,10 +47,10 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a new <code>GtkTextChildAnchor</code> with the given replacement character.
+     * Creates a new {@code GtkTextChildAnchor} with the given replacement character.
      * <p>
-     * Usually you would then insert it into a <code>GtkTextBuffer</code> with
-     * {@link org.gtk.gtk.TextBuffer<code>#insertChildAnchor</code> .
+     * Usually you would then insert it into a {@code GtkTextBuffer} with
+     * {@link TextBuffer#insertChildAnchor}.
      */
     public static TextChildAnchor newWithReplacement(java.lang.String character) {
         return new TextChildAnchor(constructNewWithReplacement(character));
@@ -59,11 +59,11 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
     /**
      * Determines whether a child anchor has been deleted from
      * the buffer.
-     * 
+     * <p>
      * Keep in mind that the child anchor will be unreferenced
      * when removed from the buffer, so you need to hold your own
      * reference (with g_object_ref()) if you plan to use this
-     * function &<code>#8212</code>  otherwise all deleted child anchors will also
+     * function — otherwise all deleted child anchors will also
      * be finalized.
      */
     public boolean getDeleted() {

@@ -1,8 +1,8 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the {@link org.harfbuzz.unicode_funcs_t} structure.
- * 
+ * A virtual method for the {@link unicode_funcs_t} structure.
+ * <p>
  * This method should retrieve the General Category property for
  * a specified Unicode code point.
  */

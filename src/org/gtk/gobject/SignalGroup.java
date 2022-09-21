@@ -8,23 +8,25 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gobject.SignalGroup} manages to simplify the process of connecting
- * many signals to a {@link org.gtk.gobject.Object} as a group. As such there is no API
+ * {@link SignalGroup} manages to simplify the process of connecting
+ * many signals to a {@link Object} as a group. As such there is no API
  * to disconnect a signal from the group.
- * 
+ * <p>
  * In particular, this allows you to:
- * 
- *  - Change the target instance, which automatically causes disconnection
+ * <p>
+ * <ul>
+ * <li>Change the target instance, which automatically causes disconnection
  *    of the signals from the old instance and connecting to the new instance.
- *  - Block and unblock signals as a group
- *  - Ensuring that blocked state transfers across target instances.
- * 
+ * <li>Block and unblock signals as a group
+ * <li>Ensuring that blocked state transfers across target instances.
+ * </ul>
+ * <p>
  * One place you might want to use such a structure is with {@link org.gtk.gtk.TextView} and
- * {@link org.gtk.gtk.TextBuffer}  Often times, you&<code>#39</code> ll need to connect to many signals on
+ * {@link org.gtk.gtk.TextBuffer}. Often times, you'll need to connect to many signals on
  * {@link org.gtk.gtk.TextBuffer} from a {@link org.gtk.gtk.TextView} subclass. This allows you to create a
  * signal group during instance construction, simply bind the
- * {@link org.gtk.gtk.TextView} buffer property to {@link org.gtk.gobject.SignalGroup} target and connect
- * all the signals you need. When the {@link org.gtk.gtk.TextView} buffer property changes
+ * {@link org.gtk.gtk.TextView}:buffer property to {@link SignalGroup}:target and connect
+ * all the signals you need. When the {@link org.gtk.gtk.TextView}:buffer property changes
  * all of the signals will be transitioned correctly.
  */
 public class SignalGroup extends Object {
@@ -44,17 +46,17 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * Creates a new {@link org.gtk.gobject.SignalGroup} for target instances of @target_type.
+     * Creates a new {@link SignalGroup} for target instances of {@code target_type}.
      */
     public SignalGroup(Type targetType) {
         super(constructNew(targetType));
     }
     
     /**
-     * Blocks all signal handlers managed by @self so they will not
+     * Blocks all signal handlers managed by {@code self} so they will not
      * be called during any signal emissions. Must be unblocked exactly
      * the same number of times it has been blocked to become active again.
-     * 
+     * <p>
      * This blocked state will be kept across changes of the target instance.
      */
     public void block() {
@@ -62,10 +64,10 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * Connects @c_handler to the signal @detailed_signal
-     * on the target instance of @self.
-     * 
-     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
+     * Connects {@code c_handler} to the signal {@code detailed_signal}
+     * on the target instance of {@code self}.
+     * <p>
+     * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
     public void connect(java.lang.String detailedSignal, Callback cHandler) {
         try {
@@ -82,12 +84,12 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * Connects @c_handler to the signal @detailed_signal
-     * on the target instance of @self.
-     * 
-     * The @c_handler will be called after the default handler of the signal.
-     * 
-     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
+     * Connects {@code c_handler} to the signal {@code detailed_signal}
+     * on the target instance of {@code self}.
+     * <p>
+     * The {@code c_handler} will be called after the default handler of the signal.
+     * <p>
+     * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
     public void connectAfter(java.lang.String detailedSignal, Callback cHandler) {
         try {
@@ -104,10 +106,10 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * Connects @c_handler to the signal @detailed_signal
-     * on the target instance of @self.
-     * 
-     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
+     * Connects {@code c_handler} to the signal {@code detailed_signal}
+     * on the target instance of {@code self}.
+     * <p>
+     * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
     public void connectData(java.lang.String detailedSignal, Callback cHandler, ClosureNotify notify, int flags) {
         try {
@@ -129,13 +131,13 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * Connects @c_handler to the signal @detailed_signal
-     * on the target instance of @self.
-     * 
-     * The instance on which the signal is emitted and @data
-     * will be swapped when calling @c_handler.
-     * 
-     * You cannot connect a signal handler after {@link org.gtk.gobject.SignalGroup} target has been set.
+     * Connects {@code c_handler} to the signal {@code detailed_signal}
+     * on the target instance of {@code self}.
+     * <p>
+     * The instance on which the signal is emitted and {@code data}
+     * will be swapped when calling {@code c_handler}.
+     * <p>
+     * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
     public void connectSwapped(java.lang.String detailedSignal, Callback cHandler) {
         try {
@@ -163,16 +165,16 @@ public class SignalGroup extends Object {
      * Sets the target instance used when connecting signals. Any signal
      * that has been registered with g_signal_group_connect_object() or
      * similar functions will be connected to this object.
-     * 
+     * <p>
      * If the target instance was previously set, signals will be
-     * disconnected from that object prior to connecting to @target.
+     * disconnected from that object prior to connecting to {@code target}.
      */
     public void setTarget(Object target) {
         gtk_h.g_signal_group_set_target(handle(), target.handle());
     }
     
     /**
-     * Unblocks all signal handlers managed by @self so they will be
+     * Unblocks all signal handlers managed by {@code self} so they will be
      * called again during any signal emissions unless it is blocked
      * again. Must be unblocked exactly the same number of times it
      * has been blocked to become active again.
@@ -187,10 +189,10 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * This signal is emitted when {@link org.gtk.gobject.SignalGroup} target is set to a new value
-     * other than <code>null</code>  It is similar to {@link org.gtk.gobject.Object} :notify on <code>target</code> except it
-     * will not emit when {@link org.gtk.gobject.SignalGroup} target is <code>null</code> and also allows for
-     * receiving the {@link org.gtk.gobject.Object} without a data-race.
+     * This signal is emitted when {@link SignalGroup}:target is set to a new value
+     * other than <code>null</code>. It is similar to {@link Object}::notify on {@code target} except it
+     * will not emit when {@link SignalGroup}:target is <code>null</code> and also allows for
+     * receiving the {@link Object} without a data-race.
      */
     public SignalHandle onBind(BindHandler handler) {
         try {
@@ -213,11 +215,11 @@ public class SignalGroup extends Object {
     }
     
     /**
-     * This signal is emitted when the target instance of @self is set to a
-     * new {@link org.gtk.gobject.Object} 
-     * 
-     * This signal will only be emitted if the previous target of @self is
-     * non-<code>null</code>
+     * This signal is emitted when the target instance of {@code self} is set to a
+     * new {@link Object}.
+     * <p>
+     * This signal will only be emitted if the previous target of {@code self} is
+     * non-<code>null</code>.
      */
     public SignalHandle onUnbind(UnbindHandler handler) {
         try {

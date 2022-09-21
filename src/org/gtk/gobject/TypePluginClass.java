@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.gobject.TypePlugin} interface is used by the type system in order to handle
+ * The {@link TypePlugin} interface is used by the type system in order to handle
  * the lifecycle of dynamically loaded types.
  */
 public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {

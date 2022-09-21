@@ -8,36 +8,39 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkStackSwitcher</code> shows a row of buttons to switch between <code>GtkStack</code>
+ * The {@code GtkStackSwitcher} shows a row of buttons to switch between {@code GtkStack}
  * pages.
  * <p>
- * !{@link [An example GtkStackSwitcher]}(stackswitcher.png)
+ * <img src="./doc-files/stackswitcher.png" alt="An example GtkStackSwitcher">
  * <p>
- * It acts as a controller for the associated <code>GtkStack</code>.
+ * It acts as a controller for the associated {@code GtkStack}.
  * <p>
  * All the content for the buttons comes from the properties of the stacks
- * {@link org.gtk.gtk.StackPage} objects; the button visibility in a <code>GtkStackSwitcher</code>
- * widget is controlled by the visibility of the child in the <code>GtkStack</code>.
+ * {@link StackPage} objects; the button visibility in a {@code GtkStackSwitcher}
+ * widget is controlled by the visibility of the child in the {@code GtkStack}.
  * <p>
- * It is possible to associate multiple <code>GtkStackSwitcher</code> widgets
- * with the same <code>GtkStack</code> widget.
+ * It is possible to associate multiple {@code GtkStackSwitcher} widgets
+ * with the same {@code GtkStack} widget.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkStackSwitcher</code> has a single CSS node named stackswitcher and
+ * <p>
+ * {@code GtkStackSwitcher} has a single CSS node named stackswitcher and
  * style class .stack-switcher.
  * <p>
- * When circumstances require it, <code>GtkStackSwitcher</code> adds the
+ * When circumstances require it, {@code GtkStackSwitcher} adds the
  * .needs-attention style class to the widgets representing the
  * stack pages.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkStackSwitcher</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#TAB_LIST</code>  role
- * and uses the {@link org.gtk.gtk.AccessibleRole<code>#TAB</code>  for its buttons.
+ * <p>
+ * {@code GtkStackSwitcher} uses the {@link AccessibleRole#TAB_LIST} role
+ * and uses the {@link AccessibleRole#TAB} for its buttons.
  * <p>
  * <h1>Orientable</h1>
  * <p>
- * Since GTK 4.4, <code>GtkStackSwitcher</code> implements <code>GtkOrientable</code> allowing
- * the stack switcher to be made vertical with<code>gtk_orientable_set_orientation()</code>.
+ * Since GTK 4.4, {@code GtkStackSwitcher} implements {@code GtkOrientable} allowing
+ * the stack switcher to be made vertical with
+ * {@code gtk_orientable_set_orientation()}.
  */
 public class StackSwitcher extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -56,7 +59,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Create a new <code>GtkStackSwitcher</code>.
+     * Create a new {@code GtkStackSwitcher}.
      */
     public StackSwitcher() {
         super(constructNew());

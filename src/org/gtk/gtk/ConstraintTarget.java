@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkConstraintTarget</code> interface is implemented by objects that
- * can be used as source or target in <code>GtkConstraint</code>s.
+ * The {@code GtkConstraintTarget} interface is implemented by objects that
+ * can be used as source or target in {@code GtkConstraint}s.
  * <p>
- * Besides <code>GtkWidget</code>, it is also implemented by <code>GtkConstraintGuide</code>.
+ * Besides {@code GtkWidget}, it is also implemented by {@code GtkConstraintGuide}.
  */
 public interface ConstraintTarget extends io.github.jwharm.javagi.NativeAddress {
 

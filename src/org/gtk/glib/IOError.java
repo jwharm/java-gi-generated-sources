@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 /**
- * {@link org.gtk.glib.IOError} is only used by the deprecated functions
+ * {@link IOError} is only used by the deprecated functions
  * g_io_channel_read(), g_io_channel_write(), and g_io_channel_seek().
  */
 public enum IOError {

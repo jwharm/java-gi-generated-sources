@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * A structure capable of holding a vector with two dimensions, x and y.
- * 
- * The contents of the {@link org.gtk.graphene.Vec2} structure are private and should
+ * <p>
+ * The contents of the {@link Vec2} structure are private and should
  * never be accessed directly.
  */
 public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
@@ -25,10 +25,10 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new {@link org.gtk.graphene.Vec2} structure.
-     * 
+     * Allocates a new {@link Vec2} structure.
+     * <p>
      * The contents of the returned structure are undefined.
-     * 
+     * <p>
      * Use graphene_vec2_init() to initialize the vector.
      */
     public static Vec2 alloc() {
@@ -37,7 +37,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Adds each component of the two passed vectors and places
-     * each result into the components of @res.
+     * each result into the components of {@code res}.
      */
     public void add(Vec2 b, Vec2 res) {
         gtk_h.graphene_vec2_add(handle(), b.handle(), res.handle());
@@ -46,7 +46,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Divides each component of the first operand @a by the corresponding
      * component of the second operand @b, and places the results into the
-     * vector @res.
+     * vector {@code res}.
      */
     public void divide(Vec2 b, Vec2 res) {
         gtk_h.graphene_vec2_divide(handle(), b.handle(), res.handle());
@@ -61,7 +61,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Checks whether the two given {@link org.gtk.graphene.Vec2} are equal.
+     * Checks whether the two given {@link Vec2} are equal.
      */
     public boolean equal(Vec2 v2) {
         var RESULT = gtk_h.graphene_vec2_equal(handle(), v2.handle());
@@ -76,7 +76,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the X component of the {@link org.gtk.graphene.Vec2}
+     * Retrieves the X component of the {@link Vec2}.
      */
     public float getX() {
         var RESULT = gtk_h.graphene_vec2_get_x(handle());
@@ -84,7 +84,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the Y component of the {@link org.gtk.graphene.Vec2}
+     * Retrieves the Y component of the {@link Vec2}.
      */
     public float getY() {
         var RESULT = gtk_h.graphene_vec2_get_y(handle());
@@ -92,8 +92,8 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes a {@link org.gtk.graphene.Vec2} using the given values.
-     * 
+     * Initializes a {@link Vec2} using the given values.
+     * <p>
      * This function can be called multiple times.
      */
     public Vec2 init(float x, float y) {
@@ -110,7 +110,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies the contents of @src into @v.
+     * Copies the contents of {@code src} into @v.
      */
     public Vec2 initFromVec2(Vec2 src) {
         var RESULT = gtk_h.graphene_vec2_init_from_vec2(handle(), src.handle());
@@ -118,7 +118,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Linearly interpolates @v1 and @v2 using the given @factor.
+     * Linearly interpolates {@code v1} and {@code v2} using the given {@code factor}.
      */
     public void interpolate(Vec2 v2, double factor, Vec2 res) {
         gtk_h.graphene_vec2_interpolate(handle(), v2.handle(), factor, res.handle());
@@ -134,7 +134,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Compares the two given vectors and places the maximum
-     * values of each component into @res.
+     * values of each component into {@code res}.
      */
     public void max(Vec2 b, Vec2 res) {
         gtk_h.graphene_vec2_max(handle(), b.handle(), res.handle());
@@ -142,7 +142,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Compares the two given vectors and places the minimum
-     * values of each component into @res.
+     * values of each component into {@code res}.
      */
     public void min(Vec2 b, Vec2 res) {
         gtk_h.graphene_vec2_min(handle(), b.handle(), res.handle());
@@ -150,15 +150,15 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Multiplies each component of the two passed vectors and places
-     * each result into the components of @res.
+     * each result into the components of {@code res}.
      */
     public void multiply(Vec2 b, Vec2 res) {
         gtk_h.graphene_vec2_multiply(handle(), b.handle(), res.handle());
     }
     
     /**
-     * Compares the two given {@link org.gtk.graphene.Vec2} vectors and checks
-     * whether their values are within the given @epsilon.
+     * Compares the two given {@link Vec2} vectors and checks
+     * whether their values are within the given {@code epsilon}.
      */
     public boolean near(Vec2 v2, float epsilon) {
         var RESULT = gtk_h.graphene_vec2_near(handle(), v2.handle(), epsilon);
@@ -166,7 +166,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Negates the given {@link org.gtk.graphene.Vec2}
+     * Negates the given {@link Vec2}.
      */
     public void negate(Vec2 res) {
         gtk_h.graphene_vec2_negate(handle(), res.handle());
@@ -180,7 +180,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Multiplies all components of the given vector with the given scalar @factor.
+     * Multiplies all components of the given vector with the given scalar {@code factor}.
      */
     public void scale(float factor, Vec2 res) {
         gtk_h.graphene_vec2_scale(handle(), factor, res.handle());
@@ -189,7 +189,7 @@ public class Vec2 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Subtracts from each component of the first operand @a the
      * corresponding component of the second operand @b and places
-     * each result into the components of @res.
+     * each result into the components of {@code res}.
      */
     public void subtract(Vec2 b, Vec2 res) {
         gtk_h.graphene_vec2_subtract(handle(), b.handle(), res.handle());

@@ -2,7 +2,7 @@ package org.gtk.glib;
 
 /**
  * Flags specifying the level of log messages.
- * 
+ * <p>
  * It is possible to change how GLib treats messages of the various
  * levels using g_log_set_handler() and g_log_set_fatal_mask().
  */

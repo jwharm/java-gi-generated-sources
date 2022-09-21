@@ -11,218 +11,137 @@ public enum AatLayoutFeatureSelectorT {
     INVALID,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ALL_TYPOGRAPHIC
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALL_TYPOGRAPHIC}
      */
     ALL_TYPE_FEATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ALL_TYPOGRAPHIC
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALL_TYPOGRAPHIC}
      */
     ALL_TYPE_FEATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     REQUIRED_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     REQUIRED_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     COMMON_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     COMMON_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     RARE_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     RARE_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     LOGOS_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     LOGOS_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     REBUS_PICTURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     REBUS_PICTURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     DIPHTHONG_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     DIPHTHONG_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     SQUARED_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     SQUARED_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     ABBREV_SQUARED_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     ABBREV_SQUARED_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     SYMBOL_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     SYMBOL_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     CONTEXTUAL_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     CONTEXTUAL_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     HISTORICAL_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     HISTORICAL_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     UNCONNECTED,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     PARTIALLY_CONNECTED,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
     CURSIVE,
     
@@ -257,1726 +176,1087 @@ public enum AatLayoutFeatureSelectorT {
     INITIAL_CAPS_AND_SMALL_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_SUBSTITUTION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_SUBSTITUTION}
      */
     SUBSTITUTE_VERTICAL_FORMS_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_SUBSTITUTION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_SUBSTITUTION}
      */
     SUBSTITUTE_VERTICAL_FORMS_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LINGUISTIC_REARRANGEMENT
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LINGUISTIC_REARRANGEMENT}
      */
     LINGUISTIC_REARRANGEMENT_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LINGUISTIC_REARRANGEMENT
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LINGUISTIC_REARRANGEMENT}
      */
     LINGUISTIC_REARRANGEMENT_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
     MONOSPACED_NUMBERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
     PROPORTIONAL_NUMBERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
     THIRD_WIDTH_NUMBERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
     QUARTER_WIDTH_NUMBERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     WORD_INITIAL_SWASHES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     WORD_INITIAL_SWASHES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     WORD_FINAL_SWASHES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     WORD_FINAL_SWASHES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     LINE_INITIAL_SWASHES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     LINE_INITIAL_SWASHES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     LINE_FINAL_SWASHES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     LINE_FINAL_SWASHES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     NON_FINAL_SWASHES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
     NON_FINAL_SWASHES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE}
      */
     SHOW_DIACRITICS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE}
      */
     HIDE_DIACRITICS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE}
      */
     DECOMPOSE_DIACRITICS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
     NORMAL_POSITION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
     SUPERIORS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
     INFERIORS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
     ORDINALS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
     SCIENTIFIC_INFERIORS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS}
      */
     NO_FRACTIONS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS}
      */
     VERTICAL_FRACTIONS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS}
      */
     DIAGONAL_FRACTIONS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_OVERLAPPING_CHARACTERS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_OVERLAPPING_CHARACTERS_TYPE}
      */
     PREVENT_OVERLAP_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_OVERLAPPING_CHARACTERS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_OVERLAPPING_CHARACTERS_TYPE}
      */
     PREVENT_OVERLAP_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     HYPHENS_TO_EM_DASH_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     HYPHENS_TO_EM_DASH_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     HYPHEN_TO_EN_DASH_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     HYPHEN_TO_EN_DASH_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     SLASHED_ZERO_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     SLASHED_ZERO_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     FORM_INTERROBANG_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     FORM_INTERROBANG_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     SMART_QUOTES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     SMART_QUOTES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     PERIODS_TO_ELLIPSIS_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
     PERIODS_TO_ELLIPSIS_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     HYPHEN_TO_MINUS_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     HYPHEN_TO_MINUS_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     ASTERISK_TO_MULTIPLY_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     ASTERISK_TO_MULTIPLY_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     SLASH_TO_DIVIDE_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     SLASH_TO_DIVIDE_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     INEQUALITY_LIGATURES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     INEQUALITY_LIGATURES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     EXPONENTS_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     EXPONENTS_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     MATHEMATICAL_GREEK_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
     MATHEMATICAL_GREEK_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
     NO_ORNAMENTS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
     DINGBATS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
     PI_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
     FLEURONS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
     DECORATIVE_BORDERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
     INTERNATIONAL_SYMBOLS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
     MATH_SYMBOLS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_ALTERNATIVES}
      */
     NO_ALTERNATES,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
     DESIGN_LEVEL1,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
     DESIGN_LEVEL2,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
     DESIGN_LEVEL3,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
     DESIGN_LEVEL4,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
     DESIGN_LEVEL5,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
     NO_STYLE_OPTIONS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
     DISPLAY_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
     ENGRAVED_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
     ILLUMINATED_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
     TITLING_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
     TALL_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     TRADITIONAL_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     SIMPLIFIED_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     JIS1978_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     JIS1983_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     JIS1990_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     TRADITIONAL_ALT_ONE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     TRADITIONAL_ALT_TWO,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     TRADITIONAL_ALT_THREE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     TRADITIONAL_ALT_FOUR,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     TRADITIONAL_ALT_FIVE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     EXPERT_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     JIS2004_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     HOJO_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     NLCCHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
     TRADITIONAL_NAMES_CHARACTERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_CASE}
      */
     LOWER_CASE_NUMBERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_CASE}
      */
     UPPER_CASE_NUMBERS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
     PROPORTIONAL_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
     MONOSPACED_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
     HALF_WIDTH_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
     THIRD_WIDTH_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
     QUARTER_WIDTH_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
     ALT_PROPORTIONAL_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
     ALT_HALF_WIDTH_TEXT,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     NO_TRANSLITERATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     HANJA_TO_HANGUL,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     HIRAGANA_TO_KATAKANA,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     KATAKANA_TO_HIRAGANA,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     KANA_TO_ROMANIZATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     ROMANIZATION_TO_HIRAGANA,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     ROMANIZATION_TO_KATAKANA,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     HANJA_TO_HANGUL_ALT_ONE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     HANJA_TO_HANGUL_ALT_TWO,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
     HANJA_TO_HANGUL_ALT_THREE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     NO_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     BOX_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     ROUNDED_BOX_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     CIRCLE_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     INVERTED_CIRCLE_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     PARENTHESIS_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     PERIOD_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     ROMAN_NUMERAL_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     DIAMOND_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     INVERTED_BOX_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
     INVERTED_ROUNDED_BOX_ANNOTATION,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_KANA_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_KANA_SPACING_TYPE}
      */
     FULL_WIDTH_KANA,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_KANA_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_KANA_SPACING_TYPE}
      */
     PROPORTIONAL_KANA,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE}
      */
     FULL_WIDTH_IDEOGRAPHS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE}
      */
     PROPORTIONAL_IDEOGRAPHS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE}
      */
     HALF_WIDTH_IDEOGRAPHS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
     CANONICAL_COMPOSITION_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
     CANONICAL_COMPOSITION_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
     COMPATIBILITY_COMPOSITION_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
     COMPATIBILITY_COMPOSITION_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
     TRANSCODING_COMPOSITION_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
     TRANSCODING_COMPOSITION_OFF,
     
     /**
-     * Deprecated; use <code>#HB_AAT_LAYOUT_FEATURE_SELECTOR_RUBY_KANA_OFF</code> instead
+     * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_RUBY_KANA_OFF} instead
      */
     NO_RUBY_KANA,
     
     /**
-     * Deprecated; use <code>#HB_AAT_LAYOUT_FEATURE_SELECTOR_RUBY_KANA_ON</code> instead
+     * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_RUBY_KANA_ON} instead
      */
     RUBY_KANA,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_RUBY_KANA
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_RUBY_KANA}
      */
     RUBY_KANA_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_RUBY_KANA
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_RUBY_KANA}
      */
     RUBY_KANA_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
     NO_CJK_SYMBOL_ALTERNATIVES,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
     CJK_SYMBOL_ALT_ONE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
     CJK_SYMBOL_ALT_TWO,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
     CJK_SYMBOL_ALT_THREE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
     CJK_SYMBOL_ALT_FOUR,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
     CJK_SYMBOL_ALT_FIVE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
     NO_IDEOGRAPHIC_ALTERNATIVES,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
     IDEOGRAPHIC_ALT_ONE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
     IDEOGRAPHIC_ALT_TWO,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
     IDEOGRAPHIC_ALT_THREE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
     IDEOGRAPHIC_ALT_FOUR,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
     IDEOGRAPHIC_ALT_FIVE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_VERTICAL_ROMAN_PLACEMENT_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_VERTICAL_ROMAN_PLACEMENT_TYPE}
      */
     CJK_VERTICAL_ROMAN_CENTERED,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_VERTICAL_ROMAN_PLACEMENT_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_VERTICAL_ROMAN_PLACEMENT_TYPE}
      */
     CJK_VERTICAL_ROMAN_HBASELINE,
     
     /**
-     * Deprecated; use <code>#HB_AAT_LAYOUT_FEATURE_SELECTOR_CJK_ITALIC_ROMAN_OFF</code> instead
+     * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_CJK_ITALIC_ROMAN_OFF} instead
      */
     NO_CJK_ITALIC_ROMAN,
     
     /**
-     * Deprecated; use <code>#HB_AAT_LAYOUT_FEATURE_SELECTOR_CJK_ITALIC_ROMAN_ON</code> instead
+     * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_CJK_ITALIC_ROMAN_ON} instead
      */
     CJK_ITALIC_ROMAN,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ITALIC_CJK_ROMAN
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ITALIC_CJK_ROMAN}
      */
     CJK_ITALIC_ROMAN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ITALIC_CJK_ROMAN
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ITALIC_CJK_ROMAN}
      */
     CJK_ITALIC_ROMAN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
     CASE_SENSITIVE_LAYOUT_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
     CASE_SENSITIVE_LAYOUT_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
     CASE_SENSITIVE_SPACING_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
     CASE_SENSITIVE_SPACING_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
     ALTERNATE_HORIZ_KANA_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
     ALTERNATE_HORIZ_KANA_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
     ALTERNATE_VERT_KANA_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
     ALTERNATE_VERT_KANA_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     NO_STYLISTIC_ALTERNATES,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_ONE_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_ONE_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TWO_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TWO_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_THREE_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_THREE_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FOUR_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FOUR_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FIVE_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FIVE_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SIX_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SIX_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SEVEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SEVEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_EIGHT_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_EIGHT_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_NINE_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_NINE_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_ELEVEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_ELEVEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TWELVE_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TWELVE_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_THIRTEEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_THIRTEEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FOURTEEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FOURTEEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FIFTEEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_FIFTEEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SIXTEEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SIXTEEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SEVENTEEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_SEVENTEEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_EIGHTEEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_EIGHTEEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_NINETEEN_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_NINETEEN_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TWENTY_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
     STYLISTIC_ALT_TWENTY_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
     CONTEXTUAL_ALTERNATES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
     CONTEXTUAL_ALTERNATES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
     SWASH_ALTERNATES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
     SWASH_ALTERNATES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
     CONTEXTUAL_SWASH_ALTERNATES_ON,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
     CONTEXTUAL_SWASH_ALTERNATES_OFF,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE}
      */
     DEFAULT_LOWER_CASE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE}
      */
     LOWER_CASE_SMALL_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE}
      */
     LOWER_CASE_PETITE_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE}
      */
     DEFAULT_UPPER_CASE,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE}
      */
     UPPER_CASE_SMALL_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE}
      */
     UPPER_CASE_PETITE_CAPS,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
     HALF_WIDTH_CJK_ROMAN,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
     PROPORTIONAL_CJK_ROMAN,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
     DEFAULT_CJK_ROMAN,
     
     /**
-     * for 
-     *       
-     *       
-     *         for #HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE
+     * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
     FULL_WIDTH_CJK_ROMAN;
     

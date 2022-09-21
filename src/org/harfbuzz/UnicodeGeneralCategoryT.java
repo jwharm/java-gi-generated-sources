@@ -1,158 +1,158 @@
 package org.harfbuzz;
 
 /**
- * Data type for the &<code>#34</code> General_Category&<code>#34</code>  (gc) property from
+ * Data type for the "General_Category" (gc) property from
  * the Unicode Character Database.
  */
 public enum UnicodeGeneralCategoryT {
 
     /**
-     * {@link [Cc]}
+     * [Cc]
      */
     CONTROL,
     
     /**
-     * {@link [Cf]}
+     * [Cf]
      */
     FORMAT,
     
     /**
-     * {@link [Cn]}
+     * [Cn]
      */
     UNASSIGNED,
     
     /**
-     * {@link [Co]}
+     * [Co]
      */
     PRIVATE_USE,
     
     /**
-     * {@link [Cs]}
+     * [Cs]
      */
     SURROGATE,
     
     /**
-     * {@link [Ll]}
+     * [Ll]
      */
     LOWERCASE_LETTER,
     
     /**
-     * {@link [Lm]}
+     * [Lm]
      */
     MODIFIER_LETTER,
     
     /**
-     * {@link [Lo]}
+     * [Lo]
      */
     OTHER_LETTER,
     
     /**
-     * {@link [Lt]}
+     * [Lt]
      */
     TITLECASE_LETTER,
     
     /**
-     * {@link [Lu]}
+     * [Lu]
      */
     UPPERCASE_LETTER,
     
     /**
-     * {@link [Mc]}
+     * [Mc]
      */
     SPACING_MARK,
     
     /**
-     * {@link [Me]}
+     * [Me]
      */
     ENCLOSING_MARK,
     
     /**
-     * {@link [Mn]}
+     * [Mn]
      */
     NON_SPACING_MARK,
     
     /**
-     * {@link [Nd]}
+     * [Nd]
      */
     DECIMAL_NUMBER,
     
     /**
-     * {@link [Nl]}
+     * [Nl]
      */
     LETTER_NUMBER,
     
     /**
-     * {@link [No]}
+     * [No]
      */
     OTHER_NUMBER,
     
     /**
-     * {@link [Pc]}
+     * [Pc]
      */
     CONNECT_PUNCTUATION,
     
     /**
-     * {@link [Pd]}
+     * [Pd]
      */
     DASH_PUNCTUATION,
     
     /**
-     * {@link [Pe]}
+     * [Pe]
      */
     CLOSE_PUNCTUATION,
     
     /**
-     * {@link [Pf]}
+     * [Pf]
      */
     FINAL_PUNCTUATION,
     
     /**
-     * {@link [Pi]}
+     * [Pi]
      */
     INITIAL_PUNCTUATION,
     
     /**
-     * {@link [Po]}
+     * [Po]
      */
     OTHER_PUNCTUATION,
     
     /**
-     * {@link [Ps]}
+     * [Ps]
      */
     OPEN_PUNCTUATION,
     
     /**
-     * {@link [Sc]}
+     * [Sc]
      */
     CURRENCY_SYMBOL,
     
     /**
-     * {@link [Sk]}
+     * [Sk]
      */
     MODIFIER_SYMBOL,
     
     /**
-     * {@link [Sm]}
+     * [Sm]
      */
     MATH_SYMBOL,
     
     /**
-     * {@link [So]}
+     * [So]
      */
     OTHER_SYMBOL,
     
     /**
-     * {@link [Zl]}
+     * [Zl]
      */
     LINE_SEPARATOR,
     
     /**
-     * {@link [Zp]}
+     * [Zp]
      */
     PARAGRAPH_SEPARATOR,
     
     /**
-     * {@link [Zs]}
+     * [Zs]
      */
     SPACE_SEPARATOR;
     

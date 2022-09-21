@@ -1,7 +1,8 @@
 package org.gtk.gtk;
 
 /**
- * These identify the various errors that can occur while calling<code>GtkFileChooser</code> functions.
+ * These identify the various errors that can occur while calling
+ * {@code GtkFileChooser} functions.
  */
 public enum FileChooserError {
 
@@ -23,7 +24,7 @@ public enum FileChooserError {
     
     /**
      * Indicates an incomplete hostname
-     *  (e.g. &<code>#34</code> http://foo&<code>#34</code>  without a slash after that).
+     *  (e.g. "http://foo" without a slash after that).
      */
     INCOMPLETE_HOSTNAME;
     

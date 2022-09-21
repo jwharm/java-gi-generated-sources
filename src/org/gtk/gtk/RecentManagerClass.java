@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkRecentManagerClass</code> contains only private data.
+ * {@code GtkRecentManagerClass} contains only private data.
  */
 public class RecentManagerClass extends io.github.jwharm.javagi.ResourceBase {
 

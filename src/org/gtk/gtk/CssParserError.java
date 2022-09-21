@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * Errors that can occur while parsing CSS.
- * 
+ * <p>
  * These errors are unexpected and will cause parts of the given CSS
  * to be ignored.
  */

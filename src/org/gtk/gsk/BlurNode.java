@@ -34,7 +34,7 @@ public class BlurNode extends RenderNode {
     }
     
     /**
-     * Retrieves the child <code>GskRenderNode</code> of the blur @node.
+     * Retrieves the child {@code GskRenderNode} of the blur {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_blur_node_get_child(handle());
@@ -42,7 +42,7 @@ public class BlurNode extends RenderNode {
     }
     
     /**
-     * Retrieves the blur radius of the @node.
+     * Retrieves the blur radius of the {@code node}.
      */
     public float getRadius() {
         var RESULT = gtk_h.gsk_blur_node_get_radius(handle());

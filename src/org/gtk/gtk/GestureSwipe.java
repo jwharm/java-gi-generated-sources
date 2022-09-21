@@ -8,17 +8,17 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkGestureSwipe</code> is a <code>GtkGesture</code> for swipe gestures.
- * 
+ * {@code GtkGestureSwipe} is a {@code GtkGesture} for swipe gestures.
+ * <p>
  * After a press/move/.../move/release sequence happens, the
- * {@link [signal@Gtk.GestureSwipe::swipe] (ref=signal)} signal will be emitted,
+ * {@code Gtk.GestureSwipe::swipe} signal will be emitted,
  * providing the velocity and directionality of the sequence
  * at the time it was lifted.
- * 
+ * <p>
  * If the velocity is desired in intermediate points,
- * {@link org.gtk.gtk.GestureSwipe<code>#getVelocity</code>  can be called in a
- * {@link [signal@Gtk.Gesture::update] (ref=signal)} handler.
- * 
+ * {@link GestureSwipe#getVelocity} can be called in a
+ * {@code Gtk.Gesture::update} handler.
+ * <p>
  * All velocities are reported in pixels/sec units.
  */
 public class GestureSwipe extends GestureSingle {
@@ -38,7 +38,7 @@ public class GestureSwipe extends GestureSingle {
     }
     
     /**
-     * Returns a newly created <code>GtkGesture</code> that recognizes swipes.
+     * Returns a newly created {@code GtkGesture} that recognizes swipes.
      */
     public GestureSwipe() {
         super(constructNew());
@@ -51,7 +51,7 @@ public class GestureSwipe extends GestureSingle {
     
     /**
      * Emitted when the recognized gesture is finished.
-     * 
+     * <p>
      * Velocity and direction are a product of previously recorded events.
      */
     public SignalHandle onSwipe(SwipeHandler handler) {

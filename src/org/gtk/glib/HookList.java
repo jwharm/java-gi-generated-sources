@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.glib.HookList} struct represents a list of hook functions.
+ * The {@link HookList} struct represents a list of hook functions.
  */
 public class HookList extends io.github.jwharm.javagi.ResourceBase {
 
@@ -17,37 +17,37 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes all the {@link org.gtk.glib.Hook} elements from a {@link org.gtk.glib.HookList}
+     * Removes all the {@link Hook} elements from a {@link HookList}.
      */
     public void clear() {
         gtk_h.g_hook_list_clear(handle());
     }
     
     /**
-     * Initializes a {@link org.gtk.glib.HookList} 
-     * This must be called before the {@link org.gtk.glib.HookList} is used.
+     * Initializes a {@link HookList}.
+     * This must be called before the {@link HookList} is used.
      */
     public void init(int hookSize) {
         gtk_h.g_hook_list_init(handle(), hookSize);
     }
     
     /**
-     * Calls all of the {@link org.gtk.glib.Hook} functions in a {@link org.gtk.glib.HookList}
+     * Calls all of the {@link Hook} functions in a {@link HookList}.
      */
     public void invoke(boolean mayRecurse) {
         gtk_h.g_hook_list_invoke(handle(), mayRecurse ? 1 : 0);
     }
     
     /**
-     * Calls all of the {@link org.gtk.glib.Hook} functions in a {@link org.gtk.glib.HookList} 
-     * Any function which returns <code>false</code> is removed from the {@link org.gtk.glib.HookList}
+     * Calls all of the {@link Hook} functions in a {@link HookList}.
+     * Any function which returns <code>false</code> is removed from the {@link HookList}.
      */
     public void invokeCheck(boolean mayRecurse) {
         gtk_h.g_hook_list_invoke_check(handle(), mayRecurse ? 1 : 0);
     }
     
     /**
-     * Calls a function on each valid {@link org.gtk.glib.Hook}
+     * Calls a function on each valid {@link Hook}.
      */
     public void marshal(boolean mayRecurse, HookMarshaller marshaller) {
         try {
@@ -64,8 +64,8 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls a function on each valid {@link org.gtk.glib.Hook} and destroys it if the
-     * function returns <code>false</code>
+     * Calls a function on each valid {@link Hook} and destroys it if the
+     * function returns <code>false</code>.
      */
     public void marshalCheck(boolean mayRecurse, HookCheckMarshaller marshaller) {
         try {

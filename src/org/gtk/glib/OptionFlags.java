@@ -11,45 +11,47 @@ public class OptionFlags {
     public static final int NONE = 0;
     
     /**
-     * The option doesn&<code>#39</code> t appear in <code>--help</code> output.
+     * The option doesn't appear in {@code --help} output.
      */
     public static final int HIDDEN = 1;
     
     /**
      * The option appears in the main section of the
-     *     <code>--help</code> output, even if it is defined in a group.
+     *     {@code --help} output, even if it is defined in a group.
      */
     public static final int IN_MAIN = 2;
     
     /**
-     * For options of the {@link org.gtk.glib.OptionArg<code>#NONE</code>  kind, this
+     * For options of the {@link OptionArg#NONE} kind, this
      *     flag indicates that the sense of the option is reversed.
      */
     public static final int REVERSE = 4;
     
     /**
-     * For options of the {@link org.gtk.glib.OptionArg<code>#CALLBACK</code>  kind,
+     * For options of the {@link OptionArg#CALLBACK} kind,
      *     this flag indicates that the callback does not take any argument
-     *     (like a {@link org.gtk.glib.OptionArg<code>#NONE</code>  option). Since 2.8
+     *     (like a {@link OptionArg#NONE} option). Since 2.8
      */
     public static final int NO_ARG = 8;
     
     /**
-     * For options of the {@link org.gtk.glib.OptionArg<code>#CALLBACK</code>      kind, this flag indicates that the argument should be passed to the
+     * For options of the {@link OptionArg#CALLBACK}
+     *     kind, this flag indicates that the argument should be passed to the
      *     callback in the GLib filename encoding rather than UTF-8. Since 2.8
      */
     public static final int FILENAME = 16;
     
     /**
-     * For options of the {@link org.gtk.glib.OptionArg<code>#CALLBACK</code>      kind, this flag indicates that the argument supply is optional.
-     *     If no argument is given then data of <code>GOptionParseFunc</code> will be
+     * For options of the {@link OptionArg#CALLBACK}
+     *     kind, this flag indicates that the argument supply is optional.
+     *     If no argument is given then data of {@code GOptionParseFunc} will be
      *     set to NULL. Since 2.8
      */
     public static final int OPTIONAL_ARG = 32;
     
     /**
      * This flag turns off the automatic conflict
-     *     resolution which prefixes long option names with <code>groupname-</code> if
+     *     resolution which prefixes long option names with {@code groupname-} if
      *     there is a conflict. This option should only be used in situations
      *     where aliasing is necessary to model some legacy commandline interface.
      *     It is not safe to use this option, unless all option groups are under

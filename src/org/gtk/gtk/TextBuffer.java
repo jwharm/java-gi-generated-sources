@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Stores text and attributes for display in a <code>GtkTextView</code>.
- * 
+ * Stores text and attributes for display in a {@code GtkTextView}.
+ * <p>
  * You may wish to begin by reading the
- * {@link [text widget conceptual overview]}(section-text-widget.html),
+ * <a href="section-text-widget.html">text widget conceptual overview</a>,
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
- * 
+ * <p>
  * GtkTextBuffer can support undoing changes to the buffer
- * content, see {@link org.gtk.gtk.TextBuffer<code>#setEnableUndo</code> .
+ * content, see {@link TextBuffer#setEnableUndo}.
  */
 public class TextBuffer extends org.gtk.gobject.Object {
 
@@ -42,35 +42,35 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Adds the mark at position @where.
-     * 
+     * Adds the mark at position {@code where}.
+     * <p>
      * The mark must not be added to another buffer, and if its name
      * is not <code>null</code> then there must not be another mark in the buffer
      * with the same name.
-     * 
-     * Emits the {@link [signal@Gtk.TextBuffer::mark-set] (ref=signal)} signal as notification
-     * of the mark&<code>#39</code> s initial placement.
+     * <p>
+     * Emits the {@code Gtk.TextBuffer::mark-set} signal as notification
+     * of the mark's initial placement.
      */
     public void addMark(TextMark mark, TextIter where) {
         gtk_h.gtk_text_buffer_add_mark(handle(), mark.handle(), where.handle());
     }
     
     /**
-     * Adds @clipboard to the list of clipboards in which the selection
-     * contents of @buffer are available.
+     * Adds {@code clipboard} to the list of clipboards in which the selection
+     * contents of {@code buffer} are available.
      * <p>
-     * In most cases, @clipboard will be the <code>GdkClipboard</code> returned by
-     * {@link org.gtk.gtk.Widget<code>#getPrimaryClipboard</code>  for a view of @buffer.
+     * In most cases, {@code clipboard} will be the {@code GdkClipboard} returned by
+     * {@link Widget#getPrimaryClipboard} for a view of {@code buffer}.
      */
     public void addSelectionClipboard(org.gtk.gdk.Clipboard clipboard) {
         gtk_h.gtk_text_buffer_add_selection_clipboard(handle(), clipboard.handle());
     }
     
     /**
-     * Emits the &<code>#8220</code> apply-tag&<code>#8221</code>  signal on @buffer.
-     * 
+     * Emits the “apply-tag” signal on {@code buffer}.
+     * <p>
      * The default handler for the signal applies
-     * @tag to the given range. @start and @end do
+     * {@code tag} to the given range. {@code start} and {@code end} do
      * not have to be in order.
      */
     public void applyTag(TextTag tag, TextIter start, TextIter end) {
@@ -78,11 +78,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits the &<code>#8220</code> apply-tag&<code>#8221</code>  signal on @buffer.
+     * Emits the “apply-tag” signal on {@code buffer}.
      * <p>
-     * Calls {@link org.gtk.gtk.TextTagTable<code>#lookup</code>  on the buffer&<code>#8217</code> s
-     * tag table to get a <code>GtkTextTag</code>, then calls
-     * {@link org.gtk.gtk.TextBuffer<code>#applyTag</code> .
+     * Calls {@link TextTagTable#lookup} on the buffer’s
+     * tag table to get a {@code GtkTextTag}, then calls
+     * {@link TextBuffer#applyTag}.
      */
     public void applyTagByName(java.lang.String name, TextIter start, TextIter end) {
         gtk_h.gtk_text_buffer_apply_tag_by_name(handle(), Interop.allocateNativeString(name).handle(), start.handle(), end.handle());
@@ -90,15 +90,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Performs the appropriate action as if the user hit the delete
-     * key with the cursor at the position specified by @iter.
-     * 
+     * key with the cursor at the position specified by {@code iter}.
+     * <p>
      * In the normal case a single character will be deleted, but when
      * combining accents are involved, more than one character can
      * be deleted, and when precomposed character and accent combinations
      * are involved, less than one character will be deleted.
-     * 
+     * <p>
      * Because the buffer is modified, all outstanding iterators become
-     * invalid after calling this function; however, the @iter will be
+     * invalid after calling this function; however, the {@code iter} will be
      * re-initialized to point to the location where text was deleted.
      */
     public boolean backspace(TextIter iter, boolean interactive, boolean defaultEditable) {
@@ -108,14 +108,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Denotes the beginning of an action that may not be undone.
-     * 
+     * <p>
      * This will cause any previous operations in the undo/redo queue
      * to be cleared.
-     * 
+     * <p>
      * This should be paired with a call to
-     * {@link org.gtk.gtk.TextBuffer<code>#endIrreversibleAction</code>  after the irreversible
+     * {@link TextBuffer#endIrreversibleAction} after the irreversible
      * action has completed.
-     * 
+     * <p>
      * You may nest calls to gtk_text_buffer_begin_irreversible_action()
      * and gtk_text_buffer_end_irreversible_action() pairs.
      */
@@ -130,17 +130,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * <p>
      * The operations between gtk_text_buffer_begin_user_action() and
      * gtk_text_buffer_end_user_action() can then be grouped when creating
-     * an undo stack. <code>GtkTextBuffer</code> maintains a count of calls to
+     * an undo stack. {@code GtkTextBuffer} maintains a count of calls to
      * gtk_text_buffer_begin_user_action() that have not been closed with
      * a call to gtk_text_buffer_end_user_action(), and emits the
-     * &<code>#8220</code> begin-user-action&<code>#8221</code>  and &<code>#8220</code> end-user-action&<code>#8221</code>  signals only for the
+     * “begin-user-action” and “end-user-action” signals only for the
      * outermost pair of calls. This allows you to build user actions
      * from other user actions.
-     * 
-     * The &<code>#8220</code> interactive&<code>#8221</code>  buffer mutation functions, such as
-     * {@link org.gtk.gtk.TextBuffer<code>#insertInteractive</code> , automatically call
+     * <p>
+     * The “interactive” buffer mutation functions, such as
+     * {@link TextBuffer#insertInteractive}, automatically call
      * begin/end user action around the buffer operations they perform,
-     * so there&<code>#39</code> s no need to add extra calls if you user action consists
+     * so there's no need to add extra calls if you user action consists
      * solely of a single call to one of those functions.
      */
     public void beginUserAction() {
@@ -156,11 +156,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Creates and inserts a child anchor.
-     * 
+     * <p>
      * This is a convenience function which simply creates a child anchor
-     * with {@link [ctor@Gtk.TextChildAnchor.new] (ref=ctor)} and inserts it into the buffer
-     * with {@link org.gtk.gtk.TextBuffer<code>#insertChildAnchor</code> .
-     * 
+     * with {@link TextChildAnchor#TextChildAnchor} and inserts it into the buffer
+     * with {@link TextBuffer#insertChildAnchor}.
+     * <p>
      * The new anchor is owned by the buffer; no reference count is
      * returned to the caller of this function.
      */
@@ -170,25 +170,25 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Creates a mark at position @where.
+     * Creates a mark at position {@code where}.
      * <p>
-     * If @mark_name is <code>null</code>  the mark is anonymous; otherwise, the mark
-     * can be retrieved by name using {@link org.gtk.gtk.TextBuffer<code>#getMark</code> .
-     * If a mark has left gravity, and text is inserted at the mark&<code>#8217</code> s
+     * If {@code mark_name} is <code>null</code>, the mark is anonymous; otherwise, the mark
+     * can be retrieved by name using {@link TextBuffer#getMark}.
+     * If a mark has left gravity, and text is inserted at the mark’s
      * current location, the mark will be moved to the left of the
      * newly-inserted text. If the mark has right gravity
-     * (@left_gravity = <code>false</code> , the mark will end up on the right of
+     * ({@code left_gravity} = <code>false</code>), the mark will end up on the right of
      * newly-inserted text. The standard left-to-right cursor is a mark
      * with right gravity (when you type, the cursor stays on the right
-     * side of the text you&<code>#8217</code> re typing).
+     * side of the text you’re typing).
      * <p>
      * The caller of this function does not own a
-     * reference to the returned <code>GtkTextMark</code>, so you can ignore the
+     * reference to the returned {@code GtkTextMark}, so you can ignore the
      * return value if you like. Marks are owned by the buffer and go
      * away when the buffer does.
-     * 
-     * Emits the {@link [signal@Gtk.TextBuffer::mark-set] (ref=signal)} signal as notification
-     * of the mark&<code>#39</code> s initial placement.
+     * <p>
+     * Emits the {@code Gtk.TextBuffer::mark-set} signal as notification
+     * of the mark's initial placement.
      */
     public TextMark createMark(java.lang.String markName, TextIter where, boolean leftGravity) {
         var RESULT = gtk_h.gtk_text_buffer_create_mark(handle(), Interop.allocateNativeString(markName).handle(), where.handle(), leftGravity ? 1 : 0);
@@ -197,22 +197,22 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Copies the currently-selected text to a clipboard,
-     * then deletes said text if it&<code>#8217</code> s editable.
+     * then deletes said text if it’s editable.
      */
     public void cutClipboard(org.gtk.gdk.Clipboard clipboard, boolean defaultEditable) {
         gtk_h.gtk_text_buffer_cut_clipboard(handle(), clipboard.handle(), defaultEditable ? 1 : 0);
     }
     
     /**
-     * Deletes text between @start and @end.
-     * 
-     * The order of @start and @end is not actually relevant;
+     * Deletes text between {@code start} and {@code end}.
+     * <p>
+     * The order of {@code start} and {@code end} is not actually relevant;
      * gtk_text_buffer_delete() will reorder them.
-     * 
-     * This function actually emits the &<code>#8220</code> delete-range&<code>#8221</code>  signal, and
+     * <p>
+     * This function actually emits the “delete-range” signal, and
      * the default handler of that signal deletes the text. Because the
      * buffer is modified, all outstanding iterators become invalid after
-     * calling this function; however, the @start and @end will be
+     * calling this function; however, the {@code start} and {@code end} will be
      * re-initialized to point to the location where text was deleted.
      */
     public void delete(TextIter start, TextIter end) {
@@ -221,10 +221,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Deletes all editable text in the given range.
-     * 
-     * Calls {@link org.gtk.gtk.TextBuffer<code>#delete</code>  for each editable
-     * sub-range of  for each editable
-     * sub-range of [@start,@end). @start and @end are revalidated
+     * <p>
+     * Calls {@link TextBuffer#delete} for each editable
+     * sub-range of [{@code start},{@code end}). {@code start} and {@code end} are revalidated
      * to point to the location of the last deleted range, or left
      * untouched if no text was deleted.
      */
@@ -234,17 +233,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Deletes @mark, so that it&<code>#8217</code> s no longer located anywhere in the
+     * Deletes {@code mark}, so that it’s no longer located anywhere in the
      * buffer.
-     * 
+     * <p>
      * Removes the reference the buffer holds to the mark, so if
-     * you haven&<code>#8217</code> t called g_object_ref() on the mark, it will be freed.
-     * Even if the mark isn&<code>#8217</code> t freed, most operations on @mark become
+     * you haven’t called g_object_ref() on the mark, it will be freed.
+     * Even if the mark isn’t freed, most operations on {@code mark} become
      * invalid, until it gets added to a buffer again with
-     * {@link org.gtk.gtk.TextBuffer<code>#addMark</code> . Use {@link org.gtk.gtk.TextMark<code>#getDeleted</code> 
+     * {@code Gtk.TextMark.get_deleted}
      * to find out if a mark has been removed from its buffer.
-     * 
-     * The {@link [signal@Gtk.TextBuffer::mark-deleted] (ref=signal)} signal will be emitted as
+     * <p>
+     * The {@code Gtk.TextBuffer::mark-deleted} signal will be emitted as
      * notification after the mark is deleted.
      */
     public void deleteMark(TextMark mark) {
@@ -252,20 +251,20 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Deletes the mark named @name; the mark must exist.
-     * 
-     * See {@link org.gtk.gtk.TextBuffer<code>#deleteMark</code>  for details.
+     * Deletes the mark named {@code name}; the mark must exist.
+     * <p>
+     * See {@link TextBuffer#deleteMark} for details.
      */
     public void deleteMarkByName(java.lang.String name) {
         gtk_h.gtk_text_buffer_delete_mark_by_name(handle(), Interop.allocateNativeString(name).handle());
     }
     
     /**
-     * Deletes the range between the &<code>#8220</code> insert&<code>#8221</code>  and &<code>#8220</code> selection_bound&<code>#8221</code>  marks,
+     * Deletes the range between the “insert” and “selection_bound” marks,
      * that is, the currently-selected text.
-     * 
-     * If @interactive is <code>true</code>  the editability of the selection will be
-     * considered (users can&<code>#8217</code> t delete uneditable text).
+     * <p>
+     * If {@code interactive} is <code>true</code>, the editability of the selection will be
+     * considered (users can’t delete uneditable text).
      */
     public boolean deleteSelection(boolean interactive, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_delete_selection(handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
@@ -274,14 +273,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Denotes the end of an action that may not be undone.
-     * 
+     * <p>
      * This will cause any previous operations in the undo/redo
      * queue to be cleared.
-     * 
+     * <p>
      * This should be called after completing modifications to the
-     * text buffer after {@link org.gtk.gtk.TextBuffer<code>#beginIrreversibleAction</code> 
+     * text buffer after {@link TextBuffer#beginIrreversibleAction}
      * was called.
-     * 
+     * <p>
      * You may nest calls to gtk_text_buffer_begin_irreversible_action()
      * and gtk_text_buffer_end_irreversible_action() pairs.
      */
@@ -291,9 +290,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Ends a user-visible operation.
-     * 
+     * <p>
      * Should be paired with a call to
-     * {@link org.gtk.gtk.TextBuffer<code>#beginUserAction</code> .
+     * {@link TextBuffer#beginUserAction}.
      * See that function for a full explanation.
      */
     public void endUserAction() {
@@ -302,14 +301,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Retrieves the first and last iterators in the buffer, i.e. the
-     * entire buffer lies within the range 
-     *             
-     *           
-     *         
-     *       
-     *       
-     *         Retrieves the first and last iterators in the buffer, i.e. the
-     * entire buffer lies within the range [@start,@end).
+     * entire buffer lies within the range [{@code start},{@code end}).
      */
     public void getBounds(TextIter start, TextIter end) {
         gtk_h.gtk_text_buffer_get_bounds(handle(), start.handle(), end.handle());
@@ -333,11 +325,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Gets the number of characters in the buffer.
-     * 
-     * Note that characters and bytes are not the same, you can&<code>#8217</code> t e.g.
+     * <p>
+     * Note that characters and bytes are not the same, you can’t e.g.
      * expect the contents of the buffer in string form to be this
      * many bytes long.
-     * 
+     * <p>
      * The character count is cached, so this function is very fast.
      */
     public int getCharCount() {
@@ -348,9 +340,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Gets whether the buffer is saving modifications to the buffer
      * to allow for undo and redo actions.
-     * 
-     * See {@link org.gtk.gtk.TextBuffer<code>#beginIrreversibleAction</code>  and
-     * {@link org.gtk.gtk.TextBuffer<code>#endIrreversibleAction</code>  to create
+     * <p>
+     * See {@link TextBuffer#beginIrreversibleAction} and
+     * {@link TextBuffer#endIrreversibleAction} to create
      * changes to the buffer that cannot be undone.
      */
     public boolean getEnableUndo() {
@@ -359,13 +351,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Initializes @iter with the &<code>#8220</code> end iterator,&<code>#8221</code>  one past the last valid
+     * Initializes {@code iter} with the “end iterator,” one past the last valid
      * character in the text buffer.
-     * 
-     * If dereferenced with {@link org.gtk.gtk.TextIter<code>#getChar</code> , the end
+     * <p>
+     * If dereferenced with {@link TextIter#getChar}, the end
      * iterator has a character value of 0.
      * The entire buffer lies in the range from the first position in
-     * the buffer (call {@link org.gtk.gtk.TextBuffer<code>#getStartIter</code>  to get
+     * the buffer (call {@link TextBuffer#getStartIter} to get
      * character position 0) to the end iterator.
      */
     public void getEndIter(TextIter iter) {
@@ -382,9 +374,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Returns the mark that represents the cursor (insertion point).
-     * 
-     * Equivalent to calling {@link org.gtk.gtk.TextBuffer<code>#getMark</code> 
-     * to get the mark named &<code>#8220</code> insert&<code>#8221</code> , but very slightly more
+     * <p>
+     * Equivalent to calling {@link TextBuffer#getMark}
+     * to get the mark named “insert”, but very slightly more
      * efficient, and involves less typing.
      */
     public TextMark getInsert() {
@@ -393,17 +385,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains the location of @anchor within @buffer.
+     * Obtains the location of {@code anchor} within {@code buffer}.
      */
     public void getIterAtChildAnchor(TextIter iter, TextChildAnchor anchor) {
         gtk_h.gtk_text_buffer_get_iter_at_child_anchor(handle(), iter.handle(), anchor.handle());
     }
     
     /**
-     * Initializes @iter to the start of the given line.
-     * 
-     * If @line_number is greater than or equal to the number of lines
-     * in the @buffer, the end iterator is returned.
+     * Initializes {@code iter} to the start of the given line.
+     * <p>
+     * If {@code line_number} is greater than or equal to the number of lines
+     * in the {@code buffer}, the end iterator is returned.
      */
     public boolean getIterAtLine(TextIter iter, int lineNumber) {
         var RESULT = gtk_h.gtk_text_buffer_get_iter_at_line(handle(), iter.handle(), lineNumber);
@@ -411,13 +403,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains an iterator pointing to @byte_index within the given line.
-     * 
-     * @byte_index must be the start of a UTF-8 character. Note bytes, not
+     * Obtains an iterator pointing to {@code byte_index} within the given line.
+     * <p>
+     * {@code byte_index} must be the start of a UTF-8 character. Note bytes, not
      * characters; UTF-8 may encode one character as multiple bytes.
-     * 
-     * If @line_number is greater than or equal to the number of lines in the @buffer,
-     * the end iterator is returned. And if @byte_index is off the
+     * <p>
+     * If {@code line_number} is greater than or equal to the number of lines in the {@code buffer},
+     * the end iterator is returned. And if {@code byte_index} is off the
      * end of the line, the iterator at the end of the line is returned.
      */
     public boolean getIterAtLineIndex(TextIter iter, int lineNumber, int byteIndex) {
@@ -426,13 +418,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Obtains an iterator pointing to @char_offset within the given line.
-     * 
+     * Obtains an iterator pointing to {@code char_offset} within the given line.
+     * <p>
      * Note characters, not bytes; UTF-8 may encode one character as multiple
      * bytes.
-     * 
-     * If @line_number is greater than or equal to the number of lines in the @buffer,
-     * the end iterator is returned. And if @char_offset is off the
+     * <p>
+     * If {@code line_number} is greater than or equal to the number of lines in the {@code buffer},
+     * the end iterator is returned. And if {@code char_offset} is off the
      * end of the line, the iterator at the end of the line is returned.
      */
     public boolean getIterAtLineOffset(TextIter iter, int lineNumber, int charOffset) {
@@ -441,18 +433,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Initializes @iter with the current position of @mark.
+     * Initializes {@code iter} with the current position of {@code mark}.
      */
     public void getIterAtMark(TextIter iter, TextMark mark) {
         gtk_h.gtk_text_buffer_get_iter_at_mark(handle(), iter.handle(), mark.handle());
     }
     
     /**
-     * Initializes @iter to a position @char_offset chars from the start
+     * Initializes {@code iter} to a position {@code char_offset} chars from the start
      * of the entire buffer.
-     * 
-     * If @char_offset is -1 or greater than the number
-     * of characters in the buffer, @iter is initialized to the end iterator,
+     * <p>
+     * If {@code char_offset} is -1 or greater than the number
+     * of characters in the buffer, {@code iter} is initialized to the end iterator,
      * the iterator one past the last valid character in the buffer.
      */
     public void getIterAtOffset(TextIter iter, int charOffset) {
@@ -461,7 +453,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Obtains the number of lines in the buffer.
-     * 
+     * <p>
      * This value is cached, so the function is very fast.
      */
     public int getLineCount() {
@@ -470,7 +462,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the mark named @name in buffer @buffer, or <code>null</code> if no such
+     * Returns the mark named {@code name} in buffer {@code buffer}, or <code>null</code> if no such
      * mark exists in the buffer.
      */
     public TextMark getMark(java.lang.String name) {
@@ -480,7 +472,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Gets the maximum number of undo levels to perform.
-     * 
+     * <p>
      * If 0, unlimited undo actions may be performed. Note that this may
      * have a memory usage impact as it requires storing an additional
      * copy of the inserted or removed text within the text buffer.
@@ -492,10 +484,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Indicates whether the buffer has been modified since the last call
-     * to {@link org.gtk.gtk.TextBuffer<code>#setModified</code>  set the modification flag to
-     * <code>false</code> 
-     * 
-     * Used for example to enable a &<code>#8220</code> save&<code>#8221</code>  function in a text editor.
+     * to {@link TextBuffer#setModified} set the modification flag to
+     * <code>false</code>.
+     * <p>
+     * Used for example to enable a “save” function in a text editor.
      */
     public boolean getModified() {
         var RESULT = gtk_h.gtk_text_buffer_get_modified(handle());
@@ -504,17 +496,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Returns the mark that represents the selection bound.
-     * 
-     * Equivalent to calling {@link org.gtk.gtk.TextBuffer<code>#getMark</code> 
-     * to get the mark named &<code>#8220</code> selection_bound&<code>#8221</code> , but very slightly
+     * <p>
+     * Equivalent to calling {@link TextBuffer#getMark}
+     * to get the mark named “selection_bound”, but very slightly
      * more efficient, and involves less typing.
-     * 
-     * The currently-selected text in @buffer is the region between the
-     * &<code>#8220</code> selection_bound&<code>#8221</code>  and &<code>#8220</code> insert&<code>#8221</code>  marks. If &<code>#8220</code> selection_bound&<code>#8221</code>  and
-     * &<code>#8220</code> insert&<code>#8221</code>  are in the same place, then there is no current selection.
-     * {@link org.gtk.gtk.TextBuffer<code>#getSelectionBounds</code>  is another convenient
+     * <p>
+     * The currently-selected text in {@code buffer} is the region between the
+     * “selection_bound” and “insert” marks. If “selection_bound” and
+     * “insert” are in the same place, then there is no current selection.
+     * {@link TextBuffer#getSelectionBounds} is another convenient
      * function for handling the selection, if you just want to know whether
-     * there&<code>#8217</code> s a selection and what its bounds are.
+     * there’s a selection and what its bounds are.
      */
     public TextMark getSelectionBound() {
         var RESULT = gtk_h.gtk_text_buffer_get_selection_bound(handle());
@@ -523,11 +515,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Returns <code>true</code> if some text is selected; places the bounds
-     * of the selection in @start and @end.
-     * 
-     * If the selection has length 0, then @start and @end are filled
-     * in with the same value. @start and @end will be in ascending order.
-     * If @start and @end are <code>null</code>  then they are not filled in, but the
+     * of the selection in {@code start} and {@code end}.
+     * <p>
+     * If the selection has length 0, then {@code start} and {@code end} are filled
+     * in with the same value. {@code start} and {@code end} will be in ascending order.
+     * If {@code start} and {@code end} are <code>null</code>, then they are not filled in, but the
      * return value still indicates whether text is selected.
      */
     public boolean getSelectionBounds(TextIter start, TextIter end) {
@@ -538,8 +530,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Get a content provider for this buffer.
      * <p>
-     * It can be used to make the content of @buffer available
-     * in a <code>GdkClipboard</code>, see {@link org.gtk.gdk.Clipboard<code>#setContent</code> .
+     * It can be used to make the content of {@code buffer} available
+     * in a {@code GdkClipboard}, see {@link org.gtk.gdk.Clipboard#setContent}.
      */
     public org.gtk.gdk.ContentProvider getSelectionContent() {
         var RESULT = gtk_h.gtk_text_buffer_get_selection_content(handle());
@@ -547,14 +539,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the text in the range {@link [@start,@end).
-     * 
+     * Returns the text in the range [{@code start},{@code end}).
+     * <p>
      * Excludes undisplayed text (text marked with tags that set the
-     * invisibility attribute) if @include_hidden_chars is <code>false</code> 
+     * invisibility attribute) if {@code include_hidden_chars} is <code>false</code>.
      * The returned string includes a 0xFFFC character whenever the
      * buffer contains embedded images, so byte and character indexes
      * into the returned string do correspond to byte and character
-     * indexes into the buffer. Contrast with [method@Gtk.TextBuffer.get_text] (ref=)}.
+     * indexes into the buffer. Contrast with {@link TextBuffer#getText}.
      * Note that 0xFFFC can occur in normal text as well, so it is not a
      * reliable indicator that a paintable or widget is in the buffer.
      */
@@ -564,9 +556,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Initialized @iter with the first position in the text buffer.
-     * 
-     * This is the same as using {@link org.gtk.gtk.TextBuffer<code>#getIterAtOffset</code> 
+     * Initialized {@code iter} with the first position in the text buffer.
+     * <p>
+     * This is the same as using {@link TextBuffer#getIterAtOffset}
      * to get the iter at character offset 0.
      */
     public void getStartIter(TextIter iter) {
@@ -574,7 +566,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get the <code>GtkTextTagTable</code> associated with this buffer.
+     * Get the {@code GtkTextTagTable} associated with this buffer.
      */
     public TextTagTable getTagTable() {
         var RESULT = gtk_h.gtk_text_buffer_get_tag_table(handle());
@@ -582,14 +574,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the text in the range {@link [@start,@end).
-     * 
+     * Returns the text in the range [{@code start},{@code end}).
+     * <p>
      * Excludes undisplayed text (text marked with tags that set the
-     * invisibility attribute) if @include_hidden_chars is <code>false</code> 
+     * invisibility attribute) if {@code include_hidden_chars} is <code>false</code>.
      * Does not include characters representing embedded images, so
      * byte and character indexes into the returned string do not
      * correspond to byte and character indexes into the buffer.
-     * Contrast with [method@Gtk.TextBuffer.get_slice] (ref=)}.
+     * Contrast with {@link TextBuffer#getSlice}.
      */
     public java.lang.String getText(TextIter start, TextIter end, boolean includeHiddenChars) {
         var RESULT = gtk_h.gtk_text_buffer_get_text(handle(), start.handle(), end.handle(), includeHiddenChars ? 1 : 0);
@@ -597,11 +589,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Inserts @len bytes of @text at position @iter.
-     * 
-     * If @len is -1, @text must be nul-terminated and will be inserted in its
-     * entirety. Emits the &<code>#8220</code> insert-text&<code>#8221</code>  signal; insertion actually occurs
-     * in the default handler for the signal. @iter is invalidated when
+     * Inserts {@code len} bytes of {@code text} at position {@code iter}.
+     * <p>
+     * If {@code len} is -1, {@code text} must be nul-terminated and will be inserted in its
+     * entirety. Emits the “insert-text” signal; insertion actually occurs
+     * in the default handler for the signal. {@code iter} is invalidated when
      * insertion occurs (because the buffer contents change), but the
      * default signal handler revalidates it to point to the end of the
      * inserted text.
@@ -611,9 +603,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Inserts @text in @buffer.
-     * 
-     * Simply calls {@link org.gtk.gtk.TextBuffer<code>#insert</code> ,
+     * Inserts {@code text} in {@code buffer}.
+     * <p>
+     * Simply calls {@link TextBuffer#insert},
      * using the current cursor position as the insertion point.
      */
     public void insertAtCursor(java.lang.String text, int len) {
@@ -621,17 +613,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Inserts a child widget anchor into the text buffer at @iter.
-     * 
+     * Inserts a child widget anchor into the text buffer at {@code iter}.
+     * <p>
      * The anchor will be counted as one character in character counts, and
      * when obtaining the buffer contents as a string, will be represented
-     * by the Unicode &<code>#8220</code> object replacement character&<code>#8221</code>  0xFFFC. Note that the
-     * &<code>#8220</code> slice&<code>#8221</code>  variants for obtaining portions of the buffer as a string
-     * include this character for child anchors, but the &<code>#8220</code> text&<code>#8221</code>  variants do
-     * not. E.g. see {@link org.gtk.gtk.TextBuffer<code>#getSlice</code>  and
-     * {@link org.gtk.gtk.TextBuffer<code>#getText</code> .
-     * 
-     * Consider {@link org.gtk.gtk.TextBuffer<code>#createChildAnchor</code>  as a more
+     * by the Unicode “object replacement character” 0xFFFC. Note that the
+     * “slice” variants for obtaining portions of the buffer as a string
+     * include this character for child anchors, but the “text” variants do
+     * not. E.g. see {@link TextBuffer#getSlice} and
+     * {@link TextBuffer#getText}.
+     * <p>
+     * Consider {@link TextBuffer#createChildAnchor} as a more
      * convenient alternative to this function. The buffer will add a
      * reference to the anchor, so you can unref it after insertion.
      */
@@ -640,16 +632,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Inserts @text in @buffer.
-     * 
-     * Like {@link org.gtk.gtk.TextBuffer<code>#insert</code> , but the insertion will not occur
-     * if @iter is at a non-editable location in the buffer. Usually you
+     * Inserts {@code text} in {@code buffer}.
+     * <p>
+     * Like {@link TextBuffer#insert}, but the insertion will not occur
+     * if {@code iter} is at a non-editable location in the buffer. Usually you
      * want to prevent insertions at ineditable locations if the insertion
      * results from a user action (is interactive).
-     * 
-     * @default_editable indicates the editability of text that doesn&<code>#39</code> t
+     * <p>
+     * {@code default_editable} indicates the editability of text that doesn't
      * have a tag affecting editability applied to it. Typically the
-     * result of {@link org.gtk.gtk.TextView<code>#getEditable</code>  is appropriate here.
+     * result of {@link TextView#getEditable} is appropriate here.
      */
     public boolean insertInteractive(TextIter iter, java.lang.String text, int len, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_insert_interactive(handle(), iter.handle(), Interop.allocateNativeString(text).handle(), len, defaultEditable ? 1 : 0);
@@ -657,14 +649,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Inserts @text in @buffer.
-     * 
-     * Calls {@link org.gtk.gtk.TextBuffer<code>#insertInteractive</code> 
+     * Inserts {@code text} in {@code buffer}.
+     * <p>
+     * Calls {@link TextBuffer#insertInteractive}
      * at the cursor position.
-     * 
-     * @default_editable indicates the editability of text that doesn&<code>#39</code> t
+     * <p>
+     * {@code default_editable} indicates the editability of text that doesn't
      * have a tag affecting editability applied to it. Typically the
-     * result of {@link org.gtk.gtk.TextView<code>#getEditable</code>  is appropriate here.
+     * result of {@link TextView#getEditable} is appropriate here.
      */
     public boolean insertInteractiveAtCursor(java.lang.String text, int len, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_insert_interactive_at_cursor(handle(), Interop.allocateNativeString(text).handle(), len, defaultEditable ? 1 : 0);
@@ -672,42 +664,42 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Inserts the text in @markup at position @iter.
-     * 
-     * @markup will be inserted in its entirety and must be nul-terminated
-     * and valid UTF-8. Emits the {@link [signal@Gtk.TextBuffer::insert-text] (ref=signal)} signal,
+     * Inserts the text in {@code markup} at position {@code iter}.
+     * <p>
+     * {@code markup} will be inserted in its entirety and must be nul-terminated
+     * and valid UTF-8. Emits the {@code Gtk.TextBuffer::insert-text} signal,
      * possibly multiple times; insertion actually occurs in the default handler
-     * for the signal. @iter will point to the end of the inserted text on return.
+     * for the signal. {@code iter} will point to the end of the inserted text on return.
      */
     public void insertMarkup(TextIter iter, java.lang.String markup, int len) {
         gtk_h.gtk_text_buffer_insert_markup(handle(), iter.handle(), Interop.allocateNativeString(markup).handle(), len);
     }
     
     /**
-     * Inserts an image into the text buffer at @iter.
-     * 
+     * Inserts an image into the text buffer at {@code iter}.
+     * <p>
      * The image will be counted as one character in character counts,
      * and when obtaining the buffer contents as a string, will be
-     * represented by the Unicode &<code>#8220</code> object replacement character&<code>#8221</code>  0xFFFC.
-     * Note that the &<code>#8220</code> slice&<code>#8221</code>  variants for obtaining portions of the buffer
-     * as a string include this character for paintable, but the &<code>#8220</code> text&<code>#8221</code> 
-     * variants do not. e.g. see {@link org.gtk.gtk.TextBuffer<code>#getSlice</code>  and
-     * {@link org.gtk.gtk.TextBuffer<code>#getText</code> .
+     * represented by the Unicode “object replacement character” 0xFFFC.
+     * Note that the “slice” variants for obtaining portions of the buffer
+     * as a string include this character for paintable, but the “text”
+     * variants do not. e.g. see {@link TextBuffer#getSlice} and
+     * {@link TextBuffer#getText}.
      */
     public void insertPaintable(TextIter iter, org.gtk.gdk.Paintable paintable) {
         gtk_h.gtk_text_buffer_insert_paintable(handle(), iter.handle(), paintable.handle());
     }
     
     /**
-     * Copies text, tags, and paintables between @start and @end
-     * and inserts the copy at @iter.
-     * 
-     * The order of @start and @end doesn&<code>#8217</code> t matter.
-     * 
+     * Copies text, tags, and paintables between {@code start} and {@code end}
+     * and inserts the copy at {@code iter}.
+     * <p>
+     * The order of {@code start} and {@code end} doesn’t matter.
+     * <p>
      * Used instead of simply getting/inserting text because it preserves
-     * images and tags. If @start and @end are in a different buffer from
-     * @buffer, the two buffers must share the same tag table.
-     * 
+     * images and tags. If {@code start} and {@code end} are in a different buffer from
+     * {@code buffer}, the two buffers must share the same tag table.
+     * <p>
      * Implemented via emissions of the ::insert-text and ::apply-tag signals,
      * so expect those.
      */
@@ -716,14 +708,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Copies text, tags, and paintables between @start and @end
-     * and inserts the copy at @iter.
-     * 
-     * Same as {@link org.gtk.gtk.TextBuffer<code>#insertRange</code> , but does nothing
-     * if the insertion point isn&<code>#8217</code> t editable. The @default_editable
-     * parameter indicates whether the text is editable at @iter if
-     * no tags enclosing @iter affect editability. Typically the result
-     * of {@link org.gtk.gtk.TextView<code>#getEditable</code>  is appropriate here.
+     * Copies text, tags, and paintables between {@code start} and {@code end}
+     * and inserts the copy at {@code iter}.
+     * <p>
+     * Same as {@link TextBuffer#insertRange}, but does nothing
+     * if the insertion point isn’t editable. The {@code default_editable}
+     * parameter indicates whether the text is editable at {@code iter} if
+     * no tags enclosing {@code iter} affect editability. Typically the result
+     * of {@link TextView#getEditable} is appropriate here.
      */
     public boolean insertRangeInteractive(TextIter iter, TextIter start, TextIter end, boolean defaultEditable) {
         var RESULT = gtk_h.gtk_text_buffer_insert_range_interactive(handle(), iter.handle(), start.handle(), end.handle(), defaultEditable ? 1 : 0);
@@ -731,9 +723,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Moves @mark to the new location @where.
-     * 
-     * Emits the {@link [signal@Gtk.TextBuffer::mark-set] (ref=signal)} signal
+     * Moves {@code mark} to the new location {@code where}.
+     * <p>
+     * Emits the {@code Gtk.TextBuffer::mark-set} signal
      * as notification of the move.
      */
     public void moveMark(TextMark mark, TextIter where) {
@@ -741,9 +733,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Moves the mark named @name (which must exist) to location @where.
-     * 
-     * See {@link org.gtk.gtk.TextBuffer<code>#moveMark</code>  for details.
+     * Moves the mark named {@code name} (which must exist) to location {@code where}.
+     * <p>
+     * See {@link TextBuffer#moveMark} for details.
      */
     public void moveMarkByName(java.lang.String name, TextIter where) {
         gtk_h.gtk_text_buffer_move_mark_by_name(handle(), Interop.allocateNativeString(name).handle(), where.handle());
@@ -751,12 +743,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Pastes the contents of a clipboard.
-     * 
-     * If @override_location is <code>null</code>  the pasted text will be inserted
+     * <p>
+     * If {@code override_location} is <code>null</code>, the pasted text will be inserted
      * at the cursor position, or the buffer selection will be replaced
      * if the selection is non-empty.
-     * 
-     * Note: pasting is asynchronous, that is, we&<code>#8217</code> ll ask for the paste data
+     * <p>
+     * Note: pasting is asynchronous, that is, we’ll ask for the paste data
      * and return, and at some point later after the main loop runs, the paste
      * data will be inserted.
      */
@@ -765,11 +757,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * This function moves the &<code>#8220</code> insert&<code>#8221</code>  and &<code>#8220</code> selection_bound&<code>#8221</code>  marks
+     * This function moves the “insert” and “selection_bound” marks
      * simultaneously.
-     * 
+     * <p>
      * If you move them to the same place in two steps with
-     * {@link org.gtk.gtk.TextBuffer<code>#moveMark</code> , you will temporarily select a
+     * {@link TextBuffer#moveMark}, you will temporarily select a
      * region in between their old and new locations, which can be pretty
      * inefficient since the temporarily-selected region will force stuff
      * to be recalculated. This function moves them as a unit, which can
@@ -787,10 +779,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Removes all tags in the range between @start and @end.
-     * 
+     * Removes all tags in the range between {@code start} and {@code end}.
+     * <p>
      * Be careful with this function; it could remove tags added in code
-     * unrelated to the code you&<code>#8217</code> re currently writing. That is, using this
+     * unrelated to the code you’re currently writing. That is, using this
      * function is probably a bad idea if you have two or more unrelated
      * code sections that add tags.
      */
@@ -799,7 +791,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Removes a <code>GdkClipboard</code> added with
+     * Removes a {@code GdkClipboard} added with
      * gtk_text_buffer_add_selection_clipboard().
      */
     public void removeSelectionClipboard(org.gtk.gdk.Clipboard clipboard) {
@@ -807,10 +799,10 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits the &<code>#8220</code> remove-tag&<code>#8221</code>  signal.
-     * 
+     * Emits the “remove-tag” signal.
+     * <p>
      * The default handler for the signal removes all occurrences
-     * of @tag from the given range. @start and @end don&<code>#8217</code> t have
+     * of {@code tag} from the given range. {@code start} and {@code end} don’t have
      * to be in order.
      */
     public void removeTag(TextTag tag, TextIter start, TextIter end) {
@@ -818,22 +810,22 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emits the &<code>#8220</code> remove-tag&<code>#8221</code>  signal.
+     * Emits the “remove-tag” signal.
      * <p>
-     * Calls {@link org.gtk.gtk.TextTagTable<code>#lookup</code>  on the buffer&<code>#8217</code> s
-     * tag table to get a <code>GtkTextTag</code>, then calls
-     * {@link org.gtk.gtk.TextBuffer<code>#removeTag</code> .
+     * Calls {@link TextTagTable#lookup} on the buffer’s
+     * tag table to get a {@code GtkTextTag}, then calls
+     * {@link TextBuffer#removeTag}.
      */
     public void removeTagByName(java.lang.String name, TextIter start, TextIter end) {
         gtk_h.gtk_text_buffer_remove_tag_by_name(handle(), Interop.allocateNativeString(name).handle(), start.handle(), end.handle());
     }
     
     /**
-     * This function moves the &<code>#8220</code> insert&<code>#8221</code>  and &<code>#8220</code> selection_bound&<code>#8221</code>  marks
+     * This function moves the “insert” and “selection_bound” marks
      * simultaneously.
-     * 
+     * <p>
      * If you move them in two steps with
-     * {@link org.gtk.gtk.TextBuffer<code>#moveMark</code> , you will temporarily select a
+     * {@link TextBuffer#moveMark}, you will temporarily select a
      * region in between their old and new locations, which can be pretty
      * inefficient since the temporarily-selected region will force stuff
      * to be recalculated. This function moves them as a unit, which can
@@ -845,15 +837,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Sets whether or not to enable undoable actions in the text buffer.
-     * 
+     * <p>
      * Undoable actions in this context are changes to the text content of
      * the buffer. Changes to tags and marks are not tracked.
-     * 
+     * <p>
      * If enabled, the user will be able to undo the last number of actions
-     * up to {@link org.gtk.gtk.TextBuffer<code>#getMaxUndoLevels</code> .
-     * 
-     * See {@link org.gtk.gtk.TextBuffer<code>#beginIrreversibleAction</code>  and
-     * {@link org.gtk.gtk.TextBuffer<code>#endIrreversibleAction</code>  to create
+     * up to {@link TextBuffer#getMaxUndoLevels}.
+     * <p>
+     * See {@link TextBuffer#beginIrreversibleAction} and
+     * {@link TextBuffer#endIrreversibleAction} to create
      * changes to the buffer that cannot be undone.
      */
     public void setEnableUndo(boolean enableUndo) {
@@ -862,7 +854,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Sets the maximum number of undo levels to perform.
-     * 
+     * <p>
      * If 0, unlimited undo actions may be performed. Note that this may
      * have a memory usage impact as it requires storing an additional
      * copy of the inserted or removed text within the text buffer.
@@ -875,21 +867,22 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Used to keep track of whether the buffer has been
      * modified since the last time it was saved.
      * <p>
-     * Whenever the buffer is saved to disk, call<code>gtk_text_buffer_set_modified (@buffer, FALSE)</code>.
+     * Whenever the buffer is saved to disk, call
+     * {@code gtk_text_buffer_set_modified (@buffer, FALSE)}.
      * When the buffer is modified, it will automatically
      * toggled on the modified bit again. When the modified
      * bit flips, the buffer emits the
-     * {@link [signal@Gtk.TextBuffer::modified-changed] (ref=signal)} signal.
+     * {@code Gtk.TextBuffer::modified-changed} signal.
      */
     public void setModified(boolean setting) {
         gtk_h.gtk_text_buffer_set_modified(handle(), setting ? 1 : 0);
     }
     
     /**
-     * Deletes current contents of @buffer, and inserts @text instead.
-     * 
-     * If @len is -1, @text must be nul-terminated.
-     * @text must be valid UTF-8.
+     * Deletes current contents of {@code buffer}, and inserts {@code text} instead.
+     * <p>
+     * If {@code len} is -1, {@code text} must be nul-terminated.
+     * {@code text} must be valid UTF-8.
      */
     public void setText(java.lang.String text, int len) {
         gtk_h.gtk_text_buffer_set_text(handle(), Interop.allocateNativeString(text).handle(), len);
@@ -908,18 +901,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted to apply a tag to a range of text in a <code>GtkTextBuffer</code>.
-     * 
+     * Emitted to apply a tag to a range of text in a {@code GtkTextBuffer}.
+     * <p>
      * Applying actually occurs in the default handler.
-     * 
+     * <p>
      * Note that if your handler runs before the default handler
-     * it must not invalidate the @start and @end iters (or has to
+     * it must not invalidate the {@code start} and {@code end} iters (or has to
      * revalidate them).
-     * 
+     * <p>
      * See also:
-     * {@link org.gtk.gtk.TextBuffer<code>#applyTag</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#insertWithTags</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#insertRange</code> .
+     * {@link TextBuffer#applyTag},
+     * {@link TextBuffer#insertWithTags},
+     * {@link TextBuffer#insertRange}.
      */
     public SignalHandle onApplyTag(ApplyTagHandler handler) {
         try {
@@ -943,15 +936,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Emitted at the beginning of a single user-visible
-     * operation on a <code>GtkTextBuffer</code>.
-     * 
+     * operation on a {@code GtkTextBuffer}.
+     * <p>
      * See also:
-     * {@link org.gtk.gtk.TextBuffer<code>#beginUserAction</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#insertInteractive</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#insertRangeInteractive</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#deleteInteractive</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#backspace</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#deleteSelection</code> .
+     * {@link TextBuffer#beginUserAction},
+     * {@link TextBuffer#insertInteractive},
+     * {@link TextBuffer#insertRangeInteractive},
+     * {@link TextBuffer#deleteInteractive},
+     * {@link TextBuffer#backspace},
+     * {@link TextBuffer#deleteSelection}.
      */
     public SignalHandle onBeginUserAction(BeginUserActionHandler handler) {
         try {
@@ -974,7 +967,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the content of a <code>GtkTextBuffer</code> has changed.
+     * Emitted when the content of a {@code GtkTextBuffer} has changed.
      */
     public SignalHandle onChanged(ChangedHandler handler) {
         try {
@@ -997,17 +990,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted to delete a range from a <code>GtkTextBuffer</code>.
-     * 
+     * Emitted to delete a range from a {@code GtkTextBuffer}.
+     * <p>
      * Note that if your handler runs before the default handler
-     * it must not invalidate the @start and @end iters (or has
+     * it must not invalidate the {@code start} and {@code end} iters (or has
      * to revalidate them). The default signal handler revalidates
-     * the @start and @end iters to both point to the location
+     * the {@code start} and {@code end} iters to both point to the location
      * where text was deleted. Handlers which run after the default
      * handler (see g_signal_connect_after()) do not have access to
      * the deleted text.
-     * 
-     * See also: {@link org.gtk.gtk.TextBuffer<code>#delete</code> .
+     * <p>
+     * See also: {@link TextBuffer#delete}.
      */
     public SignalHandle onDeleteRange(DeleteRangeHandler handler) {
         try {
@@ -1031,16 +1024,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Emitted at the end of a single user-visible
-     * operation on the <code>GtkTextBuffer</code>.
-     * 
+     * operation on the {@code GtkTextBuffer}.
+     * <p>
      * See also:
-     * {@link org.gtk.gtk.TextBuffer<code>#endUserAction</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#insertInteractive</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#insertRangeInteractive</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#deleteInteractive</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#backspace</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#deleteSelection</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#backspace</code> .
+     * {@link TextBuffer#endUserAction},
+     * {@link TextBuffer#insertInteractive},
+     * {@link TextBuffer#insertRangeInteractive},
+     * {@link TextBuffer#deleteInteractive},
+     * {@link TextBuffer#backspace},
+     * {@link TextBuffer#deleteSelection},
+     * {@link TextBuffer#backspace}.
      */
     public SignalHandle onEndUserAction(EndUserActionHandler handler) {
         try {
@@ -1063,16 +1056,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted to insert a <code>GtkTextChildAnchor</code> in a <code>GtkTextBuffer</code>.
-     * 
+     * Emitted to insert a {@code GtkTextChildAnchor} in a {@code GtkTextBuffer}.
+     * <p>
      * Insertion actually occurs in the default handler.
-     * 
+     * <p>
      * Note that if your handler runs before the default handler
-     * it must not invalidate the @location iter (or has to
+     * it must not invalidate the {@code location} iter (or has to
      * revalidate it). The default signal handler revalidates
-     * it to be placed after the inserted @anchor.
-     * 
-     * See also: {@link org.gtk.gtk.TextBuffer<code>#insertChildAnchor</code> .
+     * it to be placed after the inserted {@code anchor}.
+     * <p>
+     * See also: {@link TextBuffer#insertChildAnchor}.
      */
     public SignalHandle onInsertChildAnchor(InsertChildAnchorHandler handler) {
         try {
@@ -1095,16 +1088,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted to insert a <code>GdkPaintable</code> in a <code>GtkTextBuffer</code>.
-     * 
+     * Emitted to insert a {@code GdkPaintable} in a {@code GtkTextBuffer}.
+     * <p>
      * Insertion actually occurs in the default handler.
-     * 
+     * <p>
      * Note that if your handler runs before the default handler
-     * it must not invalidate the @location iter (or has to
+     * it must not invalidate the {@code location} iter (or has to
      * revalidate it). The default signal handler revalidates
-     * it to be placed after the inserted @paintable.
-     * 
-     * See also: {@link org.gtk.gtk.TextBuffer<code>#insertPaintable</code> .
+     * it to be placed after the inserted {@code paintable}.
+     * <p>
+     * See also: {@link TextBuffer#insertPaintable}.
      */
     public SignalHandle onInsertPaintable(InsertPaintableHandler handler) {
         try {
@@ -1127,17 +1120,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted to insert text in a <code>GtkTextBuffer</code>.
-     * 
+     * Emitted to insert text in a {@code GtkTextBuffer}.
+     * <p>
      * Insertion actually occurs in the default handler.
-     * 
+     * <p>
      * Note that if your handler runs before the default handler
-     * it must not invalidate the @location iter (or has to
+     * it must not invalidate the {@code location} iter (or has to
      * revalidate it). The default signal handler revalidates
      * it to point to the end of the inserted text.
-     * 
-     * See also: {@link org.gtk.gtk.TextBuffer<code>#insert</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#insertRange</code> .
+     * <p>
+     * See also: {@link TextBuffer#insert},
+     * {@link TextBuffer#insertRange}.
      */
     public SignalHandle onInsertText(InsertTextHandler handler) {
         try {
@@ -1160,9 +1153,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted as notification after a <code>GtkTextMark</code> is deleted.
-     * 
-     * See also: {@link org.gtk.gtk.TextBuffer<code>#deleteMark</code> .
+     * Emitted as notification after a {@code GtkTextMark} is deleted.
+     * <p>
+     * See also: {@link TextBuffer#deleteMark}.
      */
     public SignalHandle onMarkDeleted(MarkDeletedHandler handler) {
         try {
@@ -1185,11 +1178,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted as notification after a <code>GtkTextMark</code> is set.
-     * 
+     * Emitted as notification after a {@code GtkTextMark} is set.
+     * <p>
      * See also:
-     * {@link org.gtk.gtk.TextBuffer<code>#createMark</code> ,
-     * {@link org.gtk.gtk.TextBuffer<code>#moveMark</code> .
+     * {@link TextBuffer#createMark},
+     * {@link TextBuffer#moveMark}.
      */
     public SignalHandle onMarkSet(MarkSetHandler handler) {
         try {
@@ -1212,9 +1205,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the modified bit of a <code>GtkTextBuffer</code> flips.
-     * 
-     * See also: {@link org.gtk.gtk.TextBuffer<code>#setModified</code> .
+     * Emitted when the modified bit of a {@code GtkTextBuffer} flips.
+     * <p>
+     * See also: {@link TextBuffer#setModified}.
      */
     public SignalHandle onModifiedChanged(ModifiedChangedHandler handler) {
         try {
@@ -1238,9 +1231,9 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     /**
      * Emitted after paste operation has been completed.
-     * 
+     * <p>
      * This is useful to properly scroll the view to the end
-     * of the pasted text. See {@link org.gtk.gtk.TextBuffer<code>#pasteClipboard</code> 
+     * of the pasted text. See {@link TextBuffer#pasteClipboard}
      * for more details.
      */
     public SignalHandle onPasteDone(PasteDoneHandler handler) {
@@ -1288,16 +1281,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted to remove all occurrences of @tag from a range
-     * of text in a <code>GtkTextBuffer</code>.
-     * 
+     * Emitted to remove all occurrences of {@code tag} from a range
+     * of text in a {@code GtkTextBuffer}.
+     * <p>
      * Removal actually occurs in the default handler.
-     * 
+     * <p>
      * Note that if your handler runs before the default handler
-     * it must not invalidate the @start and @end iters (or has
+     * it must not invalidate the {@code start} and {@code end} iters (or has
      * to revalidate them).
-     * 
-     * See also: {@link org.gtk.gtk.TextBuffer<code>#removeTag</code> .
+     * <p>
+     * See also: {@link TextBuffer#removeTag}.
      */
     public SignalHandle onRemoveTag(RemoveTagHandler handler) {
         try {

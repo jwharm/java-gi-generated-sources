@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A virtual method for the {@link org.harfbuzz.font_funcs_t} of an {@link org.harfbuzz.font_t} object.
- * 
+ * A virtual method for the {@link font_funcs_t} of an {@link font_t} object.
+ * <p>
  * This method should retrieve the kerning-adjustment value for a glyph-pair in
  * the specified font, for horizontal text segments.
  */

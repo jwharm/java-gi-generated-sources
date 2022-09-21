@@ -17,18 +17,18 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees the memory allocated for the {@link org.gtk.glib.Array}  If @free_segment is
+     * Frees the memory allocated for the {@link Array}. If {@code free_segment} is
      * <code>true</code> it frees the memory block holding the elements as well. Pass
-     * <code>false</code> if you want to free the {@link org.gtk.glib.Array} wrapper but preserve the
+     * <code>false</code> if you want to free the {@link Array} wrapper but preserve the
      * underlying array for use elsewhere. If the reference count of
-     * @array is greater than one, the {@link org.gtk.glib.Array} wrapper is preserved but
-     * the size of  @array will be set to zero.
-     * 
+     * {@code array} is greater than one, the {@link Array} wrapper is preserved but
+     * the size of  {@code array} will be set to zero.
+     * <p>
      * If array contents point to dynamically-allocated memory, they should
-     * be freed separately if @free_seg is <code>true</code> and no @clear_func
-     * function has been set for @array.
-     * 
-     * This function is not thread-safe. If using a {@link org.gtk.glib.Array} from multiple
+     * be freed separately if {@code free_seg} is <code>true</code> and no {@code clear_func}
+     * function has been set for {@code array}.
+     * <p>
+     * This function is not thread-safe. If using a {@link Array} from multiple
      * threads, use only the atomic g_array_ref() and g_array_unref()
      * functions.
      */
@@ -38,7 +38,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the size of the elements in @array.
+     * Gets the size of the elements in {@code array}.
      */
     public static int getElementSize(jdk.incubator.foreign.MemoryAddress[] array) {
         var RESULT = gtk_h.g_array_get_element_size(Interop.allocateNativeArray(array).handle());
@@ -48,9 +48,9 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Like g_array_sort(), but the comparison function receives an extra
      * user data argument.
-     * 
+     * <p>
      * This is guaranteed to be a stable sort since version 2.32.
-     * 
+     * <p>
      * There used to be a comment here about making the sort stable by
      * using the addresses of the elements in the comparison function.
      * This did not actually work, so any such code should be removed.
@@ -70,7 +70,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Atomically decrements the reference count of @array by one. If the
+     * Atomically decrements the reference count of {@code array} by one. If the
      * reference count drops to 0, all memory allocated by the array is
      * released. This function is thread-safe and may be called from any
      * thread.

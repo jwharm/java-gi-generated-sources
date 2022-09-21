@@ -22,7 +22,7 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets a {@link org.gtk.gio.File} for @path.
+     * Gets a {@link File} for {@code path}.
      */
     public File getFileForPath(java.lang.String path) {
         var RESULT = gtk_h.g_vfs_get_file_for_path(handle(), Interop.allocateNativeString(path).handle());
@@ -30,8 +30,8 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets a {@link org.gtk.gio.File} for @uri.
-     * 
+     * Gets a {@link File} for {@code uri}.
+     * <p>
      * This operation never fails, but the returned object
      * might not support any I/O operation if the URI
      * is malformed or if the URI scheme is not supported.
@@ -51,8 +51,8 @@ public class Vfs extends org.gtk.gobject.Object {
     
     /**
      * This operation never fails, but the returned object might
-     * not support any I/O operations if the @parse_name cannot
-     * be parsed by the {@link org.gtk.gio.Vfs} module.
+     * not support any I/O operations if the {@code parse_name} cannot
+     * be parsed by the {@link Vfs} module.
      */
     public File parseName(java.lang.String parseName) {
         var RESULT = gtk_h.g_vfs_parse_name(handle(), Interop.allocateNativeString(parseName).handle());
@@ -60,25 +60,25 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
-     * Registers @uri_func and @parse_name_func as the {@link org.gtk.gio.File} URI and parse name
-     * lookup functions for URIs with a scheme matching @scheme.
-     * Note that @scheme is registered only within the running application, as
+     * Registers {@code uri_func} and {@code parse_name_func} as the {@link File} URI and parse name
+     * lookup functions for URIs with a scheme matching {@code scheme}.
+     * Note that {@code scheme} is registered only within the running application, as
      * opposed to desktop-wide as it happens with GVfs backends.
-     * 
-     * When a {@link org.gtk.gio.File} is requested with an URI containing @scheme (e.g. through
-     * g_file_new_for_uri()), @uri_func will be called to allow a custom
-     * constructor. The implementation of @uri_func should not be blocking, and
+     * <p>
+     * When a {@link File} is requested with an URI containing {@code scheme} (e.g. through
+     * g_file_new_for_uri()), {@code uri_func} will be called to allow a custom
+     * constructor. The implementation of {@code uri_func} should not be blocking, and
      * must not call g_vfs_register_uri_scheme() or g_vfs_unregister_uri_scheme().
-     * 
+     * <p>
      * When g_file_parse_name() is called with a parse name obtained from such file,
-     * @parse_name_func will be called to allow the {@link org.gtk.gio.File} to be created again. In
-     * that case, it&<code>#39</code> s responsibility of @parse_name_func to make sure the parse
-     * name matches what the custom {@link org.gtk.gio.File} implementation returned when
+     * {@code parse_name_func} will be called to allow the {@link File} to be created again. In
+     * that case, it's responsibility of {@code parse_name_func} to make sure the parse
+     * name matches what the custom {@link File} implementation returned when
      * g_file_get_parse_name() was previously called. The implementation of
-     * @parse_name_func should not be blocking, and must not call
+     * {@code parse_name_func} should not be blocking, and must not call
      * g_vfs_register_uri_scheme() or g_vfs_unregister_uri_scheme().
-     * 
-     * It&<code>#39</code> s an error to call this function twice with the same scheme. To unregister
+     * <p>
+     * It's an error to call this function twice with the same scheme. To unregister
      * a custom URI scheme, use g_vfs_unregister_uri_scheme().
      */
     public boolean registerUriScheme(java.lang.String scheme, VfsFileLookupFunc uriFunc, VfsFileLookupFunc parseNameFunc) {
@@ -105,7 +105,7 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
-     * Unregisters the URI handler for @scheme previously registered with
+     * Unregisters the URI handler for {@code scheme} previously registered with
      * g_vfs_register_uri_scheme().
      */
     public boolean unregisterUriScheme(java.lang.String scheme) {
@@ -114,7 +114,7 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the default {@link org.gtk.gio.Vfs} for the system.
+     * Gets the default {@link Vfs} for the system.
      */
     public static Vfs getDefault() {
         var RESULT = gtk_h.g_vfs_get_default();
@@ -122,7 +122,7 @@ public class Vfs extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the local {@link org.gtk.gio.Vfs} for the system.
+     * Gets the local {@link Vfs} for the system.
      */
     public static Vfs getLocal() {
         var RESULT = gtk_h.g_vfs_get_local();

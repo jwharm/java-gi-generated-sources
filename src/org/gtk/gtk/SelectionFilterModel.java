@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkSelectionFilterModel</code> is a list model that presents the selection from
- * a <code>GtkSelectionModel</code>.
+ * {@code GtkSelectionFilterModel} is a list model that presents the selection from
+ * a {@code GtkSelectionModel}.
  */
 public class SelectionFilterModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
 
@@ -28,7 +28,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
     }
     
     /**
-     * Creates a new <code>GtkSelectionFilterModel</code> that will include the
+     * Creates a new {@code GtkSelectionFilterModel} that will include the
      * selected items from the underlying selection model.
      */
     public SelectionFilterModel(SelectionModel model) {
@@ -45,9 +45,9 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
     
     /**
      * Sets the model to be filtered.
-     * 
-     * Note that GTK makes no effort to ensure that @model conforms to
-     * the item type of @self. It assumes that the caller knows what they
+     * <p>
+     * Note that GTK makes no effort to ensure that {@code model} conforms to
+     * the item type of {@code self}. It assumes that the caller knows what they
      * are doing and have set up an appropriate filter to ensure that item
      * types match.
      */

@@ -8,42 +8,43 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkEntryCompletion</code> is an auxiliary object to provide completion functionality
- * for <code>GtkEntry</code>.
+ * {@code GtkEntryCompletion} is an auxiliary object to provide completion functionality
+ * for {@code GtkEntry}.
  * <p>
- * It implements the {@link [iface@Gtk.CellLayout] (ref=iface)} interface, to allow the user
- * to add extra cells to the <code>GtkTreeView</code> with completion matches.
+ * It implements the {@code Gtk.CellLayout} interface, to allow the user
+ * to add extra cells to the {@code GtkTreeView} with completion matches.
  * <p>
- * &<code>#8220</code> Completion functionality&<code>#8221</code>  means that when the user modifies the text
- * in the entry, <code>GtkEntryCompletion</code> checks which rows in the model match
+ * “Completion functionality” means that when the user modifies the text
+ * in the entry, {@code GtkEntryCompletion} checks which rows in the model match
  * the current content of the entry, and displays a list of matches.
  * By default, the matching is done by comparing the entry text
  * case-insensitively against the text column of the model (see
- * {@link org.gtk.gtk.EntryCompletion<code>#setTextColumn</code> ), but this can be overridden
- * with a custom match function (see {@link org.gtk.gtk.EntryCompletion<code>#setMatchFunc</code> ).
+ * {@link EntryCompletion#setTextColumn}), but this can be overridden
+ * with a custom match function (see {@link EntryCompletion#setMatchFunc}).
  * <p>
  * When the user selects a completion, the content of the entry is
  * updated. By default, the content of the entry is replaced by the
  * text column of the model, but this can be overridden by connecting
- * to the {@link [signal@Gtk.EntryCompletion::match-selected] (ref=signal)} signal and updating the
+ * to the {@code Gtk.EntryCompletion::match-selected} signal and updating the
  * entry in the signal handler. Note that you should return <code>true</code> from
  * the signal handler to suppress the default behaviour.
  * <p>
  * To add completion functionality to an entry, use
- * {@link org.gtk.gtk.Entry<code>#setCompletion</code> .
- * <p><code>GtkEntryCompletion</code> uses a {@link org.gtk.gtk.TreeModelFilter} model to
+ * {@link Entry#setCompletion}.
+ * <p>
+ * {@code GtkEntryCompletion} uses a {@link TreeModelFilter} model to
  * represent the subset of the entire model that is currently matching.
- * While the <code>GtkEntryCompletion</code> signals
- * {@link [signal@Gtk.EntryCompletion::match-selected] (ref=signal)} and
- * {@link [signal@Gtk.EntryCompletion::cursor-on-match] (ref=signal)} take the original model
+ * While the {@code GtkEntryCompletion} signals
+ * {@code Gtk.EntryCompletion::match-selected} and
+ * {@code Gtk.EntryCompletion::cursor-on-match} take the original model
  * and an iter pointing to that model as arguments, other callbacks and
- * signals (such as <code>GtkCellLayoutDataFunc</code> or
- * {@link [signal@Gtk.CellArea::apply-attributes)] (ref=signal)}
+ * signals (such as {@code GtkCellLayoutDataFunc} or
+ * {@code Gtk.CellArea::apply-attributes)}
  * will generally take the filter model as argument. As long as you are
- * only calling {@link org.gtk.gtk.TreeModel<code>#get</code> , this will make no difference to
+ * only calling {@link TreeModel#get}, this will make no difference to
  * you. If for some reason, you need the original model, use
- * {@link org.gtk.gtk.TreeModelFilter<code>#getModel</code> . Don&<code>#8217</code> t forget to use
- * {@link org.gtk.gtk.TreeModelFilter<code>#convertIterToChildIter</code>  to obtain a
+ * {@link TreeModelFilter#getModel}. Don’t forget to use
+ * {@link TreeModelFilter#convertIterToChildIter} to obtain a
  * matching iter.
  */
 public class EntryCompletion extends org.gtk.gobject.Object implements Buildable, CellLayout {
@@ -63,7 +64,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Creates a new <code>GtkEntryCompletion</code> object.
+     * Creates a new {@code GtkEntryCompletion} object.
      */
     public EntryCompletion() {
         super(constructNew());
@@ -75,10 +76,11 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Creates a new <code>GtkEntryCompletion</code> object using the
-     * specified @area.
+     * Creates a new {@code GtkEntryCompletion} object using the
+     * specified {@code area}.
      * <p>
-     * The <code>GtkCellArea</code> is used to layout cells in the underlying<code>GtkTreeViewColumn</code> for the drop-down menu.
+     * The {@code GtkCellArea} is used to layout cells in the underlying
+     * {@code GtkTreeViewColumn} for the drop-down menu.
      */
     public static EntryCompletion newWithArea(CellArea area) {
         return new EntryCompletion(constructNewWithArea(area));
@@ -87,7 +89,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     /**
      * Requests a completion operation, or in other words a refiltering of the
      * current list with completions, using the current key.
-     * 
+     * <p>
      * The completion list view will be updated accordingly.
      */
     public void complete() {
@@ -95,12 +97,12 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Computes the common prefix that is shared by all rows in @completion
-     * that start with @key.
-     * 
-     * If no row matches @key, <code>null</code> will be returned.
+     * Computes the common prefix that is shared by all rows in {@code completion}
+     * that start with {@code key}.
+     * <p>
+     * If no row matches {@code key}, <code>null</code> will be returned.
      * Note that a text column must have been set for this function to work,
-     * see {@link org.gtk.gtk.EntryCompletion<code>#setTextColumn</code>  for details.
+     * see {@link EntryCompletion#setTextColumn} for details.
      */
     public java.lang.String computePrefix(java.lang.String key) {
         var RESULT = gtk_h.gtk_entry_completion_compute_prefix(handle(), Interop.allocateNativeString(key).handle());
@@ -109,7 +111,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     
     /**
      * Get the original text entered by the user that triggered
-     * the completion or <code>null</code> if there&<code>#8217</code> s no completion ongoing.
+     * the completion or <code>null</code> if there’s no completion ongoing.
      */
     public java.lang.String getCompletionPrefix() {
         var RESULT = gtk_h.gtk_entry_completion_get_completion_prefix(handle());
@@ -117,7 +119,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Gets the entry @completion has been attached to.
+     * Gets the entry {@code completion} has been attached to.
      */
     public Widget getEntry() {
         var RESULT = gtk_h.gtk_entry_completion_get_entry(handle());
@@ -142,7 +144,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Returns the minimum key length as set for @completion.
+     * Returns the minimum key length as set for {@code completion}.
      */
     public int getMinimumKeyLength() {
         var RESULT = gtk_h.gtk_entry_completion_get_minimum_key_length(handle());
@@ -150,8 +152,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Returns the model the <code>GtkEntryCompletion</code> is using as data source.
-     * 
+     * Returns the model the {@code GtkEntryCompletion} is using as data source.
+     * <p>
      * Returns <code>null</code> if the model is unset.
      */
     public TreeModel getModel() {
@@ -186,7 +188,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Returns the column in the model of @completion to get strings from.
+     * Returns the column in the model of {@code completion} to get strings from.
      */
     public int getTextColumn() {
         var RESULT = gtk_h.gtk_entry_completion_get_text_column(handle());
@@ -217,8 +219,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Sets the match function for @completion to be @func.
-     * 
+     * Sets the match function for {@code completion} to be {@code func}.
+     * <p>
      * The match function is used to determine if a row should or
      * should not be in the completion list.
      */
@@ -238,9 +240,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Requires the length of the search key for @completion to be at least
-     * @length.
-     * 
+     * Requires the length of the search key for {@code completion} to be at least
+     * {@code length}.
+     * <p>
      * This is useful for long lists, where completing using a small
      * key takes a lot of time and will come up with meaningless results anyway
      * (ie, a too large dataset).
@@ -250,10 +252,10 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Sets the model for a <code>GtkEntryCompletion</code>.
-     * 
-     * If @completion already has a model set, it will remove it
-     * before setting the new model. If model is <code>null</code>  then it
+     * Sets the model for a {@code GtkEntryCompletion}.
+     * <p>
+     * If {@code completion} already has a model set, it will remove it
+     * before setting the new model. If model is <code>null</code>, then it
      * will unset the model.
      */
     public void setModel(TreeModel model) {
@@ -278,9 +280,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     /**
      * Sets whether the completion popup window will appear even if there is
      * only a single match.
-     * 
+     * <p>
      * You may want to set this to <code>false</code> if you
-     * are using {@link [property@Gtk.EntryCompletion:inline-completion] (ref=property)}.
+     * are using {@code Gtk.EntryCompletion:inline-completion}.
      */
     public void setPopupSingleMatch(boolean popupSingleMatch) {
         gtk_h.gtk_entry_completion_set_popup_single_match(handle(), popupSingleMatch ? 1 : 0);
@@ -290,14 +292,14 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Convenience function for setting up the most used case of this code: a
      * completion list with just strings.
      * <p>
-     * This function will set up @completion
+     * This function will set up {@code completion}
      * to have a list displaying all (and just) strings in the completion list,
-     * and to get those strings from @column in the model of @completion.
+     * and to get those strings from {@code column} in the model of {@code completion}.
      * <p>
-     * This functions creates and adds a <code>GtkCellRendererText</code> for the selected
-     * column. If you need to set the text column, but don&<code>#39</code> t want the cell
+     * This functions creates and adds a {@code GtkCellRendererText} for the selected
+     * column. If you need to set the text column, but don't want the cell
      * renderer, use g_object_set() to set the
-     * {@link [property@Gtk.EntryCompletion:text-column] (ref=property)} property directly.
+     * {@code Gtk.EntryCompletion:text-column} property directly.
      */
     public void setTextColumn(int column) {
         gtk_h.gtk_entry_completion_set_text_column(handle(), column);
@@ -310,13 +312,13 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     
     /**
      * Emitted when a match from the cursor is on a match of the list.
-     * 
+     * <p>
      * The default behaviour is to replace the contents
      * of the entry with the contents of the text column in the row
-     * pointed to by @iter.
-     * 
-     * Note that @model is the model that was passed to
-     * {@link org.gtk.gtk.EntryCompletion<code>#setModel</code> .
+     * pointed to by {@code iter}.
+     * <p>
+     * Note that {@code model} is the model that was passed to
+     * {@link EntryCompletion#setModel}.
      */
     public SignalHandle onCursorOnMatch(CursorOnMatchHandler handler) {
         try {
@@ -345,9 +347,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * whole prefix and select the newly inserted part.
      * <p>
      * Applications may connect to this signal in order to insert only a
-     * smaller part of the @prefix into the entry - e.g. the entry used in
-     * the <code>GtkFileChooser</code> inserts only the part of the prefix up to the
-     * next &<code>#39</code> /&<code>#39</code> .
+     * smaller part of the {@code prefix} into the entry - e.g. the entry used in
+     * the {@code GtkFileChooser} inserts only the part of the prefix up to the
+     * next '/'.
      */
     public SignalHandle onInsertPrefix(InsertPrefixHandler handler) {
         try {
@@ -371,13 +373,13 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     
     /**
      * Emitted when a match from the list is selected.
-     * 
+     * <p>
      * The default behaviour is to replace the contents of the
      * entry with the contents of the text column in the row
-     * pointed to by @iter.
-     * 
-     * Note that @model is the model that was passed to
-     * {@link org.gtk.gtk.EntryCompletion<code>#setModel</code> .
+     * pointed to by {@code iter}.
+     * <p>
+     * Note that {@code model} is the model that was passed to
+     * {@link EntryCompletion#setModel}.
      */
     public SignalHandle onMatchSelected(MatchSelectedHandler handler) {
         try {
@@ -403,7 +405,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Emitted when the filter model has zero
      * number of rows in completion_complete method.
      * <p>
-     * In other words when <code>GtkEntryCompletion</code> is out of suggestions.
+     * In other words when {@code GtkEntryCompletion} is out of suggestions.
      */
     public SignalHandle onNoMatches(NoMatchesHandler handler) {
         try {

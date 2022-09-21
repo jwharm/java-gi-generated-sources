@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * Data type for holding variation data. Registered OpenType
  * variation-axis tags are listed in
- * {@link [OpenType Axis Tag Registry]}(https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg).
+ * <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg">OpenType Axis Tag Registry</a>.
  */
 public class VariationT extends io.github.jwharm.javagi.ResourceBase {
 
@@ -19,9 +19,9 @@ public class VariationT extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Converts an {@link org.harfbuzz.variation_t} into a <code>null</code> terminated string in the format
+     * Converts an {@link variation_t} into a <code>null</code>-terminated string in the format
      * understood by hb_variation_from_string(). The client in responsible for
-     * allocating big enough size for @buf, 128 bytes is more than enough.
+     * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
     public void String(java.lang.String[] buf, int size) {
         gtk_h.hb_variation_to_string(handle(), Interop.allocateNativeArray(buf).handle(), size);

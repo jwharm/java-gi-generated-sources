@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkGestureClick</code> is a <code>GtkGesture</code> implementation for clicks.
- * 
+ * {@code GtkGestureClick} is a {@code GtkGesture} implementation for clicks.
+ * <p>
  * It is able to recognize multiple clicks on a nearby zone, which
- * can be listened for through the {@link [signal@Gtk.GestureClick::pressed] (ref=signal)}
+ * can be listened for through the {@code Gtk.GestureClick::pressed}
  * signal. Whenever time or distance between clicks exceed the GTK
- * defaults, {@link [signal@Gtk.GestureClick::stopped] (ref=signal)} is emitted, and the
+ * defaults, {@code Gtk.GestureClick::stopped} is emitted, and the
  * click counter is reset.
  */
 public class GestureClick extends GestureSingle {
@@ -33,7 +33,7 @@ public class GestureClick extends GestureSingle {
     }
     
     /**
-     * Returns a newly created <code>GtkGesture</code> that recognizes
+     * Returns a newly created {@code GtkGesture} that recognizes
      * single and multiple presses.
      */
     public GestureClick() {
@@ -70,10 +70,10 @@ public class GestureClick extends GestureSingle {
     
     /**
      * Emitted when a button or touch is released.
-     * 
-     * @n_press will report the number of press that is paired to
-     * this event, note that {@link [signal@Gtk.GestureClick::stopped] (ref=signal)} may
-     * have been emitted between the press and its release, @n_press
+     * <p>
+     * {@code n_press} will report the number of press that is paired to
+     * this event, note that {@code Gtk.GestureClick::stopped} may
+     * have been emitted between the press and its release, {@code n_press}
      * will only start over at the next press.
      */
     public SignalHandle onReleased(ReleasedHandler handler) {
@@ -122,7 +122,7 @@ public class GestureClick extends GestureSingle {
     /**
      * Emitted whenever the gesture receives a release
      * event that had no previous corresponding press.
-     * 
+     * <p>
      * Due to implicit grabs, this can only happen on situations
      * where input is grabbed elsewhere mid-press or the pressed
      * widget voluntarily relinquishes its implicit grab.

@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used when creating a new {@link org.gtk.gio.DBusConnection}
+ * Flags used when creating a new {@link DBusConnection}.
  */
 public class DBusConnectionFlags {
 

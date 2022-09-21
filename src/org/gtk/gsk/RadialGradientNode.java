@@ -27,11 +27,11 @@ public class RadialGradientNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that draws a radial gradient.
-     * 
+     * Creates a {@code GskRenderNode} that draws a radial gradient.
+     * <p>
      * The radial gradient
-     * starts around @center. The size of the gradient is dictated by @hradius
-     * in horizontal orientation and by @vradius in vertial orientation.
+     * starts around {@code center}. The size of the gradient is dictated by {@code hradius}
+     * in horizontal orientation and by {@code vradius} in vertial orientation.
      */
     public RadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
         super(constructNew(bounds, center, hradius, vradius, start, end, colorStops, nColorStops));

@@ -2,7 +2,7 @@ package org.gtk.gtk;
 
 /**
  * GtkShortcutType specifies the kind of shortcut that is being described.
- * 
+ * <p>
  * More values may be added to this enumeration over time.
  */
 public enum ShortcutType {

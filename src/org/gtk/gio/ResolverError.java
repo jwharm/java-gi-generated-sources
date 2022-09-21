@@ -1,8 +1,8 @@
 package org.gtk.gio;
 
 /**
- * An error code used with <code>G_RESOLVER_ERROR</code> in a {@link org.gtk.glib.Error} returned
- * from a {@link org.gtk.gio.Resolver} routine.
+ * An error code used with {@code G_RESOLVER_ERROR} in a {@link org.gtk.glib.Error} returned
+ * from a {@link Resolver} routine.
  */
 public enum ResolverError {
 

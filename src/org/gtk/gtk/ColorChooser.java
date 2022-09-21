@@ -8,35 +8,35 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkColorChooser</code> is an interface that is implemented by widgets
+ * {@code GtkColorChooser} is an interface that is implemented by widgets
  * for choosing colors.
- * 
+ * <p>
  * Depending on the situation, colors may be allowed to have alpha (translucency).
- * 
+ * <p>
  * In GTK, the main widgets that implement this interface are
- * {@link org.gtk.gtk.ColorChooserWidget}, {@link org.gtk.gtk.ColorChooserDialog} and
- * {@link org.gtk.gtk.ColorButton}.
+ * {@code Gtk.ColorChooserDialog} and
+ * {@link ColorButton}.
  */
 public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Adds a palette to the color chooser.
-     * 
-     * If @orientation is horizontal, the colors are grouped in rows,
-     * with @colors_per_line colors in each row. If @horizontal is <code>false</code> 
+     * <p>
+     * If {@code orientation} is horizontal, the colors are grouped in rows,
+     * with {@code colors_per_line} colors in each row. If {@code horizontal} is <code>false</code>,
      * the colors are grouped in columns instead.
-     * 
-     * The default color palette of {@link org.gtk.gtk.ColorChooserWidget} has
+     * <p>
+     * The default color palette of {@link ColorChooserWidget} has
      * 45 colors, organized in columns of 5 colors (this includes some
      * grays).
-     * 
+     * <p>
      * The layout of the color chooser widget works best when the
      * palettes have 9-10 columns.
-     * 
+     * <p>
      * Calling this function for the first time has the side effect
      * of removing the default color palette from the color chooser.
-     * 
-     * If @colors is <code>null</code>  removes all previously added palettes.
+     * <p>
+     * If {@code colors} is <code>null</code>, removes all previously added palettes.
      */
     public default void addPalette(Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
         gtk_h.gtk_color_chooser_add_palette(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors).handle());
@@ -78,7 +78,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Emitted when a color is activated from the color chooser.
-     * 
+     * <p>
      * This usually happens when the user clicks a color swatch,
      * or a color is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.

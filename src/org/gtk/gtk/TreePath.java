@@ -22,7 +22,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new <code>GtkTreePath</code>
+     * Creates a new {@code GtkTreePath}
      * This refers to a row.
      */
     public TreePath() {
@@ -35,9 +35,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new <code>GtkTreePath</code>.
-     * 
-     * The string representation of this path is &<code>#8220</code> 0&<code>#8221</code> .
+     * Creates a new {@code GtkTreePath}.
+     * <p>
+     * The string representation of this path is “0”.
      */
     public static TreePath newFirst() {
         return new TreePath(constructNewFirst());
@@ -49,7 +49,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new path with the given @indices array of @length.
+     * Creates a new path with the given {@code indices} array of {@code length}.
      */
     public static TreePath newFromIndicesv(int[] indices, long length) {
         return new TreePath(constructNewFromIndicesv(indices, length));
@@ -61,10 +61,10 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new <code>GtkTreePath</code> initialized to @path.
-     * 
-     * @path is expected to be a colon separated list of numbers.
-     * For example, the string &<code>#8220</code> 10:4:0&<code>#8221</code>  would create a path of depth
+     * Creates a new {@code GtkTreePath} initialized to {@code path}.
+     * <p>
+     * {@code path} is expected to be a colon separated list of numbers.
+     * For example, the string “10:4:0” would create a path of depth
      * 3 pointing to the 11th child of the root node, the 5th
      * child of that 11th child, and the 1st child of that 5th child.
      * If an invalid path string is passed in, <code>null</code> is returned.
@@ -75,7 +75,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Appends a new index to a path.
-     * 
+     * <p>
      * As a result, the depth of the path is increased.
      */
     public void appendIndex(int index) {
@@ -84,7 +84,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Compares two paths.
-     * 
+     * <p>
      * If @a appears before @b in a tree, then -1 is returned.
      * If @b appears before @a, then 1 is returned.
      * If the two nodes are equal, then 0 is returned.
@@ -95,7 +95,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new <code>GtkTreePath</code> as a copy of @path.
+     * Creates a new {@code GtkTreePath} as a copy of {@code path}.
      */
     public TreePath copy() {
         var RESULT = gtk_h.gtk_tree_path_copy(handle());
@@ -103,21 +103,21 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves @path to point to the first child of the current path.
+     * Moves {@code path} to point to the first child of the current path.
      */
     public void down() {
         gtk_h.gtk_tree_path_down(handle());
     }
     
     /**
-     * Frees @path. If @path is <code>null</code>  it simply returns.
+     * Frees {@code path}. If {@code path} is <code>null</code>, it simply returns.
      */
     public void free() {
         gtk_h.gtk_tree_path_free(handle());
     }
     
     /**
-     * Returns the current depth of @path.
+     * Returns the current depth of {@code path}.
      */
     public int getDepth() {
         var RESULT = gtk_h.gtk_tree_path_get_depth(handle());
@@ -125,7 +125,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @descendant is a descendant of @path.
+     * Returns <code>true</code> if {@code descendant} is a descendant of {@code path}.
      */
     public boolean isAncestor(TreePath descendant) {
         var RESULT = gtk_h.gtk_tree_path_is_ancestor(handle(), descendant.handle());
@@ -133,7 +133,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @path is a descendant of @ancestor.
+     * Returns <code>true</code> if {@code path} is a descendant of {@code ancestor}.
      */
     public boolean isDescendant(TreePath ancestor) {
         var RESULT = gtk_h.gtk_tree_path_is_descendant(handle(), ancestor.handle());
@@ -141,7 +141,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves the @path to point to the next node at the current depth.
+     * Moves the {@code path} to point to the next node at the current depth.
      */
     public void next() {
         gtk_h.gtk_tree_path_next(handle());
@@ -149,7 +149,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Prepends a new index to a path.
-     * 
+     * <p>
      * As a result, the depth of the path is increased.
      */
     public void prependIndex(int index) {
@@ -157,7 +157,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves the @path to point to the previous node at the
+     * Moves the {@code path} to point to the previous node at the
      * current depth, if it exists.
      */
     public boolean prev() {
@@ -167,9 +167,9 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Generates a string representation of the path.
-     * 
-     * This string is a &<code>#8220</code> :&<code>#8221</code>  separated list of numbers.
-     * For example, &<code>#8220</code> 4:10:0:3&<code>#8221</code>  would be an acceptable
+     * <p>
+     * This string is a “:” separated list of numbers.
+     * For example, “4:10:0:3” would be an acceptable
      * return value for this string. If the path has
      * depth 0, <code>null</code> is returned.
      */
@@ -179,7 +179,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Moves the @path to point to its parent node, if it has a parent.
+     * Moves the {@code path} to point to its parent node, if it has a parent.
      */
     public boolean up() {
         var RESULT = gtk_h.gtk_tree_path_up(handle());

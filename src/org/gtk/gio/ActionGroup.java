@@ -8,99 +8,99 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.ActionGroup} represents a group of actions. Actions can be used to
+ * {@link ActionGroup} represents a group of actions. Actions can be used to
  * expose functionality in a structured way, either from one part of a
  * program to another, or to the outside world. Action groups are often
- * used together with a {@link org.gtk.gio.MenuModel} that provides additional
+ * used together with a {@link MenuModel} that provides additional
  * representation data for displaying the actions to the user, e.g. in
  * a menu.
- * 
+ * <p>
  * The main way to interact with the actions in a GActionGroup is to
  * activate them with g_action_group_activate_action(). Activating an
  * action may require a {@link org.gtk.glib.Variant} parameter. The required type of the
  * parameter can be inquired with g_action_group_get_action_parameter_type().
  * Actions may be disabled, see g_action_group_get_action_enabled().
  * Activating a disabled action has no effect.
- * 
- * Actions may optionally have a state in the form of a {@link org.gtk.glib.Variant}  The
+ * <p>
+ * Actions may optionally have a state in the form of a {@link org.gtk.glib.Variant}. The
  * current state of an action can be inquired with
  * g_action_group_get_action_state(). Activating a stateful action may
  * change its state, but it is also possible to set the state by calling
  * g_action_group_change_action_state().
- * 
+ * <p>
  * As typical example, consider a text editing application which has an
- * option to change the current font to &<code>#39</code> bold&<code>#39</code> . A good way to represent
+ * option to change the current font to 'bold'. A good way to represent
  * this would be a stateful action, with a boolean state. Activating the
  * action would toggle the state.
- * 
+ * <p>
  * Each action in the group has a unique name (which is a string).  All
  * method calls, except g_action_group_list_actions() take the name of
  * an action as an argument.
- * 
- * The {@link org.gtk.gio.ActionGroup} API is meant to be the &<code>#39</code> public&<code>#39</code>  API to the action
- * group.  The calls here are exactly the interaction that &<code>#39</code> external
- * forces&<code>#39</code>  (eg: UI, incoming D-Bus messages, etc.) are supposed to have
- * with actions.  &<code>#39</code> Internal&<code>#39</code>  APIs (ie: ones meant only to be accessed by
+ * <p>
+ * The {@link ActionGroup} API is meant to be the 'public' API to the action
+ * group.  The calls here are exactly the interaction that 'external
+ * forces' (eg: UI, incoming D-Bus messages, etc.) are supposed to have
+ * with actions.  'Internal' APIs (ie: ones meant only to be accessed by
  * the action group implementation) are found on subclasses.  This is
  * why you will find - for example - g_action_group_get_action_enabled()
  * but not an equivalent set() call.
- * 
+ * <p>
  * Signals are emitted on the action group in response to state changes
  * on individual actions.
- * 
- * Implementations of {@link org.gtk.gio.ActionGroup} should provide implementations for
+ * <p>
+ * Implementations of {@link ActionGroup} should provide implementations for
  * the virtual functions g_action_group_list_actions() and
  * g_action_group_query_action().  The other virtual functions should
- * not be implemented - their &<code>#34</code> wrappers&<code>#34</code>  are actually implemented with
+ * not be implemented - their "wrappers" are actually implemented with
  * calls to g_action_group_query_action().
  */
 public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Emits the {@link org.gtk.gio.ActionGroup} :action-added signal on @action_group.
-     * 
-     * This function should only be called by {@link org.gtk.gio.ActionGroup} implementations.
+     * Emits the {@link ActionGroup}::action-added signal on {@code action_group}.
+     * <p>
+     * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionAdded(java.lang.String actionName) {
         gtk_h.g_action_group_action_added(handle(), Interop.allocateNativeString(actionName).handle());
     }
     
     /**
-     * Emits the {@link org.gtk.gio.ActionGroup} :action-enabled-changed signal on @action_group.
-     * 
-     * This function should only be called by {@link org.gtk.gio.ActionGroup} implementations.
+     * Emits the {@link ActionGroup}::action-enabled-changed signal on {@code action_group}.
+     * <p>
+     * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionEnabledChanged(java.lang.String actionName, boolean enabled) {
         gtk_h.g_action_group_action_enabled_changed(handle(), Interop.allocateNativeString(actionName).handle(), enabled ? 1 : 0);
     }
     
     /**
-     * Emits the {@link org.gtk.gio.ActionGroup} :action-removed signal on @action_group.
-     * 
-     * This function should only be called by {@link org.gtk.gio.ActionGroup} implementations.
+     * Emits the {@link ActionGroup}::action-removed signal on {@code action_group}.
+     * <p>
+     * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionRemoved(java.lang.String actionName) {
         gtk_h.g_action_group_action_removed(handle(), Interop.allocateNativeString(actionName).handle());
     }
     
     /**
-     * Emits the {@link org.gtk.gio.ActionGroup} :action-state-changed signal on @action_group.
-     * 
-     * This function should only be called by {@link org.gtk.gio.ActionGroup} implementations.
+     * Emits the {@link ActionGroup}::action-state-changed signal on {@code action_group}.
+     * <p>
+     * This function should only be called by {@link ActionGroup} implementations.
      */
     public default void actionStateChanged(java.lang.String actionName, org.gtk.glib.Variant state) {
         gtk_h.g_action_group_action_state_changed(handle(), Interop.allocateNativeString(actionName).handle(), state.handle());
     }
     
     /**
-     * Activate the named action within @action_group.
+     * Activate the named action within {@code action_group}.
      * <p>
      * If the action is expecting a parameter, then the correct type of
-     * parameter must be given as @parameter.  If the action is expecting no
-     * parameters then @parameter must be <code>null</code>   See
+     * parameter must be given as {@code parameter}.  If the action is expecting no
+     * parameters then {@code parameter} must be <code>null</code>.  See
      * g_action_group_get_action_parameter_type().
      * <p>
-     * If the {@link org.gtk.gio.ActionGroup} implementation supports asynchronous remote
+     * If the {@link ActionGroup} implementation supports asynchronous remote
      * activation over D-Bus, this call may return before the relevant
      * D-Bus traffic has been sent, or any replies have been received. In
      * order to block on such asynchronous activation calls,
@@ -110,47 +110,47 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
      * have been activated.
      * <p>
      * The following code which runs in a remote app instance, shows an
-     * example of a &<code>#34</code> quit&<code>#34</code>  action being activated on the primary app
+     * example of a "quit" action being activated on the primary app
      * instance over D-Bus. Here g_dbus_connection_flush() is called
-     * before <code>exit()</code>. Without g_dbus_connection_flush(), the &<code>#34</code> quit&<code>#34</code>  action
+     * before {@code exit()}. Without g_dbus_connection_flush(), the "quit" action
      * may fail to be activated on the primary instance.
-     * 
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
-     * // call &<code>#34</code> quit&<code>#34</code>  action on primary instance
-     * g_action_group_activate_action (G_ACTION_GROUP (app), &<code>#34</code> quit&<code>#34</code> , NULL);
-     * 
+     * <p>
+     * |[&lt;!-- language="C" --&gt;
+     * // call "quit" action on primary instance
+     * g_action_group_activate_action (G_ACTION_GROUP (app), "quit", NULL);
+     * <p>
      * // make sure the action is activated now
      * g_dbus_connection_flush (...);
-     * 
-     * g_debug (&<code>#34</code> application has been terminated. exiting.&<code>#34</code> );
-     * 
+     * <p>
+     * g_debug ("application has been terminated. exiting.");
+     * <p>
      * exit (0);
-     * ]}|
+     * ]|
      */
     public default void activateAction(java.lang.String actionName, org.gtk.glib.Variant parameter) {
         gtk_h.g_action_group_activate_action(handle(), Interop.allocateNativeString(actionName).handle(), parameter.handle());
     }
     
     /**
-     * Request for the state of the named action within @action_group to be
-     * changed to @value.
-     * 
-     * The action must be stateful and @value must be of the correct type.
+     * Request for the state of the named action within {@code action_group} to be
+     * changed to {@code value}.
+     * <p>
+     * The action must be stateful and {@code value} must be of the correct type.
      * See g_action_group_get_action_state_type().
-     * 
+     * <p>
      * This call merely requests a change.  The action may refuse to change
-     * its state or may change its state to something other than @value.
+     * its state or may change its state to something other than {@code value}.
      * See g_action_group_get_action_state_hint().
-     * 
-     * If the @value GVariant is floating, it is consumed.
+     * <p>
+     * If the {@code value} GVariant is floating, it is consumed.
      */
     public default void changeActionState(java.lang.String actionName, org.gtk.glib.Variant value) {
         gtk_h.g_action_group_change_action_state(handle(), Interop.allocateNativeString(actionName).handle(), value.handle());
     }
     
     /**
-     * Checks if the named action within @action_group is currently enabled.
-     * 
+     * Checks if the named action within {@code action_group} is currently enabled.
+     * <p>
      * An action must be enabled in order to be activated or in order to
      * have its state changed from outside callers.
      */
@@ -161,15 +161,15 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Queries the type of the parameter that must be given when activating
-     * the named action within @action_group.
-     * 
+     * the named action within {@code action_group}.
+     * <p>
      * When activating the action using g_action_group_activate_action(),
      * the {@link org.gtk.glib.Variant} given to that function must be of the type returned
      * by this function.
-     * 
-     * In the case that this function returns <code>null</code>  you must not give any
-     * {@link org.gtk.glib.Variant}  but <code>null</code> instead.
-     * 
+     * <p>
+     * In the case that this function returns <code>null</code>, you must not give any
+     * {@link org.gtk.glib.Variant}, but <code>null</code> instead.
+     * <p>
      * The parameter type of a particular action will never change but it is
      * possible for an action to be removed and for a new action to be added
      * with the same name but a different parameter type.
@@ -180,13 +180,13 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Queries the current state of the named action within @action_group.
-     * 
+     * Queries the current state of the named action within {@code action_group}.
+     * <p>
      * If the action is not stateful then <code>null</code> will be returned.  If the
      * action is stateful then the type of the return value is the type
      * given by g_action_group_get_action_state_type().
-     * 
-     * The return value (if non-<code>null</code>  should be freed with
+     * <p>
+     * The return value (if non-<code>null</code>) should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionState(java.lang.String actionName) {
@@ -196,22 +196,22 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Requests a hint about the valid range of values for the state of the
-     * named action within @action_group.
-     * 
+     * named action within {@code action_group}.
+     * <p>
      * If <code>null</code> is returned it either means that the action is not stateful
      * or that there is no hint about the valid range of values for the
      * state of the action.
-     * 
+     * <p>
      * If a {@link org.gtk.glib.Variant} array is returned then each item in the array is a
      * possible value for the state.  If a {@link org.gtk.glib.Variant} pair (ie: two-tuple) is
      * returned then the tuple specifies the inclusive lower and upper bound
      * of valid values for the state.
-     * 
+     * <p>
      * In any case, the information is merely a hint.  It may be possible to
      * have a state value outside of the hinted range and setting a value
      * within the range may fail.
-     * 
-     * The return value (if non-<code>null</code>  should be freed with
+     * <p>
+     * The return value (if non-<code>null</code>) should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getActionStateHint(java.lang.String actionName) {
@@ -221,16 +221,18 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Queries the type of the state of the named action within
-     * @action_group.
-     * 
+     * {@code action_group}.
+     * <p>
      * If the action is stateful then this function returns the
      * {@link org.gtk.glib.VariantType} of the state.  All calls to
      * g_action_group_change_action_state() must give a {@link org.gtk.glib.Variant} of this
-     * type and g_action_group_get_action_state() will return a {@link org.gtk.glib.Variant} of the same type.
-     * 
-     * If the action is not stateful then this function will return <code>null</code> 
-     * In that case, g_action_group_get_action_state() will return <code>null</code> and you must not call g_action_group_change_action_state().
-     * 
+     * type and g_action_group_get_action_state() will return a {@link org.gtk.glib.Variant}
+     * of the same type.
+     * <p>
+     * If the action is not stateful then this function will return <code>null</code>.
+     * In that case, g_action_group_get_action_state() will return <code>null</code>
+     * and you must not call g_action_group_change_action_state().
+     * <p>
      * The state type of a particular action will never change but it is
      * possible for an action to be removed and for a new action to be added
      * with the same name but a different state type.
@@ -241,7 +243,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if the named action exists within @action_group.
+     * Checks if the named action exists within {@code action_group}.
      */
     public default boolean hasAction(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_group_has_action(handle(), Interop.allocateNativeString(actionName).handle());

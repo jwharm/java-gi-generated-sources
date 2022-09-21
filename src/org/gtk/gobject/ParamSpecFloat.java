@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for float properties.
+ * A {@link ParamSpec} derived structure that contains the meta data for float properties.
  */
 public class ParamSpecFloat extends ParamSpec {
 

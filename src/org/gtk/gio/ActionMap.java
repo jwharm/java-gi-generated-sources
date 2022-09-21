@@ -8,36 +8,37 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The GActionMap interface is implemented by {@link org.gtk.gio.ActionGroup} implementations that operate by containing a number of
- * named {@link org.gtk.gio.Action} instances, such as {@link org.gtk.gio.SimpleActionGroup} 
- * 
+ * The GActionMap interface is implemented by {@link ActionGroup}
+ * implementations that operate by containing a number of
+ * named {@link Action} instances, such as {@link SimpleActionGroup}.
+ * <p>
  * One useful application of this interface is to map the
  * names of actions from various action groups to unique,
- * prefixed names (e.g. by prepending &<code>#34</code> app.&<code>#34</code>  or &<code>#34</code> win.&<code>#34</code> ).
- * This is the motivation for the &<code>#39</code> Map&<code>#39</code>  part of the interface
+ * prefixed names (e.g. by prepending "app." or "win.").
+ * This is the motivation for the 'Map' part of the interface
  * name.
  */
 public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Adds an action to the @action_map.
-     * 
+     * Adds an action to the {@code action_map}.
+     * <p>
      * If the action map already contains an action with the same name
-     * as @action then the old action is dropped from the action map.
-     * 
-     * The action map takes its own reference on @action.
+     * as {@code action} then the old action is dropped from the action map.
+     * <p>
+     * The action map takes its own reference on {@code action}.
      */
     public default void addAction(Action action) {
         gtk_h.g_action_map_add_action(handle(), action.handle());
     }
     
     /**
-     * A convenience function for creating multiple {@link org.gtk.gio.SimpleAction} instances
-     * and adding them to a {@link org.gtk.gio.ActionMap} 
-     * 
-     * Each action is constructed as per one {@link org.gtk.gio.ActionEntry} 
-     * 
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * A convenience function for creating multiple {@link SimpleAction} instances
+     * and adding them to a {@link ActionMap}.
+     * <p>
+     * Each action is constructed as per one {@link ActionEntry}.
+     * <p>
+     * |[&lt;!-- language="C" --&gt;
      * static void
      * activate_quit (GSimpleAction *simple,
      *                GVariant      *parameter,
@@ -45,27 +46,27 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      * {
      *   exit (0);
      * }
-     * 
+     * <p>
      * static void
      * activate_print_string (GSimpleAction *simple,
      *                        GVariant      *parameter,
      *                        gpointer       user_data)
      * {
-     *   g_print (&<code>#34</code> <code>s</code> n&<code>#34</code> , g_variant_get_string (parameter, NULL));
+     *   g_print ("{@code s}\\n", g_variant_get_string (parameter, NULL));
      * }
-     * 
+     * <p>
      * static GActionGroup *
      * create_action_group (void)
      * {
-     *   const GActionEntry entries[]} = {
-     *     { &<code>#34</code> quit&<code>#34</code> ,         activate_quit              },
-     *     { &<code>#34</code> print-string&<code>#34</code> , activate_print_string, &<code>#34</code> s&<code>#34</code>  }
+     *   const GActionEntry entries[] = {
+     *     { "quit",         activate_quit              },
+     *     { "print-string", activate_print_string, "s" }
      *   };
      *   GSimpleActionGroup *group;
-     * 
+     * <p>
      *   group = g_simple_action_group_new ();
      *   g_action_map_add_action_entries (G_ACTION_MAP (group), entries, G_N_ELEMENTS (entries), NULL);
-     * 
+     * <p>
      *   return G_ACTION_GROUP (group);
      * }
      * ]|
@@ -75,9 +76,9 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Looks up the action with the name @action_name in @action_map.
-     * 
-     * If no such action exists, returns <code>null</code>
+     * Looks up the action with the name {@code action_name} in {@code action_map}.
+     * <p>
+     * If no such action exists, returns <code>null</code>.
      */
     public default Action lookupAction(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_map_lookup_action(handle(), Interop.allocateNativeString(actionName).handle());
@@ -86,7 +87,7 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Removes the named action from the action map.
-     * 
+     * <p>
      * If no action of this name is in the map then nothing happens.
      */
     public default void removeAction(java.lang.String actionName) {

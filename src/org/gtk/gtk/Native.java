@@ -8,26 +8,26 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkNative</code> is the interface implemented by all widgets that have
- * their own <code>GdkSurface</code>.
+ * {@code GtkNative} is the interface implemented by all widgets that have
+ * their own {@code GdkSurface}.
  * <p>
- * The obvious example of a <code>GtkNative</code> is <code>GtkWindow</code>.
+ * The obvious example of a {@code GtkNative} is {@code GtkWindow}.
  * <p>
- * Every widget that is not itself a <code>GtkNative</code> is contained in one,
- * and you can get it with {@link org.gtk.gtk.Widget<code>#getNative</code> .
+ * Every widget that is not itself a {@code GtkNative} is contained in one,
+ * and you can get it with {@link Widget#getNative}.
  * <p>
- * To get the surface of a <code>GtkNative</code>, use {@link org.gtk.gtk.Native<code>#getSurface</code> .
- * It is also possible to find the <code>GtkNative</code> to which a surface
- * belongs, with {@link Gtk<code>#Native_</code> .
+ * To get the surface of a {@code GtkNative}, use {@link Native#getSurface}.
+ * It is also possible to find the {@code GtkNative} to which a surface
+ * belongs, with {@link Gtk#Native_}.
  * <p>
- * In addition to a {@link org.gtk.gdk.Surface}, a <code>GtkNative</code> also provides
+ * In addition to a {@link org.gtk.gdk.Surface}, a {@code GtkNative} also provides
  * a {@link org.gtk.gsk.Renderer} for rendering on that surface. To get the
- * renderer, use {@link org.gtk.gtk.Native<code>#getRenderer</code> .
+ * renderer, use {@link Native#getRenderer}.
  */
 public interface Native extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Returns the renderer that is used for this <code>GtkNative</code>.
+     * Returns the renderer that is used for this {@code GtkNative}.
      */
     public default org.gtk.gsk.Renderer getRenderer() {
         var RESULT = gtk_h.gtk_native_get_renderer(handle());
@@ -35,7 +35,7 @@ public interface Native extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Returns the surface of this <code>GtkNative</code>.
+     * Returns the surface of this {@code GtkNative}.
      */
     public default org.gtk.gdk.Surface getSurface() {
         var RESULT = gtk_h.gtk_native_get_surface(handle());
@@ -43,8 +43,8 @@ public interface Native extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Realizes a <code>GtkNative</code>.
-     * 
+     * Realizes a {@code GtkNative}.
+     * <p>
      * This should only be used by subclasses.
      */
     public default void realize() {
@@ -52,8 +52,8 @@ public interface Native extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Unrealizes a <code>GtkNative</code>.
-     * 
+     * Unrealizes a {@code GtkNative}.
+     * <p>
      * This should only be used by subclasses.
      */
     public default void unrealize() {
@@ -61,7 +61,7 @@ public interface Native extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Finds the <code>GtkNative</code> associated with the surface.
+     * Finds the {@code GtkNative} associated with the surface.
      */
     public static Native getForSurface(org.gtk.gdk.Surface surface) {
         var RESULT = gtk_h.gtk_native_get_for_surface(surface.handle());

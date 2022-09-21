@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkRequisition</code> represents the desired size of a widget. See
- * {@link [GtkWidget&<code>#8217</code> s geometry management section]}(class.Widget.html<code>#height</code> for-width-geometry-management) for
+ * A {@code GtkRequisition} represents the desired size of a widget. See
+ * <a href="class.Widget.html#height-for-width-geometry-management">GtkWidget’s geometry management section</a> for
  * more information.
  */
 public class Requisition extends io.github.jwharm.javagi.ResourceBase {
@@ -24,8 +24,8 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new <code>GtkRequisition</code>.
-     * 
+     * Allocates a new {@code GtkRequisition}.
+     * <p>
      * The struct is initialized to zero.
      */
     public Requisition() {
@@ -33,7 +33,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Copies a <code>GtkRequisition</code>.
+     * Copies a {@code GtkRequisition}.
      */
     public Requisition copy() {
         var RESULT = gtk_h.gtk_requisition_copy(handle());
@@ -41,7 +41,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a <code>GtkRequisition</code>.
+     * Frees a {@code GtkRequisition}.
      */
     public void free() {
         gtk_h.gtk_requisition_free(handle());

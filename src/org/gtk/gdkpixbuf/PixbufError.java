@@ -1,10 +1,10 @@
 package org.gtk.gdkpixbuf;
 
 /**
- * An error code in the <code>GDK_PIXBUF_ERROR</code> domain.
+ * An error code in the {@code GDK_PIXBUF_ERROR} domain.
  * <p>
  * Many gdk-pixbuf operations can cause errors in this domain, or in
- * the <code>G_FILE_ERROR</code> domain.
+ * the {@code G_FILE_ERROR} domain.
  */
 public enum PixbufError {
 
@@ -29,7 +29,7 @@ public enum PixbufError {
     UNKNOWN_TYPE,
     
     /**
-     * Don&<code>#39</code> t know how to perform the
+     * Don't know how to perform the
      *  given operation on the type of image at hand.
      */
     UNSUPPORTED_OPERATION,

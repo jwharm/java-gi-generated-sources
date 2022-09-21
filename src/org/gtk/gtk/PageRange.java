@@ -9,8 +9,8 @@ import java.lang.invoke.*;
 
 /**
  * A range of pages to print.
- * 
- * See also {@link org.gtk.gtk.PrintSettings<code>#setPageRanges</code> .
+ * <p>
+ * See also {@link PrintSettings#setPageRanges}.
  */
 public class PageRange extends io.github.jwharm.javagi.ResourceBase {
 

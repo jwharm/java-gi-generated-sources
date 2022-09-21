@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkShortcutAction</code> that calls gtk_widget_activate().
+ * A {@code GtkShortcutAction} that calls gtk_widget_activate().
  */
 public class ActivateAction extends ShortcutAction {
 
@@ -23,7 +23,7 @@ public class ActivateAction extends ShortcutAction {
     
     /**
      * Gets the activate action.
-     * 
+     * <p>
      * This is an action that calls gtk_widget_activate()
      * on the given widget upon activation.
      */

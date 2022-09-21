@@ -8,53 +8,55 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GdkGLContext</code> is an object representing a platform-specific
+ * {@code GdkGLContext} is an object representing a platform-specific
  * OpenGL draw context.
- * <p><code>GdkGLContext</code>s are created for a surface using
- * {@link org.gtk.gdk.Surface<code>#createGlContext</code> , and the context will match
+ * <p>
+ * {@code GdkGLContext}s are created for a surface using
+ * {@link Surface#createGlContext}, and the context will match
  * the characteristics of the surface.
  * <p>
- * A <code>GdkGLContext</code> is not tied to any particular normal framebuffer.
+ * A {@code GdkGLContext} is not tied to any particular normal framebuffer.
  * For instance, it cannot draw to the surface back buffer. The GDK
  * repaint system is in full control of the painting to that. Instead,
- * you can create render buffers or textures and use {@link [func@cairo_draw_from_gl]}
+ * you can create render buffers or textures and use {@link cairo_draw_from_gl#null}
  * in the draw function of your widget to draw them. Then GDK will handle
  * the integration of your rendering with that of other widgets.
  * <p>
- * Support for <code>GdkGLContext</code> is platform-specific and context creation
+ * Support for {@code GdkGLContext} is platform-specific and context creation
  * can fail, returning <code>null</code> context.
  * <p>
- * A <code>GdkGLContext</code> has to be made &<code>#34</code> current&<code>#34</code>  in order to start using
+ * A {@code GdkGLContext} has to be made "current" in order to start using
  * it, otherwise any OpenGL call will be ignored.
  * <p>
  * <h2>Creating a new OpenGL context</h2>
  * <p>
- * In order to create a new <code>GdkGLContext</code> instance you need a <code>GdkSurface</code>,
+ * In order to create a new {@code GdkGLContext} instance you need a {@code GdkSurface},
  * which you typically get during the realize call of a widget.
  * <p>
- * A <code>GdkGLContext</code> is not realized until either {@link org.gtk.gdk.GLContext<code>#makeCurrent</code> 
- * or {@link org.gtk.gdk.GLContext<code>#realize</code>  is called. It is possible to specify
+ * A {@code GdkGLContext} is not realized until either {@link GLContext#makeCurrent}
+ * or {@link GLContext#realize} is called. It is possible to specify
  * details of the GL context like the OpenGL version to be used, or whether
  * the GL context should have extra state validation enabled after calling
- * {@link org.gtk.gdk.Surface<code>#createGlContext</code>  by calling {@link org.gtk.gdk.GLContext<code>#realize</code> .
+ * {@code Gdk.GLContext.realize}.
  * If the realization fails you have the option to change the settings of
- * the <code>GdkGLContext</code> and try again.
+ * the {@code GdkGLContext} and try again.
  * <p>
  * <h2>Using a GdkGLContext</h2>
  * <p>
- * You will need to make the <code>GdkGLContext</code> the current context before issuing
+ * You will need to make the {@code GdkGLContext} the current context before issuing
  * OpenGL calls; the system sends OpenGL commands to whichever context is current.
  * It is possible to have multiple contexts, so you always need to ensure that
  * the one which you want to draw with is the current one before issuing commands:
- * <p><pre>c
+ * <p>
+ * <pre>{@code c
  * gdk_gl_context_make_current (context);
- * </pre>
+ * }</pre>
  * <p>
  * You can now perform your drawing using OpenGL commands.
  * <p>
- * You can check which <code>GdkGLContext</code> is the current one by using
- * {@link Gdk<code>#GLContext</code> ; you can also unset any <code>GdkGLContext</code>
- * that is currently set by calling {@link Gdk<code>#GLContext</code> .
+ * You can check which {@code GdkGLContext} is the current one by using
+ * {@link Gdk#GLContext}; you can also unset any {@code GdkGLContext}
+ * that is currently set by calling {@link Gdk#GLContext}.
  */
 public class GLContext extends DrawContext {
 
@@ -77,7 +79,7 @@ public class GLContext extends DrawContext {
     
     /**
      * Gets the API currently in use.
-     * 
+     * <p>
      * If the renderer has not been realized yet, 0 is returned.
      */
     public int getApi() {
@@ -87,8 +89,8 @@ public class GLContext extends DrawContext {
     
     /**
      * Retrieves whether the context is doing extra validations and runtime checking.
-     * 
-     * See {@link org.gtk.gdk.GLContext<code>#setDebugEnabled</code> .
+     * <p>
+     * See {@link GLContext#setDebugEnabled}.
      */
     public boolean getDebugEnabled() {
         var RESULT = gtk_h.gdk_gl_context_get_debug_enabled(handle());
@@ -96,7 +98,7 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Retrieves the display the @context is created for
+     * Retrieves the display the {@code context} is created for
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_gl_context_get_display(handle());
@@ -105,8 +107,8 @@ public class GLContext extends DrawContext {
     
     /**
      * Retrieves whether the context is forward-compatible.
-     * 
-     * See {@link org.gtk.gdk.GLContext<code>#setForwardCompatible</code> .
+     * <p>
+     * See {@link GLContext#setForwardCompatible}.
      */
     public boolean getForwardCompatible() {
         var RESULT = gtk_h.gdk_gl_context_get_forward_compatible(handle());
@@ -114,7 +116,7 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Retrieves the surface used by the @context.
+     * Retrieves the surface used by the {@code context}.
      */
     public Surface getSurface() {
         var RESULT = gtk_h.gdk_gl_context_get_surface(handle());
@@ -122,7 +124,7 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Checks whether the @context is using an OpenGL or OpenGL ES profile.
+     * Checks whether the {@code context} is using an OpenGL or OpenGL ES profile.
      */
     public boolean getUseEs() {
         var RESULT = gtk_h.gdk_gl_context_get_use_es(handle());
@@ -130,19 +132,19 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Whether the <code>GdkGLContext</code> is in legacy mode or not.
+     * Whether the {@code GdkGLContext} is in legacy mode or not.
      * <p>
-     * The <code>GdkGLContext</code> must be realized before calling this function.
-     * 
+     * The {@code GdkGLContext} must be realized before calling this function.
+     * <p>
      * When realizing a GL context, GDK will try to use the OpenGL 3.2 core
      * profile; this profile removes all the OpenGL API that was deprecated
      * prior to the 3.2 version of the specification. If the realization is
-     * successful, this function will return <code>false</code> 
-     * 
+     * successful, this function will return <code>false</code>.
+     * <p>
      * If the underlying OpenGL implementation does not support core profiles,
      * GDK will fall back to a pre-3.2 compatibility profile, and this function
-     * will return <code>true</code> 
-     * 
+     * will return <code>true</code>.
+     * <p>
      * You can use the value returned by this function to decide which kind
      * of OpenGL API to use, or whether to do extension discovery, or what
      * kind of shader programs to load.
@@ -155,16 +157,16 @@ public class GLContext extends DrawContext {
     /**
      * Checks if the two GL contexts can share resources.
      * <p>
-     * When they can, the texture IDs from @other can be used in @self. This
-     * is particularly useful when passing <code>GdkGLTexture</code> objects between
+     * When they can, the texture IDs from {@code other} can be used in {@code self}. This
+     * is particularly useful when passing {@code GdkGLTexture} objects between
      * different contexts.
-     * 
+     * <p>
      * Contexts created for the same display with the same properties will
      * always be compatible, even if they are created for different surfaces.
      * For other contexts it depends on the GL backend.
-     * 
+     * <p>
      * Both contexts must be realized for this check to succeed. If either one
-     * is not, this function will return <code>false</code>
+     * is not, this function will return <code>false</code>.
      */
     public boolean isShared(GLContext other) {
         var RESULT = gtk_h.gdk_gl_context_is_shared(handle(), other.handle());
@@ -172,16 +174,16 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Makes the @context the current one.
+     * Makes the {@code context} the current one.
      */
     public void makeCurrent() {
         gtk_h.gdk_gl_context_make_current(handle());
     }
     
     /**
-     * Realizes the given <code>GdkGLContext</code>.
+     * Realizes the given {@code GdkGLContext}.
      * <p>
-     * It is safe to call this function on a realized <code>GdkGLContext</code>.
+     * It is safe to call this function on a realized {@code GdkGLContext}.
      */
     public boolean realize() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -195,10 +197,10 @@ public class GLContext extends DrawContext {
     /**
      * Sets the allowed APIs. When gdk_gl_context_realize() is called, only the
      * allowed APIs will be tried. If you set this to 0, realizing will always fail.
-     * 
+     * <p>
      * If you set it on a realized context, the property will not have any effect.
      * It is only relevant during gdk_gl_context_realize().
-     * 
+     * <p>
      * By default, all APIs are allowed.
      */
     public void setAllowedApis(int apis) {
@@ -206,12 +208,12 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Sets whether the <code>GdkGLContext</code> should perform extra validations and
+     * Sets whether the {@code GdkGLContext} should perform extra validations and
      * runtime checking.
      * <p>
      * This is useful during development, but has additional overhead.
      * <p>
-     * The <code>GdkGLContext</code> must not be realized or made current prior to
+     * The {@code GdkGLContext} must not be realized or made current prior to
      * calling this function.
      */
     public void setDebugEnabled(boolean enabled) {
@@ -219,14 +221,14 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Sets whether the <code>GdkGLContext</code> should be forward-compatible.
+     * Sets whether the {@code GdkGLContext} should be forward-compatible.
      * <p>
      * Forward-compatible contexts must not support OpenGL functionality that
      * has been marked as deprecated in the requested version; non-forward
      * compatible contexts, on the other hand, must support both deprecated and
      * non deprecated functionality.
      * <p>
-     * The <code>GdkGLContext</code> must not be realized or made current prior to calling
+     * The {@code GdkGLContext} must not be realized or made current prior to calling
      * this function.
      */
     public void setForwardCompatible(boolean compatible) {
@@ -236,9 +238,9 @@ public class GLContext extends DrawContext {
     /**
      * Sets the major and minor version of OpenGL to request.
      * <p>
-     * Setting @major and @minor to zero will use the default values.
+     * Setting {@code major} and {@code minor} to zero will use the default values.
      * <p>
-     * The <code>GdkGLContext</code> must not be realized or made current prior to calling
+     * The {@code GdkGLContext} must not be realized or made current prior to calling
      * this function.
      */
     public void setRequiredVersion(int major, int minor) {
@@ -247,17 +249,17 @@ public class GLContext extends DrawContext {
     
     /**
      * Requests that GDK create an OpenGL ES context instead of an OpenGL one.
-     * 
+     * <p>
      * Not all platforms support OpenGL ES.
-     * 
-     * The @context must not have been realized.
-     * 
+     * <p>
+     * The {@code context} must not have been realized.
+     * <p>
      * By default, GDK will attempt to automatically detect whether the
-     * underlying GL implementation is OpenGL or OpenGL ES once the @context
+     * underlying GL implementation is OpenGL or OpenGL ES once the {@code context}
      * is realized.
-     * 
-     * You should check the return value of {@link org.gtk.gdk.GLContext<code>#getUseEs</code> 
-     * after calling {@link org.gtk.gdk.GLContext<code>#realize</code>  to decide whether to use
+     * <p>
+     * You should check the return value of {@link GLContext#getUseEs}
+     * after calling {@link GLContext#realize} to decide whether to use
      * the OpenGL or OpenGL ES API, extensions, or shaders.
      */
     public void setUseEs(int useEs) {
@@ -265,17 +267,17 @@ public class GLContext extends DrawContext {
     }
     
     /**
-     * Clears the current <code>GdkGLContext</code>.
-     * 
+     * Clears the current {@code GdkGLContext}.
+     * <p>
      * Any OpenGL call after this function returns will be ignored
-     * until {@link org.gtk.gdk.GLContext<code>#makeCurrent</code>  is called.
+     * until {@link GLContext#makeCurrent} is called.
      */
     public static void clearCurrent() {
         gtk_h.gdk_gl_context_clear_current();
     }
     
     /**
-     * Retrieves the current <code>GdkGLContext</code>.
+     * Retrieves the current {@code GdkGLContext}.
      */
     public static GLContext getCurrent() {
         var RESULT = gtk_h.gdk_gl_context_get_current();

@@ -8,32 +8,32 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.Drive} - this represent a piece of hardware connected to the machine.
- * It&<code>#39</code> s generally only created for removable hardware or hardware with
+ * {@link Drive} - this represent a piece of hardware connected to the machine.
+ * It's generally only created for removable hardware or hardware with
  * removable media.
- * 
- * {@link org.gtk.gio.Drive} is a container class for {@link org.gtk.gio.Volume} objects that stem from
- * the same piece of media. As such, {@link org.gtk.gio.Drive} abstracts a drive with
+ * <p>
+ * {@link Drive} is a container class for {@link Volume} objects that stem from
+ * the same piece of media. As such, {@link Drive} abstracts a drive with
  * (or without) removable media and provides operations for querying
  * whether media is available, determining whether media change is
  * automatically detected and ejecting the media.
- * 
- * If the {@link org.gtk.gio.Drive} reports that media isn&<code>#39</code> t automatically detected, one
+ * <p>
+ * If the {@link Drive} reports that media isn't automatically detected, one
  * can poll for media; typically one should not do this periodically
  * as a poll for media operation is potentially expensive and may
  * spin up the drive creating noise.
- * 
- * {@link org.gtk.gio.Drive} supports starting and stopping drives with authentication
+ * <p>
+ * {@link Drive} supports starting and stopping drives with authentication
  * support for the former. This can be used to support a diverse set
  * of use cases including connecting/disconnecting iSCSI devices,
  * powering down external disk enclosures and starting/stopping
  * multi-disk devices such as RAID devices. Note that the actual
- * semantics and side-effects of starting/stopping a {@link org.gtk.gio.Drive} may vary
+ * semantics and side-effects of starting/stopping a {@link Drive} may vary
  * according to implementation. To choose the correct verbs in e.g. a
  * file manager, use g_drive_get_start_stop_type().
- * 
+ * <p>
  * For porting from GnomeVFS note that there is no equivalent of
- * {@link org.gtk.gio.Drive} in that API.
+ * {@link Drive} in that API.
  */
 public interface Drive extends io.github.jwharm.javagi.NativeAddress {
 
@@ -79,8 +79,8 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Ejects a drive. This is an asynchronous operation, and is
-     * finished by calling g_drive_eject_with_operation_finish() with the @drive
-     * and {@link org.gtk.gio.AsyncResult} data returned in the @callback.
+     * finished by calling g_drive_eject_with_operation_finish() with the {@code drive}
+     * and {@link AsyncResult} data returned in the {@code callback}.
      */
     public default void ejectWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
@@ -98,7 +98,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes ejecting a drive. If any errors occurred during the operation,
-     * @error will be set to contain the errors and <code>false</code> will be returned.
+     * {@code error} will be set to contain the errors and <code>false</code> will be returned.
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -110,7 +110,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the icon for @drive.
+     * Gets the icon for {@code drive}.
      */
     public default Icon getIcon() {
         var RESULT = gtk_h.g_drive_get_icon(handle());
@@ -118,9 +118,9 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the identifier of the given kind for @drive. The only
+     * Gets the identifier of the given kind for {@code drive}. The only
      * identifier currently available is
-     * <code>G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE</code>
+     * {@code G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE}.
      */
     public default java.lang.String getIdentifier(java.lang.String kind) {
         var RESULT = gtk_h.g_drive_get_identifier(handle(), Interop.allocateNativeString(kind).handle());
@@ -128,7 +128,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the name of @drive.
+     * Gets the name of {@code drive}.
      */
     public default java.lang.String getName() {
         var RESULT = gtk_h.g_drive_get_name(handle());
@@ -136,7 +136,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the sort key for @drive, if any.
+     * Gets the sort key for {@code drive}, if any.
      */
     public default java.lang.String getSortKey() {
         var RESULT = gtk_h.g_drive_get_sort_key(handle());
@@ -152,7 +152,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the icon for @drive.
+     * Gets the icon for {@code drive}.
      */
     public default Icon getSymbolicIcon() {
         var RESULT = gtk_h.g_drive_get_symbolic_icon(handle());
@@ -160,8 +160,8 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Get a list of mountable volumes for @drive.
-     * 
+     * Get a list of mountable volumes for {@code drive}.
+     * <p>
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
@@ -171,7 +171,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if the @drive has media. Note that the OS may not be polling
+     * Checks if the {@code drive} has media. Note that the OS may not be polling
      * the drive for media changes; see g_drive_is_media_check_automatic()
      * for more details.
      */
@@ -181,7 +181,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Check if @drive has any mountable volumes.
+     * Check if {@code drive} has any mountable volumes.
      */
     public default boolean hasVolumes() {
         var RESULT = gtk_h.g_drive_has_volumes(handle());
@@ -189,7 +189,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if @drive is capable of automatically detecting media changes.
+     * Checks if {@code drive} is capable of automatically detecting media changes.
      */
     public default boolean isMediaCheckAutomatic() {
         var RESULT = gtk_h.g_drive_is_media_check_automatic(handle());
@@ -197,7 +197,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if the @drive supports removable media.
+     * Checks if the {@code drive} supports removable media.
      */
     public default boolean isMediaRemovable() {
         var RESULT = gtk_h.g_drive_is_media_removable(handle());
@@ -205,7 +205,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if the {@link org.gtk.gio.Drive} and/or its media is considered removable by the user.
+     * Checks if the {@link Drive} and/or its media is considered removable by the user.
      * See g_drive_is_media_removable().
      */
     public default boolean isRemovable() {
@@ -214,9 +214,9 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Asynchronously polls @drive to see if media has been inserted or removed.
-     * 
-     * When the operation is finished, @callback will be called.
+     * Asynchronously polls {@code drive} to see if media has been inserted or removed.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_drive_poll_for_media_finish() to obtain the
      * result of the operation.
      */
@@ -248,8 +248,8 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Asynchronously starts a drive.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_drive_start_finish() to obtain the
      * result of the operation.
      */
@@ -281,8 +281,8 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Asynchronously stops a drive.
-     * 
-     * When the operation is finished, @callback will be called.
+     * <p>
+     * When the operation is finished, {@code callback} will be called.
      * You can then call g_drive_stop_finish() to obtain the
      * result of the operation.
      */
@@ -318,7 +318,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Emitted when the drive&<code>#39</code> s state has changed.
+     * Emitted when the drive's state has changed.
      */
     public default SignalHandle onChanged(ChangedHandler handler) {
         try {
@@ -341,7 +341,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * This signal is emitted when the {@link org.gtk.gio.Drive} have been
+     * This signal is emitted when the {@link Drive} have been
      * disconnected. If the recipient is holding references to the
      * object they should release them so the object can be
      * finalized.

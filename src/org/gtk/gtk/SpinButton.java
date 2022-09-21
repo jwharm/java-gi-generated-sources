@@ -8,111 +8,118 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkSpinButton</code> is an ideal way to allow the user to set the
+ * A {@code GtkSpinButton} is an ideal way to allow the user to set the
  * value of some attribute.
  * <p>
- * !{@link [An example GtkSpinButton]}(spinbutton.png)
+ * <img src="./doc-files/spinbutton.png" alt="An example GtkSpinButton">
  * <p>
- * Rather than having to directly type a number into a <code>GtkEntry</code>,<code>GtkSpinButton</code> allows the user to click on one of two arrows
+ * Rather than having to directly type a number into a {@code GtkEntry},
+ * {@code GtkSpinButton} allows the user to click on one of two arrows
  * to increment or decrement the displayed value. A value can still be
  * typed in, with the bonus that it can be checked to ensure it is in a
  * given range.
  * <p>
- * The main properties of a <code>GtkSpinButton</code> are through an adjustment.
- * See the {@link org.gtk.gtk.Adjustment} documentation for more details about
- * an adjustment&<code>#39</code> s properties.
+ * The main properties of a {@code GtkSpinButton} are through an adjustment.
+ * See the {@link Adjustment} documentation for more details about
+ * an adjustment's properties.
  * <p>
- * Note that <code>GtkSpinButton</code> will by default make its entry large enough
+ * Note that {@code GtkSpinButton} will by default make its entry large enough
  * to accommodate the lower and upper bounds of the adjustment. If this
  * is not desired, the automatic sizing can be turned off by explicitly
- * setting {@link [property@Gtk.Editable:width-chars] (ref=property)} to a value != -1.
+ * setting {@code Gtk.Editable:width-chars} to a value != -1.
  * <p>
  * <h2>Using a GtkSpinButton to get an integer</h2>
- * <p><pre>c
+ * <p>
+ * <pre>{@code c
  * // Provides a function to retrieve an integer value from a GtkSpinButton
  * // and creates a spin button to model percentage values.
- * <p>
+ * 
  * int
  * grab_int_value (GtkSpinButton *button,
  *                 gpointer       user_data)
  * {
  *   return gtk_spin_button_get_value_as_int (button);
  * }
- * <p>
+ * 
  * void
  * create_integer_spin_button (void)
  * {
- * <p>
+ * 
  *   GtkWidget *window, *button;
  *   GtkAdjustment *adjustment;
- * <p>
+ * 
  *   adjustment = gtk_adjustment_new (50.0, 0.0, 100.0, 1.0, 5.0, 0.0);
- * <p>
+ * 
  *   window = gtk_window_new ();
- * <p>
+ * 
  *   // creates the spinbutton, with no decimal places
  *   button = gtk_spin_button_new (adjustment, 1.0, 0);
  *   gtk_window_set_child (GTK_WINDOW (window), button);
- * <p>
+ * 
  *   gtk_widget_show (window);
  * }
- * </pre>
+ * }</pre>
  * <p>
  * <h2>Using a GtkSpinButton to get a floating point value</h2>
- * <p><pre>c
+ * <p>
+ * <pre>{@code c
  * // Provides a function to retrieve a floating point value from a
  * // GtkSpinButton, and creates a high precision spin button.
- * <p>
+ * 
  * float
  * grab_float_value (GtkSpinButton *button,
  *                   gpointer       user_data)
  * {
  *   return gtk_spin_button_get_value (button);
  * }
- * <p>
+ * 
  * void
  * create_floating_spin_button (void)
  * {
  *   GtkWidget *window, *button;
  *   GtkAdjustment *adjustment;
- * <p>
+ * 
  *   adjustment = gtk_adjustment_new (2.500, 0.0, 5.0, 0.001, 0.1, 0.0);
- * <p>
+ * 
  *   window = gtk_window_new ();
- * <p>
+ * 
  *   // creates the spinbutton, with three decimal places
  *   button = gtk_spin_button_new (adjustment, 0.001, 3);
  *   gtk_window_set_child (GTK_WINDOW (window), button);
- * <p>
+ * 
  *   gtk_widget_show (window);
  * }
- * </pre>
+ * }</pre>
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * spinbutton.horizontal
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  text
- * &<code>#9474</code>     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  undershoot.left
- * &<code>#9474</code>     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  undershoot.right
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button.down
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.up
- * </pre>
- * <p><pre>
+ * ├── text
+ * │    ├── undershoot.left
+ * │    ╰── undershoot.right
+ * ├── button.down
+ * ╰── button.up
+ * }</pre>
+ * <p>
+ * <pre>{@code 
  * spinbutton.vertical
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  button.up
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  text
- * &<code>#9474</code>     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  undershoot.left
- * &<code>#9474</code>     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  undershoot.right
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.down
- * </pre>
- * <p><code>GtkSpinButton</code>s main CSS node has the name spinbutton. It creates subnodes
+ * ├── button.up
+ * ├── text
+ * │    ├── undershoot.left
+ * │    ╰── undershoot.right
+ * ╰── button.down
+ * }</pre>
+ * <p>
+ * {@code GtkSpinButton}s main CSS node has the name spinbutton. It creates subnodes
  * for the entry and the two buttons, with these names. The button nodes have
- * the style classes .up and .down. The <code>GtkText</code> subnodes (if present) are put
+ * the style classes .up and .down. The {@code GtkText} subnodes (if present) are put
  * below the text node. The orientation of the spin button is reflected in
  * the .vertical or .horizontal style class on the main node.
  * <p>
  * <h1>Accessiblity</h1>
- * <p><code>GtkSpinButton</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#SPIN_BUTTON</code>  role.
+ * <p>
+ * {@code GtkSpinButton} uses the {@link AccessibleRole#SPIN_BUTTON} role.
  */
 public class SpinButton extends Widget implements Accessible, Buildable, CellEditable, ConstraintTarget, Editable, Orientable {
 
@@ -131,7 +138,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Creates a new <code>GtkSpinButton</code>.
+     * Creates a new {@code GtkSpinButton}.
      */
     public SpinButton(Adjustment adjustment, double climbRate, int digits) {
         super(constructNew(adjustment, climbRate, digits));
@@ -143,19 +150,19 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Creates a new <code>GtkSpinButton</code> with the given properties.
+     * Creates a new {@code GtkSpinButton} with the given properties.
      * <p>
      * This is a convenience constructor that allows creation
-     * of a numeric <code>GtkSpinButton</code> without manually creating
+     * of a numeric {@code GtkSpinButton} without manually creating
      * an adjustment. The value is initially set to the minimum
-     * value and a page increment of 10 * @step is the default.
+     * value and a page increment of 10 * {@code step} is the default.
      * The precision of the spin button is equivalent to the
-     * precision of @step.
-     * 
+     * precision of {@code step}.
+     * <p>
      * Note that the way in which the precision is derived works
-     * best if @step is a power of ten. If the resulting precision
+     * best if {@code step} is a power of ten. If the resulting precision
      * is not suitable for your needs, use
-     * {@link org.gtk.gtk.SpinButton<code>#setDigits</code>  to correct it.
+     * {@link SpinButton#setDigits} to correct it.
      */
     public static SpinButton newWithRange(double min, double max, double step) {
         return new SpinButton(constructNewWithRange(min, max, step));
@@ -163,7 +170,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Changes the properties of an existing spin button.
-     * 
+     * <p>
      * The adjustment, climb rate, and number of decimal places
      * are updated accordingly.
      */
@@ -172,7 +179,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Get the adjustment associated with a <code>GtkSpinButton</code>.
+     * Get the adjustment associated with a {@code GtkSpinButton}.
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_spin_button_get_adjustment(handle());
@@ -188,7 +195,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Fetches the precision of @spin_button.
+     * Fetches the precision of {@code spin_button}.
      */
     public int getDigits() {
         var RESULT = gtk_h.gtk_spin_button_get_digits(handle());
@@ -213,8 +220,8 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Gets the update behavior of a spin button.
-     * 
-     * See {@link org.gtk.gtk.SpinButton<code>#setUpdatePolicy</code> .
+     * <p>
+     * See {@link SpinButton#setUpdatePolicy}.
      */
     public SpinButtonUpdatePolicy getUpdatePolicy() {
         var RESULT = gtk_h.gtk_spin_button_get_update_policy(handle());
@@ -222,7 +229,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Get the value in the @spin_button.
+     * Get the value in the {@code spin_button}.
      */
     public double getValue() {
         var RESULT = gtk_h.gtk_spin_button_get_value(handle());
@@ -230,7 +237,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Get the value @spin_button represented as an integer.
+     * Get the value {@code spin_button} represented as an integer.
      */
     public int getValueAsInt() {
         var RESULT = gtk_h.gtk_spin_button_get_value_as_int(handle());
@@ -238,7 +245,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Returns whether the spin button&<code>#8217</code> s value wraps around to the
+     * Returns whether the spin button’s value wraps around to the
      * opposite limit when the upper or lower limit of the range is
      * exceeded.
      */
@@ -248,7 +255,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Replaces the <code>GtkAdjustment</code> associated with @spin_button.
+     * Replaces the {@code GtkAdjustment} associated with {@code spin_button}.
      */
     public void setAdjustment(Adjustment adjustment) {
         gtk_h.gtk_spin_button_set_adjustment(handle(), adjustment.handle());
@@ -263,8 +270,8 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Set the precision to be displayed by @spin_button.
-     * 
+     * Set the precision to be displayed by {@code spin_button}.
+     * <p>
      * Up to 20 digit precision is allowed.
      */
     public void setDigits(int digits) {
@@ -273,9 +280,9 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Sets the step and page increments for spin_button.
-     * 
+     * <p>
      * This affects how quickly the value changes when
-     * the spin button&<code>#8217</code> s arrows are activated.
+     * the spin button’s arrows are activated.
      */
     public void setIncrements(double step, double page) {
         gtk_h.gtk_spin_button_set_increments(handle(), step, page);
@@ -290,8 +297,8 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Sets the minimum and maximum allowable values for @spin_button.
-     * 
+     * Sets the minimum and maximum allowable values for {@code spin_button}.
+     * <p>
      * If the current value is outside this range, it will be adjusted
      * to fit within the range, otherwise it will remain unchanged.
      */
@@ -310,7 +317,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Sets the update behavior of a spin button.
-     * 
+     * <p>
      * This determines whether the spin button is always
      * updated or only when a valid value is set.
      */
@@ -319,7 +326,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Sets the value of @spin_button.
+     * Sets the value of {@code spin_button}.
      */
     public void setValue(double value) {
         gtk_h.gtk_spin_button_set_value(handle(), value);
@@ -335,7 +342,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
-     * Increment or decrement a spin button&<code>#8217</code> s value in a specified
+     * Increment or decrement a spin button’s value in a specified
      * direction by a specified amount.
      */
     public void spin(SpinType direction, double increment) {
@@ -356,13 +363,13 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Emitted when the user initiates a value change.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * Applications should not connect to it, but may emit it with
      * g_signal_emit_by_name() if they need to control the cursor
      * programmatically.
-     * 
+     * <p>
      * The default bindings for this signal are Up/Down and PageUp/PageDown.
      */
     public SignalHandle onChangeValue(ChangeValueHandler handler) {
@@ -387,11 +394,11 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Emitted to convert the users input into a double value.
-     * 
-     * The signal handler is expected to use {@link org.gtk.gtk.Editable<code>#getText</code> 
-     * to retrieve the text of the spinbutton and set @new_value to the
+     * <p>
+     * The signal handler is expected to use {@link Editable#getText}
+     * to retrieve the text of the spinbutton and set {@code new_value} to the
      * new value.
-     * 
+     * <p>
      * The default conversion uses g_strtod().
      */
     public SignalHandle onInput(InputHandler handler) {
@@ -416,7 +423,8 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Emitted to tweak the formatting of the value for display.
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      * // show leading zeros
      * static gboolean
      * on_output (GtkSpinButton *spin,
@@ -428,13 +436,13 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      * 
      *    adjustment = gtk_spin_button_get_adjustment (spin);
      *    value = (int)gtk_adjustment_get_value (adjustment);
-     *    text = g_strdup_printf (&<code>#34</code> <code>02d</code> <code>#34</code> , value);
+     *    text = g_strdup_printf ("%02d", value);
      *    gtk_spin_button_set_text (spin, text):
      *    g_free (text);
      * 
      *    return TRUE;
      * }
-     * </pre>
+     * }</pre>
      */
     public SignalHandle onOutput(OutputHandler handler) {
         try {
@@ -458,8 +466,8 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     
     /**
      * Emitted when the value is changed.
-     * 
-     * Also see the {@link [signal@Gtk.SpinButton::output] (ref=signal)} signal.
+     * <p>
+     * Also see the {@code Gtk.SpinButton::output} signal.
      */
     public SignalHandle onValueChanged(ValueChangedHandler handler) {
         try {

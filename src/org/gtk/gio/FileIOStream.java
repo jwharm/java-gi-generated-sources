@@ -10,23 +10,23 @@ import java.lang.invoke.*;
 /**
  * GFileIOStream provides io streams that both read and write to the same
  * file handle.
- * 
- * GFileIOStream implements {@link org.gtk.gio.Seekable}  which allows the io
+ * <p>
+ * GFileIOStream implements {@link Seekable}, which allows the io
  * stream to jump to arbitrary positions in the file and to truncate
  * the file, provided the filesystem of the file supports these
  * operations.
- * 
+ * <p>
  * To find the position of a file io stream, use
  * g_seekable_tell().
- * 
+ * <p>
  * To find out if a file io stream supports seeking, use g_seekable_can_seek().
  * To position a file io stream, use g_seekable_seek().
  * To find out if a file io stream supports truncating, use
  * g_seekable_can_truncate(). To truncate a file io
  * stream, use g_seekable_truncate().
- * 
- * The default implementation of all the {@link org.gtk.gio.FileIOStream} operations
- * and the implementation of {@link org.gtk.gio.Seekable} just call into the same operations
+ * <p>
+ * The default implementation of all the {@link FileIOStream} operations
+ * and the implementation of {@link Seekable} just call into the same operations
  * on the output stream.
  */
 public class FileIOStream extends IOStream implements Seekable {
@@ -51,22 +51,22 @@ public class FileIOStream extends IOStream implements Seekable {
     }
     
     /**
-     * Queries a file io stream for the given @attributes.
+     * Queries a file io stream for the given {@code attributes}.
      * This function blocks while querying the stream. For the asynchronous
      * version of this function, see g_file_io_stream_query_info_async().
      * While the stream is blocked, the stream will set the pending flag
      * internally, and any other operations on the stream will fail with
-     * {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  
-     * 
-     * Can fail if the stream was already closed (with @error being set to
-     * {@link org.gtk.gio.IOErrorEnum<code>#CLOSED</code>  , the stream has pending operations (with @error being
-     * set to {@link org.gtk.gio.IOErrorEnum<code>#PENDING</code>  , or if querying info is not supported for
-     * the stream&<code>#39</code> s interface (with @error being set to {@link org.gtk.gio.IOErrorEnum<code>#NOT_SUPPORTED</code>  . I
+     * {@link IOErrorEnum#PENDING}.
+     * <p>
+     * Can fail if the stream was already closed (with {@code error} being set to
+     * {@link IOErrorEnum#CLOSED}), the stream has pending operations (with {@code error} being
+     * set to {@link IOErrorEnum#PENDING}), or if querying info is not supported for
+     * the stream's interface (with {@code error} being set to {@link IOErrorEnum#NOT_SUPPORTED}). I
      * all cases of failure, <code>null</code> will be returned.
-     * 
-     * If @cancellable is not <code>null</code>  then the operation can be cancelled by
+     * <p>
+     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link org.gtk.gio.IOErrorEnum<code>#CANCELLED</code>  will be set, and <code>null</code> will
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set, and <code>null</code> will
      * be returned.
      */
     public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -79,10 +79,10 @@ public class FileIOStream extends IOStream implements Seekable {
     }
     
     /**
-     * Asynchronously queries the @stream for a {@link org.gtk.gio.FileInfo}  When completed,
-     * @callback will be called with a {@link org.gtk.gio.AsyncResult} which can be used to
+     * Asynchronously queries the {@code stream} for a {@link FileInfo}. When completed,
+     * {@code callback} will be called with a {@link AsyncResult} which can be used to
      * finish the operation with g_file_io_stream_query_info_finish().
-     * 
+     * <p>
      * For the synchronous version of this function, see
      * g_file_io_stream_query_info().
      */

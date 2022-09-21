@@ -2,7 +2,8 @@ package org.gtk.gdk;
 
 /**
  * Describes how well an event matches a given keyval and modifiers.
- * <p><code>GdkKeyMatch</code> values are returned by {@link org.gtk.gdk.KeyEvent<code>#matches</code> .
+ * <p>
+ * {@code GdkKeyMatch} values are returned by {@link KeyEvent#matches}.
  */
 public enum KeyMatch {
 

@@ -27,8 +27,8 @@ public class OutsetShadowNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will render an outset shadow
-     * around the box given by @outline.
+     * Creates a {@code GskRenderNode} that will render an outset shadow
+     * around the box given by {@code outline}.
      */
     public OutsetShadowNode(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
         super(constructNew(outline, color, dx, dy, spread, blurRadius));

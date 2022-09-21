@@ -1,11 +1,11 @@
 package org.pango;
 
 /**
- * <code>PangoBidiType</code> represents the bidirectional character
+ * {@code PangoBidiType} represents the bidirectional character
  * type of a Unicode character.
- * 
+ * <p>
  * The values in this enumeration are specified by the
- * {@link [Unicode bidirectional algorithm]}(http://www.unicode.org/reports/tr9/).
+ * <a href="http://www.unicode.org/reports/tr9/">Unicode bidirectional algorithm</a>.
  */
 public enum BidiType {
 

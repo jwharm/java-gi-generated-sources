@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Flags that influence the behavior of {@link [method@Widget.pick]}.
+ * Flags that influence the behavior of {@link widget.pick#null}.
  */
 public class PickFlags {
 
@@ -16,7 +16,7 @@ public class PickFlags {
     public static final int INSENSITIVE = 1;
     
     /**
-     * Include widgets that are marked as non-targetable. See {@link [property@Widget:can-target] (ref=property)}
+     * Include widgets that are marked as non-targetable. See {@code Widget:can-target}
      */
     public static final int NON_TARGETABLE = 2;
     

@@ -8,27 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Simply a replacement for <code>time_t</code>. It has been deprecated
- * since it is not equivalent to <code>time_t</code> on 64-bit platforms
- * with a 64-bit <code>time_t</code>.
+ * Simply a replacement for {@code time_t}. It has been deprecated
+ * since it is not equivalent to {@code time_t} on 64-bit platforms
+ * with a 64-bit {@code time_t}.
  * <p>
- * Unrelated to {@link org.gtk.glib.Timer} 
+ * Unrelated to {@link Timer}.
  * <p>
- * Note that {@link org.gtk.glib.Time} is defined to always be a 32-bit integer,
- * unlike <code>time_t</code> which may be 64-bit on some systems. Therefore,
- * {@link org.gtk.glib.Time} will overflow in the year 2038, and you cannot use the
- * address of a {@link org.gtk.glib.Time} variable as argument to the UNIX time()
+ * Note that {@link Time} is defined to always be a 32-bit integer,
+ * unlike {@code time_t} which may be 64-bit on some systems. Therefore,
+ * {@link Time} will overflow in the year 2038, and you cannot use the
+ * address of a {@link Time} variable as argument to the UNIX time()
  * function.
- * 
+ * <p>
  * Instead, do the following:
- * 
- * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+ * <p>
+ * |[&lt;!-- language="C" --&gt;
  * time_t ttime;
  * GTime gtime;
- * 
- * time (&<code>#38</code> ttime);
+ * <p>
+ * time (&ttime);
  * gtime = (GTime)ttime;
- * ]}|
+ * ]|
  */
 public class Time {
 

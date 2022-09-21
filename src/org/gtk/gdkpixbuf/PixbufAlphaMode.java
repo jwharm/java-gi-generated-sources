@@ -2,14 +2,14 @@ package org.gtk.gdkpixbuf;
 
 /**
  * Control the alpha channel for drawables.
- * 
+ * <p>
  * These values can be passed to gdk_pixbuf_xlib_render_to_drawable_alpha()
  * in gdk-pixbuf-xlib to control how the alpha channel of an image should
  * be handled.
- * 
+ * <p>
  * This function can create a bilevel clipping mask (black and white) and use
  * it while painting the image.
- * 
+ * <p>
  * In the future, when the X Window System gets an alpha channel extension,
  * it will be possible to do full alpha compositing onto arbitrary drawables.
  * For now both cases fall back to a bilevel clipping mask.
@@ -25,7 +25,7 @@ public enum PixbufAlphaMode {
     BILEVEL,
     
     /**
-     * For now falls back to <code>#GDK_PIXBUF_ALPHA_BILEVEL</code> 
+     * For now falls back to {@code GDK_PIXBUF_ALPHA_BILEVEL}.
      *  In the future it will do full alpha compositing.
      */
     FULL;

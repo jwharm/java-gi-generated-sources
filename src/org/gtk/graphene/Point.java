@@ -22,26 +22,26 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Allocates a new {@link org.gtk.graphene.Point} structure.
-     * 
+     * Allocates a new {@link Point} structure.
+     * <p>
      * The coordinates of the returned point are (0, 0).
-     * 
-     * It&<code>#39</code> s possible to chain this function with graphene_point_init()
+     * <p>
+     * It's possible to chain this function with graphene_point_init()
      * or graphene_point_init_from_point(), e.g.:
-     * 
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * <p>
+     * |[&lt;!-- language="C" --&gt;
      *   graphene_point_t *
      *   point_new (float x, float y)
      *   {
      *     return graphene_point_init (graphene_point_alloc (), x, y);
      *   }
-     * 
+     * <p>
      *   graphene_point_t *
      *   point_copy (const graphene_point_t *p)
      *   {
      *     return graphene_point_init_from_point (graphene_point_alloc (), p);
      *   }
-     * ]}|
+     * ]|
      */
     public static Point alloc() {
         return new Point(constructAlloc());
@@ -50,7 +50,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if the two points @a and @b point to the same
      * coordinates.
-     * 
+     * <p>
      * This function accounts for floating point fluctuations; if
      * you want to control the fuzziness of the match, you can use
      * graphene_point_near() instead.
@@ -69,8 +69,8 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Initializes @p to the given @x and @y coordinates.
-     * 
-     * It&<code>#39</code> s safe to call this function multiple times.
+     * <p>
+     * It's safe to call this function multiple times.
      */
     public Point init(float x, float y) {
         var RESULT = gtk_h.graphene_point_init(handle(), x, y);
@@ -78,7 +78,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @p with the same coordinates of @src.
+     * Initializes @p with the same coordinates of {@code src}.
      */
     public Point initFromPoint(Point src) {
         var RESULT = gtk_h.graphene_point_init_from_point(handle(), src.handle());
@@ -86,7 +86,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Initializes @p with the coordinates inside the given {@link org.gtk.graphene.Vec2}
+     * Initializes @p with the coordinates inside the given {@link Vec2}.
      */
     public Point initFromVec2(Vec2 src) {
         var RESULT = gtk_h.graphene_point_init_from_vec2(handle(), src.handle());
@@ -95,7 +95,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Linearly interpolates the coordinates of @a and @b using the
-     * given @factor.
+     * given {@code factor}.
      */
     public void interpolate(Point b, double factor, Point res) {
         gtk_h.graphene_point_interpolate(handle(), b.handle(), factor, res.handle());
@@ -103,7 +103,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks whether the two points @a and @b are within
-     * the threshold of @epsilon.
+     * the threshold of {@code epsilon}.
      */
     public boolean near(Point b, float epsilon) {
         var RESULT = gtk_h.graphene_point_near(handle(), b.handle(), epsilon);
@@ -111,8 +111,8 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Stores the coordinates of the given {@link org.gtk.graphene.Point} into a
-     * {@link org.gtk.graphene.Vec2}
+     * Stores the coordinates of the given {@link Point} into a
+     * {@link Vec2}.
      */
     public void toVec2(Vec2 v) {
         gtk_h.graphene_point_to_vec2(handle(), v.handle());

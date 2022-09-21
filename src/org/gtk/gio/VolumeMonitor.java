@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.VolumeMonitor} is for listing the user interesting devices and volumes
+ * {@link VolumeMonitor} is for listing the user interesting devices and volumes
  * on the computer. In other words, what a file selector or file manager
  * would show in a sidebar.
- * 
- * {@link org.gtk.gio.VolumeMonitor} is not
- * {@link [thread-default-context aware]}{@link [g-main-context-push-thread-default]},
+ * <p>
+ * {@link VolumeMonitor} is not
+ * [thread-default-context aware][g-main-context-push-thread-default],
  * and so should not be used other than from the main thread, with no
  * thread-default-context active.
- * 
+ * <p>
  * In order to receive updates about volumes and mounts monitored through GVFS,
  * a main loop must be running.
  */
@@ -33,7 +33,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     /**
      * Gets a list of drives connected to the system.
-     * 
+     * <p>
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
@@ -43,7 +43,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Finds a {@link org.gtk.gio.Mount} object by its UUID (see g_mount_get_uuid())
+     * Finds a {@link Mount} object by its UUID (see g_mount_get_uuid())
      */
     public Mount getMountForUuid(java.lang.String uuid) {
         var RESULT = gtk_h.g_volume_monitor_get_mount_for_uuid(handle(), Interop.allocateNativeString(uuid).handle());
@@ -52,7 +52,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     /**
      * Gets a list of the mounts on the system.
-     * 
+     * <p>
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
@@ -62,7 +62,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Finds a {@link org.gtk.gio.Volume} object by its UUID (see g_volume_get_uuid())
+     * Finds a {@link Volume} object by its UUID (see g_volume_get_uuid())
      */
     public Volume getVolumeForUuid(java.lang.String uuid) {
         var RESULT = gtk_h.g_volume_monitor_get_volume_for_uuid(handle(), Interop.allocateNativeString(uuid).handle());
@@ -71,7 +71,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     /**
      * Gets a list of the volumes on the system.
-     * 
+     * <p>
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
@@ -163,7 +163,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the eject button is pressed on @drive.
+     * Emitted when the eject button is pressed on {@code drive}.
      */
     public SignalHandle onDriveEjectButton(DriveEjectButtonHandler handler) {
         try {
@@ -186,7 +186,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted when the stop button is pressed on @drive.
+     * Emitted when the stop button is pressed on {@code drive}.
      */
     public SignalHandle onDriveStopButton(DriveStopButtonHandler handler) {
         try {
@@ -256,7 +256,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     /**
      * May be emitted when a mount is about to be removed.
-     * 
+     * <p>
      * This signal depends on the backend and is only emitted if
      * GIO was used to unmount.
      */

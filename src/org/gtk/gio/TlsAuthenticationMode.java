@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * The client authentication mode for a {@link org.gtk.gio.TlsServerConnection}
+ * The client authentication mode for a {@link TlsServerConnection}.
  */
 public enum TlsAuthenticationMode {
 

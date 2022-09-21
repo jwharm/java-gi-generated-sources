@@ -8,28 +8,28 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gio.SocketService} is an object that represents a service that
+ * A {@link SocketService} is an object that represents a service that
  * is provided to the network or over local sockets.  When a new
- * connection is made to the service the {@link org.gtk.gio.SocketService} :incoming
+ * connection is made to the service the {@link SocketService}::incoming
  * signal is emitted.
- * 
- * A {@link org.gtk.gio.SocketService} is a subclass of {@link org.gtk.gio.SocketListener} and you need
+ * <p>
+ * A {@link SocketService} is a subclass of {@link SocketListener} and you need
  * to add the addresses you want to accept connections on with the
- * {@link org.gtk.gio.SocketListener} APIs.
- * 
+ * {@link SocketListener} APIs.
+ * <p>
  * There are two options for implementing a network service based on
- * {@link org.gtk.gio.SocketService}  The first is to create the service using
- * g_socket_service_new() and to connect to the {@link org.gtk.gio.SocketService} :incoming
- * signal. The second is to subclass {@link org.gtk.gio.SocketService} and override the
+ * {@link SocketService}. The first is to create the service using
+ * g_socket_service_new() and to connect to the {@link SocketService}::incoming
+ * signal. The second is to subclass {@link SocketService} and override the
  * default signal handler implementation.
- * 
+ * <p>
  * In either case, the handler must immediately return, or else it
  * will block additional incoming connections from being serviced.
  * If you are interested in writing connection handlers that contain
- * blocking code then see {@link org.gtk.gio.ThreadedSocketService} 
- * 
+ * blocking code then see {@link ThreadedSocketService}.
+ * <p>
  * The socket service runs on the main loop of the
- * {@link [thread-default context]}{@link [g-main-context-push-thread-default-context]}
+ * [thread-default context][g-main-context-push-thread-default-context]
  * of the thread it is created in, and is not
  * threadsafe in general. However, the calls to start and stop the
  * service are thread-safe so these can be used from threads that
@@ -52,10 +52,10 @@ public class SocketService extends SocketListener {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.SocketService} with no sockets to listen for.
+     * Creates a new {@link SocketService} with no sockets to listen for.
      * New listeners can be added with e.g. g_socket_listener_add_address()
      * or g_socket_listener_add_inet_port().
-     * 
+     * <p>
      * New services are created active, there is no need to call
      * g_socket_service_start(), unless g_socket_service_stop() has been
      * called before.
@@ -80,7 +80,7 @@ public class SocketService extends SocketListener {
      * from the added sockets when the mainloop runs. This only needs
      * to be called after the service has been stopped from
      * g_socket_service_stop().
-     * 
+     * <p>
      * This call is thread-safe, so it may be called from a thread
      * handling an incoming client request.
      */
@@ -91,16 +91,16 @@ public class SocketService extends SocketListener {
     /**
      * Stops the service, i.e. stops accepting connections
      * from the added sockets when the mainloop runs.
-     * 
+     * <p>
      * This call is thread-safe, so it may be called from a thread
      * handling an incoming client request.
-     * 
+     * <p>
      * Note that this only stops accepting new connections; it does not
      * close the listening sockets, and you can call
      * g_socket_service_start() again later to begin listening again. To
      * close the listening sockets, call g_socket_listener_close(). (This
-     * will happen automatically when the {@link org.gtk.gio.SocketService} is finalized.)
-     * 
+     * will happen automatically when the {@link SocketService} is finalized.)
+     * <p>
      * This must be called before calling g_socket_listener_close() as
      * the socket service will start accepting connections immediately
      * when a new socket is added.
@@ -116,11 +116,11 @@ public class SocketService extends SocketListener {
     
     /**
      * The ::incoming signal is emitted when a new incoming connection
-     * to @service needs to be handled. The handler must initiate the
-     * handling of @connection, but may not block; in essence,
+     * to {@code service} needs to be handled. The handler must initiate the
+     * handling of {@code connection}, but may not block; in essence,
      * asynchronous operations must be used.
-     * 
-     * @connection will be unreffed once the signal handler returns,
+     * <p>
+     * {@code connection} will be unreffed once the signal handler returns,
      * so you need to ref it yourself if you are planning to use it.
      */
     public SignalHandle onIncoming(IncomingHandler handler) {

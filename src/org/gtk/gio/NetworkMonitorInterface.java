@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual function table for {@link org.gtk.gio.NetworkMonitor}
+ * The virtual function table for {@link NetworkMonitor}.
  */
 public class NetworkMonitorInterface extends io.github.jwharm.javagi.ResourceBase {
 

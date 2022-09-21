@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkAppChooserDialog</code> shows a <code>GtkAppChooserWidget</code> inside a <code>GtkDialog</code>.
+ * {@code GtkAppChooserDialog} shows a {@code GtkAppChooserWidget} inside a {@code GtkDialog}.
  * <p>
- * !{@link [An example GtkAppChooserDialog]}(appchooserdialog.png)
+ * <img src="./doc-files/appchooserdialog.png" alt="An example GtkAppChooserDialog">
  * <p>
- * Note that <code>GtkAppChooserDialog</code> does not have any interesting methods
- * of its own. Instead, you should get the embedded <code>GtkAppChooserWidget</code>
- * using {@link org.gtk.gtk.AppChooserDialog<code>#getWidget</code>  and call its methods if
- * the generic {@link [iface@Gtk.AppChooser] (ref=iface)} interface is not sufficient for
+ * Note that {@code GtkAppChooserDialog} does not have any interesting methods
+ * of its own. Instead, you should get the embedded {@code GtkAppChooserWidget}
+ * using {@link AppChooserDialog#getWidget} and call its methods if
+ * the generic {@code Gtk.AppChooser} interface is not sufficient for
  * your needs.
  * <p>
- * To set the heading that is shown above the <code>GtkAppChooserWidget</code>,
- * use {@link org.gtk.gtk.AppChooserDialog<code>#setHeading</code> .
+ * To set the heading that is shown above the {@code GtkAppChooserWidget},
+ * use {@link AppChooserDialog#setHeading}.
  */
 public class AppChooserDialog extends Dialog implements Accessible, AppChooser, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -38,8 +38,8 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     }
     
     /**
-     * Creates a new <code>GtkAppChooserDialog</code> for the provided <code>GFile</code>.
-     * 
+     * Creates a new {@code GtkAppChooserDialog} for the provided {@code GFile}.
+     * <p>
      * The dialog will show applications that can open the file.
      */
     public AppChooserDialog(Window parent, int flags, org.gtk.gio.File file) {
@@ -52,8 +52,8 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     }
     
     /**
-     * Creates a new <code>GtkAppChooserDialog</code> for the provided content type.
-     * 
+     * Creates a new {@code GtkAppChooserDialog} for the provided content type.
+     * <p>
      * The dialog will show applications that can open the content type.
      */
     public static AppChooserDialog newForContentType(Window parent, int flags, java.lang.String contentType) {
@@ -69,7 +69,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     }
     
     /**
-     * Returns the <code>GtkAppChooserWidget</code> of this dialog.
+     * Returns the {@code GtkAppChooserWidget} of this dialog.
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_app_chooser_dialog_get_widget(handle());
@@ -78,7 +78,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     
     /**
      * Sets the text to display at the top of the dialog.
-     * 
+     * <p>
      * If the heading is not set, the dialog displays a default text.
      */
     public void setHeading(java.lang.String heading) {

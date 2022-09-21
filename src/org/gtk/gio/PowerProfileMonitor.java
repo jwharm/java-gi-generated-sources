@@ -8,36 +8,38 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.PowerProfileMonitor} makes it possible for applications as well as OS components
+ * {@link PowerProfileMonitor} makes it possible for applications as well as OS components
  * to monitor system power profiles and act upon them. It currently only exports
- * whether the system is in &<code>#8220</code> Power Saver&<code>#8221</code>  mode (known as &<code>#8220</code> Low Power&<code>#8221</code>  mode on
+ * whether the system is in “Power Saver” mode (known as “Low Power” mode on
  * some systems).
  * <p>
- * When in &<code>#8220</code> Low Power&<code>#8221</code>  mode, it is recommended that applications:
+ * When in “Low Power” mode, it is recommended that applications:
+ * <ul>
  * <li>disabling automatic downloads
  * <li>reduce the rate of refresh from online sources such as calendar or
  *   email synchronisation
  * <li>if the application has expensive visual effects, reduce them
+ * </ul>
  * <p>
  * It is also likely that OS components providing services to applications will
  * lower their own background activity, for the sake of the system.
  * <p>
  * There are a variety of tools that exist for power consumption analysis, but those
- * usually depend on the OS and hardware used. On Linux, one could use <code>upower</code> to
- * monitor the battery discharge rate, <code>powertop</code> to check on the background activity
- * or activity at all), <code>sysprof</code> to inspect CPU usage, and <code>intel_gpu_time</code> to
+ * usually depend on the OS and hardware used. On Linux, one could use {@code upower} to
+ * monitor the battery discharge rate, {@code powertop} to check on the background activity
+ * or activity at all), {@code sysprof} to inspect CPU usage, and {@code intel_gpu_time} to
  * profile GPU usage.
- * 
- * Don&<code>#39</code> t forget to disconnect the {@link org.gtk.gio.PowerProfileMonitor} :notify::power-saver-enabled
- * signal, and unref the {@link org.gtk.gio.PowerProfileMonitor} itself when exiting.
+ * <p>
+ * Don't forget to disconnect the {@link PowerProfileMonitor}::notify::power-saver-enabled
+ * signal, and unref the {@link PowerProfileMonitor} itself when exiting.
  */
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets whether the system is in &<code>#8220</code> Power Saver&<code>#8221</code>  mode.
-     * 
+     * Gets whether the system is in “Power Saver” mode.
+     * <p>
      * You are expected to listen to the
-     * {@link org.gtk.gio.PowerProfileMonitor} :notify::power-saver-enabled signal to know when the profile has
+     * {@link PowerProfileMonitor}::notify::power-saver-enabled signal to know when the profile has
      * changed.
      */
     public default boolean getPowerSaverEnabled() {
@@ -46,7 +48,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.NativeAddre
     }
     
     /**
-     * Gets a reference to the default {@link org.gtk.gio.PowerProfileMonitor} for the system.
+     * Gets a reference to the default {@link PowerProfileMonitor} for the system.
      */
     public static PowerProfileMonitor dupDefault() {
         var RESULT = gtk_h.g_power_profile_monitor_dup_default();

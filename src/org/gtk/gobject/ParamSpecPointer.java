@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gobject.ParamSpec} derived structure that contains the meta data for pointer properties.
+ * A {@link ParamSpec} derived structure that contains the meta data for pointer properties.
  */
 public class ParamSpecPointer extends ParamSpec {
 

@@ -2,8 +2,8 @@ package org.gtk.graphene;
 
 /**
  * Specify the order of the rotations on each axis.
- * 
- * The {@link org.gtk.graphene.EulerOrder<code>#DEFAULT</code>  value is special, and is used
+ * <p>
+ * The {@link EulerOrder#DEFAULT} value is special, and is used
  * as an alias for one of the other orders.
  */
 public enum EulerOrder {
@@ -16,61 +16,37 @@ public enum EulerOrder {
     
     /**
      * Rotate in the X, Y, and Z order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for 
-     *       
-     *       
-     *         Rotate in the X, Y, and Z order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for %GRAPHENE_EULER_ORDER_SXYZ
+     *   Graphene 1.10, it's an alias for {@link EulerOrder#SXYZ}
      */
     XYZ,
     
     /**
      * Rotate in the Y, Z, and X order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for 
-     *       
-     *       
-     *         Rotate in the Y, Z, and X order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for %GRAPHENE_EULER_ORDER_SYZX
+     *   Graphene 1.10, it's an alias for {@link EulerOrder#SYZX}
      */
     YZX,
     
     /**
      * Rotate in the Z, X, and Y order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for 
-     *       
-     *       
-     *         Rotate in the Z, X, and Y order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for %GRAPHENE_EULER_ORDER_SZXY
+     *   Graphene 1.10, it's an alias for {@link EulerOrder#SZXY}
      */
     ZXY,
     
     /**
      * Rotate in the X, Z, and Y order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for 
-     *       
-     *       
-     *         Rotate in the X, Z, and Y order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for %GRAPHENE_EULER_ORDER_SXZY
+     *   Graphene 1.10, it's an alias for {@link EulerOrder#SXZY}
      */
     XZY,
     
     /**
      * Rotate in the Y, X, and Z order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for 
-     *       
-     *       
-     *         Rotate in the Y, X, and Z order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for %GRAPHENE_EULER_ORDER_SYXZ
+     *   Graphene 1.10, it's an alias for {@link EulerOrder#SYXZ}
      */
     YXZ,
     
     /**
      * Rotate in the Z, Y, and X order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for 
-     *       
-     *       
-     *         Rotate in the Z, Y, and X order. Deprecated in
-     *   Graphene 1.10, it&<code>#39</code> s an alias for %GRAPHENE_EULER_ORDER_SZYX
+     *   Graphene 1.10, it's an alias for {@link EulerOrder#SZYX}
      */
     ZYX,
     

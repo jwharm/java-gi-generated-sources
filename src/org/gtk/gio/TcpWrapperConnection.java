@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.gio.TcpWrapperConnection} can be used to wrap a {@link org.gtk.gio.IOStream} that is
- * based on a {@link org.gtk.gio.Socket}  but which is not actually a
- * {@link org.gtk.gio.SocketConnection}  This is used by {@link org.gtk.gio.SocketClient} so that it can
- * always return a {@link org.gtk.gio.SocketConnection}  even when the connection it has
- * actually created is not directly a {@link org.gtk.gio.SocketConnection}
+ * A {@link TcpWrapperConnection} can be used to wrap a {@link IOStream} that is
+ * based on a {@link Socket}, but which is not actually a
+ * {@link SocketConnection}. This is used by {@link SocketClient} so that it can
+ * always return a {@link SocketConnection}, even when the connection it has
+ * actually created is not directly a {@link SocketConnection}.
  */
 public class TcpWrapperConnection extends TcpConnection {
 
@@ -31,14 +31,14 @@ public class TcpWrapperConnection extends TcpConnection {
     }
     
     /**
-     * Wraps @base_io_stream and @socket together as a {@link org.gtk.gio.SocketConnection}
+     * Wraps {@code base_io_stream} and {@code socket} together as a {@link SocketConnection}.
      */
     public TcpWrapperConnection(IOStream baseIoStream, Socket socket) {
         super(constructNew(baseIoStream, socket));
     }
     
     /**
-     * Gets @conn&<code>#39</code> s base s base #GIOStream
+     * Gets {@code conn}'s base {@link IOStream}
      */
     public IOStream getBaseIoStream() {
         var RESULT = gtk_h.g_tcp_wrapper_connection_get_base_io_stream(handle());

@@ -1,10 +1,10 @@
 package org.gtk.gio;
 
 /**
- * A protocol identifier is specified when creating a {@link org.gtk.gio.Socket}  which is a
+ * A protocol identifier is specified when creating a {@link Socket}, which is a
  * family/type specific identifier, where 0 means the default protocol for
  * the particular family/type.
- * 
+ * <p>
  * This enum contains a set of commonly available and used protocols. You
  * can also pass any other identifiers handled by the platform in order to
  * use protocols not listed here.

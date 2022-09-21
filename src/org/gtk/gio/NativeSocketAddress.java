@@ -27,7 +27,7 @@ public class NativeSocketAddress extends SocketAddress implements SocketConnecta
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.NativeSocketAddress} for @native and @len.
+     * Creates a new {@link NativeSocketAddress} for {@code native} and {@code len}.
      */
     public NativeSocketAddress(jdk.incubator.foreign.MemoryAddress native_, long len) {
         super(constructNew(native_, len));

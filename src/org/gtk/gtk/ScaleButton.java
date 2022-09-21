@@ -8,15 +8,16 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkScaleButton</code> provides a button which pops up a scale widget.
+ * {@code GtkScaleButton} provides a button which pops up a scale widget.
  * <p>
  * This kind of widget is commonly used for volume controls in multimedia
- * applications, and GTK provides a {@link org.gtk.gtk.VolumeButton} subclass that
+ * applications, and GTK provides a {@link VolumeButton} subclass that
  * is tailored for this use case.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkScaleButton</code> has a single CSS node with name button. To differentiate
- * it from a plain <code>GtkButton</code>, it gets the .scale style class.
+ * <p>
+ * {@code GtkScaleButton} has a single CSS node with name button. To differentiate
+ * it from a plain {@code GtkButton}, it gets the .scale style class.
  */
 public class ScaleButton extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -35,19 +36,19 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Creates a <code>GtkScaleButton</code>.
-     * 
-     * The new scale button has a range between @min and @max,
-     * with a stepping of @step.
+     * Creates a {@code GtkScaleButton}.
+     * <p>
+     * The new scale button has a range between {@code min} and {@code max},
+     * with a stepping of {@code step}.
      */
     public ScaleButton(double min, double max, double step, java.lang.String[] icons) {
         super(constructNew(min, max, step, icons));
     }
     
     /**
-     * Gets the <code>GtkAdjustment</code> associated with the <code>GtkScaleButton</code>&<code>#8217</code> s scale.
-     * 
-     * See {@link org.gtk.gtk.Range<code>#getAdjustment</code>  for details.
+     * Gets the {@code GtkAdjustment} associated with the {@code GtkScaleButton}’s scale.
+     * <p>
+     * See {@link Range#getAdjustment} for details.
      */
     public Adjustment getAdjustment() {
         var RESULT = gtk_h.gtk_scale_button_get_adjustment(handle());
@@ -55,7 +56,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Retrieves the minus button of the <code>GtkScaleButton</code>.
+     * Retrieves the minus button of the {@code GtkScaleButton}.
      */
     public Button getMinusButton() {
         var RESULT = gtk_h.gtk_scale_button_get_minus_button(handle());
@@ -63,7 +64,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Retrieves the plus button of the <code>GtkScaleButton.</code>
+     * Retrieves the plus button of the {@code GtkScaleButton.}
      */
     public Button getPlusButton() {
         var RESULT = gtk_h.gtk_scale_button_get_plus_button(handle());
@@ -71,7 +72,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Retrieves the popup of the <code>GtkScaleButton</code>.
+     * Retrieves the popup of the {@code GtkScaleButton}.
      */
     public Widget getPopup() {
         var RESULT = gtk_h.gtk_scale_button_get_popup(handle());
@@ -87,10 +88,10 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     }
     
     /**
-     * Sets the <code>GtkAdjustment</code> to be used as a model
-     * for the <code>GtkScaleButton</code>&<code>#8217</code> s scale.
-     * 
-     * See {@link org.gtk.gtk.Range<code>#setAdjustment</code>  for details.
+     * Sets the {@code GtkAdjustment} to be used as a model
+     * for the {@code GtkScaleButton}’s scale.
+     * <p>
+     * See {@link Range#setAdjustment} for details.
      */
     public void setAdjustment(Adjustment adjustment) {
         gtk_h.gtk_scale_button_set_adjustment(handle(), adjustment.handle());
@@ -105,11 +106,11 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Sets the current value of the scale.
-     * 
+     * <p>
      * If the value is outside the minimum or maximum range values,
      * it will be clamped to fit inside them.
-     * 
-     * The scale button emits the {@link [signal@Gtk.ScaleButton::value-changed] (ref=signal)}
+     * <p>
+     * The scale button emits the {@code Gtk.ScaleButton::value-changed}
      * signal if the value changes.
      */
     public void setValue(double value) {
@@ -123,10 +124,10 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Emitted to dismiss the popup.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Escape&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding for this signal is &lt;kbd>Escape</kbd&gt;.
      */
     public SignalHandle onPopdown(PopdownHandler handler) {
         try {
@@ -150,11 +151,11 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
     
     /**
      * Emitted to popup the scale widget.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default bindings for this signal are &<code>#60</code> kbd&<code>#62</code> Space&<code>#60</code> /kbd&<code>#62</code> ,
-     * &<code>#60</code> kbd&<code>#62</code> Enter&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Return&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default bindings for this signal are &lt;kbd>Space</kbd&gt;,
+     * &lt;kbd>Enter</kbd> and <kbd>Return</kbd&gt;.
      */
     public SignalHandle onPopup(PopupHandler handler) {
         try {

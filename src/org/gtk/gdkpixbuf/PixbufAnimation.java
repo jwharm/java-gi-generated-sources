@@ -18,8 +18,8 @@ import java.lang.invoke.*;
  * internally; for example, it may be stored as a sprite and
  * instructions for moving the sprite around a background.
  * <p>
- * To display an animation you don&<code>#39</code> t need to understand its
- * representation, however; you just ask <code>GdkPixbuf</code> what should
+ * To display an animation you don't need to understand its
+ * representation, however; you just ask {@code GdkPixbuf} what should
  * be displayed at a given point in time.
  */
 public class PixbufAnimation extends org.gtk.gobject.Object {
@@ -47,10 +47,10 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * <p>
      * The file format is detected automatically.
      * <p>
-     * If the file&<code>#39</code> s format does not support multi-frame images, then an animation
+     * If the file's format does not support multi-frame images, then an animation
      * with a single frame will be created.
      * <p>
-     * Possible errors are in the <code>GDK_PIXBUF_ERROR</code> and <code>G_FILE_ERROR</code> domains.
+     * Possible errors are in the {@code GDK_PIXBUF_ERROR} and {@code G_FILE_ERROR} domains.
      */
     public static PixbufAnimation newFromFile(java.lang.String filename) throws GErrorException {
         return new PixbufAnimation(constructNewFromFile(filename));
@@ -68,8 +68,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     /**
      * Creates a new pixbuf animation by loading an image from an resource.
      * <p>
-     * The file format is detected automatically. If <code>NULL</code> is returned, then
-     * @error will be set.
+     * The file format is detected automatically. If {@code NULL} is returned, then
+     * {@code error} will be set.
      */
     public static PixbufAnimation newFromResource(java.lang.String resourcePath) throws GErrorException {
         return new PixbufAnimation(constructNewFromResource(resourcePath));
@@ -89,12 +89,13 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * <p>
      * The file format is detected automatically.
      * <p>
-     * If <code>NULL</code> is returned, then @error will be set.
+     * If {@code NULL} is returned, then {@code error} will be set.
      * <p>
-     * The @cancellable can be used to abort the operation from another thread.
-     * If the operation was cancelled, the error <code>G_IO_ERROR_CANCELLED</code> will be
-     * returned. Other possible errors are in the <code>GDK_PIXBUF_ERROR</code> and<code>G_IO_ERROR</code> domains.
-     * 
+     * The {@code cancellable} can be used to abort the operation from another thread.
+     * If the operation was cancelled, the error {@code G_IO_ERROR_CANCELLED} will be
+     * returned. Other possible errors are in the {@code GDK_PIXBUF_ERROR} and
+     * {@code G_IO_ERROR} domains.
+     * <p>
      * The stream is not closed.
      */
     public static PixbufAnimation newFromStream(org.gtk.gio.InputStream stream, org.gtk.gio.Cancellable cancellable) throws GErrorException {
@@ -112,7 +113,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
     
     /**
      * Finishes an asynchronous pixbuf animation creation operation started with
-     * {@link GdkPixbuf<code>#PixbufAnimation</code> .
+     * {@link GdkPixbuf#PixbufAnimation}.
      */
     public static PixbufAnimation newFromStreamFinish(org.gtk.gio.AsyncResult asyncResult) throws GErrorException {
         return new PixbufAnimation(constructNewFromStreamFinish(asyncResult));
@@ -132,34 +133,35 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * The iterator provides the frames that should be displayed at a
      * given time.
      * <p>
-     * @start_time would normally come from g_get_current_time(), and marks
+     * {@code start_time} would normally come from g_get_current_time(), and marks
      * the beginning of animation playback. After creating an iterator, you
      * should immediately display the pixbuf returned by
      * gdk_pixbuf_animation_iter_get_pixbuf(). Then, you should install
      * a timeout (with g_timeout_add()) or by some other mechanism ensure
-     * that you&<code>#39</code> ll update the image after
+     * that you'll update the image after
      * gdk_pixbuf_animation_iter_get_delay_time() milliseconds. Each time
      * the image is updated, you should reinstall the timeout with the new,
      * possibly-changed delay time.
      * <p>
-     * As a shortcut, if @start_time is <code>NULL</code>, the result of
+     * As a shortcut, if {@code start_time} is {@code NULL}, the result of
      * g_get_current_time() will be used automatically.
      * <p>
      * To update the image (i.e. possibly change the result of
      * gdk_pixbuf_animation_iter_get_pixbuf() to a new frame of the animation),
      * call gdk_pixbuf_animation_iter_advance().
      * <p>
-     * If you&<code>#39</code> re using {@link org.gtk.gdkpixbuf.PixbufLoader}  in addition to updating the image
+     * If you're using {@link PixbufLoader}, in addition to updating the image
      * after the delay time, you should also update it whenever you
      * receive the area_updated signal and
-     * gdk_pixbuf_animation_iter_on_currently_loading_frame() returns<code>TRUE</code>. In this case, the frame currently being fed into the loader
+     * gdk_pixbuf_animation_iter_on_currently_loading_frame() returns
+     * {@code TRUE}. In this case, the frame currently being fed into the loader
      * has received new data, so needs to be refreshed. The delay time for
      * a frame may also be modified after an area_updated signal, for
      * example if the delay time for a frame is encoded in the data after
      * the frame itself. So your timeout should be reinstalled after any
      * area_updated signal.
-     * 
-     * A delay time of -1 is possible, indicating &<code>#34</code> infinite&<code>#34</code> .
+     * <p>
+     * A delay time of -1 is possible, indicating "infinite".
      */
     public PixbufAnimationIter getIter(org.gtk.glib.TimeVal startTime) {
         var RESULT = gtk_h.gdk_pixbuf_animation_get_iter(handle(), startTime.handle());
@@ -176,8 +178,8 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * image to use as a static unanimated image, which might be the first
      * frame, or something more sophisticated depending on the file format.
      * <p>
-     * If an animation hasn&<code>#39</code> t loaded any frames yet, this function will
-     * return <code>NULL</code>.
+     * If an animation hasn't loaded any frames yet, this function will
+     * return {@code NULL}.
      */
     public Pixbuf getStaticImage() {
         var RESULT = gtk_h.gdk_pixbuf_animation_get_static_image(handle());
@@ -197,7 +199,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * <p>
      * If you load a file with gdk_pixbuf_animation_new_from_file() and it
      * turns out to be a plain, unanimated image, then this function will
-     * return <code>TRUE</code>. Use gdk_pixbuf_animation_get_static_image() to retrieve
+     * return {@code TRUE}. Use gdk_pixbuf_animation_get_static_image() to retrieve
      * the image.
      */
     public boolean isStaticImage() {
@@ -211,7 +213,7 @@ public class PixbufAnimation extends org.gtk.gobject.Object {
      * For more details see gdk_pixbuf_new_from_stream(), which is the synchronous
      * version of this function.
      * <p>
-     * When the operation is finished, <code>callback</code> will be called in the main thread.
+     * When the operation is finished, {@code callback} will be called in the main thread.
      * You can then call gdk_pixbuf_animation_new_from_stream_finish() to get the
      * result of the operation.
      */

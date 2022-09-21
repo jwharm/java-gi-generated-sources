@@ -1,8 +1,8 @@
 package org.gtk.gio;
 
 /**
- * The protocol family of a {@link org.gtk.gio.SocketAddress}  (These values are
- * identical to the system defines <code>AF_INET</code>  <code>AF_INET6</code> and <code>AF_UNIX</code> 
+ * The protocol family of a {@link SocketAddress}. (These values are
+ * identical to the system defines {@code AF_INET}, {@code AF_INET6} and {@code AF_UNIX},
  * if available.)
  */
 public enum SocketFamily {

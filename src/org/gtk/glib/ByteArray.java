@@ -17,12 +17,12 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Transfers the data from the {@link org.gtk.glib.ByteArray} into a new immutable {@link org.gtk.glib.Bytes} 
-     * 
-     * The {@link org.gtk.glib.ByteArray} is freed unless the reference count of @array is greater
-     * than one, the {@link org.gtk.glib.ByteArray} wrapper is preserved but the size of @array
+     * Transfers the data from the {@link ByteArray} into a new immutable {@link Bytes}.
+     * <p>
+     * The {@link ByteArray} is freed unless the reference count of {@code array} is greater
+     * than one, the {@link ByteArray} wrapper is preserved but the size of {@code array}
      * will be set to zero.
-     * 
+     * <p>
      * This is identical to using g_bytes_new_take() and g_byte_array_free()
      * together.
      */
@@ -50,7 +50,7 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Atomically decrements the reference count of @array by one. If the
+     * Atomically decrements the reference count of {@code array} by one. If the
      * reference count drops to 0, all memory allocated by the array is
      * released. This function is thread-safe and may be called from any
      * thread.

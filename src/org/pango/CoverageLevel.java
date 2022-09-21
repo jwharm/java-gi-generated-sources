@@ -1,10 +1,11 @@
 package org.pango;
 
 /**
- * <code>PangoCoverageLevel</code> is used to indicate how well a font can
+ * {@code PangoCoverageLevel} is used to indicate how well a font can
  * represent a particular Unicode character for a particular script.
- * 
- * Since 1.44, only {@link org.pango.CoverageLevel<code>#NONE</code>  and {@link org.pango.CoverageLevel<code>#EXACT</code>  will be returned.
+ * <p>
+ * Since 1.44, only {@link CoverageLevel#NONE} and {@link CoverageLevel#EXACT}
+ * will be returned.
  */
 public enum CoverageLevel {
 

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkStackPage</code> is an auxiliary class used by <code>GtkStack</code>.
+ * {@code GtkStackPage} is an auxiliary class used by {@code GtkStack}.
  */
 public class StackPage extends org.gtk.gobject.Object implements Accessible {
 
@@ -22,7 +22,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Returns the stack child to which @self belongs.
+     * Returns the stack child to which {@code self} belongs.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_stack_page_get_child(handle());
@@ -46,7 +46,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Returns whether the page is marked as &<code>#8220</code> needs attention&<code>#8221</code> .
+     * Returns whether the page is marked as “needs attention”.
      */
     public boolean getNeedsAttention() {
         var RESULT = gtk_h.gtk_stack_page_get_needs_attention(handle());
@@ -70,9 +70,9 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Returns whether @page is visible in its <code>GtkStack</code>.
-     * 
-     * This is independent from the {@link [property@Gtk.Widget:visible] (ref=property)}
+     * Returns whether {@code page} is visible in its {@code GtkStack}.
+     * <p>
+     * This is independent from the {@code Gtk.Widget:visible}
      * property of its widget.
      */
     public boolean getVisible() {
@@ -95,7 +95,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Sets whether the page is marked as &<code>#8220</code> needs attention&<code>#8221</code> .
+     * Sets whether the page is marked as “needs attention”.
      */
     public void setNeedsAttention(boolean setting) {
         gtk_h.gtk_stack_page_set_needs_attention(handle(), setting ? 1 : 0);
@@ -116,7 +116,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     }
     
     /**
-     * Sets whether @page is visible in its <code>GtkStack</code>.
+     * Sets whether {@code page} is visible in its {@code GtkStack}.
      */
     public void setVisible(boolean visible) {
         gtk_h.gtk_stack_page_set_visible(handle(), visible ? 1 : 0);

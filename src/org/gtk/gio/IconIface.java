@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * GIconIface is used to implement GIcon types for various
- * different systems. See {@link org.gtk.gio.ThemedIcon} and {@link org.gtk.gio.LoadableIcon} for
+ * different systems. See {@link ThemedIcon} and {@link LoadableIcon} for
  * examples of how to implement this interface.
  */
 public class IconIface extends io.github.jwharm.javagi.ResourceBase {

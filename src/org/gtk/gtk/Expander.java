@@ -8,15 +8,15 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkExpander</code> allows the user to reveal its child by clicking
+ * {@code GtkExpander} allows the user to reveal its child by clicking
  * on an expander triangle.
  * <p>
- * !{@link [An example GtkExpander]}(expander.png)
+ * <img src="./doc-files/expander.png" alt="An example GtkExpander">
  * <p>
- * This is similar to the triangles used in a <code>GtkTreeView</code>.
+ * This is similar to the triangles used in a {@code GtkTreeView}.
  * <p>
  * Normally you use an expander as you would use a frame; you create
- * the child widget and use {@link org.gtk.gtk.Expander<code>#setChild</code>  to add it
+ * the child widget and use {@link Expander#setChild} to add it
  * to the expander. When the expander is toggled, it will take care of
  * showing and hiding the child automatically.
  * <p>
@@ -24,31 +24,22 @@ import java.lang.invoke.*;
  * <p>
  * There are situations in which you may prefer to show and hide the
  * expanded widget yourself, such as when you want to actually create
- * the widget at expansion time. In this case, create a <code>GtkExpander</code>
+ * the widget at expansion time. In this case, create a {@code GtkExpander}
  * but do not add a child to it. The expander widget has an
- *  to add it
- * to the expander. When the expander is toggled, it will take care of
- * showing and hiding the child automatically.
- * <p>
- * <h1>Special Usage</h1>
- * <p>
- * There are situations in which you may prefer to show and hide the
- * expanded widget yourself, such as when you want to actually create
- * the widget at expansion time. In this case, create a <code>GtkExpander</code>
- * but do not add a child to it. The expander widget has an
- * [property@Gtk.Expander:expanded[ property which can be used to
+ * [property{@code Gtk}.Expander:expanded[ property which can be used to
  * monitor its expansion state. You should watch this property with
  * a signal connection as follows:
- * <p><pre>c
+ * <p>
+ * <pre>{@code c
  * static void
  * expander_callback (GObject    *object,
  *                    GParamSpec *param_spec,
  *                    gpointer    user_data)
  * {
  *   GtkExpander *expander;
- * <p>
+ * 
  *   expander = GTK_EXPANDER (object);
- * <p>
+ * 
  *   if (gtk_expander_get_expanded (expander))
  *     {
  *       // Show or create widgets
@@ -58,52 +49,56 @@ import java.lang.invoke.*;
  *       // Hide or destroy widgets
  *     }
  * }
- * <p>
+ * 
  * static void
  * create_expander (void)
  * {
- *   GtkWidget *expander = gtk_expander_new_with_mnemonic (&<code>#34</code> _More Options&<code>#34</code> );
- *   g_signal_connect (expander, &<code>#34</code> notify::expanded&<code>#34</code> ,
+ *   GtkWidget *expander = gtk_expander_new_with_mnemonic ("_More Options");
+ *   g_signal_connect (expander, "notify::expanded",
  *                     G_CALLBACK (expander_callback), NULL);
- * <p>
+ * 
  *   // ...
  * }
- * </pre>
+ * }</pre>
  * <p>
  * <h1>GtkExpander as GtkBuildable</h1>
  * <p>
- * The <code>GtkExpander</code> implementation of the <code>GtkBuildable</code> interface supports
- * placing a child in the label position by specifying &<code>#8220</code> label&<code>#8221</code>  as the
- * &<code>#8220</code> type&<code>#8221</code>  attribute of a &<code>#60</code> child&<code>#62</code>  element. A normal content child can be
- * specified without specifying a &<code>#60</code> child&<code>#62</code>  type attribute.
+ * The {@code GtkExpander} implementation of the {@code GtkBuildable} interface supports
+ * placing a child in the label position by specifying “label” as the
+ * “type” attribute of a &lt;child&gt; element. A normal content child can be
+ * specified without specifying a &lt;child&gt; type attribute.
  * <p>
  * An example of a UI definition fragment with GtkExpander:
- * <p><pre>xml
- * &<code>#60</code> object class=&<code>#34</code> GtkExpander&<code>#34</code> &<code>#62</code> 
- *   &<code>#60</code> child type=&<code>#34</code> label&<code>#34</code> &<code>#62</code> 
- *     &<code>#60</code> object class=&<code>#34</code> GtkLabel&<code>#34</code>  id=&<code>#34</code> expander-label&<code>#34</code> /&<code>#62</code> 
- *   &<code>#60</code> /child&<code>#62</code> 
- *   &<code>#60</code> child&<code>#62</code> 
- *     &<code>#60</code> object class=&<code>#34</code> GtkEntry&<code>#34</code>  id=&<code>#34</code> expander-content&<code>#34</code> /&<code>#62</code> 
- *   &<code>#60</code> /child&<code>#62</code> 
- * &<code>#60</code> /object&<code>#62</code> 
- * </pre>
+ * <p>
+ * <pre>{@code xml
+ * <object class="GtkExpander">
+ *   <child type="label">
+ *     <object class="GtkLabel" id="expander-label"/>
+ *   </child>
+ *   <child>
+ *     <object class="GtkEntry" id="expander-content"/>
+ *   </child>
+ * </object>
+ * }</pre>
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * expander
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  box
- *     &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  title
- *     &<code>#9474</code>    &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  arrow
- *     &<code>#9474</code>    &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> label widget&<code>#62</code> 
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- * </pre>
- * <p><code>GtkExpander</code> has three CSS nodes, the main node with the name expander,
+ * ╰── box
+ *     ├── title
+ *     │   ├── arrow
+ *     │   ╰── <label widget>
+ *     ╰── <child>
+ * }</pre>
+ * <p>
+ * {@code GtkExpander} has three CSS nodes, the main node with the name expander,
  * a subnode with name title and node below it with name arrow. The arrow of an
  * expander that is showing its child gets the :checked pseudoclass added to it.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkExpander</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#BUTTON</code>  role.
+ * <p>
+ * {@code GtkExpander} uses the {@link AccessibleRole#BUTTON} role.
  */
 public class Expander extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -122,7 +117,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new expander using @label as the text of the label.
+     * Creates a new expander using {@code label} as the text of the label.
      */
     public Expander(java.lang.String label) {
         super(constructNew(label));
@@ -134,13 +129,13 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new expander using @label as the text of the label.
-     * 
-     * If characters in @label are preceded by an underscore, they are
+     * Creates a new expander using {@code label} as the text of the label.
+     * <p>
+     * If characters in {@code label} are preceded by an underscore, they are
      * underlined. If you need a literal underscore character in a label,
-     * use &<code>#8220</code> __&<code>#8221</code>  (two underscores). The first underlined character represents
+     * use “__” (two underscores). The first underlined character represents
      * a keyboard accelerator called a mnemonic.
-     * 
+     * <p>
      * Pressing Alt and that key activates the button.
      */
     public static Expander newWithMnemonic(java.lang.String label) {
@@ -148,7 +143,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the child widget of @expander.
+     * Gets the child widget of {@code expander}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_expander_get_child(handle());
@@ -156,8 +151,8 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Queries a <code>GtkExpander</code> and returns its current state.
-     * 
+     * Queries a {@code GtkExpander} and returns its current state.
+     * <p>
      * Returns <code>true</code> if the child widget is revealed.
      */
     public boolean getExpanded() {
@@ -167,10 +162,10 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Fetches the text from a label widget.
-     * 
+     * <p>
      * This is including any embedded underlines indicating mnemonics and
-     * Pango markup, as set by {@link org.gtk.gtk.Expander<code>#setLabel</code> . If the label
-     * text has not been set the return value will be <code>null</code>  This will be the
+     * Pango markup, as set by {@link Expander#setLabel}. If the label
+     * text has not been set the return value will be <code>null</code>. This will be the
      * case if you create an empty button with gtk_button_new() to use as a
      * container.
      */
@@ -197,7 +192,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Returns whether the label&<code>#8217</code> s text is interpreted as Pango markup.
+     * Returns whether the label’s text is interpreted as Pango markup.
      */
     public boolean getUseMarkup() {
         var RESULT = gtk_h.gtk_expander_get_use_markup(handle());
@@ -213,7 +208,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the child widget of @expander.
+     * Sets the child widget of {@code expander}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_expander_set_child(handle(), child.handle());
@@ -221,8 +216,8 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Sets the state of the expander.
-     * 
-     * Set to <code>true</code>  if you want the child widget to be revealed,
+     * <p>
+     * Set to <code>true</code>, if you want the child widget to be revealed,
      * and <code>false</code> if you want the child widget to be hidden.
      */
     public void setExpanded(boolean expanded) {
@@ -230,8 +225,8 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the text of the label of the expander to @label.
-     * 
+     * Sets the text of the label of the expander to {@code label}.
+     * <p>
      * This will also clear any previously set labels.
      */
     public void setLabel(java.lang.String label) {
@@ -240,7 +235,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Set the label widget for the expander.
-     * 
+     * <p>
      * This is the widget that will appear embedded alongside
      * the expander arrow.
      */
@@ -276,7 +271,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Activates the <code>GtkExpander</code>.
+     * Activates the {@code GtkExpander}.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {

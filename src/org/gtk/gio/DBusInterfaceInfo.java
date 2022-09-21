@@ -21,11 +21,11 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
      * g_dbus_interface_info_lookup_method(),
      * g_dbus_interface_info_lookup_signal() and
      * g_dbus_interface_info_lookup_property().
-     * 
-     * If this has already been called with @info, the existing cache is
+     * <p>
+     * If this has already been called with {@code info}, the existing cache is
      * used and its use count is increased.
-     * 
-     * Note that @info cannot be modified until
+     * <p>
+     * Note that {@code info} cannot be modified until
      * g_dbus_interface_info_cache_release() is called.
      */
     public void cacheBuild() {
@@ -33,7 +33,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decrements the usage count for the cache for @info built by
+     * Decrements the usage count for the cache for {@code info} built by
      * g_dbus_interface_info_cache_build() (if any) and frees the
      * resources used by the cache if the usage count drops to zero.
      */
@@ -42,10 +42,11 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Appends an XML representation of @info (and its children) to @string_builder.
+     * Appends an XML representation of {@code info} (and its children) to {@code string_builder}.
      * <p>
      * This function is typically used for generating introspection XML
-     * documents at run-time for handling the<code>org.freedesktop.DBus.Introspectable.Introspect</code>
+     * documents at run-time for handling the
+     * {@code org.freedesktop.DBus.Introspectable.Introspect}
      * method.
      */
     public void generateXml(int indent, org.gtk.glib.String stringBuilder) {
@@ -54,9 +55,9 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up information about a method.
-     * 
+     * <p>
      * The cost of this function is O(n) in number of methods unless
-     * g_dbus_interface_info_cache_build() has been used on @info.
+     * g_dbus_interface_info_cache_build() has been used on {@code info}.
      */
     public DBusMethodInfo lookupMethod(java.lang.String name) {
         var RESULT = gtk_h.g_dbus_interface_info_lookup_method(handle(), Interop.allocateNativeString(name).handle());
@@ -65,9 +66,9 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up information about a property.
-     * 
+     * <p>
      * The cost of this function is O(n) in number of properties unless
-     * g_dbus_interface_info_cache_build() has been used on @info.
+     * g_dbus_interface_info_cache_build() has been used on {@code info}.
      */
     public DBusPropertyInfo lookupProperty(java.lang.String name) {
         var RESULT = gtk_h.g_dbus_interface_info_lookup_property(handle(), Interop.allocateNativeString(name).handle());
@@ -76,9 +77,9 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up information about a signal.
-     * 
+     * <p>
      * The cost of this function is O(n) in number of signals unless
-     * g_dbus_interface_info_cache_build() has been used on @info.
+     * g_dbus_interface_info_cache_build() has been used on {@code info}.
      */
     public DBusSignalInfo lookupSignal(java.lang.String name) {
         var RESULT = gtk_h.g_dbus_interface_info_lookup_signal(handle(), Interop.allocateNativeString(name).handle());
@@ -86,7 +87,7 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @info is statically allocated does nothing. Otherwise increases
+     * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.
      */
     public DBusInterfaceInfo ref() {
@@ -95,8 +96,8 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If @info is statically allocated, does nothing. Otherwise decreases
-     * the reference count of @info. When its reference count drops to 0,
+     * If {@code info} is statically allocated, does nothing. Otherwise decreases
+     * the reference count of {@code info}. When its reference count drops to 0,
      * the memory used is freed.
      */
     public void unref() {

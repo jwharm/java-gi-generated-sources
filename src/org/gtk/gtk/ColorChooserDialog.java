@@ -10,15 +10,16 @@ import java.lang.invoke.*;
 /**
  * A dialog for choosing a color.
  * <p>
- * !{@link [An example GtkColorChooserDialog]}(colorchooser.png)
- * <p><code>GtkColorChooserDialog</code> implements the {@link [iface@Gtk.ColorChooser] (ref=iface)} interface
+ * <img src="./doc-files/colorchooser.png" alt="An example GtkColorChooserDialog">
+ * <p>
+ * {@code GtkColorChooserDialog} implements the {@code Gtk.ColorChooser} interface
  * and does not provide much API of its own.
  * <p>
- * To create a <code>GtkColorChooserDialog</code>, use {@link [ctor@Gtk.ColorChooserDialog.new] (ref=ctor)}.
- * 
+ * To create a {@code GtkColorChooserDialog}, use {@link ColorChooserDialog#ColorChooserDialog}.
+ * <p>
  * To change the initially selected color, use
- * {@link org.gtk.gtk.ColorChooser<code>#setRgba</code> . To get the selected color use
- * {@link org.gtk.gtk.ColorChooser<code>#getRgba</code> .
+ * {@link ColorChooser#setRgba}. To get the selected color use
+ * {@link ColorChooser#getRgba}.
  */
 public class ColorChooserDialog extends Dialog implements Accessible, Buildable, ColorChooser, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -37,7 +38,7 @@ public class ColorChooserDialog extends Dialog implements Accessible, Buildable,
     }
     
     /**
-     * Creates a new <code>GtkColorChooserDialog</code>.
+     * Creates a new {@code GtkColorChooserDialog}.
      */
     public ColorChooserDialog(java.lang.String title, Window parent) {
         super(constructNew(title, parent));

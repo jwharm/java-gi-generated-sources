@@ -8,27 +8,27 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GtkCheckButton</code> places a label next to an indicator.
+ * A {@code GtkCheckButton} places a label next to an indicator.
  * <p>
- * !{@link [Example GtkCheckButtons]}(check-button.png)
+ * <img src="./doc-files/check-button.png" alt="Example GtkCheckButtons">
  * <p>
- * A <code>GtkCheckButton</code> is created by calling either {@link [ctor@Gtk.CheckButton.new] (ref=ctor)}
- * or {@link [ctor@Gtk.CheckButton.new_with_label] (ref=ctor)}.
+ * A {@code GtkCheckButton} is created by calling either {@link CheckButton#CheckButton}
+ * or {@link CheckButton#newWithLabel}.
  * <p>
- * The state of a <code>GtkCheckButton</code> can be set specifically using
- * {@link org.gtk.gtk.CheckButton<code>#setActive</code> , and retrieved using
- * {@link org.gtk.gtk.CheckButton<code>#getActive</code> .
+ * The state of a {@code GtkCheckButton} can be set specifically using
+ * {@link CheckButton#setActive}, and retrieved using
+ * {@link CheckButton#getActive}.
  * <p>
  * <h1>Inconsistent state</h1>
  * <p>
- * In addition to &<code>#34</code> on&<code>#34</code>  and &<code>#34</code> off&<code>#34</code> , check buttons can be an
- * &<code>#34</code> in between&<code>#34</code>  state that is neither on nor off. This can be used
+ * In addition to "on" and "off", check buttons can be an
+ * "in between" state that is neither on nor off. This can be used
  * e.g. when the user has selected a range of elements (such as some
  * text or spreadsheet cells) that are affected by a check button,
  * and the current values in that range are inconsistent.
  * <p>
- * To set a <code>GtkCheckButton</code> to inconsistent state, use
- * {@link org.gtk.gtk.CheckButton<code>#setInconsistent</code> .
+ * To set a {@code GtkCheckButton} to inconsistent state, use
+ * {@link CheckButton#setInconsistent}.
  * <p>
  * <h1>Grouping</h1>
  * <p>
@@ -37,26 +37,28 @@ import java.lang.invoke.*;
  * another one will switch the currently toggled one off.
  * <p>
  * Grouped check buttons use a different indicator, and are commonly referred
- * to as *radio buttons*.
+ * to as <strong>radio buttons</strong>.
  * <p>
- * !{@link [Example GtkCheckButtons]}(radio-button.png)
+ * <img src="./doc-files/radio-button.png" alt="Example GtkCheckButtons">
  * <p>
- * To add a <code>GtkCheckButton</code> to a group, use {@link org.gtk.gtk.CheckButton<code>#setGroup</code> .
+ * To add a {@code GtkCheckButton} to a group, use {@link CheckButton#setGroup}.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * checkbutton{@link [.text-button]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  check
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [label]}
- * </pre>
  * <p>
- * A <code>GtkCheckButton</code> has a main node with name checkbutton. If the
- * {@link [property@Gtk.CheckButton:label] (ref=property)} property is set, it contains a label
+ * <pre>{@code 
+ * checkbutton[.text-button]
+ * ├── check
+ * ╰── [label]
+ * }</pre>
+ * <p>
+ * A {@code GtkCheckButton} has a main node with name checkbutton. If the
+ * {@code Gtk.CheckButton:label} property is set, it contains a label
  * child. The indicator node is named check when no group is set, and
  * radio if the checkbutton is grouped together with other checkbuttons.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkCheckButton</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#CHECKBOX</code>  role.
+ * <p>
+ * {@code GtkCheckButton} uses the {@link AccessibleRole#CHECKBOX} role.
  */
 public class CheckButton extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
 
@@ -75,7 +77,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Creates a new <code>GtkCheckButton</code>.
+     * Creates a new {@code GtkCheckButton}.
      */
     public CheckButton() {
         super(constructNew());
@@ -87,7 +89,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Creates a new <code>GtkCheckButton</code> with the given text.
+     * Creates a new {@code GtkCheckButton} with the given text.
      */
     public static CheckButton newWithLabel(java.lang.String label) {
         return new CheckButton(constructNewWithLabel(label));
@@ -99,7 +101,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Creates a new <code>GtkCheckButton</code> with the given text and a mnemonic.
+     * Creates a new {@code GtkCheckButton} with the given text and a mnemonic.
      */
     public static CheckButton newWithMnemonic(java.lang.String label) {
         return new CheckButton(constructNewWithMnemonic(label));
@@ -145,19 +147,19 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Adds @self to the group of @group.
-     * 
+     * Adds {@code self} to the group of {@code group}.
+     * <p>
      * In a group of multiple check buttons, only one button can be active
      * at a time. The behavior of a checkbutton in a group is also commonly
-     * known as a *radio button*.
-     * 
+     * known as a <strong>radio button</strong>.
+     * <p>
      * Setting the group of a check button also changes the css name of the
-     * indicator widget&<code>#39</code> s CSS node to &<code>#39</code> radio&<code>#39</code> .
-     * 
+     * indicator widget's CSS node to 'radio'.
+     * <p>
      * Setting up groups in a cycle leads to undefined behavior.
-     * 
-     * Note that the same effect can be achieved via the {@link [iface@Gtk.Actionable] (ref=iface)}
-     * API, by using the same action with parameter type and state type &<code>#39</code> s&<code>#39</code> 
+     * <p>
+     * Note that the same effect can be achieved via the {@code Gtk.Actionable}
+     * API, by using the same action with parameter type and state type 's'
      * for all buttons in the group, and giving each button its own target
      * value.
      */
@@ -166,8 +168,8 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Sets the <code>GtkCheckButton</code> to inconsistent state.
-     * 
+     * Sets the {@code GtkCheckButton} to inconsistent state.
+     * <p>
      * You shoud turn off the inconsistent state again if the user checks
      * the check button. This has to be done manually.
      */
@@ -176,11 +178,11 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Sets the text of @self.
-     * 
-     * If {@link [property@Gtk.CheckButton:use-underline] (ref=property)} is <code>true</code>  an underscore
-     * in @label is interpreted as mnemonic indicator, see
-     * {@link org.gtk.gtk.CheckButton<code>#setUseUnderline</code>  for details on this behavior.
+     * Sets the text of {@code self}.
+     * <p>
+     * If {@code Gtk.CheckButton:use-underline} is <code>true</code>, an underscore
+     * in {@code label} is interpreted as mnemonic indicator, see
+     * {@link CheckButton#setUseUnderline} for details on this behavior.
      */
     public void setLabel(java.lang.String label) {
         gtk_h.gtk_check_button_set_label(handle(), Interop.allocateNativeString(label).handle());
@@ -188,10 +190,10 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     
     /**
      * Sets whether underlines in the label indicate mnemonics.
-     * 
-     * If @setting is <code>true</code>  an underscore character in @self&<code>#39</code> s label
+     * <p>
+     * If {@code setting} is <code>true</code>, an underscore character in {@code self}'s label
      * indicates a mnemonic accelerator key. This behavior is similar
-     * to {@link [property@Gtk.Label:use-underline] (ref=property)}.
+     * to {@code Gtk.Label:use-underline}.
      */
     public void setUseUnderline(boolean setting) {
         gtk_h.gtk_check_button_set_use_underline(handle(), setting ? 1 : 0);
@@ -205,11 +207,11 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     /**
      * Emitted to when the check button is activated.
      * <p>
-     * The <code>::activate</code> signal on <code>GtkCheckButton</code> is an action signal and
+     * The {@code ::activate} signal on {@code GtkCheckButton} is an action signal and
      * emitting it causes the button to animate press then release.
-     * 
+     * <p>
      * Applications should never connect to this signal, but use the
-     * {@link [signal@Gtk.CheckButton::toggled] (ref=signal)} signal.
+     * {@code Gtk.CheckButton::toggled} signal.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
@@ -232,7 +234,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     }
     
     /**
-     * Emitted when the buttons&<code>#39</code> s {@link [property@Gtk.CheckButton:active] (ref=property)}
+     * Emitted when the buttons's {@code Gtk.CheckButton:active}
      * property changes.
      */
     public SignalHandle onToggled(ToggledHandler handler) {

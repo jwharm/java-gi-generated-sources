@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GdkSeat</code> object represents a collection of input devices
+ * The {@code GdkSeat} object represents a collection of input devices
  * that belong to a user.
  */
 public class Seat extends org.gtk.gobject.Object {
@@ -23,7 +23,7 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the capabilities this <code>GdkSeat</code> currently has.
+     * Returns the capabilities this {@code GdkSeat} currently has.
      */
     public int getCapabilities() {
         var RESULT = gtk_h.gdk_seat_get_capabilities(handle());
@@ -39,7 +39,7 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the <code>GdkDisplay</code> this seat belongs to.
+     * Returns the {@code GdkDisplay} this seat belongs to.
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_seat_get_display(handle());
@@ -63,7 +63,7 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns all <code>GdkDeviceTools</code> that are known to the application.
+     * Returns all {@code GdkDeviceTools} that are known to the application.
      */
     public org.gtk.glib.List getTools() {
         var RESULT = gtk_h.gdk_seat_get_tools(handle());
@@ -123,11 +123,11 @@ public class Seat extends org.gtk.gobject.Object {
     
     /**
      * Emitted whenever a new tool is made known to the seat.
-     * 
+     * <p>
      * The tool may later be assigned to a device (i.e. on
      * proximity with a tablet). The device will emit the
-     * {@link [signal@Gdk.Device::tool-changed] (ref=signal)} signal accordingly.
-     * 
+     * {@code Gdk.Device::tool-changed} signal accordingly.
+     * <p>
      * A same tool may be used by several devices.
      */
     public SignalHandle onToolAdded(ToolAddedHandler handler) {
@@ -151,7 +151,7 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     /**
-     * Emitted whenever a tool is no longer known to this @seat.
+     * Emitted whenever a tool is no longer known to this {@code seat}.
      */
     public SignalHandle onToolRemoved(ToolRemovedHandler handler) {
         try {

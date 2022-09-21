@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkCustomLayout</code> uses closures for size negotiation.
+ * {@code GtkCustomLayout} uses closures for size negotiation.
  * <p>
- * A <code>GtkCustomLayout </code>uses closures matching to the old <code>GtkWidget</code>
+ * A {@code GtkCustomLayout }uses closures matching to the old {@code GtkWidget}
  * virtual functions for size negotiation, as a convenience API to
- * ease the porting towards the corresponding <code>GtkLayoutManager
+ * ease the porting towards the corresponding `GtkLayoutManager
  * virtual functions.
  */
 public class CustomLayout extends LayoutManager {

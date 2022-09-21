@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * An expression using a custom <code>GClosure</code> to compute the value from
+ * An expression using a custom {@code GClosure} to compute the value from
  * its parameters.
  */
 public class ClosureExpression extends Expression {
@@ -28,9 +28,10 @@ public class ClosureExpression extends Expression {
     }
     
     /**
-     * Creates a <code>GtkExpression</code> that calls <code>closure</code> when it is evaluated.
-     * <p><code>closure</code> is called with the <code>this</code> object and the results of evaluating
-     * the <code>params</code> expressions.
+     * Creates a {@code GtkExpression} that calls {@code closure} when it is evaluated.
+     * <p>
+     * {@code closure} is called with the {@code this} object and the results of evaluating
+     * the {@code params} expressions.
      */
     public ClosureExpression(Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
         super(constructNew(valueType, closure, nParams, params));

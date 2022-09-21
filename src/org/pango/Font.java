@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>PangoFont</code> is used to represent a font in a
+ * A {@code PangoFont} is used to represent a font in a
  * rendering-system-independent manner.
  */
 public class Font extends org.gtk.gobject.Object {
@@ -24,8 +24,8 @@ public class Font extends org.gtk.gobject.Object {
     
     /**
      * Returns a description of the font, with font size set in points.
-     * 
-     * Use {@link org.pango.Font<code>#describeWithAbsoluteSize</code>  if you want
+     * <p>
+     * Use {@link Font#describeWithAbsoluteSize} if you want
      * the font size in device units.
      */
     public FontDescription describe() {
@@ -36,8 +36,8 @@ public class Font extends org.gtk.gobject.Object {
     /**
      * Returns a description of the font, with absolute font size set
      * in device units.
-     * 
-     * Use {@link org.pango.Font<code>#describe</code>  if you want the font size in points.
+     * <p>
+     * Use {@link Font#describe} if you want the font size in points.
      */
     public FontDescription describeWithAbsoluteSize() {
         var RESULT = gtk_h.pango_font_describe_with_absolute_size(handle());
@@ -53,7 +53,7 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the <code>PangoFontFace</code> to which @font belongs.
+     * Gets the {@code PangoFontFace} to which {@code font} belongs.
      */
     public FontFace getFace() {
         var RESULT = gtk_h.pango_font_get_face(handle());
@@ -63,15 +63,15 @@ public class Font extends org.gtk.gobject.Object {
     /**
      * Gets the font map for which the font was created.
      * <p>
-     * Note that the font maintains a *weak* reference to
+     * Note that the font maintains a <strong>weak</strong> reference to
      * the font map, so if all references to font map are
      * dropped, the font map will be finalized even if there
      * are fonts created with the font map that are still alive.
-     * In that case this function will return <code>null</code> 
+     * In that case this function will return <code>null</code>.
      * <p>
      * It is the responsibility of the user to ensure that the
      * font map is kept alive. In most uses this is not an issue
-     * as a <code>PangoContext</code> holds a reference to the font map.
+     * as a {@code PangoContext} holds a reference to the font map.
      */
     public FontMap getFontMap() {
         var RESULT = gtk_h.pango_font_get_font_map(handle());
@@ -80,15 +80,15 @@ public class Font extends org.gtk.gobject.Object {
     
     /**
      * Gets the logical and ink extents of a glyph within a font.
-     * 
+     * <p>
      * The coordinate system for each rectangle has its origin at the
      * base line and horizontal origin of the character with increasing
      * coordinates extending to the right and down. The macros PANGO_ASCENT(),
      * PANGO_DESCENT(), PANGO_LBEARING(), and PANGO_RBEARING() can be used to convert
      * from the extents rectangle to more traditional font metrics. The units
      * of the rectangles are in 1/PANGO_SCALE of a device unit.
-     * 
-     * If @font is <code>null</code>  this function gracefully sets some sane values in the
+     * <p>
+     * If {@code font} is <code>null</code>, this function gracefully sets some sane values in the
      * output variables and returns.
      */
     public void getGlyphExtents(Glyph glyph, Rectangle inkRect, Rectangle logicalRect) {
@@ -96,11 +96,11 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
-     * Get a <code>hb_font_t</code> object backing this font.
+     * Get a {@code hb_font_t} object backing this font.
      * <p>
      * Note that the objects returned by this function are cached
-     * and immutable. If you need to make changes to the <code>hb_font_t</code>,
-     * use {@link [hb_font_create_sub_font()]}(https://harfbuzz.github.io/harfbuzz-hb-font.html<code>#hb</code> font-create-sub-font).
+     * and immutable. If you need to make changes to the {@code hb_font_t},
+     * use <a href="https://harfbuzz.github.io/harfbuzz-hb-font.html#hb-font-create-sub-font">hb_font_create_sub_font()</a>.
      */
     public org.harfbuzz.FontT getHbFont() {
         var RESULT = gtk_h.pango_font_get_hb_font(handle());
@@ -109,12 +109,12 @@ public class Font extends org.gtk.gobject.Object {
     
     /**
      * Gets overall metric information for a font.
-     * 
+     * <p>
      * Since the metrics may be substantially different for different scripts,
      * a language tag can be provided to indicate that the metrics should be
      * retrieved that correspond to the script(s) used by that language.
-     * 
-     * If @font is <code>null</code>  this function gracefully sets some sane values in the
+     * <p>
+     * If {@code font} is <code>null</code>, this function gracefully sets some sane values in the
      * output variables and returns.
      */
     public FontMetrics getMetrics(Language language) {
@@ -131,15 +131,15 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
-     * Serializes the @font in a way that can be uniquely identified.
-     * 
+     * Serializes the {@code font} in a way that can be uniquely identified.
+     * <p>
      * There are no guarantees about the format of the output across different
      * versions of Pango.
-     * 
+     * <p>
      * The intended use of this function is testing, benchmarking and debugging.
      * The format is not meant as a permanent storage format.
-     * 
-     * To recreate a font from its serialized form, use {@link Pango<code>#Font</code> .
+     * <p>
+     * To recreate a font from its serialized form, use {@link Pango#Font}.
      */
     public org.gtk.glib.Bytes serialize() {
         var RESULT = gtk_h.pango_font_serialize(handle());
@@ -154,12 +154,12 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
-     * Loads data previously created via {@link org.pango.Font<code>#serialize</code> .
-     * 
+     * Loads data previously created via {@link Font#serialize}.
+     * <p>
      * For a discussion of the supported format, see that function.
-     * 
+     * <p>
      * Note: to verify that the returned font is identical to
-     * the one that was serialized, you can compare @bytes to the
+     * the one that was serialized, you can compare {@code bytes} to the
      * result of serializing the font again.
      */
     public static Font deserialize(Context context, org.gtk.glib.Bytes bytes) throws io.github.jwharm.javagi.GErrorException {

@@ -9,7 +9,7 @@ import java.lang.invoke.*;
 
 /**
  * A structure holding information for a specific type.
- * 
+ * <p>
  * See also: g_type_query()
  */
 public class TypeQuery extends io.github.jwharm.javagi.ResourceBase {

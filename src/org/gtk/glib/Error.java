@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GError</code> structure contains information about
+ * The {@code GError} structure contains information about
  * an error that has occurred.
  */
 public class Error extends io.github.jwharm.javagi.ResourceBase {
@@ -23,9 +23,9 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new {@link org.gtk.glib.Error}  unlike g_error_new(), @message is
+     * Creates a new {@link Error}; unlike g_error_new(), {@code message} is
      * not a printf()-style format string. Use this function if
-     * @message contains text you don&<code>#39</code> t have control over,
+     * {@code message} contains text you don't have control over,
      * that could include printf() escape sequences.
      */
     public static Error newLiteral(Quark domain, int code, java.lang.String message) {
@@ -38,15 +38,15 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new {@link org.gtk.glib.Error} with the given @domain and @code,
-     * and a message formatted with @format.
+     * Creates a new {@link Error} with the given {@code domain} and {@code code},
+     * and a message formatted with {@code format}.
      */
     public static Error newValist(Quark domain, int code, java.lang.String format, VaList args) {
         return new Error(constructNewValist(domain, code, format, args));
     }
     
     /**
-     * Makes a copy of @error.
+     * Makes a copy of {@code error}.
      */
     public Error copy() {
         var RESULT = gtk_h.g_error_copy(handle());
@@ -54,20 +54,21 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees a {@link org.gtk.glib.Error} and associated resources.
+     * Frees a {@link Error} and associated resources.
      */
     public void free() {
         gtk_h.g_error_free(handle());
     }
     
     /**
-     * Returns <code>true</code> if @error matches @domain and @code, <code>false</code> otherwise. In particular, when @error is <code>null</code>  <code>false</code> will
+     * Returns <code>true</code> if {@code error} matches {@code domain} and {@code code}, <code>false</code>
+     * otherwise. In particular, when {@code error} is <code>null</code>, <code>false</code> will
      * be returned.
      * <p>
-     * If @domain contains a <code>FAILED</code> (or otherwise generic) error code,
+     * If {@code domain} contains a {@code FAILED} (or otherwise generic) error code,
      * you should generally not check for it explicitly, but should
      * instead treat any not-explicitly-recognized error code as being
-     * equivalent to the <code>FAILED</code> code. This way, if the domain is
+     * equivalent to the {@code FAILED} code. This way, if the domain is
      * extended in the future to provide a more specific error code for
      * a certain case, your code will still work.
      */

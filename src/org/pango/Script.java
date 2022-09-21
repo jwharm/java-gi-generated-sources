@@ -1,16 +1,16 @@
 package org.pango;
 
 /**
- * The <code>PangoScript</code> enumeration identifies different writing
+ * The {@code PangoScript} enumeration identifies different writing
  * systems.
  * <p>
  * The values correspond to the names as defined in the Unicode standard. See
- * {@link [Unicode Standard Annex 24: Script names]}(http://www.unicode.org/reports/tr24/)
+ * <a href="http://www.unicode.org/reports/tr24/">Unicode Standard Annex 24: Script names</a>
  * <p>
  * Note that this enumeration is deprecated and will not be updated to include values
  * in newer versions of the Unicode standard. Applications should use the
- * {@link [enum@GLib.UnicodeScript] (ref=enum)} enumeration instead,
- * whose values are interchangeable with <code>PangoScript</code>.
+ * {@code GLib.UnicodeScript} enumeration instead,
+ * whose values are interchangeable with {@code PangoScript}.
  */
 public enum Script {
 
@@ -351,7 +351,7 @@ public enum Script {
     PHAGS_PA,
     
     /**
-     * N&<code>#39</code> Ko. Since 1.14
+     * N'Ko. Since 1.14
      */
     NKO,
     

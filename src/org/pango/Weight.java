@@ -2,7 +2,7 @@ package org.pango;
 
 /**
  * An enumeration specifying the weight (boldness) of a font.
- * 
+ * <p>
  * Weight is specified as a numeric value ranging from 100 to 1000.
  * This enumeration simply provides some common, predefined values.
  */

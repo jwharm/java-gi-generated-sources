@@ -8,34 +8,35 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkIMContext</code> defines the interface for GTK input methods.
- * <p><code>GtkIMContext</code> is used by GTK text input widgets like <code>GtkText</code>
+ * {@code GtkIMContext} defines the interface for GTK input methods.
+ * <p>
+ * {@code GtkIMContext} is used by GTK text input widgets like {@code GtkText}
  * to map from key events to Unicode character strings.
  * <p>
  * An input method may consume multiple key events in sequence before finally
- * outputting the composed result. This is called *preediting*, and an input
+ * outputting the composed result. This is called <strong>preediting</strong>, and an input
  * method may provide feedback about this process by displaying the intermediate
- * composition states as preedit text. To do so, the <code>GtkIMContext</code> will emit
- * {@link [signal@Gtk.IMContext::preedit-start] (ref=signal)}, {@link [signal@Gtk.IMContext::preedit-changed] (ref=signal)}
- * and {@link [signal@Gtk.IMContext::preedit-end] (ref=signal)} signals.
+ * composition states as preedit text. To do so, the {@code GtkIMContext} will emit
+ * {@code Gtk.IMContext::preedit-changed}
+ * and {@code Gtk.IMContext::preedit-end} signals.
  * <p>
- * For instance, the built-in GTK input method {@link org.gtk.gtk.IMContextSimple}
+ * For instance, the built-in GTK input method {@link IMContextSimple}
  * implements the input of arbitrary Unicode code points by holding down the
- * &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code>  keys and then typing &<code>#60</code> kbd&<code>#62</code> u&<code>#60</code> /kbd&<code>#62</code> 
+ * &lt;kbd>Control</kbd> and <kbd>Shift</kbd> keys and then typing <kbd>u</kbd&gt;
  * followed by the hexadecimal digits of the code point. When releasing the
- * &<code>#60</code> kbd&<code>#62</code> Control&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code>  keys, preediting ends and the
+ * &lt;kbd>Control</kbd> and <kbd>Shift</kbd&gt; keys, preediting ends and the
  * character is inserted as text. For example,
  * <p>
  *     Ctrl+Shift+u 2 0 A C
  * <p>
- * results in the &<code>#8364</code>  sign.
+ * results in the € sign.
  * <p>
  * Additional input methods can be made available for use by GTK widgets as
  * loadable modules. An input method module is a small shared library which
- * provides a <code>GIOExtension</code> for the extension point named &<code>#34</code> gtk-im-module&<code>#34</code> .
- * 
+ * provides a {@code GIOExtension} for the extension point named "gtk-im-module".
+ * <p>
  * To connect a widget to the users preferred input method, you should use
- * {@link org.gtk.gtk.IMMulticontext}.
+ * {@link IMMulticontext}.
  */
 public class IMContext extends org.gtk.gobject.Object {
 
@@ -50,18 +51,19 @@ public class IMContext extends org.gtk.gobject.Object {
     
     /**
      * Asks the widget that the input context is attached to delete
-     * characters around the cursor position by emitting the<code>::delete_surrounding</code> signal.
+     * characters around the cursor position by emitting the
+     * {@code ::delete_surrounding} signal.
      * <p>
-     * Note that @offset and @n_chars are in characters not in bytes
-     * which differs from the usage other places in <code>GtkIMContext</code>.
-     * 
+     * Note that {@code offset} and {@code n_chars} are in characters not in bytes
+     * which differs from the usage other places in {@code GtkIMContext}.
+     * <p>
      * In order to use this function, you should first call
-     * {@link org.gtk.gtk.IMContext<code>#getSurrounding</code>  to get the current context,
+     * {@link IMContext#getSurrounding} to get the current context,
      * and call this function immediately afterwards to make sure that you
      * know what you are deleting. You should also account for the fact
      * that even if the signal was handled, the input context might not
      * have deleted all the characters that were requested to be deleted.
-     * 
+     * <p>
      * This function is used by an input method that wants to make
      * subsitutions in the existing text in response to new input.
      * It is not useful for applications.
@@ -73,7 +75,7 @@ public class IMContext extends org.gtk.gobject.Object {
     
     /**
      * Allow an input method to forward key press and release events
-     * to another input method without necessarily having a <code>GdkEvent</code>
+     * to another input method without necessarily having a {@code GdkEvent}
      * available.
      */
     public boolean filterKey(boolean press, org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, int time, int keycode, int state, int group) {
@@ -84,8 +86,8 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Allow an input method to internally handle key press and release
      * events.
-     * 
-     * If this function returns <code>true</code>  then no further processing
+     * <p>
+     * If this function returns <code>true</code>, then no further processing
      * should be done for this key event.
      */
     public boolean filterKeypress(org.gtk.gdk.Event event) {
@@ -96,7 +98,7 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Notify the input method that the widget to which this
      * input context corresponds has gained focus.
-     * 
+     * <p>
      * The input method may, for example, change the displayed
      * feedback to reflect this change.
      */
@@ -107,7 +109,7 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Notify the input method that the widget to which this
      * input context corresponds has lost focus.
-     * 
+     * <p>
      * The input method may, for example, change the displayed
      * feedback or reset the contexts state to reflect this change.
      */
@@ -118,7 +120,7 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Notify the input method that a change such as a change in cursor
      * position has been made.
-     * 
+     * <p>
      * This will typically cause the input method to clear the preedit state.
      */
     public void reset() {
@@ -128,7 +130,7 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Set the client widget for the input context.
      * <p>
-     * This is the <code>GtkWidget</code> holding the input focus. This widget is
+     * This is the {@code GtkWidget} holding the input focus. This widget is
      * used in order to correctly position status windows, and may
      * also be used for purposes internal to the input method.
      */
@@ -139,7 +141,7 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Notify the input method that a change in cursor
      * position has been made.
-     * 
+     * <p>
      * The location is relative to the client widget.
      */
     public void setCursorLocation(org.gtk.gdk.Rectangle area) {
@@ -149,7 +151,7 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Sets surrounding context around the insertion point and preedit
      * string. This function is expected to be called in response to the
-     * {@link [signal@Gtk.IMContext::retrieve_surrounding] (ref=signal)} signal, and will likely
+     * {@code Gtk.IMContext::retrieve_surrounding} signal, and will likely
      * have no effect if called at other times.
      */
     public void setSurroundingWithSelection(java.lang.String text, int len, int cursorIndex, int anchorIndex) {
@@ -159,8 +161,8 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * Sets whether the IM context should use the preedit string
      * to display feedback.
-     * 
-     * If @use_preedit is <code>false</code> (default is <code>true</code> , then the IM context
+     * <p>
+     * If {@code use_preedit} is <code>false</code> (default is <code>true</code>), then the IM context
      * may use some other method to display feedback, such as displaying
      * it in a child of the root window.
      */
@@ -176,10 +178,10 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * The ::commit signal is emitted when a complete input sequence
      * has been entered by the user.
-     * 
+     * <p>
      * If the commit comes after a preediting sequence, the
      * ::commit signal is emitted after ::preedit-end.
-     * 
+     * <p>
      * This can be a single character immediately after a key press or
      * the final result of preediting.
      */
@@ -230,9 +232,9 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * The ::preedit-changed signal is emitted whenever the preedit sequence
      * currently being entered has changed.
-     * 
+     * <p>
      * It is also emitted at the end of a preedit sequence, in which case
-     * {@link org.gtk.gtk.IMContext<code>#getPreeditString</code>  returns the empty string.
+     * {@link IMContext#getPreeditString} returns the empty string.
      */
     public SignalHandle onPreeditChanged(PreeditChangedHandler handler) {
         try {
@@ -305,9 +307,9 @@ public class IMContext extends org.gtk.gobject.Object {
     /**
      * The ::retrieve-surrounding signal is emitted when the input method
      * requires the context surrounding the cursor.
-     * 
+     * <p>
      * The callback should set the input method surrounding context by
-     * calling the {@link org.gtk.gtk.IMContext<code>#setSurrounding</code>  method.
+     * calling the {@link IMContext#setSurrounding} method.
      */
     public SignalHandle onRetrieveSurrounding(RetrieveSurroundingHandler handler) {
         try {

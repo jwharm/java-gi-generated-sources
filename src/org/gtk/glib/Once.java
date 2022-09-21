@@ -8,8 +8,9 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A {@link org.gtk.glib.Once} struct controls a one-time initialization function. Any
- * one-time initialization function must have its own unique {@link org.gtk.glib.Once} struct.
+ * A {@link Once} struct controls a one-time initialization function. Any
+ * one-time initialization function must have its own unique {@link Once}
+ * struct.
  */
 public class Once extends io.github.jwharm.javagi.ResourceBase {
 
@@ -19,30 +20,30 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Function to be called when starting a critical initialization
-     * section. The argument @location must point to a static
+     * section. The argument {@code location} must point to a static
      * 0-initialized variable that will be set to a value other than 0 at
      * the end of the initialization section. In combination with
-     * g_once_init_leave() and the unique address @value_location, it can
+     * g_once_init_leave() and the unique address {@code value_location}, it can
      * be ensured that an initialization section will be executed only once
-     * during a program&<code>#39</code> s life time, and that concurrent threads are
+     * during a program's life time, and that concurrent threads are
      * blocked until initialization completed. To be used in constructs
      * like this:
      * <p>
-     * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+     * |[&lt;!-- language="C" --&gt;
      *   static gsize initialization_value = 0;
      * <p>
-     *   if (g_once_init_enter (&<code>#38</code> initialization_value))
+     *   if (g_once_init_enter (&initialization_value))
      *     {
      *       gsize setup_value = 42; // initialization code here
      * <p>
-     *       g_once_init_leave (&<code>#38</code> initialization_value, setup_value);
+     *       g_once_init_leave (&initialization_value, setup_value);
      *     }
      * <p>
      *   // use initialization_value here
-     * ]}|
+     * ]|
      * <p>
-     * While @location has a <code>volatile</code> qualifier, this is a historical artifact and
-     * the pointer passed to it should not be <code>volatile</code>.
+     * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
      */
     public static boolean initEnter(jdk.incubator.foreign.MemoryAddress location) {
         var RESULT = gtk_h.g_once_init_enter(location);
@@ -56,8 +57,8 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * releases concurrent threads blocking in g_once_init_enter() on this
      * initialization variable.
      * <p>
-     * While @location has a <code>volatile</code> qualifier, this is a historical artifact and
-     * the pointer passed to it should not be <code>volatile</code>.
+     * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
      */
     public static void initLeave(jdk.incubator.foreign.MemoryAddress location, long result) {
         gtk_h.g_once_init_leave(location, result);

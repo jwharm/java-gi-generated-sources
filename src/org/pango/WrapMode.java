@@ -1,11 +1,11 @@
 package org.pango;
 
 /**
- * <code>PangoWrapMode</code> describes how to wrap the lines of a <code>PangoLayout</code>
+ * {@code PangoWrapMode} describes how to wrap the lines of a {@code PangoLayout}
  * to the desired width.
- * 
- * For @PANGO_WRAP_WORD, Pango uses break opportunities that are determined
- * by the Unicode line breaking algorithm. For @PANGO_WRAP_CHAR, Pango allows
+ * <p>
+ * For {@code PANGO_WRAP_WORD}, Pango uses break opportunities that are determined
+ * by the Unicode line breaking algorithm. For {@code PANGO_WRAP_CHAR}, Pango allows
  * breaking at grapheme boundaries that are determined by the Unicode text
  * segmentation algorithm.
  */

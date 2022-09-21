@@ -28,9 +28,9 @@ public class DebugNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will add debug information about
-     * the given @child.
-     * 
+     * Creates a {@code GskRenderNode} that will add debug information about
+     * the given {@code child}.
+     * <p>
      * Adding this node has no visual effect.
      */
     public DebugNode(RenderNode child, java.lang.String message) {
@@ -38,7 +38,7 @@ public class DebugNode extends RenderNode {
     }
     
     /**
-     * Gets the child node that is getting drawn by the given @node.
+     * Gets the child node that is getting drawn by the given {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_debug_node_get_child(handle());

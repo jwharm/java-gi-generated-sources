@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkPrintOperationPreview</code> is the interface that is used to
+ * {@code GtkPrintOperationPreview} is the interface that is used to
  * implement print preview.
  * <p>
- * A <code>GtkPrintOperationPreview</code> object is passed to the
- * {@link [signal@Gtk.PrintOperation::preview] (ref=signal)} signal by
- * {@link org.gtk.gtk.PrintOperation}.
+ * A {@code GtkPrintOperationPreview} object is passed to the
+ * {@code Gtk.PrintOperation::preview} signal by
+ * {@link PrintOperation}.
  */
 public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Ends a preview.
-     * 
+     * <p>
      * This function must be called to finish a custom print preview.
      */
     public default void endPreview() {
@@ -37,14 +37,14 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
     
     /**
      * Renders a page to the preview.
-     * 
+     * <p>
      * This is using the print context that was passed to the
-     * {@link [signal@Gtk.PrintOperation::preview] (ref=signal)} handler together
-     * with @preview.
-     * 
+     * {@code Gtk.PrintOperation::preview} handler together
+     * with {@code preview}.
+     * <p>
      * A custom print preview should use this function to render
      * the currently selected page.
-     * 
+     * <p>
      * Note that this function requires a suitable cairo context to
      * be associated with the print context.
      */
@@ -59,10 +59,10 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
     
     /**
      * Emitted once for each page that gets rendered to the preview.
-     * 
-     * A handler for this signal should update the @context
-     * according to @page_setup and set up a suitable cairo
-     * context, using {@link org.gtk.gtk.PrintContext<code>#setCairoContext</code> .
+     * <p>
+     * A handler for this signal should update the {@code context}
+     * according to {@code page_setup} and set up a suitable cairo
+     * context, using {@link PrintContext#setCairoContext}.
      */
     public default SignalHandle onGotPageSize(GotPageSizeHandler handler) {
         try {
@@ -87,7 +87,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.NativeAdd
     /**
      * The ::ready signal gets emitted once per preview operation,
      * before the first page is rendered.
-     * 
+     * <p>
      * A handler for this signal can be used for setup tasks.
      */
     public default SignalHandle onReady(ReadyHandler handler) {

@@ -1,7 +1,7 @@
 package org.gtk.gio;
 
 /**
- * Flags used when creating a {@link org.gtk.gio.DBusServer}
+ * Flags used when creating a {@link DBusServer}.
  */
 public class DBusServerFlags {
 
@@ -11,7 +11,7 @@ public class DBusServerFlags {
     public static final int NONE = 0;
     
     /**
-     * All {@link org.gtk.gio.DBusServer} :new-connection
+     * All {@link DBusServer}::new-connection
      * signals will run in separated dedicated threads (see signal for
      * details).
      */

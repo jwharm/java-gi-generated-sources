@@ -8,10 +8,10 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GdkDevice</code> object represents an input device, such
+ * The {@code GdkDevice} object represents an input device, such
  * as a keyboard, a mouse, or a touchpad.
- * 
- * See the {@link org.gtk.gdk.Seat} documentation for more information
+ * <p>
+ * See the {@link Seat} documentation for more information
  * about the various kinds of devices, and their relationships.
  */
 public class Device extends org.gtk.gobject.Object {
@@ -27,7 +27,7 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Retrieves whether the Caps Lock modifier of the keyboard is locked.
-     * 
+     * <p>
      * This is only relevant for keyboard devices.
      */
     public boolean getCapsLockState() {
@@ -36,7 +36,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the current tool for @device.
+     * Retrieves the current tool for {@code device}.
      */
     public DeviceTool getDeviceTool() {
         var RESULT = gtk_h.gdk_device_get_device_tool(handle());
@@ -45,11 +45,11 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Returns the direction of effective layout of the keyboard.
-     * 
+     * <p>
      * This is only relevant for keyboard devices.
-     * 
+     * <p>
      * The direction of a layout is the direction of the majority
-     * of its symbols. See {@link Pango<code>#unicharDirection</code> .
+     * of its symbols. See {@link Pango#unicharDirection}.
      */
     public org.pango.Direction getDirection() {
         var RESULT = gtk_h.gdk_device_get_direction(handle());
@@ -57,7 +57,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the <code>GdkDisplay</code> to which @device pertains.
+     * Returns the {@code GdkDisplay} to which {@code device} pertains.
      */
     public Display getDisplay() {
         var RESULT = gtk_h.gdk_device_get_display(handle());
@@ -66,9 +66,9 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Determines whether the pointer follows device motion.
-     * 
+     * <p>
      * This is not meaningful for keyboard devices, which
-     * don&<code>#39</code> t have a pointer.
+     * don't have a pointer.
      */
     public boolean getHasCursor() {
         var RESULT = gtk_h.gdk_device_get_has_cursor(handle());
@@ -77,7 +77,7 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Retrieves the current modifier state of the keyboard.
-     * 
+     * <p>
      * This is only relevant for keyboard devices.
      */
     public int getModifierState() {
@@ -95,7 +95,7 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Retrieves whether the Num Lock modifier of the keyboard is locked.
-     * 
+     * <p>
      * This is only relevant for keyboard devices.
      */
     public boolean getNumLockState() {
@@ -104,7 +104,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the number of touch points associated to @device.
+     * Retrieves the number of touch points associated to {@code device}.
      */
     public int getNumTouches() {
         var RESULT = gtk_h.gdk_device_get_num_touches(handle());
@@ -113,9 +113,9 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Returns the product ID of this device.
-     * 
+     * <p>
      * This ID is retrieved from the device, and does not change.
-     * See {@link org.gtk.gdk.Device<code>#getVendorId</code>  for more information.
+     * See {@link Device#getVendorId} for more information.
      */
     public java.lang.String getProductId() {
         var RESULT = gtk_h.gdk_device_get_product_id(handle());
@@ -124,7 +124,7 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Retrieves whether the Scroll Lock modifier of the keyboard is locked.
-     * 
+     * <p>
      * This is only relevant for keyboard devices.
      */
     public boolean getScrollLockState() {
@@ -133,7 +133,7 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the <code>GdkSeat</code> the device belongs to.
+     * Returns the {@code GdkSeat} the device belongs to.
      */
     public Seat getSeat() {
         var RESULT = gtk_h.gdk_device_get_seat(handle());
@@ -150,7 +150,7 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Returns the timestamp of the last activity for this device.
-     * 
+     * <p>
      * In practice, this means the timestamp of the last event that was
      * received from the OS for this device. (GTK may occasionally produce
      * events for a device that are not received from the OS, and will not
@@ -166,10 +166,11 @@ public class Device extends org.gtk.gobject.Object {
      * <p>
      * This ID is retrieved from the device, and does not change.
      * <p>
-     * This function, together with {@link org.gtk.gdk.Device<code>#getProductId</code> ,
-     * can be used to eg. compose <code>GSettings</code> paths to store settings
+     * This function, together with {@link Device#getProductId},
+     * can be used to eg. compose {@code GSettings} paths to store settings
      * for this device.
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      *  static GSettings *
      *  get_device_settings (GdkDevice *device)
      *  {
@@ -181,13 +182,13 @@ public class Device extends org.gtk.gobject.Object {
      *    vendor = gdk_device_get_vendor_id (device);
      *    product = gdk_device_get_product_id (device);
      * 
-     *    path = g_strdup_printf (&<code>#34</code> /org/example/app/devices/<code>s</code> <code>s</code> &<code>#34</code> , vendor, product);
+     *    path = g_strdup_printf ("/org/example/app/devices/%s:%s/", vendor, product);
      *    settings = g_settings_new_with_path (DEVICE_SCHEMA, path);
      *    g_free (path);
      * 
      *    return settings;
      *  }
-     * </pre>
+     * }</pre>
      */
     public java.lang.String getVendorId() {
         var RESULT = gtk_h.gdk_device_get_vendor_id(handle());
@@ -197,7 +198,7 @@ public class Device extends org.gtk.gobject.Object {
     /**
      * Determines if layouts for both right-to-left and
      * left-to-right languages are in use on the keyboard.
-     * 
+     * <p>
      * This is only relevant for keyboard devices.
      */
     public boolean hasBidiLayouts() {
@@ -212,7 +213,7 @@ public class Device extends org.gtk.gobject.Object {
     
     /**
      * Emitted either when the number of either axes or keys changes.
-     * 
+     * <p>
      * On X11 this will normally happen when the physical device
      * routing events through the logical device changes (for
      * example, user switches from the USB mouse to a tablet); in

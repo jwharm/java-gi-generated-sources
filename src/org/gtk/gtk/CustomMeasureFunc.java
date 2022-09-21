@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * A function to be used by <code>GtkCustomLayout</code> to measure a widget.
+ * A function to be used by {@code GtkCustomLayout} to measure a widget.
  */
 @FunctionalInterface
 public interface CustomMeasureFunc {

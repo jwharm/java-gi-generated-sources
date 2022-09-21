@@ -8,21 +8,23 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkColorButton</code> allows to open a color chooser dialog to change
+ * The {@code GtkColorButton} allows to open a color chooser dialog to change
  * the color.
  * <p>
- * !{@link [An example GtkColorButton]}(color-button.png)
+ * <img src="./doc-files/color-button.png" alt="An example GtkColorButton">
  * <p>
  * It is suitable widget for selecting a color in a preference dialog.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * colorbutton
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  button.color
- *     &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [content]}
- * </pre>
- * <p><code>GtkColorButton</code> has a single CSS node with name colorbutton which
- * contains a button node. To differentiate it from a plain <code>GtkButton</code>,
+ * ╰── button.color
+ *     ╰── [content]
+ * }</pre>
+ * <p>
+ * {@code GtkColorButton} has a single CSS node with name colorbutton which
+ * contains a button node. To differentiate it from a plain {@code GtkButton},
  * it gets the .color style class.
  */
 public class ColorButton extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
@@ -43,7 +45,7 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
     
     /**
      * Creates a new color button.
-     * 
+     * <p>
      * This returns a widget in the form of a small button containing
      * a swatch representing the current selected color. When the button
      * is clicked, a color chooser dialog will open, allowing the user
@@ -104,7 +106,7 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
     /**
      * Emitted to when the color button is activated.
      * <p>
-     * The <code>::activate</code> signal on <code>GtkMenuButton</code> is an action signal and
+     * The {@code ::activate} signal on {@code GtkMenuButton} is an action signal and
      * emitting it causes the button to pop up its dialog.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
@@ -129,10 +131,10 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
     
     /**
      * Emitted when the user selects a color.
-     * 
-     * When handling this signal, use {@link org.gtk.gtk.ColorChooser<code>#getRgba</code> 
+     * <p>
+     * When handling this signal, use {@link ColorChooser#getRgba}
      * to find out which color was just selected.
-     * 
+     * <p>
      * Note that this signal is only emitted when the user changes the color.
      * If you need to react to programmatic color changes as well, use
      * the notify::rgba signal.

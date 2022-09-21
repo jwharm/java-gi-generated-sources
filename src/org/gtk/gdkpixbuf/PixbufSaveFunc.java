@@ -1,12 +1,13 @@
 package org.gtk.gdkpixbuf;
 
 /**
- * Save functions used by {@link org.gtk.gdkpixbuf.Pixbuf<code>#saveToCallback</code> .
+ * Save functions used by {@link Pixbuf#saveToCallback}.
  * <p>
- * This function is called once for each block of bytes that is &<code>#34</code> written&<code>#34</code> 
- * by <code>gdk_pixbuf_save_to_callback()</code>.
+ * This function is called once for each block of bytes that is "written"
+ * by {@code gdk_pixbuf_save_to_callback()}.
  * <p>
- * If successful it should return <code>TRUE</code>; if an error occurs it should set<code>error</code> and return <code>FALSE</code>, in which case <code>gdk_pixbuf_save_to_callback()</code>
+ * If successful it should return {@code TRUE}; if an error occurs it should set
+ * {@code error} and return {@code FALSE}, in which case {@code gdk_pixbuf_save_to_callback()}
  * will fail with the same error.
  */
 @FunctionalInterface

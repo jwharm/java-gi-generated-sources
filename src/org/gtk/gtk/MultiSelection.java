@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkMultiSelection</code> is a <code>GtkSelectionModel</code> that allows selecting multiple
+ * {@code GtkMultiSelection} is a {@code GtkSelectionModel} that allows selecting multiple
  * elements.
  */
 public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, SelectionModel {
@@ -28,14 +28,14 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
     }
     
     /**
-     * Creates a new selection to handle @model.
+     * Creates a new selection to handle {@code model}.
      */
     public MultiSelection(org.gtk.gio.ListModel model) {
         super(constructNew(model));
     }
     
     /**
-     * Returns the underlying model of @self.
+     * Returns the underlying model of {@code self}.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_multi_selection_get_model(handle());
@@ -43,9 +43,9 @@ public class MultiSelection extends org.gtk.gobject.Object implements org.gtk.gi
     }
     
     /**
-     * Sets the model that @self should wrap.
-     * 
-     * If @model is <code>null</code>  @self will be empty.
+     * Sets the model that {@code self} should wrap.
+     * <p>
+     * If {@code model} is <code>null</code>, {@code self} will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_multi_selection_set_model(handle(), model.handle());

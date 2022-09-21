@@ -8,52 +8,56 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkListBox</code> is a vertical list.
+ * {@code GtkListBox} is a vertical list.
  * <p>
- * A <code>GtkListBox</code> only contains <code>GtkListBoxRow</code> children. These rows can
+ * A {@code GtkListBox} only contains {@code GtkListBoxRow} children. These rows can
  * by dynamically sorted and filtered, and headers can be added dynamically
  * depending on the row content. It also allows keyboard and mouse navigation
  * and selection like a typical list.
  * <p>
- * Using <code>GtkListBox</code> is often an alternative to <code>GtkTreeView</code>, especially
+ * Using {@code GtkListBox} is often an alternative to {@code GtkTreeView}, especially
  * when the list contents has a more complicated layout than what is allowed
- * by a <code>GtkCellRenderer</code>, or when the contents is interactive (i.e. has a
+ * by a {@code GtkCellRenderer}, or when the contents is interactive (i.e. has a
  * button in it).
  * <p>
- * Although a <code>GtkListBox</code> must have only <code>GtkListBoxRow</code> children, you can
- * add any kind of widget to it via {@link org.gtk.gtk.ListBox<code>#prepend</code> ,
- * {@link org.gtk.gtk.ListBox<code>#append</code>  and {@link org.gtk.gtk.ListBox<code>#insert</code>  and a<code>GtkListBoxRow</code> widget will automatically be inserted between the list
+ * Although a {@code GtkListBox} must have only {@code GtkListBoxRow} children, you can
+ * add any kind of widget to it via {@link ListBox#prepend},
+ * {@code Gtk.ListBox.insert} and a
+ * {@code GtkListBoxRow} widget will automatically be inserted between the list
  * and the widget.
- * <p><code>GtkListBoxRows</code> can be marked as activatable or selectable. If a row is
- * activatable, {@link [signal@Gtk.ListBox::row-activated] (ref=signal)} will be emitted for it when
+ * <p>
+ * {@code GtkListBoxRows} can be marked as activatable or selectable. If a row is
+ * activatable, {@code Gtk.ListBox::row-activated} will be emitted for it when
  * the user tries to activate it. If it is selectable, the row will be marked
  * as selected when the user tries to select it.
  * <p>
  * <h1>GtkListBox as GtkBuildable</h1>
  * <p>
- * The <code>GtkListBox</code> implementation of the <code>GtkBuildable</code> interface supports
- * setting a child as the placeholder by specifying &<code>#8220</code> placeholder&<code>#8221</code>  as the &<code>#8220</code> type&<code>#8221</code> 
- * attribute of a &<code>#60</code> child&<code>#62</code>  element. See {@link org.gtk.gtk.ListBox<code>#setPlaceholder</code> 
+ * The {@code GtkListBox} implementation of the {@code GtkBuildable} interface supports
+ * setting a child as the placeholder by specifying “placeholder” as the “type”
+ * attribute of a &lt;child&gt; element. See {@link ListBox#setPlaceholder}
  * for info.
  * <p>
  * <h1>CSS nodes</h1>
  * <p>
- * |{@link [&<code>#60</code> !-- language=&<code>#34</code> plain&<code>#34</code>  --&<code>#62</code> 
- * list[.separators]}{@link [.rich-list]}{@link [.navigation-sidebar]}
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  row{@link [.activatable]}
+ * |[&lt;!-- language="plain" --&gt;
+ * list[.separators][.rich-list][.navigation-sidebar]
+ * ╰── row[.activatable]
  * ]|
- * <p><code>GtkListBox</code> uses a single CSS node named list. It may carry the .separators
- * style class, when the {@link [property@Gtk.ListBox:show-separators] (ref=property)} property is set.
- * Each <code>GtkListBoxRow</code> uses a single CSS node named row. The row nodes get the
+ * <p>
+ * {@code GtkListBox} uses a single CSS node named list. It may carry the .separators
+ * style class, when the {@code Gtk.ListBox:show-separators} property is set.
+ * Each {@code GtkListBoxRow} uses a single CSS node named row. The row nodes get the
  * .activatable style class added when appropriate.
  * <p>
  * The main list node may also carry style classes to select
- * the style of {@link [list presentation]}(section-list-widget.html<code>#list</code> styles):
+ * the style of <a href="section-list-widget.html#list-styles">list presentation</a>:
  * .rich-list, .navigation-sidebar or .data-table.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkListBox</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#LIST</code>  role and <code>GtkListBoxRow</code> uses
- * the {@link org.gtk.gtk.AccessibleRole<code>#LIST_ITEM</code>  role.
+ * <p>
+ * {@code GtkListBox} uses the {@link AccessibleRole#LIST} role and {@code GtkListBoxRow} uses
+ * the {@link AccessibleRole#LIST_ITEM} role.
  */
 public class ListBox extends Widget implements Accessible, Buildable, ConstraintTarget {
 
@@ -72,7 +76,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Creates a new <code>GtkListBox</code> container.
+     * Creates a new {@code GtkListBox} container.
      */
     public ListBox() {
         super(constructNew());
@@ -80,7 +84,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Append a widget to the list.
-     * 
+     * <p>
      * If a sort function is set, the widget will
      * actually be inserted at the calculated position.
      */
@@ -89,20 +93,20 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Binds @model to @box.
+     * Binds {@code model} to {@code box}.
      * <p>
-     * If @box was already bound to a model, that previous binding is
+     * If {@code box} was already bound to a model, that previous binding is
      * destroyed.
      * <p>
-     * The contents of @box are cleared and then filled with widgets that
-     * represent items from @model. @box is updated whenever @model changes.
-     * If @model is <code>null</code>  @box is left empty.
+     * The contents of {@code box} are cleared and then filled with widgets that
+     * represent items from {@code model}. {@code box} is updated whenever {@code model} changes.
+     * If {@code model} is <code>null</code>, {@code box} is left empty.
      * <p>
      * It is undefined to add or remove widgets directly (for example, with
-     * {@link org.gtk.gtk.ListBox<code>#insert</code> ) while @box is bound to a model.
+     * {@link ListBox#insert}) while {@code box} is bound to a model.
      * <p>
      * Note that using a model is incompatible with the filtering and sorting
-     * functionality in <code>GtkListBox</code>. When using a model, filtering and sorting
+     * functionality in {@code GtkListBox}. When using a model, filtering and sorting
      * should be implemented by the model.
      */
     public void bindModel(org.gtk.gio.ListModel model, ListBoxCreateWidgetFunc createWidgetFunc) {
@@ -123,11 +127,11 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     /**
      * Add a drag highlight to a row.
      * <p>
-     * This is a helper function for implementing DnD onto a <code>GtkListBox</code>.
-     * The passed in @row will be highlighted by setting the
-     * {@link org.gtk.gtk.StateFlags<code>#DROP_ACTIVE</code>  state and any previously highlighted
+     * This is a helper function for implementing DnD onto a {@code GtkListBox}.
+     * The passed in {@code row} will be highlighted by setting the
+     * {@link StateFlags#DROP_ACTIVE} state and any previously highlighted
      * row will be unhighlighted.
-     * 
+     * <p>
      * The row will also be unhighlighted when the widget gets
      * a drag leave event.
      */
@@ -162,8 +166,8 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Gets the n-th child in the list (not counting headers).
-     * 
-     * If @index_ is negative or larger than the number of items in the
+     * <p>
+     * If {@code index_} is negative or larger than the number of items in the
      * list, <code>null</code> is returned.
      */
     public ListBoxRow getRowAtIndex(int index) {
@@ -181,9 +185,9 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Gets the selected row, or <code>null</code> if no rows are selected.
-     * 
+     * <p>
      * Note that the box may allow multiple selection, in which
-     * case you should use {@link org.gtk.gtk.ListBox<code>#selectedForeach</code>  to
+     * case you should use {@link ListBox#selectedForeach} to
      * find all selected rows.
      */
     public ListBoxRow getSelectedRow() {
@@ -217,13 +221,13 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Insert the @child into the @box at @position.
-     * 
+     * Insert the {@code child} into the {@code box} at {@code position}.
+     * <p>
      * If a sort function is
      * set, the widget will actually be inserted at the calculated position.
-     * 
-     * If @position is -1, or larger than the total number of items in the
-     * @box, then the @child will be appended to the end.
+     * <p>
+     * If {@code position} is -1, or larger than the total number of items in the
+     * {@code box}, then the {@code child} will be appended to the end.
      */
     public void insert(Widget child, int position) {
         gtk_h.gtk_list_box_insert(handle(), child.handle(), position);
@@ -231,9 +235,9 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Update the filtering for all rows.
-     * 
+     * <p>
      * Call this when result
-     * of the filter function on the @box is changed due
+     * of the filter function on the {@code box} is changed due
      * to an external factor. For instance, this would be used
      * if the filter function just looked for a specific search
      * string and the entry with the search string has changed.
@@ -244,9 +248,9 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Update the separators for all rows.
-     * 
+     * <p>
      * Call this when result
-     * of the header function on the @box is changed due
+     * of the header function on the {@code box} is changed due
      * to an external factor.
      */
     public void invalidateHeaders() {
@@ -255,9 +259,9 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Update the sorting for all rows.
-     * 
+     * <p>
      * Call this when result
-     * of the sort function on the @box is changed due
+     * of the sort function on the {@code box} is changed due
      * to an external factor.
      */
     public void invalidateSort() {
@@ -266,7 +270,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Prepend a widget to the list.
-     * 
+     * <p>
      * If a sort function is set, the widget will
      * actually be inserted at the calculated position.
      */
@@ -275,21 +279,21 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Removes a child from @box.
+     * Removes a child from {@code box}.
      */
     public void remove(Widget child) {
         gtk_h.gtk_list_box_remove(handle(), child.handle());
     }
     
     /**
-     * Select all children of @box, if the selection mode allows it.
+     * Select all children of {@code box}, if the selection mode allows it.
      */
     public void selectAll() {
         gtk_h.gtk_list_box_select_all(handle());
     }
     
     /**
-     * Make @row the currently selected row.
+     * Make {@code row} the currently selected row.
      */
     public void selectRow(ListBoxRow row) {
         gtk_h.gtk_list_box_select_row(handle(), row.handle());
@@ -297,7 +301,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Calls a function for each selected child.
-     * 
+     * <p>
      * Note that the selection cannot be modified from within this function.
      */
     public void selectedForeach(ListBoxForeachFunc func) {
@@ -315,7 +319,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If @single is <code>true</code>  rows will be activated when you click on them,
+     * If {@code single} is <code>true</code>, rows will be activated when you click on them,
      * otherwise you need to double-click.
      */
     public void setActivateOnSingleClick(boolean single) {
@@ -329,8 +333,8 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * For instance, this is used to get the page size for
      * PageUp/Down key handling.
      * <p>
-     * In the normal case when the @box is packed inside
-     * a <code>GtkScrolledWindow</code> the adjustment from that will
+     * In the normal case when the {@code box} is packed inside
+     * a {@code GtkScrolledWindow} the adjustment from that will
      * be picked up automatically, so there is no need
      * to manually do that.
      */
@@ -339,19 +343,19 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * By setting a filter function on the @box one can decide dynamically which
+     * By setting a filter function on the {@code box} one can decide dynamically which
      * of the rows to show.
-     * 
+     * <p>
      * For instance, to implement a search function on a list that
      * filters the original list to only show the matching rows.
-     * 
-     * The @filter_func will be called for each row after the call, and
+     * <p>
+     * The {@code filter_func} will be called for each row after the call, and
      * it will continue to be called each time a row changes (via
-     * {@link org.gtk.gtk.ListBoxRow<code>#changed</code> ) or when {@link org.gtk.gtk.ListBox<code>#invalidateFilter</code> 
+     * {@code Gtk.ListBox.invalidate_filter}
      * is called.
-     * 
+     * <p>
      * Note that using a filter function is incompatible with using a model
-     * (see {@link org.gtk.gtk.ListBox<code>#bindModel</code> ).
+     * (see {@link ListBox#bindModel}).
      */
     public void setFilterFunc(ListBoxFilterFunc filterFunc) {
         try {
@@ -370,30 +374,30 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Sets a header function.
-     * 
-     * By setting a header function on the @box one can dynamically add headers
+     * <p>
+     * By setting a header function on the {@code box} one can dynamically add headers
      * in front of rows, depending on the contents of the row and its position
      * in the list.
-     * 
+     * <p>
      * For instance, one could use it to add headers in front of the first item
      * of a new kind, in a list sorted by the kind.
-     * 
-     * The @update_header can look at the current header widget using
-     * {@link org.gtk.gtk.ListBoxRow<code>#getHeader</code>  and either update the state of the widget
-     * as needed, or set a new one using {@link org.gtk.gtk.ListBoxRow<code>#setHeader</code> . If no
-     * header is needed, set the header to <code>null</code> 
-     * 
-     * Note that you may get many calls @update_header to this for a particular
-     * row when e.g. changing things that don&<code>#8217</code> t affect the header. In this case
+     * <p>
+     * The {@code update_header} can look at the current header widget using
+     * {@link ListBoxRow#getHeader} and either update the state of the widget
+     * as needed, or set a new one using {@link ListBoxRow#setHeader}. If no
+     * header is needed, set the header to <code>null</code>.
+     * <p>
+     * Note that you may get many calls {@code update_header} to this for a particular
+     * row when e.g. changing things that don’t affect the header. In this case
      * it is important for performance to not blindly replace an existing header
      * with an identical one.
-     * 
-     * The @update_header function will be called for each row after the call,
+     * <p>
+     * The {@code update_header} function will be called for each row after the call,
      * and it will continue to be called each time a row changes (via
-     * {@link org.gtk.gtk.ListBoxRow<code>#changed</code> ) and when the row before changes (either
-     * by {@link org.gtk.gtk.ListBoxRow<code>#changed</code>  on the previous row, or when the previous
+     * {@link ListBoxRow#changed}) and when the row before changes (either
+     * by {@link ListBoxRow#changed} on the previous row, or when the previous
      * row becomes a different row). It is also called for all rows when
-     * {@link org.gtk.gtk.ListBox<code>#invalidateHeaders</code>  is called.
+     * {@link ListBox#invalidateHeaders} is called.
      */
     public void setHeaderFunc(ListBoxUpdateHeaderFunc updateHeader) {
         try {
@@ -412,7 +416,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Sets the placeholder widget that is shown in the list when
-     * it doesn&<code>#39</code> t display any visible children.
+     * it doesn't display any visible children.
      */
     public void setPlaceholder(Widget placeholder) {
         gtk_h.gtk_list_box_set_placeholder(handle(), placeholder.handle());
@@ -435,17 +439,17 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     
     /**
      * Sets a sort function.
-     * 
-     * By setting a sort function on the @box one can dynamically reorder
+     * <p>
+     * By setting a sort function on the {@code box} one can dynamically reorder
      * the rows of the list, based on the contents of the rows.
-     * 
-     * The @sort_func will be called for each row after the call, and will
+     * <p>
+     * The {@code sort_func} will be called for each row after the call, and will
      * continue to be called each time a row changes (via
-     * {@link org.gtk.gtk.ListBoxRow<code>#changed</code> ) and when {@link org.gtk.gtk.ListBox<code>#invalidateSort</code> 
+     * {@code Gtk.ListBox.invalidate_sort}
      * is called.
-     * 
+     * <p>
      * Note that using a sort function is incompatible with using a model
-     * (see {@link org.gtk.gtk.ListBox<code>#bindModel</code> ).
+     * (see {@link ListBox#bindModel}).
      */
     public void setSortFunc(ListBoxSortFunc sortFunc) {
         try {
@@ -463,14 +467,14 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Unselect all children of @box, if the selection mode allows it.
+     * Unselect all children of {@code box}, if the selection mode allows it.
      */
     public void unselectAll() {
         gtk_h.gtk_list_box_unselect_all(handle());
     }
     
     /**
-     * Unselects a single row of @box, if the selection mode allows it.
+     * Unselects a single row of {@code box}, if the selection mode allows it.
      */
     public void unselectRow(ListBoxRow row) {
         gtk_h.gtk_list_box_unselect_row(handle(), row.handle());
@@ -545,12 +549,12 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Emitted when a new row is selected, or (with a <code>null</code> @row)
+     * Emitted when a new row is selected, or (with a <code>null</code> {@code row})
      * when the selection is cleared.
-     * 
-     * When the @box is using {@link org.gtk.gtk.SelectionMode<code>#MULTIPLE</code>   this signal will not
+     * <p>
+     * When the {@code box} is using {@link SelectionMode#MULTIPLE}, this signal will not
      * give you the full picture of selection changes, and you should use
-     * the {@link [signal@Gtk.ListBox::selected-rows-changed] (ref=signal)} signal instead.
+     * the {@code Gtk.ListBox::selected-rows-changed} signal instead.
      */
     public SignalHandle onRowSelected(RowSelectedHandler handler) {
         try {
@@ -575,10 +579,10 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     /**
      * Emitted to select all children of the box, if the selection
      * mode permits it.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> a&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding for this signal is &lt;kbd>Ctrl</kbd>-<kbd>a</kbd&gt;.
      */
     public SignalHandle onSelectAll(SelectAllHandler handler) {
         try {
@@ -646,11 +650,11 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     /**
      * Emitted to unselect all children of the box, if the selection
      * mode permits it.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default binding for this signal is
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> a&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>a</kbd&gt;.
      */
     public SignalHandle onUnselectAll(UnselectAllHandler handler) {
         try {

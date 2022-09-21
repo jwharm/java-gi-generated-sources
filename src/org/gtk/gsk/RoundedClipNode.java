@@ -27,15 +27,15 @@ public class RoundedClipNode extends RenderNode {
     }
     
     /**
-     * Creates a <code>GskRenderNode</code> that will clip the @child to the area
-     * given by @clip.
+     * Creates a {@code GskRenderNode} that will clip the {@code child} to the area
+     * given by {@code clip}.
      */
     public RoundedClipNode(RenderNode child, RoundedRect clip) {
         super(constructNew(child, clip));
     }
     
     /**
-     * Gets the child node that is getting clipped by the given @node.
+     * Gets the child node that is getting clipped by the given {@code node}.
      */
     public RenderNode getChild() {
         var RESULT = gtk_h.gsk_rounded_clip_node_get_child(handle());
@@ -43,7 +43,7 @@ public class RoundedClipNode extends RenderNode {
     }
     
     /**
-     * Retrieves the rounded rectangle used to clip the contents of the @node.
+     * Retrieves the rounded rectangle used to clip the contents of the {@code node}.
      */
     public RoundedRect getClip() {
         var RESULT = gtk_h.gsk_rounded_clip_node_get_clip(handle());

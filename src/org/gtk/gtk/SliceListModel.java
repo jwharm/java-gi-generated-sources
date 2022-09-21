@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkSliceListModel</code> is a list model that presents a slice of another model.
- * 
+ * {@code GtkSliceListModel} is a list model that presents a slice of another model.
+ * <p>
  * This is useful when implementing paging by setting the size to the number
  * of elements per page and updating the offset whenever a different page is
  * opened.
@@ -32,9 +32,9 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     
     /**
      * Creates a new slice model.
-     * 
-     * It presents the slice from @offset to offset + @size
-     * of the given @model.
+     * <p>
+     * It presents the slice from {@code offset} to offset + {@code size}
+     * of the given {@code model}.
      */
     public SliceListModel(org.gtk.gio.ListModel model, int offset, int size) {
         super(constructNew(model, offset, size));
@@ -66,8 +66,8 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     
     /**
      * Sets the model to show a slice of.
-     * 
-     * The model&<code>#39</code> s item type must conform to @self&<code>#39</code> s item type.
+     * <p>
+     * The model's item type must conform to {@code self}'s item type.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_slice_list_model_set_model(handle(), model.handle());
@@ -75,20 +75,20 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     
     /**
      * Sets the offset into the original model for this slice.
-     * 
+     * <p>
      * If the offset is too large for the sliced model,
-     * @self will end up empty.
+     * {@code self} will end up empty.
      */
     public void setOffset(int offset) {
         gtk_h.gtk_slice_list_model_set_offset(handle(), offset);
     }
     
     /**
-     * Sets the maximum size. @self will never have more items
-     * than @size.
-     * 
+     * Sets the maximum size. {@code self} will never have more items
+     * than {@code size}.
+     * <p>
      * It can however have fewer items if the offset is too large
-     * or the model sliced from doesn&<code>#39</code> t have enough items.
+     * or the model sliced from doesn't have enough items.
      */
     public void setSize(int size) {
         gtk_h.gtk_slice_list_model_set_size(handle(), size);

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GParamSpec</code> for properties holding a <code>GtkExpression</code>.
+ * A {@code GParamSpec} for properties holding a {@code GtkExpression}.
  */
 public class ParamSpecExpression extends org.gtk.gobject.ParamSpec {
 

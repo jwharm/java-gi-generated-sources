@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * This {@link org.gtk.gio.SocketControlMessage} contains a {@link org.gtk.gio.UnixFDList} 
+ * This {@link SocketControlMessage} contains a {@link UnixFDList}.
  * It may be sent using g_socket_send_message() and received using
  * g_socket_receive_message() over UNIX sockets (ie: sockets in the
- * {@link org.gtk.gio.SocketFamily<code>#UNIX</code>  family). The file descriptors are copied
+ * {@link SocketFamily#UNIX} family). The file descriptors are copied
  * between processes by the kernel.
  * <p>
  * For an easier way to send and receive file descriptors over
  * stream-oriented UNIX sockets, see g_unix_connection_send_fd() and
  * g_unix_connection_receive_fd().
  * <p>
- * Note that <code>&<code>#60</code> gio/gunixfdmessage.h&<code>#62</code> </code> belongs to the UNIX-specific GIO
- * interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
+ * Note that {@code <gio/gunixfdmessage.h>} belongs to the UNIX-specific GIO
+ * interfaces, thus you have to use the {@code gio-unix-2.0.pc} pkg-config
  * file when using it.
  */
 public class UnixFDMessage extends SocketControlMessage {
@@ -39,7 +39,7 @@ public class UnixFDMessage extends SocketControlMessage {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.UnixFDMessage} containing an empty file descriptor
+     * Creates a new {@link UnixFDMessage} containing an empty file descriptor
      * list.
      */
     public UnixFDMessage() {
@@ -52,19 +52,19 @@ public class UnixFDMessage extends SocketControlMessage {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.UnixFDMessage} containing @list.
+     * Creates a new {@link UnixFDMessage} containing {@code list}.
      */
     public static UnixFDMessage newWithFdList(UnixFDList fdList) {
         return new UnixFDMessage(constructNewWithFdList(fdList));
     }
     
     /**
-     * Adds a file descriptor to @message.
-     * 
+     * Adds a file descriptor to {@code message}.
+     * <p>
      * The file descriptor is duplicated using dup(). You keep your copy
-     * of the descriptor and the copy contained in @message will be closed
-     * when @message is finalized.
-     * 
+     * of the descriptor and the copy contained in {@code message} will be closed
+     * when {@code message} is finalized.
+     * <p>
      * A possible cause of failure is exceeding the per-process or
      * system-wide file descriptor limit.
      */
@@ -78,9 +78,9 @@ public class UnixFDMessage extends SocketControlMessage {
     }
     
     /**
-     * Gets the {@link org.gtk.gio.UnixFDList} contained in @message.  This function does not
+     * Gets the {@link UnixFDList} contained in {@code message}.  This function does not
      * return a reference to the caller, but the returned list is valid for
-     * the lifetime of @message.
+     * the lifetime of {@code message}.
      */
     public UnixFDList getFdList() {
         var RESULT = gtk_h.g_unix_fd_message_get_fd_list(handle());

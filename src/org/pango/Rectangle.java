@@ -8,10 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>PangoRectangle</code> structure represents a rectangle.
- * <p><code>PangoRectangle</code> is frequently used to represent the logical or ink
+ * The {@code PangoRectangle} structure represents a rectangle.
+ * <p>
+ * {@code PangoRectangle} is frequently used to represent the logical or ink
  * extents of a single glyph or section of text. (See, for instance,
- * {@link org.pango.Font<code>#getGlyphExtents</code> .)
+ * {@link Font#getGlyphExtents}.)
  */
 public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
 

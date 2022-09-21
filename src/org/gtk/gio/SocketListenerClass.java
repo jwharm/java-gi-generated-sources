@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Class structure for {@link org.gtk.gio.SocketListener}
+ * Class structure for {@link SocketListener}.
  */
 public class SocketListenerClass extends io.github.jwharm.javagi.ResourceBase {
 

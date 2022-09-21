@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Interface for creating {@link org.gtk.gio.Drive} implementations.
+ * Interface for creating {@link Drive} implementations.
  */
 public class DriveIface extends io.github.jwharm.javagi.ResourceBase {
 

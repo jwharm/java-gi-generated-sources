@@ -1,7 +1,7 @@
 package org.gtk.gdk;
 
 /**
- * Defines the reference point of a surface and is used in <code>GdkPopupLayout</code>.
+ * Defines the reference point of a surface and is used in {@code GdkPopupLayout}.
  */
 public enum Gravity {
 

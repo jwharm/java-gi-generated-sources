@@ -2,7 +2,7 @@ package org.gtk.gdkpixbuf;
 
 /**
  * The possible rotations which can be passed to gdk_pixbuf_rotate_simple().
- * 
+ * <p>
  * To make them easier to use, their numerical values are the actual degrees.
  */
 public enum PixbufRotation {

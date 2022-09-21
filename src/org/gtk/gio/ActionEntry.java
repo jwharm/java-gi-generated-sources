@@ -10,13 +10,13 @@ import java.lang.invoke.*;
 /**
  * This struct defines a single action.  It is for use with
  * g_action_map_add_action_entries().
- * 
+ * <p>
  * The order of the items in the structure are intended to reflect
  * frequency of use.  It is permissible to use an incomplete initialiser
- * in order to leave some of the later values as <code>null</code>   All values
- * after @name are optional.  Additional optional fields may be added in
+ * in order to leave some of the later values as <code>null</code>.  All values
+ * after {@code name} are optional.  Additional optional fields may be added in
  * the future.
- * 
+ * <p>
  * See g_action_map_add_action_entries() for an example.
  */
 public class ActionEntry extends io.github.jwharm.javagi.ResourceBase {

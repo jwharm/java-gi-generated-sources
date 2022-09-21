@@ -8,32 +8,34 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkGesture</code> is the base class for gesture recognition.
+ * {@code GtkGesture} is the base class for gesture recognition.
  * <p>
- * Although <code>GtkGesture</code> is quite generalized to serve as a base for
+ * Although {@code GtkGesture} is quite generalized to serve as a base for
  * multi-touch gestures, it is suitable to implement single-touch and
- * pointer-based gestures (using the special <code>null</code> <code>GdkEventSequence</code>
+ * pointer-based gestures (using the special <code>null</code> {@code GdkEventSequence}
  * value for these).
  * <p>
- * The number of touches that a <code>GtkGesture</code> need to be recognized is
- * controlled by the {@link [property@Gtk.Gesture:n-points] (ref=property)} property, if a
+ * The number of touches that a {@code GtkGesture} need to be recognized is
+ * controlled by the {@code Gtk.Gesture:n-points} property, if a
  * gesture is keeping track of less or more than that number of sequences,
- * it won&<code>#39</code> t check whether the gesture is recognized.
+ * it won't check whether the gesture is recognized.
  * <p>
  * As soon as the gesture has the expected number of touches, it will check
  * regularly if it is recognized, the criteria to consider a gesture as
- * &<code>#34</code> recognized&<code>#34</code>  is left to <code>GtkGesture</code> subclasses.
+ * "recognized" is left to {@code GtkGesture} subclasses.
  * <p>
  * A recognized gesture will then emit the following signals:
  * <p>
- * <li>{@link [signal@Gtk.Gesture::begin] (ref=signal)} when the gesture is recognized.
- * <li>{@link [signal@Gtk.Gesture::update] (ref=signal)}, whenever an input event is processed.
- * <li>{@link [signal@Gtk.Gesture::end] (ref=signal)} when the gesture is no longer recognized.
+ * <ul>
+ * <li>{@code Gtk.Gesture::begin} when the gesture is recognized.
+ * <li>{@code Gtk.Gesture::update}, whenever an input event is processed.
+ * <li>{@code Gtk.Gesture::end} when the gesture is no longer recognized.
+ * </ul>
  * <p>
  * <h2>Event propagation</h2>
  * <p>
  * In order to receive events, a gesture needs to set a propagation phase
- * through {@link org.gtk.gtk.EventController<code>#setPropagationPhase</code> .
+ * through {@link EventController#setPropagationPhase}.
  * <p>
  * In the capture phase, events are propagated from the toplevel down
  * to the target widget, and gestures that are attached to containers
@@ -48,54 +50,58 @@ import java.lang.invoke.*;
  * <h2>States of a sequence</h2>
  * <p>
  * Whenever input interaction happens, a single event may trigger a cascade
- * of <code>GtkGesture</code>s, both across the parents of the widget receiving the
+ * of {@code GtkGesture}s, both across the parents of the widget receiving the
  * event and in parallel within an individual widget. It is a responsibility
  * of the widgets using those gestures to set the state of touch sequences
- * accordingly in order to enable cooperation of gestures around the<code>GdkEventSequence</code>s triggering those.
+ * accordingly in order to enable cooperation of gestures around the
+ * {@code GdkEventSequence}s triggering those.
  * <p>
- * Within a widget, gestures can be grouped through {@link org.gtk.gtk.Gesture<code>#group</code> .
+ * Within a widget, gestures can be grouped through {@link Gesture#group}.
  * Grouped gestures synchronize the state of sequences, so calling
- * {@link org.gtk.gtk.Gesture<code>#setSequenceState</code>  on one will effectively propagate
+ * {@link Gesture#setSequenceState} on one will effectively propagate
  * the state throughout the group.
  * <p>
- * By default, all sequences start out in the {@link org.gtk.gtk.EventSequenceState<code>#NONE</code>  state,
+ * By default, all sequences start out in the {@link EventSequenceState#NONE} state,
  * sequences in this state trigger the gesture event handler, but event
  * propagation will continue unstopped by gestures.
  * <p>
- * If a sequence enters into the {@link org.gtk.gtk.EventSequenceState<code>#DENIED</code>  state, the gesture
+ * If a sequence enters into the {@link EventSequenceState#DENIED} state, the gesture
  * group will effectively ignore the sequence, letting events go unstopped
- * through the gesture, but the &<code>#34</code> slot&<code>#34</code>  will still remain occupied while
+ * through the gesture, but the "slot" will still remain occupied while
  * the touch is active.
  * <p>
- * If a sequence enters in the {@link org.gtk.gtk.EventSequenceState<code>#CLAIMED</code>  state, the gesture
+ * If a sequence enters in the {@link EventSequenceState#CLAIMED} state, the gesture
  * group will grab all interaction on the sequence, by:
  * <p>
- * <li>Setting the same sequence to {@link org.gtk.gtk.EventSequenceState<code>#DENIED</code>  on every other
+ * <ul>
+ * <li>Setting the same sequence to {@link EventSequenceState#DENIED} on every other
  *   gesture group within the widget, and every gesture on parent widgets
  *   in the propagation chain.
- * <li>Emitting {@link [signal@Gtk.Gesture::cancel] (ref=signal)} on every gesture in widgets
+ * <li>Emitting {@code Gtk.Gesture::cancel} on every gesture in widgets
  *   underneath in the propagation chain.
  * <li>Stopping event propagation after the gesture group handles the event.
+ * </ul>
  * <p>
- * Note: if a sequence is set early to {@link org.gtk.gtk.EventSequenceState<code>#CLAIMED</code>  on
- * {@link org.gtk.gdk.EventType<code>#TOUCH_BEGIN</code>  {@link org.gtk.gdk.EventType<code>#BUTTON_PRESS</code>  (so those events are captured before
- * reaching the event widget, this implies {@link org.gtk.gtk.PropagationPhase<code>#CAPTURE</code>  , one similar
- * event will be emulated if the sequence changes to {@link org.gtk.gtk.EventSequenceState<code>#DENIED</code>  
+ * Note: if a sequence is set early to {@link EventSequenceState#CLAIMED} on
+ * {@link org.gtk.gdk.EventType#TOUCH_BEGIN}/{@link org.gtk.gdk.EventType#BUTTON_PRESS} (so those events are captured before
+ * reaching the event widget, this implies {@link PropagationPhase#CAPTURE}), one similar
+ * event will be emulated if the sequence changes to {@link EventSequenceState#DENIED}.
  * This way event coherence is preserved before event propagation is unstopped
  * again.
  * <p>
- * Sequence states can&<code>#39</code> t be changed freely.
- * See {@link org.gtk.gtk.Gesture<code>#setSequenceState</code>  to know about the possible
- * lifetimes of a <code>GdkEventSequence</code>.
+ * Sequence states can't be changed freely.
+ * See {@link Gesture#setSequenceState} to know about the possible
+ * lifetimes of a {@code GdkEventSequence}.
  * <p>
  * <h2>Touchpad gestures</h2>
  * <p>
- * On the platforms that support it, <code>GtkGesture</code> will handle transparently
- * touchpad gesture events. The only precautions users of <code>GtkGesture</code> should
+ * On the platforms that support it, {@code GtkGesture} will handle transparently
+ * touchpad gesture events. The only precautions users of {@code GtkGesture} should
  * do to enable this support are:
  * <p>
- * <li>If the gesture has {@link org.gtk.gtk.PropagationPhase<code>#NONE</code>   ensuring events of type
- *   {@link org.gtk.gdk.EventType<code>#TOUCHPAD_SWIPE</code>  and {@link org.gtk.gdk.EventType<code>#TOUCHPAD_PINCH</code>  are handled by the <code>GtkGesture</code>
+ * <ul>
+ * <li>If the gesture has {@link PropagationPhase#NONE}, ensuring events of type
+ *   {@link org.gtk.gdk.EventType#TOUCHPAD_SWIPE} and {@link org.gtk.gdk.EventType#TOUCHPAD_PINCH} are handled by the {@code GtkGesture}
  */
 public class Gesture extends EventController {
 
@@ -109,16 +115,16 @@ public class Gesture extends EventController {
     }
     
     /**
-     * If there are touch sequences being currently handled by @gesture,
-     * returns <code>true</code> and fills in @rect with the bounding box containing
+     * If there are touch sequences being currently handled by {@code gesture},
+     * returns <code>true</code> and fills in {@code rect} with the bounding box containing
      * all active touches.
-     * 
+     * <p>
      * Otherwise, <code>false</code> will be returned.
-     * 
+     * <p>
      * Note: This function will yield unexpected results on touchpad
      * gestures. Since there is no correlation between physical and
      * pixel distances, these will look as if constrained in an
-     * infinitely small area, @rect width and height will thus be 0
+     * infinitely small area, {@code rect} width and height will thus be 0
      * regardless of the number of touchpoints.
      */
     public boolean getBoundingBox(org.gtk.gdk.Rectangle rect) {
@@ -127,9 +133,9 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns the logical <code>GdkDevice</code> that is currently operating
-     * on @gesture.
-     * 
+     * Returns the logical {@code GdkDevice} that is currently operating
+     * on {@code gesture}.
+     * <p>
      * This returns <code>null</code> if the gesture is not being interacted.
      */
     public org.gtk.gdk.Device getDevice() {
@@ -138,7 +144,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns all gestures in the group of @gesture
+     * Returns all gestures in the group of {@code gesture}
      */
     public org.gtk.glib.List getGroup() {
         var RESULT = gtk_h.gtk_gesture_get_group(handle());
@@ -146,10 +152,10 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns the last event that was processed for @sequence.
-     * 
+     * Returns the last event that was processed for {@code sequence}.
+     * <p>
      * Note that the returned pointer is only valid as long as the
-     * @sequence is still interpreted by the @gesture. If in doubt,
+     * {@code sequence} is still interpreted by the {@code gesture}. If in doubt,
      * you should make a copy of the event.
      */
     public org.gtk.gdk.Event getLastEvent(org.gtk.gdk.EventSequence sequence) {
@@ -158,7 +164,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns the <code>GdkEventSequence</code> that was last updated on @gesture.
+     * Returns the {@code GdkEventSequence} that was last updated on {@code gesture}.
      */
     public org.gtk.gdk.EventSequence getLastUpdatedSequence() {
         var RESULT = gtk_h.gtk_gesture_get_last_updated_sequence(handle());
@@ -166,7 +172,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns the @sequence state, as seen by @gesture.
+     * Returns the {@code sequence} state, as seen by {@code gesture}.
      */
     public EventSequenceState getSequenceState(org.gtk.gdk.EventSequence sequence) {
         var RESULT = gtk_h.gtk_gesture_get_sequence_state(handle(), sequence.handle());
@@ -174,8 +180,8 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns the list of <code>GdkEventSequences</code> currently being interpreted
-     * by @gesture.
+     * Returns the list of {@code GdkEventSequences} currently being interpreted
+     * by {@code gesture}.
      */
     public org.gtk.glib.List getSequences() {
         var RESULT = gtk_h.gtk_gesture_get_sequences(handle());
@@ -183,28 +189,31 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Adds @gesture to the same group than @group_gesture.
+     * Adds {@code gesture} to the same group than {@code group_gesture}.
      * <p>
      * Gestures are by default isolated in their own groups.
      * <p>
      * Both gestures must have been added to the same widget before
      * they can be grouped.
      * <p>
-     * When gestures are grouped, the state of <code>GdkEventSequences</code>
+     * When gestures are grouped, the state of {@code GdkEventSequences}
      * is kept in sync for all of those, so calling
-     * {@link org.gtk.gtk.Gesture<code>#setSequenceState</code> , on one will transfer
+     * {@link Gesture#setSequenceState}, on one will transfer
      * the same value to the others.
      * <p>
-     * Groups also perform an &<code>#34</code> implicit grabbing&<code>#34</code>  of sequences, if a<code>GdkEventSequence</code> state is set to {@link org.gtk.gtk.EventSequenceState<code>#CLAIMED</code>  on one group, every other gesture group attached to the same<code>GtkWidget</code> will switch the state for that sequence to
-     * {@link org.gtk.gtk.EventSequenceState<code>#DENIED</code>
+     * Groups also perform an "implicit grabbing" of sequences, if a
+     * {@code GdkEventSequence} state is set to {@link EventSequenceState#CLAIMED}
+     * on one group, every other gesture group attached to the same
+     * {@code GtkWidget} will switch the state for that sequence to
+     * {@link EventSequenceState#DENIED}.
      */
     public void group(Gesture gesture) {
         gtk_h.gtk_gesture_group(handle(), gesture.handle());
     }
     
     /**
-     * Returns <code>true</code> if @gesture is currently handling events
-     * corresponding to @sequence.
+     * Returns <code>true</code> if {@code gesture} is currently handling events
+     * corresponding to {@code sequence}.
      */
     public boolean handlesSequence(org.gtk.gdk.EventSequence sequence) {
         var RESULT = gtk_h.gtk_gesture_handles_sequence(handle(), sequence.handle());
@@ -213,7 +222,7 @@ public class Gesture extends EventController {
     
     /**
      * Returns <code>true</code> if the gesture is currently active.
-     * 
+     * <p>
      * A gesture is active while there are touch sequences
      * interacting with it.
      */
@@ -232,9 +241,9 @@ public class Gesture extends EventController {
     
     /**
      * Returns <code>true</code> if the gesture is currently recognized.
-     * 
+     * <p>
      * A gesture is recognized if there are as many interacting
-     * touch sequences as required by @gesture.
+     * touch sequences as required by {@code gesture}.
      */
     public boolean isRecognized() {
         var RESULT = gtk_h.gtk_gesture_is_recognized(handle());
@@ -242,24 +251,25 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Sets the state of @sequence in @gesture.
+     * Sets the state of {@code sequence} in {@code gesture}.
      * <p>
-     * Sequences start in state {@link org.gtk.gtk.EventSequenceState<code>#NONE</code>   and whenever
+     * Sequences start in state {@link EventSequenceState#NONE}, and whenever
      * they change state, they can never go back to that state. Likewise,
-     * sequences in state {@link org.gtk.gtk.EventSequenceState<code>#DENIED</code>  cannot turn back to
+     * sequences in state {@link EventSequenceState#DENIED} cannot turn back to
      * a not denied state. With these rules, the lifetime of an event
      * sequence is constrained to the next four:
      * <p>
      * * None
-     * * None &<code>#8594</code>  Denied
-     * * None &<code>#8594</code>  Claimed
-     * * None &<code>#8594</code>  Claimed &<code>#8594</code>  Denied
+     * * None → Denied
+     * * None → Claimed
+     * * None → Claimed → Denied
      * <p>
      * Note: Due to event handling ordering, it may be unsafe to set the
-     * state on another gesture within a {@link [signal@Gtk.Gesture::begin] (ref=signal)} signal
+     * state on another gesture within a {@code Gtk.Gesture::begin} signal
      * handler, as the callback might be executed before the other gesture
      * knows about the sequence. A safe way to perform this could be:
-     * <p><pre>c
+     * <p>
+     * <pre>{@code c
      * static void
      * first_gesture_begin_cb (GtkGesture       *first_gesture,
      *                         GdkEventSequence *sequence,
@@ -277,11 +287,11 @@ public class Gesture extends EventController {
      *   if (gtk_gesture_get_sequence_state (first_gesture, sequence) == GTK_EVENT_SEQUENCE_CLAIMED)
      *     gtk_gesture_set_sequence_state (second_gesture, sequence, GTK_EVENT_SEQUENCE_DENIED);
      * }
-     * </pre>
-     * 
+     * }</pre>
+     * <p>
      * If both gestures are in the same group, just set the state on
      * the gesture emitting the event, the sequence will be already
-     * be initialized to the group&<code>#39</code> s global state when the second
+     * be initialized to the group's global state when the second
      * gesture processes the event.
      */
     public boolean setSequenceState(org.gtk.gdk.EventSequence sequence, EventSequenceState state) {
@@ -290,10 +300,10 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Sets the state of all sequences that @gesture is currently
+     * Sets the state of all sequences that {@code gesture} is currently
      * interacting with.
-     * 
-     * See {@link org.gtk.gtk.Gesture<code>#setSequenceState</code>  for more details
+     * <p>
+     * See {@link Gesture#setSequenceState} for more details
      * on sequence states.
      */
     public boolean setState(EventSequenceState state) {
@@ -302,7 +312,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Separates @gesture into an isolated group.
+     * Separates {@code gesture} into an isolated group.
      */
     public void ungroup() {
         gtk_h.gtk_gesture_ungroup(handle());
@@ -315,14 +325,14 @@ public class Gesture extends EventController {
     
     /**
      * Emitted when the gesture is recognized.
-     * 
+     * <p>
      * This means the number of touch sequences matches
-     * {@link [property@Gtk.Gesture:n-points] (ref=property)}.
-     * 
+     * {@code Gtk.Gesture:n-points}.
+     * <p>
      * Note: These conditions may also happen when an extra touch
      * (eg. a third touch on a 2-touches gesture) is lifted, in that
-     * situation @sequence won&<code>#39</code> t pertain to the current set of active
-     * touches, so don&<code>#39</code> t rely on this being true.
+     * situation {@code sequence} won't pertain to the current set of active
+     * touches, so don't rely on this being true.
      */
     public SignalHandle onBegin(BeginHandler handler) {
         try {
@@ -346,14 +356,14 @@ public class Gesture extends EventController {
     
     /**
      * Emitted whenever a sequence is cancelled.
-     * 
+     * <p>
      * This usually happens on active touches when
-     * {@link org.gtk.gtk.EventController<code>#reset</code>  is called on @gesture
-     * (manually, due to grabs...), or the individual @sequence
-     * was claimed by parent widgets&<code>#39</code>  controllers (see
-     * {@link org.gtk.gtk.Gesture<code>#setSequenceState</code> ).
-     * 
-     * @gesture must forget everything about @sequence as in
+     * {@link EventController#reset} is called on {@code gesture}
+     * (manually, due to grabs...), or the individual {@code sequence}
+     * was claimed by parent widgets' controllers (see
+     * {@link Gesture#setSequenceState}).
+     * <p>
+     * {@code gesture} must forget everything about {@code sequence} as in
      * response to this signal.
      */
     public SignalHandle onCancel(CancelHandler handler) {
@@ -377,15 +387,15 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Emitted when @gesture either stopped recognizing the event
+     * Emitted when {@code gesture} either stopped recognizing the event
      * sequences as something to be handled, or the number of touch
-     * sequences became higher or lower than {@link [property@Gtk.Gesture:n-points] (ref=property)}.
-     * 
-     * Note: @sequence might not pertain to the group of sequences that
-     * were previously triggering recognition on @gesture (ie. a just
-     * pressed touch sequence that exceeds {@link [property@Gtk.Gesture:n-points] (ref=property)}).
+     * sequences became higher or lower than {@code Gtk.Gesture:n-points}.
+     * <p>
+     * Note: {@code sequence} might not pertain to the group of sequences that
+     * were previously triggering recognition on {@code gesture} (ie. a just
+     * pressed touch sequence that exceeds {@code Gtk.Gesture:n-points}).
      * This situation may be detected by checking through
-     * {@link org.gtk.gtk.Gesture<code>#handlesSequence</code> .
+     * {@link Gesture#handlesSequence}.
      */
     public SignalHandle onEnd(EndHandler handler) {
         try {
@@ -409,8 +419,8 @@ public class Gesture extends EventController {
     
     /**
      * Emitted whenever a sequence state changes.
-     * 
-     * See {@link org.gtk.gtk.Gesture<code>#setSequenceState</code>  to know
+     * <p>
+     * See {@link Gesture#setSequenceState} to know
      * more about the expectable sequence lifetimes.
      */
     public SignalHandle onSequenceStateChanged(SequenceStateChangedHandler handler) {
@@ -435,8 +445,8 @@ public class Gesture extends EventController {
     
     /**
      * Emitted whenever an event is handled while the gesture is recognized.
-     * 
-     * @sequence is guaranteed to pertain to the set of active touches.
+     * <p>
+     * {@code sequence} is guaranteed to pertain to the set of active touches.
      */
     public SignalHandle onUpdate(UpdateHandler handler) {
         try {

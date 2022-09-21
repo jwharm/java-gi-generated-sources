@@ -1,7 +1,8 @@
 package org.gtk.gtk;
 
 /**
- * The possible values for the {@link org.gtk.gtk.AccessibleProperty<code>#AUTOCOMPLETE</code>  accessible property.
+ * The possible values for the {@link AccessibleProperty#AUTOCOMPLETE}
+ * accessible property.
  */
 public enum AccessibleAutocomplete {
 

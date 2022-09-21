@@ -8,40 +8,43 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The <code>GtkText</code> widget is a single-line text entry widget.
- * <p><code>GtkText</code> is the common implementation of single-line text editing
- * that is shared between <code>GtkEntry</code>, <code>GtkPasswordEntry</code>, <code>GtkSpinButton</code>
- * and other widgets. In all of these, <code>GtkText</code> is used as the delegate
- * for the {@link [iface@Gtk.Editable] (ref=iface)} implementation.
+ * The {@code GtkText} widget is a single-line text entry widget.
+ * <p>
+ * {@code GtkText} is the common implementation of single-line text editing
+ * that is shared between {@code GtkEntry}, {@code GtkPasswordEntry}, {@code GtkSpinButton}
+ * and other widgets. In all of these, {@code GtkText} is used as the delegate
+ * for the {@code Gtk.Editable} implementation.
  * <p>
  * A fairly large set of key bindings are supported by default. If the
  * entered text is longer than the allocation of the widget, the widget
  * will scroll so that the cursor position is visible.
  * <p>
  * When using an entry for passwords and other sensitive information,
- * it can be put into &<code>#8220</code> password mode&<code>#8221</code>  using {@link org.gtk.gtk.Text<code>#setVisibility</code> .
- * In this mode, entered text is displayed using a &<code>#8220</code> invisible&<code>#8221</code>  character.
+ * it can be put into “password mode” using {@link Text#setVisibility}.
+ * In this mode, entered text is displayed using a “invisible” character.
  * By default, GTK picks the best invisible character that is available
  * in the current font, but it can be changed with
- * {@link org.gtk.gtk.Text<code>#setInvisibleChar</code> .
+ * {@link Text#setInvisibleChar}.
  * <p>
  * If you are looking to add icons or progress display in an entry, look
- * at <code>GtkEntry</code>. There other alternatives for more specialized use cases,
- * such as <code>GtkSearchEntry</code>.
+ * at {@code GtkEntry}. There other alternatives for more specialized use cases,
+ * such as {@code GtkSearchEntry}.
  * <p>
- * If you need multi-line editable text, look at <code>GtkTextView</code>.
+ * If you need multi-line editable text, look at {@code GtkTextView}.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
- * text{@link [.read-only]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  placeholder
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  undershoot.left
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  undershoot.right
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [selection]}
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  {@link [block-cursor]}
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  {@link [window.popup]}
- * </pre>
- * <p><code>GtkText</code> has a main node with the name text. Depending on the properties
+ * <p>
+ * <pre>{@code 
+ * text[.read-only]
+ * ├── placeholder
+ * ├── undershoot.left
+ * ├── undershoot.right
+ * ├── [selection]
+ * ├── [block-cursor]
+ * ╰── [window.popup]
+ * }</pre>
+ * <p>
+ * {@code GtkText} has a main node with the name text. Depending on the properties
  * of the widget, the .read-only style class may appear.
  * <p>
  * When the entry has a selection, it adds a subnode with the name selection.
@@ -62,9 +65,10 @@ import java.lang.invoke.*;
  * .insertion-cursor.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkText</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#NONE</code>  role, which causes it to be
- * skipped for accessibility. This is because <code>GtkText</code> is expected to be used
- * as a delegate for a <code>GtkEditable</code> implementation that will be represented
+ * <p>
+ * {@code GtkText} uses the {@link AccessibleRole#NONE} role, which causes it to be
+ * skipped for accessibility. This is because {@code GtkText} is expected to be used
+ * as a delegate for a {@code GtkEditable} implementation that will be represented
  * to accessibility.
  */
 public class Text extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
@@ -84,7 +88,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Creates a new <code>GtkText</code>.
+     * Creates a new {@code GtkText}.
      */
     public Text() {
         super(constructNew());
@@ -96,7 +100,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Creates a new <code>GtkText</code> with the specified text buffer.
+     * Creates a new {@code GtkText} with the specified text buffer.
      */
     public static Text newWithBuffer(EntryBuffer buffer) {
         return new Text(constructNewWithBuffer(buffer));
@@ -104,14 +108,14 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Determine the positions of the strong and weak cursors if the
-     * insertion point in the layout is at @position.
-     * 
+     * insertion point in the layout is at {@code position}.
+     * <p>
      * The position of each cursor is stored as a zero-width rectangle.
      * The strong cursor location is the location where characters of
      * the directionality equal to the base direction are inserted.
      * The weak cursor location is the location where characters of
      * the directionality opposite to the base direction are inserted.
-     * 
+     * <p>
      * The rectangle positions are in widget coordinates.
      */
     public void computeCursorExtents(long position, org.gtk.graphene.Rect strong, org.gtk.graphene.Rect weak) {
@@ -120,9 +124,9 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Returns whether pressing Enter will activate
-     * the default widget for the window containing @self.
-     * 
-     * See {@link org.gtk.gtk.Text<code>#setActivatesDefault</code> .
+     * the default widget for the window containing {@code self}.
+     * <p>
+     * See {@link Text#setActivatesDefault}.
      */
     public boolean getActivatesDefault() {
         var RESULT = gtk_h.gtk_text_get_activates_default(handle());
@@ -130,9 +134,9 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Gets the attribute list that was set on the <code>GtkText</code>.
-     * 
-     * See {@link org.gtk.gtk.Text<code>#setAttributes</code> .
+     * Gets the attribute list that was set on the {@code GtkText}.
+     * <p>
+     * See {@link Text#setAttributes}.
      */
     public org.pango.AttrList getAttributes() {
         var RESULT = gtk_h.gtk_text_get_attributes(handle());
@@ -140,7 +144,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Get the <code>GtkEntryBuffer</code> object which holds the text for
+     * Get the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public EntryBuffer getBuffer() {
@@ -149,7 +153,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Returns whether Emoji completion is enabled for this<code>GtkText</code> widget.
+     * Returns whether Emoji completion is enabled for this
+     * {@code GtkText} widget.
      */
     public boolean getEnableEmojiCompletion() {
         var RESULT = gtk_h.gtk_text_get_enable_emoji_completion(handle());
@@ -158,8 +163,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Gets the menu model for extra items in the context menu.
-     * 
-     * See {@link org.gtk.gtk.Text<code>#setExtraMenu</code> .
+     * <p>
+     * See {@link Text#setExtraMenu}.
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_text_get_extra_menu(handle());
@@ -167,7 +172,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Gets the input hints of the <code>GtkText</code>.
+     * Gets the input hints of the {@code GtkText}.
      */
     public int getInputHints() {
         var RESULT = gtk_h.gtk_text_get_input_hints(handle());
@@ -175,7 +180,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Gets the input purpose of the <code>GtkText</code>.
+     * Gets the input purpose of the {@code GtkText}.
      */
     public InputPurpose getInputPurpose() {
         var RESULT = gtk_h.gtk_text_get_input_purpose(handle());
@@ -184,10 +189,10 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Retrieves the character displayed when visibility is set to false.
-     * 
+     * <p>
      * Note that GTK does not compute this value unless it needs it,
      * so the value returned by this function is not very useful unless
-     * it has been explicitly set with {@link org.gtk.gtk.Text<code>#setInvisibleChar</code> .
+     * it has been explicitly set with {@link Text#setInvisibleChar}.
      */
     public int getInvisibleChar() {
         var RESULT = gtk_h.gtk_text_get_invisible_char(handle());
@@ -195,12 +200,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Retrieves the maximum allowed length of the text in @self.
+     * Retrieves the maximum allowed length of the text in {@code self}.
      * <p>
-     * See {@link org.gtk.gtk.Text<code>#setMaxLength</code> .
+     * See {@link Text#setMaxLength}.
      * <p>
-     * This is equivalent to getting @self&<code>#39</code> s <code>GtkEntryBuffer</code> and
-     * calling {@link org.gtk.gtk.EntryBuffer<code>#getMaxLength</code>  on it.
+     * This is equivalent to getting {@code self}'s {@code GtkEntryBuffer} and
+     * calling {@link EntryBuffer#getMaxLength} on it.
      */
     public int getMaxLength() {
         var RESULT = gtk_h.gtk_text_get_max_length(handle());
@@ -208,9 +213,9 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Gets whether text is overwritten when typing in the <code>GtkText</code>.
-     * 
-     * See {@link org.gtk.gtk.Text<code>#setOverwriteMode</code> .
+     * Gets whether text is overwritten when typing in the {@code GtkText}.
+     * <p>
+     * See {@link Text#setOverwriteMode}.
      */
     public boolean getOverwriteMode() {
         var RESULT = gtk_h.gtk_text_get_overwrite_mode(handle());
@@ -219,8 +224,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Retrieves the text that will be displayed when
-     * @self is empty and unfocused
-     * 
+     * {@code self} is empty and unfocused
+     * <p>
      * If no placeholder text has been set, <code>null</code> will be returned.
      */
     public java.lang.String getPlaceholderText() {
@@ -229,7 +234,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Returns whether the <code>GtkText</code> will grow and shrink
+     * Returns whether the {@code GtkText} will grow and shrink
      * with the content.
      */
     public boolean getPropagateTextWidth() {
@@ -238,9 +243,9 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Gets the tabstops that were set on the <code>GtkText</code>.
-     * 
-     * See {@link org.gtk.gtk.Text<code>#setTabs</code> .
+     * Gets the tabstops that were set on the {@code GtkText}.
+     * <p>
+     * See {@link Text#setTabs}.
      */
     public org.pango.TabArray getTabs() {
         var RESULT = gtk_h.gtk_text_get_tabs(handle());
@@ -248,10 +253,10 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Retrieves the current length of the text in @self.
+     * Retrieves the current length of the text in {@code self}.
      * <p>
-     * This is equivalent to getting @self&<code>#39</code> s <code>GtkEntryBuffer</code>
-     * and calling {@link org.gtk.gtk.EntryBuffer<code>#getLength</code>  on it.
+     * This is equivalent to getting {@code self}'s {@code GtkEntryBuffer}
+     * and calling {@link EntryBuffer#getLength} on it.
      */
     public short getTextLength() {
         var RESULT = gtk_h.gtk_text_get_text_length(handle());
@@ -259,7 +264,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Returns whether the <code>GtkText</code> will truncate multi-line text
+     * Returns whether the {@code GtkText} will truncate multi-line text
      * that is pasted into the widget
      */
     public boolean getTruncateMultiline() {
@@ -268,7 +273,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Retrieves whether the text in @self is visible.
+     * Retrieves whether the text in {@code self} is visible.
      */
     public boolean getVisibility() {
         var RESULT = gtk_h.gtk_text_get_visibility(handle());
@@ -276,12 +281,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Causes @self to have keyboard focus.
-     * 
-     * It behaves like {@link org.gtk.gtk.Widget<code>#grabFocus</code> ,
-     * except that it doesn&<code>#39</code> t select the contents of @self.
+     * Causes {@code self} to have keyboard focus.
+     * <p>
+     * It behaves like {@link Widget#grabFocus},
+     * except that it doesn't select the contents of {@code self}.
      * You only want to call this on some special entries
-     * which the user usually doesn&<code>#39</code> t want to replace all text in,
+     * which the user usually doesn't want to replace all text in,
      * such as search-as-you-type entries.
      */
     public boolean grabFocusWithoutSelecting() {
@@ -290,10 +295,10 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * If @activates is <code>true</code>  pressing Enter will activate
-     * the default widget for the window containing @self.
+     * If {@code activates} is <code>true</code>, pressing Enter will activate
+     * the default widget for the window containing {@code self}.
      * <p>
-     * This usually means that the dialog containing the <code>GtkText</code>
+     * This usually means that the dialog containing the {@code GtkText}
      * will be closed, since the default widget is usually one of
      * the dialog buttons.
      */
@@ -309,7 +314,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Set the <code>GtkEntryBuffer</code> object which holds the text for
+     * Set the {@code GtkEntryBuffer} object which holds the text for
      * this widget.
      */
     public void setBuffer(EntryBuffer buffer) {
@@ -318,8 +323,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Sets whether Emoji completion is enabled.
-     * 
-     * If it is, typing &<code>#39</code> :&<code>#39</code> , followed by a recognized keyword,
+     * <p>
+     * If it is, typing ':', followed by a recognized keyword,
      * will pop up a window with suggested Emojis matching the
      * keyword.
      */
@@ -329,7 +334,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Sets a menu model to add when constructing
-     * the context menu for @self.
+     * the context menu for {@code self}.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
         gtk_h.gtk_text_set_extra_menu(handle(), model.handle());
@@ -344,8 +349,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Sets the input purpose of the <code>GtkText</code>.
-     * 
+     * Sets the input purpose of the {@code GtkText}.
+     * <p>
      * This can be used by on-screen keyboards and other
      * input methods to adjust their behaviour.
      */
@@ -354,8 +359,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Sets the character to use when in &<code>#8220</code> password mode&<code>#8221</code> .
-     * 
+     * Sets the character to use when in “password mode”.
+     * <p>
      * By default, GTK picks the best invisible char available in the
      * current font. If you set the invisible char to 0, then the user
      * will get no feedback at all; there will be no text on the screen
@@ -371,8 +376,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * If the current contents are longer than the given length, then
      * they will be truncated to fit.
      * <p>
-     * This is equivalent to getting @self&<code>#39</code> s <code>GtkEntryBuffer</code> and
-     * calling {@link org.gtk.gtk.EntryBuffer<code>#setMaxLength</code>  on it.
+     * This is equivalent to getting {@code self}'s {@code GtkEntryBuffer} and
+     * calling {@link EntryBuffer#setMaxLength} on it.
      */
     public void setMaxLength(int length) {
         gtk_h.gtk_text_set_max_length(handle(), length);
@@ -380,24 +385,24 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Sets whether the text is overwritten when typing
-     * in the <code>GtkText</code>.
+     * in the {@code GtkText}.
      */
     public void setOverwriteMode(boolean overwrite) {
         gtk_h.gtk_text_set_overwrite_mode(handle(), overwrite ? 1 : 0);
     }
     
     /**
-     * Sets text to be displayed in @self when it is empty.
+     * Sets text to be displayed in {@code self} when it is empty.
      * <p>
      * This can be used to give a visual hint of the expected
-     * contents of the <code>GtkText</code>.
+     * contents of the {@code GtkText}.
      */
     public void setPlaceholderText(java.lang.String text) {
         gtk_h.gtk_text_set_placeholder_text(handle(), Interop.allocateNativeString(text).handle());
     }
     
     /**
-     * Sets whether the <code>GtkText</code> should grow and shrink with the content.
+     * Sets whether the {@code GtkText} should grow and shrink with the content.
      */
     public void setPropagateTextWidth(boolean propagateTextWidth) {
         gtk_h.gtk_text_set_propagate_text_width(handle(), propagateTextWidth ? 1 : 0);
@@ -411,7 +416,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Sets whether the <code>GtkText</code> should truncate multi-line text
+     * Sets whether the {@code GtkText} should truncate multi-line text
      * that is pasted into the widget.
      */
     public void setTruncateMultiline(boolean truncateMultiline) {
@@ -419,20 +424,20 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Sets whether the contents of the <code>GtkText</code> are visible or not.
-     * 
-     * When visibility is set to <code>false</code>  characters are displayed
+     * Sets whether the contents of the {@code GtkText} are visible or not.
+     * <p>
+     * When visibility is set to <code>false</code>, characters are displayed
      * as the invisible char, and will also appear that way when
      * the text in the widget is copied to the clipboard.
-     * 
+     * <p>
      * By default, GTK picks the best invisible character available
      * in the current font, but it can be changed with
-     * {@link org.gtk.gtk.Text<code>#setInvisibleChar</code> .
-     * 
-     * Note that you probably want to set {@link [property@Gtk.Text:input-purpose] (ref=property)}
-     * to {@link org.gtk.gtk.InputPurpose<code>#PASSWORD</code>  or {@link org.gtk.gtk.InputPurpose<code>#PIN</code>  to
+     * {@link Text#setInvisibleChar}.
+     * <p>
+     * Note that you probably want to set {@code Gtk.Text:input-purpose}
+     * to {@link InputPurpose#PASSWORD} or {@link InputPurpose#PIN} to
      * inform input methods about the purpose of this self,
-     * in addition to setting visibility to <code>false</code>
+     * in addition to setting visibility to <code>false</code>.
      */
     public void setVisibility(boolean visible) {
         gtk_h.gtk_text_set_visibility(handle(), visible ? 1 : 0);
@@ -440,7 +445,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Unsets the invisible char.
-     * 
+     * <p>
      * After calling this, the default invisible
      * char is used again.
      */
@@ -455,9 +460,9 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted when the user hits the Enter key.
-     * 
+     * <p>
      * The default bindings for this signal are all forms
-     * of the &<code>#60</code> kbd&<code>#62</code> Enter&<code>#60</code> /kbd&<code>#62</code>  key.
+     * of the &lt;kbd>Enter</kbd&gt; key.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
@@ -481,11 +486,11 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted when the user asks for it.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Backspace&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Backspace&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Backspace</kbd> and <kbd>Shift</kbd>-<kbd>Backspace</kbd&gt;.
      */
     public SignalHandle onBackspace(BackspaceHandler handler) {
         try {
@@ -509,12 +514,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted to copy the selection to the clipboard.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> c&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Insert&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Ctrl</kbd>-<kbd>c</kbd&gt; and
+     * &lt;kbd>Ctrl</kbd>-<kbd>Insert</kbd&gt;.
      */
     public SignalHandle onCopyClipboard(CopyClipboardHandler handler) {
         try {
@@ -538,12 +543,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted to cut the selection to the clipboard.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> x&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Delete&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Ctrl</kbd>-<kbd>x</kbd&gt; and
+     * &lt;kbd>Shift</kbd>-<kbd>Delete</kbd&gt;.
      */
     public SignalHandle onCutClipboard(CutClipboardHandler handler) {
         try {
@@ -567,15 +572,15 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted when the user initiates a text deletion.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * If the @type is {@link org.gtk.gtk.DeleteType<code>#CHARS</code>   GTK deletes the selection
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * If the {@code type} is {@link DeleteType#CHARS}, GTK deletes the selection
      * if there is one, otherwise it deletes the requested number
      * of characters.
-     * 
-     * The default bindings for this signal are &<code>#60</code> kbd&<code>#62</code> Delete&<code>#60</code> /kbd&<code>#62</code> 
-     * for deleting a character and &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Delete&<code>#60</code> /kbd&<code>#62</code> 
+     * <p>
+     * The default bindings for this signal are &lt;kbd>Delete</kbd&gt;
+     * for deleting a character and &lt;kbd>Ctrl</kbd>-<kbd>Delete</kbd&gt;
      * for deleting a word.
      */
     public SignalHandle onDeleteFromCursor(DeleteFromCursorHandler handler) {
@@ -601,9 +606,9 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     /**
      * Emitted when the user initiates the insertion of a
      * fixed string at the cursor.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * This signal has no default bindings.
      */
     public SignalHandle onInsertAtCursor(InsertAtCursorHandler handler) {
@@ -628,12 +633,12 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted to present the Emoji chooser for the widget.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> .&<code>#60</code> /kbd&<code>#62</code>  and
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> ;&<code>#60</code> /kbd&<code>#62</code>
+     * &lt;kbd>Ctrl</kbd>-<kbd>.</kbd&gt; and
+     * &lt;kbd>Ctrl</kbd>-<kbd>;</kbd&gt;
      */
     public SignalHandle onInsertEmoji(InsertEmojiHandler handler) {
         try {
@@ -657,25 +662,26 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted when the user initiates a cursor movement.
-     * 
-     * If the cursor is not visible in @self, this signal causes
+     * <p>
+     * If the cursor is not visible in {@code self}, this signal causes
      * the viewport to be moved instead.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * Applications should not connect to it, but may emit it with
      * g_signal_emit_by_name() if they need to control the cursor
      * programmatically.
-     * 
+     * <p>
      * The default bindings for this signal come in two variants,
-     * the variant with the &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code>  modifier extends the
+     * the variant with the &lt;kbd>Shift</kbd&gt; modifier extends the
      * selection, the variant without it does not.
      * There are too many key combinations to list them all here.
-     * 
-     * - &<code>#60</code> kbd&<code>#62</code> &<code>#8592</code> &<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> &<code>#8594</code> &<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> &<code>#8593</code> &<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> &<code>#8595</code> &<code>#60</code> /kbd&<code>#62</code> 
+     * <p>
+     * <ul>
+     * <li>&lt;kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd&gt;
      *   move by individual characters/lines
-     * - &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> &<code>#8594</code> &<code>#60</code> /kbd&<code>#62</code> , etc. move by words/paragraphs
-     * - &<code>#60</code> kbd&<code>#62</code> Home&<code>#60</code> /kbd&<code>#62</code> , &<code>#60</code> kbd&<code>#62</code> End&<code>#60</code> /kbd&<code>#62</code>  move to the ends of the buffer
+     * <li>&lt;kbd>Ctrl</kbd>-<kbd>→</kbd&gt;, etc. move by words/paragraphs
+     * <li>&lt;kbd>Home</kbd>, <kbd>End</kbd&gt; move to the ends of the buffer
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
@@ -699,11 +705,11 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted to paste the contents of the clipboard.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
      * The default bindings for this signal are
-     * &<code>#60</code> kbd&<code>#62</code> Ctrl&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> v&<code>#60</code> /kbd&<code>#62</code>  and &<code>#60</code> kbd&<code>#62</code> Shift&<code>#60</code> /kbd&<code>#62</code> -&<code>#60</code> kbd&<code>#62</code> Insert&<code>#60</code> /kbd&<code>#62</code> .
+     * &lt;kbd>Ctrl</kbd>-<kbd>v</kbd> and <kbd>Shift</kbd>-<kbd>Insert</kbd&gt;.
      */
     public SignalHandle onPasteClipboard(PasteClipboardHandler handler) {
         try {
@@ -727,7 +733,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     
     /**
      * Emitted when the preedit text changes.
-     * 
+     * <p>
      * If an input method is used, the typed text will not immediately
      * be committed to the buffer. So if you are interested in the text,
      * connect to this signal.
@@ -753,11 +759,11 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * Emitted to toggle the overwrite mode of the <code>GtkText</code>.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default bindings for this signal is &<code>#60</code> kbd&<code>#62</code> Insert&<code>#60</code> /kbd&<code>#62</code> .
+     * Emitted to toggle the overwrite mode of the {@code GtkText}.
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default bindings for this signal is &lt;kbd>Insert</kbd&gt;.
      */
     public SignalHandle onToggleOverwrite(ToggleOverwriteHandler handler) {
         try {

@@ -8,12 +8,12 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.EmblemedIcon} is an implementation of {@link org.gtk.gio.Icon} that supports
+ * {@link EmblemedIcon} is an implementation of {@link Icon} that supports
  * adding an emblem to an icon. Adding multiple emblems to an
  * icon is ensured via g_emblemed_icon_add_emblem().
- * 
- * Note that {@link org.gtk.gio.EmblemedIcon} allows no control over the position
- * of the emblems. See also {@link org.gtk.gio.Emblem} for more information.
+ * <p>
+ * Note that {@link EmblemedIcon} allows no control over the position
+ * of the emblems. See also {@link Emblem} for more information.
  */
 public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
 
@@ -32,28 +32,28 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Creates a new emblemed icon for @icon with the emblem @emblem.
+     * Creates a new emblemed icon for {@code icon} with the emblem {@code emblem}.
      */
     public EmblemedIcon(Icon icon, Emblem emblem) {
         super(constructNew(icon, emblem));
     }
     
     /**
-     * Adds @emblem to the {@link org.gtk.glib.List} of <code>#GEmblems</code>
+     * Adds {@code emblem} to the {@link org.gtk.glib.List} of {@code GEmblems}.
      */
     public void addEmblem(Emblem emblem) {
         gtk_h.g_emblemed_icon_add_emblem(handle(), emblem.handle());
     }
     
     /**
-     * Removes all the emblems from @icon.
+     * Removes all the emblems from {@code icon}.
      */
     public void clearEmblems() {
         gtk_h.g_emblemed_icon_clear_emblems(handle());
     }
     
     /**
-     * Gets the list of emblems for the @icon.
+     * Gets the list of emblems for the {@code icon}.
      */
     public org.gtk.glib.List getEmblems() {
         var RESULT = gtk_h.g_emblemed_icon_get_emblems(handle());
@@ -61,7 +61,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     }
     
     /**
-     * Gets the main icon for @emblemed.
+     * Gets the main icon for {@code emblemed}.
      */
     public Icon getIcon() {
         var RESULT = gtk_h.g_emblemed_icon_get_icon(handle());

@@ -12,30 +12,32 @@ import java.lang.invoke.*;
  * <p>
  * The signature of a module is a set of prefixes. Prefixes are encoded as
  * pairs of ordinary strings, where the second string, called the mask, if
- * not <code>NULL</code>, must be of the same length as the first one and may contain
- * &<code>#39</code>  &<code>#39</code> , &<code>#39</code> !&<code>#39</code> , &<code>#39</code> x&<code>#39</code> , &<code>#39</code> z&<code>#39</code> , and &<code>#39</code> n&<code>#39</code>  to indicate bytes that must be matched,
- * not matched, &<code>#34</code> don&<code>#39</code> t-care&<code>#34</code> -bytes, zeros and non-zeros, respectively.
+ * not {@code NULL}, must be of the same length as the first one and may contain
+ * ' ', '!', 'x', 'z', and 'n' to indicate bytes that must be matched,
+ * not matched, "don't-care"-bytes, zeros and non-zeros, respectively.
  * <p>
  * Each prefix has an associated integer that describes the relevance of
- * the prefix, with 0 meaning a mismatch and 100 a &<code>#34</code> perfect match&<code>#34</code> .
+ * the prefix, with 0 meaning a mismatch and 100 a "perfect match".
  * <p>
- * Starting with gdk-pixbuf 2.8, the first byte of the mask may be &<code>#39</code> *&<code>#39</code> ,
+ * Starting with gdk-pixbuf 2.8, the first byte of the mask may be '*',
  * indicating an unanchored pattern that matches not only at the beginning,
- * but also in the middle. Versions prior to 2.8 will interpret the &<code>#39</code> *&<code>#39</code> 
- * like an &<code>#39</code> x&<code>#39</code> .
+ * but also in the middle. Versions prior to 2.8 will interpret the '*'
+ * like an 'x'.
  * <p>
- * The signature of a module is stored as an array of<code>GdkPixbufModulePatterns</code>. The array is terminated by a pattern
- * where the <code>prefix</code> is <code>NULL</code>.
- * <p><pre>c
- * GdkPixbufModulePattern *signature{@link []} = {
- *   { &<code>#34</code> abcdx&<code>#34</code> , &<code>#34</code>  !x z&<code>#34</code> , 100 },
- *   { &<code>#34</code> bla&<code>#34</code> , NULL,  90 },
+ * The signature of a module is stored as an array of
+ * {@code GdkPixbufModulePatterns}. The array is terminated by a pattern
+ * where the {@code prefix} is {@code NULL}.
+ * <p>
+ * <pre>{@code c
+ * GdkPixbufModulePattern *signature[] = {
+ *   { "abcdx", " !x z", 100 },
+ *   { "bla", NULL,  90 },
  *   { NULL, NULL, 0 }
  * };
- * </pre>
- * 
- * In the example above, the signature matches e.g. &<code>#34</code> auud\\0&<code>#34</code>  with
- * relevance 100, and &<code>#34</code> blau&<code>#34</code>  with relevance 90.
+ * }</pre>
+ * <p>
+ * In the example above, the signature matches e.g. "auud\\0" with
+ * relevance 100, and "blau" with relevance 90.
  */
 public class PixbufModulePattern extends io.github.jwharm.javagi.ResourceBase {
 

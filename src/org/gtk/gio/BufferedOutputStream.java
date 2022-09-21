@@ -8,19 +8,19 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Buffered output stream implements {@link org.gtk.gio.FilterOutputStream} and provides
+ * Buffered output stream implements {@link FilterOutputStream} and provides
  * for buffered writes.
- * 
- * By default, {@link org.gtk.gio.BufferedOutputStream} <code>#39</code> s buffer size is set at 4 kilobytes.
- * 
+ * <p>
+ * By default, {@link BufferedOutputStream}'s buffer size is set at 4 kilobytes.
+ * <p>
  * To create a buffered output stream, use g_buffered_output_stream_new(),
- * or g_buffered_output_stream_new_sized() to specify the buffer&<code>#39</code> s size
+ * or g_buffered_output_stream_new_sized() to specify the buffer's size
  * at construction.
- * 
+ * <p>
  * To get the size of a buffer within a buffered input stream, use
  * g_buffered_output_stream_get_buffer_size(). To change the size of a
- * buffered output stream&<code>#39</code> s buffer, use
- * g_buffered_output_stream_set_buffer_size(). Note that the buffer&<code>#39</code> s
+ * buffered output stream's buffer, use
+ * g_buffered_output_stream_set_buffer_size(). Note that the buffer's
  * size cannot be reduced below the size of the data within the buffer.
  */
 public class BufferedOutputStream extends FilterOutputStream implements Seekable {
@@ -67,7 +67,7 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
     }
     
     /**
-     * Gets the size of the buffer in the @stream.
+     * Gets the size of the buffer in the {@code stream}.
      */
     public long getBufferSize() {
         var RESULT = gtk_h.g_buffered_output_stream_get_buffer_size(handle());
@@ -75,8 +75,8 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
     }
     
     /**
-     * Sets whether or not the @stream&<code>#39</code> s buffer should automatically grow.
-     * If @auto_grow is true, then each write will just make the buffer
+     * Sets whether or not the {@code stream}'s buffer should automatically grow.
+     * If {@code auto_grow} is true, then each write will just make the buffer
      * larger, and you must manually flush the buffer to actually write out
      * the data to the underlying stream.
      */
@@ -85,7 +85,7 @@ public class BufferedOutputStream extends FilterOutputStream implements Seekable
     }
     
     /**
-     * Sets the size of the internal buffer to @size.
+     * Sets the size of the internal buffer to {@code size}.
      */
     public void setBufferSize(long size) {
         gtk_h.g_buffered_output_stream_set_buffer_size(handle(), size);

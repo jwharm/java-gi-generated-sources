@@ -2,7 +2,7 @@ package org.gtk.gdk;
 
 /**
  * Defines how device axes are interpreted by GTK.
- * 
+ * <p>
  * Note that the X and Y axes are not really needed; pointer devices
  * report their location via the x/y members of events regardless. Whether
  * X and Y are present as axes depends on the GDK backend.

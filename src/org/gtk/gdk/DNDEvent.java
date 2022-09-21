@@ -22,7 +22,7 @@ public class DNDEvent extends Event {
     }
     
     /**
-     * Gets the <code>GdkDrop</code> object from a DND event.
+     * Gets the {@code GdkDrop} object from a DND event.
      */
     public Drop getDrop() {
         var RESULT = gtk_h.gdk_dnd_event_get_drop(handle());

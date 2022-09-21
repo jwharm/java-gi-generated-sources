@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkPageSetupUnixDialog</code> implements a page setup dialog for platforms
- * which don&<code>#8217</code> t provide a native page setup dialog, like Unix.
- * 
- * !{@link [An example GtkPageSetupUnixDialog]}(pagesetupdialog.png)
- * 
+ * {@code GtkPageSetupUnixDialog} implements a page setup dialog for platforms
+ * which don’t provide a native page setup dialog, like Unix.
+ * <p>
+ * <img src="./doc-files/pagesetupdialog.png" alt="An example GtkPageSetupUnixDialog">
+ * <p>
  * It can be used very much like any other GTK dialog, at the
  * cost of the portability offered by the high-level printing
- * API in {@link org.gtk.gtk.PrintOperation}.
+ * API in {@link PrintOperation}.
  */
 public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
 
@@ -57,7 +57,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
     }
     
     /**
-     * Sets the <code>GtkPageSetup</code> from which the page setup
+     * Sets the {@code GtkPageSetup} from which the page setup
      * dialog takes its values.
      */
     public void setPageSetup(PageSetup pageSetup) {
@@ -65,7 +65,7 @@ public class PageSetupUnixDialog extends Dialog implements Accessible, Buildable
     }
     
     /**
-     * Sets the <code>GtkPrintSettings</code> from which the page setup dialog
+     * Sets the {@code GtkPrintSettings} from which the page setup dialog
      * takes its values.
      */
     public void setPrintSettings(PrintSettings printSettings) {

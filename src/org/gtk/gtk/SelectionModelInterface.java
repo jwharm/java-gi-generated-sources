@@ -8,8 +8,8 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The list of virtual functions for the <code>GtkSelectionModel</code> interface.
- * No function must be implemented, but unless <code>GtkSelectionModel::is_selected()</code>
+ * The list of virtual functions for the {@code GtkSelectionModel} interface.
+ * No function must be implemented, but unless {@code GtkSelectionModel::is_selected()}
  * is implemented, it will not be possible to select items in the set.
  * <p>
  * The model does not need to implement any functions to support either
@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  * it means that users cannot select or unselect items in a list widget
  * using the model.
  * <p>
- * All selection functions fall back to <code>GtkSelectionModel::set_selection()</code>
+ * All selection functions fall back to {@code GtkSelectionModel::set_selection()}
  * so it is sufficient to implement just that function for full selection
  * support.
  */

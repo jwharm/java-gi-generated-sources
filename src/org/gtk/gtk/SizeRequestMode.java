@@ -17,7 +17,7 @@ public enum SizeRequestMode {
     WIDTH_FOR_HEIGHT,
     
     /**
-     * Don&<code>#8217</code> t trade height-for-width or width-for-height
+     * Don’t trade height-for-width or width-for-height
      */
     CONSTANT_SIZE;
     

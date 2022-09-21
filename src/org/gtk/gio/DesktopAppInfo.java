@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.DesktopAppInfo} is an implementation of {@link org.gtk.gio.AppInfo} based on
+ * {@link DesktopAppInfo} is an implementation of {@link AppInfo} based on
  * desktop files.
  * <p>
- * Note that <code>&<code>#60</code> gio/gdesktopappinfo.h&<code>#62</code> </code> belongs to the UNIX-specific
- * GIO interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
+ * Note that {@code <gio/gdesktopappinfo.h>} belongs to the UNIX-specific
+ * GIO interfaces, thus you have to use the {@code gio-unix-2.0.pc} pkg-config
  * file when using it.
  */
 public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
@@ -32,16 +32,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.DesktopAppInfo} based on a desktop file id.
+     * Creates a new {@link DesktopAppInfo} based on a desktop file id.
      * <p>
      * A desktop file id is the basename of the desktop file, including the
      * .desktop extension. GIO is looking for a desktop file with this name
-     * in the <code>applications</code> subdirectories of the XDG
-     * data directories (i.e. the directories specified in the <code>XDG_DATA_HOME</code>
-     * and <code>XDG_DATA_DIRS</code> environment variables). GIO also supports the
+     * in the {@code applications} subdirectories of the XDG
+     * data directories (i.e. the directories specified in the {@code XDG_DATA_HOME}
+     * and {@code XDG_DATA_DIRS} environment variables). GIO also supports the
      * prefix-to-subdirectory mapping that is described in the
-     * {@link [Menu Spec]}(http://standards.freedesktop.org/menu-spec/latest/)
-     * (i.e. a desktop id of kde-foo.desktop will match<code>/usr/share/applications/kde/foo.desktop</code>).
+     * <a href="http://standards.freedesktop.org/menu-spec/latest/">Menu Spec</a>
+     * (i.e. a desktop id of kde-foo.desktop will match
+     * {@code /usr/share/applications/kde/foo.desktop}).
      */
     public DesktopAppInfo(java.lang.String desktopId) {
         super(constructNew(desktopId));
@@ -53,7 +54,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.DesktopAppInfo}
+     * Creates a new {@link DesktopAppInfo}.
      */
     public static DesktopAppInfo newFromFilename(java.lang.String filename) {
         return new DesktopAppInfo(constructNewFromFilename(filename));
@@ -65,17 +66,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Creates a new {@link org.gtk.gio.DesktopAppInfo}
+     * Creates a new {@link DesktopAppInfo}.
      */
     public static DesktopAppInfo newFromKeyfile(org.gtk.glib.KeyFile keyFile) {
         return new DesktopAppInfo(constructNewFromKeyfile(keyFile));
     }
     
     /**
-     * Gets the user-visible display name of the &<code>#34</code> additional application
-     * action&<code>#34</code>  specified by @action_name.
-     * 
-     * This corresponds to the &<code>#34</code> Name&<code>#34</code>  key within the keyfile group for the
+     * Gets the user-visible display name of the "additional application
+     * action" specified by {@code action_name}.
+     * <p>
+     * This corresponds to the "Name" key within the keyfile group for the
      * action.
      */
     public java.lang.String getActionName(java.lang.String actionName) {
@@ -84,9 +85,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Looks up a boolean value in the keyfile backing @info.
-     * 
-     * The @key is looked up in the &<code>#34</code> Desktop Entry&<code>#34</code>  group.
+     * Looks up a boolean value in the keyfile backing {@code info}.
+     * <p>
+     * The {@code key} is looked up in the "Desktop Entry" group.
      */
     public boolean getBoolean(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_get_boolean(handle(), Interop.allocateNativeString(key).handle());
@@ -102,9 +103,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * When @info was created from a known filename, return it.  In some
-     * situations such as the {@link org.gtk.gio.DesktopAppInfo} returned from
-     * g_desktop_app_info_new_from_keyfile(), this function will return <code>null</code>
+     * When {@code info} was created from a known filename, return it.  In some
+     * situations such as the {@link DesktopAppInfo} returned from
+     * g_desktop_app_info_new_from_keyfile(), this function will return <code>null</code>.
      */
     public java.lang.String getFilename() {
         var RESULT = gtk_h.g_desktop_app_info_get_filename(handle());
@@ -129,10 +130,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Looks up a localized string value in the keyfile backing @info
+     * Looks up a localized string value in the keyfile backing {@code info}
      * translated to the current locale.
-     * 
-     * The @key is looked up in the &<code>#34</code> Desktop Entry&<code>#34</code>  group.
+     * <p>
+     * The {@code key} is looked up in the "Desktop Entry" group.
      */
     public java.lang.String getLocaleString(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_get_locale_string(handle(), Interop.allocateNativeString(key).handle());
@@ -142,7 +143,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Gets the value of the NoDisplay key, which helps determine if the
      * application info should be shown in menus. See
-     * <code>G_KEY_FILE_DESKTOP_KEY_NO_DISPLAY</code> and g_app_info_should_show().
+     * {@code G_KEY_FILE_DESKTOP_KEY_NO_DISPLAY} and g_app_info_should_show().
      */
     public boolean getNodisplay() {
         var RESULT = gtk_h.g_desktop_app_info_get_nodisplay(handle());
@@ -151,14 +152,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     
     /**
      * Checks if the application info should be shown in menus that list available
-     * applications for a specific name of the desktop, based on the<code>OnlyShowIn</code> and <code>NotShowIn</code> keys.
+     * applications for a specific name of the desktop, based on the
+     * {@code OnlyShowIn} and {@code NotShowIn} keys.
      * <p>
-     * @desktop_env should typically be given as <code>null</code>  in which case the<code>XDG_CURRENT_DESKTOP</code> environment variable is consulted.  If you want
-     * to override the default mechanism then you may specify @desktop_env,
+     * {@code desktop_env} should typically be given as <code>null</code>, in which case the
+     * {@code XDG_CURRENT_DESKTOP} environment variable is consulted.  If you want
+     * to override the default mechanism then you may specify {@code desktop_env},
      * but this is not recommended.
-     * 
-     * Note that g_app_info_should_show() for @info will include this check (with
-     * <code>null</code> for @desktop_env) as well as additional checks.
+     * <p>
+     * Note that g_app_info_should_show() for {@code info} will include this check (with
+     * <code>null</code> for {@code desktop_env}) as well as additional checks.
      */
     public boolean getShowIn(java.lang.String desktopEnv) {
         var RESULT = gtk_h.g_desktop_app_info_get_show_in(handle(), Interop.allocateNativeString(desktopEnv).handle());
@@ -166,9 +169,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Retrieves the StartupWMClass field from @info. This represents the
+     * Retrieves the StartupWMClass field from {@code info}. This represents the
      * WM_CLASS property of the main window of the application, if launched
-     * through @info.
+     * through {@code info}.
      */
     public java.lang.String getStartupWmClass() {
         var RESULT = gtk_h.g_desktop_app_info_get_startup_wm_class(handle());
@@ -176,9 +179,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Looks up a string value in the keyfile backing @info.
-     * 
-     * The @key is looked up in the &<code>#34</code> Desktop Entry&<code>#34</code>  group.
+     * Looks up a string value in the keyfile backing {@code info}.
+     * <p>
+     * The {@code key} is looked up in the "Desktop Entry" group.
      */
     public java.lang.String getString(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_get_string(handle(), Interop.allocateNativeString(key).handle());
@@ -186,8 +189,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Returns whether @key exists in the &<code>#34</code> Desktop Entry&<code>#34</code>  group
-     * of the keyfile backing @info.
+     * Returns whether {@code key} exists in the "Desktop Entry" group
+     * of the keyfile backing {@code info}.
      */
     public boolean hasKey(java.lang.String key) {
         var RESULT = gtk_h.g_desktop_app_info_has_key(handle(), Interop.allocateNativeString(key).handle());
@@ -196,18 +199,18 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     
     /**
      * Activates the named application action.
-     * 
+     * <p>
      * You may only call this function on action names that were
      * returned from g_desktop_app_info_list_actions().
-     * 
+     * <p>
      * Note that if the main entry of the desktop file indicates that the
-     * application supports startup notification, and @launch_context is
-     * non-<code>null</code>  then startup notification will be used when activating the
+     * application supports startup notification, and {@code launch_context} is
+     * non-<code>null</code>, then startup notification will be used when activating the
      * action (and as such, invocation of the action on the receiving side
      * must signal the end of startup notification when it is completed).
      * This is the expected behaviour of applications declaring additional
      * actions, as per the desktop file specification.
-     * 
+     * <p>
      * As with g_app_info_launch() there is no way to detect failures that
      * occur while using this function.
      */
@@ -220,17 +223,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * but is intended primarily for operating system components that
      * launch applications.  Ordinary applications should use
      * g_app_info_launch_uris().
-     * 
-     * If the application is launched via GSpawn, then @spawn_flags, @user_setup
-     * and @user_setup_data are used for the call to g_spawn_async().
-     * Additionally, @pid_callback (with @pid_callback_data) will be called to
+     * <p>
+     * If the application is launched via GSpawn, then {@code spawn_flags}, {@code user_setup}
+     * and {@code user_setup_data} are used for the call to g_spawn_async().
+     * Additionally, {@code pid_callback} (with {@code pid_callback_data}) will be called to
      * inform about the PID of the created process. See g_spawn_async_with_pipes()
      * for information on certain parameter conditions that can enable an
      * optimized posix_spawn() codepath to be used.
-     * 
+     * <p>
      * If application launching occurs via some other mechanism (eg: D-Bus
-     * activation) then @spawn_flags, @user_setup, @user_setup_data,
-     * @pid_callback and @pid_callback_data are ignored.
+     * activation) then {@code spawn_flags}, {@code user_setup}, {@code user_setup_data},
+     * {@code pid_callback} and {@code pid_callback_data} are ignored.
      */
     public boolean launchUrisAsManager(org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -261,9 +264,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * Equivalent to g_desktop_app_info_launch_uris_as_manager() but allows
      * you to pass in file descriptors for the stdin, stdout and stderr streams
      * of the launched process.
-     * 
+     * <p>
      * If application launching occurs via some non-spawn mechanism (e.g. D-Bus
-     * activation) then @stdin_fd, @stdout_fd and @stderr_fd are ignored.
+     * activation) then {@code stdin_fd}, {@code stdout_fd} and {@code stderr_fd} are ignored.
      */
     public boolean launchUrisAsManagerWithFds(org.gtk.glib.List uris, AppLaunchContext launchContext, int spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -291,8 +294,8 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     }
     
     /**
-     * Gets all applications that implement @interface.
-     * 
+     * Gets all applications that implement {@code interface}.
+     * <p>
      * An application implements an interface if that interface is listed in
      * the Implements= line of the desktop file of the application.
      */

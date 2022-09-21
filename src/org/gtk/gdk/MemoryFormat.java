@@ -1,16 +1,16 @@
 package org.gtk.gdk;
 
 /**
- * <code>GdkMemoryFormat</code> describes formats that image data can have in memory.
+ * {@code GdkMemoryFormat} describes formats that image data can have in memory.
  * <p>
  * It describes formats by listing the contents of the memory passed to it.
  * So GDK_MEMORY_A8R8G8B8 will be 1 byte (8 bits) of alpha, followed by a
  * byte each of red, green and blue. It is not endian-dependent, so
- * CAIRO_FORMAT_ARGB32 is represented by different <code>GdkMemoryFormats</code>
+ * CAIRO_FORMAT_ARGB32 is represented by different {@code GdkMemoryFormats}
  * on architectures with different endiannesses.
- * 
+ * <p>
  * Its naming is modelled after
- * {@link [VkFormat]}(https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html<code>#VkFormat</code> 
+ * <a href="https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html#VkFormat">VkFormat</a>
  * for details).
  */
 public enum MemoryFormat {

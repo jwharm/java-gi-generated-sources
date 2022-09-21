@@ -8,57 +8,59 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.MemoryMonitor} will monitor system memory and suggest to the application
+ * {@link MemoryMonitor} will monitor system memory and suggest to the application
  * when to free memory so as to leave more room for other applications.
- * It is implemented on Linux using the {@link [Low Memory Monitor]}(https://gitlab.freedesktop.org/hadess/low-memory-monitor/)
- * ({@link [API documentation]}(https://hadess.pages.freedesktop.org/low-memory-monitor/)).
+ * It is implemented on Linux using the <a href="https://gitlab.freedesktop.org/hadess/low-memory-monitor/">Low Memory Monitor</a>
+ * (<a href="https://hadess.pages.freedesktop.org/low-memory-monitor/)">API documentation</a>.
  * <p>
  * There is also an implementation for use inside Flatpak sandboxes.
  * <p>
  * Possible actions to take when the signal is received are:
  * <p>
- *  - Free caches
- *  - Save files that haven&<code>#39</code> t been looked at in a while to disk, ready to be reopened when needed
- *  - Run a garbage collection cycle
- *  - Try and compress fragmented allocations
- *  - Exit on idle if the process has no reason to stay around
- *  - Call {@link [<code>malloc_trim(3)</code>]}(man:malloc_trim) to return cached heap pages to
+ * <ul>
+ * <li>Free caches
+ * <li>Save files that haven't been looked at in a while to disk, ready to be reopened when needed
+ * <li>Run a garbage collection cycle
+ * <li>Try and compress fragmented allocations
+ * <li>Exit on idle if the process has no reason to stay around
+ * <li>Call <a href="man:malloc_trim">`malloc_trim(3)`</a> to return cached heap pages to
  *    the kernel (if supported by your libc)
+ * </ul>
  * <p>
  * Note that some actions may not always improve system performance, and so
- * should be profiled for your application. <code>malloc_trim()</code>, for example, may
+ * should be profiled for your application. {@code malloc_trim()}, for example, may
  * make future heap allocations slower (due to releasing cached heap pages back
  * to the kernel).
- * 
- * See {@link org.gtk.gio.MemoryMonitorWarningLevel} for details on the various warning levels.
- * 
- * |{@link [&<code>#60</code> !-- language=&<code>#34</code> C&<code>#34</code>  --&<code>#62</code> 
+ * <p>
+ * See {@link MemoryMonitorWarningLevel} for details on the various warning levels.
+ * <p>
+ * |[&lt;!-- language="C" --&gt;
  * static void
  * warning_cb (GMemoryMonitor *m, GMemoryMonitorWarningLevel level)
  * {
- *   g_debug (&<code>#34</code> Warning level: <code>d</code> <code>#34</code> , level);
- *   if (warning_level &<code>#62</code>  G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
+ *   g_debug ("Warning level: {@code d}", level);
+ *   if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
  *     drop_caches ();
  * }
- * 
+ * <p>
  * static GMemoryMonitor *
  * monitor_low_memory (void)
  * {
  *   GMemoryMonitor *m;
  *   m = g_memory_monitor_dup_default ();
- *   g_signal_connect (G_OBJECT (m), &<code>#34</code> low-memory-warning&<code>#34</code> ,
+ *   g_signal_connect (G_OBJECT (m), "low-memory-warning",
  *                     G_CALLBACK (warning_cb), NULL);
  *   return m;
  * }
- * ]}|
- * 
- * Don&<code>#39</code> t forget to disconnect the {@link org.gtk.gio.MemoryMonitor} :low-memory-warning
- * signal, and unref the {@link org.gtk.gio.MemoryMonitor} itself when exiting.
+ * ]|
+ * <p>
+ * Don't forget to disconnect the {@link MemoryMonitor}::low-memory-warning
+ * signal, and unref the {@link MemoryMonitor} itself when exiting.
  */
 public interface MemoryMonitor extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets a reference to the default {@link org.gtk.gio.MemoryMonitor} for the system.
+     * Gets a reference to the default {@link MemoryMonitor} for the system.
      */
     public static MemoryMonitor dupDefault() {
         var RESULT = gtk_h.g_memory_monitor_dup_default();
@@ -73,7 +75,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Emitted when the system is running low on free memory. The signal
      * handler should then take the appropriate action depending on the
-     * warning level. See the {@link org.gtk.gio.MemoryMonitorWarningLevel} documentation for
+     * warning level. See the {@link MemoryMonitorWarningLevel} documentation for
      * details.
      */
     public default SignalHandle onLowMemoryWarning(LowMemoryWarningHandler handler) {

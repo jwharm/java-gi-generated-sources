@@ -1,7 +1,7 @@
 package org.gtk.gdk;
 
 /**
- * Error enumeration for <code>GdkGLContext</code>.
+ * Error enumeration for {@code GdkGLContext}.
  */
 public enum GLError {
 

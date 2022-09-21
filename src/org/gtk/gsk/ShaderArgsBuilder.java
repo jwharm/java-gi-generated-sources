@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * An object to build the uniforms data for a <code>GskGLShader</code>.
+ * An object to build the uniforms data for a {@code GskGLShader}.
  */
 public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
 
@@ -30,11 +30,11 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new <code>GBytes</code> args from the current state of the
-     * given @builder, and frees the @builder instance.
-     * 
+     * Creates a new {@code GBytes} args from the current state of the
+     * given {@code builder}, and frees the {@code builder} instance.
+     * <p>
      * Any uniforms of the shader that have not been explicitly set
-     * on the @builder are zero-initialized.
+     * on the {@code builder} are zero-initialized.
      */
     public org.gtk.glib.Bytes freeToArgs() {
         var RESULT = gtk_h.gsk_shader_args_builder_free_to_args(handle());
@@ -42,7 +42,7 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count of a <code>GskShaderArgsBuilder</code> by one.
+     * Increases the reference count of a {@code GskShaderArgsBuilder} by one.
      */
     public ShaderArgsBuilder ref() {
         var RESULT = gtk_h.gsk_shader_args_builder_ref(handle());
@@ -50,8 +50,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of the uniform @idx.
-     * 
+     * Sets the value of the uniform {@code idx}.
+     * <p>
      * The uniform must be of bool type.
      */
     public void setBool(int idx, boolean value) {
@@ -59,8 +59,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of the uniform @idx.
-     * 
+     * Sets the value of the uniform {@code idx}.
+     * <p>
      * The uniform must be of float type.
      */
     public void setFloat(int idx, float value) {
@@ -68,8 +68,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of the uniform @idx.
-     * 
+     * Sets the value of the uniform {@code idx}.
+     * <p>
      * The uniform must be of int type.
      */
     public void setInt(int idx, int value) {
@@ -77,8 +77,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of the uniform @idx.
-     * 
+     * Sets the value of the uniform {@code idx}.
+     * <p>
      * The uniform must be of uint type.
      */
     public void setUint(int idx, int value) {
@@ -86,8 +86,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of the uniform @idx.
-     * 
+     * Sets the value of the uniform {@code idx}.
+     * <p>
      * The uniform must be of vec2 type.
      */
     public void setVec2(int idx, org.gtk.graphene.Vec2 value) {
@@ -95,8 +95,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of the uniform @idx.
-     * 
+     * Sets the value of the uniform {@code idx}.
+     * <p>
      * The uniform must be of vec3 type.
      */
     public void setVec3(int idx, org.gtk.graphene.Vec3 value) {
@@ -104,8 +104,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the value of the uniform @idx.
-     * 
+     * Sets the value of the uniform {@code idx}.
+     * <p>
      * The uniform must be of vec4 type.
      */
     public void setVec4(int idx, org.gtk.graphene.Vec4 value) {
@@ -113,17 +113,17 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new <code>GBytes</code> args from the current state of the
-     * given @builder.
+     * Creates a new {@code GBytes} args from the current state of the
+     * given {@code builder}.
      * <p>
      * Any uniforms of the shader that have not been explicitly set on
-     * the @builder are zero-initialized.
+     * the {@code builder} are zero-initialized.
      * <p>
-     * The given <code>GskShaderArgsBuilder</code> is reset once this function returns;
-     * you cannot call this function multiple times on the same @builder instance.
-     * 
+     * The given {@code GskShaderArgsBuilder} is reset once this function returns;
+     * you cannot call this function multiple times on the same {@code builder} instance.
+     * <p>
      * This function is intended primarily for bindings. C code should use
-     * {@link org.gtk.gsk.ShaderArgsBuilder<code>#freeToArgs</code> .
+     * {@link ShaderArgsBuilder#freeToArgs}.
      */
     public org.gtk.glib.Bytes toArgs() {
         var RESULT = gtk_h.gsk_shader_args_builder_to_args(handle());
@@ -131,8 +131,8 @@ public class ShaderArgsBuilder extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count of a <code>GskShaderArgBuilder</code> by one.
-     * 
+     * Decreases the reference count of a {@code GskShaderArgBuilder} by one.
+     * <p>
      * If the resulting reference count is zero, frees the builder.
      */
     public void unref() {

@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The class structure for <code>GtkTextBuffer</code>.
+ * The class structure for {@code GtkTextBuffer}.
  */
 public class TextBufferClass extends io.github.jwharm.javagi.ResourceBase {
 

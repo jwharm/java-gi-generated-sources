@@ -8,11 +8,11 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.FileDescriptorBased} is implemented by streams (implementations of
- * {@link org.gtk.gio.InputStream} or {@link org.gtk.gio.OutputStream}  that are based on file descriptors.
+ * {@link FileDescriptorBased} is implemented by streams (implementations of
+ * {@link InputStream} or {@link OutputStream}) that are based on file descriptors.
  * <p>
- * Note that <code>&<code>#60</code> gio/gfiledescriptorbased.h&<code>#62</code> </code> belongs to the UNIX-specific
- * GIO interfaces, thus you have to use the <code>gio-unix-2.0.pc</code> pkg-config
+ * Note that {@code <gio/gfiledescriptorbased.h>} belongs to the UNIX-specific
+ * GIO interfaces, thus you have to use the {@code gio-unix-2.0.pc} pkg-config
  * file when using it.
  */
 public interface FileDescriptorBased extends io.github.jwharm.javagi.NativeAddress {

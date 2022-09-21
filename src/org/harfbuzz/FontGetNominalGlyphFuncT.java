@@ -1,10 +1,10 @@
 package org.harfbuzz;
 
 /**
- * A virtual method for the {@link org.harfbuzz.font_funcs_t} of an {@link org.harfbuzz.font_t} object.
- * 
+ * A virtual method for the {@link font_funcs_t} of an {@link font_t} object.
+ * <p>
  * This method should retrieve the nominal glyph ID for a specified Unicode code
- * point. Glyph IDs must be returned in a {@link org.harfbuzz.codepoint_t} output parameter.
+ * point. Glyph IDs must be returned in a {@link codepoint_t} output parameter.
  */
 @FunctionalInterface
 public interface FontGetNominalGlyphFuncT {

@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * Base type for snapshot operations.
  * <p>
- * The subclass of <code>GdkSnapshot</code> used by GTK is {@link org.gtk.gtk.Snapshot}.
+ * The subclass of {@code GdkSnapshot} used by GTK is {@link org.gtk.gtk.Snapshot}.
  */
 public class Snapshot extends org.gtk.gobject.Object {
 

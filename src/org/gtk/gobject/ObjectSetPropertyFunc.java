@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 /**
- * The type of the @set_property function of {@link org.gtk.gobject.ObjectClass}
+ * The type of the {@code set_property} function of {@link ObjectClass}.
  */
 @FunctionalInterface
 public interface ObjectSetPropertyFunc {

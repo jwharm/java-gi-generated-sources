@@ -10,13 +10,13 @@ import java.lang.invoke.*;
 /**
  * A widget with two panes, arranged either horizontally or vertically.
  * <p>
- * !{@link [An example GtkPaned]}(panes.png)
+ * <img src="./doc-files/panes.png" alt="An example GtkPaned">
  * <p>
  * The division between the two panes is adjustable by the user
  * by dragging a handle.
  * <p>
  * Child widgets are added to the panes of the widget with
- * {@link org.gtk.gtk.Paned<code>#setStartChild</code>  and {@link org.gtk.gtk.Paned<code>#setEndChild</code> .
+ * {@code Gtk.Paned.set_end_child}.
  * The division between the two children is set by default from the size
  * requests of the children, but it can be adjusted by the user.
  * <p>
@@ -24,28 +24,30 @@ import java.lang.invoke.*;
  * small handle that the user can drag to adjust the division. It does not
  * draw any relief around the children or around the separator. (The space
  * in which the separator is called the gutter.) Often, it is useful to put
- * each child inside a {@link org.gtk.gtk.Frame} so that the gutter appears as a
+ * each child inside a {@link Frame} so that the gutter appears as a
  * ridge. No separator is drawn if one of the children is missing.
  * <p>
- * Each child has two options that can be set, &<code>#34</code> resize&<code>#34</code>  and &<code>#34</code> shrink&<code>#34</code> . If
- * &<code>#34</code> resize&<code>#34</code>  is true then, when the <code>GtkPaned</code> is resized, that child will
- * expand or shrink along with the paned widget. If &<code>#34</code> shrink&<code>#34</code>  is true, then
+ * Each child has two options that can be set, "resize" and "shrink". If
+ * "resize" is true then, when the {@code GtkPaned} is resized, that child will
+ * expand or shrink along with the paned widget. If "shrink" is true, then
  * that child can be made smaller than its requisition by the user.
- * Setting &<code>#34</code> shrink&<code>#34</code>  to false allows the application to set a minimum size.
- * If &<code>#34</code> resize&<code>#34</code>  is false for both children, then this is treated as if
- * &<code>#34</code> resize&<code>#34</code>  is true for both children.
+ * Setting "shrink" to false allows the application to set a minimum size.
+ * If "resize" is false for both children, then this is treated as if
+ * "resize" is true for both children.
  * <p>
  * The application can set the position of the slider as if it were set
- * by the user, by calling {@link org.gtk.gtk.Paned<code>#setPosition</code> .
+ * by the user, by calling {@link Paned#setPosition}.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><pre>
+ * <p>
+ * <pre>{@code 
  * paned
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- * &<code>#9500</code> &<code>#9472</code> &<code>#9472</code>  separator{@link [.wide]}
- * &<code>#9584</code> &<code>#9472</code> &<code>#9472</code>  &<code>#60</code> child&<code>#62</code> 
- * </pre>
- * <p><code>GtkPaned</code> has a main CSS node with name paned, and a subnode for
+ * ├── <child>
+ * ├── separator[.wide]
+ * ╰── <child>
+ * }</pre>
+ * <p>
+ * {@code GtkPaned} has a main CSS node with name paned, and a subnode for
  * the separator with name separator. The subnode gets a .wide style
  * class when the paned is supposed to be wide.
  * <p>
@@ -55,7 +57,8 @@ import java.lang.invoke.*;
  * RTL layouts.
  * <p>
  * <h2>Creating a paned widget with minimum sizes.</h2>
- * <p><pre>c
+ * <p>
+ * <pre>{@code c
  * GtkWidget *hpaned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
  * GtkWidget *frame1 = gtk_frame_new (NULL);
  * GtkWidget *frame2 = gtk_frame_new (NULL);
@@ -71,7 +74,7 @@ import java.lang.invoke.*;
  * gtk_paned_set_end_child_resize (GTK_PANED (hpaned), FALSE);
  * gtk_paned_set_end_child_shrink (GTK_PANED (hpaned), FALSE);
  * gtk_widget_set_size_request (frame2, 50, -1);
- * </pre>
+ * }</pre>
  */
 public class Paned extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
 
@@ -90,14 +93,14 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Creates a new <code>GtkPaned</code> widget.
+     * Creates a new {@code GtkPaned} widget.
      */
     public Paned(Orientation orientation) {
         super(constructNew(orientation));
     }
     
     /**
-     * Retrieves the end child of the given <code>GtkPaned</code>.
+     * Retrieves the end child of the given {@code GtkPaned}.
      */
     public Widget getEndChild() {
         var RESULT = gtk_h.gtk_paned_get_end_child(handle());
@@ -113,7 +116,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns whether the {@link [property@Gtk.Paned:end-child] (ref=property)} can be resized.
+     * Returns whether the {@code Gtk.Paned:end-child} can be resized.
      */
     public boolean getResizeEndChild() {
         var RESULT = gtk_h.gtk_paned_get_resize_end_child(handle());
@@ -121,7 +124,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns whether the {@link [property@Gtk.Paned:start-child] (ref=property)} can be resized.
+     * Returns whether the {@code Gtk.Paned:start-child} can be resized.
      */
     public boolean getResizeStartChild() {
         var RESULT = gtk_h.gtk_paned_get_resize_start_child(handle());
@@ -129,7 +132,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns whether the {@link [property@Gtk.Paned:end-child] (ref=property)} can shrink.
+     * Returns whether the {@code Gtk.Paned:end-child} can shrink.
      */
     public boolean getShrinkEndChild() {
         var RESULT = gtk_h.gtk_paned_get_shrink_end_child(handle());
@@ -137,7 +140,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns whether the {@link [property@Gtk.Paned:start-child] (ref=property)} can shrink.
+     * Returns whether the {@code Gtk.Paned:start-child} can shrink.
      */
     public boolean getShrinkStartChild() {
         var RESULT = gtk_h.gtk_paned_get_shrink_start_child(handle());
@@ -145,7 +148,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Retrieves the start child of the given <code>GtkPaned</code>.
+     * Retrieves the start child of the given {@code GtkPaned}.
      */
     public Widget getStartChild() {
         var RESULT = gtk_h.gtk_paned_get_start_child(handle());
@@ -161,9 +164,9 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets the end child of @paned to @child.
+     * Sets the end child of {@code paned} to {@code child}.
      * <p>
-     * If @child is <code>NULL</code>, the existing child will be removed.
+     * If {@code child} is {@code NULL}, the existing child will be removed.
      */
     public void setEndChild(Widget child) {
         gtk_h.gtk_paned_set_end_child(handle(), child.handle());
@@ -177,37 +180,37 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Sets whether the {@link [property@Gtk.Paned:end-child] (ref=property)} can be resized.
+     * Sets whether the {@code Gtk.Paned:end-child} can be resized.
      */
     public void setResizeEndChild(boolean resize) {
         gtk_h.gtk_paned_set_resize_end_child(handle(), resize ? 1 : 0);
     }
     
     /**
-     * Sets whether the {@link [property@Gtk.Paned:start-child] (ref=property)} can be resized.
+     * Sets whether the {@code Gtk.Paned:start-child} can be resized.
      */
     public void setResizeStartChild(boolean resize) {
         gtk_h.gtk_paned_set_resize_start_child(handle(), resize ? 1 : 0);
     }
     
     /**
-     * Sets whether the {@link [property@Gtk.Paned:end-child] (ref=property)} can shrink.
+     * Sets whether the {@code Gtk.Paned:end-child} can shrink.
      */
     public void setShrinkEndChild(boolean resize) {
         gtk_h.gtk_paned_set_shrink_end_child(handle(), resize ? 1 : 0);
     }
     
     /**
-     * Sets whether the {@link [property@Gtk.Paned:start-child] (ref=property)} can shrink.
+     * Sets whether the {@code Gtk.Paned:start-child} can shrink.
      */
     public void setShrinkStartChild(boolean resize) {
         gtk_h.gtk_paned_set_shrink_start_child(handle(), resize ? 1 : 0);
     }
     
     /**
-     * Sets the start child of @paned to @child.
+     * Sets the start child of {@code paned} to {@code child}.
      * <p>
-     * If @child is <code>NULL</code>, the existing child will be removed.
+     * If {@code child} is {@code NULL}, the existing child will be removed.
      */
     public void setStartChild(Widget child) {
         gtk_h.gtk_paned_set_start_child(handle(), child.handle());
@@ -228,11 +231,11 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Emitted to accept the current position of the handle when
      * moving it using key bindings.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Return&<code>#60</code> /kbd&<code>#62</code>  or
-     * &<code>#60</code> kbd&<code>#62</code> Space&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding for this signal is &lt;kbd>Return</kbd&gt; or
+     * &lt;kbd>Space</kbd&gt;.
      */
     public SignalHandle onAcceptPosition(AcceptPositionHandler handler) {
         try {
@@ -257,13 +260,13 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Emitted to cancel moving the position of the handle using key
      * bindings.
-     * 
+     * <p>
      * The position of the handle will be reset to the value prior to
      * moving it.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> Escape&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding for this signal is &lt;kbd>Escape</kbd&gt;.
      */
     public SignalHandle onCancelPosition(CancelPositionHandler handler) {
         try {
@@ -287,10 +290,10 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     
     /**
      * Emitted to cycle the focus between the children of the paned.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding is &<code>#60</code> kbd&<code>#62</code> F6&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding is &lt;kbd>F6</kbd&gt;.
      */
     public SignalHandle onCycleChildFocus(CycleChildFocusHandler handler) {
         try {
@@ -315,10 +318,10 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Emitted to cycle whether the paned should grab focus to allow
      * the user to change position of the handle by using key bindings.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding for this signal is &<code>#60</code> kbd&<code>#62</code> F8&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding for this signal is &lt;kbd>F8</kbd&gt;.
      */
     public SignalHandle onCycleHandleFocus(CycleHandleFocusHandler handler) {
         try {
@@ -342,8 +345,8 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     
     /**
      * Emitted to move the handle with key bindings.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      */
     public SignalHandle onMoveHandle(MoveHandleHandler handler) {
         try {
@@ -368,10 +371,10 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Emitted to accept the current position of the handle and then
      * move focus to the next widget in the focus chain.
-     * 
-     * This is a {@link [keybinding signal]}(class.SignalAction.html).
-     * 
-     * The default binding is &<code>#60</code> kbd&<code>#62</code> Tab&<code>#60</code> /kbd&<code>#62</code> .
+     * <p>
+     * This is a <a href="class.SignalAction.html">keybinding signal</a>.
+     * <p>
+     * The default binding is &lt;kbd>Tab</kbd&gt;.
      */
     public SignalHandle onToggleHandleFocus(ToggleHandleFocusHandler handler) {
         try {

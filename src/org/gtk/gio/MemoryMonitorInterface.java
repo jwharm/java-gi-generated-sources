@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The virtual function table for {@link org.gtk.gio.MemoryMonitor}
+ * The virtual function table for {@link MemoryMonitor}.
  */
 public class MemoryMonitorInterface extends io.github.jwharm.javagi.ResourceBase {
 

@@ -8,18 +8,18 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.gio.DBusObjectManager} type is the base type for service- and
+ * The {@link DBusObjectManager} type is the base type for service- and
  * client-side implementations of the standardized
- * {@link [org.freedesktop.DBus.ObjectManager]}(http://dbus.freedesktop.org/doc/dbus-specification.html<code>#standard</code> interfaces-objectmanager)
+ * <a href="http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager">org.freedesktop.DBus.ObjectManager</a>
  * interface.
- * 
- * See {@link org.gtk.gio.DBusObjectManagerClient} for the client-side implementation
- * and {@link org.gtk.gio.DBusObjectManagerServer} for the service-side implementation.
+ * <p>
+ * See {@link DBusObjectManagerClient} for the client-side implementation
+ * and {@link DBusObjectManagerServer} for the service-side implementation.
  */
 public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Gets the interface proxy for @interface_name at @object_path, if
+     * Gets the interface proxy for {@code interface_name} at {@code object_path}, if
      * any.
      */
     public default DBusInterface getInterface(java.lang.String objectPath, java.lang.String interfaceName) {
@@ -28,7 +28,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Gets the {@link org.gtk.gio.DBusObject} at @object_path, if any.
+     * Gets the {@link DBusObject} at {@code object_path}, if any.
      */
     public default DBusObject getObject(java.lang.String objectPath) {
         var RESULT = gtk_h.g_dbus_object_manager_get_object(handle(), Interop.allocateNativeString(objectPath).handle());
@@ -36,7 +36,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Gets the object path that @manager is for.
+     * Gets the object path that {@code manager} is for.
      */
     public default java.lang.String getObjectPath() {
         var RESULT = gtk_h.g_dbus_object_manager_get_object_path(handle());
@@ -44,7 +44,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Gets all {@link org.gtk.gio.DBusObject} objects known to @manager.
+     * Gets all {@link DBusObject} objects known to {@code manager}.
      */
     public default org.gtk.glib.List getObjects() {
         var RESULT = gtk_h.g_dbus_object_manager_get_objects(handle());
@@ -57,10 +57,10 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Emitted when @interface is added to @object.
-     * 
+     * Emitted when {@code interface} is added to {@code object}.
+     * <p>
      * This signal exists purely as a convenience to avoid having to
-     * connect signals to all objects managed by @manager.
+     * connect signals to all objects managed by {@code manager}.
      */
     public default SignalHandle onInterfaceAdded(InterfaceAddedHandler handler) {
         try {
@@ -83,10 +83,10 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Emitted when @interface has been removed from @object.
-     * 
+     * Emitted when {@code interface} has been removed from {@code object}.
+     * <p>
      * This signal exists purely as a convenience to avoid having to
-     * connect signals to all objects managed by @manager.
+     * connect signals to all objects managed by {@code manager}.
      */
     public default SignalHandle onInterfaceRemoved(InterfaceRemovedHandler handler) {
         try {
@@ -109,7 +109,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Emitted when @object is added to @manager.
+     * Emitted when {@code object} is added to {@code manager}.
      */
     public default SignalHandle onObjectAdded(ObjectAddedHandler handler) {
         try {
@@ -132,7 +132,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.NativeAddress
     }
     
     /**
-     * Emitted when @object is removed from @manager.
+     * Emitted when {@code object} is removed from {@code manager}.
      */
     public default SignalHandle onObjectRemoved(ObjectRemovedHandler handler) {
         try {

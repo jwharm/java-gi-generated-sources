@@ -8,14 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkStringSorter</code> is a <code>GtkSorter</code> that compares strings.
- * 
+ * {@code GtkStringSorter} is a {@code GtkSorter} that compares strings.
+ * <p>
  * It does the comparison in a linguistically correct way using the
  * current locale by normalizing Unicode strings and possibly case-folding
  * them before performing the comparison.
- * 
+ * <p>
  * To obtain the strings to compare, this sorter evaluates a
- * {@link org.gtk.gtk.Expression}.
+ * {@link Expression}.
  */
 public class StringSorter extends Sorter {
 
@@ -35,8 +35,8 @@ public class StringSorter extends Sorter {
     
     /**
      * Creates a new string sorter that compares items using the given
-     * @expression.
-     * 
+     * {@code expression}.
+     * <p>
      * Unless an expression is set on it, this sorter will always
      * compare items as invalid.
      */
@@ -62,8 +62,8 @@ public class StringSorter extends Sorter {
     
     /**
      * Sets the expression that is evaluated to obtain strings from items.
-     * 
-     * The expression must have the type <code>G_TYPE_STRING</code>
+     * <p>
+     * The expression must have the type {@code G_TYPE_STRING}.
      */
     public void setExpression(Expression expression) {
         gtk_h.gtk_string_sorter_set_expression(handle(), expression.handle());

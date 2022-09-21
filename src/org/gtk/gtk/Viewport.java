@@ -8,19 +8,22 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * <code>GtkViewport</code> implements scrollability for widgets that lack their
+ * {@code GtkViewport} implements scrollability for widgets that lack their
  * own scrolling capabilities.
  * <p>
- * Use <code>GtkViewport</code> to scroll child widgets such as <code>GtkGrid</code>,<code>GtkBox</code>, and so on.
+ * Use {@code GtkViewport} to scroll child widgets such as {@code GtkGrid},
+ * {@code GtkBox}, and so on.
  * <p>
- * The <code>GtkViewport</code> will start scrolling content only if allocated
- * less than the child widget&<code>#8217</code> s minimum size in a given orientation.
+ * The {@code GtkViewport} will start scrolling content only if allocated
+ * less than the child widget’s minimum size in a given orientation.
  * <p>
  * <h1>CSS nodes</h1>
- * <p><code>GtkViewport</code> has a single CSS node with name <code>viewport</code>.
+ * <p>
+ * {@code GtkViewport} has a single CSS node with name {@code viewport}.
  * <p>
  * <h1>Accessibility</h1>
- * <p><code>GtkViewport</code> uses the {@link org.gtk.gtk.AccessibleRole<code>#GROUP</code>  role.
+ * <p>
+ * {@code GtkViewport} uses the {@link AccessibleRole#GROUP} role.
  */
 public class Viewport extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
 
@@ -39,8 +42,8 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Creates a new <code>GtkViewport</code>.
-     * 
+     * Creates a new {@code GtkViewport}.
+     * <p>
      * The new viewport uses the given adjustments, or default
      * adjustments if none are given.
      */
@@ -49,7 +52,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the child widget of @viewport.
+     * Gets the child widget of {@code viewport}.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_viewport_get_child(handle());
@@ -66,7 +69,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Sets the child widget of @viewport.
+     * Sets the child widget of {@code viewport}.
      */
     public void setChild(Widget child) {
         gtk_h.gtk_viewport_set_child(handle(), child.handle());

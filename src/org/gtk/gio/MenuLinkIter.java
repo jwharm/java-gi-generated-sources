@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * {@link org.gtk.gio.MenuLinkIter} is an opaque structure type.  You must access it using
+ * {@link MenuLinkIter} is an opaque structure type.  You must access it using
  * the functions below.
  */
 public class MenuLinkIter extends org.gtk.gobject.Object {
@@ -24,7 +24,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     
     /**
      * Gets the name of the link at the current iterator position.
-     * 
+     * <p>
      * The iterator is not advanced.
      */
     public java.lang.String getName() {
@@ -35,16 +35,17 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     /**
      * This function combines g_menu_link_iter_next() with
      * g_menu_link_iter_get_name() and g_menu_link_iter_get_value().
-     * 
+     * <p>
      * First the iterator is advanced to the next (possibly first) link.
      * If that fails, then <code>false</code> is returned and there are no other effects.
-     * 
-     * If successful, @out_link and @value are set to the name and {@link org.gtk.gio.MenuModel} of the link that has just been advanced to.  At this point,
+     * <p>
+     * If successful, {@code out_link} and {@code value} are set to the name and {@link MenuModel}
+     * of the link that has just been advanced to.  At this point,
      * g_menu_link_iter_get_name() and g_menu_link_iter_get_value() will return the
      * same values again.
-     * 
-     * The value returned in @out_link remains valid for as long as the iterator
-     * remains at the current position.  The value returned in @value must
+     * <p>
+     * The value returned in {@code out_link} remains valid for as long as the iterator
+     * remains at the current position.  The value returned in {@code value} must
      * be unreffed using g_object_unref() when it is no longer in use.
      */
     public boolean getNext(java.lang.String[] outLink, MenuModel[] value) {
@@ -53,8 +54,8 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the linked {@link org.gtk.gio.MenuModel} at the current iterator position.
-     * 
+     * Gets the linked {@link MenuModel} at the current iterator position.
+     * <p>
      * The iterator is not advanced.
      */
     public MenuModel getValue() {
@@ -65,9 +66,9 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
     /**
      * Attempts to advance the iterator to the next (possibly first)
      * link.
-     * 
+     * <p>
      * <code>true</code> is returned on success, or <code>false</code> if there are no more links.
-     * 
+     * <p>
      * You must call this function when you first acquire the iterator to
      * advance it to the first link (and determine if the first link exists
      * at all).

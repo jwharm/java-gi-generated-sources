@@ -3,13 +3,13 @@ package org.gtk.gdk;
 /**
  * Flags to indicate the state of modifier keys and mouse buttons
  * in events.
- * 
+ * <p>
  * Typical modifier keys are Shift, Control, Meta, Super, Hyper, Alt, Compose,
  * Apple, CapsLock or ShiftLock.
- * 
+ * <p>
  * Note that GDK may add internal values to events which include values outside
  * of this enumeration. Your code should preserve and ignore them.  You can use
- * <code>GDK_MODIFIER_MASK</code> to remove all private values.
+ * {@code GDK_MODIFIER_MASK} to remove all private values.
  */
 public class ModifierType {
 

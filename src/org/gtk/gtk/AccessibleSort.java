@@ -1,7 +1,8 @@
 package org.gtk.gtk;
 
 /**
- * The possible values for the {@link org.gtk.gtk.AccessibleProperty<code>#SORT</code>  accessible property.
+ * The possible values for the {@link AccessibleProperty#SORT}
+ * accessible property.
  */
 public enum AccessibleSort {
 

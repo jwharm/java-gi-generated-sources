@@ -8,13 +8,14 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * A <code>GdkFrameTimings</code> object holds timing information for a single frame
- * of the application&<code>#8217</code> s displays.
+ * A {@code GdkFrameTimings} object holds timing information for a single frame
+ * of the application’s displays.
  * <p>
- * To retrieve <code>GdkFrameTimings</code> objects, use {@link org.gtk.gdk.FrameClock<code>#getTimings</code> 
- * or {@link org.gtk.gdk.FrameClock<code>#getCurrentTimings</code> . The information in<code>GdkFrameTimings</code> is useful for precise synchronization of video with
+ * To retrieve {@code GdkFrameTimings} objects, use {@link FrameClock#getTimings}
+ * or {@link FrameClock#getCurrentTimings}. The information in
+ * {@code GdkFrameTimings} is useful for precise synchronization of video with
  * the event or audio streams, and for measuring quality metrics for the
- * application&<code>#8217</code> s display, such as latency and jitter.
+ * application’s display, such as latency and jitter.
  */
 public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
 
@@ -23,19 +24,19 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns whether @timings are complete.
+     * Returns whether {@code timings} are complete.
      * <p>
-     * The timing information in a <code>GdkFrameTimings</code> is filled in
+     * The timing information in a {@code GdkFrameTimings} is filled in
      * incrementally as the frame as drawn and passed off to the
      * window system for processing and display to the user. The
-     * accessor functions for <code>GdkFrameTimings</code> can return 0 to
+     * accessor functions for {@code GdkFrameTimings} can return 0 to
      * indicate an unavailable value for two reasons: either because
-     * the information is not yet available, or because it isn&<code>#39</code> t
+     * the information is not yet available, or because it isn't
      * available at all.
      * <p>
      * Once this function returns <code>true</code> for a frame, you can be
      * certain that no further values will become available and be
-     * stored in the <code>GdkFrameTimings</code>.
+     * stored in the {@code GdkFrameTimings}.
      */
     public boolean getComplete() {
         var RESULT = gtk_h.gdk_frame_timings_get_complete(handle());
@@ -43,7 +44,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the frame counter value of the <code>GdkFrameClock</code> when
+     * Gets the frame counter value of the {@code GdkFrameClock} when
      * this frame was drawn.
      */
     public long getFrameCounter() {
@@ -53,9 +54,9 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the frame time for the frame.
-     * 
+     * <p>
      * This is the time value that is typically used to time
-     * animations for the frame. See {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code> .
+     * animations for the frame. See {@link FrameClock#getFrameTime}.
      */
     public long getFrameTime() {
         var RESULT = gtk_h.gdk_frame_timings_get_frame_time(handle());
@@ -64,14 +65,14 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the predicted time at which this frame will be displayed.
-     * 
+     * <p>
      * Although no predicted time may be available, if one is available,
      * it will be available while the frame is being generated, in contrast
-     * to {@link org.gtk.gdk.FrameTimings<code>#getPresentationTime</code> , which is only
+     * to {@link FrameTimings#getPresentationTime}, which is only
      * available after the frame has been presented.
-     * 
+     * <p>
      * In general, if you are simply animating, you should use
-     * {@link org.gtk.gdk.FrameClock<code>#getFrameTime</code>  rather than this function,
+     * {@link FrameClock#getFrameTime} rather than this function,
      * but this function is useful for applications that want exact control
      * over latency. For example, a movie player may want this information
      * for Audio/Video synchronization.
@@ -83,7 +84,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Reurns the presentation time.
-     * 
+     * <p>
      * This is the time at which the frame became visible to the user.
      */
     public long getPresentationTime() {
@@ -94,9 +95,9 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the natural interval between presentation times for
      * the display that this frame was displayed on.
-     * 
-     * Frame presentation usually happens during the &<code>#8220</code> vertical
-     * blanking interval&<code>#8221</code> .
+     * <p>
+     * Frame presentation usually happens during the “vertical
+     * blanking interval”.
      */
     public long getRefreshInterval() {
         var RESULT = gtk_h.gdk_frame_timings_get_refresh_interval(handle());
@@ -104,7 +105,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increases the reference count of @timings.
+     * Increases the reference count of {@code timings}.
      */
     public FrameTimings ref() {
         var RESULT = gtk_h.gdk_frame_timings_ref(handle());
@@ -112,9 +113,9 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decreases the reference count of @timings.
-     * 
-     * If @timings is no longer referenced, it will be freed.
+     * Decreases the reference count of {@code timings}.
+     * <p>
+     * If {@code timings} is no longer referenced, it will be freed.
      */
     public void unref() {
         gtk_h.gdk_frame_timings_unref(handle());

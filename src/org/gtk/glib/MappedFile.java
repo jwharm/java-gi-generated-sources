@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.glib.MappedFile} represents a file mapping created with
+ * The {@link MappedFile} represents a file mapping created with
  * g_mapped_file_new(). It has only private members and should
  * not be accessed directly.
  */
@@ -29,21 +29,21 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Maps a file into memory. On UNIX, this is using the mmap() function.
-     * 
-     * If @writable is <code>true</code>  the mapped buffer may be modified, otherwise
+     * <p>
+     * If {@code writable} is <code>true</code>, the mapped buffer may be modified, otherwise
      * it is an error to modify the mapped buffer. Modifications to the buffer
      * are not visible to other processes mapping the same file, and are not
      * written back to the file.
-     * 
+     * <p>
      * Note that modifications of the underlying file might affect the contents
-     * of the {@link org.gtk.glib.MappedFile}  Therefore, mapping should only be used if the file
+     * of the {@link MappedFile}. Therefore, mapping should only be used if the file
      * will not be modified, or if all modifications of the file are done
      * atomically (e.g. using g_file_set_contents()).
-     * 
-     * If @filename is the name of an empty, regular file, the function
-     * will successfully return an empty {@link org.gtk.glib.MappedFile}  In other cases of
-     * size 0 (e.g. device files such as /dev/null), @error will be set
-     * to the {@link org.gtk.glib.FileError} value {@link org.gtk.glib.FileError<code>#INVAL</code>
+     * <p>
+     * If {@code filename} is the name of an empty, regular file, the function
+     * will successfully return an empty {@link MappedFile}. In other cases of
+     * size 0 (e.g. device files such as /dev/null), {@code error} will be set
+     * to the {@link FileError} value {@link FileError#INVAL}.
      */
     public MappedFile(java.lang.String filename, boolean writable) throws GErrorException {
         super(constructNew(filename, writable));
@@ -60,14 +60,14 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Maps a file into memory. On UNIX, this is using the mmap() function.
-     * 
-     * If @writable is <code>true</code>  the mapped buffer may be modified, otherwise
+     * <p>
+     * If {@code writable} is <code>true</code>, the mapped buffer may be modified, otherwise
      * it is an error to modify the mapped buffer. Modifications to the buffer
      * are not visible to other processes mapping the same file, and are not
      * written back to the file.
-     * 
+     * <p>
      * Note that modifications of the underlying file might affect the contents
-     * of the {@link org.gtk.glib.MappedFile}  Therefore, mapping should only be used if the file
+     * of the {@link MappedFile}. Therefore, mapping should only be used if the file
      * will not be modified, or if all modifications of the file are done
      * atomically (e.g. using g_file_set_contents()).
      */
@@ -76,9 +76,9 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new {@link org.gtk.glib.Bytes} which references the data mapped from @file.
+     * Creates a new {@link Bytes} which references the data mapped from {@code file}.
      * The mapped contents of the file must not be modified after creating this
-     * bytes object, because a {@link org.gtk.glib.Bytes} should be immutable.
+     * bytes object, because a {@link Bytes} should be immutable.
      */
     public Bytes getBytes() {
         var RESULT = gtk_h.g_mapped_file_get_bytes(handle());
@@ -86,11 +86,11 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the contents of a {@link org.gtk.glib.MappedFile} 
-     * 
+     * Returns the contents of a {@link MappedFile}.
+     * <p>
      * Note that the contents may not be zero-terminated,
-     * even if the {@link org.gtk.glib.MappedFile} is backed by a text file.
-     * 
+     * even if the {@link MappedFile} is backed by a text file.
+     * <p>
      * If the file is empty then <code>null</code> is returned.
      */
     public java.lang.String getContents() {
@@ -99,7 +99,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the length of the contents of a {@link org.gtk.glib.MappedFile}
+     * Returns the length of the contents of a {@link MappedFile}.
      */
     public long getLength() {
         var RESULT = gtk_h.g_mapped_file_get_length(handle());
@@ -107,7 +107,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Increments the reference count of @file by one.  It is safe to call
+     * Increments the reference count of {@code file} by one.  It is safe to call
      * this function from any thread.
      */
     public MappedFile ref() {
@@ -116,11 +116,11 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Decrements the reference count of @file by one.  If the reference count
-     * drops to 0, unmaps the buffer of @file and frees it.
-     * 
+     * Decrements the reference count of {@code file} by one.  If the reference count
+     * drops to 0, unmaps the buffer of {@code file} and frees it.
+     * <p>
      * It is safe to call this function from any thread.
-     * 
+     * <p>
      * Since 2.22
      */
     public void unref() {

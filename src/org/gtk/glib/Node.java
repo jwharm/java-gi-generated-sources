@@ -8,7 +8,7 @@ import jdk.incubator.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * The {@link org.gtk.glib.Node} struct represents one node in a {@link [n-ary tree]}{@link [glib-N-ary-Trees]}.
+ * The {@link Node} struct represents one node in a [n-ary tree][glib-N-ary-Trees].
  */
 public class Node extends io.github.jwharm.javagi.ResourceBase {
 
@@ -17,7 +17,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the position of the first child of a {@link org.gtk.glib.Node} which contains the given data.
+     * Gets the position of the first child of a {@link Node}
+     * which contains the given data.
      */
     public int childIndex(jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_child_index(handle(), data);
@@ -25,8 +26,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the position of a {@link org.gtk.glib.Node} with respect to its siblings.
-     * @child must be a child of @node. The first child is numbered 0,
+     * Gets the position of a {@link Node} with respect to its siblings.
+     * {@code child} must be a child of {@code node}. The first child is numbered 0,
      * the second 1, and so on.
      */
     public int childPosition(Node child) {
@@ -35,8 +36,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Calls a function for each of the children of a {@link org.gtk.glib.Node}  Note that it
-     * doesn&<code>#39</code> t descend beneath the child nodes. @func must not do anything
+     * Calls a function for each of the children of a {@link Node}. Note that it
+     * doesn't descend beneath the child nodes. {@code func} must not do anything
      * that would modify the structure of the tree.
      */
     public void childrenForeach(int flags, NodeForeachFunc func) {
@@ -54,7 +55,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Recursively copies a {@link org.gtk.glib.Node} (but does not deep-copy the data inside the
+     * Recursively copies a {@link Node} (but does not deep-copy the data inside the
      * nodes, see g_node_copy_deep() if you need that).
      */
     public Node copy() {
@@ -63,7 +64,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Recursively copies a {@link org.gtk.glib.Node} and its data.
+     * Recursively copies a {@link Node} and its data.
      */
     public Node copyDeep(CopyFunc copyFunc) {
         try {
@@ -81,9 +82,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the depth of a {@link org.gtk.glib.Node} 
-     * 
-     * If @node is <code>null</code> the depth is 0. The root node has a depth of 1.
+     * Gets the depth of a {@link Node}.
+     * <p>
+     * If {@code node} is <code>null</code> the depth is 0. The root node has a depth of 1.
      * For the children of the root node the depth is 2. And so on.
      */
     public int depth() {
@@ -92,7 +93,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Removes @root and its children from the tree, freeing any memory
+     * Removes {@code root} and its children from the tree, freeing any memory
      * allocated.
      */
     public void destroy() {
@@ -100,7 +101,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds a {@link org.gtk.glib.Node} in a tree.
+     * Finds a {@link Node} in a tree.
      */
     public Node find(TraverseType order, int flags, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_find(handle(), order.getValue(), flags, data);
@@ -108,7 +109,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Finds the first child of a {@link org.gtk.glib.Node} with the given data.
+     * Finds the first child of a {@link Node} with the given data.
      */
     public Node findChild(int flags, jdk.incubator.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_find_child(handle(), flags, data);
@@ -116,7 +117,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the first sibling of a {@link org.gtk.glib.Node} 
+     * Gets the first sibling of a {@link Node}.
      * This could possibly be the node itself.
      */
     public Node firstSibling() {
@@ -133,7 +134,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a {@link org.gtk.glib.Node} beneath the parent at the given position.
+     * Inserts a {@link Node} beneath the parent at the given position.
      */
     public Node insert(int position, Node node) {
         var RESULT = gtk_h.g_node_insert(handle(), position, node.handle());
@@ -141,7 +142,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a {@link org.gtk.glib.Node} beneath the parent after the given sibling.
+     * Inserts a {@link Node} beneath the parent after the given sibling.
      */
     public Node insertAfter(Node sibling, Node node) {
         var RESULT = gtk_h.g_node_insert_after(handle(), sibling.handle(), node.handle());
@@ -149,7 +150,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a {@link org.gtk.glib.Node} beneath the parent before the given sibling.
+     * Inserts a {@link Node} beneath the parent before the given sibling.
      */
     public Node insertBefore(Node sibling, Node node) {
         var RESULT = gtk_h.g_node_insert_before(handle(), sibling.handle(), node.handle());
@@ -157,9 +158,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if @node is an ancestor of @descendant.
-     * This is true if node is the parent of @descendant,
-     * or if node is the grandparent of @descendant etc.
+     * Returns <code>true</code> if {@code node} is an ancestor of {@code descendant}.
+     * This is true if node is the parent of {@code descendant},
+     * or if node is the grandparent of {@code descendant} etc.
      */
     public boolean isAncestor(Node descendant) {
         var RESULT = gtk_h.g_node_is_ancestor(handle(), descendant.handle());
@@ -167,7 +168,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the last child of a {@link org.gtk.glib.Node}
+     * Gets the last child of a {@link Node}.
      */
     public Node lastChild() {
         var RESULT = gtk_h.g_node_last_child(handle());
@@ -175,7 +176,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the last sibling of a {@link org.gtk.glib.Node} 
+     * Gets the last sibling of a {@link Node}.
      * This could possibly be the node itself.
      */
     public Node lastSibling() {
@@ -184,11 +185,11 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the maximum height of all branches beneath a {@link org.gtk.glib.Node} 
-     * This is the maximum distance from the {@link org.gtk.glib.Node} to all leaf nodes.
-     * 
-     * If @root is <code>null</code>  0 is returned. If @root has no children,
-     * 1 is returned. If @root has children, 2 is returned. And so on.
+     * Gets the maximum height of all branches beneath a {@link Node}.
+     * This is the maximum distance from the {@link Node} to all leaf nodes.
+     * <p>
+     * If {@code root} is <code>null</code>, 0 is returned. If {@code root} has no children,
+     * 1 is returned. If {@code root} has children, 2 is returned. And so on.
      */
     public int maxHeight() {
         var RESULT = gtk_h.g_node_max_height(handle());
@@ -196,7 +197,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the number of children of a {@link org.gtk.glib.Node}
+     * Gets the number of children of a {@link Node}.
      */
     public int nChildren() {
         var RESULT = gtk_h.g_node_n_children(handle());
@@ -212,7 +213,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets a child of a {@link org.gtk.glib.Node}  using the given index.
+     * Gets a child of a {@link Node}, using the given index.
      * The first child is at index 0. If the index is
      * too big, <code>null</code> is returned.
      */
@@ -222,7 +223,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Inserts a {@link org.gtk.glib.Node} as the first child of the given parent.
+     * Inserts a {@link Node} as the first child of the given parent.
      */
     public Node prepend(Node node) {
         var RESULT = gtk_h.g_node_prepend(handle(), node.handle());
@@ -230,18 +231,18 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Reverses the order of the children of a {@link org.gtk.glib.Node} 
-     * (It doesn&<code>#39</code> t change the order of the grandchildren.)
+     * Reverses the order of the children of a {@link Node}.
+     * (It doesn't change the order of the grandchildren.)
      */
     public void reverseChildren() {
         gtk_h.g_node_reverse_children(handle());
     }
     
     /**
-     * Traverses a tree starting at the given root {@link org.gtk.glib.Node} 
+     * Traverses a tree starting at the given root {@link Node}.
      * It calls the given function for each node visited.
-     * The traversal can be halted at any point by returning <code>true</code> from @func.
-     * @func must not do anything that would modify the structure of the tree.
+     * The traversal can be halted at any point by returning <code>true</code> from {@code func}.
+     * {@code func} must not do anything that would modify the structure of the tree.
      */
     public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
         try {
@@ -258,14 +259,14 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Unlinks a {@link org.gtk.glib.Node} from a tree, resulting in two separate trees.
+     * Unlinks a {@link Node} from a tree, resulting in two separate trees.
      */
     public void unlink() {
         gtk_h.g_node_unlink(handle());
     }
     
     /**
-     * Creates a new {@link org.gtk.glib.Node} containing the given data.
+     * Creates a new {@link Node} containing the given data.
      * Used to create the first node in a tree.
      */
     public static Node new_(jdk.incubator.foreign.MemoryAddress data) {
