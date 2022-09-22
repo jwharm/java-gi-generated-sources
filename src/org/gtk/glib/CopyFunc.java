@@ -6,5 +6,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface CopyFunc {
-        jdk.incubator.foreign.MemoryAddress onCopyFunc(jdk.incubator.foreign.MemoryAddress src);
+        java.lang.foreign.MemoryAddress onCopyFunc(java.lang.foreign.MemoryAddress src);
 }

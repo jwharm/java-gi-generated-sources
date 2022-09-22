@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -21,7 +21,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     private static Reference constructNewFull(CompareDataFunc keyCompareFunc) {
         try {
             Reference RESULT = References.get(gtk_h.g_tree_new_full(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -47,7 +47,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     private static Reference constructNewWithData(CompareDataFunc keyCompareFunc) {
         try {
             Reference RESULT = References.get(gtk_h.g_tree_new_with_data(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -92,7 +92,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public void foreach(TraverseFunc func) {
         try {
             gtk_h.g_tree_foreach(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTraverseFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -116,7 +116,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public void foreachNode(TraverseNodeFunc func) {
         try {
             gtk_h.g_tree_foreach_node(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTraverseNodeFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -145,7 +145,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * Inserts a new key and value into a {@link Tree} as g_tree_insert_node() does,
      * only this function does not return the inserted or set node.
      */
-    public void insert(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public void insert(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         gtk_h.g_tree_insert(handle(), key, value);
     }
     
@@ -164,7 +164,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * result in a O(n log(n)) operation where most of the other operations
      * are O(log(n)).
      */
-    public TreeNode insertNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public TreeNode insertNode(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_tree_insert_node(handle(), key, value);
         return new TreeNode(References.get(RESULT, false));
     }
@@ -174,7 +174,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * automatically balanced as key/value pairs are added, key lookup
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
-    public jdk.incubator.foreign.MemoryAddress lookup(jdk.incubator.foreign.MemoryAddress key) {
+    public java.lang.foreign.MemoryAddress lookup(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_lookup(handle(), key);
         return RESULT;
     }
@@ -185,7 +185,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * allocated for the original key, for example before calling
      * g_tree_remove().
      */
-    public boolean lookupExtended(jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress origKey, jdk.incubator.foreign.MemoryAddress value) {
+    public boolean lookupExtended(java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_tree_lookup_extended(handle(), lookupKey, origKey, value);
         return (RESULT != 0);
     }
@@ -195,7 +195,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * automatically balanced as key/value pairs are added, key lookup
      * is O(log n) (where n is the number of key/value pairs in the tree).
      */
-    public TreeNode lookupNode(jdk.incubator.foreign.MemoryAddress key) {
+    public TreeNode lookupNode(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_lookup_node(handle(), key);
         return new TreeNode(References.get(RESULT, false));
     }
@@ -208,7 +208,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * The lower bound is the first node that has its key greater
      * than or equal to the searched key.
      */
-    public TreeNode lowerBound(jdk.incubator.foreign.MemoryAddress key) {
+    public TreeNode lowerBound(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_lower_bound(handle(), key);
         return new TreeNode(References.get(RESULT, false));
     }
@@ -261,7 +261,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * result in a O(n log(n)) operation where most of the other operations
      * are O(log(n)).
      */
-    public boolean remove(jdk.incubator.foreign.MemoryAddress key) {
+    public boolean remove(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_remove(handle(), key);
         return (RESULT != 0);
     }
@@ -278,7 +278,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * Inserts a new key and value into a {@link Tree} as g_tree_replace_node() does,
      * only this function does not return the inserted or set node.
      */
-    public void replace(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public void replace(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         gtk_h.g_tree_replace(handle(), key, value);
     }
     
@@ -293,7 +293,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * The tree is automatically 'balanced' as new key/value pairs are added,
      * so that the distance from the root to every leaf is as small as possible.
      */
-    public TreeNode replaceNode(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public TreeNode replaceNode(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_tree_replace_node(handle(), key, value);
         return new TreeNode(References.get(RESULT, false));
     }
@@ -309,10 +309,10 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * {@code search_func} returns 1, searching will proceed among the key/value
      * pairs that have a larger key.
      */
-    public jdk.incubator.foreign.MemoryAddress search(CompareFunc searchFunc) {
+    public java.lang.foreign.MemoryAddress search(CompareFunc searchFunc) {
         try {
             var RESULT = gtk_h.g_tree_search(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -338,7 +338,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     public TreeNode searchNode(CompareFunc searchFunc) {
         try {
             var RESULT = gtk_h.g_tree_search_node(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -356,7 +356,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If the key does not exist in the {@link Tree}, the function does nothing.
      */
-    public boolean steal(jdk.incubator.foreign.MemoryAddress key) {
+    public boolean steal(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_steal(handle(), key);
         return (RESULT != 0);
     }
@@ -381,7 +381,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * The upper bound is the first node that has its key strictly greater
      * than the searched key.
      */
-    public TreeNode upperBound(jdk.incubator.foreign.MemoryAddress key) {
+    public TreeNode upperBound(java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_tree_upper_bound(handle(), key);
         return new TreeNode(References.get(RESULT, false));
     }

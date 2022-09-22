@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -31,7 +31,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
     private static Reference constructNew(java.lang.String name, ThreadFunc func) {
         try {
             Reference RESULT = References.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -80,7 +80,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             Reference RESULT = References.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -124,7 +124,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * to be freed. Use g_thread_ref() to obtain an extra reference if you
      * want to keep the GThread alive beyond the g_thread_join() call.
      */
-    public jdk.incubator.foreign.MemoryAddress join() {
+    public java.lang.foreign.MemoryAddress join() {
         var RESULT = gtk_h.g_thread_join(handle());
         return RESULT;
     }
@@ -169,7 +169,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * this function from a thread created with another threading library
      * or or from within a {@link ThreadPool}.
      */
-    public static void exit(jdk.incubator.foreign.MemoryAddress retval) {
+    public static void exit(java.lang.foreign.MemoryAddress retval) {
         gtk_h.g_thread_exit(retval);
     }
     

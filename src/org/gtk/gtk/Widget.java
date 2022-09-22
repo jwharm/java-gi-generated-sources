@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -495,7 +495,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public int addTickCallback(TickCallback callback) {
         try {
             var RESULT = gtk_h.gtk_widget_add_tick_callback(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTickCallback",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -2502,7 +2502,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDestroy", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("destroy").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2525,7 +2525,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetDirectionChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("direction-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2548,7 +2548,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetHide", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("hide").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2573,7 +2573,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetKeynavFailed", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("keynav-failed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2604,7 +2604,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMap", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("map").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2630,7 +2630,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, boolean.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMnemonicActivate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("mnemonic-activate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2653,7 +2653,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetMoveFocus", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("move-focus").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2689,7 +2689,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, boolean.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetQueryTooltip", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("query-tooltip").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2715,7 +2715,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetRealize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("realize").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2738,7 +2738,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetShow", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("show").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2763,7 +2763,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetStateFlagsChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("state-flags-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2792,7 +2792,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnmap", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("unmap").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -2818,7 +2818,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalWidgetUnrealize", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("unrealize").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {

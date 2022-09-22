@@ -7,5 +7,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface FontGetGlyphAdvancesFuncT {
-        void onFontGetGlyphAdvancesFuncT(FontT font, jdk.incubator.foreign.MemoryAddress fontData, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride, jdk.incubator.foreign.MemoryAddress userData);
+        void onFontGetGlyphAdvancesFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride, java.lang.foreign.MemoryAddress userData);
 }

@@ -1,6 +1,6 @@
 package io.github.jwharm.javagi;
 
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -12,14 +12,14 @@ import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 public class Interop {
 
     private static boolean initialized = false;
-    private static ResourceScope scope;
+    private static MemorySession session;
     private static SegmentAllocator allocator;
     public static final HashMap<Integer, Object> signalRegistry = new HashMap<>();
-    private static NativeSymbol cbDestroyNotify_nativeSymbol;
+    private static MemorySegment cbDestroyNotify_nativeSymbol;
 
     private static void initialize() {
-        scope = ResourceScope.newConfinedScope();
-        allocator = SegmentAllocator.nativeAllocator(scope);
+        session = MemorySession.openConfined();
+        allocator = SegmentAllocator.newNativeArena(session);
         initialized = true;
 
         // Initialize upcall stub for DestroyNotify callback
@@ -27,17 +27,17 @@ public class Interop {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(Interop.class, "cbDestroyNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
-            cbDestroyNotify_nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, scope);
+            cbDestroyNotify_nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, session);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static ResourceScope getScope() {
+    public static MemorySession getScope() {
         if (!initialized) {
             initialize();
         }
-        return scope;
+        return session;
     }
 
     public static SegmentAllocator getAllocator() {
@@ -57,7 +57,7 @@ public class Interop {
         signalRegistry.remove(hash);
     }
 
-    public static NativeSymbol cbDestroyNotifySymbol() {
+    public static MemorySegment cbDestroyNotifySymbol() {
         if (!initialized) {
             initialize();
         }
@@ -133,7 +133,7 @@ public class Interop {
         MemorySegment mem = io.github.jwharm.javagi.interop.jextract.GValue.allocateArray(array.length, allocator);
         long size = io.github.jwharm.javagi.interop.jextract.GValue.sizeof();
         for (int i = 0; i < array.length; i++) {
-            MemorySegment source = MemorySegment.ofAddress(array[i].handle(), size, scope);
+            MemorySegment source = MemorySegment.ofAddress(array[i].handle(), size, session);
             MemorySegment target = mem.asSlice(i * size, size);
             target.copyFrom(source);
         }

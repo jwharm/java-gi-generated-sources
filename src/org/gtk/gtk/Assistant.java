@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -242,7 +242,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     public void setForwardPageFunc(AssistantPageFunc pageFunc) {
         try {
             gtk_h.gtk_assistant_set_forward_page_func(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAssistantPageFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -323,7 +323,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantApply", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("apply").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -346,7 +346,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantCancel", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("cancel").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -371,7 +371,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantClose", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("close").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -394,7 +394,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantEscape", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("escape").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -421,7 +421,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalAssistantPrepare", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("prepare").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {

@@ -6,5 +6,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface DrawLineToFuncT {
-        void onDrawLineToFuncT(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY, jdk.incubator.foreign.MemoryAddress userData);
+        void onDrawLineToFuncT(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY, java.lang.foreign.MemoryAddress userData);
 }

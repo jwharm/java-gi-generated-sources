@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -71,7 +71,7 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      * }
      * ]|
      */
-    public default void addActionEntries(ActionEntry[] entries, int nEntries, jdk.incubator.foreign.MemoryAddress userData) {
+    public default void addActionEntries(ActionEntry[] entries, int nEntries, java.lang.foreign.MemoryAddress userData) {
         gtk_h.g_action_map_add_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries, userData);
     }
     

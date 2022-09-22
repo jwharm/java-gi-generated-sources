@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -35,7 +35,7 @@ public class Fontset extends org.gtk.gobject.Object {
     public void foreach(FontsetForeachFunc func) {
         try {
             gtk_h.pango_fontset_foreach(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFontsetForeachFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -19,7 +19,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the key stored at a particular tree node.
      */
-    public jdk.incubator.foreign.MemoryAddress key() {
+    public java.lang.foreign.MemoryAddress key() {
         var RESULT = gtk_h.g_tree_node_key(handle());
         return RESULT;
     }
@@ -45,7 +45,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the value stored at a particular tree node.
      */
-    public jdk.incubator.foreign.MemoryAddress value() {
+    public java.lang.foreign.MemoryAddress value() {
         var RESULT = gtk_h.g_tree_node_value(handle());
         return RESULT;
     }

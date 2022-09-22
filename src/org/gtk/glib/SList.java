@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -51,7 +51,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * number_list = g_slist_append (number_list, GINT_TO_POINTER (14));
      * ]|
      */
-    public static org.gtk.glib.SList append(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
+    public static org.gtk.glib.SList append(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_append(list.handle(), data);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
@@ -104,7 +104,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     public static org.gtk.glib.SList copyDeep(org.gtk.glib.SList list, CopyFunc func) {
         try {
             var RESULT = gtk_h.g_slist_copy_deep(list.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -136,7 +136,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * Finds the element in a {@link SList} which
      * contains the given data.
      */
-    public static org.gtk.glib.SList find(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
+    public static org.gtk.glib.SList find(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_find(list.handle(), data);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
@@ -153,7 +153,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_slist_find_custom(list.handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -173,7 +173,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     public static void foreach(org.gtk.glib.SList list, Func func) {
         try {
             gtk_h.g_slist_foreach(list.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -215,7 +215,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * Gets the position of the element containing
      * the given data (starting from 0).
      */
-    public static int index(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
+    public static int index(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_index(list.handle(), data);
         return RESULT;
     }
@@ -223,7 +223,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a new element into the list at the given position.
      */
-    public static org.gtk.glib.SList insert(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data, int position) {
+    public static org.gtk.glib.SList insert(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data, int position) {
         var RESULT = gtk_h.g_slist_insert(list.handle(), data, position);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
@@ -231,7 +231,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a node before {@code sibling} containing {@code data}.
      */
-    public static org.gtk.glib.SList insertBefore(org.gtk.glib.SList slist, org.gtk.glib.SList sibling, jdk.incubator.foreign.MemoryAddress data) {
+    public static org.gtk.glib.SList insertBefore(org.gtk.glib.SList slist, org.gtk.glib.SList sibling, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_insert_before(slist.handle(), sibling.handle(), data);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
@@ -244,7 +244,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_slist_insert_sorted(list.handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -263,7 +263,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_slist_insert_sorted_with_data(list.handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -308,7 +308,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the data of the element at the given position.
      */
-    public static jdk.incubator.foreign.MemoryAddress nthData(org.gtk.glib.SList list, int n) {
+    public static java.lang.foreign.MemoryAddress nthData(org.gtk.glib.SList list, int n) {
         var RESULT = gtk_h.g_slist_nth_data(list.handle(), n);
         return RESULT;
     }
@@ -335,7 +335,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * list = g_slist_prepend (list, "first");
      * ]|
      */
-    public static org.gtk.glib.SList prepend(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
+    public static org.gtk.glib.SList prepend(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_prepend(list.handle(), data);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
@@ -345,7 +345,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * If two elements contain the same data, only the first is removed.
      * If none of the elements contain the data, the {@link SList} is unchanged.
      */
-    public static org.gtk.glib.SList remove(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
+    public static org.gtk.glib.SList remove(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_remove(list.handle(), data);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
@@ -356,7 +356,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
      * g_slist_remove() which removes only the first node
      * matching the given data.
      */
-    public static org.gtk.glib.SList removeAll(org.gtk.glib.SList list, jdk.incubator.foreign.MemoryAddress data) {
+    public static org.gtk.glib.SList removeAll(org.gtk.glib.SList list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_slist_remove_all(list.handle(), data);
         return new org.gtk.glib.SList(References.get(RESULT, false));
     }
@@ -392,7 +392,7 @@ public class SList extends io.github.jwharm.javagi.ResourceBase {
     public static org.gtk.glib.SList sortWithData(org.gtk.glib.SList list, CompareDataFunc compareFunc) {
         try {
             var RESULT = gtk_h.g_slist_sort_with_data(list.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

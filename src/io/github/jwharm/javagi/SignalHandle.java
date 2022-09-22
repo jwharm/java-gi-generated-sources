@@ -1,7 +1,7 @@
 package io.github.jwharm.javagi;
 
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import jdk.incubator.foreign.MemoryAddress;
+import java.lang.foreign.MemoryAddress;
 
 public class SignalHandle {
 

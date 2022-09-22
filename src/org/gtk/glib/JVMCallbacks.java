@@ -1,6 +1,6 @@
 package org.gtk.glib;
 
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import io.github.jwharm.javagi.*;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
@@ -18,7 +18,7 @@ public final class JVMCallbacks {
         return handler.onIOFunc(new IOChannel(References.get(source, false)), condition);
     }
     
-    public static jdk.incubator.foreign.MemoryAddress cbThreadFunc(MemoryAddress data) {
+    public static java.lang.foreign.MemoryAddress cbThreadFunc(MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ThreadFunc) Interop.signalRegistry.get(hash);
         return handler.onThreadFunc();
@@ -48,7 +48,7 @@ public final class JVMCallbacks {
         handler.onTestFixtureFunc(fixture);
     }
     
-    public static jdk.incubator.foreign.MemoryAddress cbCopyFunc(MemoryAddress src, MemoryAddress data) {
+    public static java.lang.foreign.MemoryAddress cbCopyFunc(MemoryAddress src, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (CopyFunc) Interop.signalRegistry.get(hash);
         return handler.onCopyFunc(src);
@@ -174,7 +174,7 @@ public final class JVMCallbacks {
         handler.onHFunc(key, value);
     }
     
-    public static jdk.incubator.foreign.MemoryAddress cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
+    public static java.lang.foreign.MemoryAddress cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (DuplicateFunc) Interop.signalRegistry.get(hash);
         return handler.onDuplicateFunc();

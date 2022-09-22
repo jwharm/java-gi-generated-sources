@@ -6,5 +6,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface FontGetGlyphKerningFuncT {
-        PositionT onFontGetGlyphKerningFuncT(FontT font, jdk.incubator.foreign.MemoryAddress fontData, CodepointT firstGlyph, CodepointT secondGlyph, jdk.incubator.foreign.MemoryAddress userData);
+        PositionT onFontGetGlyphKerningFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT firstGlyph, CodepointT secondGlyph, java.lang.foreign.MemoryAddress userData);
 }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -921,7 +921,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferApplyTag", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("apply-tag").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -953,7 +953,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferBeginUserAction", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("begin-user-action").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -976,7 +976,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1009,7 +1009,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferDeleteRange", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("delete-range").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1042,7 +1042,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferEndUserAction", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("end-user-action").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1074,7 +1074,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferInsertChildAnchor", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("insert-child-anchor").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1106,7 +1106,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferInsertPaintable", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("insert-paintable").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1139,7 +1139,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferInsertText", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("insert-text").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1164,7 +1164,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferMarkDeleted", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("mark-deleted").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1191,7 +1191,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferMarkSet", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("mark-set").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1216,7 +1216,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferModifiedChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("modified-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1243,7 +1243,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferPasteDone", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("paste-done").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1267,7 +1267,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferRedo", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("redo").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1299,7 +1299,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferRemoveTag", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("remove-tag").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -1324,7 +1324,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTextBufferUndo", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("undo").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {

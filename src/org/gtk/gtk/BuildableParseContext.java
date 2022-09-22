@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -43,7 +43,7 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * be used by the subparsers themselves to implement a higher-level
      * interface.
      */
-    public jdk.incubator.foreign.MemoryAddress pop() {
+    public java.lang.foreign.MemoryAddress pop() {
         var RESULT = gtk_h.gtk_buildable_parse_context_pop(handle());
         return RESULT;
     }
@@ -79,7 +79,7 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * For an example of how to use this, see g_markup_parse_context_push() which
      * has the same kind of API.
      */
-    public void push(BuildableParser parser, jdk.incubator.foreign.MemoryAddress userData) {
+    public void push(BuildableParser parser, java.lang.foreign.MemoryAddress userData) {
         gtk_h.gtk_buildable_parse_context_push(handle(), parser.handle(), userData);
     }
     

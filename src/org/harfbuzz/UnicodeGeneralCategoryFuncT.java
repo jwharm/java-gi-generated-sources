@@ -8,5 +8,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface UnicodeGeneralCategoryFuncT {
-        UnicodeGeneralCategoryT onUnicodeGeneralCategoryFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, jdk.incubator.foreign.MemoryAddress userData);
+        UnicodeGeneralCategoryT onUnicodeGeneralCategoryFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, java.lang.foreign.MemoryAddress userData);
 }

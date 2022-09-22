@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -104,7 +104,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * If the symbol is not bound in the current scope, <code>null</code> is
      * returned.
      */
-    public jdk.incubator.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
+    public java.lang.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
         var RESULT = gtk_h.g_scanner_lookup_symbol(handle(), Interop.allocateNativeString(symbol).handle());
         return RESULT;
     }
@@ -130,7 +130,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a symbol to the given scope.
      */
-    public void scopeAddSymbol(int scopeId, java.lang.String symbol, jdk.incubator.foreign.MemoryAddress value) {
+    public void scopeAddSymbol(int scopeId, java.lang.String symbol, java.lang.foreign.MemoryAddress value) {
         gtk_h.g_scanner_scope_add_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle(), value);
     }
     
@@ -143,7 +143,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     public void scopeForeachSymbol(int scopeId, HFunc func) {
         try {
             gtk_h.g_scanner_scope_foreach_symbol(handle(), scopeId, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -158,7 +158,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * Looks up a symbol in a scope and return its value. If the
      * symbol is not bound in the scope, <code>null</code> is returned.
      */
-    public jdk.incubator.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
+    public java.lang.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
         var RESULT = gtk_h.g_scanner_scope_lookup_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
         return RESULT;
     }

@@ -7,5 +7,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface EqualFunc {
-        boolean onEqualFunc(jdk.incubator.foreign.MemoryAddress a, jdk.incubator.foreign.MemoryAddress b);
+        boolean onEqualFunc(java.lang.foreign.MemoryAddress a, java.lang.foreign.MemoryAddress b);
 }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -81,7 +81,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Gets back user data pointers stored via g_param_spec_set_qdata().
      */
-    public jdk.incubator.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
+    public java.lang.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
         var RESULT = gtk_h.g_param_spec_get_qdata(handle(), quark.getValue());
         return RESULT;
     }
@@ -124,7 +124,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * previously set user data pointer, overrides (frees) the old pointer
      * set, using <code>null</code> as pointer essentially removes the data stored.
      */
-    public void setQdata(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data) {
+    public void setQdata(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_param_spec_set_qdata(handle(), quark.getValue(), data);
     }
     
@@ -135,7 +135,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * finalized, or the data is being overwritten by a call to
      * g_param_spec_set_qdata() with the same {@code quark}.
      */
-    public void setQdataFull(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+    public void setQdataFull(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
         gtk_h.g_param_spec_set_qdata_full(handle(), quark.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
     }
@@ -159,7 +159,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * function (if any was set).  Usually, calling this function is only
      * required to update user data pointers with a destroy notifier.
      */
-    public jdk.incubator.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
+    public java.lang.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
         var RESULT = gtk_h.g_param_spec_steal_qdata(handle(), quark.getValue());
         return RESULT;
     }

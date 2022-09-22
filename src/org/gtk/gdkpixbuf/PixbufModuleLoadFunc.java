@@ -7,5 +7,5 @@ package org.gtk.gdkpixbuf;
  */
 @FunctionalInterface
 public interface PixbufModuleLoadFunc {
-        Pixbuf onPixbufModuleLoadFunc(jdk.incubator.foreign.MemoryAddress f);
+        Pixbuf onPixbufModuleLoadFunc(java.lang.foreign.MemoryAddress f);
 }

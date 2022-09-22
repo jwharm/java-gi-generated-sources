@@ -1,6 +1,6 @@
 package io.github.jwharm.javagi;
 
-import jdk.incubator.foreign.MemoryAddress;
+import java.lang.foreign.MemoryAddress;
 
 public interface NativeAddress {
 

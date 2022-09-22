@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -505,7 +505,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationBeginPrint", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("begin-print").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -538,7 +538,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationCreateCustomWidget", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("create-custom-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -566,7 +566,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationCustomWidgetApply", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("custom-widget-apply").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -598,7 +598,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationDone", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("done").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -671,7 +671,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationDrawPage", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("draw-page").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -697,7 +697,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationEndPrint", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("end-print").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -733,7 +733,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPaginate", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("paginate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -772,7 +772,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPreview", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("preview").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -799,7 +799,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationRequestPageSetup", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("request-page-setup").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -826,7 +826,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationStatusChanged", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("status-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {
@@ -852,7 +852,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationUpdateCustomWidget", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("update-custom-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {

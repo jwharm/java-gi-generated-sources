@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.NativeAddress;
-import jdk.incubator.foreign.MemoryAddress;
+import java.lang.foreign.MemoryAddress;
 
 /**
  * The {@link FloatIEEE754} and {@link DoubleIEEE754} unions are used to access the sign,

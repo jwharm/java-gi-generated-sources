@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -92,7 +92,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As the name suggests, this function is not available on Windows.
      */
-    public jdk.incubator.foreign.MemoryAddress addUnixFd(int fd, int events) {
+    public java.lang.foreign.MemoryAddress addUnixFd(int fd, int events) {
         var RESULT = gtk_h.g_source_add_unix_fd(handle(), fd, events);
         return RESULT;
     }
@@ -310,7 +310,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As the name suggests, this function is not available on Windows.
      */
-    public void modifyUnixFd(jdk.incubator.foreign.MemoryAddress tag, int newEvents) {
+    public void modifyUnixFd(java.lang.foreign.MemoryAddress tag, int newEvents) {
         gtk_h.g_source_modify_unix_fd(handle(), tag, newEvents);
     }
     
@@ -326,7 +326,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As the name suggests, this function is not available on Windows.
      */
-    public int queryUnixFd(jdk.incubator.foreign.MemoryAddress tag) {
+    public int queryUnixFd(java.lang.foreign.MemoryAddress tag) {
         var RESULT = gtk_h.g_source_query_unix_fd(handle(), tag);
         return RESULT;
     }
@@ -372,7 +372,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As the name suggests, this function is not available on Windows.
      */
-    public void removeUnixFd(jdk.incubator.foreign.MemoryAddress tag) {
+    public void removeUnixFd(java.lang.foreign.MemoryAddress tag) {
         gtk_h.g_source_remove_unix_fd(handle(), tag);
     }
     
@@ -401,7 +401,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     public void setCallback(SourceFunc func) {
         try {
             gtk_h.g_source_set_callback(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -425,7 +425,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * been attached to a context. The changes will take effect for the next time
      * the source is dispatched after this call returns.
      */
-    public void setCallbackIndirect(jdk.incubator.foreign.MemoryAddress callbackData, SourceCallbackFuncs callbackFuncs) {
+    public void setCallbackIndirect(java.lang.foreign.MemoryAddress callbackData, SourceCallbackFuncs callbackFuncs) {
         gtk_h.g_source_set_callback_indirect(handle(), callbackData, callbackFuncs.handle());
     }
     
@@ -562,7 +562,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * source functions and user data. If multiple sources exist with the
      * same source functions and user data, only one will be destroyed.
      */
-    public static boolean removeByFuncsUserData(SourceFuncs funcs, jdk.incubator.foreign.MemoryAddress userData) {
+    public static boolean removeByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_funcs_user_data(funcs.handle(), userData);
         return (RESULT != 0);
     }
@@ -572,7 +572,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * data for the callback. If multiple sources exist with the same user
      * data, only one will be destroyed.
      */
-    public static boolean removeByUserData(jdk.incubator.foreign.MemoryAddress userData) {
+    public static boolean removeByUserData(java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_user_data(userData);
         return (RESULT != 0);
     }

@@ -1,7 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.NativeAddress;
-import jdk.incubator.foreign.MemoryAddress;
+import java.lang.foreign.MemoryAddress;
 
 public class VarIntT extends io.github.jwharm.javagi.ResourceBase {
     

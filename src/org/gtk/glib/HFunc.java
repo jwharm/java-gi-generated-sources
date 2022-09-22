@@ -7,5 +7,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface HFunc {
-        void onHFunc(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value);
+        void onHFunc(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value);
 }

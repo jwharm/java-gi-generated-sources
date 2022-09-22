@@ -8,5 +8,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface CompareFunc {
-        int onCompareFunc(jdk.incubator.foreign.MemoryAddress a, jdk.incubator.foreign.MemoryAddress b);
+        int onCompareFunc(java.lang.foreign.MemoryAddress a, java.lang.foreign.MemoryAddress b);
 }

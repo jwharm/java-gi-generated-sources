@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -367,7 +367,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewDouble(value));
     }
     
-    private static Reference constructNewFixedArray(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
+    private static Reference constructNewFixedArray(VariantType elementType, java.lang.foreign.MemoryAddress elements, long nElements, long elementSize) {
         Reference RESULT = References.get(gtk_h.g_variant_new_fixed_array(elementType.handle(), elements, nElements, elementSize), false);
         return RESULT;
     }
@@ -387,7 +387,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code n_elements} must be the length of the {@code elements} array.
      */
-    public static Variant newFixedArray(VariantType elementType, jdk.incubator.foreign.MemoryAddress elements, long nElements, long elementSize) {
+    public static Variant newFixedArray(VariantType elementType, java.lang.foreign.MemoryAddress elements, long nElements, long elementSize) {
         return new Variant(constructNewFixedArray(elementType, elements, nElements, elementSize));
     }
     
@@ -411,7 +411,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
         return new Variant(constructNewFromBytes(type, bytes, trusted));
     }
     
-    private static Reference constructNewFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, jdk.incubator.foreign.MemoryAddress userData) {
+    private static Reference constructNewFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, java.lang.foreign.MemoryAddress userData) {
         Reference RESULT = References.get(gtk_h.g_variant_new_from_data(type.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, trusted ? 1 : 0, 
                     Interop.cbDestroyNotifySymbol(), userData), false);
         return RESULT;
@@ -448,7 +448,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * the memory (since GLib 2.60) or (in older versions) fail and exit the
      * process.
      */
-    public static Variant newFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, jdk.incubator.foreign.MemoryAddress userData) {
+    public static Variant newFromData(VariantType type, byte[] data, long size, boolean trusted, DestroyNotify notify, java.lang.foreign.MemoryAddress userData) {
         return new Variant(constructNewFromData(type, data, size, trusted, notify, userData));
     }
     
@@ -937,7 +937,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * explicitly (by storing the type and/or endianness in addition to the
      * serialized data).
      */
-    public jdk.incubator.foreign.MemoryAddress getData() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = gtk_h.g_variant_get_data(handle());
         return RESULT;
     }
@@ -1366,7 +1366,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is approximately O(n) in the size of {@code data}.
      */
-    public void store(jdk.incubator.foreign.MemoryAddress data) {
+    public void store(java.lang.foreign.MemoryAddress data) {
         gtk_h.g_variant_store(handle(), data);
     }
     

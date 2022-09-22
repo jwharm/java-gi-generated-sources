@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -31,7 +31,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         return RESULT;
     }
     
-    public jdk.incubator.foreign.MemoryAddress getPrivate(Type privateType) {
+    public java.lang.foreign.MemoryAddress getPrivate(Type privateType) {
         var RESULT = gtk_h.g_type_class_get_private(handle(), privateType.getValue());
         return RESULT;
     }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -130,7 +130,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
     /**
      * Gets the {@code user_data} {@code gpointer} passed to g_dbus_connection_register_object().
      */
-    public jdk.incubator.foreign.MemoryAddress getUserData() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_user_data(handle());
         return RESULT;
     }

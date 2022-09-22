@@ -5,5 +5,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface DestroyFuncT {
-        void onDestroyFuncT(jdk.incubator.foreign.MemoryAddress userData);
+        void onDestroyFuncT(java.lang.foreign.MemoryAddress userData);
 }

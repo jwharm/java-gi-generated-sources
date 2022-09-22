@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -38,7 +38,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * g_boxed_free(), e.g. like: g_boxed_free (G_VALUE_TYPE ({@code value}),
      * return_value);
      */
-    public jdk.incubator.foreign.MemoryAddress dupBoxed() {
+    public java.lang.foreign.MemoryAddress dupBoxed() {
         var RESULT = gtk_h.g_value_dup_boxed(handle());
         return RESULT;
     }
@@ -99,7 +99,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Get the contents of a {@code G_TYPE_BOXED} derived {@link Value}.
      */
-    public jdk.incubator.foreign.MemoryAddress getBoxed() {
+    public java.lang.foreign.MemoryAddress getBoxed() {
         var RESULT = gtk_h.g_value_get_boxed(handle());
         return RESULT;
     }
@@ -187,7 +187,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Get the contents of a pointer {@link Value}.
      */
-    public jdk.incubator.foreign.MemoryAddress getPointer() {
+    public java.lang.foreign.MemoryAddress getPointer() {
         var RESULT = gtk_h.g_value_get_pointer(handle());
         return RESULT;
     }
@@ -274,7 +274,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * g_value_fits_pointer() returned <code>true</code> for the passed in value.
      * This is an internal function introduced mainly for C marshallers.
      */
-    public jdk.incubator.foreign.MemoryAddress peekPointer() {
+    public java.lang.foreign.MemoryAddress peekPointer() {
         var RESULT = gtk_h.g_value_peek_pointer(handle());
         return RESULT;
     }
@@ -298,7 +298,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Set the contents of a {@code G_TYPE_BOXED} derived {@link Value} to {@code v_boxed}.
      */
-    public void setBoxed(jdk.incubator.foreign.MemoryAddress vBoxed) {
+    public void setBoxed(java.lang.foreign.MemoryAddress vBoxed) {
         gtk_h.g_value_set_boxed(handle(), vBoxed);
     }
     
@@ -341,7 +341,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * Sets {@code value} from an instantiatable type via the
      * value_table's collect_value() function.
      */
-    public void setInstance(jdk.incubator.foreign.MemoryAddress instance) {
+    public void setInstance(java.lang.foreign.MemoryAddress instance) {
         gtk_h.g_value_set_instance(handle(), instance);
     }
     
@@ -402,7 +402,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Set the contents of a pointer {@link Value} to {@code v_pointer}.
      */
-    public void setPointer(jdk.incubator.foreign.MemoryAddress vPointer) {
+    public void setPointer(java.lang.foreign.MemoryAddress vPointer) {
         gtk_h.g_value_set_pointer(handle(), vPointer);
     }
     
@@ -419,7 +419,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * The boxed value is assumed to be static, and is thus not duplicated
      * when setting the {@link Value}.
      */
-    public void setStaticBoxed(jdk.incubator.foreign.MemoryAddress vBoxed) {
+    public void setStaticBoxed(java.lang.foreign.MemoryAddress vBoxed) {
         gtk_h.g_value_set_static_boxed(handle(), vBoxed);
     }
     
@@ -483,7 +483,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * and takes over the ownership of the caller’s reference to {@code v_boxed};
      * the caller doesn’t have to unref it any more.
      */
-    public void takeBoxed(jdk.incubator.foreign.MemoryAddress vBoxed) {
+    public void takeBoxed(java.lang.foreign.MemoryAddress vBoxed) {
         gtk_h.g_value_take_boxed(handle(), vBoxed);
     }
     
@@ -496,7 +496,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * If you want the {@link Value} to hold its own reference to {@code v_object}, use
      * g_value_set_object() instead.
      */
-    public void takeObject(jdk.incubator.foreign.MemoryAddress vObject) {
+    public void takeObject(java.lang.foreign.MemoryAddress vObject) {
         gtk_h.g_value_take_object(handle(), vObject);
     }
     

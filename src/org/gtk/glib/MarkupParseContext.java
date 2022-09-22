@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -20,7 +20,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
-    private static Reference constructNew(MarkupParser parser, int flags, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
+    private static Reference constructNew(MarkupParser parser, int flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
         Reference RESULT = References.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags, userData, 
                     Interop.cbDestroyNotifySymbol()), true);
         return RESULT;
@@ -33,7 +33,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * the parse context can't continue to parse text (you have to
      * free it and create a new parse context).
      */
-    public MarkupParseContext(MarkupParser parser, int flags, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
+    public MarkupParseContext(MarkupParser parser, int flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
         super(constructNew(parser, flags, userData, userDataDnotify));
     }
     
@@ -100,7 +100,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * g_markup_parse_context_new() or to the most recent call
      * of g_markup_parse_context_push().
      */
-    public jdk.incubator.foreign.MemoryAddress getUserData() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = gtk_h.g_markup_parse_context_get_user_data(handle());
         return RESULT;
     }
@@ -141,7 +141,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * be used by the subparsers themselves to implement a higher-level
      * interface.
      */
-    public jdk.incubator.foreign.MemoryAddress pop() {
+    public java.lang.foreign.MemoryAddress pop() {
         var RESULT = gtk_h.g_markup_parse_context_pop(handle());
         return RESULT;
     }
@@ -262,7 +262,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * }
      * ]|
      */
-    public void push(MarkupParser parser, jdk.incubator.foreign.MemoryAddress userData) {
+    public void push(MarkupParser parser, java.lang.foreign.MemoryAddress userData) {
         gtk_h.g_markup_parse_context_push(handle(), parser.handle(), userData);
     }
     

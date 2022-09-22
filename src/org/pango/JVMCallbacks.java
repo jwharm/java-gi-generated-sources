@@ -1,6 +1,6 @@
 package org.pango;
 
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import io.github.jwharm.javagi.*;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
@@ -12,7 +12,7 @@ public final class JVMCallbacks {
         return handler.onFontsetForeachFunc(new Fontset(References.get(fontset, false)), new Font(References.get(font, false)));
     }
     
-    public static jdk.incubator.foreign.MemoryAddress cbAttrDataCopyFunc(MemoryAddress userData) {
+    public static java.lang.foreign.MemoryAddress cbAttrDataCopyFunc(MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (AttrDataCopyFunc) Interop.signalRegistry.get(hash);
         return handler.onAttrDataCopyFunc();

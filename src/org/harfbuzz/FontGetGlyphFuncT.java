@@ -8,5 +8,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface FontGetGlyphFuncT {
-        BoolT onFontGetGlyphFuncT(FontT font, jdk.incubator.foreign.MemoryAddress fontData, CodepointT unicode, CodepointT variationSelector, CodepointT glyph, jdk.incubator.foreign.MemoryAddress userData);
+        BoolT onFontGetGlyphFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT unicode, CodepointT variationSelector, CodepointT glyph, java.lang.foreign.MemoryAddress userData);
 }

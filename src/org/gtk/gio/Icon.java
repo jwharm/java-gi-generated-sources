@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -96,7 +96,7 @@ public interface Icon extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets a hash for an icon.
      */
-    public static int hash(jdk.incubator.foreign.MemoryAddress icon) {
+    public static int hash(java.lang.foreign.MemoryAddress icon) {
         var RESULT = gtk_h.g_icon_hash(icon);
         return RESULT;
     }

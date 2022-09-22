@@ -5,5 +5,5 @@ package org.gtk.gdkpixbuf;
  */
 @FunctionalInterface
 public interface PixbufModuleIncrementLoadFunc {
-        boolean onPixbufModuleIncrementLoadFunc(jdk.incubator.foreign.MemoryAddress context, byte[] buf, int size);
+        boolean onPixbufModuleIncrementLoadFunc(java.lang.foreign.MemoryAddress context, byte[] buf, int size);
 }

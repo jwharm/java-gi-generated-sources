@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 public final class GObject {
@@ -42,7 +42,7 @@ public final class GObject {
     /**
      * Provide a copy of a boxed structure {@code src_boxed} which is of type {@code boxed_type}.
      */
-    public static jdk.incubator.foreign.MemoryAddress boxedCopy(Type boxedType, jdk.incubator.foreign.MemoryAddress srcBoxed) {
+    public static java.lang.foreign.MemoryAddress boxedCopy(Type boxedType, java.lang.foreign.MemoryAddress srcBoxed) {
         var RESULT = gtk_h.g_boxed_copy(boxedType.getValue(), srcBoxed);
         return RESULT;
     }
@@ -50,7 +50,7 @@ public final class GObject {
     /**
      * Free the boxed structure {@code boxed} which is of type {@code boxed_type}.
      */
-    public static void boxedFree(Type boxedType, jdk.incubator.foreign.MemoryAddress boxed) {
+    public static void boxedFree(Type boxedType, java.lang.foreign.MemoryAddress boxed) {
         gtk_h.g_boxed_free(boxedType.getValue(), boxed);
     }
     
@@ -60,7 +60,7 @@ public final class GObject {
      * have such a signal, you will probably also need to use an
      * accumulator, such as g_signal_accumulator_true_handled().
      */
-    public static void cclosureMarshalBOOLEANBOXEDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalBOOLEANBOXEDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_BOOLEAN__BOXED_BOXED(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -69,7 +69,7 @@ public final class GObject {
      * {@code gboolean (*callback) (gpointer instance, gint arg1, gpointer user_data)} where the {@code gint} parameter
      * denotes a flags type.
      */
-    public static void cclosureMarshalBOOLEANFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalBOOLEANFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_BOOLEAN__FLAGS(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -77,7 +77,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code gchar* (*callback) (gpointer instance, GObject *arg1, gpointer arg2, gpointer user_data)}.
      */
-    public static void cclosureMarshalSTRINGOBJECTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalSTRINGOBJECTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_STRING__OBJECT_POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -85,7 +85,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gboolean arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDBOOLEAN(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDBOOLEAN(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__BOOLEAN(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -93,7 +93,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GBoxed *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__BOXED(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -101,7 +101,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gchar arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__CHAR(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -109,7 +109,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gdouble arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDDOUBLE(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDDOUBLE(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__DOUBLE(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -117,7 +117,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gint arg1, gpointer user_data)} where the {@code gint} parameter denotes an enumeration type..
      */
-    public static void cclosureMarshalVOIDENUM(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDENUM(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__ENUM(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -125,7 +125,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gint arg1, gpointer user_data)} where the {@code gint} parameter denotes a flags type.
      */
-    public static void cclosureMarshalVOIDFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__FLAGS(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -133,7 +133,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gfloat arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDFLOAT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDFLOAT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__FLOAT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -141,7 +141,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gint arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__INT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -149,7 +149,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, glong arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDLONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDLONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__LONG(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -157,7 +157,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GObject *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDOBJECT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDOBJECT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__OBJECT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -165,7 +165,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GParamSpec *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDPARAM(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDPARAM(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__PARAM(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -173,7 +173,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gpointer arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -181,7 +181,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, const gchar *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDSTRING(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDSTRING(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__STRING(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -189,7 +189,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, guchar arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDUCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDUCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UCHAR(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -197,7 +197,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, guint arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDUINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDUINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UINT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -205,7 +205,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, guint arg1, gpointer arg2, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDUINTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDUINTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__UINT_POINTER(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -213,7 +213,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gulong arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDULONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDULONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__ULONG(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -221,7 +221,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GVariant *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDVARIANT(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDVARIANT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__VARIANT(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -229,7 +229,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDVOID(Closure closure, Value returnValue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalVOIDVOID(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_VOID__VOID(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -240,7 +240,7 @@ public final class GObject {
      * Normally this function is not passed explicitly to g_signal_new(),
      * but used automatically by GLib when specifying a <code>null</code> marshaller.
      */
-    public static void cclosureMarshalGeneric(Closure closure, Value returnGvalue, int nParamValues, Value paramValues, jdk.incubator.foreign.MemoryAddress invocationHint, jdk.incubator.foreign.MemoryAddress marshalData) {
+    public static void cclosureMarshalGeneric(Closure closure, Value returnGvalue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_generic(closure.handle(), returnGvalue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
     }
     
@@ -253,13 +253,13 @@ public final class GObject {
     public static Closure cclosureNew(Callback callbackFunc, ClosureNotify destroyData) {
         try {
             var RESULT = gtk_h.g_cclosure_new(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
@@ -279,13 +279,13 @@ public final class GObject {
     public static Closure cclosureNewSwap(Callback callbackFunc, ClosureNotify destroyData) {
         try {
             var RESULT = gtk_h.g_cclosure_new_swap(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
@@ -782,7 +782,7 @@ public final class GObject {
      * handler that is run as the return value for the signal and not run
      * any further handlers (ie: the first handler "wins").
      */
-    public static boolean signalAccumulatorFirstWins(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, jdk.incubator.foreign.MemoryAddress dummy) {
+    public static boolean signalAccumulatorFirstWins(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, java.lang.foreign.MemoryAddress dummy) {
         var RESULT = gtk_h.g_signal_accumulator_first_wins(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
         return (RESULT != 0);
     }
@@ -796,7 +796,7 @@ public final class GObject {
      * indicates that the callback handled the signal, and no further
      * handling is needed.
      */
-    public static boolean signalAccumulatorTrueHandled(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, jdk.incubator.foreign.MemoryAddress dummy) {
+    public static boolean signalAccumulatorTrueHandled(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, java.lang.foreign.MemoryAddress dummy) {
         var RESULT = gtk_h.g_signal_accumulator_true_handled(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
         return (RESULT != 0);
     }
@@ -809,7 +809,7 @@ public final class GObject {
     public static long signalAddEmissionHook(int signalId, org.gtk.glib.Quark detail, SignalEmissionHook hookFunc) {
         try {
             var RESULT = gtk_h.g_signal_add_emission_hook(signalId, detail.getValue(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSignalEmissionHook",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -858,13 +858,13 @@ public final class GObject {
     public static long signalConnectData(Object instance, java.lang.String detailedSignal, Callback cHandler, ClosureNotify destroyData, int connectFlags) {
         try {
             var RESULT = gtk_h.g_signal_connect_data(instance.handle(), Interop.allocateNativeString(detailedSignal).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
@@ -938,7 +938,7 @@ public final class GObject {
      * The match {@code mask} has to be non-0 for successful matches.
      * If no handler was found, 0 is returned.
      */
-    public static long signalHandlerFind(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, jdk.incubator.foreign.MemoryAddress func, jdk.incubator.foreign.MemoryAddress data) {
+    public static long signalHandlerFind(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_signal_handler_find(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
@@ -979,7 +979,7 @@ public final class GObject {
      * If no handlers were found, 0 is returned, the number of blocked handlers
      * otherwise.
      */
-    public static int signalHandlersBlockMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, jdk.incubator.foreign.MemoryAddress func, jdk.incubator.foreign.MemoryAddress data) {
+    public static int signalHandlersBlockMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_signal_handlers_block_matched(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
@@ -1003,7 +1003,7 @@ public final class GObject {
      * matches.  If no handlers were found, 0 is returned, the number of
      * disconnected handlers otherwise.
      */
-    public static int signalHandlersDisconnectMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, jdk.incubator.foreign.MemoryAddress func, jdk.incubator.foreign.MemoryAddress data) {
+    public static int signalHandlersDisconnectMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_signal_handlers_disconnect_matched(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
@@ -1018,7 +1018,7 @@ public final class GObject {
      * otherwise. The match criteria should not apply to any handlers that are
      * not currently blocked.
      */
-    public static int signalHandlersUnblockMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, jdk.incubator.foreign.MemoryAddress func, jdk.incubator.foreign.MemoryAddress data) {
+    public static int signalHandlersUnblockMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_signal_handlers_unblock_matched(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
@@ -1203,7 +1203,7 @@ public final class GObject {
         try {
             gtk_h.g_type_add_class_cache_func(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeClassCacheFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -1249,7 +1249,7 @@ public final class GObject {
         try {
             gtk_h.g_type_add_interface_check(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -1513,7 +1513,7 @@ public final class GObject {
      * attached to one type with g_type_set_qdata() cannot
      * be retrieved from a subtype using g_type_get_qdata().
      */
-    public static jdk.incubator.foreign.MemoryAddress typeGetQdata(Type type, org.gtk.glib.Quark quark) {
+    public static java.lang.foreign.MemoryAddress typeGetQdata(Type type, org.gtk.glib.Quark quark) {
         var RESULT = gtk_h.g_type_get_qdata(type.getValue(), quark.getValue());
         return RESULT;
     }
@@ -1696,7 +1696,7 @@ public final class GObject {
         try {
             gtk_h.g_type_remove_class_cache_func(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeClassCacheFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -1714,7 +1714,7 @@ public final class GObject {
         try {
             gtk_h.g_type_remove_interface_check(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -1727,7 +1727,7 @@ public final class GObject {
     /**
      * Attaches arbitrary data to a type.
      */
-    public static void typeSetQdata(Type type, org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data) {
+    public static void typeSetQdata(Type type, org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_type_set_qdata(type.getValue(), quark.getValue(), data);
     }
     

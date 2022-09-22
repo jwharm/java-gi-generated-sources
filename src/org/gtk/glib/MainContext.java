@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -96,7 +96,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * multiple sources exist with the same source function and user data,
      * the first one found will be returned.
      */
-    public Source findSourceByFuncsUserData(SourceFuncs funcs, jdk.incubator.foreign.MemoryAddress userData) {
+    public Source findSourceByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_main_context_find_source_by_funcs_user_data(handle(), funcs.handle(), userData);
         return new Source(References.get(RESULT, false));
     }
@@ -125,7 +125,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * multiple sources exist with the same user data, the first
      * one found will be returned.
      */
-    public Source findSourceByUserData(jdk.incubator.foreign.MemoryAddress userData) {
+    public Source findSourceByUserData(java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_main_context_find_source_by_user_data(handle(), userData);
         return new Source(References.get(RESULT, false));
     }
@@ -156,7 +156,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public void invoke(SourceFunc function) {
         try {
             gtk_h.g_main_context_invoke(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -181,7 +181,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     public void invokeFull(int priority, SourceFunc function) {
         try {
             gtk_h.g_main_context_invoke_full(handle(), priority, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),

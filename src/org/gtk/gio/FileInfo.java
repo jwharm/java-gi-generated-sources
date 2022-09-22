@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -389,7 +389,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * Sets the {@code attribute} to contain the given value, if possible. To unset the
      * attribute, use {@link FileAttributeType#INVALID} for {@code type}.
      */
-    public void setAttribute(java.lang.String attribute, FileAttributeType type, jdk.incubator.foreign.MemoryAddress valueP) {
+    public void setAttribute(java.lang.String attribute, FileAttributeType type, java.lang.foreign.MemoryAddress valueP) {
         gtk_h.g_file_info_set_attribute(handle(), Interop.allocateNativeString(attribute).handle(), type.getValue(), valueP);
     }
     

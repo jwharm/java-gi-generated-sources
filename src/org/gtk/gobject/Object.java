@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -112,7 +112,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void addToggleRef(ToggleNotify notify) {
         try {
             gtk_h.g_object_add_toggle_ref(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN),
@@ -134,7 +134,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * thread if the object's last g_object_unref() might happen in another
      * thread. Use {@link WeakRef} if thread-safety is required.
      */
-    public void addWeakPointer(jdk.incubator.foreign.MemoryAddress weakPointerLocation) {
+    public void addWeakPointer(java.lang.foreign.MemoryAddress weakPointerLocation) {
         gtk_h.g_object_add_weak_pointer(handle(), weakPointerLocation);
     }
     
@@ -206,12 +206,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public Binding bindPropertyFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
         try {
             var RESULT = gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -254,10 +254,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * threads are using object data on the same key on the same
      * object.
      */
-    public jdk.incubator.foreign.MemoryAddress dupData(java.lang.String key, org.gtk.glib.DuplicateFunc dupFunc) {
+    public java.lang.foreign.MemoryAddress dupData(java.lang.String key, org.gtk.glib.DuplicateFunc dupFunc) {
         try {
             var RESULT = gtk_h.g_object_dup_data(handle(), Interop.allocateNativeString(key).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -285,10 +285,10 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * threads are using object data on the same key on the same
      * object.
      */
-    public jdk.incubator.foreign.MemoryAddress dupQdata(org.gtk.glib.Quark quark, org.gtk.glib.DuplicateFunc dupFunc) {
+    public java.lang.foreign.MemoryAddress dupQdata(org.gtk.glib.Quark quark, org.gtk.glib.DuplicateFunc dupFunc) {
         try {
             var RESULT = gtk_h.g_object_dup_qdata(handle(), quark.getValue(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -328,7 +328,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets a named field from the objects table of associations (see g_object_set_data()).
      */
-    public jdk.incubator.foreign.MemoryAddress getData(java.lang.String key) {
+    public java.lang.foreign.MemoryAddress getData(java.lang.String key) {
         var RESULT = gtk_h.g_object_get_data(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
@@ -361,7 +361,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * This function gets back user data pointers stored via
      * g_object_set_qdata().
      */
-    public jdk.incubator.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
+    public java.lang.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
         var RESULT = gtk_h.g_object_get_qdata(handle(), quark.getValue());
         return RESULT;
     }
@@ -495,7 +495,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void removeToggleRef(ToggleNotify notify) {
         try {
             gtk_h.g_object_remove_toggle_ref(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN),
@@ -511,7 +511,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * using g_object_add_weak_pointer(). The {@code weak_pointer_location} has
      * to match the one used with g_object_add_weak_pointer().
      */
-    public void removeWeakPointer(jdk.incubator.foreign.MemoryAddress weakPointerLocation) {
+    public void removeWeakPointer(java.lang.foreign.MemoryAddress weakPointerLocation) {
         gtk_h.g_object_remove_weak_pointer(handle(), weakPointerLocation);
     }
     
@@ -537,7 +537,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * finalized) — so it is recommended to only use a small, bounded set of values
      * for {@code key} in your program, to avoid the {@link org.gtk.glib.Quark} storage growing unbounded.
      */
-    public void setData(java.lang.String key, jdk.incubator.foreign.MemoryAddress data) {
+    public void setData(java.lang.String key, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_object_set_data(handle(), Interop.allocateNativeString(key).handle(), data);
     }
     
@@ -548,7 +548,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Note that the {@code destroy} callback is not called if {@code data} is <code>null</code>.
      */
-    public void setDataFull(java.lang.String key, jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+    public void setDataFull(java.lang.String key, java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
         gtk_h.g_object_set_data_full(handle(), Interop.allocateNativeString(key).handle(), data, 
                     Interop.cbDestroyNotifySymbol());
     }
@@ -570,7 +570,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * the old pointer set, using {@code NULL} as pointer essentially
      * removes the data stored.
      */
-    public void setQdata(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data) {
+    public void setQdata(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_object_set_qdata(handle(), quark.getValue(), data);
     }
     
@@ -581,7 +581,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * the data is being overwritten by a call to g_object_set_qdata()
      * with the same {@code quark}.
      */
-    public void setQdataFull(org.gtk.glib.Quark quark, jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+    public void setQdataFull(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
         gtk_h.g_object_set_qdata_full(handle(), quark.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
     }
@@ -607,7 +607,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Remove a specified datum from the object's data associations,
      * without invoking the association's destroy handler.
      */
-    public jdk.incubator.foreign.MemoryAddress stealData(java.lang.String key) {
+    public java.lang.foreign.MemoryAddress stealData(java.lang.String key) {
         var RESULT = gtk_h.g_object_steal_data(handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
@@ -649,7 +649,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * and thus the partial string list would have been freed upon
      * g_object_set_qdata_full().
      */
-    public jdk.incubator.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
+    public java.lang.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
         var RESULT = gtk_h.g_object_steal_qdata(handle(), quark.getValue());
         return RESULT;
     }
@@ -754,7 +754,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void weakRef(WeakNotify notify) {
         try {
             gtk_h.g_object_weak_ref(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -771,7 +771,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
     public void weakUnref(WeakNotify notify) {
         try {
             gtk_h.g_object_weak_unref(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -782,7 +782,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    public static long compatControl(long what, jdk.incubator.foreign.MemoryAddress data) {
+    public static long compatControl(long what, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_object_compat_control(what, data);
         return RESULT;
     }
@@ -860,7 +860,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
             MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalObjectNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            NativeSymbol nativeSymbol = CLinker.systemCLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
+            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
             long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("notify").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), handlerId);
         } catch (Exception e) {

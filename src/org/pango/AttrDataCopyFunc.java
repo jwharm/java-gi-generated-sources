@@ -5,5 +5,5 @@ package org.pango;
  */
 @FunctionalInterface
 public interface AttrDataCopyFunc {
-        jdk.incubator.foreign.MemoryAddress onAttrDataCopyFunc();
+        java.lang.foreign.MemoryAddress onAttrDataCopyFunc();
 }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -68,7 +68,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * g_settings_backend_write() then {@code origin_tag} must be set to the same
      * value that was passed to that call.
      */
-    public void changed(java.lang.String key, jdk.incubator.foreign.MemoryAddress originTag) {
+    public void changed(java.lang.String key, java.lang.foreign.MemoryAddress originTag) {
         gtk_h.g_settings_backend_changed(handle(), Interop.allocateNativeString(key).handle(), originTag);
     }
     
@@ -77,7 +77,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * {@code tree}, computes the longest common prefix and calls
      * g_settings_backend_changed().
      */
-    public void changedTree(org.gtk.glib.Tree tree, jdk.incubator.foreign.MemoryAddress originTag) {
+    public void changedTree(org.gtk.glib.Tree tree, java.lang.foreign.MemoryAddress originTag) {
         gtk_h.g_settings_backend_changed_tree(handle(), tree.handle(), originTag);
     }
     
@@ -104,7 +104,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * be as long as possible (ie: the longest common prefix of all of the
      * keys that were changed) but this is not strictly required.
      */
-    public void keysChanged(java.lang.String path, java.lang.String[] items, jdk.incubator.foreign.MemoryAddress originTag) {
+    public void keysChanged(java.lang.String path, java.lang.String[] items, java.lang.foreign.MemoryAddress originTag) {
         gtk_h.g_settings_backend_keys_changed(handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeArray(items).handle(), originTag);
     }
     
@@ -131,7 +131,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * example, if this function is called with the path of "/" then every
      * single key in the application will be notified of a possible change.
      */
-    public void pathChanged(java.lang.String path, jdk.incubator.foreign.MemoryAddress originTag) {
+    public void pathChanged(java.lang.String path, java.lang.foreign.MemoryAddress originTag) {
         gtk_h.g_settings_backend_path_changed(handle(), Interop.allocateNativeString(path).handle(), originTag);
     }
     

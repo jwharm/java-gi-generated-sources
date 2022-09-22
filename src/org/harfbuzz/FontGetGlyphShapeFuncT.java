@@ -5,5 +5,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface FontGetGlyphShapeFuncT {
-        void onFontGetGlyphShapeFuncT(FontT font, jdk.incubator.foreign.MemoryAddress fontData, CodepointT glyph, DrawFuncsT drawFuncs, jdk.incubator.foreign.MemoryAddress drawData, jdk.incubator.foreign.MemoryAddress userData);
+        void onFontGetGlyphShapeFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT glyph, DrawFuncsT drawFuncs, java.lang.foreign.MemoryAddress drawData, java.lang.foreign.MemoryAddress userData);
 }

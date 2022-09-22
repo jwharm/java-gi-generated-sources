@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -83,7 +83,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * <p>
      * See {@link ContentSerializer#setTaskData}.
      */
-    public jdk.incubator.foreign.MemoryAddress getTaskData() {
+    public java.lang.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.gdk_content_serializer_get_task_data(handle());
         return RESULT;
     }
@@ -91,7 +91,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     /**
      * Gets the user data that was passed when the serializer was registered.
      */
-    public jdk.incubator.foreign.MemoryAddress getUserData() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = gtk_h.gdk_content_serializer_get_user_data(handle());
         return RESULT;
     }
@@ -123,7 +123,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     /**
      * Associate data with the current serialization operation.
      */
-    public void setTaskData(jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify notify) {
+    public void setTaskData(java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify notify) {
         gtk_h.gdk_content_serializer_set_task_data(handle(), data, 
                     Interop.cbDestroyNotifySymbol());
     }

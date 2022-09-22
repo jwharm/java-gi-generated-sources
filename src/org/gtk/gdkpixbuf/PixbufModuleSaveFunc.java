@@ -9,5 +9,5 @@ package org.gtk.gdkpixbuf;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveFunc {
-        boolean onPixbufModuleSaveFunc(jdk.incubator.foreign.MemoryAddress f, Pixbuf pixbuf, java.lang.String[] paramKeys, java.lang.String[] paramValues);
+        boolean onPixbufModuleSaveFunc(java.lang.foreign.MemoryAddress f, Pixbuf pixbuf, java.lang.String[] paramKeys, java.lang.String[] paramValues);
 }

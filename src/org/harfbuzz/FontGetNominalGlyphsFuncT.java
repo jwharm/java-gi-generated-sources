@@ -9,5 +9,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface FontGetNominalGlyphsFuncT {
-        int onFontGetNominalGlyphsFuncT(FontT font, jdk.incubator.foreign.MemoryAddress fontData, int count, CodepointT firstUnicode, int unicodeStride, CodepointT firstGlyph, int glyphStride, jdk.incubator.foreign.MemoryAddress userData);
+        int onFontGetNominalGlyphsFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, int count, CodepointT firstUnicode, int unicodeStride, CodepointT firstGlyph, int glyphStride, java.lang.foreign.MemoryAddress userData);
 }

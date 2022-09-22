@@ -8,5 +8,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface DuplicateFunc {
-        jdk.incubator.foreign.MemoryAddress onDuplicateFunc();
+        java.lang.foreign.MemoryAddress onDuplicateFunc();
 }

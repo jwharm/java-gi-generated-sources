@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -29,7 +29,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
         try {
             Reference RESULT = References.get(gtk_h.g_memory_output_stream_new(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(reallocFunction.hashCode(), reallocFunction)), size, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbReallocFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
@@ -107,7 +107,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * Note that the returned pointer may become invalid on the next
      * write or truncate operation on the stream.
      */
-    public jdk.incubator.foreign.MemoryAddress getData() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = gtk_h.g_memory_output_stream_get_data(handle());
         return RESULT;
     }
@@ -160,7 +160,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * <p>
      * {@code ostream} must be closed before calling this function.
      */
-    public jdk.incubator.foreign.MemoryAddress stealData() {
+    public java.lang.foreign.MemoryAddress stealData() {
         var RESULT = gtk_h.g_memory_output_stream_steal_data(handle());
         return RESULT;
     }

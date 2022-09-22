@@ -7,5 +7,5 @@ package org.gtk.gdkpixbuf;
  */
 @FunctionalInterface
 public interface PixbufModuleStopLoadFunc {
-        boolean onPixbufModuleStopLoadFunc(jdk.incubator.foreign.MemoryAddress context);
+        boolean onPixbufModuleStopLoadFunc(java.lang.foreign.MemoryAddress context);
 }

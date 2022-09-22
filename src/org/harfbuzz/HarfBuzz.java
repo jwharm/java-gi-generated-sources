@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 public final class HarfBuzz {
@@ -149,7 +149,7 @@ public final class HarfBuzz {
      * Fetches the user data associated with the specified key,
      * attached to the specified font-functions structure.
      */
-    public static jdk.incubator.foreign.MemoryAddress blobGetUserData(BlobT blob, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress blobGetUserData(BlobT blob, UserDataKeyT key) {
         var RESULT = gtk_h.hb_blob_get_user_data(blob.handle(), key.handle());
         return RESULT;
     }
@@ -439,7 +439,7 @@ public final class HarfBuzz {
      * Fetches the user data associated with the specified key,
      * attached to the specified buffer.
      */
-    public static jdk.incubator.foreign.MemoryAddress bufferGetUserData(BufferT buffer, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress bufferGetUserData(BufferT buffer, UserDataKeyT key) {
         var RESULT = gtk_h.hb_buffer_get_user_data(buffer.handle(), key.handle());
         return RESULT;
     }
@@ -738,14 +738,14 @@ public final class HarfBuzz {
     /**
      * Perform a "close-path" draw operation.
      */
-    public static void drawClosePath(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st) {
+    public static void drawClosePath(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st) {
         gtk_h.hb_draw_close_path(dfuncs.handle(), drawData, st.handle());
     }
     
     /**
      * Perform a "cubic-to" draw operation.
      */
-    public static void drawCubicTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
+    public static void drawCubicTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
         gtk_h.hb_draw_cubic_to(dfuncs.handle(), drawData, st.handle(), control1X, control1Y, control2X, control2Y, toX, toY);
     }
     
@@ -793,21 +793,21 @@ public final class HarfBuzz {
     /**
      * Perform a "line-to" draw operation.
      */
-    public static void drawLineTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
+    public static void drawLineTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
         gtk_h.hb_draw_line_to(dfuncs.handle(), drawData, st.handle(), toX, toY);
     }
     
     /**
      * Perform a "move-to" draw operation.
      */
-    public static void drawMoveTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
+    public static void drawMoveTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY) {
         gtk_h.hb_draw_move_to(dfuncs.handle(), drawData, st.handle(), toX, toY);
     }
     
     /**
      * Perform a "quadratic-to" draw operation.
      */
-    public static void drawQuadraticTo(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float controlX, float controlY, float toX, float toY) {
+    public static void drawQuadraticTo(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float controlX, float controlY, float toX, float toY) {
         gtk_h.hb_draw_quadratic_to(dfuncs.handle(), drawData, st.handle(), controlX, controlY, toX, toY);
     }
     
@@ -930,7 +930,7 @@ public final class HarfBuzz {
      * Fetches the user data associated with the specified key,
      * attached to the specified face object.
      */
-    public static jdk.incubator.foreign.MemoryAddress faceGetUserData(FaceT face, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress faceGetUserData(FaceT face, UserDataKeyT key) {
         var RESULT = gtk_h.hb_face_get_user_data(face.handle(), key.handle());
         return RESULT;
     }
@@ -1117,7 +1117,7 @@ public final class HarfBuzz {
      * Fetches the user data associated with the specified key,
      * attached to the specified font-functions structure.
      */
-    public static jdk.incubator.foreign.MemoryAddress fontFuncsGetUserData(FontFuncsT ffuncs, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress fontFuncsGetUserData(FontFuncsT ffuncs, UserDataKeyT key) {
         var RESULT = gtk_h.hb_font_funcs_get_user_data(ffuncs.handle(), key.handle());
         return RESULT;
     }
@@ -1228,7 +1228,7 @@ public final class HarfBuzz {
      * The shape is returned by way of calls to the callsbacks of the {@code dfuncs}
      * objects, with {@code draw_data} passed to them.
      */
-    public static void fontGetGlyphShape(FontT font, CodepointT glyph, DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData) {
+    public static void fontGetGlyphShape(FontT font, CodepointT glyph, DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData) {
         gtk_h.hb_font_get_glyph_shape(font.handle(), glyph.getValue(), dfuncs.handle(), drawData);
     }
     
@@ -1279,7 +1279,7 @@ public final class HarfBuzz {
      * Fetches the user-data object associated with the specified key,
      * attached to the specified font object.
      */
-    public static jdk.incubator.foreign.MemoryAddress fontGetUserData(FontT font, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress fontGetUserData(FontT font, UserDataKeyT key) {
         var RESULT = gtk_h.hb_font_get_user_data(font.handle(), key.handle());
         return RESULT;
     }
@@ -1629,7 +1629,7 @@ public final class HarfBuzz {
      * Fetches the user data associated with the specified key,
      * attached to the specified map.
      */
-    public static jdk.incubator.foreign.MemoryAddress mapGetUserData(MapT map, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress mapGetUserData(MapT map, UserDataKeyT key) {
         var RESULT = gtk_h.hb_map_get_user_data(map.handle(), key.handle());
         return RESULT;
     }
@@ -2241,7 +2241,7 @@ public final class HarfBuzz {
      * Fetches the user data associated with the specified key,
      * attached to the specified set.
      */
-    public static jdk.incubator.foreign.MemoryAddress setGetUserData(SetT set, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress setGetUserData(SetT set, UserDataKeyT key) {
         var RESULT = gtk_h.hb_set_get_user_data(set.handle(), key.handle());
         return RESULT;
     }
@@ -2428,7 +2428,7 @@ public final class HarfBuzz {
      * Fetches the user data associated with the specified key,
      * attached to the specified shaping plan.
      */
-    public static jdk.incubator.foreign.MemoryAddress shapePlanGetUserData(ShapePlanT shapePlan, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress shapePlanGetUserData(ShapePlanT shapePlan, UserDataKeyT key) {
         var RESULT = gtk_h.hb_shape_plan_get_user_data(shapePlan.handle(), key.handle());
         return RESULT;
     }
@@ -2526,7 +2526,7 @@ public final class HarfBuzz {
      * Fetches the user-data associated with the specified key,
      * attached to the specified Unicode-functions structure.
      */
-    public static jdk.incubator.foreign.MemoryAddress unicodeFuncsGetUserData(UnicodeFuncsT ufuncs, UserDataKeyT key) {
+    public static java.lang.foreign.MemoryAddress unicodeFuncsGetUserData(UnicodeFuncsT ufuncs, UserDataKeyT key) {
         var RESULT = gtk_h.hb_unicode_funcs_get_user_data(ufuncs.handle(), key.handle());
         return RESULT;
     }

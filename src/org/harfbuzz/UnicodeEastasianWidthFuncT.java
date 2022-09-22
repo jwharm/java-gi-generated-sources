@@ -5,5 +5,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface UnicodeEastasianWidthFuncT {
-        int onUnicodeEastasianWidthFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, jdk.incubator.foreign.MemoryAddress userData);
+        int onUnicodeEastasianWidthFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, java.lang.foreign.MemoryAddress userData);
 }

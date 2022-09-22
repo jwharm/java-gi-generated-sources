@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -32,7 +32,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * threads, use only the atomic g_array_ref() and g_array_unref()
      * functions.
      */
-    public static java.lang.String free(jdk.incubator.foreign.MemoryAddress[] array, boolean freeSegment) {
+    public static java.lang.String free(java.lang.foreign.MemoryAddress[] array, boolean freeSegment) {
         var RESULT = gtk_h.g_array_free(Interop.allocateNativeArray(array).handle(), freeSegment ? 1 : 0);
         return RESULT.getUtf8String(0);
     }
@@ -40,7 +40,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the size of the elements in {@code array}.
      */
-    public static int getElementSize(jdk.incubator.foreign.MemoryAddress[] array) {
+    public static int getElementSize(java.lang.foreign.MemoryAddress[] array) {
         var RESULT = gtk_h.g_array_get_element_size(Interop.allocateNativeArray(array).handle());
         return RESULT;
     }
@@ -55,10 +55,10 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * using the addresses of the elements in the comparison function.
      * This did not actually work, so any such code should be removed.
      */
-    public static void sortWithData(jdk.incubator.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
+    public static void sortWithData(java.lang.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
         try {
             gtk_h.g_array_sort_with_data(Interop.allocateNativeArray(array).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -75,7 +75,7 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
      * released. This function is thread-safe and may be called from any
      * thread.
      */
-    public static void unref(jdk.incubator.foreign.MemoryAddress[] array) {
+    public static void unref(java.lang.foreign.MemoryAddress[] array) {
         gtk_h.g_array_unref(Interop.allocateNativeArray(array).handle());
     }
     

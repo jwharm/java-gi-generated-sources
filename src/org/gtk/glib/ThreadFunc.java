@@ -6,5 +6,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface ThreadFunc {
-        jdk.incubator.foreign.MemoryAddress onThreadFunc();
+        java.lang.foreign.MemoryAddress onThreadFunc();
 }

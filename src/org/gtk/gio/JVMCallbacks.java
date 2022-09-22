@@ -1,6 +1,6 @@
 package org.gtk.gio;
 
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import io.github.jwharm.javagi.*;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
@@ -318,7 +318,7 @@ public final class JVMCallbacks {
         handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
     }
     
-    public static jdk.incubator.foreign.MemoryAddress cbReallocFunc(MemoryAddress data, long size) {
+    public static java.lang.foreign.MemoryAddress cbReallocFunc(MemoryAddress data, long size) {
         int hash = data.get(C_INT, 0);
         var handler = (ReallocFunc) Interop.signalRegistry.get(hash);
         return handler.onReallocFunc(size);

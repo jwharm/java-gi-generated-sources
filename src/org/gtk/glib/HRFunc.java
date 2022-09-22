@@ -9,5 +9,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface HRFunc {
-        boolean onHRFunc(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value);
+        boolean onHRFunc(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value);
 }

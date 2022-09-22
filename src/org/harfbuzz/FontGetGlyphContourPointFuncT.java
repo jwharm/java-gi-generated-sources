@@ -9,5 +9,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface FontGetGlyphContourPointFuncT {
-        BoolT onFontGetGlyphContourPointFuncT(FontT font, jdk.incubator.foreign.MemoryAddress fontData, CodepointT glyph, int pointIndex, PositionT x, PositionT y, jdk.incubator.foreign.MemoryAddress userData);
+        BoolT onFontGetGlyphContourPointFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT glyph, int pointIndex, PositionT x, PositionT y, java.lang.foreign.MemoryAddress userData);
 }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -523,7 +523,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     private static Reference constructNew(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
             Reference RESULT = References.get(gtk_h.g_task_new(sourceObject.handle(), cancellable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -635,7 +635,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Gets {@code task}'s source tag. See g_task_set_source_tag().
      */
-    public jdk.incubator.foreign.MemoryAddress getSourceTag() {
+    public java.lang.foreign.MemoryAddress getSourceTag() {
         var RESULT = gtk_h.g_task_get_source_tag(handle());
         return RESULT;
     }
@@ -643,7 +643,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Gets {@code task}'s {@code task_data}.
      */
-    public jdk.incubator.foreign.MemoryAddress getTaskData() {
+    public java.lang.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.g_task_get_task_data(handle());
         return RESULT;
     }
@@ -702,7 +702,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
-    public jdk.incubator.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_task_propagate_pointer(handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -890,14 +890,14 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * task’s name to the string form of {@code source_tag} if it’s not already
      * set, for convenience.
      */
-    public void setSourceTag(jdk.incubator.foreign.MemoryAddress sourceTag) {
+    public void setSourceTag(java.lang.foreign.MemoryAddress sourceTag) {
         gtk_h.g_task_set_source_tag(handle(), sourceTag);
     }
     
     /**
      * Sets {@code task}'s task data (freeing the existing task data, if any).
      */
-    public void setTaskData(jdk.incubator.foreign.MemoryAddress taskData, org.gtk.glib.DestroyNotify taskDataDestroy) {
+    public void setTaskData(java.lang.foreign.MemoryAddress taskData, org.gtk.glib.DestroyNotify taskDataDestroy) {
         gtk_h.g_task_set_task_data(handle(), taskData, 
                     Interop.cbDestroyNotifySymbol());
     }
@@ -922,10 +922,10 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * <p>
      * See also g_task_report_new_error().
      */
-    public static void reportError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, jdk.incubator.foreign.MemoryAddress sourceTag, org.gtk.glib.Error error) {
+    public static void reportError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, java.lang.foreign.MemoryAddress sourceTag, org.gtk.glib.Error error) {
         try {
             gtk_h.g_task_report_error(sourceObject.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

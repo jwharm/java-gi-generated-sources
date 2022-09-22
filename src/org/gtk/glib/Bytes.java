@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -91,7 +91,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         return new Bytes(constructNewTake(data, size));
     }
     
-    private static Reference constructNewWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, jdk.incubator.foreign.MemoryAddress userData) {
+    private static Reference constructNewWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
         Reference RESULT = References.get(gtk_h.g_bytes_new_with_free_func(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), size, 
                     Interop.cbDestroyNotifySymbol(), userData), true);
         return RESULT;
@@ -108,7 +108,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code data} may be <code>null</code> if {@code size} is 0.
      */
-    public static Bytes newWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, jdk.incubator.foreign.MemoryAddress userData) {
+    public static Bytes newWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
         return new Bytes(constructNewWithFreeFunc(data, size, freeFunc, userData));
     }
     
@@ -162,7 +162,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * that you will be using this function to check for a zero-sized region
      * in a zero-sized {@code bytes}, <code>null</code> effectively always means "error".
      */
-    public jdk.incubator.foreign.MemoryAddress getRegion(long elementSize, long offset, long nElements) {
+    public java.lang.foreign.MemoryAddress getRegion(long elementSize, long offset, long nElements) {
         var RESULT = gtk_h.g_bytes_get_region(handle(), elementSize, offset, nElements);
         return RESULT;
     }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -79,7 +79,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         return new Closure(constructNewObject(sizeofClosure, object));
     }
     
-    private static Reference constructNewSimple(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
+    private static Reference constructNewSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
         Reference RESULT = References.get(gtk_h.g_closure_new_simple(sizeofClosure, data), false);
         return RESULT;
     }
@@ -123,7 +123,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * }
      * ]|
      */
-    public static Closure newSimple(int sizeofClosure, jdk.incubator.foreign.MemoryAddress data) {
+    public static Closure newSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
         return new Closure(constructNewSimple(sizeofClosure, data));
     }
     
@@ -140,7 +140,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_closure_add_finalize_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -161,7 +161,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_closure_add_invalidate_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -183,13 +183,13 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_closure_add_marshal_guards(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -223,7 +223,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Invokes the closure, i.e. executes the callback represented by the {@code closure}.
      */
-    public void invoke(Value returnValue, int nParamValues, Value[] paramValues, jdk.incubator.foreign.MemoryAddress invocationHint) {
+    public void invoke(Value returnValue, int nParamValues, Value[] paramValues, java.lang.foreign.MemoryAddress invocationHint) {
         gtk_h.g_closure_invoke(handle(), returnValue.handle(), nParamValues, Interop.allocateNativeArray(paramValues).handle(), invocationHint);
     }
     
@@ -245,7 +245,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_closure_remove_finalize_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -264,7 +264,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_closure_remove_invalidate_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -297,7 +297,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_closure_set_meta_marshal(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

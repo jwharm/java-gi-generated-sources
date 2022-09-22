@@ -6,5 +6,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface DrawClosePathFuncT {
-        void onDrawClosePathFuncT(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, jdk.incubator.foreign.MemoryAddress userData);
+        void onDrawClosePathFuncT(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, java.lang.foreign.MemoryAddress userData);
 }

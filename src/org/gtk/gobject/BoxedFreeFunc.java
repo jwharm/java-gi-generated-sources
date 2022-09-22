@@ -6,5 +6,5 @@ package org.gtk.gobject;
  */
 @FunctionalInterface
 public interface BoxedFreeFunc {
-        void onBoxedFreeFunc(jdk.incubator.foreign.MemoryAddress boxed);
+        void onBoxedFreeFunc(java.lang.foreign.MemoryAddress boxed);
 }

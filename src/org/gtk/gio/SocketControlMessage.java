@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -75,7 +75,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * returned by g_socket_control_message_get_size() on this
      * object.
      */
-    public void serialize(jdk.incubator.foreign.MemoryAddress data) {
+    public void serialize(java.lang.foreign.MemoryAddress data) {
         gtk_h.g_socket_control_message_serialize(handle(), data);
     }
     

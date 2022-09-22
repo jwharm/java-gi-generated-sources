@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -22,7 +22,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
-    private static Reference constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify destroy) {
+    private static Reference constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, java.lang.foreign.MemoryAddress userData, DestroyNotify destroy) {
         Reference RESULT = References.get(gtk_h.g_option_group_new(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(helpDescription).handle(), userData, 
                     Interop.cbDestroyNotifySymbol()), true);
         return RESULT;
@@ -31,7 +31,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link OptionGroup}.
      */
-    public OptionGroup(java.lang.String name, java.lang.String description, java.lang.String helpDescription, jdk.incubator.foreign.MemoryAddress userData, DestroyNotify destroy) {
+    public OptionGroup(java.lang.String name, java.lang.String description, java.lang.String helpDescription, java.lang.foreign.MemoryAddress userData, DestroyNotify destroy) {
         super(constructNew(name, description, helpDescription, userData, destroy));
     }
     
@@ -61,7 +61,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     public void setTranslateFunc(TranslateFunc func) {
         try {
             gtk_h.g_option_group_set_translate_func(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

@@ -1,7 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.NativeAddress;
-import jdk.incubator.foreign.MemoryAddress;
+import java.lang.foreign.MemoryAddress;
 
 /**
  * A union holding the value of the token.

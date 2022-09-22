@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -106,7 +106,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the user data from a {@link AsyncResult}.
      */
-    public default jdk.incubator.foreign.MemoryAddress getUserData() {
+    public default java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = gtk_h.g_async_result_get_user_data(handle());
         return RESULT;
     }
@@ -115,7 +115,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
      * Checks if {@code res} has the given {@code source_tag} (generally a function
      * pointer indicating the function {@code res} was created by).
      */
-    public default boolean isTagged(jdk.incubator.foreign.MemoryAddress sourceTag) {
+    public default boolean isTagged(java.lang.foreign.MemoryAddress sourceTag) {
         var RESULT = gtk_h.g_async_result_is_tagged(handle(), sourceTag);
         return (RESULT != 0);
     }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 public final class Gdk {
@@ -4638,7 +4638,7 @@ public final class Gdk {
     public static void contentDeserializeAsync(org.gtk.gio.InputStream stream, java.lang.String mimeType, Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gtk_h.gdk_content_deserialize_async(stream.handle(), Interop.allocateNativeString(mimeType).handle(), type.getValue(), ioPriority, cancellable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -4682,7 +4682,7 @@ public final class Gdk {
     public static void contentRegisterDeserializer(java.lang.String mimeType, Type type, ContentDeserializeFunc deserialize) {
         try {
             gtk_h.gdk_content_register_deserializer(Interop.allocateNativeString(mimeType).handle(), type.getValue(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbContentDeserializeFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
@@ -4700,7 +4700,7 @@ public final class Gdk {
     public static void contentRegisterSerializer(Type type, java.lang.String mimeType, ContentSerializeFunc serialize) {
         try {
             gtk_h.gdk_content_register_serializer(type.getValue(), Interop.allocateNativeString(mimeType).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbContentSerializeFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
@@ -4724,7 +4724,7 @@ public final class Gdk {
     public static void contentSerializeAsync(org.gtk.gio.OutputStream stream, java.lang.String mimeType, org.gtk.gobject.Value value, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gtk_h.gdk_content_serialize_async(stream.handle(), Interop.allocateNativeString(mimeType).handle(), value.handle(), ioPriority, cancellable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

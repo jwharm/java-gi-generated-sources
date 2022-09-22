@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -58,7 +58,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * pointed to as a result of this advancement. If <code>false</code> is returned,
      * {@code key} and {@code value} are not set, and the iterator becomes invalid.
      */
-    public boolean next(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public boolean next(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_iter_next(handle(), key, value);
         return (RESULT != 0);
     }
@@ -95,7 +95,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * If you supplied a {@code value_destroy_func} when creating the
      * {@link HashTable}, the old value is freed using that function.
      */
-    public void replace(jdk.incubator.foreign.MemoryAddress value) {
+    public void replace(java.lang.foreign.MemoryAddress value) {
         gtk_h.g_hash_table_iter_replace(handle(), value);
     }
     

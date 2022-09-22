@@ -8,5 +8,5 @@ package org.gtk.gio;
  */
 @FunctionalInterface
 public interface ReallocFunc {
-        jdk.incubator.foreign.MemoryAddress onReallocFunc(long size);
+        java.lang.foreign.MemoryAddress onReallocFunc(long size);
 }

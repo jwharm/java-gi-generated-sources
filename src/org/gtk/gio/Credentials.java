@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -78,7 +78,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * logged) to use this method if there is no {@link Credentials} support for
      * the OS or if {@code native_type} isn't supported by the OS.
      */
-    public jdk.incubator.foreign.MemoryAddress getNative(CredentialsType nativeType) {
+    public java.lang.foreign.MemoryAddress getNative(CredentialsType nativeType) {
         var RESULT = gtk_h.g_credentials_get_native(handle(), nativeType.getValue());
         return RESULT;
     }
@@ -140,7 +140,7 @@ public class Credentials extends org.gtk.gobject.Object {
      * logged) to use this method if there is no {@link Credentials} support for
      * the OS or if {@code native_type} isn't supported by the OS.
      */
-    public void setNative(CredentialsType nativeType, jdk.incubator.foreign.MemoryAddress native_) {
+    public void setNative(CredentialsType nativeType, java.lang.foreign.MemoryAddress native_) {
         gtk_h.g_credentials_set_native(handle(), nativeType.getValue(), native_);
     }
     

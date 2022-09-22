@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -52,7 +52,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     public void marshal(boolean mayRecurse, HookMarshaller marshaller) {
         try {
             gtk_h.g_hook_list_marshal(handle(), mayRecurse ? 1 : 0, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookMarshaller",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -70,7 +70,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     public void marshalCheck(boolean mayRecurse, HookCheckMarshaller marshaller) {
         try {
             gtk_h.g_hook_list_marshal_check(handle(), mayRecurse ? 1 : 0, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookCheckMarshaller",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

@@ -1,6 +1,6 @@
 package org.gtk.gdkpixbuf;
 
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import io.github.jwharm.javagi.*;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 
@@ -66,7 +66,7 @@ public final class JVMCallbacks {
         handler.onPixbufModulePreparedFunc(new Pixbuf(References.get(pixbuf, false)), new PixbufAnimation(References.get(anim, false)));
     }
     
-    public static jdk.incubator.foreign.MemoryAddress cbPixbufModuleBeginLoadFunc(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {
+    public static java.lang.foreign.MemoryAddress cbPixbufModuleBeginLoadFunc(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (PixbufModuleBeginLoadFunc) Interop.signalRegistry.get(hash);
         return handler.onPixbufModuleBeginLoadFunc(null, null, null);

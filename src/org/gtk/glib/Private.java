@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -39,7 +39,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * Values are never copied between threads (when a new thread is
      * created, for example).
      */
-    public jdk.incubator.foreign.MemoryAddress get() {
+    public java.lang.foreign.MemoryAddress get() {
         var RESULT = gtk_h.g_private_get(handle());
         return RESULT;
     }
@@ -52,7 +52,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * the previous value was non-<code>null</code> then the {@link DestroyNotify} handler for
      * {@code key} is run on it.
      */
-    public void replace(jdk.incubator.foreign.MemoryAddress value) {
+    public void replace(java.lang.foreign.MemoryAddress value) {
         gtk_h.g_private_replace(handle(), value);
     }
     
@@ -63,7 +63,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * This function differs from g_private_replace() in the following way:
      * the {@link DestroyNotify} for {@code key} is not called on the old value.
      */
-    public void set(jdk.incubator.foreign.MemoryAddress value) {
+    public void set(java.lang.foreign.MemoryAddress value) {
         gtk_h.g_private_set(handle(), value);
     }
     

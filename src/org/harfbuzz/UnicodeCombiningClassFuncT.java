@@ -8,5 +8,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface UnicodeCombiningClassFuncT {
-        UnicodeCombiningClassT onUnicodeCombiningClassFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, jdk.incubator.foreign.MemoryAddress userData);
+        UnicodeCombiningClassT onUnicodeCombiningClassFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, java.lang.foreign.MemoryAddress userData);
 }

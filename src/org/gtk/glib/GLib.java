@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 public final class GLib {
@@ -287,7 +287,7 @@ public final class GLib {
      * Aligned memory allocations returned by this function can only be
      * freed using g_aligned_free().
      */
-    public static jdk.incubator.foreign.MemoryAddress alignedAlloc(long nBlocks, long nBlockBytes, long alignment) {
+    public static java.lang.foreign.MemoryAddress alignedAlloc(long nBlocks, long nBlockBytes, long alignment) {
         var RESULT = gtk_h.g_aligned_alloc(nBlocks, nBlockBytes, alignment);
         return RESULT;
     }
@@ -296,7 +296,7 @@ public final class GLib {
      * This function is similar to g_aligned_alloc(), but it will
      * also clear the allocated memory before returning it.
      */
-    public static jdk.incubator.foreign.MemoryAddress alignedAlloc0(long nBlocks, long nBlockBytes, long alignment) {
+    public static java.lang.foreign.MemoryAddress alignedAlloc0(long nBlocks, long nBlockBytes, long alignment) {
         var RESULT = gtk_h.g_aligned_alloc0(nBlocks, nBlockBytes, alignment);
         return RESULT;
     }
@@ -304,7 +304,7 @@ public final class GLib {
     /**
      * Frees the memory allocated by g_aligned_alloc().
      */
-    public static void alignedFree(jdk.incubator.foreign.MemoryAddress mem) {
+    public static void alignedFree(java.lang.foreign.MemoryAddress mem) {
         gtk_h.g_aligned_free(mem);
     }
     
@@ -575,7 +575,7 @@ public final class GLib {
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static long atomicPointerAdd(jdk.incubator.foreign.MemoryAddress atomic, long val) {
+    public static long atomicPointerAdd(java.lang.foreign.MemoryAddress atomic, long val) {
         var RESULT = gtk_h.g_atomic_pointer_add(atomic, val);
         return RESULT;
     }
@@ -592,7 +592,7 @@ public final class GLib {
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static long atomicPointerAnd(jdk.incubator.foreign.MemoryAddress atomic, long val) {
+    public static long atomicPointerAnd(java.lang.foreign.MemoryAddress atomic, long val) {
         var RESULT = gtk_h.g_atomic_pointer_and(atomic, val);
         return RESULT;
     }
@@ -611,7 +611,7 @@ public final class GLib {
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static boolean atomicPointerCompareAndExchange(jdk.incubator.foreign.MemoryAddress atomic, jdk.incubator.foreign.MemoryAddress oldval, jdk.incubator.foreign.MemoryAddress newval) {
+    public static boolean atomicPointerCompareAndExchange(java.lang.foreign.MemoryAddress atomic, java.lang.foreign.MemoryAddress oldval, java.lang.foreign.MemoryAddress newval) {
         var RESULT = gtk_h.g_atomic_pointer_compare_and_exchange(atomic, oldval, newval);
         return (RESULT != 0);
     }
@@ -625,7 +625,7 @@ public final class GLib {
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static jdk.incubator.foreign.MemoryAddress atomicPointerGet(jdk.incubator.foreign.MemoryAddress atomic) {
+    public static java.lang.foreign.MemoryAddress atomicPointerGet(java.lang.foreign.MemoryAddress atomic) {
         var RESULT = gtk_h.g_atomic_pointer_get(atomic);
         return RESULT;
     }
@@ -642,7 +642,7 @@ public final class GLib {
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static long atomicPointerOr(jdk.incubator.foreign.MemoryAddress atomic, long val) {
+    public static long atomicPointerOr(java.lang.foreign.MemoryAddress atomic, long val) {
         var RESULT = gtk_h.g_atomic_pointer_or(atomic, val);
         return RESULT;
     }
@@ -656,7 +656,7 @@ public final class GLib {
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static void atomicPointerSet(jdk.incubator.foreign.MemoryAddress atomic, jdk.incubator.foreign.MemoryAddress newval) {
+    public static void atomicPointerSet(java.lang.foreign.MemoryAddress atomic, java.lang.foreign.MemoryAddress newval) {
         gtk_h.g_atomic_pointer_set(atomic, newval);
     }
     
@@ -672,7 +672,7 @@ public final class GLib {
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static long atomicPointerXor(jdk.incubator.foreign.MemoryAddress atomic, long val) {
+    public static long atomicPointerXor(java.lang.foreign.MemoryAddress atomic, long val) {
         var RESULT = gtk_h.g_atomic_pointer_xor(atomic, val);
         return RESULT;
     }
@@ -680,7 +680,7 @@ public final class GLib {
     /**
      * Atomically acquires a reference on the data pointed by {@code mem_block}.
      */
-    public static jdk.incubator.foreign.MemoryAddress atomicRcBoxAcquire(jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static java.lang.foreign.MemoryAddress atomicRcBoxAcquire(java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_atomic_rc_box_acquire(memBlock);
         return RESULT;
     }
@@ -695,7 +695,7 @@ public final class GLib {
      * The allocated data is guaranteed to be suitably aligned for any
      * built-in type.
      */
-    public static jdk.incubator.foreign.MemoryAddress atomicRcBoxAlloc(long blockSize) {
+    public static java.lang.foreign.MemoryAddress atomicRcBoxAlloc(long blockSize) {
         var RESULT = gtk_h.g_atomic_rc_box_alloc(blockSize);
         return RESULT;
     }
@@ -712,7 +712,7 @@ public final class GLib {
      * The allocated data is guaranteed to be suitably aligned for any
      * built-in type.
      */
-    public static jdk.incubator.foreign.MemoryAddress atomicRcBoxAlloc0(long blockSize) {
+    public static java.lang.foreign.MemoryAddress atomicRcBoxAlloc0(long blockSize) {
         var RESULT = gtk_h.g_atomic_rc_box_alloc0(blockSize);
         return RESULT;
     }
@@ -722,7 +722,7 @@ public final class GLib {
      * semantics, and copies {@code block_size} bytes of {@code mem_block}
      * into it.
      */
-    public static jdk.incubator.foreign.MemoryAddress atomicRcBoxDup(long blockSize, jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static java.lang.foreign.MemoryAddress atomicRcBoxDup(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_atomic_rc_box_dup(blockSize, memBlock);
         return RESULT;
     }
@@ -730,7 +730,7 @@ public final class GLib {
     /**
      * Retrieves the size of the reference counted data pointed by {@code mem_block}.
      */
-    public static long atomicRcBoxGetSize(jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static long atomicRcBoxGetSize(java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_atomic_rc_box_get_size(memBlock);
         return RESULT;
     }
@@ -741,7 +741,7 @@ public final class GLib {
      * If the reference was the last one, it will free the
      * resources allocated for {@code mem_block}.
      */
-    public static void atomicRcBoxRelease(jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static void atomicRcBoxRelease(java.lang.foreign.MemoryAddress memBlock) {
         gtk_h.g_atomic_rc_box_release(memBlock);
     }
     
@@ -932,7 +932,7 @@ public final class GLib {
     public static int childWatchAdd(Pid pid, ChildWatchFunc function) {
         try {
             var RESULT = gtk_h.g_child_watch_add(pid.getValue(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -973,7 +973,7 @@ public final class GLib {
     public static int childWatchAddFull(int priority, Pid pid, ChildWatchFunc function) {
         try {
             var RESULT = gtk_h.g_child_watch_add_full(priority, pid.getValue(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -1140,7 +1140,7 @@ public final class GLib {
     public static void datalistForeach(Data[] datalist, DataForeachFunc func) {
         try {
             gtk_h.g_datalist_foreach(Interop.allocateNativeArray(datalist).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -1155,7 +1155,7 @@ public final class GLib {
      * Gets a data element, using its string identifier. This is slower than
      * g_datalist_id_get_data() because it compares strings.
      */
-    public static jdk.incubator.foreign.MemoryAddress datalistGetData(Data[] datalist, java.lang.String key) {
+    public static java.lang.foreign.MemoryAddress datalistGetData(Data[] datalist, java.lang.String key) {
         var RESULT = gtk_h.g_datalist_get_data(Interop.allocateNativeArray(datalist).handle(), Interop.allocateNativeString(key).handle());
         return RESULT;
     }
@@ -1184,10 +1184,10 @@ public final class GLib {
      * This function can be useful to avoid races when multiple
      * threads are using the same datalist and the same key.
      */
-    public static jdk.incubator.foreign.MemoryAddress datalistIdDupData(Data[] datalist, Quark keyId, DuplicateFunc dupFunc) {
+    public static java.lang.foreign.MemoryAddress datalistIdDupData(Data[] datalist, Quark keyId, DuplicateFunc dupFunc) {
         try {
             var RESULT = gtk_h.g_datalist_id_dup_data(Interop.allocateNativeArray(datalist).handle(), keyId.getValue(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -1202,7 +1202,7 @@ public final class GLib {
     /**
      * Retrieves the data element corresponding to {@code key_id}.
      */
-    public static jdk.incubator.foreign.MemoryAddress datalistIdGetData(Data[] datalist, Quark keyId) {
+    public static java.lang.foreign.MemoryAddress datalistIdGetData(Data[] datalist, Quark keyId) {
         var RESULT = gtk_h.g_datalist_id_get_data(Interop.allocateNativeArray(datalist).handle(), keyId.getValue());
         return RESULT;
     }
@@ -1211,7 +1211,7 @@ public final class GLib {
      * Removes an element, without calling its destroy notification
      * function.
      */
-    public static jdk.incubator.foreign.MemoryAddress datalistIdRemoveNoNotify(Data[] datalist, Quark keyId) {
+    public static java.lang.foreign.MemoryAddress datalistIdRemoveNoNotify(Data[] datalist, Quark keyId) {
         var RESULT = gtk_h.g_datalist_id_remove_no_notify(Interop.allocateNativeArray(datalist).handle(), keyId.getValue());
         return RESULT;
     }
@@ -1222,7 +1222,7 @@ public final class GLib {
      * Any previous data with the same key is removed, and its destroy
      * function is called.
      */
-    public static void datalistIdSetDataFull(Data[] datalist, Quark keyId, jdk.incubator.foreign.MemoryAddress data, DestroyNotify destroyFunc) {
+    public static void datalistIdSetDataFull(Data[] datalist, Quark keyId, java.lang.foreign.MemoryAddress data, DestroyNotify destroyFunc) {
         gtk_h.g_datalist_id_set_data_full(Interop.allocateNativeArray(datalist).handle(), keyId.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
     }
@@ -1258,7 +1258,7 @@ public final class GLib {
      * Destroys the dataset, freeing all memory allocated, and calling any
      * destroy functions set for data elements.
      */
-    public static void datasetDestroy(jdk.incubator.foreign.MemoryAddress datasetLocation) {
+    public static void datasetDestroy(java.lang.foreign.MemoryAddress datasetLocation) {
         gtk_h.g_dataset_destroy(datasetLocation);
     }
     
@@ -1272,10 +1272,10 @@ public final class GLib {
      * reflect changes made during the g_dataset_foreach() call, other
      * than skipping over elements that are removed.
      */
-    public static void datasetForeach(jdk.incubator.foreign.MemoryAddress datasetLocation, DataForeachFunc func) {
+    public static void datasetForeach(java.lang.foreign.MemoryAddress datasetLocation, DataForeachFunc func) {
         try {
             gtk_h.g_dataset_foreach(datasetLocation, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -1289,7 +1289,7 @@ public final class GLib {
     /**
      * Gets the data element corresponding to a {@link Quark}.
      */
-    public static jdk.incubator.foreign.MemoryAddress datasetIdGetData(jdk.incubator.foreign.MemoryAddress datasetLocation, Quark keyId) {
+    public static java.lang.foreign.MemoryAddress datasetIdGetData(java.lang.foreign.MemoryAddress datasetLocation, Quark keyId) {
         var RESULT = gtk_h.g_dataset_id_get_data(datasetLocation, keyId.getValue());
         return RESULT;
     }
@@ -1298,7 +1298,7 @@ public final class GLib {
      * Removes an element, without calling its destroy notification
      * function.
      */
-    public static jdk.incubator.foreign.MemoryAddress datasetIdRemoveNoNotify(jdk.incubator.foreign.MemoryAddress datasetLocation, Quark keyId) {
+    public static java.lang.foreign.MemoryAddress datasetIdRemoveNoNotify(java.lang.foreign.MemoryAddress datasetLocation, Quark keyId) {
         var RESULT = gtk_h.g_dataset_id_remove_no_notify(datasetLocation, keyId.getValue());
         return RESULT;
     }
@@ -1309,7 +1309,7 @@ public final class GLib {
      * previous data with the same key is removed, and its destroy function
      * is called.
      */
-    public static void datasetIdSetDataFull(jdk.incubator.foreign.MemoryAddress datasetLocation, Quark keyId, jdk.incubator.foreign.MemoryAddress data, DestroyNotify destroyFunc) {
+    public static void datasetIdSetDataFull(java.lang.foreign.MemoryAddress datasetLocation, Quark keyId, java.lang.foreign.MemoryAddress data, DestroyNotify destroyFunc) {
         gtk_h.g_dataset_id_set_data_full(datasetLocation, keyId.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
     }
@@ -1528,7 +1528,7 @@ public final class GLib {
      * This equality function is also appropriate for keys that are integers
      * stored in pointers, such as {@code GINT_TO_POINTER (n)}.
      */
-    public static boolean directEqual(jdk.incubator.foreign.MemoryAddress v1, jdk.incubator.foreign.MemoryAddress v2) {
+    public static boolean directEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_direct_equal(v1, v2);
         return (RESULT != 0);
     }
@@ -1542,7 +1542,7 @@ public final class GLib {
      * This hash function is also appropriate for keys that are integers
      * stored in pointers, such as {@code GINT_TO_POINTER (n)}.
      */
-    public static int directHash(jdk.incubator.foreign.MemoryAddress v) {
+    public static int directHash(java.lang.foreign.MemoryAddress v) {
         var RESULT = gtk_h.g_direct_hash(v);
         return RESULT;
     }
@@ -1567,7 +1567,7 @@ public final class GLib {
      * parameter, when using non-<code>null</code> pointers to doubles as keys in a
      * {@link HashTable}.
      */
-    public static boolean doubleEqual(jdk.incubator.foreign.MemoryAddress v1, jdk.incubator.foreign.MemoryAddress v2) {
+    public static boolean doubleEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_double_equal(v1, v2);
         return (RESULT != 0);
     }
@@ -1578,7 +1578,7 @@ public final class GLib {
      * It can be passed to g_hash_table_new() as the {@code hash_func} parameter,
      * when using non-<code>null</code> pointers to doubles as keys in a {@link HashTable}.
      */
-    public static int doubleHash(jdk.incubator.foreign.MemoryAddress v) {
+    public static int doubleHash(java.lang.foreign.MemoryAddress v) {
         var RESULT = gtk_h.g_double_hash(v);
         return RESULT;
     }
@@ -1961,7 +1961,7 @@ public final class GLib {
      * If {@code mem} is <code>null</code> it simply returns, so there is no need to check {@code mem}
      * against <code>null</code> before calling this function.
      */
-    public static void free(jdk.incubator.foreign.MemoryAddress mem) {
+    public static void free(java.lang.foreign.MemoryAddress mem) {
         gtk_h.g_free(mem);
     }
     
@@ -2415,7 +2415,7 @@ public final class GLib {
      * indicate whether the newly added value was already in the hash table
      * or not.
      */
-    public static boolean hashTableAdd(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean hashTableAdd(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_add(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -2423,7 +2423,7 @@ public final class GLib {
     /**
      * Checks if {@code key} is in {@code hash_table}.
      */
-    public static boolean hashTableContains(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean hashTableContains(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_contains(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -2454,7 +2454,7 @@ public final class GLib {
      * indicate whether the newly added value was already in the hash table
      * or not.
      */
-    public static boolean hashTableInsert(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public static boolean hashTableInsert(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_insert(hashTable.handle(), key, value);
         return (RESULT != 0);
     }
@@ -2465,7 +2465,7 @@ public final class GLib {
      * and has the value <code>null</code>. If you need this distinction, use
      * g_hash_table_lookup_extended().
      */
-    public static jdk.incubator.foreign.MemoryAddress hashTableLookup(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static java.lang.foreign.MemoryAddress hashTableLookup(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_lookup(hashTable.handle(), key);
         return RESULT;
     }
@@ -2480,7 +2480,7 @@ public final class GLib {
      * whether the <code>null</code> key exists, provided the hash and equal functions
      * of {@code hash_table} are <code>null</code>-safe.
      */
-    public static boolean hashTableLookupExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress origKey, jdk.incubator.foreign.MemoryAddress value) {
+    public static boolean hashTableLookupExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_lookup_extended(hashTable.handle(), lookupKey, origKey, value);
         return (RESULT != 0);
     }
@@ -2508,7 +2508,7 @@ public final class GLib {
      * you have to make sure that any dynamically allocated values are freed
      * yourself.
      */
-    public static boolean hashTableRemove(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean hashTableRemove(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_remove(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -2538,7 +2538,7 @@ public final class GLib {
      * indicate whether the newly added value was already in the hash table
      * or not.
      */
-    public static boolean hashTableReplace(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public static boolean hashTableReplace(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_replace(hashTable.handle(), key, value);
         return (RESULT != 0);
     }
@@ -2555,7 +2555,7 @@ public final class GLib {
      * Removes a key and its associated value from a {@link HashTable} without
      * calling the key and value destroy functions.
      */
-    public static boolean hashTableSteal(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean hashTableSteal(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_steal(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -2580,7 +2580,7 @@ public final class GLib {
      * You can pass <code>null</code> for {@code lookup_key}, provided the hash and equal functions
      * of {@code hash_table} are <code>null</code>-safe.
      */
-    public static boolean hashTableStealExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress stolenKey, jdk.incubator.foreign.MemoryAddress stolenValue) {
+    public static boolean hashTableStealExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress stolenKey, java.lang.foreign.MemoryAddress stolenValue) {
         var RESULT = gtk_h.g_hash_table_steal_extended(hashTable.handle(), lookupKey, stolenKey, stolenValue);
         return (RESULT != 0);
     }
@@ -2738,7 +2738,7 @@ public final class GLib {
     public static int idleAdd(SourceFunc function) {
         try {
             var RESULT = gtk_h.g_idle_add(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -2769,7 +2769,7 @@ public final class GLib {
     public static int idleAddFull(int priority, SourceFunc function) {
         try {
             var RESULT = gtk_h.g_idle_add_full(priority, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -2785,7 +2785,7 @@ public final class GLib {
     /**
      * Removes the idle function with the given data.
      */
-    public static boolean idleRemoveByData(jdk.incubator.foreign.MemoryAddress data) {
+    public static boolean idleRemoveByData(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_idle_remove_by_data(data);
         return (RESULT != 0);
     }
@@ -2811,7 +2811,7 @@ public final class GLib {
      * parameter, when using non-<code>null</code> pointers to 64-bit integers as keys in a
      * {@link HashTable}.
      */
-    public static boolean int64Equal(jdk.incubator.foreign.MemoryAddress v1, jdk.incubator.foreign.MemoryAddress v2) {
+    public static boolean int64Equal(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_int64_equal(v1, v2);
         return (RESULT != 0);
     }
@@ -2823,7 +2823,7 @@ public final class GLib {
      * when using non-<code>null</code> pointers to 64-bit integer values as keys in a
      * {@link HashTable}.
      */
-    public static int int64Hash(jdk.incubator.foreign.MemoryAddress v) {
+    public static int int64Hash(java.lang.foreign.MemoryAddress v) {
         var RESULT = gtk_h.g_int64_hash(v);
         return RESULT;
     }
@@ -2839,7 +2839,7 @@ public final class GLib {
      * directly: if your hash table's keys are of the form
      * {@code GINT_TO_POINTER (n)}, use g_direct_equal() instead.
      */
-    public static boolean intEqual(jdk.incubator.foreign.MemoryAddress v1, jdk.incubator.foreign.MemoryAddress v2) {
+    public static boolean intEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_int_equal(v1, v2);
         return (RESULT != 0);
     }
@@ -2853,7 +2853,7 @@ public final class GLib {
      * directly: if your hash table's keys are of the form
      * {@code GINT_TO_POINTER (n)}, use g_direct_hash() instead.
      */
-    public static int intHash(jdk.incubator.foreign.MemoryAddress v) {
+    public static int intHash(java.lang.foreign.MemoryAddress v) {
         var RESULT = gtk_h.g_int_hash(v);
         return RESULT;
     }
@@ -2894,7 +2894,7 @@ public final class GLib {
     public static int ioAddWatch(IOChannel channel, int condition, IOFunc func) {
         try {
             var RESULT = gtk_h.g_io_add_watch(channel.handle(), condition, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbIOFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -2917,7 +2917,7 @@ public final class GLib {
     public static int ioAddWatchFull(IOChannel channel, int priority, int condition, IOFunc func) {
         try {
             var RESULT = gtk_h.g_io_add_watch_full(channel.handle(), priority, condition, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbIOFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -3001,7 +3001,7 @@ public final class GLib {
      * This has no effect if structured logging is enabled; see
      * [Using Structured Logging][using-structured-logging].
      */
-    public static void logDefaultHandler(java.lang.String logDomain, int logLevel, java.lang.String message, jdk.incubator.foreign.MemoryAddress unusedData) {
+    public static void logDefaultHandler(java.lang.String logDomain, int logLevel, java.lang.String message, java.lang.foreign.MemoryAddress unusedData) {
         gtk_h.g_log_default_handler(Interop.allocateNativeString(logDomain).handle(), logLevel, Interop.allocateNativeString(message).handle(), unusedData);
     }
     
@@ -3124,7 +3124,7 @@ public final class GLib {
     public static int logSetHandler(java.lang.String logDomain, int logLevels, LogFunc logFunc) {
         try {
             var RESULT = gtk_h.g_log_set_handler(Interop.allocateNativeString(logDomain).handle(), logLevels, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -3145,7 +3145,7 @@ public final class GLib {
     public static int logSetHandlerFull(java.lang.String logDomain, int logLevels, LogFunc logFunc) {
         try {
             var RESULT = gtk_h.g_log_set_handler_full(Interop.allocateNativeString(logDomain).handle(), logLevels, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -3172,7 +3172,7 @@ public final class GLib {
     public static void logSetWriterFunc(LogWriterFunc func) {
         try {
             gtk_h.g_log_set_writer_func(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbLogWriterFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
@@ -3240,7 +3240,7 @@ public final class GLib {
      * determine which messages are fatal. When using a custom writer func instead it is
      * up to the writer function to determine which log messages are fatal.
      */
-    public static LogWriterOutput logWriterDefault(int logLevel, LogField[] fields, long nFields, jdk.incubator.foreign.MemoryAddress userData) {
+    public static LogWriterOutput logWriterDefault(int logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_log_writer_default(logLevel, Interop.allocateNativeArray(fields).handle(), nFields, userData);
         return LogWriterOutput.fromValue(RESULT);
     }
@@ -3341,7 +3341,7 @@ public final class GLib {
      * If GLib has been compiled without systemd support, this function is still
      * defined, but will always return {@link LogWriterOutput#UNHANDLED}.
      */
-    public static LogWriterOutput logWriterJournald(int logLevel, LogField[] fields, long nFields, jdk.incubator.foreign.MemoryAddress userData) {
+    public static LogWriterOutput logWriterJournald(int logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_log_writer_journald(logLevel, Interop.allocateNativeArray(fields).handle(), nFields, userData);
         return LogWriterOutput.fromValue(RESULT);
     }
@@ -3362,7 +3362,7 @@ public final class GLib {
      * <p>
      * This is suitable for use as a {@link LogWriterFunc}.
      */
-    public static LogWriterOutput logWriterStandardStreams(int logLevel, LogField[] fields, long nFields, jdk.incubator.foreign.MemoryAddress userData) {
+    public static LogWriterOutput logWriterStandardStreams(int logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_log_writer_standard_streams(logLevel, Interop.allocateNativeArray(fields).handle(), nFields, userData);
         return LogWriterOutput.fromValue(RESULT);
     }
@@ -3557,7 +3557,7 @@ public final class GLib {
      * Allocates {@code n_bytes} bytes of memory.
      * If {@code n_bytes} is 0 it returns <code>null</code>.
      */
-    public static jdk.incubator.foreign.MemoryAddress malloc(long nBytes) {
+    public static java.lang.foreign.MemoryAddress malloc(long nBytes) {
         var RESULT = gtk_h.g_malloc(nBytes);
         return RESULT;
     }
@@ -3566,7 +3566,7 @@ public final class GLib {
      * Allocates {@code n_bytes} bytes of memory, initialized to 0's.
      * If {@code n_bytes} is 0 it returns <code>null</code>.
      */
-    public static jdk.incubator.foreign.MemoryAddress malloc0(long nBytes) {
+    public static java.lang.foreign.MemoryAddress malloc0(long nBytes) {
         var RESULT = gtk_h.g_malloc0(nBytes);
         return RESULT;
     }
@@ -3575,7 +3575,7 @@ public final class GLib {
      * This function is similar to g_malloc0(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
-    public static jdk.incubator.foreign.MemoryAddress malloc0N(long nBlocks, long nBlockBytes) {
+    public static java.lang.foreign.MemoryAddress malloc0N(long nBlocks, long nBlockBytes) {
         var RESULT = gtk_h.g_malloc0_n(nBlocks, nBlockBytes);
         return RESULT;
     }
@@ -3584,7 +3584,7 @@ public final class GLib {
      * This function is similar to g_malloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
-    public static jdk.incubator.foreign.MemoryAddress mallocN(long nBlocks, long nBlockBytes) {
+    public static java.lang.foreign.MemoryAddress mallocN(long nBlocks, long nBlockBytes) {
         var RESULT = gtk_h.g_malloc_n(nBlocks, nBlockBytes);
         return RESULT;
     }
@@ -3632,7 +3632,7 @@ public final class GLib {
      * This replaces g_memdup(), which was prone to integer overflows when
      * converting the argument from a {@code gsize} to a {@code guint}.
      */
-    public static jdk.incubator.foreign.MemoryAddress memdup2(jdk.incubator.foreign.MemoryAddress mem, long byteSize) {
+    public static java.lang.foreign.MemoryAddress memdup2(java.lang.foreign.MemoryAddress mem, long byteSize) {
         var RESULT = gtk_h.g_memdup2(mem, byteSize);
         return RESULT;
     }
@@ -3728,7 +3728,7 @@ public final class GLib {
     /**
      * Set the pointer at the specified location to <code>null</code>.
      */
-    public static void nullifyPointer(jdk.incubator.foreign.MemoryAddress nullifyLocation) {
+    public static void nullifyPointer(java.lang.foreign.MemoryAddress nullifyLocation) {
         gtk_h.g_nullify_pointer(nullifyLocation);
     }
     
@@ -3835,7 +3835,7 @@ public final class GLib {
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static boolean onceInitEnter(jdk.incubator.foreign.MemoryAddress location) {
+    public static boolean onceInitEnter(java.lang.foreign.MemoryAddress location) {
         var RESULT = gtk_h.g_once_init_enter(location);
         return (RESULT != 0);
     }
@@ -3850,7 +3850,7 @@ public final class GLib {
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static void onceInitLeave(jdk.incubator.foreign.MemoryAddress location, long result) {
+    public static void onceInitLeave(java.lang.foreign.MemoryAddress location, long result) {
         gtk_h.g_once_init_leave(location, result);
     }
     
@@ -3966,7 +3966,7 @@ public final class GLib {
      * While {@code address} has a {@code volatile} qualifier, this is a historical
      * artifact and the argument passed to it should not be {@code volatile}.
      */
-    public static void pointerBitLock(jdk.incubator.foreign.MemoryAddress address, int lockBit) {
+    public static void pointerBitLock(java.lang.foreign.MemoryAddress address, int lockBit) {
         gtk_h.g_pointer_bit_lock(address, lockBit);
     }
     
@@ -3980,7 +3980,7 @@ public final class GLib {
      * While {@code address} has a {@code volatile} qualifier, this is a historical
      * artifact and the argument passed to it should not be {@code volatile}.
      */
-    public static boolean pointerBitTrylock(jdk.incubator.foreign.MemoryAddress address, int lockBit) {
+    public static boolean pointerBitTrylock(java.lang.foreign.MemoryAddress address, int lockBit) {
         var RESULT = gtk_h.g_pointer_bit_trylock(address, lockBit);
         return (RESULT != 0);
     }
@@ -3995,7 +3995,7 @@ public final class GLib {
      * While {@code address} has a {@code volatile} qualifier, this is a historical
      * artifact and the argument passed to it should not be {@code volatile}.
      */
-    public static void pointerBitUnlock(jdk.incubator.foreign.MemoryAddress address, int lockBit) {
+    public static void pointerBitUnlock(java.lang.foreign.MemoryAddress address, int lockBit) {
         gtk_h.g_pointer_bit_unlock(address, lockBit);
     }
     
@@ -4060,10 +4060,10 @@ public final class GLib {
      * <p>
      * This is guaranteed to be a stable sort since version 2.32.
      */
-    public static void qsortWithData(jdk.incubator.foreign.MemoryAddress pbase, int totalElems, long size, CompareDataFunc compareFunc) {
+    public static void qsortWithData(java.lang.foreign.MemoryAddress pbase, int totalElems, long size, CompareDataFunc compareFunc) {
         try {
             gtk_h.g_qsort_with_data(pbase, totalElems, size, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -4180,7 +4180,7 @@ public final class GLib {
     /**
      * Acquires a reference on the data pointed by {@code mem_block}.
      */
-    public static jdk.incubator.foreign.MemoryAddress rcBoxAcquire(jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static java.lang.foreign.MemoryAddress rcBoxAcquire(java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_rc_box_acquire(memBlock);
         return RESULT;
     }
@@ -4195,7 +4195,7 @@ public final class GLib {
      * The allocated data is guaranteed to be suitably aligned for any
      * built-in type.
      */
-    public static jdk.incubator.foreign.MemoryAddress rcBoxAlloc(long blockSize) {
+    public static java.lang.foreign.MemoryAddress rcBoxAlloc(long blockSize) {
         var RESULT = gtk_h.g_rc_box_alloc(blockSize);
         return RESULT;
     }
@@ -4212,7 +4212,7 @@ public final class GLib {
      * The allocated data is guaranteed to be suitably aligned for any
      * built-in type.
      */
-    public static jdk.incubator.foreign.MemoryAddress rcBoxAlloc0(long blockSize) {
+    public static java.lang.foreign.MemoryAddress rcBoxAlloc0(long blockSize) {
         var RESULT = gtk_h.g_rc_box_alloc0(blockSize);
         return RESULT;
     }
@@ -4222,7 +4222,7 @@ public final class GLib {
      * semantics, and copies {@code block_size} bytes of {@code mem_block}
      * into it.
      */
-    public static jdk.incubator.foreign.MemoryAddress rcBoxDup(long blockSize, jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static java.lang.foreign.MemoryAddress rcBoxDup(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_rc_box_dup(blockSize, memBlock);
         return RESULT;
     }
@@ -4230,7 +4230,7 @@ public final class GLib {
     /**
      * Retrieves the size of the reference counted data pointed by {@code mem_block}.
      */
-    public static long rcBoxGetSize(jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static long rcBoxGetSize(java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_rc_box_get_size(memBlock);
         return RESULT;
     }
@@ -4241,7 +4241,7 @@ public final class GLib {
      * If the reference was the last one, it will free the
      * resources allocated for {@code mem_block}.
      */
-    public static void rcBoxRelease(jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static void rcBoxRelease(java.lang.foreign.MemoryAddress memBlock) {
         gtk_h.g_rc_box_release(memBlock);
     }
     
@@ -4252,7 +4252,7 @@ public final class GLib {
      * have zero-length. {@code n_bytes} may be 0, in which case <code>null</code> will be returned
      * and {@code mem} will be freed unless it is <code>null</code>.
      */
-    public static jdk.incubator.foreign.MemoryAddress realloc(jdk.incubator.foreign.MemoryAddress mem, long nBytes) {
+    public static java.lang.foreign.MemoryAddress realloc(java.lang.foreign.MemoryAddress mem, long nBytes) {
         var RESULT = gtk_h.g_realloc(mem, nBytes);
         return RESULT;
     }
@@ -4261,7 +4261,7 @@ public final class GLib {
      * This function is similar to g_realloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
-    public static jdk.incubator.foreign.MemoryAddress reallocN(jdk.incubator.foreign.MemoryAddress mem, long nBlocks, long nBlockBytes) {
+    public static java.lang.foreign.MemoryAddress reallocN(java.lang.foreign.MemoryAddress mem, long nBlocks, long nBlockBytes) {
         var RESULT = gtk_h.g_realloc_n(mem, nBlocks, nBlockBytes);
         return RESULT;
     }
@@ -4409,7 +4409,7 @@ public final class GLib {
     /**
      * Returns the data that {@code iter} points to.
      */
-    public static jdk.incubator.foreign.MemoryAddress sequenceGet(SequenceIter iter) {
+    public static java.lang.foreign.MemoryAddress sequenceGet(SequenceIter iter) {
         var RESULT = gtk_h.g_sequence_get(iter.handle());
         return RESULT;
     }
@@ -4417,7 +4417,7 @@ public final class GLib {
     /**
      * Inserts a new item just before the item pointed to by {@code iter}.
      */
-    public static SequenceIter sequenceInsertBefore(SequenceIter iter, jdk.incubator.foreign.MemoryAddress data) {
+    public static SequenceIter sequenceInsertBefore(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_insert_before(iter.handle(), data);
         return new SequenceIter(References.get(RESULT, false));
     }
@@ -4485,7 +4485,7 @@ public final class GLib {
      * the sequence has a data destroy function associated with it, that
      * function is called on the existing data that {@code iter} pointed to.
      */
-    public static void sequenceSet(SequenceIter iter, jdk.incubator.foreign.MemoryAddress data) {
+    public static void sequenceSet(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_sequence_set(iter.handle(), data);
     }
     
@@ -4642,7 +4642,7 @@ public final class GLib {
      * be changed with the [{@code G_SLICE=always-malloc}][G_SLICE]
      * environment variable.
      */
-    public static jdk.incubator.foreign.MemoryAddress sliceAlloc(long blockSize) {
+    public static java.lang.foreign.MemoryAddress sliceAlloc(long blockSize) {
         var RESULT = gtk_h.g_slice_alloc(blockSize);
         return RESULT;
     }
@@ -4653,7 +4653,7 @@ public final class GLib {
      * mechanism can be changed with the [{@code G_SLICE=always-malloc}][G_SLICE]
      * environment variable.
      */
-    public static jdk.incubator.foreign.MemoryAddress sliceAlloc0(long blockSize) {
+    public static java.lang.foreign.MemoryAddress sliceAlloc0(long blockSize) {
         var RESULT = gtk_h.g_slice_alloc0(blockSize);
         return RESULT;
     }
@@ -4664,7 +4664,7 @@ public final class GLib {
      * <p>
      * {@code mem_block} must be non-<code>null</code> if {@code block_size} is non-zero.
      */
-    public static jdk.incubator.foreign.MemoryAddress sliceCopy(long blockSize, jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static java.lang.foreign.MemoryAddress sliceCopy(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_slice_copy(blockSize, memBlock);
         return RESULT;
     }
@@ -4680,7 +4680,7 @@ public final class GLib {
      * <p>
      * If {@code mem_block} is <code>null</code>, this function does nothing.
      */
-    public static void sliceFree1(long blockSize, jdk.incubator.foreign.MemoryAddress memBlock) {
+    public static void sliceFree1(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         gtk_h.g_slice_free1(blockSize, memBlock);
     }
     
@@ -4697,7 +4697,7 @@ public final class GLib {
      * <p>
      * If {@code mem_chain} is <code>null</code>, this function does nothing.
      */
-    public static void sliceFreeChainWithOffset(long blockSize, jdk.incubator.foreign.MemoryAddress memChain, long nextOffset) {
+    public static void sliceFreeChainWithOffset(long blockSize, java.lang.foreign.MemoryAddress memChain, long nextOffset) {
         gtk_h.g_slice_free_chain_with_offset(blockSize, memChain, nextOffset);
     }
     
@@ -4741,7 +4741,7 @@ public final class GLib {
      * source functions and user data. If multiple sources exist with the
      * same source functions and user data, only one will be destroyed.
      */
-    public static boolean sourceRemoveByFuncsUserData(SourceFuncs funcs, jdk.incubator.foreign.MemoryAddress userData) {
+    public static boolean sourceRemoveByFuncsUserData(SourceFuncs funcs, java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_funcs_user_data(funcs.handle(), userData);
         return (RESULT != 0);
     }
@@ -4751,7 +4751,7 @@ public final class GLib {
      * data for the callback. If multiple sources exist with the same user
      * data, only one will be destroyed.
      */
-    public static boolean sourceRemoveByUserData(jdk.incubator.foreign.MemoryAddress userData) {
+    public static boolean sourceRemoveByUserData(java.lang.foreign.MemoryAddress userData) {
         var RESULT = gtk_h.g_source_remove_by_user_data(userData);
         return (RESULT != 0);
     }
@@ -4903,7 +4903,7 @@ public final class GLib {
      * for general purpose comparisons of non-<code>null</code> strings. For a <code>null</code>-safe string
      * comparison function, see g_strcmp0().
      */
-    public static boolean strEqual(jdk.incubator.foreign.MemoryAddress v1, jdk.incubator.foreign.MemoryAddress v2) {
+    public static boolean strEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         var RESULT = gtk_h.g_str_equal(v1, v2);
         return (RESULT != 0);
     }
@@ -4940,7 +4940,7 @@ public final class GLib {
      * For example, it produces some hash collisions with strings as short
      * as 2.
      */
-    public static int strHash(jdk.incubator.foreign.MemoryAddress v) {
+    public static int strHash(java.lang.foreign.MemoryAddress v) {
         var RESULT = gtk_h.g_str_hash(v);
         return RESULT;
     }
@@ -5401,7 +5401,7 @@ public final class GLib {
         try {
             gtk_h.g_test_add_data_func(Interop.allocateNativeString(testpath).handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
@@ -5419,7 +5419,7 @@ public final class GLib {
         try {
             gtk_h.g_test_add_data_func_full(Interop.allocateNativeString(testpath).handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
@@ -5434,17 +5434,17 @@ public final class GLib {
         try {
             gtk_h.g_test_add_vtable(Interop.allocateNativeString(testpath).handle(), dataSize, 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -5517,17 +5517,17 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_test_create_case(Interop.allocateNativeString(testName).handle(), dataSize, 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -5703,7 +5703,7 @@ public final class GLib {
     public static void testLogSetFatalHandler(TestLogFatalFunc logFunc) {
         try {
             gtk_h.g_test_log_set_fatal_handler(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestLogFatalFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -5727,7 +5727,7 @@ public final class GLib {
      * callback A before callback B will cause B() to be called before
      * A() during teardown.
      */
-    public static void testQueueDestroy(DestroyNotify destroyFunc, jdk.incubator.foreign.MemoryAddress destroyData) {
+    public static void testQueueDestroy(DestroyNotify destroyFunc, java.lang.foreign.MemoryAddress destroyData) {
         gtk_h.g_test_queue_destroy(
                     Interop.cbDestroyNotifySymbol(), destroyData);
     }
@@ -5737,7 +5737,7 @@ public final class GLib {
      * teardown phase. This is equivalent to calling g_test_queue_destroy()
      * with a destroy callback of g_free().
      */
-    public static void testQueueFree(jdk.incubator.foreign.MemoryAddress gfreePointer) {
+    public static void testQueueFree(java.lang.foreign.MemoryAddress gfreePointer) {
         gtk_h.g_test_queue_free(gfreePointer);
     }
     
@@ -6034,7 +6034,7 @@ public final class GLib {
      * this function from a thread created with another threading library
      * or or from within a {@link ThreadPool}.
      */
-    public static void threadExit(jdk.incubator.foreign.MemoryAddress retval) {
+    public static void threadExit(java.lang.foreign.MemoryAddress retval) {
         gtk_h.g_thread_exit(retval);
     }
     
@@ -6165,7 +6165,7 @@ public final class GLib {
     public static int timeoutAdd(int interval, SourceFunc function) {
         try {
             var RESULT = gtk_h.g_timeout_add(interval, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -6206,7 +6206,7 @@ public final class GLib {
     public static int timeoutAddFull(int priority, int interval, SourceFunc function) {
         try {
             var RESULT = gtk_h.g_timeout_add_full(priority, interval, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -6247,7 +6247,7 @@ public final class GLib {
     public static int timeoutAddSeconds(int interval, SourceFunc function) {
         try {
             var RESULT = gtk_h.g_timeout_add_seconds(interval, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -6303,7 +6303,7 @@ public final class GLib {
     public static int timeoutAddSecondsFull(int priority, int interval, SourceFunc function) {
         try {
             var RESULT = gtk_h.g_timeout_add_seconds_full(priority, interval, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -6353,7 +6353,7 @@ public final class GLib {
      * Attempts to allocate {@code n_bytes}, and returns <code>null</code> on failure.
      * Contrast with g_malloc(), which aborts the program on failure.
      */
-    public static jdk.incubator.foreign.MemoryAddress tryMalloc(long nBytes) {
+    public static java.lang.foreign.MemoryAddress tryMalloc(long nBytes) {
         var RESULT = gtk_h.g_try_malloc(nBytes);
         return RESULT;
     }
@@ -6362,7 +6362,7 @@ public final class GLib {
      * Attempts to allocate {@code n_bytes}, initialized to 0's, and returns <code>null</code> on
      * failure. Contrast with g_malloc0(), which aborts the program on failure.
      */
-    public static jdk.incubator.foreign.MemoryAddress tryMalloc0(long nBytes) {
+    public static java.lang.foreign.MemoryAddress tryMalloc0(long nBytes) {
         var RESULT = gtk_h.g_try_malloc0(nBytes);
         return RESULT;
     }
@@ -6371,7 +6371,7 @@ public final class GLib {
      * This function is similar to g_try_malloc0(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
-    public static jdk.incubator.foreign.MemoryAddress tryMalloc0N(long nBlocks, long nBlockBytes) {
+    public static java.lang.foreign.MemoryAddress tryMalloc0N(long nBlocks, long nBlockBytes) {
         var RESULT = gtk_h.g_try_malloc0_n(nBlocks, nBlockBytes);
         return RESULT;
     }
@@ -6380,7 +6380,7 @@ public final class GLib {
      * This function is similar to g_try_malloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
-    public static jdk.incubator.foreign.MemoryAddress tryMallocN(long nBlocks, long nBlockBytes) {
+    public static java.lang.foreign.MemoryAddress tryMallocN(long nBlocks, long nBlockBytes) {
         var RESULT = gtk_h.g_try_malloc_n(nBlocks, nBlockBytes);
         return RESULT;
     }
@@ -6392,7 +6392,7 @@ public final class GLib {
      * <p>
      * If {@code mem} is <code>null</code>, behaves the same as g_try_malloc().
      */
-    public static jdk.incubator.foreign.MemoryAddress tryRealloc(jdk.incubator.foreign.MemoryAddress mem, long nBytes) {
+    public static java.lang.foreign.MemoryAddress tryRealloc(java.lang.foreign.MemoryAddress mem, long nBytes) {
         var RESULT = gtk_h.g_try_realloc(mem, nBytes);
         return RESULT;
     }
@@ -6401,7 +6401,7 @@ public final class GLib {
      * This function is similar to g_try_realloc(), allocating ({@code n_blocks} * {@code n_block_bytes}) bytes,
      * but care is taken to detect possible overflow during multiplication.
      */
-    public static jdk.incubator.foreign.MemoryAddress tryReallocN(jdk.incubator.foreign.MemoryAddress mem, long nBlocks, long nBlockBytes) {
+    public static java.lang.foreign.MemoryAddress tryReallocN(java.lang.foreign.MemoryAddress mem, long nBlocks, long nBlockBytes) {
         var RESULT = gtk_h.g_try_realloc_n(mem, nBlocks, nBlockBytes);
         return RESULT;
     }
@@ -6757,7 +6757,7 @@ public final class GLib {
     public static int unixFdAdd(int fd, int condition, UnixFDSourceFunc function) {
         try {
             var RESULT = gtk_h.g_unix_fd_add(fd, condition, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbUnixFDSourceFunc",
                             MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -6780,7 +6780,7 @@ public final class GLib {
     public static int unixFdAddFull(int priority, int fd, int condition, UnixFDSourceFunc function) {
         try {
             var RESULT = gtk_h.g_unix_fd_add_full(priority, fd, condition, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbUnixFDSourceFunc",
                             MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -6817,7 +6817,7 @@ public final class GLib {
      * <p>
      * You will need to include {@code pwd.h} to get the definition of {@code struct passwd}.
      */
-    public static jdk.incubator.foreign.MemoryAddress unixGetPasswdEntry(java.lang.String userName) throws io.github.jwharm.javagi.GErrorException {
+    public static java.lang.foreign.MemoryAddress unixGetPasswdEntry(java.lang.String userName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_unix_get_passwd_entry(Interop.allocateNativeString(userName).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -6848,7 +6848,7 @@ public final class GLib {
     public static int unixSignalAdd(int signum, SourceFunc handler) {
         try {
             var RESULT = gtk_h.g_unix_signal_add(signum, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -6868,7 +6868,7 @@ public final class GLib {
     public static int unixSignalAddFull(int priority, int signum, SourceFunc handler) {
         try {
             var RESULT = gtk_h.g_unix_signal_add_full(priority, signum, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
@@ -7795,7 +7795,7 @@ public final class GLib {
      * <p>
      * {@code glib/gprintf.h} must be explicitly included in order to use this function.
      */
-    public static int vfprintf(jdk.incubator.foreign.MemoryAddress file, java.lang.String format, VaList args) {
+    public static int vfprintf(java.lang.foreign.MemoryAddress file, java.lang.String format, VaList args) {
         var RESULT = gtk_h.g_vfprintf(file, Interop.allocateNativeString(format).handle(), args);
         return RESULT;
     }

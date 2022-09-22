@@ -34,5 +34,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface HashFunc {
-        int onHashFunc(jdk.incubator.foreign.MemoryAddress key);
+        int onHashFunc(java.lang.foreign.MemoryAddress key);
 }

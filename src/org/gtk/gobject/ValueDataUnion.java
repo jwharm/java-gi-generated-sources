@@ -1,7 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.NativeAddress;
-import jdk.incubator.foreign.MemoryAddress;
+import java.lang.foreign.MemoryAddress;
 
 public class ValueDataUnion extends io.github.jwharm.javagi.ResourceBase {
     

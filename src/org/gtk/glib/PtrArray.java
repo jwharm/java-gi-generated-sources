@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -20,7 +20,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Adds a pointer to the end of the pointer array. The array will grow
      * in size automatically if necessary.
      */
-    public static void add(jdk.incubator.foreign.MemoryAddress[] array, jdk.incubator.foreign.MemoryAddress data) {
+    public static void add(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_ptr_array_add(Interop.allocateNativeArray(array).handle(), data);
     }
     
@@ -38,10 +38,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * If {@code func} is <code>null</code>, then only the pointers (and not what they are
      * pointing to) are copied to the new {@link PtrArray}.
      */
-    public static void extend(jdk.incubator.foreign.MemoryAddress[] arrayToExtend, jdk.incubator.foreign.MemoryAddress[] array, CopyFunc func) {
+    public static void extend(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array, CopyFunc func) {
         try {
             gtk_h.g_ptr_array_extend(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -61,7 +61,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * is 1. If its reference count is higher, it will be decremented and the
      * length of {@code array} set to zero.
      */
-    public static void extendAndSteal(jdk.incubator.foreign.MemoryAddress[] arrayToExtend, jdk.incubator.foreign.MemoryAddress[] array) {
+    public static void extendAndSteal(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array) {
         gtk_h.g_ptr_array_extend_and_steal(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle());
     }
     
@@ -69,10 +69,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Calls a function for each element of a {@link PtrArray}. {@code func} must not
      * add elements to or remove elements from the array.
      */
-    public static void foreach(jdk.incubator.foreign.MemoryAddress[] array, Func func) {
+    public static void foreach(java.lang.foreign.MemoryAddress[] array, Func func) {
         try {
             gtk_h.g_ptr_array_foreach(Interop.allocateNativeArray(array).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -99,7 +99,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * threads, use only the atomic g_ptr_array_ref() and g_ptr_array_unref()
      * functions.
      */
-    public static jdk.incubator.foreign.MemoryAddress free(jdk.incubator.foreign.MemoryAddress[] array, boolean freeSeg) {
+    public static java.lang.foreign.MemoryAddress free(java.lang.foreign.MemoryAddress[] array, boolean freeSeg) {
         var RESULT = gtk_h.g_ptr_array_free(Interop.allocateNativeArray(array).handle(), freeSeg ? 1 : 0);
         return RESULT;
     }
@@ -108,7 +108,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Inserts an element into the pointer array at the given index. The
      * array will grow in size automatically if necessary.
      */
-    public static void insert(jdk.incubator.foreign.MemoryAddress[] array, int index, jdk.incubator.foreign.MemoryAddress data) {
+    public static void insert(java.lang.foreign.MemoryAddress[] array, int index, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_ptr_array_insert(Interop.allocateNativeArray(array).handle(), index, data);
     }
     
@@ -121,7 +121,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * It returns <code>true</code> if the pointer was removed, or <code>false</code> if the
      * pointer was not found.
      */
-    public static boolean remove(jdk.incubator.foreign.MemoryAddress[] array, jdk.incubator.foreign.MemoryAddress data) {
+    public static boolean remove(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_ptr_array_remove(Interop.allocateNativeArray(array).handle(), data);
         return (RESULT != 0);
     }
@@ -136,7 +136,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * It returns <code>true</code> if the pointer was removed, or <code>false</code> if the
      * pointer was not found.
      */
-    public static boolean removeFast(jdk.incubator.foreign.MemoryAddress[] array, jdk.incubator.foreign.MemoryAddress data) {
+    public static boolean removeFast(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_ptr_array_remove_fast(Interop.allocateNativeArray(array).handle(), data);
         return (RESULT != 0);
     }
@@ -148,7 +148,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * element. If so, the return value from this function will potentially point
      * to freed memory (depending on the {@link DestroyNotify} implementation).
      */
-    public static jdk.incubator.foreign.MemoryAddress removeIndex(jdk.incubator.foreign.MemoryAddress[] array, int index) {
+    public static java.lang.foreign.MemoryAddress removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
         var RESULT = gtk_h.g_ptr_array_remove_index(Interop.allocateNativeArray(array).handle(), index);
         return RESULT;
     }
@@ -162,7 +162,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * return value from this function will potentially point to freed memory
      * (depending on the {@link DestroyNotify} implementation).
      */
-    public static jdk.incubator.foreign.MemoryAddress removeIndexFast(jdk.incubator.foreign.MemoryAddress[] array, int index) {
+    public static java.lang.foreign.MemoryAddress removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
         var RESULT = gtk_h.g_ptr_array_remove_index_fast(Interop.allocateNativeArray(array).handle(), index);
         return RESULT;
     }
@@ -173,7 +173,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * if {@code array} has a non-<code>null</code> {@link DestroyNotify} function then it will be
      * called for the removed elements.
      */
-    public static void setSize(jdk.incubator.foreign.MemoryAddress[] array, int length) {
+    public static void setSize(java.lang.foreign.MemoryAddress[] array, int length) {
         gtk_h.g_ptr_array_set_size(Interop.allocateNativeArray(array).handle(), length);
     }
     
@@ -232,10 +232,10 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This is guaranteed to be a stable sort since version 2.32.
      */
-    public static void sortWithData(jdk.incubator.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
+    public static void sortWithData(java.lang.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
         try {
             gtk_h.g_ptr_array_sort_with_data(Interop.allocateNativeArray(array).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -252,7 +252,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * {@code array} is <strong>not</strong> called on the removed element; ownership is transferred to
      * the caller of this function.
      */
-    public static jdk.incubator.foreign.MemoryAddress stealIndex(jdk.incubator.foreign.MemoryAddress[] array, int index) {
+    public static java.lang.foreign.MemoryAddress stealIndex(java.lang.foreign.MemoryAddress[] array, int index) {
         var RESULT = gtk_h.g_ptr_array_steal_index(Interop.allocateNativeArray(array).handle(), index);
         return RESULT;
     }
@@ -265,7 +265,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * <strong>not</strong> called on the removed element; ownership is transferred to the caller
      * of this function.
      */
-    public static jdk.incubator.foreign.MemoryAddress stealIndexFast(jdk.incubator.foreign.MemoryAddress[] array, int index) {
+    public static java.lang.foreign.MemoryAddress stealIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
         var RESULT = gtk_h.g_ptr_array_steal_index_fast(Interop.allocateNativeArray(array).handle(), index);
         return RESULT;
     }
@@ -276,7 +276,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * g_ptr_array_free() with {@code free_segment} set to <code>true</code>. This function
      * is thread-safe and may be called from any thread.
      */
-    public static void unref(jdk.incubator.foreign.MemoryAddress[] array) {
+    public static void unref(java.lang.foreign.MemoryAddress[] array) {
         gtk_h.g_ptr_array_unref(Interop.allocateNativeArray(array).handle());
     }
     

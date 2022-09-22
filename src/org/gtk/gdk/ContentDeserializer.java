@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -82,7 +82,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * <p>
      * See {@link ContentDeserializer#setTaskData}.
      */
-    public jdk.incubator.foreign.MemoryAddress getTaskData() {
+    public java.lang.foreign.MemoryAddress getTaskData() {
         var RESULT = gtk_h.gdk_content_deserializer_get_task_data(handle());
         return RESULT;
     }
@@ -90,7 +90,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the user data that was passed when the deserializer was registered.
      */
-    public jdk.incubator.foreign.MemoryAddress getUserData() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = gtk_h.gdk_content_deserializer_get_user_data(handle());
         return RESULT;
     }
@@ -122,7 +122,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Associate data with the current deserialization operation.
      */
-    public void setTaskData(jdk.incubator.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify notify) {
+    public void setTaskData(java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify notify) {
         gtk_h.gdk_content_deserializer_set_task_data(handle(), data, 
                     Interop.cbDestroyNotifySymbol());
     }

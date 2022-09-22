@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -20,7 +20,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a new item to the end of {@code seq}.
      */
-    public SequenceIter append(jdk.incubator.foreign.MemoryAddress data) {
+    public SequenceIter append(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_append(handle(), data);
         return new SequenceIter(References.get(RESULT, false));
     }
@@ -32,7 +32,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public void foreach(Func func) {
         try {
             gtk_h.g_sequence_foreach(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -105,7 +105,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_sequence_insert_sorted(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -135,7 +135,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_sequence_insert_sorted_iter(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -178,7 +178,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_sequence_lookup(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -206,7 +206,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_sequence_lookup_iter(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -221,7 +221,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a new item to the front of {@code seq}
      */
-    public SequenceIter prepend(jdk.incubator.foreign.MemoryAddress data) {
+    public SequenceIter prepend(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_prepend(handle(), data);
         return new SequenceIter(References.get(RESULT, false));
     }
@@ -245,7 +245,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_sequence_search(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -276,7 +276,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_sequence_search_iter(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -299,7 +299,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public void sort(CompareDataFunc cmpFunc) {
         try {
             gtk_h.g_sequence_sort(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -322,7 +322,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public void sortIter(SequenceIterCompareFunc cmpFunc) {
         try {
             gtk_h.g_sequence_sort_iter(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -341,7 +341,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public static void foreachRange(SequenceIter begin, SequenceIter end, Func func) {
         try {
             gtk_h.g_sequence_foreach_range(begin.handle(), end.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -355,7 +355,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the data that {@code iter} points to.
      */
-    public static jdk.incubator.foreign.MemoryAddress get(SequenceIter iter) {
+    public static java.lang.foreign.MemoryAddress get(SequenceIter iter) {
         var RESULT = gtk_h.g_sequence_get(iter.handle());
         return RESULT;
     }
@@ -363,7 +363,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a new item just before the item pointed to by {@code iter}.
      */
-    public static SequenceIter insertBefore(SequenceIter iter, jdk.incubator.foreign.MemoryAddress data) {
+    public static SequenceIter insertBefore(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_sequence_insert_before(iter.handle(), data);
         return new SequenceIter(References.get(RESULT, false));
     }
@@ -431,7 +431,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * the sequence has a data destroy function associated with it, that
      * function is called on the existing data that {@code iter} pointed to.
      */
-    public static void set(SequenceIter iter, jdk.incubator.foreign.MemoryAddress data) {
+    public static void set(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_sequence_set(iter.handle(), data);
     }
     
@@ -450,7 +450,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public static void sortChanged(SequenceIter iter, CompareDataFunc cmpFunc) {
         try {
             gtk_h.g_sequence_sort_changed(iter.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -475,7 +475,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     public static void sortChangedIter(SequenceIter iter, SequenceIterCompareFunc iterCmp) {
         try {
             gtk_h.g_sequence_sort_changed_iter(iter.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

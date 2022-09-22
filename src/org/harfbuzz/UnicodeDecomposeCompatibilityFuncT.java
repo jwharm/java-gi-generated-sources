@@ -12,5 +12,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface UnicodeDecomposeCompatibilityFuncT {
-        int onUnicodeDecomposeCompatibilityFuncT(UnicodeFuncsT ufuncs, CodepointT u, CodepointT decomposed, jdk.incubator.foreign.MemoryAddress userData);
+        int onUnicodeDecomposeCompatibilityFuncT(UnicodeFuncsT ufuncs, CodepointT u, CodepointT decomposed, java.lang.foreign.MemoryAddress userData);
 }

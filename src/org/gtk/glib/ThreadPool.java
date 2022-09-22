@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -58,7 +58,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * Moves the item to the front of the queue of unprocessed
      * items, so that it will be processed next.
      */
-    public boolean moveToFront(jdk.incubator.foreign.MemoryAddress data) {
+    public boolean moveToFront(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_thread_pool_move_to_front(handle(), data);
         return (RESULT != 0);
     }
@@ -79,7 +79,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Before version 2.32, this function did not return a success status.
      */
-    public boolean push(jdk.incubator.foreign.MemoryAddress data) throws io.github.jwharm.javagi.GErrorException {
+    public boolean push(java.lang.foreign.MemoryAddress data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_thread_pool_push(handle(), data, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -133,7 +133,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
     public void setSortFunction(CompareDataFunc func) {
         try {
             gtk_h.g_thread_pool_set_sort_function(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -218,7 +218,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = gtk_h.g_thread_pool_new(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -243,7 +243,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             var RESULT = gtk_h.g_thread_pool_new_full(
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),

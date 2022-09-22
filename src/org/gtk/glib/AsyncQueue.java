@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -69,7 +69,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Pops data from the {@code queue}. If {@code queue} is empty, this function
      * blocks until data becomes available.
      */
-    public jdk.incubator.foreign.MemoryAddress pop() {
+    public java.lang.foreign.MemoryAddress pop() {
         var RESULT = gtk_h.g_async_queue_pop(handle());
         return RESULT;
     }
@@ -80,7 +80,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public jdk.incubator.foreign.MemoryAddress popUnlocked() {
+    public java.lang.foreign.MemoryAddress popUnlocked() {
         var RESULT = gtk_h.g_async_queue_pop_unlocked(handle());
         return RESULT;
     }
@@ -88,7 +88,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Pushes the {@code data} into the {@code queue}. {@code data} must not be <code>null</code>.
      */
-    public void push(jdk.incubator.foreign.MemoryAddress data) {
+    public void push(java.lang.foreign.MemoryAddress data) {
         gtk_h.g_async_queue_push(handle(), data);
     }
     
@@ -98,7 +98,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * pushes the new item ahead of the items already in the queue,
      * so that it will be the next one to be popped off the queue.
      */
-    public void pushFront(jdk.incubator.foreign.MemoryAddress item) {
+    public void pushFront(java.lang.foreign.MemoryAddress item) {
         gtk_h.g_async_queue_push_front(handle(), item);
     }
     
@@ -110,7 +110,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public void pushFrontUnlocked(jdk.incubator.foreign.MemoryAddress item) {
+    public void pushFrontUnlocked(java.lang.foreign.MemoryAddress item) {
         gtk_h.g_async_queue_push_front_unlocked(handle(), item);
     }
     
@@ -130,7 +130,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_async_queue_push_sorted(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -162,7 +162,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_async_queue_push_sorted_unlocked(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -178,7 +178,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public void pushUnlocked(jdk.incubator.foreign.MemoryAddress data) {
+    public void pushUnlocked(java.lang.foreign.MemoryAddress data) {
         gtk_h.g_async_queue_push_unlocked(handle(), data);
     }
     
@@ -194,7 +194,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Remove an item from the queue.
      */
-    public boolean remove(jdk.incubator.foreign.MemoryAddress item) {
+    public boolean remove(java.lang.foreign.MemoryAddress item) {
         var RESULT = gtk_h.g_async_queue_remove(handle(), item);
         return (RESULT != 0);
     }
@@ -204,7 +204,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public boolean removeUnlocked(jdk.incubator.foreign.MemoryAddress item) {
+    public boolean removeUnlocked(java.lang.foreign.MemoryAddress item) {
         var RESULT = gtk_h.g_async_queue_remove_unlocked(handle(), item);
         return (RESULT != 0);
     }
@@ -236,7 +236,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public void sort(CompareDataFunc func) {
         try {
             gtk_h.g_async_queue_sort(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -261,7 +261,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     public void sortUnlocked(CompareDataFunc func) {
         try {
             gtk_h.g_async_queue_sort_unlocked(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -278,7 +278,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If no data is received before the timeout, <code>null</code> is returned.
      */
-    public jdk.incubator.foreign.MemoryAddress timeoutPop(long timeout) {
+    public java.lang.foreign.MemoryAddress timeoutPop(long timeout) {
         var RESULT = gtk_h.g_async_queue_timeout_pop(handle(), timeout);
         return RESULT;
     }
@@ -291,7 +291,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public jdk.incubator.foreign.MemoryAddress timeoutPopUnlocked(long timeout) {
+    public java.lang.foreign.MemoryAddress timeoutPopUnlocked(long timeout) {
         var RESULT = gtk_h.g_async_queue_timeout_pop_unlocked(handle(), timeout);
         return RESULT;
     }
@@ -300,7 +300,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Tries to pop data from the {@code queue}. If no data is available,
      * <code>null</code> is returned.
      */
-    public jdk.incubator.foreign.MemoryAddress tryPop() {
+    public java.lang.foreign.MemoryAddress tryPop() {
         var RESULT = gtk_h.g_async_queue_try_pop(handle());
         return RESULT;
     }
@@ -311,7 +311,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public jdk.incubator.foreign.MemoryAddress tryPopUnlocked() {
+    public java.lang.foreign.MemoryAddress tryPopUnlocked() {
         var RESULT = gtk_h.g_async_queue_try_pop_unlocked(handle());
         return RESULT;
     }

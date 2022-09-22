@@ -8,5 +8,5 @@ package org.gtk.glib;
  */
 @FunctionalInterface
 public interface TraverseFunc {
-        boolean onTraverseFunc(jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value);
+        boolean onTraverseFunc(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value);
 }

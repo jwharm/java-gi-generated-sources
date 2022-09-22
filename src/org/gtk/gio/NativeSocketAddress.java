@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -21,7 +21,7 @@ public class NativeSocketAddress extends SocketAddress implements SocketConnecta
         return new NativeSocketAddress(gobject.getReference());
     }
     
-    private static Reference constructNew(jdk.incubator.foreign.MemoryAddress native_, long len) {
+    private static Reference constructNew(java.lang.foreign.MemoryAddress native_, long len) {
         Reference RESULT = References.get(gtk_h.g_native_socket_address_new(native_, len), true);
         return RESULT;
     }
@@ -29,7 +29,7 @@ public class NativeSocketAddress extends SocketAddress implements SocketConnecta
     /**
      * Creates a new {@link NativeSocketAddress} for {@code native} and {@code len}.
      */
-    public NativeSocketAddress(jdk.incubator.foreign.MemoryAddress native_, long len) {
+    public NativeSocketAddress(java.lang.foreign.MemoryAddress native_, long len) {
         super(constructNew(native_, len));
     }
     

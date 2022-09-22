@@ -9,5 +9,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface BufferMessageFuncT {
-        BoolT onBufferMessageFuncT(BufferT buffer, FontT font, java.lang.String message, jdk.incubator.foreign.MemoryAddress userData);
+        BoolT onBufferMessageFuncT(BufferT buffer, FontT font, java.lang.String message, java.lang.foreign.MemoryAddress userData);
 }

@@ -1,7 +1,7 @@
 package io.github.jwharm.javagi;
 
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 
 import java.lang.ref.Cleaner;
 

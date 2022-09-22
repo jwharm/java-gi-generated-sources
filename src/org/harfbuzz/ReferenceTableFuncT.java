@@ -5,5 +5,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface ReferenceTableFuncT {
-        BlobT onReferenceTableFuncT(FaceT face, TagT tag, jdk.incubator.foreign.MemoryAddress userData);
+        BlobT onReferenceTableFuncT(FaceT face, TagT tag, java.lang.foreign.MemoryAddress userData);
 }

@@ -12,5 +12,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface UnicodeMirroringFuncT {
-        CodepointT onUnicodeMirroringFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, jdk.incubator.foreign.MemoryAddress userData);
+        CodepointT onUnicodeMirroringFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, java.lang.foreign.MemoryAddress userData);
 }

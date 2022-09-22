@@ -1,7 +1,7 @@
 package io.github.jwharm.javagi;
 
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import io.github.jwharm.javagi.interop.jextract.GError;
 
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_POINTER;

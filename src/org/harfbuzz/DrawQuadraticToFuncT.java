@@ -6,5 +6,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface DrawQuadraticToFuncT {
-        void onDrawQuadraticToFuncT(DrawFuncsT dfuncs, jdk.incubator.foreign.MemoryAddress drawData, DrawStateT st, float controlX, float controlY, float toX, float toY, jdk.incubator.foreign.MemoryAddress userData);
+        void onDrawQuadraticToFuncT(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float controlX, float controlY, float toX, float toY, java.lang.foreign.MemoryAddress userData);
 }

@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -176,7 +176,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     public void setModifyFunc(int nColumns, org.gtk.gobject.Type[] types, TreeModelFilterModifyFunc func) {
         try {
             gtk_h.gtk_tree_model_filter_set_modify_func(handle(), nColumns, Interop.allocateNativeArray(types).handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterModifyFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
@@ -242,7 +242,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     public void setVisibleFunc(TreeModelFilterVisibleFunc func) {
         try {
             gtk_h.gtk_tree_model_filter_set_visible_func(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeModelFilterVisibleFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

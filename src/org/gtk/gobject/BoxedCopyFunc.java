@@ -6,5 +6,5 @@ package org.gtk.gobject;
  */
 @FunctionalInterface
 public interface BoxedCopyFunc {
-        jdk.incubator.foreign.MemoryAddress onBoxedCopyFunc(jdk.incubator.foreign.MemoryAddress boxed);
+        java.lang.foreign.MemoryAddress onBoxedCopyFunc(java.lang.foreign.MemoryAddress boxed);
 }

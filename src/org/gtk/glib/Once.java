@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -45,7 +45,7 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static boolean initEnter(jdk.incubator.foreign.MemoryAddress location) {
+    public static boolean initEnter(java.lang.foreign.MemoryAddress location) {
         var RESULT = gtk_h.g_once_init_enter(location);
         return (RESULT != 0);
     }
@@ -60,7 +60,7 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static void initLeave(jdk.incubator.foreign.MemoryAddress location, long result) {
+    public static void initLeave(java.lang.foreign.MemoryAddress location, long result) {
         gtk_h.g_once_init_leave(location, result);
     }
     

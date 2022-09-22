@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -74,7 +74,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public void lookupCertificateForHandleAsync(java.lang.String handle, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
             gtk_h.g_tls_database_lookup_certificate_for_handle_async(handle(), Interop.allocateNativeString(handle).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -139,7 +139,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public void lookupCertificateIssuerAsync(TlsCertificate certificate, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
             gtk_h.g_tls_database_lookup_certificate_issuer_async(handle(), certificate.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -189,7 +189,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public void lookupCertificatesIssuedByAsync(byte[] issuerRawDn, TlsInteraction interaction, TlsDatabaseLookupFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
             gtk_h.g_tls_database_lookup_certificates_issued_by_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, issuerRawDn)).handle(), interaction.handle(), flags.getValue(), cancellable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -292,7 +292,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     public void verifyChainAsync(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
             gtk_h.g_tls_database_verify_chain_async(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags, cancellable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

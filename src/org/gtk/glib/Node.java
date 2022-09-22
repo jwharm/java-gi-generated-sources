@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -20,7 +20,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Gets the position of the first child of a {@link Node}
      * which contains the given data.
      */
-    public int childIndex(jdk.incubator.foreign.MemoryAddress data) {
+    public int childIndex(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_child_index(handle(), data);
         return RESULT;
     }
@@ -43,7 +43,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public void childrenForeach(int flags, NodeForeachFunc func) {
         try {
             gtk_h.g_node_children_foreach(handle(), flags, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -69,7 +69,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public Node copyDeep(CopyFunc copyFunc) {
         try {
             var RESULT = gtk_h.g_node_copy_deep(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -103,7 +103,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds a {@link Node} in a tree.
      */
-    public Node find(TraverseType order, int flags, jdk.incubator.foreign.MemoryAddress data) {
+    public Node find(TraverseType order, int flags, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_find(handle(), order.getValue(), flags, data);
         return new Node(References.get(RESULT, false));
     }
@@ -111,7 +111,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds the first child of a {@link Node} with the given data.
      */
-    public Node findChild(int flags, jdk.incubator.foreign.MemoryAddress data) {
+    public Node findChild(int flags, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_find_child(handle(), flags, data);
         return new Node(References.get(RESULT, false));
     }
@@ -247,7 +247,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
         try {
             gtk_h.g_node_traverse(handle(), order.getValue(), flags, maxDepth, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbNodeTraverseFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -269,7 +269,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new {@link Node} containing the given data.
      * Used to create the first node in a tree.
      */
-    public static Node new_(jdk.incubator.foreign.MemoryAddress data) {
+    public static Node new_(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_node_new(data);
         return new Node(References.get(RESULT, false));
     }

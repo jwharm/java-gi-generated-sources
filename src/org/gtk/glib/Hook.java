@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -56,7 +56,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     public static Hook find(HookList hookList, boolean needValids, HookFindFunc func) {
         try {
             var RESULT = gtk_h.g_hook_find(hookList.handle(), needValids ? 1 : 0, 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookFindFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -71,7 +71,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds a {@link Hook} in a {@link HookList} with the given data.
      */
-    public static Hook findData(HookList hookList, boolean needValids, jdk.incubator.foreign.MemoryAddress data) {
+    public static Hook findData(HookList hookList, boolean needValids, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_hook_find_data(hookList.handle(), needValids ? 1 : 0, data);
         return new Hook(References.get(RESULT, false));
     }
@@ -79,7 +79,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds a {@link Hook} in a {@link HookList} with the given function.
      */
-    public static Hook findFunc(HookList hookList, boolean needValids, jdk.incubator.foreign.MemoryAddress func) {
+    public static Hook findFunc(HookList hookList, boolean needValids, java.lang.foreign.MemoryAddress func) {
         var RESULT = gtk_h.g_hook_find_func(hookList.handle(), needValids ? 1 : 0, func);
         return new Hook(References.get(RESULT, false));
     }
@@ -87,7 +87,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds a {@link Hook} in a {@link HookList} with the given function and data.
      */
-    public static Hook findFuncData(HookList hookList, boolean needValids, jdk.incubator.foreign.MemoryAddress func, jdk.incubator.foreign.MemoryAddress data) {
+    public static Hook findFuncData(HookList hookList, boolean needValids, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_hook_find_func_data(hookList.handle(), needValids ? 1 : 0, func, data);
         return new Hook(References.get(RESULT, false));
     }

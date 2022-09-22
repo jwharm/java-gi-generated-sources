@@ -11,5 +11,5 @@ package org.harfbuzz;
  */
 @FunctionalInterface
 public interface UnicodeComposeFuncT {
-        BoolT onUnicodeComposeFuncT(UnicodeFuncsT ufuncs, CodepointT a, CodepointT b, CodepointT ab, jdk.incubator.foreign.MemoryAddress userData);
+        BoolT onUnicodeComposeFuncT(UnicodeFuncsT ufuncs, CodepointT a, CodepointT b, CodepointT ab, java.lang.foreign.MemoryAddress userData);
 }

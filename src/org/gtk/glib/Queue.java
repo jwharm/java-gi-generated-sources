@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -47,7 +47,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds the first link in {@code queue} which contains {@code data}.
      */
-    public org.gtk.glib.List find(jdk.incubator.foreign.MemoryAddress data) {
+    public org.gtk.glib.List find(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_find(handle(), data);
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
@@ -63,7 +63,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_queue_find_custom(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -84,7 +84,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void foreach(Func func) {
         try {
             gtk_h.g_queue_foreach(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -118,7 +118,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the position of the first element in {@code queue} which contains {@code data}.
      */
-    public int index(jdk.incubator.foreign.MemoryAddress data) {
+    public int index(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_index(handle(), data);
         return RESULT;
     }
@@ -139,7 +139,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a <code>null</code> sibling pushes the
      * data at the head of the queue.
      */
-    public void insertAfter(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
+    public void insertAfter(org.gtk.glib.List sibling, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_queue_insert_after(handle(), sibling.handle(), data);
     }
     
@@ -158,7 +158,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
      * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a <code>null</code> sibling pushes the
      * data at the tail of the queue.
      */
-    public void insertBefore(org.gtk.glib.List sibling, jdk.incubator.foreign.MemoryAddress data) {
+    public void insertBefore(org.gtk.glib.List sibling, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_queue_insert_before(handle(), sibling.handle(), data);
     }
     
@@ -178,7 +178,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_queue_insert_sorted(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -208,7 +208,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the first element of the queue.
      */
-    public jdk.incubator.foreign.MemoryAddress peekHead() {
+    public java.lang.foreign.MemoryAddress peekHead() {
         var RESULT = gtk_h.g_queue_peek_head(handle());
         return RESULT;
     }
@@ -224,7 +224,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the @n'th element of {@code queue}.
      */
-    public jdk.incubator.foreign.MemoryAddress peekNth(int n) {
+    public java.lang.foreign.MemoryAddress peekNth(int n) {
         var RESULT = gtk_h.g_queue_peek_nth(handle(), n);
         return RESULT;
     }
@@ -240,7 +240,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the last element of the queue.
      */
-    public jdk.incubator.foreign.MemoryAddress peekTail() {
+    public java.lang.foreign.MemoryAddress peekTail() {
         var RESULT = gtk_h.g_queue_peek_tail(handle());
         return RESULT;
     }
@@ -256,7 +256,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the first element of the queue and returns its data.
      */
-    public jdk.incubator.foreign.MemoryAddress popHead() {
+    public java.lang.foreign.MemoryAddress popHead() {
         var RESULT = gtk_h.g_queue_pop_head(handle());
         return RESULT;
     }
@@ -272,7 +272,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the @n'th element of {@code queue} and returns its data.
      */
-    public jdk.incubator.foreign.MemoryAddress popNth(int n) {
+    public java.lang.foreign.MemoryAddress popNth(int n) {
         var RESULT = gtk_h.g_queue_pop_nth(handle(), n);
         return RESULT;
     }
@@ -288,7 +288,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the last element of the queue and returns its data.
      */
-    public jdk.incubator.foreign.MemoryAddress popTail() {
+    public java.lang.foreign.MemoryAddress popTail() {
         var RESULT = gtk_h.g_queue_pop_tail(handle());
         return RESULT;
     }
@@ -304,7 +304,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a new element at the head of the queue.
      */
-    public void pushHead(jdk.incubator.foreign.MemoryAddress data) {
+    public void pushHead(java.lang.foreign.MemoryAddress data) {
         gtk_h.g_queue_push_head(handle(), data);
     }
     
@@ -318,7 +318,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a new element into {@code queue} at the given position.
      */
-    public void pushNth(jdk.incubator.foreign.MemoryAddress data, int n) {
+    public void pushNth(java.lang.foreign.MemoryAddress data, int n) {
         gtk_h.g_queue_push_nth(handle(), data, n);
     }
     
@@ -332,7 +332,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a new element at the tail of the queue.
      */
-    public void pushTail(jdk.incubator.foreign.MemoryAddress data) {
+    public void pushTail(java.lang.foreign.MemoryAddress data) {
         gtk_h.g_queue_push_tail(handle(), data);
     }
     
@@ -346,7 +346,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the first element in {@code queue} that contains {@code data}.
      */
-    public boolean remove(jdk.incubator.foreign.MemoryAddress data) {
+    public boolean remove(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_remove(handle(), data);
         return (RESULT != 0);
     }
@@ -354,7 +354,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Remove all elements whose data equals {@code data} from {@code queue}.
      */
-    public int removeAll(jdk.incubator.foreign.MemoryAddress data) {
+    public int removeAll(java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_queue_remove_all(handle(), data);
         return RESULT;
     }
@@ -372,7 +372,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     public void sort(CompareDataFunc compareFunc) {
         try {
             gtk_h.g_queue_sort(handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),

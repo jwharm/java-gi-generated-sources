@@ -4,7 +4,7 @@ import org.gtk.gobject.*;
 import io.github.jwharm.javagi.interop.jextract.gtk_h;
 import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
 import io.github.jwharm.javagi.*;
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
@@ -35,7 +35,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * indicate whether the newly added value was already in the hash table
      * or not.
      */
-    public static boolean add(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean add(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_add(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -43,7 +43,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if {@code key} is in {@code hash_table}.
      */
-    public static boolean contains(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean contains(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_contains(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -75,10 +75,10 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * (keep in mind that an O(n) find/foreach operation issued for all n
      * values in a hash table ends up needing O(n*n) operations).
      */
-    public static jdk.incubator.foreign.MemoryAddress find(org.gtk.glib.HashTable hashTable, HRFunc predicate) {
+    public static java.lang.foreign.MemoryAddress find(org.gtk.glib.HashTable hashTable, HRFunc predicate) {
         try {
             var RESULT = gtk_h.g_hash_table_find(hashTable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -107,7 +107,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public static void foreach(org.gtk.glib.HashTable hashTable, HFunc func) {
         try {
             gtk_h.g_hash_table_foreach(hashTable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -131,7 +131,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public static int foreachRemove(org.gtk.glib.HashTable hashTable, HRFunc func) {
         try {
             var RESULT = gtk_h.g_hash_table_foreach_remove(hashTable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -155,7 +155,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
     public static int foreachSteal(org.gtk.glib.HashTable hashTable, HRFunc func) {
         try {
             var RESULT = gtk_h.g_hash_table_foreach_steal(hashTable.handle(), 
-                    CLinker.systemCLinker().upcallStub(
+                    Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHRFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
@@ -207,7 +207,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * indicate whether the newly added value was already in the hash table
      * or not.
      */
-    public static boolean insert(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public static boolean insert(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_insert(hashTable.handle(), key, value);
         return (RESULT != 0);
     }
@@ -218,7 +218,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * and has the value <code>null</code>. If you need this distinction, use
      * g_hash_table_lookup_extended().
      */
-    public static jdk.incubator.foreign.MemoryAddress lookup(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static java.lang.foreign.MemoryAddress lookup(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_lookup(hashTable.handle(), key);
         return RESULT;
     }
@@ -233,7 +233,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * whether the <code>null</code> key exists, provided the hash and equal functions
      * of {@code hash_table} are <code>null</code>-safe.
      */
-    public static boolean lookupExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress origKey, jdk.incubator.foreign.MemoryAddress value) {
+    public static boolean lookupExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_lookup_extended(hashTable.handle(), lookupKey, origKey, value);
         return (RESULT != 0);
     }
@@ -270,7 +270,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * you have to make sure that any dynamically allocated values are freed
      * yourself.
      */
-    public static boolean remove(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean remove(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_remove(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -300,7 +300,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * indicate whether the newly added value was already in the hash table
      * or not.
      */
-    public static boolean replace(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key, jdk.incubator.foreign.MemoryAddress value) {
+    public static boolean replace(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_replace(hashTable.handle(), key, value);
         return (RESULT != 0);
     }
@@ -317,7 +317,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * Removes a key and its associated value from a {@link HashTable} without
      * calling the key and value destroy functions.
      */
-    public static boolean steal(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress key) {
+    public static boolean steal(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
         var RESULT = gtk_h.g_hash_table_steal(hashTable.handle(), key);
         return (RESULT != 0);
     }
@@ -342,7 +342,7 @@ public class HashTable extends io.github.jwharm.javagi.ResourceBase {
      * You can pass <code>null</code> for {@code lookup_key}, provided the hash and equal functions
      * of {@code hash_table} are <code>null</code>-safe.
      */
-    public static boolean stealExtended(org.gtk.glib.HashTable hashTable, jdk.incubator.foreign.MemoryAddress lookupKey, jdk.incubator.foreign.MemoryAddress stolenKey, jdk.incubator.foreign.MemoryAddress stolenValue) {
+    public static boolean stealExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress stolenKey, java.lang.foreign.MemoryAddress stolenValue) {
         var RESULT = gtk_h.g_hash_table_steal_extended(hashTable.handle(), lookupKey, stolenKey, stolenValue);
         return (RESULT != 0);
     }
