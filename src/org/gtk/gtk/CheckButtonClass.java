@@ -13,4 +13,8 @@ public class CheckButtonClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CheckButtonClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCheckButtonClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

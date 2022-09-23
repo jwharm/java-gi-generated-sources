@@ -241,7 +241,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Retrieves the {@code GIcon} used for the icon.
      * <p>
-     * <code>null</code> will be returned if there is no icon or if the icon was
+     * {@code null} will be returned if there is no icon or if the icon was
      * set by some other method (e.g., by {@code GdkPaintable} or icon name).
      */
     public org.gtk.gio.Icon getIconGicon(EntryIconPosition iconPos) {
@@ -252,7 +252,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Retrieves the icon name used for the icon.
      * <p>
-     * <code>null</code> is returned if there is no icon or if the icon was set
+     * {@code null} is returned if there is no icon or if the icon was set
      * by some other method (e.g., by {@code GdkPaintable} or gicon).
      */
     public java.lang.String getIconName(EntryIconPosition iconPos) {
@@ -263,7 +263,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Retrieves the {@code GdkPaintable} used for the icon.
      * <p>
-     * If no {@code GdkPaintable} was used for the icon, <code>null</code> is returned.
+     * If no {@code GdkPaintable} was used for the icon, {@code null} is returned.
      */
     public org.gtk.gdk.Paintable getIconPaintable(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_paintable(handle(), iconPos.getValue());
@@ -497,7 +497,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * <p>
      * All further configuration of the completion mechanism is
      * done on {@code completion} using the {@code GtkEntryCompletion} API.
-     * Completion is disabled if {@code completion} is set to <code>null</code>.
+     * Completion is disabled if {@code completion} is set to {@code null}.
      */
     public void setCompletion(EntryCompletion completion) {
         gtk_h.gtk_entry_set_completion(handle(), completion.handle());
@@ -542,7 +542,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If the icon isn’t known, a “broken image” icon will be
      * displayed instead.
      * <p>
-     * If {@code icon} is <code>null</code>, no icon will be shown in the
+     * If {@code icon} is {@code null}, no icon will be shown in the
      * specified position.
      */
     public void setIconFromGicon(EntryIconPosition iconPos, org.gtk.gio.Icon icon) {
@@ -556,7 +556,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If the icon name isn’t known, a “broken image” icon will be
      * displayed instead.
      * <p>
-     * If {@code icon_name} is <code>null</code>, no icon will be shown in the
+     * If {@code icon_name} is {@code null}, no icon will be shown in the
      * specified position.
      */
     public void setIconFromIconName(EntryIconPosition iconPos, java.lang.String iconName) {
@@ -566,7 +566,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Sets the icon shown in the specified position using a {@code GdkPaintable}.
      * <p>
-     * If {@code paintable} is <code>null</code>, no icon will be shown in the specified position.
+     * If {@code paintable} is {@code null}, no icon will be shown in the specified position.
      */
     public void setIconFromPaintable(EntryIconPosition iconPos, org.gtk.gdk.Paintable paintable) {
         gtk_h.gtk_entry_set_icon_from_paintable(handle(), iconPos.getValue(), paintable.handle());
@@ -585,7 +585,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * <p>
      * {@code tooltip} is assumed to be marked up with Pango Markup.
      * <p>
-     * Use <code>null</code> for {@code tooltip} to remove an existing tooltip.
+     * Use {@code null} for {@code tooltip} to remove an existing tooltip.
      * <p>
      * See also {@link Widget#setTooltipMarkup} and
      * {@link Entry#setIconTooltipText}.
@@ -598,7 +598,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Sets {@code tooltip} as the contents of the tooltip for the icon
      * at the specified position.
      * <p>
-     * Use <code>null</code> for {@code tooltip} to remove an existing tooltip.
+     * Use {@code null} for {@code tooltip} to remove an existing tooltip.
      * <p>
      * See also {@link Widget#setTooltipText} and
      * {@link Entry#setIconTooltipMarkup}.
@@ -606,10 +606,10 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * If you unset the widget tooltip via
      * {@link Widget#setTooltipText} or
      * {@link Widget#setTooltipMarkup}, this sets
-     * {@code Gtk.Widget:has-tooltip} to <code>false</code>, which suppresses
+     * {@code Gtk.Widget:has-tooltip} to {@code false}, which suppresses
      * icon tooltips too. You can resolve this by then calling
      * {@link Widget#setHasTooltip} to set
-     * {@code Gtk.Widget:has-tooltip} back to <code>true</code>, or
+     * {@code Gtk.Widget:has-tooltip} back to {@code true}, or
      * setting at least one non-empty tooltip on any icon
      * achieves the same result.
      */
@@ -712,7 +712,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Sets whether the contents of the entry are visible or not.
      * <p>
-     * When visibility is set to <code>false</code>, characters are displayed
+     * When visibility is set to {@code false}, characters are displayed
      * as the invisible char, and will also appear that way when
      * the text in the entry widget is copied elsewhere.
      * <p>
@@ -723,7 +723,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Note that you probably want to set {@code Gtk.Entry:input-purpose}
      * to {@link InputPurpose#PASSWORD} or {@link InputPurpose#PIN} to
      * inform input methods about the purpose of this entry,
-     * in addition to setting visibility to <code>false</code>.
+     * in addition to setting visibility to {@code false}.
      */
     public void setVisibility(boolean visible) {
         gtk_h.gtk_entry_set_visibility(handle(), visible ? 1 : 0);

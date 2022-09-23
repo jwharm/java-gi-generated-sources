@@ -18,4 +18,8 @@ public class SegmentPropertiesT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SegmentPropertiesT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_segment_properties_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

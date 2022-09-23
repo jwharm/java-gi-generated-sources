@@ -17,4 +17,8 @@ public class SourceCallbackFuncs extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SourceCallbackFuncs() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSourceCallbackFuncs.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

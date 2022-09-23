@@ -16,4 +16,8 @@ public class OtMathGlyphVariantT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OtMathGlyphVariantT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_glyph_variant_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

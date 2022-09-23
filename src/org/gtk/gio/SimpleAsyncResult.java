@@ -46,7 +46,7 @@ import java.lang.invoke.*;
  * <p>
  * An asynchronous operation can be made to ignore a cancellation event by
  * calling g_simple_async_result_set_handle_cancellation() with a
- * {@link SimpleAsyncResult} for the operation and <code>false</code>. This is useful for
+ * {@link SimpleAsyncResult} for the operation and {@code false}. This is useful for
  * operations that are dangerous to cancel, such as close (which would
  * cause a leak if cancelled before being run).
  * <p>
@@ -79,7 +79,7 @@ import java.lang.invoke.*;
  * {@link AsyncResult}.  A typical implementation of an asynchronous operation
  * using GSimpleAsyncResult looks something like this:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * static void
  * baked_cb (Cake    *cake,
  *           gpointer user_data)
@@ -87,7 +87,7 @@ import java.lang.invoke.*;
  *   // In this example, this callback is not given a reference to the cake,
  *   // so the GSimpleAsyncResult has to take a reference to it.
  *   GSimpleAsyncResult *result = user_data;
- * <p>
+ * 
  *   if (cake == NULL)
  *     g_simple_async_result_set_error (result,
  *                                      BAKER_ERRORS,
@@ -97,7 +97,7 @@ import java.lang.invoke.*;
  *     g_simple_async_result_set_op_res_gpointer (result,
  *                                                g_object_ref (cake),
  *                                                g_object_unref);
- * <p>
+ * 
  * 
  *   // In this example, we assume that baked_cb is called as a callback from
  *   // the mainloop, so it's safe to complete the operation synchronously here.
@@ -107,7 +107,7 @@ import java.lang.invoke.*;
  *   g_simple_async_result_complete (result);
  *   g_object_unref (result);
  * }
- * <p>
+ * 
  * void
  * baker_bake_cake_async (Baker              *self,
  *                        guint               radius,
@@ -116,7 +116,7 @@ import java.lang.invoke.*;
  * {
  *   GSimpleAsyncResult *simple;
  *   Cake               *cake;
- * <p>
+ * 
  *   if (radius < 3)
  *     {
  *       g_simple_async_report_error_in_idle (G_OBJECT (self),
@@ -124,17 +124,17 @@ import java.lang.invoke.*;
  *                                            user_data,
  *                                            BAKER_ERRORS,
  *                                            BAKER_ERROR_TOO_SMALL,
- *                                            "{@code ucm} radius cakes are silly",
+ *                                            "%ucm radius cakes are silly",
  *                                            radius);
  *       return;
  *     }
- * <p>
+ * 
  *   simple = g_simple_async_result_new (G_OBJECT (self),
  *                                       callback,
  *                                       user_data,
  *                                       baker_bake_cake_async);
  *   cake = _baker_get_cached_cake (self, radius);
- * <p>
+ * 
  *   if (cake != NULL)
  *     {
  *       g_simple_async_result_set_op_res_gpointer (simple,
@@ -147,10 +147,10 @@ import java.lang.invoke.*;
  *       g_object_unref (cake);
  *       return;
  *     }
- * <p>
+ * 
  *   _baker_prepare_cake (self, radius, baked_cb, simple);
  * }
- * <p>
+ * 
  * Cake *
  * baker_bake_cake_finish (Baker        *self,
  *                         GAsyncResult *result,
@@ -158,21 +158,21 @@ import java.lang.invoke.*;
  * {
  *   GSimpleAsyncResult *simple;
  *   Cake               *cake;
- * <p>
+ * 
  *   g_return_val_if_fail (g_simple_async_result_is_valid (result,
  *                                                         G_OBJECT (self),
  *                                                         baker_bake_cake_async),
  *                         NULL);
- * <p>
+ * 
  *   simple = (GSimpleAsyncResult *) result;
- * <p>
+ * 
  *   if (g_simple_async_result_propagate_error (simple, error))
  *     return NULL;
- * <p>
+ * 
  *   cake = CAKE (g_simple_async_result_get_op_res_gpointer (simple));
  *   return g_object_ref (cake);
  * }
- * ]|
+ * }</pre>
  */
 public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncResult {
 

@@ -16,4 +16,8 @@ public class FileAttributeInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FileAttributeInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFileAttributeInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

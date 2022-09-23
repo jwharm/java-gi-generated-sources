@@ -4668,7 +4668,7 @@ public final class Gdk {
      * Strings printed via {@link ContentFormats#toString}
      * can be read in again successfully using this function.
      * <p>
-     * If {@code string} does not describe valid content formats, <code>null</code>
+     * If {@code string} does not describe valid content formats, {@code null}
      * is returned.
      */
     public static ContentFormats contentFormatsParse(java.lang.String string) {
@@ -4751,7 +4751,7 @@ public final class Gdk {
      * Checks if {@code action} represents a single action or includes
      * multiple actions.
      * <p>
-     * When {@code action} is 0 - ie no action was given, <code>true</code>
+     * When {@code action} is 0 - ie no action was given, {@code true}
      * is returned.
      */
     public static boolean dragActionIsUnique(int action) {
@@ -4767,7 +4767,7 @@ public final class Gdk {
     /**
      * Canonicalizes the given mime type and interns the result.
      * <p>
-     * If {@code string} is not a valid mime type, <code>null</code> is returned instead.
+     * If {@code string} is not a valid mime type, {@code null} is returned instead.
      * See RFC 2048 for the syntax if mime types.
      */
     public static java.lang.String internMimeType(java.lang.String string) {
@@ -4788,7 +4788,7 @@ public final class Gdk {
     }
     
     /**
-     * Returns <code>true</code> if the given key value is in lower case.
+     * Returns {@code true} if the given key value is in lower case.
      */
     public static boolean keyvalIsLower(int keyval) {
         var RESULT = gtk_h.gdk_keyval_is_lower(keyval);
@@ -4796,7 +4796,7 @@ public final class Gdk {
     }
     
     /**
-     * Returns <code>true</code> if the given key value is in upper case.
+     * Returns {@code true} if the given key value is in upper case.
      */
     public static boolean keyvalIsUpper(int keyval) {
         var RESULT = gtk_h.gdk_keyval_is_upper(keyval);

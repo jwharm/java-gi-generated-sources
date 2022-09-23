@@ -13,4 +13,8 @@ public class TreeSortableIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeSortableIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeSortableIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

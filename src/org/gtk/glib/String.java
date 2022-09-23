@@ -151,7 +151,7 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Compares two strings for equality, returning <code>true</code> if they are equal.
+     * Compares two strings for equality, returning {@code true} if they are equal.
      * For use with {@link HashTable}.
      */
     public boolean equal(String v2) {
@@ -170,8 +170,8 @@ public class String extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Frees the memory allocated for the {@link String}.
-     * If {@code free_segment} is <code>true</code> it also frees the character data.  If
-     * it's <code>false</code>, the caller gains ownership of the buffer and must
+     * If {@code free_segment} is {@code true} it also frees the character data.  If
+     * it's {@code false}, the caller gains ownership of the buffer and must
      * free it after use with g_free().
      */
     public java.lang.String free(boolean freeSegment) {

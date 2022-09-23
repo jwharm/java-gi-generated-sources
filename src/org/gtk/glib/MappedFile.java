@@ -30,7 +30,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Maps a file into memory. On UNIX, this is using the mmap() function.
      * <p>
-     * If {@code writable} is <code>true</code>, the mapped buffer may be modified, otherwise
+     * If {@code writable} is {@code true}, the mapped buffer may be modified, otherwise
      * it is an error to modify the mapped buffer. Modifications to the buffer
      * are not visible to other processes mapping the same file, and are not
      * written back to the file.
@@ -61,7 +61,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Maps a file into memory. On UNIX, this is using the mmap() function.
      * <p>
-     * If {@code writable} is <code>true</code>, the mapped buffer may be modified, otherwise
+     * If {@code writable} is {@code true}, the mapped buffer may be modified, otherwise
      * it is an error to modify the mapped buffer. Modifications to the buffer
      * are not visible to other processes mapping the same file, and are not
      * written back to the file.
@@ -91,7 +91,7 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      * Note that the contents may not be zero-terminated,
      * even if the {@link MappedFile} is backed by a text file.
      * <p>
-     * If the file is empty then <code>null</code> is returned.
+     * If the file is empty then {@code null} is returned.
      */
     public java.lang.String getContents() {
         var RESULT = gtk_h.g_mapped_file_get_contents(handle());

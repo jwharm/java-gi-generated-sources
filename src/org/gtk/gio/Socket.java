@@ -22,7 +22,7 @@ import java.lang.invoke.*;
  * by e.g. g_object_new() you must call g_initable_init() and check the
  * results before using the object. This is done automatically in
  * g_socket_new() and g_socket_new_from_fd(), so these functions can return
- * <code>null</code>.
+ * {@code null}.
  * <p>
  * Sockets operate in two general modes, blocking or non-blocking. When
  * in blocking mode all operations (which don’t take an explicit blocking
@@ -159,9 +159,9 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * used to initiate connections, though this is not normally required.
      * <p>
      * If {@code socket} is a TCP socket, then {@code allow_reuse} controls the setting
-     * of the {@code SO_REUSEADDR} socket option; normally it should be <code>true</code> for
+     * of the {@code SO_REUSEADDR} socket option; normally it should be {@code true} for
      * server sockets (sockets that you will eventually call
-     * g_socket_accept() on), and <code>false</code> for client sockets. (Failing to
+     * g_socket_accept() on), and {@code false} for client sockets. (Failing to
      * set this flag on a server socket may cause g_socket_bind() to return
      * {@link IOErrorEnum#ADDRESS_IN_USE} if the server program is stopped and then
      * immediately restarted.)
@@ -262,11 +262,11 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Waits for up to {@code timeout_us} microseconds for {@code condition} to become true
-     * on {@code socket}. If the condition is met, <code>true</code> is returned.
+     * on {@code socket}. If the condition is met, {@code true} is returned.
      * <p>
      * If {@code cancellable} is cancelled before the condition is met, or if
      * {@code timeout_us} (or the socket's {@link Socket}:timeout) is reached before the
-     * condition is met, then <code>false</code> is returned and {@code error}, if non-<code>null</code>,
+     * condition is met, then {@code false} is returned and {@code error}, if non-{@code null},
      * is set to the appropriate value ({@link IOErrorEnum#CANCELLED} or
      * {@link IOErrorEnum#TIMED_OUT}).
      * <p>
@@ -289,11 +289,11 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Waits for {@code condition} to become true on {@code socket}. When the condition
-     * is met, <code>true</code> is returned.
+     * is met, {@code true} is returned.
      * <p>
      * If {@code cancellable} is cancelled before the condition is met, or if the
      * socket has a timeout set and it is reached before the condition is
-     * met, then <code>false</code> is returned and {@code error}, if non-<code>null</code>, is set to
+     * met, then {@code false} is returned and {@code error}, if non-{@code null}, is set to
      * the appropriate value ({@link IOErrorEnum#CANCELLED} or
      * {@link IOErrorEnum#TIMED_OUT}).
      * <p>
@@ -354,7 +354,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * It is meaningless to specify {@link org.gtk.glib.IOCondition#ERR} or {@link org.gtk.glib.IOCondition#HUP} in {@code condition};
      * these conditions will always be reported output if they are true.
      * <p>
-     * {@code cancellable} if not <code>null</code> can be used to cancel the source, which will
+     * {@code cancellable} if not {@code null} can be used to cancel the source, which will
      * cause the source to trigger, reporting the current condition (which
      * is likely 0 unless cancellation happened at the same time as a
      * condition change). You can check for this in the callback using
@@ -400,7 +400,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Gets the broadcast setting on {@code socket}; if <code>true</code>,
+     * Gets the broadcast setting on {@code socket}; if {@code true},
      * it is possible to send packets to broadcast
      * addresses.
      */
@@ -495,7 +495,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
-     * Gets the multicast loopback setting on {@code socket}; if <code>true</code> (the
+     * Gets the multicast loopback setting on {@code socket}; if {@code true} (the
      * default), outgoing multicast packets will be looped back to
      * multicast listeners on the same host.
      */
@@ -573,9 +573,9 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * Check whether the socket is connected. This is only useful for
      * connection-oriented sockets.
      * <p>
-     * If using g_socket_shutdown(), this function will return <code>true</code> until the
+     * If using g_socket_shutdown(), this function will return {@code true} until the
      * socket has been shut down for reading and writing. If you do a non-blocking
-     * connect, this function will not return <code>true</code> until after you call
+     * connect, this function will not return {@code true} until after you call
      * g_socket_check_connect_result().
      */
     public boolean isConnected() {
@@ -589,10 +589,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * been bound to an appropriate interface and port with
      * g_socket_bind().
      * <p>
-     * If {@code iface} is <code>null</code>, the system will automatically pick an interface
+     * If {@code iface} is {@code null}, the system will automatically pick an interface
      * to bind to based on {@code group}.
      * <p>
-     * If {@code source_specific} is <code>true</code>, source-specific multicast as defined
+     * If {@code source_specific} is {@code true}, source-specific multicast as defined
      * in RFC 4604 is used. Note that on older platforms this may fail
      * with a {@link IOErrorEnum#NOT_SUPPORTED} error.
      * <p>
@@ -614,10 +614,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * been bound to an appropriate interface and port with
      * g_socket_bind().
      * <p>
-     * If {@code iface} is <code>null</code>, the system will automatically pick an interface
+     * If {@code iface} is {@code null}, the system will automatically pick an interface
      * to bind to based on {@code group}.
      * <p>
-     * If {@code source_specific} is not <code>null</code>, use source-specific multicast as
+     * If {@code source_specific} is not {@code null}, use source-specific multicast as
      * defined in RFC 4604. Note that on older platforms this may fail
      * with a {@link IOErrorEnum#NOT_SUPPORTED} error.
      * <p>
@@ -693,7 +693,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * Receive data (up to {@code size} bytes) from a socket. This is mainly used by
      * connection-oriented sockets; it is identical to g_socket_receive_from()
-     * with {@code address} set to <code>null</code>.
+     * with {@code address} set to {@code null}.
      * <p>
      * For {@link SocketType#DATAGRAM} and {@link SocketType#SEQPACKET} sockets,
      * g_socket_receive() will always read either 0 or 1 complete messages from
@@ -727,7 +727,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * Receive data (up to {@code size} bytes) from a socket.
      * <p>
-     * If {@code address} is non-<code>null</code> then {@code address} will be set equal to the
+     * If {@code address} is non-{@code null} then {@code address} will be set equal to the
      * source address of the received packet.
      * {@code address} is owned by the caller.
      * <p>
@@ -767,10 +767,10 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * The other members of {@link InputMessage} are treated as described in its
      * documentation.
      * <p>
-     * If {@link Socket}:blocking is <code>true</code> the call will block until {@code num_messages} have
+     * If {@link Socket}:blocking is {@code true} the call will block until {@code num_messages} have
      * been received, or the end of the stream is reached.
      * <p>
-     * If {@link Socket}:blocking is <code>false</code> the call will return up to {@code num_messages}
+     * If {@link Socket}:blocking is {@code false} the call will return up to {@code num_messages}
      * without blocking, or {@link IOErrorEnum#WOULD_BLOCK} if no messages are queued in the
      * operating system to be received.
      * <p>
@@ -818,7 +818,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * Tries to send {@code size} bytes from {@code buffer} on the socket. This is
      * mainly used by connection-oriented sockets; it is identical to
-     * g_socket_send_to() with {@code address} set to <code>null</code>.
+     * g_socket_send_to() with {@code address} set to {@code null}.
      * <p>
      * If the socket is in blocking mode the call will block until there is
      * space for the data in the socket queue. If there is no space available
@@ -845,22 +845,22 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_socket_send_messages(); for easier use, see
      * g_socket_send() and g_socket_send_to().
      * <p>
-     * If {@code address} is <code>null</code> then the message is sent to the default receiver
+     * If {@code address} is {@code null} then the message is sent to the default receiver
      * (set by g_socket_connect()).
      * <p>
      * {@code vectors} must point to an array of {@link OutputVector} structs and
      * {@code num_vectors} must be the length of this array. (If {@code num_vectors} is -1,
      * then {@code vectors} is assumed to be terminated by a {@link OutputVector} with a
-     * <code>null</code> buffer pointer.) The {@link OutputVector} structs describe the buffers
+     * {@code null} buffer pointer.) The {@link OutputVector} structs describe the buffers
      * that the sent data will be gathered from. Using multiple
      * {@code GOutputVectors} is more memory-efficient than manually copying
      * data from multiple sources into a single buffer, and more
      * network-efficient than making multiple calls to g_socket_send().
      * <p>
-     * {@code messages}, if non-<code>null</code>, is taken to point to an array of {@code num_messages}
+     * {@code messages}, if non-{@code null}, is taken to point to an array of {@code num_messages}
      * {@link SocketControlMessage} instances. These correspond to the control
      * messages to be sent on the socket.
-     * If {@code num_messages} is -1 then {@code messages} is treated as a <code>null</code>-terminated
+     * If {@code num_messages} is -1 then {@code messages} is treated as a {@code null}-terminated
      * array.
      * <p>
      * {@code flags} modify how the message is sent. The commonly available arguments
@@ -940,7 +940,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Tries to send {@code size} bytes from {@code buffer} to {@code address}. If {@code address} is
-     * <code>null</code> then the message is sent to the default receiver (set by
+     * {@code null} then the message is sent to the default receiver (set by
      * g_socket_connect()).
      * <p>
      * See g_socket_send() for additional information.
@@ -985,7 +985,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Sets whether {@code socket} should allow sending to broadcast addresses.
-     * This is <code>false</code> by default.
+     * This is {@code false} by default.
      */
     public void setBroadcast(boolean broadcast) {
         gtk_h.g_socket_set_broadcast(handle(), broadcast ? 1 : 0);
@@ -1027,7 +1027,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     
     /**
      * Sets whether outgoing multicast packets will be received by sockets
-     * listening on that multicast address on the same host. This is <code>true</code>
+     * listening on that multicast address on the same host. This is {@code true}
      * by default.
      */
     public void setMulticastLoopback(boolean loopback) {
@@ -1100,13 +1100,13 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     /**
      * Shut down part or all of a full-duplex connection.
      * <p>
-     * If {@code shutdown_read} is <code>true</code> then the receiving side of the connection
+     * If {@code shutdown_read} is {@code true} then the receiving side of the connection
      * is shut down, and further reading is disallowed.
      * <p>
-     * If {@code shutdown_write} is <code>true</code> then the sending side of the connection
+     * If {@code shutdown_write} is {@code true} then the sending side of the connection
      * is shut down, and further writing is disallowed.
      * <p>
-     * It is allowed for both {@code shutdown_read} and {@code shutdown_write} to be <code>true</code>.
+     * It is allowed for both {@code shutdown_read} and {@code shutdown_write} to be {@code true}.
      * <p>
      * One example where it is useful to shut down only one side of a connection is
      * graceful disconnect for TCP connections where you close the sending side,

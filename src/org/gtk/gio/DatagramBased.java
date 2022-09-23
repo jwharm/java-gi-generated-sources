@@ -103,10 +103,10 @@ public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Waits for up to {@code timeout} microseconds for condition to become true on
-     * {@code datagram_based}. If the condition is met, <code>true</code> is returned.
+     * {@code datagram_based}. If the condition is met, {@code true} is returned.
      * <p>
      * If {@code cancellable} is cancelled before the condition is met, or if {@code timeout} is
-     * reached before the condition is met, then <code>false</code> is returned and {@code error} is
+     * reached before the condition is met, then {@code false} is returned and {@code error} is
      * set appropriately ({@link IOErrorEnum#CANCELLED} or {@link IOErrorEnum#TIMED_OUT}).
      */
     public default boolean conditionWait(int condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -128,7 +128,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
      * It is meaningless to specify {@link org.gtk.glib.IOCondition#ERR} or {@link org.gtk.glib.IOCondition#HUP} in {@code condition}; these
      * conditions will always be reported in the callback if they are true.
      * <p>
-     * If non-<code>null</code>, {@code cancellable} can be used to cancel the source, which will
+     * If non-{@code null}, {@code cancellable} can be used to cancel the source, which will
      * cause the source to trigger, reporting the current condition (which is
      * likely 0 unless cancellation happened at the same time as a condition
      * change). You can check for this in the callback using

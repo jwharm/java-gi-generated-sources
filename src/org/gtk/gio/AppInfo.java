@@ -33,22 +33,22 @@ import java.lang.invoke.*;
  * equal to the result of g_file_get_uri(). The following snippet
  * illustrates this:
  * <p>
- * |[
+ * <pre>{@code 
  * GFile *f;
  * char *uri;
- * <p>
+ * 
  * file = g_file_new_for_commandline_arg (uri_from_commandline);
- * <p>
+ * 
  * uri = g_file_get_uri (file);
  * strcmp (uri, uri_from_commandline) == 0;
  * g_free (uri);
- * <p>
+ * 
  * if (g_file_has_uri_scheme (file, "cdda"))
  *   {
  *     // do something special with uri
  *   }
  * g_object_unref (file);
- * ]|
+ * }</pre>
  * <p>
  * This code will work when both {@code cdda://sr0/Track 1.wav} and
  * {@code /home/user/.gvfs/cdda on sr0/Track 1.wav} is passed to the
@@ -169,7 +169,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * platform dependent. For instance, on Unix this is the
      * desktop file id from the xdg menu specification.
      * <p>
-     * Note that the returned ID may be <code>null</code>, depending on how
+     * Note that the returned ID may be {@code null}, depending on how
      * the {@code appinfo} has been constructed.
      */
     public default java.lang.String getId() {
@@ -191,7 +191,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * about the details of the launcher (like what screen it is on).
      * On error, {@code error} will be set accordingly.
      * <p>
-     * To launch the application without arguments pass a <code>null</code> {@code files} list.
+     * To launch the application without arguments pass a {@code null} {@code files} list.
      * <p>
      * Note that even if the launch is successful the application launched
      * can fail to start if it runs into problems during startup. There is
@@ -229,7 +229,7 @@ public interface AppInfo extends io.github.jwharm.javagi.NativeAddress {
      * about the details of the launcher (like what screen it is on).
      * On error, {@code error} will be set accordingly.
      * <p>
-     * To launch the application without arguments pass a <code>null</code> {@code uris} list.
+     * To launch the application without arguments pass a {@code null} {@code uris} list.
      * <p>
      * Note that even if the launch is successful the application launched
      * can fail to start if it runs into problems during startup. There is

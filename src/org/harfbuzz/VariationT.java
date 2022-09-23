@@ -18,8 +18,12 @@ public class VariationT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public VariationT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_variation_t.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
-     * Converts an {@link variation_t} into a <code>null</code>-terminated string in the format
+     * Converts an {@link variation_t} into a {@code null}-terminated string in the format
      * understood by hb_variation_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */

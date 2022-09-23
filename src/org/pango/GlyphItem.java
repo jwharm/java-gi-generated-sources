@@ -21,6 +21,10 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GlyphItem() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphItem.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Splits a shaped item ({@code PangoGlyphItem}) into multiple items based
      * on an attribute list.

@@ -13,4 +13,8 @@ public class NativeSocketAddressClass extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public NativeSocketAddressClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GNativeSocketAddressClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

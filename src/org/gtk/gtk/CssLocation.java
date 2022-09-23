@@ -27,4 +27,8 @@ public class CssLocation extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CssLocation() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCssLocation.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

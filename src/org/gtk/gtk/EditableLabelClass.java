@@ -13,4 +13,8 @@ public class EditableLabelClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public EditableLabelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkEditableLabelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

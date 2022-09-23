@@ -6,7 +6,7 @@ package org.gtk.gio;
  * implementation.
  * <p>
  * The client should return a reference to the new file that has been
- * created for {@code uri}, or <code>null</code> to continue with the default implementation.
+ * created for {@code uri}, or {@code null} to continue with the default implementation.
  */
 @FunctionalInterface
 public interface VfsFileLookupFunc {

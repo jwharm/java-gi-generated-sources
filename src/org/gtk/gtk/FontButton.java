@@ -108,7 +108,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * If {@code use_font} is <code>true</code>, the font name will be written
+     * If {@code use_font} is {@code true}, the font name will be written
      * using the selected font.
      */
     public void setUseFont(boolean useFont) {
@@ -116,7 +116,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
     }
     
     /**
-     * If {@code use_size} is <code>true</code>, the font name will be written using
+     * If {@code use_size} is {@code true}, the font name will be written using
      * the selected size.
      */
     public void setUseSize(boolean useSize) {

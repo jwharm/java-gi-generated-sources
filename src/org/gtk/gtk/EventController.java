@@ -35,7 +35,7 @@ public class EventController extends org.gtk.gobject.Object {
     /**
      * Returns the event that is currently being handled by the controller.
      * <p>
-     * At other times, <code>null</code> is returned.
+     * At other times, {@code null} is returned.
      */
     public org.gtk.gdk.Event getCurrentEvent() {
         var RESULT = gtk_h.gtk_event_controller_get_current_event(handle());
@@ -46,7 +46,7 @@ public class EventController extends org.gtk.gobject.Object {
      * Returns the device of the event that is currently being
      * handled by the controller.
      * <p>
-     * At other times, <code>null</code> is returned.
+     * At other times, {@code null} is returned.
      */
     public org.gtk.gdk.Device getCurrentEventDevice() {
         var RESULT = gtk_h.gtk_event_controller_get_current_event_device(handle());

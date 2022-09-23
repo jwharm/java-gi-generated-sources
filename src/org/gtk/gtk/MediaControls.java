@@ -38,7 +38,7 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
     }
     
     /**
-     * Gets the media stream managed by {@code controls} or <code>null</code> if none.
+     * Gets the media stream managed by {@code controls} or {@code null} if none.
      */
     public MediaStream getMediaStream() {
         var RESULT = gtk_h.gtk_media_controls_get_media_stream(handle());

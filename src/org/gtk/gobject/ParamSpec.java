@@ -122,7 +122,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * g_quark_from_static_string()), and the pointer can be gotten back
      * from the {@code pspec} with g_param_spec_get_qdata().  Setting a
      * previously set user data pointer, overrides (frees) the old pointer
-     * set, using <code>null</code> as pointer essentially removes the data stored.
+     * set, using {@code null} as pointer essentially removes the data stored.
      */
     public void setQdata(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_param_spec_set_qdata(handle(), quark.getValue(), data);

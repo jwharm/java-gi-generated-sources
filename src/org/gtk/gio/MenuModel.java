@@ -141,14 +141,14 @@ public class MenuModel extends org.gtk.gobject.Object {
      * Queries the item at position {@code item_index} in {@code model} for the attribute
      * specified by {@code attribute}.
      * <p>
-     * If {@code expected_type} is non-<code>null</code> then it specifies the expected type of
-     * the attribute.  If it is <code>null</code> then any type will be accepted.
+     * If {@code expected_type} is non-{@code null} then it specifies the expected type of
+     * the attribute.  If it is {@code null} then any type will be accepted.
      * <p>
      * If the attribute exists and matches {@code expected_type} (or if the
      * expected type is unspecified) then the value is returned.
      * <p>
      * If the attribute does not exist, or does not match the expected type
-     * then <code>null</code> is returned.
+     * then {@code null} is returned.
      */
     public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
         var RESULT = gtk_h.g_menu_model_get_item_attribute_value(handle(), itemIndex, Interop.allocateNativeString(attribute).handle(), expectedType.handle());
@@ -160,7 +160,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * specified by {@code link}.
      * <p>
      * If the link exists, the linked {@link MenuModel} is returned.  If the link
-     * does not exist, <code>null</code> is returned.
+     * does not exist, {@code null} is returned.
      */
     public MenuModel getItemLink(int itemIndex, java.lang.String link) {
         var RESULT = gtk_h.g_menu_model_get_item_link(handle(), itemIndex, Interop.allocateNativeString(link).handle());

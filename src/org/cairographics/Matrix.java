@@ -13,4 +13,8 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Matrix() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.cairo_matrix_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

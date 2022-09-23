@@ -18,4 +18,8 @@ public class OtMathGlyphPartT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OtMathGlyphPartT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_glyph_part_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

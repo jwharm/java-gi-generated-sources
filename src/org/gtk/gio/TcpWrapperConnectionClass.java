@@ -13,4 +13,8 @@ public class TcpWrapperConnectionClass extends io.github.jwharm.javagi.ResourceB
         super(reference);
     }
     
+    public TcpWrapperConnectionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTcpWrapperConnectionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * to try out each socket address in turn until one succeeds, as shown
  * in the sample code below.
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * MyConnectionType *
  * connect_to_host (const char    *hostname,
  *                  guint16        port,
@@ -26,11 +26,11 @@ import java.lang.invoke.*;
  *   GSocketAddressEnumerator *enumerator;
  *   GSocketAddress *sockaddr;
  *   GError *conn_error = NULL;
- * <p>
+ * 
  *   addr = g_network_address_new (hostname, port);
  *   enumerator = g_socket_connectable_enumerate (addr);
  *   g_object_unref (addr);
- * <p>
+ * 
  *   // Try each sockaddr until we succeed. Record the first connection error,
  *   // but not any further ones (since they'll probably be basically the same
  *   // as the first).
@@ -40,7 +40,7 @@ import java.lang.invoke.*;
  *       g_object_unref (sockaddr);
  *     }
  *   g_object_unref (enumerator);
- * <p>
+ * 
  *   if (conn)
  *     {
  *       if (conn_error)
@@ -64,7 +64,7 @@ import java.lang.invoke.*;
  *       return NULL;
  *     }
  * }
- * ]|
+ * }</pre>
  */
 public interface SocketConnectable extends io.github.jwharm.javagi.NativeAddress {
 

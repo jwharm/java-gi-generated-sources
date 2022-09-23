@@ -101,7 +101,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns <code>true</code> if videos have been set to loop.
+     * Returns {@code true} if videos have been set to loop.
      */
     public boolean getAutoplay() {
         var RESULT = gtk_h.gtk_video_get_autoplay(handle());
@@ -109,7 +109,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Gets the file played by {@code self} or <code>null</code> if not playing back
+     * Gets the file played by {@code self} or {@code null} if not playing back
      * a file.
      */
     public org.gtk.gio.File getFile() {
@@ -118,7 +118,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Returns <code>true</code> if videos have been set to loop.
+     * Returns {@code true} if videos have been set to loop.
      */
     public boolean getLoop() {
         var RESULT = gtk_h.gtk_video_get_loop(handle());
@@ -126,7 +126,7 @@ public class Video extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
-     * Gets the media stream managed by {@code self} or <code>null</code> if none.
+     * Gets the media stream managed by {@code self} or {@code null} if none.
      */
     public MediaStream getMediaStream() {
         var RESULT = gtk_h.gtk_video_get_media_stream(handle());

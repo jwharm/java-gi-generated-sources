@@ -86,7 +86,7 @@ public class Menu extends MenuModel {
      * longer be used.
      * <p>
      * This function causes g_menu_model_is_mutable() to begin returning
-     * <code>false</code>, which has some positive performance implications.
+     * {@code false}, which has some positive performance implications.
      */
     public void freeze() {
         gtk_h.g_menu_freeze(handle());

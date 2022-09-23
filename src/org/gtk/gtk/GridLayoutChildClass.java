@@ -13,4 +13,8 @@ public class GridLayoutChildClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GridLayoutChildClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkGridLayoutChildClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

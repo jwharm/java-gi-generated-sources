@@ -71,7 +71,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Gets the model that is currently being mapped or <code>null</code> if none.
+     * Gets the model that is currently being mapped or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_map_list_model_get_model(handle());

@@ -10,10 +10,10 @@ import java.lang.invoke.*;
 /**
  * The class structure for the GObject type.
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * // Example of implementing a singleton using a constructor.
  * static MySingleton *the_singleton = NULL;
- * <p>
+ * 
  * static GObject*
  * my_singleton_constructor (GType                  type,
  *                           guint                  n_construct_params,
@@ -30,15 +30,19 @@ import java.lang.invoke.*;
  *     }
  *   else
  *     object = g_object_ref (G_OBJECT (the_singleton));
- * <p>
+ * 
  *   return object;
  * }
- * ]|
+ * }</pre>
  */
 public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
 
     public ObjectClass(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public ObjectClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GObjectClass.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -67,40 +71,40 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * {@code GParamSpecs} and g_object_notify_by_pspec(). For instance, this
      * class initialization:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * enum {
      *   PROP_0, PROP_FOO, PROP_BAR, N_PROPERTIES
      * };
-     * <p>
+     * 
      * static GParamSpec *obj_properties[N_PROPERTIES] = { NULL, };
-     * <p>
+     * 
      * static void
      * my_object_class_init (MyObjectClass *klass)
      * {
      *   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-     * <p>
+     * 
      *   obj_properties[PROP_FOO] =
      *     g_param_spec_int ("foo", "Foo", "Foo",
      *                       -1, G_MAXINT,
      *                       0,
      *                       G_PARAM_READWRITE);
-     * <p>
+     * 
      *   obj_properties[PROP_BAR] =
      *     g_param_spec_string ("bar", "Bar", "Bar",
      *                          NULL,
      *                          G_PARAM_READWRITE);
-     * <p>
+     * 
      *   gobject_class->set_property = my_object_set_property;
      *   gobject_class->get_property = my_object_get_property;
      *   g_object_class_install_properties (gobject_class,
      *                                      N_PROPERTIES,
      *                                      obj_properties);
      * }
-     * ]|
+     * }</pre>
      * <p>
      * allows calling g_object_notify_by_pspec() to notify of property changes:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * void
      * my_object_set_foo (MyObject *self, gint foo)
      * {
@@ -110,7 +114,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      *       g_object_notify_by_pspec (G_OBJECT (self), obj_properties[PROP_FOO]);
      *     }
      *  }
-     * ]|
+     * }</pre>
      */
     public void installProperties(int nPspecs, ParamSpec[] pspecs) {
         gtk_h.g_object_class_install_properties(handle(), nPspecs, Interop.allocateNativeArray(pspecs).handle());

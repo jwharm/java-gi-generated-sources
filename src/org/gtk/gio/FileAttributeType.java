@@ -51,7 +51,7 @@ public enum FileAttributeType {
     OBJECT,
     
     /**
-     * a <code>null</code> terminated char **. Since 2.22
+     * a {@code null} terminated char **. Since 2.22
      */
     STRINGV;
     

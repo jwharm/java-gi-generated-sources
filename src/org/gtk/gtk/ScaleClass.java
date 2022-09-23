@@ -13,4 +13,8 @@ public class ScaleClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ScaleClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkScaleClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

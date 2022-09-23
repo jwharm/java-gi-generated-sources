@@ -28,6 +28,10 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public RoundedRect() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GskRoundedRect.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Checks if the given {@code point} is inside the rounded rectangle.
      */

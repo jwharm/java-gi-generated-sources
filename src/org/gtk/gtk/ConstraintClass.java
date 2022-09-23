@@ -13,4 +13,8 @@ public class ConstraintClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ConstraintClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkConstraintClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

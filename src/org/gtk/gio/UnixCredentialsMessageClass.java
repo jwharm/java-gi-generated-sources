@@ -16,4 +16,8 @@ public class UnixCredentialsMessageClass extends io.github.jwharm.javagi.Resourc
         super(reference);
     }
     
+    public UnixCredentialsMessageClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GUnixCredentialsMessageClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

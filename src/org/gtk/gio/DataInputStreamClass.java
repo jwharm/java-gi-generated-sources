@@ -13,4 +13,8 @@ public class DataInputStreamClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DataInputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDataInputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

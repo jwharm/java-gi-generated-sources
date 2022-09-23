@@ -118,7 +118,7 @@ public class DropTarget extends EventController {
     /**
      * Gets the currently handled drop operation.
      * <p>
-     * If no drop operation is going on, <code>null</code> is returned.
+     * If no drop operation is going on, {@code null} is returned.
      */
     public org.gtk.gdk.Drop getCurrentDrop() {
         var RESULT = gtk_h.gtk_drop_target_get_current_drop(handle());
@@ -128,7 +128,7 @@ public class DropTarget extends EventController {
     /**
      * Gets the data formats that this drop target accepts.
      * <p>
-     * If the result is <code>null</code>, all formats are expected to be supported.
+     * If the result is {@code null}, all formats are expected to be supported.
      */
     public org.gtk.gdk.ContentFormats getFormats() {
         var RESULT = gtk_h.gtk_drop_target_get_formats(handle());
@@ -155,7 +155,7 @@ public class DropTarget extends EventController {
      * Rejects the ongoing drop operation.
      * <p>
      * If no drop operation is ongoing, i.e when {@code Gtk.DropTarget:current-drop}
-     * is <code>null</code>, this function does nothing.
+     * is {@code null}, this function does nothing.
      * <p>
      * This function should be used when delaying the decision
      * on whether to accept a drag or not until after reading
@@ -194,17 +194,17 @@ public class DropTarget extends EventController {
     /**
      * Emitted on the drop site when a drop operation is about to begin.
      * <p>
-     * If the drop is not accepted, <code>false</code> will be returned and the drop target
-     * will ignore the drop. If <code>true</code> is returned, the drop is accepted for now
+     * If the drop is not accepted, {@code false} will be returned and the drop target
+     * will ignore the drop. If {@code true} is returned, the drop is accepted for now
      * but may be rejected later via a call to {@link DropTarget#reject}
-     * or ultimately by returning <code>false</code> from a {@code Gtk.DropTarget::drop}
+     * or ultimately by returning {@code false} from a {@code Gtk.DropTarget::drop}
      * handler.
      * <p>
      * The default handler for this signal decides whether to accept the drop
      * based on the formats provided by the {@code drop}.
      * <p>
      * If the decision whether the drop will be accepted or rejected depends
-     * on the data, this function should return <code>true</code>, the
+     * on the data, this function should return {@code true}, the
      * {@code Gtk.DropTarget:preload} property should be set and the value
      * should be inspected via the ::notify:value signal, calling
      * {@link DropTarget#reject} if required.
@@ -233,10 +233,10 @@ public class DropTarget extends EventController {
      * Emitted on the drop site when the user drops the data onto the widget.
      * <p>
      * The signal handler must determine whether the pointer position is in
-     * a drop zone or not. If it is not in a drop zone, it returns <code>false</code>
+     * a drop zone or not. If it is not in a drop zone, it returns {@code false}
      * and no further processing is necessary.
      * <p>
-     * Otherwise, the handler returns <code>true</code>. In this case, this handler will
+     * Otherwise, the handler returns {@code true}. In this case, this handler will
      * accept the drop. The handler is responsible for using the given {@code value}
      * and performing the drop operation.
      */

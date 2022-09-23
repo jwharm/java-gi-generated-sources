@@ -13,4 +13,8 @@ public class IOStreamClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public IOStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GIOStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

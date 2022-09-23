@@ -17,4 +17,8 @@ public class FontsetClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FontsetClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoFontsetClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

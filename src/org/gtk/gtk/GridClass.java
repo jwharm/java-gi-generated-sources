@@ -13,4 +13,8 @@ public class GridClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GridClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkGridClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

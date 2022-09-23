@@ -16,6 +16,10 @@ public class DBusInterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DBusInterfaceInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Builds a lookup-cache to speed up
      * g_dbus_interface_info_lookup_method(),

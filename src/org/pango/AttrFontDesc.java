@@ -17,6 +17,10 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrFontDesc() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFontDesc.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Create a new font description attribute.
      * <p>

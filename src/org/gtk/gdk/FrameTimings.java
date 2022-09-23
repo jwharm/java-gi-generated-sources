@@ -34,7 +34,7 @@ public class FrameTimings extends io.github.jwharm.javagi.ResourceBase {
      * the information is not yet available, or because it isn't
      * available at all.
      * <p>
-     * Once this function returns <code>true</code> for a frame, you can be
+     * Once this function returns {@code true} for a frame, you can be
      * certain that no further values will become available and be
      * stored in the {@code GdkFrameTimings}.
      */

@@ -11,19 +11,19 @@ public enum FilterMatch {
 
     /**
      * The filter matches some items,
-     *   gtk_filter_match() may return <code>true</code> or <code>false</code>
+     *   gtk_filter_match() may return {@code true} or {@code false}
      */
     SOME,
     
     /**
      * The filter does not match any item,
-     *   gtk_filter_match() will always return <code>false</code>.
+     *   gtk_filter_match() will always return {@code false}.
      */
     NONE,
     
     /**
      * The filter matches all items,
-     *   gtk_filter_match() will alays return <code>true</code>.
+     *   gtk_filter_match() will alays return {@code true}.
      */
     ALL;
     

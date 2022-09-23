@@ -16,4 +16,8 @@ public class UserDataKeyT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public UserDataKeyT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_user_data_key_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

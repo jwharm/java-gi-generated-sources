@@ -24,11 +24,11 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a {@link TimeZone} corresponding to {@code identifier}. If {@code identifier} cannot be
-     * parsed or loaded, <code>null</code> is returned.
+     * parsed or loaded, {@code null} is returned.
      * <p>
      * {@code identifier} can either be an RFC3339/ISO 8601 time offset or
      * something that would pass as a valid value for the {@code TZ} environment
-     * variable (including <code>null</code>).
+     * variable (including {@code null}).
      * <p>
      * In Windows, {@code identifier} can also be the unlocalized name of a time
      * zone for standard time, for example "Pacific Standard Time".
@@ -64,7 +64,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * g_time_zone_new_local() calls this function with the value of the
      * {@code TZ} environment variable. This function itself is independent of
-     * the value of {@code TZ}, but if {@code identifier} is <code>null</code> then {@code /etc/localtime}
+     * the value of {@code TZ}, but if {@code identifier} is {@code null} then {@code /etc/localtime}
      * will be consulted to discover the correct time zone on UNIX and the
      * registry will be consulted or GetTimeZoneInformation() will be used
      * to get the local time zone on Windows.
@@ -104,7 +104,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * if the system administrator changes it.
      * <p>
      * This is equivalent to calling g_time_zone_new() with the value of
-     * the {@code TZ} environment variable (including the possibility of <code>null</code>).
+     * the {@code TZ} environment variable (including the possibility of {@code null}).
      * <p>
      * You should release the return value by calling g_time_zone_unref()
      * when you are done with it.
@@ -188,7 +188,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Get the identifier of this {@link TimeZone}, as passed to g_time_zone_new().
      * If the identifier passed at construction time was not recognised, {@code UTC} will
-     * be returned. If it was <code>null</code>, the identifier of the local timezone at
+     * be returned. If it was {@code null}, the identifier of the local timezone at
      * construction time will be returned.
      * <p>
      * The identifier will be returned in the same format as provided at

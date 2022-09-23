@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * <p>
  * Although {@code GtkGesture} is quite generalized to serve as a base for
  * multi-touch gestures, it is suitable to implement single-touch and
- * pointer-based gestures (using the special <code>null</code> {@code GdkEventSequence}
+ * pointer-based gestures (using the special {@code null} {@code GdkEventSequence}
  * value for these).
  * <p>
  * The number of touches that a {@code GtkGesture} need to be recognized is
@@ -116,10 +116,10 @@ public class Gesture extends EventController {
     
     /**
      * If there are touch sequences being currently handled by {@code gesture},
-     * returns <code>true</code> and fills in {@code rect} with the bounding box containing
+     * returns {@code true} and fills in {@code rect} with the bounding box containing
      * all active touches.
      * <p>
-     * Otherwise, <code>false</code> will be returned.
+     * Otherwise, {@code false} will be returned.
      * <p>
      * Note: This function will yield unexpected results on touchpad
      * gestures. Since there is no correlation between physical and
@@ -136,7 +136,7 @@ public class Gesture extends EventController {
      * Returns the logical {@code GdkDevice} that is currently operating
      * on {@code gesture}.
      * <p>
-     * This returns <code>null</code> if the gesture is not being interacted.
+     * This returns {@code null} if the gesture is not being interacted.
      */
     public org.gtk.gdk.Device getDevice() {
         var RESULT = gtk_h.gtk_gesture_get_device(handle());
@@ -212,7 +212,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if {@code gesture} is currently handling events
+     * Returns {@code true} if {@code gesture} is currently handling events
      * corresponding to {@code sequence}.
      */
     public boolean handlesSequence(org.gtk.gdk.EventSequence sequence) {
@@ -221,7 +221,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if the gesture is currently active.
+     * Returns {@code true} if the gesture is currently active.
      * <p>
      * A gesture is active while there are touch sequences
      * interacting with it.
@@ -232,7 +232,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if both gestures pertain to the same group.
+     * Returns {@code true} if both gestures pertain to the same group.
      */
     public boolean isGroupedWith(Gesture other) {
         var RESULT = gtk_h.gtk_gesture_is_grouped_with(handle(), other.handle());
@@ -240,7 +240,7 @@ public class Gesture extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if the gesture is currently recognized.
+     * Returns {@code true} if the gesture is currently recognized.
      * <p>
      * A gesture is recognized if there are as many interacting
      * touch sequences as required by {@code gesture}.

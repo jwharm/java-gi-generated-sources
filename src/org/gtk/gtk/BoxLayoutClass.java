@@ -13,4 +13,8 @@ public class BoxLayoutClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BoxLayoutClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBoxLayoutClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

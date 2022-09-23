@@ -19,4 +19,8 @@ public class OutputVector extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OutputVector() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GOutputVector.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -16,6 +16,10 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TypeClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeClass.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Gets the offset of the private data for instances of {@code g_class}.
      * <p>
@@ -74,7 +78,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function is essentially the same as g_type_class_ref(),
      * except that the classes reference count isn't incremented.
-     * As a consequence, this function may return <code>null</code> if the class
+     * As a consequence, this function may return {@code null} if the class
      * of the type passed in does not currently exist (hasn't been
      * referenced before).
      */

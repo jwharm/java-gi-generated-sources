@@ -13,4 +13,8 @@ public class MediaControlsClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MediaControlsClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkMediaControlsClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

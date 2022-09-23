@@ -41,7 +41,7 @@ public class CustomFilter extends Filter {
      * Creates a new filter using the given {@code match_func} to filter
      * items.
      * <p>
-     * If {@code match_func} is <code>null</code>, the filter matches all items.
+     * If {@code match_func} is {@code null}, the filter matches all items.
      * <p>
      * If the filter func changes its filtering behavior,
      * gtk_filter_changed() needs to be called.
@@ -53,7 +53,7 @@ public class CustomFilter extends Filter {
     /**
      * Sets the function used for filtering items.
      * <p>
-     * If {@code match_func} is <code>null</code>, the filter matches all items.
+     * If {@code match_func} is {@code null}, the filter matches all items.
      * <p>
      * If the filter func changes its filtering behavior,
      * gtk_filter_changed() needs to be called.

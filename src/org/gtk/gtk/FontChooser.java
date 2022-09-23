@@ -55,7 +55,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * Gets the {@code PangoFontFace} representing the selected font group
      * details (i.e. family, slant, weight, width, etc).
      * <p>
-     * If the selected font is not installed, returns <code>null</code>.
+     * If the selected font is not installed, returns {@code null}.
      */
     public default org.pango.FontFace getFontFace() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_face(handle());
@@ -67,7 +67,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * Font families are a collection of font faces.
      * <p>
-     * If the selected font is not installed, returns <code>null</code>.
+     * If the selected font is not installed, returns {@code null}.
      */
     public default org.pango.FontFamily getFontFamily() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_family(handle());
@@ -84,7 +84,7 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the custom font map of this font chooser widget,
-     * or <code>null</code> if it does not have one.
+     * or {@code null} if it does not have one.
      */
     public default org.pango.FontMap getFontMap() {
         var RESULT = gtk_h.gtk_font_chooser_get_font_map(handle());

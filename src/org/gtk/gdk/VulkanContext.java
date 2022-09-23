@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * the characteristics of the surface.
  * <p>
  * Support for {@code GdkVulkanContext} is platform-specific and context creation
- * can fail, returning <code>null</code> context.
+ * can fail, returning {@code null} context.
  */
 public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
 

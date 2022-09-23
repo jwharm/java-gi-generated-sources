@@ -30,10 +30,10 @@ public class MenuItem extends org.gtk.gobject.Object {
     /**
      * Creates a new {@link MenuItem}.
      * <p>
-     * If {@code label} is non-<code>null</code> it is used to set the "label" attribute of the
+     * If {@code label} is non-{@code null} it is used to set the "label" attribute of the
      * new item.
      * <p>
-     * If {@code detailed_action} is non-<code>null</code> it is used to set the "action" and
+     * If {@code detailed_action} is non-{@code null} it is used to set the "action" and
      * possibly the "target" attribute of the new item.  See
      * g_menu_item_set_detailed_action() for more information.
      */
@@ -73,7 +73,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * the menu that {@code menu_item} is added to.
      * <p>
      * Visual separation is typically displayed between two non-empty
-     * sections.  If {@code label} is non-<code>null</code> then it will be encorporated into
+     * sections.  If {@code label} is non-{@code null} then it will be encorporated into
      * this visual indication.  This allows for labeled subsections of a
      * menu.
      * <p>
@@ -86,19 +86,19 @@ public class MenuItem extends org.gtk.gobject.Object {
      * second with the "Cut", "Copy" and "Paste" items.  The first and
      * second menus would then be added as submenus of the third.  In XML
      * format, this would look something like the following:
-     * |[
-     * &lt;menu id='edit-menu'&gt;
-     *   &lt;section&gt;
-     *     &lt;item label='Undo'/&gt;
-     *     &lt;item label='Redo'/&gt;
-     *   &lt;/section&gt;
-     *   &lt;section&gt;
-     *     &lt;item label='Cut'/&gt;
-     *     &lt;item label='Copy'/&gt;
-     *     &lt;item label='Paste'/&gt;
-     *   &lt;/section&gt;
-     * &lt;/menu&gt;
-     * ]|
+     * <pre>{@code 
+     * <menu id='edit-menu'>
+     *   <section>
+     *     <item label='Undo'/>
+     *     <item label='Redo'/>
+     *   </section>
+     *   <section>
+     *     <item label='Cut'/>
+     *     <item label='Copy'/>
+     *     <item label='Paste'/>
+     *   </section>
+     * </menu>
+     * }</pre>
      * <p>
      * The following example is exactly equivalent.  It is more illustrative
      * of the exact relationship between the menus and items (keeping in
@@ -106,23 +106,23 @@ public class MenuItem extends org.gtk.gobject.Object {
      * containing one).  The style of the second example is more verbose and
      * difficult to read (and therefore not recommended except for the
      * purpose of understanding what is really going on).
-     * |[
-     * &lt;menu id='edit-menu'&gt;
-     *   &lt;item&gt;
-     *     &lt;link name='section'&gt;
-     *       &lt;item label='Undo'/&gt;
-     *       &lt;item label='Redo'/&gt;
-     *     &lt;/link&gt;
-     *   &lt;/item&gt;
-     *   &lt;item&gt;
-     *     &lt;link name='section'&gt;
-     *       &lt;item label='Cut'/&gt;
-     *       &lt;item label='Copy'/&gt;
-     *       &lt;item label='Paste'/&gt;
-     *     &lt;/link&gt;
-     *   &lt;/item&gt;
-     * &lt;/menu&gt;
-     * ]|
+     * <pre>{@code 
+     * <menu id='edit-menu'>
+     *   <item>
+     *     <link name='section'>
+     *       <item label='Undo'/>
+     *       <item label='Redo'/>
+     *     </link>
+     *   </item>
+     *   <item>
+     *     <link name='section'>
+     *       <item label='Cut'/>
+     *       <item label='Copy'/>
+     *       <item label='Paste'/>
+     *     </link>
+     *   </item>
+     * </menu>
+     * }</pre>
      */
     public static MenuItem newSection(java.lang.String label, MenuModel section) {
         return new MenuItem(constructNewSection(label, section));
@@ -147,7 +147,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * Queries the named {@code attribute} on {@code menu_item}.
      * <p>
      * If {@code expected_type} is specified and the attribute does not have this
-     * type, <code>null</code> is returned.  <code>null</code> is also returned if the attribute
+     * type, {@code null} is returned.  {@code null} is also returned if the attribute
      * simply does not exist.
      */
     public org.gtk.glib.Variant getAttributeValue(java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
@@ -166,12 +166,12 @@ public class MenuItem extends org.gtk.gobject.Object {
     /**
      * Sets or unsets the "action" and "target" attributes of {@code menu_item}.
      * <p>
-     * If {@code action} is <code>null</code> then both the "action" and "target" attributes
+     * If {@code action} is {@code null} then both the "action" and "target" attributes
      * are unset (and {@code target_value} is ignored).
      * <p>
-     * If {@code action} is non-<code>null</code> then the "action" attribute is set.  The
+     * If {@code action} is non-{@code null} then the "action" attribute is set.  The
      * "target" attribute is then set to the value of {@code target_value} if it is
-     * non-<code>null</code> or unset otherwise.
+     * non-{@code null} or unset otherwise.
      * <p>
      * Normal menu items (ie: not submenu, section or other custom item
      * types) are expected to have the "action" attribute set to identify
@@ -190,7 +190,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * If the action has a boolean state then the menu item is usually drawn
      * as a toggle menu item (ie: with a checkmark or equivalent
      * indication).  The item should be marked as 'toggled' or 'checked'
-     * when the boolean state is <code>true</code>.
+     * when the boolean state is {@code true}.
      * <p>
      * If the action has a string state then the menu item is usually drawn
      * as a radio menu item (ie: with a radio bullet or equivalent
@@ -219,8 +219,8 @@ public class MenuItem extends org.gtk.gobject.Object {
      * must consist only of lowercase
      * ASCII characters, digits and '-'.
      * <p>
-     * If {@code value} is non-<code>null</code> then it is used as the new value for the
-     * attribute.  If {@code value} is <code>null</code> then the attribute is unset. If
+     * If {@code value} is non-{@code null} then it is used as the new value for the
+     * attribute.  If {@code value} is {@code null} then the attribute is unset. If
      * the {@code value} {@link org.gtk.glib.Variant} is floating, it is consumed.
      * <p>
      * See also g_menu_item_set_attribute() for a more convenient way to do
@@ -259,7 +259,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * menu items corresponding to verbs (eg: stock icons for 'Save' or
      * 'Quit').
      * <p>
-     * If {@code icon} is <code>null</code> then the icon is unset.
+     * If {@code icon} is {@code null} then the icon is unset.
      */
     public void setIcon(Icon icon) {
         gtk_h.g_menu_item_set_icon(handle(), icon.handle());
@@ -268,15 +268,15 @@ public class MenuItem extends org.gtk.gobject.Object {
     /**
      * Sets or unsets the "label" attribute of {@code menu_item}.
      * <p>
-     * If {@code label} is non-<code>null</code> it is used as the label for the menu item.  If
-     * it is <code>null</code> then the label attribute is unset.
+     * If {@code label} is non-{@code null} it is used as the label for the menu item.  If
+     * it is {@code null} then the label attribute is unset.
      */
     public void setLabel(java.lang.String label) {
         gtk_h.g_menu_item_set_label(handle(), Interop.allocateNativeString(label).handle());
     }
     
     /**
-     * Creates a link from {@code menu_item} to {@code model} if non-<code>null</code>, or unsets it.
+     * Creates a link from {@code menu_item} to {@code model} if non-{@code null}, or unsets it.
      * <p>
      * Links are used to establish a relationship between a particular menu
      * item and another menu.  For example, {@code G_MENU_LINK_SUBMENU} is used to
@@ -307,7 +307,7 @@ public class MenuItem extends org.gtk.gobject.Object {
     /**
      * Sets or unsets the "submenu" link of {@code menu_item} to {@code submenu}.
      * <p>
-     * If {@code submenu} is non-<code>null</code>, it is linked to.  If it is <code>null</code> then the
+     * If {@code submenu} is non-{@code null}, it is linked to.  If it is {@code null} then the
      * link is unset.
      * <p>
      * The effect of having one menu appear as a submenu of another is

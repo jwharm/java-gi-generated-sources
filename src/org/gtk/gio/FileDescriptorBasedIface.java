@@ -16,4 +16,8 @@ public class FileDescriptorBasedIface extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public FileDescriptorBasedIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFileDescriptorBasedIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

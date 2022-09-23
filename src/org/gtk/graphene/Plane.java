@@ -141,7 +141,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Transforms a {@link Plane} @p using the given {@code matrix}
      * and {@code normal_matrix}.
      * <p>
-     * If {@code normal_matrix} is <code>null</code>, a transformation matrix for the plane
+     * If {@code normal_matrix} is {@code null}, a transformation matrix for the plane
      * normal will be computed from {@code matrix}. If you are transforming
      * multiple planes using the same {@code matrix} it's recommended to compute
      * the normal matrix beforehand to avoid incurring in the cost of

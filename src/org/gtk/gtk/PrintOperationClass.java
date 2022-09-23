@@ -13,4 +13,8 @@ public class PrintOperationClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PrintOperationClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkPrintOperationClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

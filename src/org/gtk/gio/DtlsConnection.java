@@ -117,7 +117,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * <a href="https://tools.ietf.org/html/rfc5929">5929</a>, and related RFCs.  The
      * binding data is returned in {@code data}.  The {@code data} is resized by the callee
      * using {@link org.gtk.glib.ByteArray} buffer management and will be freed when the {@code data}
-     * is destroyed by g_byte_array_unref(). If {@code data} is <code>null</code>, it will only
+     * is destroyed by g_byte_array_unref(). If {@code data} is {@code null}, it will only
      * check whether TLS backend is able to fetch the data (e.g. whether {@code type}
      * is supported by the TLS backend). It does not guarantee that the data
      * will be available though.  That could happen if TLS connection does not
@@ -134,7 +134,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Returns the name of the current DTLS ciphersuite, or <code>null</code> if the
+     * Returns the name of the current DTLS ciphersuite, or {@code null} if the
      * connection has not handshaked or has been closed. Beware that the TLS
      * backend may use any of multiple different naming conventions, because
      * OpenSSL and GnuTLS have their own ciphersuite naming conventions that
@@ -159,7 +159,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Get the object that will be used to interact with the user. It will be used
-     * for things like prompting the user for passwords. If <code>null</code> is returned, then
+     * for things like prompting the user for passwords. If {@code null} is returned, then
      * no user interaction will occur for this connection.
      */
     public default TlsInteraction getInteraction() {
@@ -173,7 +173,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * If the peer did not use the ALPN extension, or did not advertise a
      * protocol that matched one of {@code conn}'s protocols, or the TLS backend
-     * does not support ALPN, then this will be <code>null</code>. See
+     * does not support ALPN, then this will be {@code null}. See
      * g_dtls_connection_set_advertised_protocols().
      */
     public default java.lang.String getNegotiatedProtocol() {
@@ -296,7 +296,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * Application-Layer Protocol Negotiation (ALPN) extension will be
      * used to negotiate a compatible protocol with the peer; use
      * g_dtls_connection_get_negotiated_protocol() to find the negotiated
-     * protocol after the handshake.  Specifying <code>null</code> for the the value
+     * protocol after the handshake.  Specifying {@code null} for the the value
      * of {@code protocols} will disable ALPN negotiation.
      * <p>
      * See <a href="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids">IANA TLS ALPN Protocol IDs</a>
@@ -324,7 +324,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * or without a certificate; in that case, if you don't provide a
      * certificate, you can tell that the server requested one by the fact
      * that g_dtls_client_connection_get_accepted_cas() will return
-     * non-<code>null</code>.)
+     * non-{@code null}.)
      */
     public default void setCertificate(TlsCertificate certificate) {
         gtk_h.g_dtls_connection_set_certificate(handle(), certificate.handle());
@@ -333,7 +333,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the certificate database that is used to verify peer certificates.
      * This is set to the default database by default. See
-     * g_tls_backend_get_default_database(). If set to <code>null</code>, then
+     * g_tls_backend_get_default_database(). If set to {@code null}, then
      * peer certificate validation will always set the
      * {@link TlsCertificateFlags#UNKNOWN_CA} error (meaning
      * {@link DtlsConnection}::accept-certificate will always be emitted on
@@ -352,7 +352,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * for things like prompting the user for passwords.
      * <p>
      * The {@code interaction} argument will normally be a derived subclass of
-     * {@link TlsInteraction}. <code>null</code> can also be provided if no user interaction
+     * {@link TlsInteraction}. {@code null} can also be provided if no user interaction
      * should occur for this connection.
      */
     public default void setInteraction(TlsInteraction interaction) {
@@ -361,7 +361,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Sets whether or not {@code conn} expects a proper TLS close notification
-     * before the connection is closed. If this is <code>true</code> (the default),
+     * before the connection is closed. If this is {@code true} (the default),
      * then {@code conn} will expect to receive a TLS close notification from its
      * peer before the connection is closed, and will return a
      * {@link TlsError#EOF} error if the connection is closed without proper
@@ -393,11 +393,11 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Shut down part or all of a DTLS connection.
      * <p>
-     * If {@code shutdown_read} is <code>true</code> then the receiving side of the connection is shut
+     * If {@code shutdown_read} is {@code true} then the receiving side of the connection is shut
      * down, and further reading is disallowed. Subsequent calls to
      * g_datagram_based_receive_messages() will return {@link IOErrorEnum#CLOSED}.
      * <p>
-     * If {@code shutdown_write} is <code>true</code> then the sending side of the connection is shut
+     * If {@code shutdown_write} is {@code true} then the sending side of the connection is shut
      * down, and further writing is disallowed. Subsequent calls to
      * g_datagram_based_send_messages() will return {@link IOErrorEnum#CLOSED}.
      * <p>
@@ -462,7 +462,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * certificate, and the signal will only be emitted if the
      * certificate was not acceptable according to {@code conn}'s
      * {@link DtlsClientConnection}:validation_flags. If you would like the
-     * certificate to be accepted despite {@code errors}, return <code>true</code> from the
+     * certificate to be accepted despite {@code errors}, return {@code true} from the
      * signal handler. Otherwise, if no handler accepts the certificate,
      * the handshake will fail with {@link TlsError#BAD_CERTIFICATE}.
      * <p>
@@ -480,17 +480,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * {@link DtlsServerConnection}:authentication_mode. On the server side,
      * the signal is always emitted when the client presents a
      * certificate, and the certificate will only be accepted if a
-     * handler returns <code>true</code>.
+     * handler returns {@code true}.
      * <p>
      * Note that if this signal is emitted as part of asynchronous I/O
      * in the main thread, then you should not attempt to interact with
      * the user before returning from the signal handler. If you want to
      * let the user decide whether or not to accept the certificate, you
-     * would have to return <code>false</code> from the signal handler on the first
+     * would have to return {@code false} from the signal handler on the first
      * attempt, and then after the connection attempt returns a
      * {@link TlsError#BAD_CERTIFICATE}, you can interact with the user, and
      * if the user decides to accept the certificate, remember that fact,
-     * create a new connection, and return <code>true</code> from the signal handler
+     * create a new connection, and return {@code true} from the signal handler
      * the next time.
      * <p>
      * If you are doing I/O in another thread, you do not

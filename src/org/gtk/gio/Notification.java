@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  * <p>
  * In order for {@link Notification} to work, the application must have installed
  * a {@code .desktop} file. For example:
- * |[
+ * <pre>{@code 
  *  [Desktop Entry]
  *   Name=Test Application
  *   Comment=Description of what Test Application does
@@ -35,7 +35,7 @@ import java.lang.invoke.*;
  *   StartupNotify=true
  *   DBusActivatable=true
  *   X-GNOME-UsesNotifications=true
- * ]|
+ * }</pre>
  * <p>
  * The {@code X-GNOME-UsesNotifications} key indicates to GNOME Control Center
  * that this application uses notifications, so it can be listed in the
@@ -99,7 +99,7 @@ public class Notification extends org.gtk.gobject.Object {
      * Adds a button to {@code notification} that activates {@code action} when clicked.
      * {@code action} must be an application-wide action (it must start with "app.").
      * <p>
-     * If {@code target} is non-<code>null</code>, {@code action} will be activated with {@code target} as
+     * If {@code target} is non-{@code null}, {@code action} will be activated with {@code target} as
      * its parameter.
      */
     public void addButtonWithTargetValue(java.lang.String label, java.lang.String action, org.gtk.glib.Variant target) {
@@ -147,7 +147,7 @@ public class Notification extends org.gtk.gobject.Object {
      * activated when the notification is clicked on. It must be an
      * application-wide action (start with "app.").
      * <p>
-     * If {@code target} is non-<code>null</code>, {@code action} will be activated with {@code target} as
+     * If {@code target} is non-{@code null}, {@code action} will be activated with {@code target} as
      * its parameter.
      * <p>
      * When no default action is set, the application that the notification

@@ -74,12 +74,12 @@ import java.lang.invoke.*;
  * defaults which use the same string.
  * <p>
  * For example:
- * |[
+ * <pre>{@code 
  *  <!-- Translators: A list of words which are not allowed to be typed, in
  *       GVariant serialization syntax.
  *       See: https://developer.gnome.org/glib/stable/gvariant-text.html -->
- *  &lt;default l10n='messages' context='Banned words'>['bad', 'words']</default&gt;
- * ]|
+ *  <default l10n='messages' context='Banned words'>['bad', 'words']</default>
+ * }</pre>
  * <p>
  * Translations of default values must remain syntactically valid serialized
  * {@code GVariants} (e.g. retaining any surrounding quotation marks) or runtime
@@ -113,76 +113,76 @@ import java.lang.invoke.*;
  * corresponding to the string value of enum and flags keys.
  * <p>
  * An example for default value:
- * |[
- * &lt;schemalist&gt;
- *   &lt;schema id="org.gtk.Test" path="/org/gtk/Test/" gettext-domain="test"&gt;
- * <p>
- *     &lt;key name="greeting" type="s"&gt;
- *       &lt;default l10n="messages">"Hello, earthlings"</default&gt;
- *       &lt;summary>A greeting</summary&gt;
- *       &lt;description&gt;
+ * <pre>{@code 
+ * <schemalist>
+ *   <schema id="org.gtk.Test" path="/org/gtk/Test/" gettext-domain="test">
+ * 
+ *     <key name="greeting" type="s">
+ *       <default l10n="messages">"Hello, earthlings"</default>
+ *       <summary>A greeting</summary>
+ *       <description>
  *         Greeting of the invading martians
- *       &lt;/description&gt;
- *     &lt;/key&gt;
- * <p>
- *     &lt;key name="box" type="(ii)"&gt;
- *       &lt;default>(20,30)</default&gt;
- *     &lt;/key&gt;
- * <p>
- *     &lt;key name="empty-string" type="s"&gt;
- *       &lt;default>""</default&gt;
- *       &lt;summary>Empty strings have to be provided in GVariant form</summary&gt;
- *     &lt;/key&gt;
- * <p>
- *   &lt;/schema&gt;
- * &lt;/schemalist&gt;
- * ]|
+ *       </description>
+ *     </key>
+ * 
+ *     <key name="box" type="(ii)">
+ *       <default>(20,30)</default>
+ *     </key>
+ * 
+ *     <key name="empty-string" type="s">
+ *       <default>""</default>
+ *       <summary>Empty strings have to be provided in GVariant form</summary>
+ *     </key>
+ * 
+ *   </schema>
+ * </schemalist>
+ * }</pre>
  * <p>
  * An example for ranges, choices and enumerated types:
- * |[
- * &lt;schemalist&gt;
- * <p>
- *   &lt;enum id="org.gtk.Test.myenum"&gt;
- *     &lt;value nick="first" value="1"/&gt;
- *     &lt;value nick="second" value="2"/&gt;
- *   &lt;/enum&gt;
- * <p>
- *   &lt;flags id="org.gtk.Test.myflags"&gt;
- *     &lt;value nick="flag1" value="1"/&gt;
- *     &lt;value nick="flag2" value="2"/&gt;
- *     &lt;value nick="flag3" value="4"/&gt;
- *   &lt;/flags&gt;
- * <p>
- *   &lt;schema id="org.gtk.Test"&gt;
- * <p>
- *     &lt;key name="key-with-range" type="i"&gt;
- *       &lt;range min="1" max="100"/&gt;
- *       &lt;default>10</default&gt;
- *     &lt;/key&gt;
- * <p>
- *     &lt;key name="key-with-choices" type="s"&gt;
- *       &lt;choices&gt;
- *         &lt;choice value='Elisabeth'/&gt;
- *         &lt;choice value='Annabeth'/&gt;
- *         &lt;choice value='Joe'/&gt;
- *       &lt;/choices&gt;
- *       &lt;aliases&gt;
- *         &lt;alias value='Anna' target='Annabeth'/&gt;
- *         &lt;alias value='Beth' target='Elisabeth'/&gt;
- *       &lt;/aliases&gt;
- *       &lt;default>'Joe'</default&gt;
- *     &lt;/key&gt;
- * <p>
- *     &lt;key name='enumerated-key' enum='org.gtk.Test.myenum'&gt;
- *       &lt;default>'first'</default&gt;
- *     &lt;/key&gt;
- * <p>
- *     &lt;key name='flags-key' flags='org.gtk.Test.myflags'&gt;
- *       &lt;default>["flag1","flag2"]</default&gt;
- *     &lt;/key&gt;
- *   &lt;/schema&gt;
- * &lt;/schemalist&gt;
- * ]|
+ * <pre>{@code 
+ * <schemalist>
+ * 
+ *   <enum id="org.gtk.Test.myenum">
+ *     <value nick="first" value="1"/>
+ *     <value nick="second" value="2"/>
+ *   </enum>
+ * 
+ *   <flags id="org.gtk.Test.myflags">
+ *     <value nick="flag1" value="1"/>
+ *     <value nick="flag2" value="2"/>
+ *     <value nick="flag3" value="4"/>
+ *   </flags>
+ * 
+ *   <schema id="org.gtk.Test">
+ * 
+ *     <key name="key-with-range" type="i">
+ *       <range min="1" max="100"/>
+ *       <default>10</default>
+ *     </key>
+ * 
+ *     <key name="key-with-choices" type="s">
+ *       <choices>
+ *         <choice value='Elisabeth'/>
+ *         <choice value='Annabeth'/>
+ *         <choice value='Joe'/>
+ *       </choices>
+ *       <aliases>
+ *         <alias value='Anna' target='Annabeth'/>
+ *         <alias value='Beth' target='Elisabeth'/>
+ *       </aliases>
+ *       <default>'Joe'</default>
+ *     </key>
+ * 
+ *     <key name='enumerated-key' enum='org.gtk.Test.myenum'>
+ *       <default>'first'</default>
+ *     </key>
+ * 
+ *     <key name='flags-key' flags='org.gtk.Test.myflags'>
+ *       <default>["flag1","flag2"]</default>
+ *     </key>
+ *   </schema>
+ * </schemalist>
+ * }</pre>
  * <p>
  * <h2>Vendor overrides</h2>
  * <p>
@@ -195,11 +195,11 @@ import java.lang.invoke.*;
  * schema sources which can override default values. The schema id serves
  * as the group name in the key file, and the values are expected in
  * serialized GVariant form, as in the following example:
- * |[
+ * <pre>{@code 
  *     [org.gtk.Example]
  *     key1='string'
  *     key2=1.5
- * ]|
+ * }</pre>
  * <p>
  * glib-compile-schemas expects schema files to have the extension
  * {@code .gschema.override}.
@@ -236,42 +236,42 @@ import java.lang.invoke.*;
  * {@code /org/foo/MyApp/main/}, {@code /org/foo/MyApp/document-1/},
  * {@code /org/foo/MyApp/document-2/}, etc. If any of the paths are well-known
  * they can be specified as &lt;child&gt; elements in the parent schema, e.g.:
- * |[
- * &lt;schema id="org.foo.MyApp" path="/org/foo/MyApp/"&gt;
- *   &lt;child name="main" schema="org.foo.MyApp.Window"/&gt;
- * &lt;/schema&gt;
- * ]|
+ * <pre>{@code 
+ * <schema id="org.foo.MyApp" path="/org/foo/MyApp/">
+ *   <child name="main" schema="org.foo.MyApp.Window"/>
+ * </schema>
+ * }</pre>
  * <p>
  * <h2>Build system integration # {#gsettings-build-system}</h2>
  * <p>
  * GSettings comes with autotools integration to simplify compiling and
  * installing schemas. To add GSettings support to an application, add the
  * following to your {@code configure.ac}:
- * |[
+ * <pre>{@code 
  * GLIB_GSETTINGS
- * ]|
+ * }</pre>
  * <p>
  * In the appropriate {@code Makefile.am}, use the following snippet to compile and
  * install the named schema:
- * |[
+ * <pre>{@code 
  * gsettings_SCHEMAS = org.foo.MyApp.gschema.xml
  * EXTRA_DIST = $(gsettings_SCHEMAS)
- * <p>
- * {@code GSETTINGS_RULES}@
- * ]|
+ * 
+ * @GSETTINGS_RULES@
+ * }</pre>
  * <p>
  * No changes are needed to the build system to mark a schema XML file for
  * translation. Assuming it sets the {@code gettext-domain} attribute, a schema may
  * be marked for translation by adding it to {@code POTFILES.in}, assuming gettext
  * 0.19 is in use (the preferred method for translation):
- * |[
+ * <pre>{@code 
  * data/org.foo.MyApp.gschema.xml
- * ]|
+ * }</pre>
  * <p>
  * Alternatively, if intltool 0.50.1 is in use:
- * |[
+ * <pre>{@code 
  * [type: gettext/gsettings]data/org.foo.MyApp.gschema.xml
- * ]|
+ * }</pre>
  * <p>
  * GSettings will use gettext to look up translations for the &lt;summary&gt; and
  * &lt;description> elements, and also any <default&gt; elements which have a {@code l10n}
@@ -284,10 +284,10 @@ import java.lang.invoke.*;
  * schema XML, or it can be extracted automatically from the C header. This
  * approach is preferred, as it ensures the two representations are always
  * synchronised. To do so, add the following to the relevant {@code Makefile.am}:
- * |[
+ * <pre>{@code 
  * gsettings_ENUM_NAMESPACE = org.foo.MyApp
  * gsettings_ENUM_FILES = my-app-enums.h my-app-misc.h
- * ]|
+ * }</pre>
  * <p>
  * {@code gsettings_ENUM_NAMESPACE} specifies the schema namespace for the enum files,
  * which are specified in {@code gsettings_ENUM_FILES}. This will generate a
@@ -354,11 +354,11 @@ public class Settings extends org.gtk.gobject.Object {
      * {@code schema}, {@code backend} and {@code path}, and the main context is taken from the
      * thread-default (as per g_settings_new()).
      * <p>
-     * If {@code backend} is <code>null</code> then the default backend is used.
+     * If {@code backend} is {@code null} then the default backend is used.
      * <p>
-     * If {@code path} is <code>null</code> then the path from the schema is used.  It is an
-     * error if {@code path} is <code>null</code> and the schema has no path of its own or if
-     * {@code path} is non-<code>null</code> and not equal to the path that the schema does
+     * If {@code path} is {@code null} then the path from the schema is used.  It is an
+     * error if {@code path} is {@code null} and the schema has no path of its own or if
+     * {@code path} is non-{@code null} and not equal to the path that the schema does
      * have.
      */
     public static Settings newFull(SettingsSchema schema, SettingsBackend backend, java.lang.String path) {
@@ -502,9 +502,9 @@ public class Settings extends org.gtk.gobject.Object {
      * writability of the setting will be propagated to the object
      * property, not the other way.
      * <p>
-     * When the {@code inverted} argument is <code>true</code>, the binding inverts the
+     * When the {@code inverted} argument is {@code true}, the binding inverts the
      * value as it passes from the setting to the object, i.e. {@code property}
-     * will be set to <code>true</code> if the key is not writable.
+     * will be set to {@code true} if the key is not writable.
      * <p>
      * Note that the lifecycle of the binding is tied to {@code object},
      * and that you can have only one binding per object property.
@@ -707,14 +707,14 @@ public class Settings extends org.gtk.gobject.Object {
      * schema default values, untranslated schema default values, etc).
      * <p>
      * If the mapping function fails for all possible values, one additional
-     * attempt is made: the mapping function is called with a <code>null</code> value.
+     * attempt is made: the mapping function is called with a {@code null} value.
      * If the mapping function still indicates failure at this point then
      * the application will be aborted.
      * <p>
      * The result parameter for the {@code mapping} function is pointed to a
-     * {@code gpointer} which is initially set to <code>null</code>.  The same pointer is given
+     * {@code gpointer} which is initially set to {@code null}.  The same pointer is given
      * to each invocation of {@code mapping}.  The final value of that {@code gpointer} is
-     * what is returned by this function.  <code>null</code> is valid; it is returned
+     * what is returned by this function.  {@code null} is valid; it is returned
      * just as any other value would be.
      */
     public java.lang.foreign.MemoryAddress getMapped(java.lang.String key, SettingsGetMapping mapping) {
@@ -779,7 +779,7 @@ public class Settings extends org.gtk.gobject.Object {
      * The user value of a key is the last value that was set by the user.
      * <p>
      * After calling g_settings_reset() this function should always return
-     * <code>null</code> (assuming something is not wrong with the system
+     * {@code null} (assuming something is not wrong with the system
      * configuration).
      * <p>
      * It is possible that g_settings_get_value() will return a different
@@ -944,7 +944,7 @@ public class Settings extends org.gtk.gobject.Object {
      * Sets {@code key} in {@code settings} to {@code value}.
      * <p>
      * A convenience variant of g_settings_set() for string arrays.  If
-     * {@code value} is <code>null</code>, then {@code key} is set to be the empty array.
+     * {@code value} is {@code null}, then {@code key} is set to be the empty array.
      * <p>
      * It is a programmer error to give a {@code key} that isn't specified as
      * having an array of strings type in the schema for {@code settings}.
@@ -1039,11 +1039,11 @@ public class Settings extends org.gtk.gobject.Object {
      * keys, {@code keys} will be an array of {@link org.gtk.glib.Quark} of length {@code n_keys}.  In the
      * event that the change event applies to the {@link Settings} object as a
      * whole (ie: potentially every key has been changed) then {@code keys} will
-     * be <code>null</code> and {@code n_keys} will be 0.
+     * be {@code null} and {@code n_keys} will be 0.
      * <p>
      * The default handler for this signal invokes the "changed" signal
      * for each affected key.  If any other connected handler returns
-     * <code>true</code> then this default functionality will be suppressed.
+     * {@code true} then this default functionality will be suppressed.
      */
     public SignalHandle onChangeEvent(ChangeEventHandler handler) {
         try {
@@ -1114,7 +1114,7 @@ public class Settings extends org.gtk.gobject.Object {
      * and "changed" signals for each affected key.  This is done because
      * changes in writability might also imply changes in value (if for
      * example, a new mandatory setting is introduced).  If any other
-     * connected handler returns <code>true</code> then this default functionality
+     * connected handler returns {@code true} then this default functionality
      * will be suppressed.
      */
     public SignalHandle onWritableChangeEvent(WritableChangeEventHandler handler) {

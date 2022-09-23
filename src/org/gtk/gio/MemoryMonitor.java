@@ -34,15 +34,15 @@ import java.lang.invoke.*;
  * <p>
  * See {@link MemoryMonitorWarningLevel} for details on the various warning levels.
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * static void
  * warning_cb (GMemoryMonitor *m, GMemoryMonitorWarningLevel level)
  * {
- *   g_debug ("Warning level: {@code d}", level);
+ *   g_debug ("Warning level: %d", level);
  *   if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
  *     drop_caches ();
  * }
- * <p>
+ * 
  * static GMemoryMonitor *
  * monitor_low_memory (void)
  * {
@@ -52,7 +52,7 @@ import java.lang.invoke.*;
  *                     G_CALLBACK (warning_cb), NULL);
  *   return m;
  * }
- * ]|
+ * }</pre>
  * <p>
  * Don't forget to disconnect the {@link MemoryMonitor}::low-memory-warning
  * signal, and unref the {@link MemoryMonitor} itself when exiting.

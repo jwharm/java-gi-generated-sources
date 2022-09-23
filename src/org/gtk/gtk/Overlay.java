@@ -128,7 +128,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * Sets whether {@code widget} is included in the measured size of {@code overlay}.
      * <p>
      * The overlay will request the size of the largest child that has
-     * this property set to <code>true</code>. Children who are not included may
+     * this property set to {@code true}. Children who are not included may
      * be drawn outside of {@code overlay}'s allocation if they are too large.
      */
     public void setMeasureOverlay(Widget widget, boolean measure) {

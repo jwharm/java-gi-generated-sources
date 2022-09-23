@@ -49,7 +49,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks if the matcher will match all of the keys in a given namespace.
-     * This will always return <code>true</code> if a wildcard character is in use (e.g. if
+     * This will always return {@code true} if a wildcard character is in use (e.g. if
      * matcher was created with "standard::*" and {@code ns} is "standard", or if matcher was created
      * using "*" and namespace is anything.)
      * <p>
@@ -71,7 +71,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if an attribute will be matched by an attribute matcher. If
      * the matcher was created with the "*" matching string, this function
-     * will always return <code>true</code>.
+     * will always return {@code true}.
      */
     public boolean matches(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_attribute_matcher_matches(handle(), Interop.allocateNativeString(attribute).handle());
@@ -80,7 +80,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Checks if a attribute matcher only matches a given attribute. Always
-     * returns <code>false</code> if "*" was used when creating the matcher.
+     * returns {@code false} if "*" was used when creating the matcher.
      */
     public boolean matchesOnly(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_attribute_matcher_matches_only(handle(), Interop.allocateNativeString(attribute).handle());

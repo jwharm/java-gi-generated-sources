@@ -177,12 +177,12 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * As an example, see the following implementation of a simple
      * parser that counts the number of tags encountered.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * typedef struct
      * {
      *   gint tag_count;
      * } CounterData;
-     * <p>
+     * 
      * static void
      * counter_start_element (GMarkupParseContext  *context,
      *                        const gchar          *element_name,
@@ -192,20 +192,20 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      *                        GError              **error)
      * {
      *   CounterData *data = user_data;
-     * <p>
+     * 
      *   data->tag_count++;
      * }
-     * <p>
+     * 
      * static void
      * counter_error (GMarkupParseContext *context,
      *                GError              *error,
      *                gpointer             user_data)
      * {
      *   CounterData *data = user_data;
-     * <p>
+     * 
      *   g_slice_free (CounterData, data);
      * }
-     * <p>
+     * 
      * static GMarkupParser counter_subparser =
      * {
      *   counter_start_element,
@@ -214,53 +214,53 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      *   NULL,
      *   counter_error
      * };
-     * ]|
+     * }</pre>
      * <p>
      * In order to allow this parser to be easily used as a subparser, the
      * following interface is provided:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * void
      * start_counting (GMarkupParseContext *context)
      * {
      *   CounterData *data = g_slice_new (CounterData);
-     * <p>
+     * 
      *   data->tag_count = 0;
      *   g_markup_parse_context_push (context, &counter_subparser, data);
      * }
-     * <p>
+     * 
      * gint
      * end_counting (GMarkupParseContext *context)
      * {
      *   CounterData *data = g_markup_parse_context_pop (context);
      *   int result;
-     * <p>
+     * 
      *   result = data->tag_count;
      *   g_slice_free (CounterData, data);
-     * <p>
+     * 
      *   return result;
      * }
-     * ]|
+     * }</pre>
      * <p>
      * The subparser would then be used as follows:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void start_element (context, element_name, ...)
      * {
      *   if (strcmp (element_name, "count-these") == 0)
      *     start_counting (context);
-     * <p>
+     * 
      *   // else, handle other tags...
      * }
-     * <p>
+     * 
      * static void end_element (context, element_name, ...)
      * {
      *   if (strcmp (element_name, "count-these") == 0)
-     *     g_print ("Counted {@code d} tags\\n", end_counting (context));
-     * <p>
+     *     g_print ("Counted %d tags\\n", end_counting (context));
+     * 
      *   // else, handle other tags...
      * }
-     * ]|
+     * }</pre>
      */
     public void push(MarkupParser parser, java.lang.foreign.MemoryAddress userData) {
         gtk_h.g_markup_parse_context_push(handle(), parser.handle(), userData);

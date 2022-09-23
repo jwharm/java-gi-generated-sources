@@ -16,4 +16,8 @@ public class MemoryMonitorInterface extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public MemoryMonitorInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMemoryMonitorInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

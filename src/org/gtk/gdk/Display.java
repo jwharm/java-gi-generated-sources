@@ -73,7 +73,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if there is an ongoing grab on {@code device} for {@code display}.
+     * Returns {@code true} if there is an ongoing grab on {@code device} for {@code display}.
      */
     public boolean deviceIsGrabbed(Device device) {
         var RESULT = gtk_h.gdk_display_device_is_grabbed(handle(), device.handle());
@@ -117,7 +117,7 @@ public class Display extends org.gtk.gobject.Object {
      * Returns the default {@code GdkSeat} for this display.
      * <p>
      * Note that a display may not have a seat. In this case,
-     * this function will return <code>null</code>.
+     * this function will return {@code null}.
      */
     public Seat getDefaultSeat() {
         var RESULT = gtk_h.gdk_display_get_default_seat(handle());
@@ -179,7 +179,7 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the startup notification ID for a Wayland display, or <code>null</code>
+     * Gets the startup notification ID for a Wayland display, or {@code null}
      * if no ID has been defined.
      */
     public java.lang.String getStartupNotificationId() {
@@ -205,7 +205,7 @@ public class Display extends org.gtk.gobject.Object {
      * On X11 this function returns whether a compositing manager is
      * compositing on {@code display}.
      * <p>
-     * On modern displays, this value is always <code>true</code>.
+     * On modern displays, this value is always {@code true}.
      */
     public boolean isComposited() {
         var RESULT = gtk_h.gdk_display_is_composited(handle());
@@ -216,14 +216,14 @@ public class Display extends org.gtk.gobject.Object {
      * Returns whether surfaces on this {@code display} are created with an
      * alpha channel.
      * <p>
-     * Even if a <code>true</code> is returned, it is possible that the
+     * Even if a {@code true} is returned, it is possible that the
      * surface’s alpha channel won’t be honored when displaying the
      * surface on the screen: in particular, for X an appropriate
      * windowing manager and compositing manager must be running to
      * provide appropriate display. Use {@link Display#isComposited}
      * to check if that is the case.
      * <p>
-     * On modern displays, this value is always <code>true</code>.
+     * On modern displays, this value is always {@code true}.
      */
     public boolean isRgba() {
         var RESULT = gtk_h.gdk_display_is_rgba(handle());
@@ -255,7 +255,7 @@ public class Display extends org.gtk.gobject.Object {
      * Checks that OpenGL is available for {@code self} and ensures that it is
      * properly initialized.
      * When this fails, an {@code error} will be set describing the error and this
-     * function returns <code>false</code>.
+     * function returns {@code false}.
      * <p>
      * Note that even if this function succeeds, creating a {@code GdkGLContext}
      * may still fail.
@@ -288,12 +288,12 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the display supports input shapes.
+     * Returns {@code true} if the display supports input shapes.
      * <p>
      * This means that {@link Surface#setInputRegion} can
      * be used to modify the input shape of surfaces on {@code display}.
      * <p>
-     * On modern displays, this value is always <code>true</code>.
+     * On modern displays, this value is always {@code true}.
      */
     public boolean supportsInputShapes() {
         var RESULT = gtk_h.gdk_display_supports_input_shapes(handle());

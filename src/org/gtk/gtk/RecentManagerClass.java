@@ -16,4 +16,8 @@ public class RecentManagerClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public RecentManagerClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkRecentManagerClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

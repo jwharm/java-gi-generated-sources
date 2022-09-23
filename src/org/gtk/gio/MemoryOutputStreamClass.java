@@ -13,4 +13,8 @@ public class MemoryOutputStreamClass extends io.github.jwharm.javagi.ResourceBas
         super(reference);
     }
     
+    public MemoryOutputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMemoryOutputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

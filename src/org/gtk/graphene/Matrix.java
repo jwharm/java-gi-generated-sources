@@ -70,7 +70,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * conjuction with either graphene_matrix_equal() or
      * graphene_matrix_near(). For instance:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   if (graphene_matrix_equal_fast (a, b))
      *     {
      *       // matrices are definitely the same
@@ -84,7 +84,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      *       else
      *         // matrices are not equal
      *     }
-     * ]|
+     * }</pre>
      */
     public boolean equalFast(Matrix b) {
         var RESULT = gtk_h.graphene_matrix_equal_fast(handle(), b.handle());
@@ -167,11 +167,11 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The arguments map to the following matrix layout:
      * <p>
-     * |[&lt;!-- language="plain" --&gt;
+     * <pre>{@code <!-- language="plain" -->
      *   ⎛ xx  yx ⎞   ⎛  a   b  0 ⎞
      *   ⎜ xy  yy ⎟ = ⎜  c   d  0 ⎟
      *   ⎝ x0  y0 ⎠   ⎝ tx  ty  1 ⎠
-     * ]|
+     * }</pre>
      * <p>
      * This function can be used to convert between an affine matrix type
      * from other libraries and a {@link Matrix}.

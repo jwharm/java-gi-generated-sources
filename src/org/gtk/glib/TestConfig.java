@@ -13,4 +13,8 @@ public class TestConfig extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TestConfig() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTestConfig.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

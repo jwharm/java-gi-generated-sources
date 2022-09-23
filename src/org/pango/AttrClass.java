@@ -20,4 +20,8 @@ public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

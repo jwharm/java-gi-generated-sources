@@ -30,19 +30,19 @@ import java.lang.invoke.*;
  * One option is to install a D-Bus security policy which restricts access to
  * {@code SetDebugEnabled()}, installing something like the following in
  * {@code $datadir/dbus-1/system.d/}:
- * |[&lt;!-- language="XML" --&gt;
- * &lt;?xml version="1.0"?> <!--*-nxml-*--&gt;
+ * <pre>{@code <!-- language="XML" -->
+ * <?xml version="1.0"?> <!--*-nxml-*-->
  * <!DOCTYPE busconfig PUBLIC "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
  *      "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
- * &lt;busconfig&gt;
- *   &lt;policy user="root"&gt;
- *     &lt;allow send_destination="com.example.MyService" send_interface="org.gtk.Debugging"/&gt;
- *   &lt;/policy&gt;
- *   &lt;policy context="default"&gt;
- *     &lt;deny send_destination="com.example.MyService" send_interface="org.gtk.Debugging"/&gt;
- *   &lt;/policy&gt;
- * &lt;/busconfig&gt;
- * ]|
+ * <busconfig>
+ *   <policy user="root">
+ *     <allow send_destination="com.example.MyService" send_interface="org.gtk.Debugging"/>
+ *   </policy>
+ *   <policy context="default">
+ *     <deny send_destination="com.example.MyService" send_interface="org.gtk.Debugging"/>
+ *   </policy>
+ * </busconfig>
+ * }</pre>
  * <p>
  * This will prevent the {@code SetDebugEnabled()} method from being called by all
  * except root. It will not prevent the {@code DebugEnabled} property from being read,
@@ -52,24 +52,24 @@ import java.lang.invoke.*;
  * basis, allowing for the possibility of dynamic authorisation. To do this,
  * connect to the {@link DebugControllerDBus}::authorize signal and query polkit in
  * it:
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   g_autoptr(GError) child_error = NULL;
  *   g_autoptr(GDBusConnection) connection = g_bus_get_sync (G_BUS_TYPE_SYSTEM, NULL, NULL);
  *   gulong debug_controller_authorize_id = 0;
- * <p>
+ * 
  *   // Set up the debug controller.
  *   debug_controller = G_DEBUG_CONTROLLER (g_debug_controller_dbus_new (priv->connection, NULL, &child_error));
  *   if (debug_controller == NULL)
  *     {
- *       g_error ("Could not register debug controller on bus: {@code s}"),
+ *       g_error ("Could not register debug controller on bus: %s"),
  *                child_error->message);
  *     }
- * <p>
+ * 
  *   debug_controller_authorize_id = g_signal_connect (debug_controller,
  *                                                     "authorize",
  *                                                     G_CALLBACK (debug_controller_authorize_cb),
  *                                                     self);
- * <p>
+ * 
  *   static gboolean
  *   debug_controller_authorize_cb (GDebugControllerDBus  *debug_controller,
  *                                  GDBusMethodInvocation *invocation,
@@ -82,22 +82,22 @@ import java.lang.invoke.*;
  *     GDBusMessage *message;
  *     GDBusMessageFlags message_flags;
  *     PolkitCheckAuthorizationFlags flags = POLKIT_CHECK_AUTHORIZATION_FLAGS_NONE;
- * <p>
+ * 
  *     message = g_dbus_method_invocation_get_message (invocation);
  *     message_flags = g_dbus_message_get_flags (message);
- * <p>
+ * 
  *     authority = polkit_authority_get_sync (NULL, &local_error);
  *     if (authority == NULL)
  *       {
- *         g_warning ("Failed to get polkit authority: {@code s}", local_error->message);
+ *         g_warning ("Failed to get polkit authority: %s", local_error->message);
  *         return FALSE;
  *       }
- * <p>
+ * 
  *     if (message_flags & G_DBUS_MESSAGE_FLAGS_ALLOW_INTERACTIVE_AUTHORIZATION)
  *       flags |= POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION;
- * <p>
+ * 
  *     subject = polkit_system_bus_name_new (g_dbus_method_invocation_get_sender (invocation));
- * <p>
+ * 
  *     auth_result = polkit_authority_check_authorization_sync (authority,
  *                                                              subject,
  *                                                              "com.example.MyService.set-debug-enabled",
@@ -107,13 +107,13 @@ import java.lang.invoke.*;
  *                                                              &local_error);
  *     if (auth_result == NULL)
  *       {
- *         g_warning ("Failed to get check polkit authorization: {@code s}", local_error->message);
+ *         g_warning ("Failed to get check polkit authorization: %s", local_error->message);
  *         return FALSE;
  *       }
- * <p>
+ * 
  *     return polkit_authorization_result_get_is_authorized (auth_result);
  *   }
- * ]|
+ * }</pre>
  */
 public class DebugControllerDBus extends org.gtk.gobject.Object implements DebugController, Initable {
 
@@ -184,15 +184,15 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * appropriate to call {@code polkit_authority_check_authorization_sync()} to check
      * authorization using polkit.
      * <p>
-     * If <code>false</code> is returned then no further handlers are run and the request to
+     * If {@code false} is returned then no further handlers are run and the request to
      * change the debug settings is rejected.
      * <p>
-     * Otherwise, if <code>true</code> is returned, signal emission continues. If no handlers
-     * return <code>false</code>, then the debug settings are allowed to be changed.
+     * Otherwise, if {@code true} is returned, signal emission continues. If no handlers
+     * return {@code false}, then the debug settings are allowed to be changed.
      * <p>
      * Signal handlers must not modify {@code invocation}, or cause it to return a value.
      * <p>
-     * The default class handler just returns <code>true</code>.
+     * The default class handler just returns {@code true}.
      */
     public SignalHandle onAuthorize(AuthorizeHandler handler) {
         try {

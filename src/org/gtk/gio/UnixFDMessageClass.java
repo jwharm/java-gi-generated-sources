@@ -13,4 +13,8 @@ public class UnixFDMessageClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public UnixFDMessageClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GUnixFDMessageClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

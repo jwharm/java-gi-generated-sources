@@ -16,4 +16,8 @@ public class PadActionEntry extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PadActionEntry() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkPadActionEntry.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

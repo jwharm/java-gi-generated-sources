@@ -8,7 +8,7 @@ package org.gtk.gtk;
  * returns {@link ImageType#PAINTABLE}, then you can call gtk_image_get_paintable().
  * <p>
  * For empty images, you can request any storage type (call any of the "get"
- * functions), but they will all return <code>null</code> values.
+ * functions), but they will all return {@code null} values.
  */
 public enum ImageType {
 

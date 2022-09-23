@@ -22,13 +22,13 @@ import java.lang.invoke.*;
  * <p>
  * Instead, do the following:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * time_t ttime;
  * GTime gtime;
- * <p>
+ * 
  * time (&ttime);
  * gtime = (GTime)ttime;
- * ]|
+ * }</pre>
  */
 public class Time {
 

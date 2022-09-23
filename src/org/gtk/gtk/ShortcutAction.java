@@ -57,7 +57,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * Tries to parse the given string into an action.
      * <p>
      * On success, the parsed action is returned. When parsing
-     * failed, <code>null</code> is returned.
+     * failed, {@code null} is returned.
      * <p>
      * The accepted strings are:
      * <p>
@@ -79,7 +79,7 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * <p>
      * Activation of an action can fail for various reasons. If the action
      * is not supported by the {@code widget}, if the {@code args} don't match the action
-     * or if the activation otherwise had no effect, <code>false</code> will be returned.
+     * or if the activation otherwise had no effect, {@code false} will be returned.
      */
     public boolean activate(int flags, Widget widget, org.gtk.glib.Variant args) {
         var RESULT = gtk_h.gtk_shortcut_action_activate(handle(), flags, widget.handle(), args.handle());

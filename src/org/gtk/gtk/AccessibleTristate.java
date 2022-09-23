@@ -6,7 +6,7 @@ package org.gtk.gtk;
  * <p>
  * Note that the {@link AccessibleTristate#FALSE} and
  * {@link AccessibleTristate#TRUE} have the same values
- * as <code>false</code> and <code>true</code>.
+ * as {@code false} and {@code true}.
  */
 public enum AccessibleTristate {
 

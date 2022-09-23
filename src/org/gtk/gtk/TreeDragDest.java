@@ -15,8 +15,8 @@ public interface TreeDragDest extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Asks the {@code GtkTreeDragDest} to insert a row before the path {@code dest},
      * deriving the contents of the row from {@code value}. If {@code dest} is
-     * outside the tree so that inserting before it is impossible, <code>false</code>
-     * will be returned. Also, <code>false</code> may be returned if the new row is
+     * outside the tree so that inserting before it is impossible, {@code false}
+     * will be returned. Also, {@code false} may be returned if the new row is
      * not created for some model-specific reason.  Should robustly handle
      * a {@code dest} no longer found in the model!
      */
@@ -29,7 +29,7 @@ public interface TreeDragDest extends io.github.jwharm.javagi.NativeAddress {
      * Determines whether a drop is possible before the given {@code dest_path},
      * at the same depth as {@code dest_path}. i.e., can we drop the data in
      * {@code value} at that location. {@code dest_path} does not have to
-     * exist; the return value will almost certainly be <code>false</code> if the
+     * exist; the return value will almost certainly be {@code false} if the
      * parent of {@code dest_path} doesn’t exist, though.
      */
     public default boolean rowDropPossible(TreePath destPath, org.gtk.gobject.Value value) {

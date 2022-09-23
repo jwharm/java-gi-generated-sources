@@ -17,4 +17,8 @@ public class LogAttr extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public LogAttr() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoLogAttr.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

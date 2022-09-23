@@ -23,6 +23,10 @@ public class Attribute extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Attribute() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttribute.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Returns the attribute cast to {@code PangoAttrColor}.
      * <p>

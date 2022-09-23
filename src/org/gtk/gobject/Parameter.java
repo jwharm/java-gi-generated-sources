@@ -17,4 +17,8 @@ public class Parameter extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Parameter() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GParameter.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

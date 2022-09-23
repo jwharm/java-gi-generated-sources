@@ -402,7 +402,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * recommended to use {@link WidgetClass#addShortcut} with an action
      * created with {@link SignalAction#SignalAction}.
      * <p>
-     * If {@code widget} isn't activatable, the function returns <code>false</code>.
+     * If {@code widget} isn't activatable, the function returns {@code false}.
      */
     public boolean activate() {
         var RESULT = gtk_h.gtk_widget_activate(handle());
@@ -556,9 +556,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * FIXME: Explain what "bounds" are.
      * <p>
-     * If the operation is successful, <code>true</code> is returned. If {@code widget} has no
+     * If the operation is successful, {@code true} is returned. If {@code widget} has no
      * bounds or the bounds cannot be expressed in {@code target}'s coordinate space
-     * (for example if both widgets are in different windows), <code>false</code> is
+     * (for example if both widgets are in different windows), {@code false} is
      * returned and {@code bounds} is set to the zero rectangle.
      * <p>
      * It is valid for {@code widget} and {@code target} to be the same widget.
@@ -662,7 +662,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Notifies the user about an input-related error on this widget.
      * <p>
-     * If the {@code Gtk.Settings:gtk-error-bell} setting is <code>true</code>,
+     * If the {@code Gtk.Settings:gtk-error-bell} setting is {@code true},
      * it calls {@link org.gtk.gdk.Surface#beep}, otherwise it does nothing.
      * <p>
      * Note that the effect of {@link org.gtk.gdk.Surface#beep} can be configured
@@ -1065,7 +1065,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Returns the nearest {@code GtkNative} ancestor of {@code widget}.
      * <p>
-     * This function will return <code>null</code> if the widget is not
+     * This function will return {@code null} if the widget is not
      * contained inside a widget tree with a native ancestor.
      * <p>
      * {@code GtkNative} widgets will return themselves here.
@@ -1208,7 +1208,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Returns the {@code GtkRoot} widget of {@code widget}.
      * <p>
-     * This function will return <code>null</code> if the widget is not contained
+     * This function will return {@code null} if the widget is not contained
      * inside a widget tree with a root widget.
      * <p>
      * {@code GtkRoot} widgets will return themselves here.
@@ -1325,7 +1325,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * If the tooltip has not been set using
      * {@link Widget#setTooltipMarkup}, this
-     * function returns <code>null</code>.
+     * function returns {@code null}.
      */
     public java.lang.String getTooltipMarkup() {
         var RESULT = gtk_h.gtk_widget_get_tooltip_markup(handle());
@@ -1410,10 +1410,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * If {@code widget} is not focusable, or its {@link Widget#grabFocus}
      * implementation cannot transfer the focus to a descendant of {@code widget}
-     * that is focusable, it will not take focus and <code>false</code> will be returned.
+     * that is focusable, it will not take focus and {@code false} will be returned.
      * <p>
      * Calling {@link Widget#grabFocus} on an already focused widget
-     * is allowed, should not have an effect, and return <code>true</code>.
+     * is allowed, should not have an effect, and return {@code true}.
      */
     public boolean grabFocus() {
         var RESULT = gtk_h.gtk_widget_grab_focus(handle());
@@ -1526,7 +1526,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * the same prefix will still be inherited from the parent, unless
      * the group contains an action with the same name.
      * <p>
-     * If {@code group} is <code>null</code>, a previously inserted group for {@code name} is
+     * If {@code group} is {@code null}, a previously inserted group for {@code name} is
      * removed from {@code widget}.
      */
     public void insertActionGroup(java.lang.String name, org.gtk.gio.ActionGroup group) {
@@ -1537,7 +1537,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Inserts {@code widget} into the child widget list of {@code parent}.
      * <p>
      * It will be placed after {@code previous_sibling}, or at the beginning if
-     * {@code previous_sibling} is <code>null</code>.
+     * {@code previous_sibling} is {@code null}.
      * <p>
      * After calling this function, {@code gtk_widget_get_prev_sibling(widget)}
      * will return {@code previous_sibling}.
@@ -1557,7 +1557,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Inserts {@code widget} into the child widget list of {@code parent}.
      * <p>
      * It will be placed before {@code next_sibling}, or at the end if
-     * {@code next_sibling} is <code>null</code>.
+     * {@code next_sibling} is {@code null}.
      * <p>
      * After calling this function, {@code gtk_widget_get_next_sibling(widget)}
      * will return {@code next_sibling}.
@@ -1638,18 +1638,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * The return value of this function should be interpreted
      * in a way similar to the return value of
-     * {@link Widget#childFocus}. When <code>true</code> is returned,
+     * {@link Widget#childFocus}. When {@code true} is returned,
      * stay in the widget, the failed keyboard  navigation is OK
      * and/or there is nowhere we can/should move the focus to.
-     * When <code>false</code> is returned, the caller should continue with
+     * When {@code false} is returned, the caller should continue with
      * keyboard navigation outside the widget, e.g. by calling
      * {@link Widget#childFocus} on the widget’s toplevel.
      * <p>
      * The default {@code Gtk.Widget::keynav-failed} handler returns
-     * <code>false</code> for {@link DirectionType#TAB_FORWARD} and {@link DirectionType#TAB_BACKWARD}.
-     * For the other values of {@code GtkDirectionType} it returns <code>true</code>.
+     * {@code false} for {@link DirectionType#TAB_FORWARD} and {@link DirectionType#TAB_BACKWARD}.
+     * For the other values of {@code GtkDirectionType} it returns {@code true}.
      * <p>
-     * Whenever the default handler returns <code>true</code>, it also calls
+     * Whenever the default handler returns {@code true}, it also calls
      * {@link Widget#errorBell} to notify the user of the
      * failed keyboard navigation.
      * <p>
@@ -1738,10 +1738,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * The point must be given in widget coordinates, so (0, 0) is assumed
      * to be the top left of {@code widget}'s content area.
      * <p>
-     * Usually widgets will return <code>null</code> if the given coordinate is not
+     * Usually widgets will return {@code null} if the given coordinate is not
      * contained in {@code widget} checked via {@link Widget#contains}.
      * Otherwise they will recursively try to find a child that does
-     * not return <code>null</code>. Widgets are however free to customize their
+     * not return {@code null}. Widgets are however free to customize their
      * picking algorithm.
      * <p>
      * This function is used on the toplevel to determine the widget
@@ -1866,10 +1866,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Specifies whether the input focus can enter the widget
      * or any of its children.
      * <p>
-     * Applications should set {@code can_focus} to <code>false</code> to mark a
+     * Applications should set {@code can_focus} to {@code false} to mark a
      * widget as for pointer/touch use only.
      * <p>
-     * Note that having {@code can_focus} be <code>true</code> is only one of the
+     * Note that having {@code can_focus} be {@code true} is only one of the
      * necessary conditions for being focusable. A widget must
      * also be sensitive and focusable and not have an ancestor
      * that is marked as not can-focus in order to receive input
@@ -1895,7 +1895,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * The child visibility can be set for widget before it is added
      * to a container with {@link Widget#setParent}, to avoid
      * mapping children unnecessary before immediately unmapping them.
-     * However it will be reset to its default state of <code>true</code> when the
+     * However it will be reset to its default state of {@code true} when the
      * widget is removed from a container.
      * <p>
      * Note that changing the child visibility of a widget does not
@@ -1939,9 +1939,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * with [method@Gtk.Widget.set_cursor}. See those functions for
      * details.
      * <p>
-     * On top of that, this function allows {@code name} to be <code>null</code>, which
+     * On top of that, this function allows {@code name} to be {@code null}, which
      * will do the same as calling {@link Widget#setCursor}
-     * with a <code>null</code> cursor.
+     * with a {@code null} cursor.
      */
     public void setCursorFromName(java.lang.String name) {
         gtk_h.gtk_widget_set_cursor_from_name(handle(), Interop.allocateNativeString(name).handle());
@@ -1992,10 +1992,10 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Specifies whether {@code widget} can own the input focus.
      * <p>
-     * Widget implementations should set {@code focusable} to <code>true</code> in
+     * Widget implementations should set {@code focusable} to {@code true} in
      * their init() function if they want to receive keyboard input.
      * <p>
-     * Note that having {@code focusable} be <code>true</code> is only one of the
+     * Note that having {@code focusable} be {@code true} is only one of the
      * necessary conditions for being focusable. A widget must
      * also be sensitive and can-focus and not have an ancestor
      * that is marked as not can-focus in order to receive input
@@ -2346,7 +2346,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     /**
      * Sets the visibility state of {@code widget}.
      * <p>
-     * Note that setting this to <code>true</code> doesn’t mean the widget is
+     * Note that setting this to {@code true} doesn’t mean the widget is
      * actually viewable, see {@link Widget#getVisible}.
      * <p>
      * This function simply calls {@link Widget#show} or
@@ -2361,7 +2361,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Returns whether {@code widget} should contribute to
      * the measuring and allocation of its parent.
      * <p>
-     * This is <code>false</code> for invisible children, but also
+     * This is {@code false} for invisible children, but also
      * for children that have their own surface.
      */
     public boolean shouldLayout() {
@@ -2621,7 +2621,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Emitted when a widget is activated via a mnemonic.
      * <p>
      * The default handler for this signal activates {@code widget} if {@code group_cycling}
-     * is <code>false</code>, or just makes {@code widget} grab focus if {@code group_cycling} is <code>true</code>.
+     * is {@code false}, or just makes {@code widget} grab focus if {@code group_cycling} is {@code true}.
      */
     public SignalHandle onMnemonicActivate(MnemonicActivateHandler handler) {
         try {
@@ -2670,13 +2670,13 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Emitted when the widgets tooltip is about to be shown.
      * <p>
      * This happens when the {@code Gtk.Widget:has-tooltip} property
-     * is <code>true</code> and the hover timeout has expired with the cursor hovering
+     * is {@code true} and the hover timeout has expired with the cursor hovering
      * "above" {@code widget}; or emitted when {@code widget} got focus in keyboard mode.
      * <p>
      * Using the given coordinates, the signal handler should determine
      * whether a tooltip should be shown for {@code widget}. If this is the case
-     * <code>true</code> should be returned, <code>false</code> otherwise.  Note that if
-     * {@code keyboard_mode} is <code>true</code>, the values of @x and @y are undefined and
+     * {@code true} should be returned, {@code false} otherwise.  Note that if
+     * {@code keyboard_mode} is {@code true}, the values of @x and @y are undefined and
      * should not be used.
      * <p>
      * The signal handler is free to manipulate {@code tooltip} with the therefore

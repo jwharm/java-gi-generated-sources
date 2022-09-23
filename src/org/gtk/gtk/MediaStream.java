@@ -180,8 +180,8 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Checks if a stream may be seekable.
      * <p>
      * This is meant to be a hint. Streams may not allow seeking even if
-     * this function returns <code>true</code>. However, if this function returns
-     * <code>false</code>, streams are guaranteed to not be seekable and user interfaces
+     * this function returns {@code true}. However, if this function returns
+     * {@code false}, streams are guaranteed to not be seekable and user interfaces
      * may hide controls that allow seeking.
      * <p>
      * It is allowed to call {@link MediaStream#seek} on a non-seekable
@@ -353,7 +353,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * <p>
      * Note that the arguments are hints. If the stream implementation
      * cannot determine the correct values, it is better to err on the
-     * side of caution and return <code>true</code>. User interfaces will use those
+     * side of caution and return {@code true}. User interfaces will use those
      * values to determine what controls to show.
      * <p>
      * This function may not be called again until the stream has been

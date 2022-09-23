@@ -16,4 +16,8 @@ public class SorterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SorterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkSorterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

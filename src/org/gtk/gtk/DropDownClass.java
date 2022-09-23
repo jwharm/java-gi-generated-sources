@@ -13,4 +13,8 @@ public class DropDownClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DropDownClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkDropDownClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

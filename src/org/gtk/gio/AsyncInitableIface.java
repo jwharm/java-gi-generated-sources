@@ -17,4 +17,8 @@ public class AsyncInitableIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AsyncInitableIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GAsyncInitableIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

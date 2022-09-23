@@ -21,4 +21,8 @@ public class OtVarAxisInfoT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OtVarAxisInfoT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_var_axis_info_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -13,4 +13,8 @@ public class FixedClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FixedClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFixedClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

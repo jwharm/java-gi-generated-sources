@@ -13,4 +13,8 @@ public class FixedLayoutChildClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public FixedLayoutChildClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFixedLayoutChildClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -13,4 +13,8 @@ public class AppLaunchContextClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public AppLaunchContextClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GAppLaunchContextClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

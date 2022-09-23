@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * The main interface to an action is that it can be activated with
  * g_action_activate().  This results in the 'activate' signal being
  * emitted.  An activation has a {@link org.gtk.glib.Variant} parameter (which may be
- * <code>null</code>).  The correct type for the parameter is determined by a static
+ * {@code null}).  The correct type for the parameter is determined by a static
  * parameter type (which is given at construction time).
  * <p>
  * An action may optionally have a state, in which case the state may be
@@ -45,7 +45,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * {@code parameter} must be the correct type of parameter for the action (ie:
      * the parameter type given at construction time).  If the parameter
-     * type was <code>null</code> then {@code parameter} must also be <code>null</code>.
+     * type was {@code null} then {@code parameter} must also be {@code null}.
      * <p>
      * If the {@code parameter} GVariant is floating, it is consumed.
      */
@@ -95,8 +95,8 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * When activating the action using g_action_activate(), the {@link org.gtk.glib.Variant}
      * given to that function must be of the type returned by this function.
      * <p>
-     * In the case that this function returns <code>null</code>, you must not give any
-     * {@link org.gtk.glib.Variant}, but <code>null</code> instead.
+     * In the case that this function returns {@code null}, you must not give any
+     * {@link org.gtk.glib.Variant}, but {@code null} instead.
      */
     public default org.gtk.glib.VariantType getParameterType() {
         var RESULT = gtk_h.g_action_get_parameter_type(handle());
@@ -106,11 +106,11 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Queries the current state of {@code action}.
      * <p>
-     * If the action is not stateful then <code>null</code> will be returned.  If the
+     * If the action is not stateful then {@code null} will be returned.  If the
      * action is stateful then the type of the return value is the type
      * given by g_action_get_state_type().
      * <p>
-     * The return value (if non-<code>null</code>) should be freed with
+     * The return value (if non-{@code null}) should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getState() {
@@ -122,7 +122,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * Requests a hint about the valid range of values for the state of
      * {@code action}.
      * <p>
-     * If <code>null</code> is returned it either means that the action is not stateful
+     * If {@code null} is returned it either means that the action is not stateful
      * or that there is no hint about the valid range of values for the
      * state of the action.
      * <p>
@@ -135,7 +135,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * have a state value outside of the hinted range and setting a value
      * within the range may fail.
      * <p>
-     * The return value (if non-<code>null</code>) should be freed with
+     * The return value (if non-{@code null}) should be freed with
      * g_variant_unref() when it is no longer required.
      */
     public default org.gtk.glib.Variant getStateHint() {
@@ -154,8 +154,8 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * {@link org.gtk.glib.Variant} of the same type.
      * <p>
      * If the action is not stateful (e.g. created with g_simple_action_new())
-     * then this function will return <code>null</code>. In that case, g_action_get_state()
-     * will return <code>null</code> and you must not call g_action_change_state().
+     * then this function will return {@code null}. In that case, g_action_get_state()
+     * will return {@code null} and you must not call g_action_change_state().
      */
     public default org.gtk.glib.VariantType getStateType() {
         var RESULT = gtk_h.g_action_get_state_type(handle());
@@ -169,7 +169,7 @@ public interface Action extends io.github.jwharm.javagi.NativeAddress {
      * plus '-' and '.'.  The empty string is not a valid action name.
      * <p>
      * It is an error to call this function with a non-utf8 {@code action_name}.
-     * {@code action_name} must not be <code>null</code>.
+     * {@code action_name} must not be {@code null}.
      */
     public static boolean nameIsValid(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_name_is_valid(Interop.allocateNativeString(actionName).handle());

@@ -191,7 +191,7 @@ public class IOStream extends org.gtk.gobject.Object {
     
     /**
      * Sets {@code stream} to have actions pending. If the pending flag is
-     * already set or {@code stream} is closed, it will return <code>false</code> and set
+     * already set or {@code stream} is closed, it will return {@code false} and set
      * {@code error}.
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {

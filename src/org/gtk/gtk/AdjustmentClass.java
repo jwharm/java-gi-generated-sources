@@ -13,4 +13,8 @@ public class AdjustmentClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AdjustmentClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkAdjustmentClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

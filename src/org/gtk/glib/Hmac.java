@@ -75,7 +75,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new {@link Hmac}, using the digest algorithm {@code digest_type}.
-     * If the {@code digest_type} is not known, <code>null</code> is returned.
+     * If the {@code digest_type} is not known, {@code null} is returned.
      * A {@link Hmac} can be used to compute the HMAC of a key and an
      * arbitrary binary blob, using different hashing algorithms.
      * <p>

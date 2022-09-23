@@ -32,13 +32,13 @@ import java.lang.invoke.*;
  * The {@code render()} function will be called when the {@code GtkGLArea} is ready
  * for you to draw its content:
  * <p>
- * ``{@code c
+ * <pre>{@code c
  * static gboolean
  * render (GtkGLArea *area, GdkGLContext *context)
  * {
  *   // inside this function it's safe to use GL; the given
  *   // GdkGLContext has been made current to the drawable
- *   // surface used by the }GtkGLArea{@code  and the viewport has
+ *   // surface used by the `GtkGLArea` and the viewport has
  *   // already been set to be the size of the allocation
  * 
  *   // we can start by clearing the buffer
@@ -62,17 +62,17 @@ import java.lang.invoke.*;
  *   // connect to the "render" signal
  *   g_signal_connect (gl_area, "render", G_CALLBACK (render), NULL);
  * }
- * }`{@code 
- * 
+ * }</pre>
+ * <p>
  * If you need to initialize OpenGL state, e.g. buffer objects or
- * shaders, you should use the [signal@Gtk.Widget::realize] signal;
- * you can use the [signal@Gtk.Widget::unrealize] signal to clean up.
- * Since the }GdkGLContext{@code  creation and initialization may fail, you
- * will need to check for errors, using [method@Gtk.GLArea.get_error].
- * 
+ * shaders, you should use the {@code Gtk.Widget::realize} signal;
+ * you can use the {@code Gtk.Widget::unrealize} signal to clean up.
+ * Since the {@code GdkGLContext} creation and initialization may fail, you
+ * will need to check for errors, using {@link GLArea#getError}.
+ * <p>
  * An example of how to safely initialize the GL state is:
- * 
- * }`{@code c
+ * <p>
+ * <pre>{@code c
  * static void
  * on_realize (GtkGLarea *area)
  * {
@@ -106,9 +106,9 @@ import java.lang.invoke.*;
  *       return;
  *     }
  * }
- * }`{@code 
- * 
- * If you need to change the options for creating the }GdkGLContext`
+ * }</pre>
+ * <p>
+ * If you need to change the options for creating the {@code GdkGLContext}
  * you should use the {@code Gtk.GLArea::create-context} signal.
  */
 public class GLArea extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -219,7 +219,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
      * is emitted during the draw.
      * <p>
      * This is only needed when {@link GLArea#setAutoRender} has
-     * been called with a <code>false</code> value. The default behaviour is to
+     * been called with a {@code false} value. The default behaviour is to
      * emit {@code Gtk.GLArea::render} on each draw.
      */
     public void queueRender() {
@@ -229,11 +229,11 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Sets whether the {@code GtkGLArea} is in auto render mode.
      * <p>
-     * If {@code auto_render} is <code>true</code> the {@code Gtk.GLArea::render} signal will
+     * If {@code auto_render} is {@code true} the {@code Gtk.GLArea::render} signal will
      * be emitted every time the widget draws. This is the default and is
      * useful if drawing the widget is faster.
      * <p>
-     * If {@code auto_render} is <code>false</code> the data from previous rendering is kept
+     * If {@code auto_render} is {@code false} the data from previous rendering is kept
      * around and will be used for drawing the widget the next time,
      * unless the window is resized. In order to force a rendering
      * {@link GLArea#queueRender} must be called. This mode is
@@ -257,7 +257,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Sets whether the {@code GtkGLArea} should use a depth buffer.
      * <p>
-     * If {@code has_depth_buffer} is <code>true</code> the widget will allocate and
+     * If {@code has_depth_buffer} is {@code true} the widget will allocate and
      * enable a depth buffer for the target framebuffer. Otherwise
      * there will be none.
      */
@@ -268,7 +268,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Sets whether the {@code GtkGLArea} should use a stencil buffer.
      * <p>
-     * If {@code has_stencil_buffer} is <code>true</code> the widget will allocate and
+     * If {@code has_stencil_buffer} is {@code true} the widget will allocate and
      * enable a stencil buffer for the target framebuffer. Otherwise
      * there will be none.
      */

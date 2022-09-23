@@ -17,10 +17,10 @@ import java.lang.invoke.*;
  * This structure closely mirrors {@code struct mmsghdr} and {@code struct msghdr} from
  * the POSIX sockets API (see {@code man 2 recvmmsg}).
  * <p>
- * If {@code address} is non-<code>null</code> then it is set to the source address the message
+ * If {@code address} is non-{@code null} then it is set to the source address the message
  * was received from, and the caller must free it afterwards.
  * <p>
- * If {@code control_messages} is non-<code>null</code> then it is set to an array of control
+ * If {@code control_messages} is non-{@code null} then it is set to an array of control
  * messages received with the message (if any), and the caller must free it
  * afterwards. {@code num_control_messages} is set to the number of elements in
  * this array, which may be zero.
@@ -32,6 +32,10 @@ public class InputMessage extends io.github.jwharm.javagi.ResourceBase {
 
     public InputMessage(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public InputMessage() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GInputMessage.allocate(Interop.getAllocator()).address()));
     }
     
 }

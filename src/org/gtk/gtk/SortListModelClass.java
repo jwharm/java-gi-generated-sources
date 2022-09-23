@@ -13,4 +13,8 @@ public class SortListModelClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SortListModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkSortListModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

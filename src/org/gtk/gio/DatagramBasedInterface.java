@@ -20,4 +20,8 @@ public class DatagramBasedInterface extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public DatagramBasedInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDatagramBasedInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

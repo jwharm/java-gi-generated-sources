@@ -242,7 +242,7 @@ public final class Gio {
      * plus '-' and '.'.  The empty string is not a valid action name.
      * <p>
      * It is an error to call this function with a non-utf8 {@code action_name}.
-     * {@code action_name} must not be <code>null</code>.
+     * {@code action_name} must not be {@code null}.
      */
     public static boolean actionNameIsValid(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_name_is_valid(Interop.allocateNativeString(actionName).handle());
@@ -490,7 +490,7 @@ public final class Gio {
      * G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION flags.
      * <p>
      * Note that the returned {@link DBusConnection} object will (usually) have
-     * the {@link DBusConnection}:exit-on-close property set to <code>true</code>.
+     * the {@link DBusConnection}:exit-on-close property set to {@code true}.
      */
     public static DBusConnection busGetFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -519,7 +519,7 @@ public final class Gio {
      * G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION flags.
      * <p>
      * Note that the returned {@link DBusConnection} object will (usually) have
-     * the {@link DBusConnection}:exit-on-close property set to <code>true</code>.
+     * the {@link DBusConnection}:exit-on-close property set to {@code true}.
      */
     public static DBusConnection busGetSync(BusType busType, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -542,7 +542,7 @@ public final class Gio {
      * possible cases:
      * <p>
      * <ul>
-     * <li>{@code name_lost_handler} with a <code>null</code> connection (if a connection to the bus
+     * <li>{@code name_lost_handler} with a {@code null} connection (if a connection to the bus
      *   can't be made).
      * </ul>
      * <p>
@@ -878,7 +878,7 @@ public final class Gio {
     
     /**
      * Set the list of directories used by GIO to load the MIME database.
-     * If {@code dirs} is <code>null</code>, the directories used are the default:
+     * If {@code dirs} is {@code null}, the directories used are the default:
      * <p>
      * <ul>
      * <li>the {@code mime} subdirectory of the directory in {@code $XDG_DATA_HOME}
@@ -890,18 +890,18 @@ public final class Gio {
      * <p>
      * Typically, in case your tests use {@code G_TEST_OPTION_ISOLATE_DIRS}, but they
      * depend on the system’s MIME database, you should call this function
-     * with {@code dirs} set to <code>null</code> before calling g_test_init(), for instance:
+     * with {@code dirs} set to {@code null} before calling g_test_init(), for instance:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   // Load MIME data from the system
      *   g_content_type_set_mime_dirs (NULL);
      *   // Isolate the environment
      *   g_test_init (&argc, &argv, G_TEST_OPTION_ISOLATE_DIRS, NULL);
-     * <p>
+     * 
      *   …
-     * <p>
+     * 
      *   return g_test_run ();
-     * ]|
+     * }</pre>
      */
     public static void contentTypeSetMimeDirs(java.lang.String[] dirs) {
         gtk_h.g_content_type_set_mime_dirs(Interop.allocateNativeArray(dirs).handle());
@@ -978,7 +978,7 @@ public final class Gio {
     /**
      * Finishes an operation started with g_dbus_address_get_stream().
      * <p>
-     * A server is not required to set a GUID, so {@code out_guid} may be set to <code>null</code>
+     * A server is not required to set a GUID, so {@code out_guid} may be set to {@code null}
      * even on success.
      */
     public static IOStream dbusAddressGetStreamFinish(AsyncResult res, java.lang.String[] outGuid) throws io.github.jwharm.javagi.GErrorException {
@@ -996,7 +996,7 @@ public final class Gio {
      * of the D-Bus authentication conversation. {@code address} must be in the
      * <a href="https://dbus.freedesktop.org/doc/dbus-specification.html#addresses">D-Bus address format</a>.
      * <p>
-     * A server is not required to set a GUID, so {@code out_guid} may be set to <code>null</code>
+     * A server is not required to set a GUID, so {@code out_guid} may be set to {@code null}
      * even on success.
      * <p>
      * This is a synchronous failable function. See
@@ -1206,7 +1206,7 @@ public final class Gio {
      * in the table above.
      * <p>
      * Note that if {@code gvalue} is of type {@code G_TYPE_VARIANT} and its value is
-     * <code>null</code>, the empty {@link org.gtk.glib.Variant} instance (never <code>null</code>) for {@code type} is
+     * {@code null}, the empty {@link org.gtk.glib.Variant} instance (never {@code null}) for {@code type} is
      * returned (e.g. 0 for scalar types, the empty string for string types,
      * '/' for object path types, the empty array for any array type and so on).
      * <p>
@@ -1410,9 +1410,9 @@ public final class Gio {
      * <p>
      * {@code tmpl} should be a string in the GLib file name encoding
      * containing a sequence of six 'X' characters, and containing no
-     * directory components. If it is <code>null</code>, a default template is used.
+     * directory components. If it is {@code null}, a default template is used.
      * <p>
-     * Unlike the other {@link File} constructors, this will return <code>null</code> if
+     * Unlike the other {@link File} constructors, this will return {@code null} if
      * a temporary file could not be created.
      */
     public static File fileNewTmp(java.lang.String tmpl, FileIOStream[] iostream) throws io.github.jwharm.javagi.GErrorException {
@@ -1585,18 +1585,18 @@ public final class Gio {
      * path given in {@code root_path} (which must start and end with a slash and
      * not contain two consecutive slashes).  {@code root_path} may be "/".
      * <p>
-     * If {@code root_group} is non-<code>null</code> then it specifies the name of the keyfile
+     * If {@code root_group} is non-{@code null} then it specifies the name of the keyfile
      * group used for keys that are written directly below {@code root_path}.  For
      * example, if {@code root_path} is "/apps/example/" and {@code root_group} is
      * "toplevel", then settings the key "/apps/example/enabled" to a value
-     * of <code>true</code> will cause the following to appear in the keyfile:
+     * of {@code true} will cause the following to appear in the keyfile:
      * <p>
-     * |[
+     * <pre>{@code 
      *   [toplevel]
      *   enabled=true
-     * ]|
+     * }</pre>
      * <p>
-     * If {@code root_group} is <code>null</code> then it is not permitted to store keys
+     * If {@code root_group} is {@code null} then it is not permitted to store keys
      * directly below the {@code root_path}.
      * <p>
      * For keys not stored directly below {@code root_path} (ie: in a sub-path),
@@ -1605,14 +1605,14 @@ public final class Gio {
      * "/apps/example/profiles/default/font-size" were set to
      * 12 then the following would appear in the keyfile:
      * <p>
-     * |[
+     * <pre>{@code 
      *   [profiles/default]
      *   font-size=12
-     * ]|
+     * }</pre>
      * <p>
      * The backend will refuse writes (and return writability as being
-     * <code>false</code>) for keys outside of {@code root_path} and, in the event that
-     * {@code root_group} is <code>null</code>, also for keys directly under {@code root_path}.
+     * {@code false}) for keys outside of {@code root_path} and, in the event that
+     * {@code root_group} is {@code null}, also for keys directly under {@code root_path}.
      * Writes will also be refused if the backend detects that it has the
      * inability to rewrite the keyfile (ie: the containing directory is not
      * writable).
@@ -1697,7 +1697,7 @@ public final class Gio {
      * Utility method for {@link PollableInputStream} and {@link PollableOutputStream}
      * implementations. Creates a new {@link org.gtk.glib.Source}, as with
      * g_pollable_source_new(), but also attaching {@code child_source} (with a
-     * dummy callback), and {@code cancellable}, if they are non-<code>null</code>.
+     * dummy callback), and {@code cancellable}, if they are non-{@code null}.
      */
     public static org.gtk.glib.Source pollableSourceNewFull(org.gtk.gobject.Object pollableStream, org.gtk.glib.Source childSource, Cancellable cancellable) {
         var RESULT = gtk_h.g_pollable_source_new_full(pollableStream.handle(), childSource.handle(), cancellable.handle());
@@ -1706,14 +1706,14 @@ public final class Gio {
     
     /**
      * Tries to read from {@code stream}, as with g_input_stream_read() (if
-     * {@code blocking} is <code>true</code>) or g_pollable_input_stream_read_nonblocking()
-     * (if {@code blocking} is <code>false</code>). This can be used to more easily share
+     * {@code blocking} is {@code true}) or g_pollable_input_stream_read_nonblocking()
+     * (if {@code blocking} is {@code false}). This can be used to more easily share
      * code between blocking and non-blocking implementations of a method.
      * <p>
-     * If {@code blocking} is <code>false</code>, then {@code stream} must be a
+     * If {@code blocking} is {@code false}, then {@code stream} must be a
      * {@link PollableInputStream} for which g_pollable_input_stream_can_poll()
-     * returns <code>true</code>, or else the behavior is undefined. If {@code blocking} is
-     * <code>true</code>, then {@code stream} does not need to be a {@link PollableInputStream}.
+     * returns {@code true}, or else the behavior is undefined. If {@code blocking} is
+     * {@code true}, then {@code stream} does not need to be a {@link PollableInputStream}.
      */
     public static long pollableStreamRead(InputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1726,14 +1726,14 @@ public final class Gio {
     
     /**
      * Tries to write to {@code stream}, as with g_output_stream_write() (if
-     * {@code blocking} is <code>true</code>) or g_pollable_output_stream_write_nonblocking()
-     * (if {@code blocking} is <code>false</code>). This can be used to more easily share
+     * {@code blocking} is {@code true}) or g_pollable_output_stream_write_nonblocking()
+     * (if {@code blocking} is {@code false}). This can be used to more easily share
      * code between blocking and non-blocking implementations of a method.
      * <p>
-     * If {@code blocking} is <code>false</code>, then {@code stream} must be a
+     * If {@code blocking} is {@code false}, then {@code stream} must be a
      * {@link PollableOutputStream} for which
-     * g_pollable_output_stream_can_poll() returns <code>true</code> or else the
-     * behavior is undefined. If {@code blocking} is <code>true</code>, then {@code stream} does not
+     * g_pollable_output_stream_can_poll() returns {@code true} or else the
+     * behavior is undefined. If {@code blocking} is {@code true}, then {@code stream} does not
      * need to be a {@link PollableOutputStream}.
      */
     public static long pollableStreamWrite(OutputStream stream, byte[] buffer, long count, boolean blocking, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -1871,7 +1871,7 @@ public final class Gio {
      * may be useful to authors of plugin management systems or to those who
      * want to introspect the content of schemas.
      * <p>
-     * If no schemas are installed, <code>null</code> will be returned.
+     * If no schemas are installed, {@code null} will be returned.
      * <p>
      * The returned source may actually consist of multiple schema sources
      * from different directories, depending on which directories were given

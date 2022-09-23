@@ -18,16 +18,20 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ThreadPool() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GThreadPool.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Frees all resources allocated for {@code pool}.
      * <p>
-     * If {@code immediate} is <code>true</code>, no new task is processed for {@code pool}.
+     * If {@code immediate} is {@code true}, no new task is processed for {@code pool}.
      * Otherwise {@code pool} is not freed before the last task is processed.
      * Note however, that no thread of this pool is interrupted while
      * processing a task. Instead at least all still running threads
      * can finish their tasks before the {@code pool} is freed.
      * <p>
-     * If {@code wait_} is <code>true</code>, this function does not return before all
+     * If {@code wait_} is {@code true}, this function does not return before all
      * tasks to be processed (dependent on {@code immediate}, whether all
      * or only the currently running) are ready.
      * Otherwise this function returns immediately.
@@ -72,7 +76,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * Otherwise, {@code data} stays in the queue until a thread in this pool
      * finishes its previous task and processes {@code data}.
      * <p>
-     * {@code error} can be <code>null</code> to ignore errors, or non-<code>null</code> to report
+     * {@code error} can be {@code null} to ignore errors, or non-{@code null} to report
      * errors. An error can only occur when a new thread couldn't be
      * created. In that case {@code data} is simply appended to the queue of
      * work to do.
@@ -104,7 +108,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * A new thread is allocated, whenever the number of currently
      * running threads in {@code pool} is smaller than the maximal number.
      * <p>
-     * {@code error} can be <code>null</code> to ignore errors, or non-<code>null</code> to report
+     * {@code error} can be {@code null} to ignore errors, or non-{@code null} to report
      * errors. An error can only occur when a new thread couldn't be
      * created.
      * <p>
@@ -198,18 +202,18 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The parameter {@code exclusive} determines whether the thread pool owns
      * all threads exclusive or shares them with other thread pools.
-     * If {@code exclusive} is <code>true</code>, {@code max_threads} threads are started
+     * If {@code exclusive} is {@code true}, {@code max_threads} threads are started
      * immediately and they will run exclusively for this thread pool
      * until it is destroyed by g_thread_pool_free(). If {@code exclusive} is
-     * <code>false</code>, threads are created when needed and shared between all
+     * {@code false}, threads are created when needed and shared between all
      * non-exclusive thread pools. This implies that {@code max_threads} may
      * not be -1 for exclusive thread pools. Besides, exclusive thread
      * pools are not affected by g_thread_pool_set_max_idle_time()
      * since their threads are never considered idle and returned to the
      * global pool.
      * <p>
-     * {@code error} can be <code>null</code> to ignore errors, or non-<code>null</code> to report
-     * errors. An error can only occur when {@code exclusive} is set to <code>true</code>
+     * {@code error} can be {@code null} to ignore errors, or non-{@code null} to report
+     * errors. An error can only occur when {@code exclusive} is set to {@code true}
      * and not all {@code max_threads} threads could be created.
      * See {@link ThreadError} for possible errors that may occur.
      * Note, even in case of error a valid {@link ThreadPool} is returned.

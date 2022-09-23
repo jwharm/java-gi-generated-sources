@@ -98,7 +98,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The contents of {@code box} are cleared and then filled with widgets that
      * represent items from {@code model}. {@code box} is updated whenever {@code model} changes.
-     * If {@code model} is <code>null</code>, {@code box} is left empty.
+     * If {@code model} is {@code null}, {@code box} is left empty.
      * <p>
      * It is undefined to add or remove widgets directly (for example, with
      * {@link FlowBox#insert}) while {@code box} is bound to a model.
@@ -296,7 +296,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If {@code single} is <code>true</code>, children will be activated when you click
+     * If {@code single} is {@code true}, children will be activated when you click
      * on them, otherwise you need to double-click.
      */
     public void setActivateOnSingleClick(boolean single) {

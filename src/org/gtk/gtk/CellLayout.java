@@ -150,7 +150,7 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Returns the underlying {@code GtkCellArea} which might be {@code cell_layout}
-     * if called on a {@code GtkCellArea} or might be <code>null</code> if no {@code GtkCellArea}
+     * if called on a {@code GtkCellArea} or might be {@code null} if no {@code GtkCellArea}
      * is used by {@code cell_layout}.
      */
     public default CellArea getArea() {
@@ -167,9 +167,9 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Adds the {@code cell} to the end of {@code cell_layout}. If {@code expand} is <code>false</code>, then the
+     * Adds the {@code cell} to the end of {@code cell_layout}. If {@code expand} is {@code false}, then the
      * {@code cell} is allocated no more space than it needs. Any unused space is
-     * divided evenly between cells for which {@code expand} is <code>true</code>.
+     * divided evenly between cells for which {@code expand} is {@code true}.
      * <p>
      * Note that reusing the same cell renderer is not supported.
      */
@@ -178,9 +178,9 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Packs the {@code cell} into the beginning of {@code cell_layout}. If {@code expand} is <code>false</code>,
+     * Packs the {@code cell} into the beginning of {@code cell_layout}. If {@code expand} is {@code false},
      * then the {@code cell} is allocated no more space than it needs. Any unused space
-     * is divided evenly between cells for which {@code expand} is <code>true</code>.
+     * is divided evenly between cells for which {@code expand} is {@code true}.
      * <p>
      * Note that reusing the same cell renderer is not supported.
      */
@@ -205,7 +205,7 @@ public interface CellLayout extends io.github.jwharm.javagi.NativeAddress {
      * for setting the column value, and should set the value of {@code cell_layout}’s
      * cell renderer(s) as appropriate.
      * <p>
-     * {@code func} may be <code>null</code> to remove a previously set function.
+     * {@code func} may be {@code null} to remove a previously set function.
      */
     public default void setCellDataFunc(CellRenderer cell, CellLayoutDataFunc func) {
         try {

@@ -197,7 +197,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Returns the header bar of {@code dialog}.
      * <p>
      * Note that the headerbar is only used by the dialog if the
-     * {@code Gtk.Dialog:use-header-bar} property is <code>true</code>.
+     * {@code Gtk.Dialog:use-header-bar} property is {@code true}.
      */
     public HeaderBar getHeaderBar() {
         var RESULT = gtk_h.gtk_dialog_get_header_bar(handle());

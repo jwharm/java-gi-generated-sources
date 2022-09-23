@@ -17,4 +17,8 @@ public class AttrFloat extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrFloat() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFloat.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

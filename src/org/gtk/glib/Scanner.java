@@ -29,6 +29,10 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Scanner() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GScanner.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Returns the current line in the input stream (counting
      * from 1). This is the line of the last token parsed via
@@ -66,7 +70,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the scanner has reached the end of
+     * Returns {@code true} if the scanner has reached the end of
      * the file or text buffer.
      */
     public boolean eof() {
@@ -101,7 +105,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up a symbol in the current scope and return its value.
-     * If the symbol is not bound in the current scope, <code>null</code> is
+     * If the symbol is not bound in the current scope, {@code null} is
      * returned.
      */
     public java.lang.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
@@ -156,7 +160,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks up a symbol in a scope and return its value. If the
-     * symbol is not bound in the scope, <code>null</code> is returned.
+     * symbol is not bound in the scope, {@code null} is returned.
      */
     public java.lang.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
         var RESULT = gtk_h.g_scanner_scope_lookup_symbol(handle(), scopeId, Interop.allocateNativeString(symbol).handle());
@@ -206,7 +210,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The {@code config_templ} structure specifies the initial settings
      * of the scanner, which are copied into the {@link Scanner}
-     * {@code config} field. If you pass <code>null</code> then the default settings
+     * {@code config} field. If you pass {@code null} then the default settings
      * are used.
      */
     public static Scanner new_(ScannerConfig configTempl) {

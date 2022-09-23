@@ -43,7 +43,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
     }
     
     /**
-     * Sets {@code file_info} in {@code compressor}. If non-<code>null</code>, and {@code compressor}'s
+     * Sets {@code file_info} in {@code compressor}. If non-{@code null}, and {@code compressor}'s
      * {@link ZlibCompressor}:format property is {@link ZlibCompressorFormat#GZIP},
      * it will be used to set the file name and modification time in
      * the GZIP header of the compressed data.

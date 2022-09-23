@@ -75,7 +75,7 @@ import java.lang.invoke.*;
  * <p>
  * {@code GtkScrolledWindow} has a main CSS node with name scrolledwindow.
  * It gets a .frame style class added when {@code Gtk.ScrolledWindow:has-frame}
- * is <code>true</code>.
+ * is {@code true}.
  * <p>
  * It uses subnodes with names overshoot and undershoot to draw the overflow
  * and underflow indications. These nodes get the .left, .right, .top or .bottom

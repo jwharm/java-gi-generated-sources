@@ -202,7 +202,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the lower bound node corresponding to the given key,
-     * or <code>null</code> if the tree is empty or all the nodes in the tree
+     * or {@code null} if the tree is empty or all the nodes in the tree
      * have keys that are strictly lower than the searched key.
      * <p>
      * The lower bound is the first node that has its key greater
@@ -222,7 +222,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the first in-order node of the tree, or <code>null</code>
+     * Returns the first in-order node of the tree, or {@code null}
      * for an empty tree.
      */
     public TreeNode nodeFirst() {
@@ -231,7 +231,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the last in-order node of the tree, or <code>null</code>
+     * Returns the last in-order node of the tree, or {@code null}
      * for an empty tree.
      */
     public TreeNode nodeLast() {
@@ -268,7 +268,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Removes all nodes from a {@link Tree} and destroys their keys and values,
-     * then resets the {@link Tree}’s root to <code>null</code>.
+     * then resets the {@link Tree}’s root to {@code null}.
      */
     public void removeAll() {
         gtk_h.g_tree_remove_all(handle());
@@ -375,7 +375,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the upper bound node corresponding to the given key,
-     * or <code>null</code> if the tree is empty or all the nodes in the tree
+     * or {@code null} if the tree is empty or all the nodes in the tree
      * have keys that are lower than or equal to the searched key.
      * <p>
      * The upper bound is the first node that has its key strictly greater

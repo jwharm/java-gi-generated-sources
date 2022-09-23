@@ -10,13 +10,13 @@ import java.lang.invoke.*;
 /**
  * The interface for pollable output streams.
  * <p>
- * The default implementation of {@code can_poll} always returns <code>true</code>.
+ * The default implementation of {@code can_poll} always returns {@code true}.
  * <p>
  * The default implementation of {@code write_nonblocking} calls
  * g_pollable_output_stream_is_writable(), and then calls
- * g_output_stream_write() if it returns <code>true</code>. This means you only
+ * g_output_stream_write() if it returns {@code true}. This means you only
  * need to override it if it is possible that your {@code is_writable}
- * implementation may return <code>true</code> when the stream is not actually
+ * implementation may return {@code true} when the stream is not actually
  * writable.
  * <p>
  * The default implementation of {@code writev_nonblocking} calls
@@ -29,6 +29,10 @@ public class PollableOutputStreamInterface extends io.github.jwharm.javagi.Resou
 
     public PollableOutputStreamInterface(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public PollableOutputStreamInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GPollableOutputStreamInterface.allocate(Interop.getAllocator()).address()));
     }
     
 }

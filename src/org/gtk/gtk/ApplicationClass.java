@@ -13,4 +13,8 @@ public class ApplicationClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ApplicationClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkApplicationClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

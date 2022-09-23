@@ -13,4 +13,8 @@ public class FlattenListModelClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public FlattenListModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFlattenListModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

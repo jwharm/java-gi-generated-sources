@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * including using it on a {@code GtkPicture} (or one of its parents) that it was
  * set on itself via gtk_picture_set_paintable(). The paintable will take care
  * of recursion when this happens. If you do this however, ensure that the
- * {@code Gtk.Picture:can-shrink} property is set to <code>true</code> or you might
+ * {@code Gtk.Picture:can-shrink} property is set to {@code true} or you might
  * end up with an infinitely growing widget.
  */
 public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
@@ -53,7 +53,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * Returns the widget that is observed or <code>null</code> if none.
+     * Returns the widget that is observed or {@code null} if none.
      */
     public Widget getWidget() {
         var RESULT = gtk_h.gtk_widget_paintable_get_widget(handle());

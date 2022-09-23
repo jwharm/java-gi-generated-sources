@@ -90,38 +90,38 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is mainly useful when implementing new types of closures:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * typedef struct _MyClosure MyClosure;
      * struct _MyClosure
      * {
      *   GClosure closure;
      *   // extra data goes here
      * };
-     * <p>
+     * 
      * static void
      * my_closure_finalize (gpointer  notify_data,
      *                      GClosure *closure)
      * {
-     *   MyClosure <strong>my_closure = (MyClosure </strong>)closure;
-     * <p>
+     *   MyClosure *my_closure = (MyClosure *)closure;
+     * 
      *   // free extra data here
      * }
-     * <p>
+     * 
      * MyClosure *my_closure_new (gpointer data)
      * {
      *   GClosure *closure;
      *   MyClosure *my_closure;
-     * <p>
+     * 
      *   closure = g_closure_new_simple (sizeof (MyClosure), data);
      *   my_closure = (MyClosure *) closure;
-     * <p>
+     * 
      *   // initialize extra data here
-     * <p>
+     * 
      *   g_closure_add_finalize_notifier (closure, notify_data,
      *                                    my_closure_finalize);
      *   return my_closure;
      * }
-     * ]|
+     * }</pre>
      */
     public static Closure newSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
         return new Closure(constructNewSimple(sizeofClosure, data));
@@ -320,23 +320,23 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * The reason for the existence of the floating state is to prevent
      * cumbersome code sequences like:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * closure = g_cclosure_new (cb_func, cb_data);
      * g_source_set_closure (source, closure);
      * g_closure_unref (closure); // GObject doesn't really need this
-     * ]|
+     * }</pre>
      * <p>
      * Because g_source_set_closure() (and similar functions) take ownership of the
      * initial reference count, if it is unowned, we instead can write:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * g_source_set_closure (source, g_cclosure_new (cb_func, cb_data));
-     * ]|
+     * }</pre>
      * <p>
      * Generally, this function is used together with g_closure_ref(). An example
      * of storing a closure for later notification looks like:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static GClosure *notify_closure = NULL;
      * void
      * foo_notify_set_closure (GClosure *closure)
@@ -350,7 +350,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      *       g_closure_sink (notify_closure);
      *     }
      * }
-     * ]|
+     * }</pre>
      * <p>
      * Because g_closure_sink() may decrement the reference count of a closure
      * (if it hasn't been called on {@code closure} yet) just like g_closure_unref(),

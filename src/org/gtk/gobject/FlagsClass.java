@@ -17,4 +17,8 @@ public class FlagsClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FlagsClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFlagsClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

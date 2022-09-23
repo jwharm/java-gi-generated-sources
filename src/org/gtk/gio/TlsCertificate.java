@@ -42,7 +42,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * g_tls_certificate_new_from_pem(). See those functions for
      * exact details.
      * <p>
-     * If {@code file} cannot be read or parsed, the function will return <code>null</code> and
+     * If {@code file} cannot be read or parsed, the function will return {@code null} and
      * set {@code error}.
      */
     public static TlsCertificate newFromFile(java.lang.String file) throws GErrorException {
@@ -61,7 +61,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     /**
      * Creates a {@link TlsCertificate} from the data in {@code file}.
      * <p>
-     * If {@code file} cannot be read or parsed, the function will return <code>null</code> and
+     * If {@code file} cannot be read or parsed, the function will return {@code null} and
      * set {@code error}.
      * <p>
      * Any unknown file types will error with {@link IOErrorEnum#NOT_SUPPORTED}.
@@ -94,7 +94,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * still be returned.
      * <p>
      * If either file cannot be read or parsed, the function will return
-     * <code>null</code> and set {@code error}. Otherwise, this behaves like
+     * {@code null} and set {@code error}. Otherwise, this behaves like
      * g_tls_certificate_new_from_pem().
      */
     public static TlsCertificate newFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
@@ -147,17 +147,17 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * <p>
      * Where the token’s layout is:
      * <p>
-     * |[
+     * <pre>{@code 
      * Object 0:
-     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My{@code 20Client}{@code 20Certificate};id={@code 01};object=private{@code 20key};type=private
+     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01;object=private%20key;type=private
      *   Type: Private key (RSA-2048)
      *   ID: 01
-     * <p>
+     * 
      * Object 1:
-     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My{@code 20Client}{@code 20Certificate};id={@code 01};object=Certificate{@code 20for}{@code 20Authentication};type=cert
+     *   URL: pkcs11:model=Model;manufacturer=Manufacture;serial=1;token=My%20Client%20Certificate;id=%01;object=Certificate%20for%20Authentication;type=cert
      *   Type: X.509 Certificate (RSA-2048)
      *   ID: 01
-     * ]|
+     * }</pre>
      * <p>
      * In this case the certificate and private key would both be detected and used as expected.
      * {@code pkcs_uri} may also just reference an X.509 certificate object and then optionally
@@ -260,15 +260,15 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * check a certificate against a CA that is not part of the system
      * CA database.
      * <p>
-     * If {@code identity} is not <code>null</code>, {@code cert}'s name(s) will be compared against
+     * If {@code identity} is not {@code null}, {@code cert}'s name(s) will be compared against
      * it, and {@link TlsCertificateFlags#BAD_IDENTITY} will be set in the return
-     * value if it does not match. If {@code identity} is <code>null</code>, that bit will
+     * value if it does not match. If {@code identity} is {@code null}, that bit will
      * never be set in the return value.
      * <p>
-     * If {@code trusted_ca} is not <code>null</code>, then {@code cert} (or one of the certificates
+     * If {@code trusted_ca} is not {@code null}, then {@code cert} (or one of the certificates
      * in its chain) must be signed by it, or else
      * {@link TlsCertificateFlags#UNKNOWN_CA} will be set in the return value. If
-     * {@code trusted_ca} is <code>null</code>, that bit will never be set in the return
+     * {@code trusted_ca} is {@code null}, that bit will never be set in the return
      * value.
      * <p>
      * GLib guarantees that if certificate verification fails, at least one
@@ -294,7 +294,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     /**
      * Creates one or more {@code GTlsCertificates} from the PEM-encoded
      * data in {@code file}. If {@code file} cannot be read or parsed, the function will
-     * return <code>null</code> and set {@code error}. If {@code file} does not contain any
+     * return {@code null} and set {@code error}. If {@code file} does not contain any
      * PEM-encoded certificates, this will return an empty list and not
      * set {@code error}.
      */

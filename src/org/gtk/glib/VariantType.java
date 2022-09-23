@@ -51,7 +51,7 @@ import java.lang.invoke.*;
  * that are subtypes of indefinite types.  That is to say,
  * g_variant_get_type() will never return an indefinite type, but
  * calling g_variant_is_of_type() with an indefinite type may return
- * <code>true</code>.  For example, you cannot have a value that represents "an
+ * {@code true}.  For example, you cannot have a value that represents "an
  * array of no particular type", but you can have an "array of integers"
  * which certainly matches the type of "an array of no particular type",
  * since "array of integers" is a subtype of "array of no particular
@@ -247,7 +247,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Constructs a new tuple type, from {@code items}.
      * <p>
      * {@code length} is the number of items in {@code items}, or -1 to indicate that
-     * {@code items} is <code>null</code>-terminated.
+     * {@code items} is {@code null}-terminated.
      * <p>
      * It is appropriate to call g_variant_type_free() on the return value.
      */
@@ -257,7 +257,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Makes a copy of a {@link VariantType}.  It is appropriate to call
-     * g_variant_type_free() on the return value.  {@code type} may not be <code>null</code>.
+     * g_variant_type_free() on the return value.  {@code type} may not be {@code null}.
      */
     public VariantType copy() {
         var RESULT = gtk_h.g_variant_type_copy(handle());
@@ -287,8 +287,8 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Compares {@code type1} and {@code type2} for equality.
      * <p>
-     * Only returns <code>true</code> if the types are exactly equal.  Even if one type
-     * is an indefinite type and the other is a subtype of it, <code>false</code> will
+     * Only returns {@code true} if the types are exactly equal.  Even if one type
+     * is an indefinite type and the other is a subtype of it, {@code false} will
      * be returned if they are not exactly equal.  If you want to check for
      * subtypes, use g_variant_type_is_subtype_of().
      * <p>
@@ -312,7 +312,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * In the case of a dictionary entry type, this returns the type of
      * the key.
      * <p>
-     * <code>null</code> is returned in case of {@code type} being {@code G_VARIANT_TYPE_UNIT}.
+     * {@code null} is returned in case of {@code type} being {@code G_VARIANT_TYPE_UNIT}.
      * <p>
      * This call, together with g_variant_type_next() provides an iterator
      * interface over tuple and dictionary entry types.
@@ -327,7 +327,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * g_variant_type_copy(), g_variant_type_new() or one of the container
      * type constructor functions.
      * <p>
-     * In the case that {@code type} is <code>null</code>, this function does nothing.
+     * In the case that {@code type} is {@code null}, this function does nothing.
      * <p>
      * Since 2.24
      */
@@ -361,7 +361,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Determines if the given {@code type} is an array type.  This is true if the
      * type string for {@code type} starts with an 'a'.
      * <p>
-     * This function returns <code>true</code> for any indefinite type for which every
+     * This function returns {@code true} for any indefinite type for which every
      * definite subtype is an array type -- {@code G_VARIANT_TYPE_ARRAY}, for
      * example.
      */
@@ -378,7 +378,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Only a basic type may be used as the key of a dictionary entry.
      * <p>
-     * This function returns <code>false</code> for all indefinite types except
+     * This function returns {@code false} for all indefinite types except
      * {@code G_VARIANT_TYPE_BASIC}.
      */
     public boolean isBasic() {
@@ -392,7 +392,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Container types are any array, maybe, tuple, or dictionary
      * entry types plus the variant type.
      * <p>
-     * This function returns <code>true</code> for any indefinite type for which every
+     * This function returns {@code true} for any indefinite type for which every
      * definite subtype is a container -- {@code G_VARIANT_TYPE_ARRAY}, for
      * example.
      */
@@ -409,9 +409,9 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * A {@link Variant} instance may not have an indefinite type, so calling
      * this function on the result of g_variant_get_type() will always
-     * result in <code>true</code> being returned.  Calling this function on an
+     * result in {@code true} being returned.  Calling this function on an
      * indefinite type like {@code G_VARIANT_TYPE_ARRAY}, however, will result in
-     * <code>false</code> being returned.
+     * {@code false} being returned.
      */
     public boolean isDefinite() {
         var RESULT = gtk_h.g_variant_type_is_definite(handle());
@@ -422,7 +422,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Determines if the given {@code type} is a dictionary entry type.  This is
      * true if the type string for {@code type} starts with a '{'.
      * <p>
-     * This function returns <code>true</code> for any indefinite type for which every
+     * This function returns {@code true} for any indefinite type for which every
      * definite subtype is a dictionary entry type --
      * {@code G_VARIANT_TYPE_DICT_ENTRY}, for example.
      */
@@ -435,7 +435,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * Determines if the given {@code type} is a maybe type.  This is true if the
      * type string for {@code type} starts with an 'm'.
      * <p>
-     * This function returns <code>true</code> for any indefinite type for which every
+     * This function returns {@code true} for any indefinite type for which every
      * definite subtype is a maybe type -- {@code G_VARIANT_TYPE_MAYBE}, for
      * example.
      */
@@ -447,7 +447,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if {@code type} is a subtype of {@code supertype}.
      * <p>
-     * This function returns <code>true</code> if {@code type} is a subtype of {@code supertype}.  All
+     * This function returns {@code true} if {@code type} is a subtype of {@code supertype}.  All
      * types are considered to be subtypes of themselves.  Aside from that,
      * only indefinite types can have subtypes.
      */
@@ -461,7 +461,7 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * type string for {@code type} starts with a '(' or if {@code type} is
      * {@code G_VARIANT_TYPE_TUPLE}.
      * <p>
-     * This function returns <code>true</code> for any indefinite type for which every
+     * This function returns {@code true} for any indefinite type for which every
      * definite subtype is a tuple type -- {@code G_VARIANT_TYPE_TUPLE}, for
      * example.
      */
@@ -515,9 +515,9 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If called on the key type of a dictionary entry then this call
      * returns the value type.  If called on the value type of a dictionary
-     * entry then this call returns <code>null</code>.
+     * entry then this call returns {@code null}.
      * <p>
-     * For tuples, <code>null</code> is returned when {@code type} is the last item in a tuple.
+     * For tuples, {@code null} is returned when {@code type} is the last item in a tuple.
      */
     public VariantType next() {
         var RESULT = gtk_h.g_variant_type_next(handle());
@@ -572,11 +572,11 @@ public class VariantType extends io.github.jwharm.javagi.ResourceBase {
      * accessed.
      * <p>
      * If a valid type string is found, {@code endptr} is updated to point to the
-     * first character past the end of the string that was found and <code>true</code>
+     * first character past the end of the string that was found and {@code true}
      * is returned.
      * <p>
      * If there is no valid type string starting at {@code string}, or if the type
-     * string does not end before {@code limit} then <code>false</code> is returned.
+     * string does not end before {@code limit} then {@code false} is returned.
      * <p>
      * For the simple case of checking if a string is a valid type string,
      * see g_variant_type_string_is_valid().

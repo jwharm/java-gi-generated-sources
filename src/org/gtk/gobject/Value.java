@@ -25,6 +25,10 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Value() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GValue.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Copies the value of {@code src_value} into {@code dest_value}.
      */
@@ -45,8 +49,8 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Get the contents of a {@code G_TYPE_OBJECT} derived {@link Value}, increasing
-     * its reference count. If the contents of the {@link Value} are <code>null</code>, then
-     * <code>null</code> will be returned.
+     * its reference count. If the contents of the {@link Value} are {@code null}, then
+     * {@code null} will be returned.
      */
     public Object dupObject() {
         var RESULT = gtk_h.g_value_dup_object(handle());
@@ -271,7 +275,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the value contents as pointer. This function asserts that
-     * g_value_fits_pointer() returned <code>true</code> for the passed in value.
+     * g_value_fits_pointer() returned {@code true} for the passed in value.
      * This is an internal function introduced mainly for C marshallers.
      */
     public java.lang.foreign.MemoryAddress peekPointer() {

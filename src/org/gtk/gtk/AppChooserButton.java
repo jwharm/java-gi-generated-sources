@@ -14,7 +14,7 @@ import java.lang.invoke.*;
  * <p>
  * Initially, a {@code GtkAppChooserButton} selects the first application
  * in its list, which will either be the most-recently used application
- * or, if {@code Gtk.AppChooserButton:show-default-item} is <code>true</code>, the
+ * or, if {@code Gtk.AppChooserButton:show-default-item} is {@code true}, the
  * default application.
  * <p>
  * The list of applications shown in a {@code GtkAppChooserButton} includes

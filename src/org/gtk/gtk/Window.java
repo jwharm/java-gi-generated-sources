@@ -204,7 +204,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Note that this is the widget that would have the focus
      * if the toplevel window focused; if the toplevel window
      * is not focused then {@code gtk_widget_has_focus (widget)} will
-     * not be <code>true</code> for the widget.
+     * not be {@code true} for the widget.
      */
     public Widget getFocus() {
         var RESULT = gtk_h.gtk_window_get_focus(handle());
@@ -316,7 +316,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * <p>
      * The active toplevel is the window receiving keystrokes.
      * <p>
-     * The return value is <code>true</code> if the window is active toplevel itself.
+     * The return value is {@code true} if the window is active toplevel itself.
      * You might use this function if you wanted to draw a widget
      * differently in an active window from a widget in an inactive window.
      */
@@ -446,7 +446,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * <p>
      * Normally, the connection between the application and the window will
      * remain until the window is destroyed, but you can explicitly remove
-     * it by setting the {@code application} to <code>null</code>.
+     * it by setting the {@code application} to {@code null}.
      * <p>
      * This is equivalent to calling {@link Application#removeWindow}
      * and/or {@link Application#addWindow} on the old/new applications
@@ -469,7 +469,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * By default, windows are decorated with a title bar, resize
      * controls, etc. Some window managers allow GTK to disable these
      * decorations, creating a borderless window. If you set the decorated
-     * property to <code>false</code> using this function, GTK will do its best to
+     * property to {@code false} using this function, GTK will do its best to
      * convince the window manager not to decorate the window. Depending on
      * the system, this function may not have any effect when called on a
      * window that is already visible, so you should call it before calling
@@ -528,7 +528,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * <p>
      * By default, windows have a close button in the window frame.
      * Some  window managers allow GTK to disable this button. If you
-     * set the deletable property to <code>false</code> using this function, GTK
+     * set the deletable property to {@code false} using this function, GTK
      * will do its best to convince the window manager not to show a
      * close button. Depending on the system, this function may not
      * have any effect when called on a window that is already visible,
@@ -542,7 +542,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
-     * If {@code setting} is <code>true</code>, then destroying the transient parent of {@code window}
+     * If {@code setting} is {@code true}, then destroying the transient parent of {@code window}
      * will also destroy {@code window} itself.
      * <p>
      * This is useful for dialogs that shouldn’t persist beyond the lifetime
@@ -566,7 +566,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * Sets the focus widget.
      * <p>
      * If {@code focus} is not the current focus widget, and is focusable,
-     * sets it as the focus widget for the window. If {@code focus} is <code>null</code>,
+     * sets it as the focus widget for the window. If {@code focus} is {@code null},
      * unsets the focus widget for this window. To set the focus to a
      * particular widget in the toplevel, it is usually more convenient
      * to use {@link Widget#grabFocus} instead of this function.
@@ -591,7 +591,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
-     * If {@code setting} is <code>true</code>, then clicking the close button on the window
+     * If {@code setting} is {@code true}, then clicking the close button on the window
      * will not destroy it, but only hide it.
      */
     public void setHideOnClose(boolean setting) {
@@ -670,7 +670,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * this window from other windows they may have open. A good title might
      * include the application name and current document filename, for example.
      * <p>
-     * Passing <code>null</code> does the same as setting the title to an empty string.
+     * Passing {@code null} does the same as setting the title to an empty string.
      */
     public void setTitle(java.lang.String title) {
         gtk_h.gtk_window_set_title(handle(), Interop.allocateNativeString(title).handle());
@@ -701,7 +701,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
      * convenience functions in GTK will sometimes call
      * gtk_window_set_transient_for() on your behalf.
      * <p>
-     * Passing <code>null</code> for {@code parent} unsets the current transient window.
+     * Passing {@code null} for {@code parent} unsets the current transient window.
      * <p>
      * On Windows, this function puts the child window on top of the parent,
      * much as the window manager would have done on X.
@@ -921,8 +921,8 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     /**
      * Emitted when the user enables or disables interactive debugging.
      * <p>
-     * When {@code toggle} is <code>true</code>, interactive debugging is toggled on or off,
-     * when it is <code>false</code>, the debugger will be pointed at the widget
+     * When {@code toggle} is {@code true}, interactive debugging is toggled on or off,
+     * when it is {@code false}, the debugger will be pointed at the widget
      * under the pointer.
      * <p>
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.

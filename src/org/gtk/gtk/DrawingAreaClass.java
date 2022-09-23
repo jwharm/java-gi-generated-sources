@@ -13,4 +13,8 @@ public class DrawingAreaClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DrawingAreaClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkDrawingAreaClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

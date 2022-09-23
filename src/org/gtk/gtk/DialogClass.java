@@ -13,4 +13,8 @@ public class DialogClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DialogClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkDialogClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

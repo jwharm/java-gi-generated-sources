@@ -135,7 +135,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     /**
      * Queries a {@code GtkToggleButton} and returns its current state.
      * <p>
-     * Returns <code>true</code> if the toggle button is pressed in and <code>false</code>
+     * Returns {@code true} if the toggle button is pressed in and {@code false}
      * if it is raised.
      */
     public boolean getActive() {
@@ -146,8 +146,8 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     /**
      * Sets the status of the toggle button.
      * <p>
-     * Set to <code>true</code> if you want the {@code GtkToggleButton} to be “pressed in”,
-     * and <code>false</code> to raise it.
+     * Set to {@code true} if you want the {@code GtkToggleButton} to be “pressed in”,
+     * and {@code false} to raise it.
      * <p>
      * If the status of the button changes, this action causes the
      * {@code GtkToggleButton::toggled} signal to be emitted.

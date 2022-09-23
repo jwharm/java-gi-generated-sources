@@ -347,7 +347,7 @@ public final class Gtk {
     /**
      * Calls a function for all {@code GtkPrinter}s.
      * <p>
-     * If {@code func} returns <code>true</code>, the enumeration is stopped.
+     * If {@code func} returns {@code true}, the enumeration is stopped.
      */
     public static void enumeratePrinters(PrinterFunc func, boolean wait) {
         try {
@@ -440,9 +440,9 @@ public final class Gtk {
      * changed after GTK has already been initialized. In this case,
      * you can use it to update the default text direction as follows:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
-     * {@code include} &lt;locale.h&gt;
-     * <p>
+     * <pre>{@code <!-- language="C" -->
+     * #include <locale.h>
+     * 
      * static void
      * update_locale (const char *new_locale)
      * {
@@ -450,7 +450,7 @@ public final class Gtk {
      *   GtkTextDirection direction = gtk_get_locale_direction ();
      *   gtk_widget_set_default_direction (direction);
      * }
-     * ]|
+     * }</pre>
      */
     public static TextDirection getLocaleDirection() {
         var RESULT = gtk_h.gtk_get_locale_direction();
@@ -535,7 +535,7 @@ public final class Gtk {
     /**
      * This function does the same work as gtk_init() with only a single
      * change: It does not terminate the program if the windowing system
-     * can’t be initialized. Instead it returns <code>false</code> on failure.
+     * can’t be initialized. Instead it returns {@code false} on failure.
      * <p>
      * This way the application can fall back to some other means of
      * communication with the user - for example a curses or command line

@@ -29,19 +29,19 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * It's possible to chain this function with graphene_point_init()
      * or graphene_point_init_from_point(), e.g.:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   graphene_point_t *
      *   point_new (float x, float y)
      *   {
      *     return graphene_point_init (graphene_point_alloc (), x, y);
      *   }
-     * <p>
+     * 
      *   graphene_point_t *
      *   point_copy (const graphene_point_t *p)
      *   {
      *     return graphene_point_init_from_point (graphene_point_alloc (), p);
      *   }
-     * ]|
+     * }</pre>
      */
     public static Point alloc() {
         return new Point(constructAlloc());

@@ -82,7 +82,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Note that iterating forward by char moves in visual order,
      * not logical order, so indexes may not be sequential. Also,
      * the index may be equal to the length of the text in the
-     * layout, if on the <code>null</code> run (see {@link LayoutIter#getRun}).
+     * layout, if on the {@code null} run (see {@link LayoutIter#getRun}).
      */
     public int getIndex() {
         var RESULT = gtk_h.pango_layout_iter_get_index(handle());
@@ -144,7 +144,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Gets the current run.
      * <p>
      * When iterating by run, at the end of each line, there's a position
-     * with a <code>null</code> run, so this function can return <code>null</code>. The <code>null</code> run
+     * with a {@code null} run, so this function can return {@code null}. The {@code null} run
      * at the end of each line ensures that all lines have at least one run,
      * even lines consisting of only a newline.
      * <p>
@@ -183,7 +183,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
      * Gets the current run for read-only access.
      * <p>
      * When iterating by run, at the end of each line, there's a position
-     * with a <code>null</code> run, so this function can return <code>null</code>. The <code>null</code> run
+     * with a {@code null} run, so this function can return {@code null}. The {@code null} run
      * at the end of each line ensures that all lines have at least one run,
      * even lines consisting of only a newline.
      * <p>
@@ -199,7 +199,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Moves {@code iter} forward to the next character in visual order.
      * <p>
-     * If {@code iter} was already at the end of the layout, returns <code>false</code>.
+     * If {@code iter} was already at the end of the layout, returns {@code false}.
      */
     public boolean nextChar() {
         var RESULT = gtk_h.pango_layout_iter_next_char(handle());
@@ -209,7 +209,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Moves {@code iter} forward to the next cluster in visual order.
      * <p>
-     * If {@code iter} was already at the end of the layout, returns <code>false</code>.
+     * If {@code iter} was already at the end of the layout, returns {@code false}.
      */
     public boolean nextCluster() {
         var RESULT = gtk_h.pango_layout_iter_next_cluster(handle());
@@ -219,7 +219,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Moves {@code iter} forward to the start of the next line.
      * <p>
-     * If {@code iter} is already on the last line, returns <code>false</code>.
+     * If {@code iter} is already on the last line, returns {@code false}.
      */
     public boolean nextLine() {
         var RESULT = gtk_h.pango_layout_iter_next_line(handle());
@@ -229,7 +229,7 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Moves {@code iter} forward to the next run in visual order.
      * <p>
-     * If {@code iter} was already at the end of the layout, returns <code>false</code>.
+     * If {@code iter} was already at the end of the layout, returns {@code false}.
      */
     public boolean nextRun() {
         var RESULT = gtk_h.pango_layout_iter_next_run(handle());

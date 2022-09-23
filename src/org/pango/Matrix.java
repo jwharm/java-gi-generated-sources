@@ -24,6 +24,10 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Matrix() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoMatrix.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Changes the transformation represented by {@code matrix} to be the
      * transformation given by first applying transformation

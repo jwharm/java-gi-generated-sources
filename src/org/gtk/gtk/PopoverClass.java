@@ -13,4 +13,8 @@ public class PopoverClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PopoverClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkPopoverClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

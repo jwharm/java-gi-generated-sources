@@ -13,4 +13,8 @@ public class BoxClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BoxClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBoxClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

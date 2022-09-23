@@ -27,4 +27,8 @@ public class SelectionModelInterface extends io.github.jwharm.javagi.ResourceBas
         super(reference);
     }
     
+    public SelectionModelInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkSelectionModelInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

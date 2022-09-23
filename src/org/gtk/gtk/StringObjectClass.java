@@ -13,4 +13,8 @@ public class StringObjectClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public StringObjectClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkStringObjectClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

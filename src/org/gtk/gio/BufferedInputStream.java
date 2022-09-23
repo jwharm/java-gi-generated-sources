@@ -75,7 +75,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * If {@code count} is -1 then the attempted read size is equal to the number of
      * bytes that are required to fill the buffer.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
@@ -161,7 +161,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * On success, the byte read from the stream is returned. On end of stream
      * -1 is returned but it's not an exceptional error and {@code error} is not set.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the

@@ -49,7 +49,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * If <code>true</code>, gtk_selection_model_unselect_item() is supported and allows
+     * If {@code true}, gtk_selection_model_unselect_item() is supported and allows
      * unselecting the selected item.
      */
     public boolean getCanUnselect() {
@@ -78,7 +78,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Gets the selected item.
      * <p>
-     * If no item is selected, <code>null</code> is returned.
+     * If no item is selected, {@code null} is returned.
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = gtk_h.gtk_single_selection_get_selected_item(handle());
@@ -88,7 +88,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Enables or disables autoselect.
      * <p>
-     * If {@code autoselect} is <code>true</code>, {@code self} will enforce that an item is always
+     * If {@code autoselect} is {@code true}, {@code self} will enforce that an item is always
      * selected. It will select a new item when the currently selected
      * item is deleted and it will disallow unselecting the current item.
      */
@@ -97,7 +97,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * If <code>true</code>, unselecting the current item via
+     * If {@code true}, unselecting the current item via
      * gtk_selection_model_unselect_item() is supported.
      * <p>
      * Note that setting {@code Gtk.SingleSelection:autoselect} will
@@ -111,7 +111,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Sets the model that {@code self} should wrap.
      * <p>
-     * If {@code model} is <code>null</code>, {@code self} will be empty.
+     * If {@code model} is {@code null}, {@code self} will be empty.
      */
     public void setModel(org.gtk.gio.ListModel model) {
         gtk_h.gtk_single_selection_set_model(handle(), model.handle());

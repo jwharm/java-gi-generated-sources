@@ -96,7 +96,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * {@link DBusInterfaceSkeleton}::g-authorize-method signal,
      * except that it is for the enclosing object.
      * <p>
-     * The default class handler just returns <code>true</code>.
+     * The default class handler just returns {@code true}.
      */
     public SignalHandle onAuthorizeMethod(AuthorizeMethodHandler handler) {
         try {

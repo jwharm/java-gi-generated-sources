@@ -17,4 +17,8 @@ public class ApplicationCommandLineClass extends io.github.jwharm.javagi.Resourc
         super(reference);
     }
     
+    public ApplicationCommandLineClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GApplicationCommandLineClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

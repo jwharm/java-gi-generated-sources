@@ -52,7 +52,7 @@ import java.lang.invoke.*;
  * exist and where they are placed exactly depends on the desktop environment
  * and {@code Gtk.WindowControls:decoration-layout} value.
  * <p>
- * When {@code Gtk.WindowControls:empty} is <code>true</code>, it gets the .empty
+ * When {@code Gtk.WindowControls:empty} is {@code true}, it gets the .empty
  * style class.
  * <p>
  * <h1>Accessibility</h1>

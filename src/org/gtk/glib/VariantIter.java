@@ -17,6 +17,10 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public VariantIter() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GVariantIter.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Creates a new heap-allocated {@link VariantIter} to iterate over the
      * container that was being iterated over by {@code iter}.  Iteration begins on
@@ -70,32 +74,32 @@ public class VariantIter extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the next item in the container.  If no more items remain then
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      * <p>
      * Use g_variant_unref() to drop your reference on the return value when
      * you no longer need it.
      * <p>
      * Here is an example for iterating with g_variant_iter_next_value():
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   // recursively iterate a container
      *   void
      *   iterate_container_recursive (GVariant *container)
      *   {
      *     GVariantIter iter;
      *     GVariant *child;
-     * <p>
+     * 
      *     g_variant_iter_init (&iter, container);
      *     while ((child = g_variant_iter_next_value (&iter)))
      *       {
-     *         g_print ("type '{@code s}'\\n", g_variant_get_type_string (child));
-     * <p>
+     *         g_print ("type '%s'\\n", g_variant_get_type_string (child));
+     * 
      *         if (g_variant_is_container (child))
      *           iterate_container_recursive (child);
-     * <p>
+     * 
      *         g_variant_unref (child);
      *       }
      *   }
-     * ]|
+     * }</pre>
      */
     public Variant nextValue() {
         var RESULT = gtk_h.g_variant_iter_next_value(handle());

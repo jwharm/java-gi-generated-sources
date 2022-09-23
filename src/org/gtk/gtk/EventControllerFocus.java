@@ -42,7 +42,7 @@ public class EventControllerFocus extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if focus is within {@code self} or one of its children.
+     * Returns {@code true} if focus is within {@code self} or one of its children.
      */
     public boolean containsFocus() {
         var RESULT = gtk_h.gtk_event_controller_focus_contains_focus(handle());
@@ -50,7 +50,7 @@ public class EventControllerFocus extends EventController {
     }
     
     /**
-     * Returns <code>true</code> if focus is within {@code self}, but not one of its children.
+     * Returns {@code true} if focus is within {@code self}, but not one of its children.
      */
     public boolean isFocus() {
         var RESULT = gtk_h.gtk_event_controller_focus_is_focus(handle());

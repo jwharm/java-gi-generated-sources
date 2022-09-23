@@ -138,7 +138,7 @@ public class Cursor extends org.gtk.gobject.Object {
     /**
      * Returns the name of the cursor.
      * <p>
-     * If the cursor is not a named cursor, <code>null</code> will be returned.
+     * If the cursor is not a named cursor, {@code null} will be returned.
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gdk_cursor_get_name(handle());
@@ -148,7 +148,7 @@ public class Cursor extends org.gtk.gobject.Object {
     /**
      * Returns the texture for the cursor.
      * <p>
-     * If the cursor is a named cursor, <code>null</code> will be returned.
+     * If the cursor is a named cursor, {@code null} will be returned.
      */
     public Texture getTexture() {
         var RESULT = gtk_h.gdk_cursor_get_texture(handle());

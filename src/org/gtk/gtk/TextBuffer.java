@@ -45,7 +45,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Adds the mark at position {@code where}.
      * <p>
      * The mark must not be added to another buffer, and if its name
-     * is not <code>null</code> then there must not be another mark in the buffer
+     * is not {@code null} then there must not be another mark in the buffer
      * with the same name.
      * <p>
      * Emits the {@code Gtk.TextBuffer::mark-set} signal as notification
@@ -172,12 +172,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Creates a mark at position {@code where}.
      * <p>
-     * If {@code mark_name} is <code>null</code>, the mark is anonymous; otherwise, the mark
+     * If {@code mark_name} is {@code null}, the mark is anonymous; otherwise, the mark
      * can be retrieved by name using {@link TextBuffer#getMark}.
      * If a mark has left gravity, and text is inserted at the mark’s
      * current location, the mark will be moved to the left of the
      * newly-inserted text. If the mark has right gravity
-     * ({@code left_gravity} = <code>false</code>), the mark will end up on the right of
+     * ({@code left_gravity} = {@code false}), the mark will end up on the right of
      * newly-inserted text. The standard left-to-right cursor is a mark
      * with right gravity (when you type, the cursor stays on the right
      * side of the text you’re typing).
@@ -263,7 +263,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Deletes the range between the “insert” and “selection_bound” marks,
      * that is, the currently-selected text.
      * <p>
-     * If {@code interactive} is <code>true</code>, the editability of the selection will be
+     * If {@code interactive} is {@code true}, the editability of the selection will be
      * considered (users can’t delete uneditable text).
      */
     public boolean deleteSelection(boolean interactive, boolean defaultEditable) {
@@ -462,7 +462,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns the mark named {@code name} in buffer {@code buffer}, or <code>null</code> if no such
+     * Returns the mark named {@code name} in buffer {@code buffer}, or {@code null} if no such
      * mark exists in the buffer.
      */
     public TextMark getMark(java.lang.String name) {
@@ -485,7 +485,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Indicates whether the buffer has been modified since the last call
      * to {@link TextBuffer#setModified} set the modification flag to
-     * <code>false</code>.
+     * {@code false}.
      * <p>
      * Used for example to enable a “save” function in a text editor.
      */
@@ -514,12 +514,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if some text is selected; places the bounds
+     * Returns {@code true} if some text is selected; places the bounds
      * of the selection in {@code start} and {@code end}.
      * <p>
      * If the selection has length 0, then {@code start} and {@code end} are filled
      * in with the same value. {@code start} and {@code end} will be in ascending order.
-     * If {@code start} and {@code end} are <code>null</code>, then they are not filled in, but the
+     * If {@code start} and {@code end} are {@code null}, then they are not filled in, but the
      * return value still indicates whether text is selected.
      */
     public boolean getSelectionBounds(TextIter start, TextIter end) {
@@ -542,7 +542,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Returns the text in the range [{@code start},{@code end}).
      * <p>
      * Excludes undisplayed text (text marked with tags that set the
-     * invisibility attribute) if {@code include_hidden_chars} is <code>false</code>.
+     * invisibility attribute) if {@code include_hidden_chars} is {@code false}.
      * The returned string includes a 0xFFFC character whenever the
      * buffer contains embedded images, so byte and character indexes
      * into the returned string do correspond to byte and character
@@ -577,7 +577,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Returns the text in the range [{@code start},{@code end}).
      * <p>
      * Excludes undisplayed text (text marked with tags that set the
-     * invisibility attribute) if {@code include_hidden_chars} is <code>false</code>.
+     * invisibility attribute) if {@code include_hidden_chars} is {@code false}.
      * Does not include characters representing embedded images, so
      * byte and character indexes into the returned string do not
      * correspond to byte and character indexes into the buffer.
@@ -744,7 +744,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Pastes the contents of a clipboard.
      * <p>
-     * If {@code override_location} is <code>null</code>, the pasted text will be inserted
+     * If {@code override_location} is {@code null}, the pasted text will be inserted
      * at the cursor position, or the buffer selection will be replaced
      * if the selection is non-empty.
      * <p>

@@ -17,6 +17,10 @@ public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrSize() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrSize.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Create a new font-size attribute in fractional points.
      */

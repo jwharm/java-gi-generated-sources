@@ -55,6 +55,10 @@ public class GlyphItemIter extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GlyphItemIter() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphItemIter.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Make a shallow copy of an existing {@code PangoGlyphItemIter} structure.
      */

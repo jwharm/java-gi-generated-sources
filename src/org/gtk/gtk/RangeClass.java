@@ -13,4 +13,8 @@ public class RangeClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public RangeClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkRangeClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

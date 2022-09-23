@@ -13,4 +13,8 @@ public class ResolverClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ResolverClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GResolverClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

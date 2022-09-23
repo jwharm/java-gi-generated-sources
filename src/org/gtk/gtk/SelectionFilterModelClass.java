@@ -13,4 +13,8 @@ public class SelectionFilterModelClass extends io.github.jwharm.javagi.ResourceB
         super(reference);
     }
     
+    public SelectionFilterModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkSelectionFilterModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

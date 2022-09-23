@@ -16,6 +16,10 @@ public class DBusMethodInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DBusMethodInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusMethodInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.

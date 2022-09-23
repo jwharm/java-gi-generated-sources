@@ -24,13 +24,13 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Retrieves the name of another entry in the directory, or <code>null</code>.
+     * Retrieves the name of another entry in the directory, or {@code null}.
      * The order of entries returned from this function is not defined,
      * and may vary by file system or other operating-system dependent
      * factors.
      * <p>
-     * <code>null</code> may also be returned in case of errors. On Unix, you can
-     * check {@code errno} to find out if <code>null</code> was returned because of an error.
+     * {@code null} may also be returned in case of errors. On Unix, you can
+     * check {@code errno} to find out if {@code null} was returned because of an error.
      * <p>
      * On Unix, the '.' and '..' entries are omitted, and the returned
      * name is in the on-disk encoding.
@@ -59,7 +59,7 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      * a sequence of six 'X' characters, as the parameter to g_mkstemp().
      * However, unlike these functions, the template should only be a
      * basename, no directory components are allowed. If template is
-     * <code>null</code>, a default template is used.
+     * {@code null}, a default template is used.
      * <p>
      * Note that in contrast to g_mkdtemp() (and mkdtemp()) {@code tmpl} is not
      * modified, and might thus be a read-only literal string.

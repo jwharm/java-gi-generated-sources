@@ -13,4 +13,8 @@ public class MenuAttributeIterClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public MenuAttributeIterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMenuAttributeIterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

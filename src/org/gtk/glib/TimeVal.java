@@ -25,4 +25,8 @@ public class TimeVal extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TimeVal() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTimeVal.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

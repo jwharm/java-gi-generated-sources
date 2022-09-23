@@ -15,11 +15,11 @@ import java.lang.invoke.*;
  * Whenever the source property changes, the same value is applied to the
  * target property; for instance, the following binding:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   g_object_bind_property (object1, "property-a",
  *                           object2, "property-b",
  *                           G_BINDING_DEFAULT);
- * ]|
+ * }</pre>
  * <p>
  * will cause the property named "property-b" of {@code object2} to be updated
  * every time g_object_set() or the specific accessor changes the value of
@@ -29,11 +29,11 @@ import java.lang.invoke.*;
  * of two {@link Object} instances, so that if either property changes, the
  * other is updated as well, for instance:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   g_object_bind_property (object1, "property-a",
  *                           object2, "property-b",
  *                           G_BINDING_BIDIRECTIONAL);
- * ]|
+ * }</pre>
  * <p>
  * will keep the two properties in sync.
  * <p>
@@ -42,14 +42,14 @@ import java.lang.invoke.*;
  * transformation from the source value to the target value before
  * applying it; for instance, the following binding:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   g_object_bind_property_full (adjustment1, "value",
  *                                adjustment2, "value",
  *                                G_BINDING_BIDIRECTIONAL,
  *                                celsius_to_fahrenheit,
  *                                fahrenheit_to_celsius,
  *                                NULL, NULL);
- * ]|
+ * }</pre>
  * <p>
  * will keep the "value" property of the two adjustments in sync; the
  * {@code celsius_to_fahrenheit} function will be called whenever the "value"
@@ -63,11 +63,11 @@ import java.lang.invoke.*;
  * <p>
  * Note that {@link Binding} does not resolve cycles by itself; a cycle like
  * <p>
- * |[
+ * <pre>{@code 
  *   object1:propertyA -> object2:propertyB
  *   object2:propertyB -> object3:propertyC
  *   object3:propertyC -> object1:propertyA
- * ]|
+ * }</pre>
  * <p>
  * might lead to an infinite loop. The loop, in this particular case,
  * can be avoided if the objects emit the {@link Object}::notify signal only
@@ -103,7 +103,7 @@ public class Binding extends Object {
      * <p>
      * A {@link Binding} can outlive the source {@link Object} as the binding does not hold a
      * strong reference to the source. If the source is destroyed before the
-     * binding then this function will return <code>null</code>.
+     * binding then this function will return {@code null}.
      */
     public Object dupSource() {
         var RESULT = gtk_h.g_binding_dup_source(handle());
@@ -115,7 +115,7 @@ public class Binding extends Object {
      * <p>
      * A {@link Binding} can outlive the target {@link Object} as the binding does not hold a
      * strong reference to the target. If the target is destroyed before the
-     * binding then this function will return <code>null</code>.
+     * binding then this function will return {@code null}.
      */
     public Object dupTarget() {
         var RESULT = gtk_h.g_binding_dup_target(handle());

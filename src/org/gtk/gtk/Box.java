@@ -100,7 +100,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Inserts {@code child} in the position after {@code sibling} in the list
      * of {@code box} children.
      * <p>
-     * If {@code sibling} is <code>null</code>, insert {@code child} at the first position.
+     * If {@code sibling} is {@code null}, insert {@code child} at the first position.
      */
     public void insertChildAfter(Widget child, Widget sibling) {
         gtk_h.gtk_box_insert_child_after(handle(), child.handle(), sibling.handle());
@@ -128,7 +128,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Moves {@code child} to the position after {@code sibling} in the list
      * of {@code box} children.
      * <p>
-     * If {@code sibling} is <code>null</code>, move {@code child} to the first position.
+     * If {@code sibling} is {@code null}, move {@code child} to the first position.
      */
     public void reorderChildAfter(Widget child, Widget sibling) {
         gtk_h.gtk_box_reorder_child_after(handle(), child.handle(), sibling.handle());

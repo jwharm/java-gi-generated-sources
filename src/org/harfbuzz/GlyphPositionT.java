@@ -18,4 +18,8 @@ public class GlyphPositionT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GlyphPositionT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_position_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

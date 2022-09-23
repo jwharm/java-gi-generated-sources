@@ -16,4 +16,8 @@ public class ColorStop extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ColorStop() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GskColorStop.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

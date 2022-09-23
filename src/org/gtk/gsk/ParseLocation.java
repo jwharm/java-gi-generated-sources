@@ -16,4 +16,8 @@ public class ParseLocation extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ParseLocation() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GskParseLocation.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -10,8 +10,8 @@ package org.gtk.gio;
  * always be made immediately.
  * <p>
  * In the case that there is no support, {@code reporting} will be set to
- * <code>false</code> (and the other values undefined) and no further calls will be
- * made.  Otherwise, the {@code reporting} will be <code>true</code> and the other values
+ * {@code false} (and the other values undefined) and no further calls will be
+ * made.  Otherwise, the {@code reporting} will be {@code true} and the other values
  * all-zeros during the first (immediate) call.  In this way, you can
  * know which type of progress UI to show without a delay.
  * <p>

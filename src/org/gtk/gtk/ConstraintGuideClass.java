@@ -13,4 +13,8 @@ public class ConstraintGuideClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ConstraintGuideClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkConstraintGuideClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

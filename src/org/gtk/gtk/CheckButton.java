@@ -180,7 +180,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     /**
      * Sets the text of {@code self}.
      * <p>
-     * If {@code Gtk.CheckButton:use-underline} is <code>true</code>, an underscore
+     * If {@code Gtk.CheckButton:use-underline} is {@code true}, an underscore
      * in {@code label} is interpreted as mnemonic indicator, see
      * {@link CheckButton#setUseUnderline} for details on this behavior.
      */
@@ -191,7 +191,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
     /**
      * Sets whether underlines in the label indicate mnemonics.
      * <p>
-     * If {@code setting} is <code>true</code>, an underscore character in {@code self}'s label
+     * If {@code setting} is {@code true}, an underscore character in {@code self}'s label
      * indicates a mnemonic accelerator key. This behavior is similar
      * to {@code Gtk.Label:use-underline}.
      */

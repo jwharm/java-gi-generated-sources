@@ -81,9 +81,9 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * To do this, you can use gtk_tree_row_reference_new().
      * <p>
      * To free the return value, use:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
-     * ]|
+     * }</pre>
      */
     public org.gtk.glib.List getSelectedRows(TreeModel[] model) {
         var RESULT = gtk_h.gtk_tree_selection_get_selected_rows(handle(), Interop.allocateNativeArray(model).handle());
@@ -107,7 +107,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the row at {@code iter} is currently selected.
+     * Returns {@code true} if the row at {@code iter} is currently selected.
      */
     public boolean iterIsSelected(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_selection_iter_is_selected(handle(), iter.handle());
@@ -115,8 +115,8 @@ public class TreeSelection extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the row pointed to by {@code path} is currently selected.  If {@code path}
-     * does not point to a valid location, <code>false</code> is returned
+     * Returns {@code true} if the row pointed to by {@code path} is currently selected.  If {@code path}
+     * does not point to a valid location, {@code false} is returned
      */
     public boolean pathIsSelected(TreePath path) {
         var RESULT = gtk_h.gtk_tree_selection_path_is_selected(handle(), path.handle());
@@ -186,7 +186,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      * <p>
      * If set, this function is called before any node is selected or unselected,
      * giving some control over which nodes are selected. The select function
-     * should return <code>true</code> if the state of the node may be toggled, and <code>false</code>
+     * should return {@code true} if the state of the node may be toggled, and {@code false}
      * if the state of the node should be left unchanged.
      */
     public void setSelectFunction(TreeSelectionFunc func) {

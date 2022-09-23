@@ -16,4 +16,8 @@ public class ListModelInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ListModelInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GListModelInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

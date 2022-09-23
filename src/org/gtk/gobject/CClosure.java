@@ -16,6 +16,10 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CClosure() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GCClosure.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * A {@link ClosureMarshal} function for use with signals with handlers that
      * take two boxed pointers as arguments and return a boolean.  If you
@@ -354,7 +358,7 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
      * <a href="http://sourceware.org/libffi/">libffi</a>.
      * <p>
      * Normally this function is not passed explicitly to g_signal_new(),
-     * but used automatically by GLib when specifying a <code>null</code> marshaller.
+     * but used automatically by GLib when specifying a {@code null} marshaller.
      */
     public static void marshalGeneric(Closure closure, Value returnGvalue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_generic(closure.handle(), returnGvalue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);

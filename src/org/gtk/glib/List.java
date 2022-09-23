@@ -16,6 +16,10 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public List() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GList.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Allocates space for one {@link List} element. It is called by
      * g_list_append(), g_list_prepend(), g_list_insert() and
@@ -37,18 +41,18 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * to avoid the inefficiency is to use g_list_prepend() and reverse
      * the list with g_list_reverse() when all elements have been added.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * // Notice that these are initialized to the empty list.
-     * GList <strong>string_list = NULL, </strong>number_list = NULL;
-     * <p>
+     * GList *string_list = NULL, *number_list = NULL;
+     * 
      * // This is a list of strings.
      * string_list = g_list_append (string_list, "first");
      * string_list = g_list_append (string_list, "second");
-     * <p>
+     * 
      * // This is a list of integers.
      * number_list = g_list_append (number_list, GINT_TO_POINTER (27));
      * number_list = g_list_append (number_list, GINT_TO_POINTER (14));
-     * ]|
+     * }</pre>
      */
     public static org.gtk.glib.List append(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
         var RESULT = gtk_h.g_list_append(list.handle(), data);
@@ -62,10 +66,10 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is for example used to move an element in the list.
      * The following example moves an element to the top of the list:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * list = g_list_remove_link (list, llink);
      * list = g_list_concat (llink, list);
-     * ]|
+     * }</pre>
      */
     public static org.gtk.glib.List concat(org.gtk.glib.List list1, org.gtk.glib.List list2) {
         var RESULT = gtk_h.g_list_concat(list1.handle(), list2.handle());
@@ -94,19 +98,19 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code func}, as a {@link CopyFunc}, takes two arguments, the data to be copied
      * and a {@code user_data} pointer. On common processor architectures, it's safe to
-     * pass <code>null</code> as {@code user_data} if the copy function takes only one argument. You
+     * pass {@code null} as {@code user_data} if the copy function takes only one argument. You
      * may get compiler warnings from this though if compiling with GCC’s
      * {@code -Wcast-function-type} warning.
      * <p>
      * For instance, if {@code list} holds a list of GObjects, you can do:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * another_list = g_list_copy_deep (list, (GCopyFunc) g_object_ref, NULL);
-     * ]|
+     * }</pre>
      * <p>
      * And, to entirely free the new list, you could do:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * g_list_free_full (another_list, g_object_unref);
-     * ]|
+     * }</pre>
      */
     public static org.gtk.glib.List copyDeep(org.gtk.glib.List list, CopyFunc func) {
         try {
@@ -201,10 +205,10 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * It can be combined with g_steal_pointer() to ensure the list head pointer
      * is not left dangling:
-     * |[&lt;!-- language="C" --&gt;
-     * GList <strong>list_of_borrowed_things = …;  /<!-- -->* (transfer container) </strong>&lt;!-- --&gt;/
+     * <pre>{@code <!-- language="C" -->
+     * GList *list_of_borrowed_things = …;  /<!-- -->* (transfer container) *<!-- -->/
      * g_list_free (g_steal_pointer (&list_of_borrowed_things));
-     * ]|
+     * }</pre>
      */
     public static void free(org.gtk.glib.List list) {
         gtk_h.g_list_free(list.handle());
@@ -317,7 +321,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * This function iterates over the whole list to count its elements.
      * Use a {@link Queue} instead of a GList if you regularly need the number
      * of items. To check whether the list is non-empty, it is faster to check
-     * {@code list} against <code>null</code>.
+     * {@code list} against {@code null}.
      */
     public static int length(org.gtk.glib.List list) {
         var RESULT = gtk_h.g_list_length(list.handle());
@@ -371,13 +375,13 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Note that the return value is the new start of the list,
      * which will have changed, so make sure you store the new value.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * // Notice that it is initialized to the empty list.
      * GList *list = NULL;
-     * <p>
+     * 
      * list = g_list_prepend (list, "last");
      * list = g_list_prepend (list, "first");
-     * ]|
+     * }</pre>
      * <p>
      * Do not use this function to prepend a new element to a different
      * element than the start of the list. Use g_list_insert_before() instead.
@@ -410,17 +414,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Removes an element from a {@link List}, without freeing the element.
-     * The removed element's prev and next links are set to <code>null</code>, so
+     * The removed element's prev and next links are set to {@code null}, so
      * that it becomes a self-contained list with one element.
      * <p>
      * This function is for example used to move an element in the list
      * (see the example for g_list_concat()) or to remove an element in
      * the list before freeing its data:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * list = g_list_remove_link (list, llink);
      * free_some_data_that_may_access_the_list_again (llink->data);
      * g_list_free (llink);
-     * ]|
+     * }</pre>
      */
     public static org.gtk.glib.List removeLink(org.gtk.glib.List list, org.gtk.glib.List llink) {
         var RESULT = gtk_h.g_list_remove_link(list.handle(), llink.handle());

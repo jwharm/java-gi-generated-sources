@@ -13,4 +13,8 @@ public class SliceListModelClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SliceListModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkSliceListModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

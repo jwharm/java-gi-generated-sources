@@ -112,7 +112,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Returns a {@code GtkTreePath} referring to the currently
      * displayed row. If no row is currently displayed,
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      */
     public TreePath getDisplayedRow() {
         var RESULT = gtk_h.gtk_cell_view_get_displayed_row(handle());
@@ -138,7 +138,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Returns the model for {@code cell_view}. If no model is used <code>null</code> is
+     * Returns the model for {@code cell_view}. If no model is used {@code null} is
      * returned.
      */
     public TreeModel getModel() {
@@ -182,7 +182,7 @@ public class CellView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the model for {@code cell_view}.  If {@code cell_view} already has a model
      * set, it will remove it before setting the new model.  If {@code model} is
-     * <code>null</code>, then it will unset the old model.
+     * {@code null}, then it will unset the old model.
      */
     public void setModel(TreeModel model) {
         gtk_h.gtk_cell_view_set_model(handle(), model.handle());

@@ -17,4 +17,8 @@ public class InterfaceInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public InterfaceInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GInterfaceInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

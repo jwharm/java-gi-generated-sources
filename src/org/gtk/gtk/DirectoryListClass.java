@@ -13,4 +13,8 @@ public class DirectoryListClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DirectoryListClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkDirectoryListClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -129,7 +129,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * Returns the icon name of the button.
      * <p>
      * If the icon name has not been set with {@link Button#setIconName}
-     * the return value will be <code>null</code>. This will be the case if you create
+     * the return value will be {@code null}. This will be the case if you create
      * an empty button with {@link Button#Button} to use as a container.
      */
     public java.lang.String getIconName() {
@@ -141,7 +141,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * Fetches the text from the label of the button.
      * <p>
      * If the label text has not been set with {@link Button#setLabel}
-     * the return value will be <code>null</code>. This will be the case if you create
+     * the return value will be {@code null}. This will be the case if you create
      * an empty button with {@link Button#Button} to use as a container.
      */
     public java.lang.String getLabel() {

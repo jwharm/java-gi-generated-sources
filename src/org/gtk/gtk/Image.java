@@ -80,7 +80,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new {@code GtkImage} displaying the file {@code filename}.
      * <p>
      * If the file isn’t found or can’t be loaded, the resulting {@code GtkImage}
-     * will display a “broken image” icon. This function never returns <code>null</code>,
+     * will display a “broken image” icon. This function never returns {@code null},
      * it always returns a valid {@code GtkImage} widget.
      * <p>
      * If you need to detect failures to load the file, use
@@ -178,7 +178,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new {@code GtkImage} displaying the resource file {@code resource_path}.
      * <p>
      * If the file isn’t found or can’t be loaded, the resulting {@code GtkImage} will
-     * display a “broken image” icon. This function never returns <code>null</code>,
+     * display a “broken image” icon. This function never returns {@code null},
      * it always returns a valid {@code GtkImage} widget.
      * <p>
      * If you need to detect failures to load the file, use

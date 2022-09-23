@@ -13,4 +13,8 @@ public class InetSocketAddressClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public InetSocketAddressClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GInetSocketAddressClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

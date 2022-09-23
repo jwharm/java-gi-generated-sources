@@ -13,4 +13,8 @@ public class CustomLayoutClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CustomLayoutClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCustomLayoutClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

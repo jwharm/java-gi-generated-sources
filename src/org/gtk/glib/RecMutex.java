@@ -27,6 +27,10 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public RecMutex() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GRecMutex.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Frees the resources allocated to a recursive mutex with
      * g_rec_mutex_init().
@@ -53,17 +57,17 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * It is not necessary to initialise a recursive mutex that has been
      * statically allocated.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   typedef struct {
      *     GRecMutex m;
      *     ...
      *   } Blob;
-     * <p>
+     * 
      * Blob *b;
-     * <p>
+     * 
      * b = g_new (Blob, 1);
      * g_rec_mutex_init (&b->m);
-     * ]|
+     * }</pre>
      * <p>
      * Calling g_rec_mutex_init() on an already initialized {@link RecMutex}
      * leads to undefined behaviour.
@@ -89,8 +93,8 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Tries to lock {@code rec_mutex}. If {@code rec_mutex} is already locked
-     * by another thread, it immediately returns <code>false</code>. Otherwise
-     * it locks {@code rec_mutex} and returns <code>true</code>.
+     * by another thread, it immediately returns {@code false}. Otherwise
+     * it locks {@code rec_mutex} and returns {@code true}.
      */
     public boolean trylock() {
         var RESULT = gtk_h.g_rec_mutex_trylock(handle());

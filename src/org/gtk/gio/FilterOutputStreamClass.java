@@ -13,4 +13,8 @@ public class FilterOutputStreamClass extends io.github.jwharm.javagi.ResourceBas
         super(reference);
     }
     
+    public FilterOutputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFilterOutputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

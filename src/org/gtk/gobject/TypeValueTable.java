@@ -17,6 +17,10 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TypeValueTable() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeValueTable.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Returns the location of the {@link TypeValueTable} associated with {@code type}.
      * <p>

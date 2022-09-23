@@ -16,4 +16,8 @@ public class TlsBackendInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TlsBackendInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTlsBackendInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

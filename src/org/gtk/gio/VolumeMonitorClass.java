@@ -13,4 +13,8 @@ public class VolumeMonitorClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public VolumeMonitorClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GVolumeMonitorClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

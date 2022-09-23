@@ -79,7 +79,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Creates a new {@code GtkTextView} widget displaying the buffer {@code buffer}.
      * <p>
-     * One buffer can be shared among many widgets. {@code buffer} may be <code>null</code>
+     * One buffer can be shared among many widgets. {@code buffer} may be {@code null}
      * to create a default buffer, in which case this function is equivalent
      * to {@link TextView#TextView}. The text view adds its own reference count
      * to the buffer; it does not take over an existing reference.
@@ -215,7 +215,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * characters of the directionality opposite to the base direction
      * of the paragraph are inserted.
      * <p>
-     * If {@code iter} is <code>null</code>, the actual cursor position is used.
+     * If {@code iter} is {@code null}, the actual cursor position is used.
      * <p>
      * Note that if {@code iter} happens to be the actual cursor position, and
      * there is currently an IM preedit sequence being entered, the
@@ -250,7 +250,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     /**
      * Gets the menu model that gets added to the context menu
-     * or <code>null</code> if none has been set.
+     * or {@code null} if none has been set.
      */
     public org.gtk.gio.MenuModel getExtraMenu() {
         var RESULT = gtk_h.gtk_text_view_get_extra_menu(handle());
@@ -424,7 +424,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Gets the default tabs for {@code text_view}.
      * <p>
      * Tags in the buffer may override the defaults. The returned array
-     * will be <code>null</code> if “standard” (8-space) tabs are used. Free the
+     * will be {@code null} if “standard” (8-space) tabs are used. Free the
      * return value with {@link org.pango.TabArray#free}.
      */
     public org.pango.TabArray getTabs() {
@@ -463,7 +463,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Allow the {@code GtkTextView} input method to internally handle key press
      * and release events.
      * <p>
-     * If this function returns <code>true</code>, then no further processing should be
+     * If this function returns {@code true}, then no further processing should be
      * done for this key event. See {@link IMContext#filterKeypress}.
      * <p>
      * Note that you are expected to call this function from your handler
@@ -587,7 +587,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * indicated by {@code xalign} and {@code yalign}.
      * <p>
      * An alignment of 0.0 indicates left or top, 1.0 indicates right or
-     * bottom, 0.5 means center. If {@code use_align} is <code>false</code>, the text scrolls
+     * bottom, 0.5 means center. If {@code use_align} is {@code false}, the text scrolls
      * the minimal distance to get the mark onscreen, possibly not scrolling
      * at all. The effective screen for purposes of this function is reduced
      * by a margin of size {@code within_margin}.
@@ -609,7 +609,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * indicated by {@code xalign} and {@code yalign}.
      * <p>
      * An alignment of 0.0 indicates left or top, 1.0 indicates right or
-     * bottom, 0.5 means center. If {@code use_align} is <code>false</code>, the text scrolls
+     * bottom, 0.5 means center. If {@code use_align} is {@code false}, the text scrolls
      * the minimal distance to get the mark onscreen, possibly not scrolling
      * at all. The effective screen for purposes of this function is reduced
      * by a margin of size {@code within_margin}.
@@ -621,8 +621,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the behavior of the text widget when the &lt;kbd>Tab</kbd&gt; key is pressed.
      * <p>
-     * If {@code accepts_tab} is <code>true</code>, a tab character is inserted. If {@code accepts_tab}
-     * is <code>false</code> the keyboard focus is moved to the next widget in the focus
+     * If {@code accepts_tab} is {@code true}, a tab character is inserted. If {@code accepts_tab}
+     * is {@code false} the keyboard focus is moved to the next widget in the focus
      * chain.
      */
     public void setAcceptsTab(boolean acceptsTab) {
@@ -678,7 +678,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Sets a menu model to add when constructing the context
      * menu for {@code text_view}.
      * <p>
-     * You can pass <code>null</code> to remove a previously set extra menu.
+     * You can pass {@code null} to remove a previously set extra menu.
      */
     public void setExtraMenu(org.gtk.gio.MenuModel model) {
         gtk_h.gtk_text_view_set_extra_menu(handle(), model.handle());

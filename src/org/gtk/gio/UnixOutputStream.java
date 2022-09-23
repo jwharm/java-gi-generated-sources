@@ -37,7 +37,7 @@ public class UnixOutputStream extends OutputStream implements FileDescriptorBase
     /**
      * Creates a new {@link UnixOutputStream} for the given {@code fd}.
      * <p>
-     * If {@code close_fd}, is <code>true</code>, the file descriptor will be closed when
+     * If {@code close_fd}, is {@code true}, the file descriptor will be closed when
      * the output stream is destroyed.
      */
     public UnixOutputStream(int fd, boolean closeFd) {

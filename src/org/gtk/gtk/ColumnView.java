@@ -271,7 +271,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * and {@link ColumnViewColumn#setSorter} has been called
      * on {@code column} to associate a sorter with the column.
      * <p>
-     * If {@code column} is <code>null</code>, the view will be unsorted.
+     * If {@code column} is {@code null}, the view will be unsorted.
      */
     public void sortByColumn(ColumnViewColumn column, SortType direction) {
         gtk_h.gtk_column_view_sort_by_column(handle(), column.handle(), direction.getValue());

@@ -13,4 +13,8 @@ public class StringFilterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public StringFilterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkStringFilterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

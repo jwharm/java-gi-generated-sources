@@ -57,7 +57,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Reads the print settings from {@code file_name}.
      * <p>
      * Returns a new {@code GtkPrintSettings} object with the restored settings,
-     * or <code>null</code> if an error occurred. If the file could not be loaded then
+     * or {@code null} if an error occurred. If the file could not be loaded then
      * error is set to either a {@code GFileError} or {@code GKeyFileError}.
      * <p>
      * See {@link PrintSettings#toFile}.
@@ -94,7 +94,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Reads the print settings from the group {@code group_name} in {@code key_file}.
      * <p>
      * Returns a new {@code GtkPrintSettings} object with the restored settings,
-     * or <code>null</code> if an error occurred. If the file could not be loaded then
+     * or {@code null} if an error occurred. If the file could not be loaded then
      * error is set to either {@code GFileError} or {@code GKeyFileError}.
      */
     public static PrintSettings newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
@@ -138,8 +138,8 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns the boolean represented by the value
      * that is associated with {@code key}.
      * <p>
-     * The string “true” represents <code>true</code>, any other
-     * string <code>false</code>.
+     * The string “true” represents {@code true}, any other
+     * string {@code false}.
      */
     public boolean getBool(java.lang.String key) {
         var RESULT = gtk_h.gtk_print_settings_get_bool(handle(), Interop.allocateNativeString(key).handle());
@@ -402,7 +402,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code>, if a value is associated with {@code key}.
+     * Returns {@code true}, if a value is associated with {@code key}.
      */
     public boolean hasKey(java.lang.String key) {
         var RESULT = gtk_h.gtk_print_settings_has_key(handle(), Interop.allocateNativeString(key).handle());
@@ -693,7 +693,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Removes any value associated with {@code key}.
      * <p>
-     * This has the same effect as setting the value to <code>null</code>.
+     * This has the same effect as setting the value to {@code null}.
      */
     public void unset(java.lang.String key) {
         gtk_h.gtk_print_settings_unset(handle(), Interop.allocateNativeString(key).handle());

@@ -13,4 +13,8 @@ public class CustomFilterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CustomFilterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCustomFilterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

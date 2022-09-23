@@ -160,7 +160,7 @@ public class GLShader extends org.gtk.gobject.Object {
     /**
      * Tries to compile the {@code shader} for the given {@code renderer}.
      * <p>
-     * If there is a problem, this function returns <code>false</code> and reports
+     * If there is a problem, this function returns {@code false} and reports
      * an error. You should use this function before relying on the shader
      * for rendering and use a fallback with a simpler shader or without
      * shaders if it fails.

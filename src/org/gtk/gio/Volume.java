@@ -18,7 +18,7 @@ import java.lang.invoke.*;
  * least) the {@link Volume} instance, optionally a {@link MountOperation} object
  * and a {@link AsyncReadyCallback}.
  * <p>
- * Typically, one will only want to pass <code>null</code> for the
+ * Typically, one will only want to pass {@code null} for the
  * {@link MountOperation} if automounting all volumes when a desktop session
  * starts since it's not desirable to put up a lot of dialogs asking
  * for credentials.
@@ -89,7 +89,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes ejecting a volume. If any errors occurred during the operation,
-     * {@code error} will be set to contain the errors and <code>false</code> will be returned.
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -102,27 +102,27 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the activation root for a {@link Volume} if it is known ahead of
-     * mount time. Returns <code>null</code> otherwise. If not <code>null</code> and if {@code volume}
+     * mount time. Returns {@code null} otherwise. If not {@code null} and if {@code volume}
      * is mounted, then the result of g_mount_get_root() on the
      * {@link Mount} object obtained from g_volume_get_mount() will always
      * either be equal or a prefix of what this function returns. In
      * other words, in code
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   GMount *mount;
      *   GFile *mount_root
      *   GFile *volume_activation_root;
-     * <p>
+     * 
      *   mount = g_volume_get_mount (volume); // mounted, so never NULL
      *   mount_root = g_mount_get_root (mount);
      *   volume_activation_root = g_volume_get_activation_root (volume); // assume not NULL
-     * ]|
+     * }</pre>
      * then the expression
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   (g_file_has_prefix (volume_activation_root, mount_root) ||
      *    g_file_equal (volume_activation_root, mount_root))
-     * ]|
-     * will always be <code>true</code>.
+     * }</pre>
+     * will always be {@code true}.
      * <p>
      * Activation roots are typically used in {@link VolumeMonitor}
      * implementations to find the underlying mount to shadow, see
@@ -194,7 +194,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the UUID for the {@code volume}. The reference is typically based on
      * the file system UUID for the volume in question and should be
-     * considered an opaque string. Returns <code>null</code> if there is no UUID
+     * considered an opaque string. Returns {@code null} if there is no UUID
      * available.
      */
     public default java.lang.String getUuid() {
@@ -223,7 +223,7 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes mounting a volume. If any errors occurred during the operation,
-     * {@code error} will be set to contain the errors and <code>false</code> will be returned.
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
      * <p>
      * If the mount operation succeeded, g_volume_get_mount() on {@code volume}
      * is guaranteed to return the mount right after calling this

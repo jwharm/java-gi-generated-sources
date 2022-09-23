@@ -48,7 +48,7 @@ public class Drop extends org.gtk.gobject.Object {
      * Returns the possible actions for this {@code GdkDrop}.
      * <p>
      * If this value contains multiple actions - i.e.
-     * {@link Gdk#DragAction} returns <code>false</code> for the result -
+     * {@link Gdk#DragAction} returns {@code false} for the result -
      * {@link Drop#finish} must choose the action to use when
      * accepting the drop. This will only happen if you passed
      * {@link DragAction#ASK} as one of the possible actions in
@@ -85,7 +85,7 @@ public class Drop extends org.gtk.gobject.Object {
      * If this is an in-app drag-and-drop operation, returns the {@code GdkDrag}
      * that corresponds to this drop.
      * <p>
-     * If it is not, <code>null</code> is returned.
+     * If it is not, {@code null} is returned.
      */
     public Drag getDrag() {
         var RESULT = gtk_h.gdk_drop_get_drag(handle());

@@ -16,4 +16,8 @@ public class Shadow extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Shadow() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GskShadow.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

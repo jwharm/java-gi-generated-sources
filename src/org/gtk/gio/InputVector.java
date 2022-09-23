@@ -19,4 +19,8 @@ public class InputVector extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public InputVector() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GInputVector.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

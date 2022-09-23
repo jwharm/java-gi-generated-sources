@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  * mechanism for modern Unix platforms such as Linux and the BSD family,
  * you would use a signal handler like this:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * static gboolean
  * on_allow_mechanism (GDBusAuthObserver *observer,
  *                     const gchar       *mechanism,
@@ -33,10 +33,10 @@ import java.lang.invoke.*;
  *     {
  *       return TRUE;
  *     }
- * <p>
+ * 
  *   return FALSE;
  * }
- * ]|
+ * }</pre>
  * <p>
  * <h2>Controlling Authorization # {#auth-observer}</h2>
  * <p>
@@ -48,7 +48,7 @@ import java.lang.invoke.*;
  * {@link DBusServerFlags#AUTHENTICATION_REQUIRE_SAME_USER} flag. It’s equivalent
  * to the following signal handler:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * static gboolean
  * on_authorize_authenticated_peer (GDBusAuthObserver *observer,
  *                                  GIOStream         *stream,
@@ -56,7 +56,7 @@ import java.lang.invoke.*;
  *                                  gpointer           user_data)
  * {
  *   gboolean authorized;
- * <p>
+ * 
  *   authorized = FALSE;
  *   if (credentials != NULL)
  *     {
@@ -66,10 +66,10 @@ import java.lang.invoke.*;
  *         authorized = TRUE;
  *       g_object_unref (own_credentials);
  *     }
- * <p>
+ * 
  *   return authorized;
  * }
- * ]|
+ * }</pre>
  */
 public class DBusAuthObserver extends org.gtk.gobject.Object {
 

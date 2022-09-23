@@ -28,7 +28,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates an array of {@code initial_size} tab stops.
      * <p>
-     * Tab stops are specified in pixel units if {@code positions_in_pixels} is <code>true</code>,
+     * Tab stops are specified in pixel units if {@code positions_in_pixels} is {@code true},
      * otherwise in Pango units. All stops are initially at position 0.
      */
     public TabArray(int initialSize, boolean positionsInPixels) {
@@ -66,8 +66,8 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the tab positions are in pixels,
-     * <code>false</code> if they are in Pango units.
+     * Returns {@code true} if the tab positions are in pixels,
+     * {@code false} if they are in Pango units.
      */
     public boolean getPositionsInPixels() {
         var RESULT = gtk_h.pango_tab_array_get_positions_in_pixels(handle());

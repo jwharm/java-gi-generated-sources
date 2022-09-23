@@ -13,4 +13,8 @@ public class BoolFilterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BoolFilterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBoolFilterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -13,4 +13,8 @@ public class FontChooserIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FontChooserIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFontChooserIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

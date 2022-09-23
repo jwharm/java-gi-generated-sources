@@ -86,14 +86,14 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pushes the {@code data} into the {@code queue}. {@code data} must not be <code>null</code>.
+     * Pushes the {@code data} into the {@code queue}. {@code data} must not be {@code null}.
      */
     public void push(java.lang.foreign.MemoryAddress data) {
         gtk_h.g_async_queue_push(handle(), data);
     }
     
     /**
-     * Pushes the {@code item} into the {@code queue}. {@code item} must not be <code>null</code>.
+     * Pushes the {@code item} into the {@code queue}. {@code item} must not be {@code null}.
      * In contrast to g_async_queue_push(), this function
      * pushes the new item ahead of the items already in the queue,
      * so that it will be the next one to be popped off the queue.
@@ -103,7 +103,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pushes the {@code item} into the {@code queue}. {@code item} must not be <code>null</code>.
+     * Pushes the {@code item} into the {@code queue}. {@code item} must not be {@code null}.
      * In contrast to g_async_queue_push_unlocked(), this function
      * pushes the new item ahead of the items already in the queue,
      * so that it will be the next one to be popped off the queue.
@@ -174,7 +174,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Pushes the {@code data} into the {@code queue}. {@code data} must not be <code>null</code>.
+     * Pushes the {@code data} into the {@code queue}. {@code data} must not be {@code null}.
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
@@ -223,15 +223,15 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If you were sorting a list of priority numbers to make sure the
      * lowest priority would be at the top of the queue, you could use:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  gint32 id1;
      *  gint32 id2;
-     * <p>
+     * 
      *  id1 = GPOINTER_TO_INT (element1);
      *  id2 = GPOINTER_TO_INT (element2);
-     * <p>
+     * 
      *  return (id1 > id2 ? +1 : id1 == id2 ? 0 : -1);
-     * ]|
+     * }</pre>
      */
     public void sort(CompareDataFunc func) {
         try {
@@ -276,7 +276,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Pops data from the {@code queue}. If the queue is empty, blocks for
      * {@code timeout} microseconds, or until data becomes available.
      * <p>
-     * If no data is received before the timeout, <code>null</code> is returned.
+     * If no data is received before the timeout, {@code null} is returned.
      */
     public java.lang.foreign.MemoryAddress timeoutPop(long timeout) {
         var RESULT = gtk_h.g_async_queue_timeout_pop(handle(), timeout);
@@ -287,7 +287,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Pops data from the {@code queue}. If the queue is empty, blocks for
      * {@code timeout} microseconds, or until data becomes available.
      * <p>
-     * If no data is received before the timeout, <code>null</code> is returned.
+     * If no data is received before the timeout, {@code null} is returned.
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
@@ -298,7 +298,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Tries to pop data from the {@code queue}. If no data is available,
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      */
     public java.lang.foreign.MemoryAddress tryPop() {
         var RESULT = gtk_h.g_async_queue_try_pop(handle());
@@ -307,7 +307,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Tries to pop data from the {@code queue}. If no data is available,
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */

@@ -109,7 +109,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a boolean attribute. If the attribute does not
-     * contain a boolean value, <code>false</code> will be returned.
+     * contain a boolean value, {@code false} will be returned.
      */
     public boolean getAttributeBoolean(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_boolean(handle(), Interop.allocateNativeString(attribute).handle());
@@ -118,7 +118,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a byte string attribute. If the attribute does
-     * not contain a byte string, <code>null</code> will be returned.
+     * not contain a byte string, {@code null} will be returned.
      */
     public java.lang.String getAttributeByteString(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_byte_string(handle(), Interop.allocateNativeString(attribute).handle());
@@ -147,7 +147,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a {@link org.gtk.gobject.Object} attribute. If the attribute does
-     * not contain a {@link org.gtk.gobject.Object}, <code>null</code> will be returned.
+     * not contain a {@link org.gtk.gobject.Object}, {@code null} will be returned.
      */
     public org.gtk.gobject.Object getAttributeObject(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_object(handle(), Interop.allocateNativeString(attribute).handle());
@@ -164,7 +164,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     
     /**
      * Gets the value of a string attribute. If the attribute does
-     * not contain a string, <code>null</code> will be returned.
+     * not contain a string, {@code null} will be returned.
      */
     public java.lang.String getAttributeString(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_string(handle(), Interop.allocateNativeString(attribute).handle());
@@ -223,7 +223,7 @@ public class FileInfo extends org.gtk.gobject.Object {
     /**
      * Returns the {@link org.gtk.glib.DateTime} representing the deletion date of the file, as
      * available in G_FILE_ATTRIBUTE_TRASH_DELETION_DATE. If the
-     * G_FILE_ATTRIBUTE_TRASH_DELETION_DATE attribute is unset, <code>null</code> is returned.
+     * G_FILE_ATTRIBUTE_TRASH_DELETION_DATE attribute is unset, {@code null} is returned.
      */
     public org.gtk.glib.DateTime getDeletionDate() {
         var RESULT = gtk_h.g_file_info_get_deletion_date(handle());
@@ -445,7 +445,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      * needed by external code that implement g_file_set_attributes_from_info()
      * or similar functions.
      * <p>
-     * The attribute must exist in {@code info} for this to work. Otherwise <code>false</code>
+     * The attribute must exist in {@code info} for this to work. Otherwise {@code false}
      * is returned and {@code info} is unchanged.
      */
     public boolean setAttributeStatus(java.lang.String attribute, FileAttributeStatus status) {

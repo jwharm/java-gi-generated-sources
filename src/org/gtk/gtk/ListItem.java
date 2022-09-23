@@ -18,10 +18,10 @@ import java.lang.invoke.*;
  * <p>
  * 1. The unbound stage where the listitem is not currently connected to
  *    an item in the list. In that case, the {@code Gtk.ListItem:item}
- *    property is set to <code>null</code>.
+ *    property is set to {@code null}.
  * <p>
  * 2. The bound stage where the listitem references an item from the list.
- *    The {@code Gtk.ListItem:item} property is not <code>null</code>.
+ *    The {@code Gtk.ListItem:item} property is not {@code null}.
  */
 public class ListItem extends org.gtk.gobject.Object {
 
@@ -45,7 +45,7 @@ public class ListItem extends org.gtk.gobject.Object {
     
     /**
      * Gets the child previously set via gtk_list_item_set_child() or
-     * <code>null</code> if none was set.
+     * {@code null} if none was set.
      */
     public Widget getChild() {
         var RESULT = gtk_h.gtk_list_item_get_child(handle());
@@ -55,7 +55,7 @@ public class ListItem extends org.gtk.gobject.Object {
     /**
      * Gets the model item that associated with {@code self}.
      * <p>
-     * If {@code self} is unbound, this function returns <code>null</code>.
+     * If {@code self} is unbound, this function returns {@code null}.
      */
     public org.gtk.gobject.Object getItem() {
         var RESULT = gtk_h.gtk_list_item_get_item(handle());

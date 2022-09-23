@@ -16,16 +16,20 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Array() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GArray.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Frees the memory allocated for the {@link Array}. If {@code free_segment} is
-     * <code>true</code> it frees the memory block holding the elements as well. Pass
-     * <code>false</code> if you want to free the {@link Array} wrapper but preserve the
+     * {@code true} it frees the memory block holding the elements as well. Pass
+     * {@code false} if you want to free the {@link Array} wrapper but preserve the
      * underlying array for use elsewhere. If the reference count of
      * {@code array} is greater than one, the {@link Array} wrapper is preserved but
      * the size of  {@code array} will be set to zero.
      * <p>
      * If array contents point to dynamically-allocated memory, they should
-     * be freed separately if {@code free_seg} is <code>true</code> and no {@code clear_func}
+     * be freed separately if {@code free_seg} is {@code true} and no {@code clear_func}
      * function has been set for {@code array}.
      * <p>
      * This function is not thread-safe. If using a {@link Array} from multiple

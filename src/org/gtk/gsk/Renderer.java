@@ -52,7 +52,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Retrieves the {@code GdkSurface} set using gsk_enderer_realize().
      * <p>
-     * If the renderer has not been realized yet, <code>null</code> will be returned.
+     * If the renderer has not been realized yet, {@code null} will be returned.
      */
     public org.gtk.gdk.Surface getSurface() {
         var RESULT = gtk_h.gsk_renderer_get_surface(handle());

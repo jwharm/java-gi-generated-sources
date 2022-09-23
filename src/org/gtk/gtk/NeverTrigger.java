@@ -25,7 +25,7 @@ public class NeverTrigger extends ShortcutTrigger {
      * Gets the never trigger.
      * <p>
      * This is a singleton for a trigger that never triggers.
-     * Use this trigger instead of <code>null</code> because it implements
+     * Use this trigger instead of {@code null} because it implements
      * all virtual functions.
      */
     public static NeverTrigger get() {

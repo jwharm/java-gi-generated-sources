@@ -16,6 +16,10 @@ public class DBusPropertyInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DBusPropertyInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusPropertyInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.

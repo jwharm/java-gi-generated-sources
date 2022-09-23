@@ -13,4 +13,8 @@ public class WindowGroupClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public WindowGroupClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkWindowGroupClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

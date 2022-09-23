@@ -129,7 +129,7 @@ public class Monitor extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the {@code monitor} object corresponds to a
+     * Returns {@code true} if the {@code monitor} object corresponds to a
      * physical monitor.
      * <p>
      * The {@code monitor} becomes invalid when the physical monitor

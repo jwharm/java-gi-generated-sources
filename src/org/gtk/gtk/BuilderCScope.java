@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * own scopes for that purpose.
  * <p>
  * In the case that symbols are not explicitly added; GTK will uses
- * {@code GModule}’s introspective features (by opening the module <code>null</code>) to
+ * {@code GModule}’s introspective features (by opening the module {@code null}) to
  * look at the application’s symbol table. From here it tries to match
  * the signal function names given in the interface description with
  * symbols in the application.

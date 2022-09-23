@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * updated. By default, the content of the entry is replaced by the
  * text column of the model, but this can be overridden by connecting
  * to the {@code Gtk.EntryCompletion::match-selected} signal and updating the
- * entry in the signal handler. Note that you should return <code>true</code> from
+ * entry in the signal handler. Note that you should return {@code true} from
  * the signal handler to suppress the default behaviour.
  * <p>
  * To add completion functionality to an entry, use
@@ -100,7 +100,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Computes the common prefix that is shared by all rows in {@code completion}
      * that start with {@code key}.
      * <p>
-     * If no row matches {@code key}, <code>null</code> will be returned.
+     * If no row matches {@code key}, {@code null} will be returned.
      * Note that a text column must have been set for this function to work,
      * see {@link EntryCompletion#setTextColumn} for details.
      */
@@ -111,7 +111,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     
     /**
      * Get the original text entered by the user that triggered
-     * the completion or <code>null</code> if there’s no completion ongoing.
+     * the completion or {@code null} if there’s no completion ongoing.
      */
     public java.lang.String getCompletionPrefix() {
         var RESULT = gtk_h.gtk_entry_completion_get_completion_prefix(handle());
@@ -136,7 +136,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     }
     
     /**
-     * Returns <code>true</code> if inline-selection mode is turned on.
+     * Returns {@code true} if inline-selection mode is turned on.
      */
     public boolean getInlineSelection() {
         var RESULT = gtk_h.gtk_entry_completion_get_inline_selection(handle());
@@ -154,7 +154,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
     /**
      * Returns the model the {@code GtkEntryCompletion} is using as data source.
      * <p>
-     * Returns <code>null</code> if the model is unset.
+     * Returns {@code null} if the model is unset.
      */
     public TreeModel getModel() {
         var RESULT = gtk_h.gtk_entry_completion_get_model(handle());
@@ -255,7 +255,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Sets the model for a {@code GtkEntryCompletion}.
      * <p>
      * If {@code completion} already has a model set, it will remove it
-     * before setting the new model. If model is <code>null</code>, then it
+     * before setting the new model. If model is {@code null}, then it
      * will unset the model.
      */
     public void setModel(TreeModel model) {
@@ -281,7 +281,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
      * Sets whether the completion popup window will appear even if there is
      * only a single match.
      * <p>
-     * You may want to set this to <code>false</code> if you
+     * You may want to set this to {@code false} if you
      * are using {@code Gtk.EntryCompletion:inline-completion}.
      */
     public void setPopupSingleMatch(boolean popupSingleMatch) {

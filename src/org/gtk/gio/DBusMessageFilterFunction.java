@@ -6,19 +6,19 @@ package org.gtk.gio;
  * A filter function is passed a {@link DBusMessage} and expected to return
  * a {@link DBusMessage} too. Passive filter functions that don't modify the
  * message can simply return the {@code message} object:
- * |[
+ * <pre>{@code 
  * static GDBusMessage *
  * passive_filter (GDBusConnection *connection
  *                 GDBusMessage    *message,
  *                 gboolean         incoming,
  *                 gpointer         user_data)
  * {
- *   // inspect {@code message}
+ *   // inspect @message
  *   return message;
  * }
- * ]|
- * Filter functions that wants to drop a message can simply return <code>null</code>:
- * |[
+ * }</pre>
+ * Filter functions that wants to drop a message can simply return {@code null}:
+ * <pre>{@code 
  * static GDBusMessage *
  * drop_filter (GDBusConnection *connection
  *              GDBusMessage    *message,
@@ -32,9 +32,9 @@ package org.gtk.gio;
  *     }
  *   return message;
  * }
- * ]|
+ * }</pre>
  * Finally, a filter function may modify a message by copying it:
- * |[
+ * <pre>{@code 
  * static GDBusMessage *
  * modifying_filter (GDBusConnection *connection
  *                   GDBusMessage    *message,
@@ -43,17 +43,17 @@ package org.gtk.gio;
  * {
  *   GDBusMessage *copy;
  *   GError *error;
- * <p>
+ * 
  *   error = NULL;
  *   copy = g_dbus_message_copy (message, &error);
- *   // handle {@code error} being set
+ *   // handle @error being set
  *   g_object_unref (message);
- * <p>
- *   // modify {@code copy}
- * <p>
+ * 
+ *   // modify @copy
+ * 
  *   return copy;
  * }
- * ]|
+ * }</pre>
  * If the returned {@link DBusMessage} is different from {@code message} and cannot
  * be sent on {@code connection} (it could use features, such as file
  * descriptors, not compatible with {@code connection}), then a warning is

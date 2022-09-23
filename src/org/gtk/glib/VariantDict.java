@@ -46,14 +46,14 @@ import java.lang.invoke.*;
  * <p>
  * <h2>Using a stack-allocated GVariantDict</h2>
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   GVariant *
  *   add_to_count (GVariant  *orig,
  *                 GError   **error)
  *   {
  *     GVariantDict dict;
  *     guint32 count;
- * <p>
+ * 
  *     g_variant_dict_init (&dict, orig);
  *     if (!g_variant_dict_lookup (&dict, "count", "u", &count))
  *       {
@@ -61,16 +61,16 @@ import java.lang.invoke.*;
  *         g_variant_dict_clear (&dict);
  *         return NULL;
  *       }
- * <p>
+ * 
  *     g_variant_dict_insert (&dict, "count", "u", count + 1);
- * <p>
+ * 
  *     return g_variant_dict_end (&dict);
  *   }
- * ]|
+ * }</pre>
  * <p>
  * <h2>Using heap-allocated GVariantDict</h2>
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   GVariant *
  *   add_to_count (GVariant  *orig,
  *                 GError   **error)
@@ -78,9 +78,9 @@ import java.lang.invoke.*;
  *     GVariantDict *dict;
  *     GVariant *result;
  *     guint32 count;
- * <p>
+ * 
  *     dict = g_variant_dict_new (orig);
- * <p>
+ * 
  *     if (g_variant_dict_lookup (dict, "count", "u", &count))
  *       {
  *         g_variant_dict_insert (dict, "count", "u", count + 1);
@@ -91,12 +91,12 @@ import java.lang.invoke.*;
  *         g_set_error (...);
  *         result = NULL;
  *       }
- * <p>
+ * 
  *     g_variant_dict_unref (dict);
- * <p>
+ * 
  *     return result;
  *   }
- * ]|
+ * }</pre>
  */
 public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
 
@@ -201,14 +201,14 @@ public class VariantDict extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up a value in a {@link VariantDict}.
      * <p>
-     * If {@code key} is not found in {@code dictionary}, <code>null</code> is returned.
+     * If {@code key} is not found in {@code dictionary}, {@code null} is returned.
      * <p>
      * The {@code expected_type} string specifies what type of value is expected.
-     * If the value associated with {@code key} has a different type then <code>null</code> is
+     * If the value associated with {@code key} has a different type then {@code null} is
      * returned.
      * <p>
      * If the key is found and the value has the correct type, it is
-     * returned.  If {@code expected_type} was specified then any non-<code>null</code> return
+     * returned.  If {@code expected_type} was specified then any non-{@code null} return
      * value will have this type.
      */
     public Variant lookupValue(java.lang.String key, VariantType expectedType) {

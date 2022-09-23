@@ -44,7 +44,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     }
     
     /**
-     * If {@code dirs_only} is <code>true</code>, {@code completer} will only
+     * If {@code dirs_only} is {@code true}, {@code completer} will only
      * complete directory names, and not file names.
      */
     public void setDirsOnly(boolean dirsOnly) {

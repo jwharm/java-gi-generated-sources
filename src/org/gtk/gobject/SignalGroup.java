@@ -190,8 +190,8 @@ public class SignalGroup extends Object {
     
     /**
      * This signal is emitted when {@link SignalGroup}:target is set to a new value
-     * other than <code>null</code>. It is similar to {@link Object}::notify on {@code target} except it
-     * will not emit when {@link SignalGroup}:target is <code>null</code> and also allows for
+     * other than {@code null}. It is similar to {@link Object}::notify on {@code target} except it
+     * will not emit when {@link SignalGroup}:target is {@code null} and also allows for
      * receiving the {@link Object} without a data-race.
      */
     public SignalHandle onBind(BindHandler handler) {
@@ -219,7 +219,7 @@ public class SignalGroup extends Object {
      * new {@link Object}.
      * <p>
      * This signal will only be emitted if the previous target of {@code self} is
-     * non-<code>null</code>.
+     * non-{@code null}.
      */
     public SignalHandle onUnbind(UnbindHandler handler) {
         try {

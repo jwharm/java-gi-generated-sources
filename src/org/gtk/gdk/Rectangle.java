@@ -30,8 +30,12 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Rectangle() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkRectangle.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
-     * Returns <code>true</code> if {@code rect} contains the point described by @x and @y.
+     * Returns {@code true} if {@code rect} contains the point described by @x and @y.
      */
     public boolean containsPoint(int x, int y) {
         var RESULT = gtk_h.gdk_rectangle_contains_point(handle(), x, y);
@@ -53,7 +57,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * If the rectangles do not intersect, {@code dest}’s width and height is set
      * to 0 and its x and y values are undefined. If you are only interested
      * in whether the rectangles intersect, but not in the intersecting area
-     * itself, pass <code>null</code> for {@code dest}.
+     * itself, pass {@code null} for {@code dest}.
      */
     public boolean intersect(Rectangle src2, Rectangle dest) {
         var RESULT = gtk_h.gdk_rectangle_intersect(handle(), src2.handle(), dest.handle());

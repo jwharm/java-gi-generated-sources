@@ -13,4 +13,8 @@ public class MountOperationClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MountOperationClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkMountOperationClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

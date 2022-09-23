@@ -16,4 +16,8 @@ public class TlsClientConnectionInterface extends io.github.jwharm.javagi.Resour
         super(reference);
     }
     
+    public TlsClientConnectionInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTlsClientConnectionInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

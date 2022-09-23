@@ -109,7 +109,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * activating the action, this signal is not emitted.
      * <p>
      * Since GLib 2.40, if no handler is connected to this signal then the
-     * default behaviour for boolean-stated actions with a <code>null</code> parameter
+     * default behaviour for boolean-stated actions with a {@code null} parameter
      * type is to toggle them via the {@link SimpleAction}::change-state signal.
      * For stateful actions where the state type is equal to the parameter
      * type, the default is to forward them directly to
@@ -152,21 +152,21 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * call g_simple_action_set_state() from the handler.
      * <p>
      * An example of a 'change-state' handler:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void
      * change_volume_state (GSimpleAction *action,
      *                      GVariant      *value,
      *                      gpointer       user_data)
      * {
      *   gint requested;
-     * <p>
+     * 
      *   requested = g_variant_get_int32 (value);
-     * <p>
+     * 
      *   // Volume only goes from 0 to 10
      *   if (0 <= requested && requested <= 10)
      *     g_simple_action_set_state (action, value);
      * }
-     * ]|
+     * }</pre>
      * <p>
      * The handler need not set the state to the requested value.
      * It could set it to any value at all, or take some other action.

@@ -83,7 +83,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * {@link SubprocessLauncher} is dropped or when a new child setup function is
      * given.
      * <p>
-     * <code>null</code> can be given as {@code child_setup} to disable the functionality.
+     * {@code null} can be given as {@code child_setup} to disable the functionality.
      * <p>
      * Child setup functions are only available on UNIX.
      */
@@ -124,7 +124,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * As an alternative, you can use g_subprocess_launcher_setenv(),
      * g_subprocess_launcher_unsetenv(), etc.
      * <p>
-     * Pass an empty array to set an empty environment. Pass <code>null</code> to inherit the
+     * Pass an empty array to set an empty environment. Pass {@code null} to inherit the
      * parent process’ environment. As of GLib 2.54, the parent process’ environment
      * will be copied when g_subprocess_launcher_set_environ() is called.
      * Previously, it was copied when the subprocess was executed. This means the
@@ -159,7 +159,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Sets the file path to use as the stderr for spawned processes.
      * <p>
-     * If {@code path} is <code>null</code> then any previously given path is unset.
+     * If {@code path} is {@code null} then any previously given path is unset.
      * <p>
      * The file will be created or truncated when the process is spawned, as
      * would be the case if using '2>' at the shell.
@@ -179,7 +179,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Sets the file path to use as the stdin for spawned processes.
      * <p>
-     * If {@code path} is <code>null</code> then any previously given path is unset.
+     * If {@code path} is {@code null} then any previously given path is unset.
      * <p>
      * The file must exist or spawning the process will fail.
      * <p>
@@ -195,7 +195,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Sets the file path to use as the stdout for spawned processes.
      * <p>
-     * If {@code path} is <code>null</code> then any previously given path is unset.
+     * If {@code path} is {@code null} then any previously given path is unset.
      * <p>
      * The file will be created or truncated when the process is spawned, as
      * would be the case if using '>' at the shell.

@@ -13,4 +13,8 @@ public class TreeDragSourceIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeDragSourceIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeDragSourceIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

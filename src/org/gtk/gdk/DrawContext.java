@@ -89,7 +89,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * surface that the {@code context} determined needs to be repainted.
      * <p>
      * If {@code context} is not in between calls to {@link DrawContext#beginFrame}
-     * and {@link DrawContext#endFrame}, <code>null</code> will be returned.
+     * and {@link DrawContext#endFrame}, {@code null} will be returned.
      */
     public org.cairographics.Region getFrameRegion() {
         var RESULT = gtk_h.gdk_draw_context_get_frame_region(handle());
@@ -105,7 +105,7 @@ public class DrawContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if {@code context} is in the process of drawing to its surface.
+     * Returns {@code true} if {@code context} is in the process of drawing to its surface.
      * <p>
      * This is the case between calls to {@link DrawContext#beginFrame}
      * and {@link DrawContext#endFrame}. In this situation, drawing commands

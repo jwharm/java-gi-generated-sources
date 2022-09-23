@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  * <p>
  * By default, {@code GtkLinkButton} calls {@link Gtk#showUri} when the button
  * is clicked. This behaviour can be overridden by connecting to the
- * {@code Gtk.LinkButton::activate-link} signal and returning <code>true</code> from
+ * {@code Gtk.LinkButton::activate-link} signal and returning {@code true} from
  * the signal handler.
  * <p>
  * <h1>CSS nodes</h1>
@@ -122,7 +122,7 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
      * <p>
      * To override the default behavior, you can connect to the
      * ::activate-link signal and stop the propagation of the signal
-     * by returning <code>true</code> from your handler.
+     * by returning {@code true} from your handler.
      */
     public SignalHandle onActivateLink(ActivateLinkHandler handler) {
         try {

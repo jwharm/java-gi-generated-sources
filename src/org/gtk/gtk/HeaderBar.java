@@ -192,14 +192,14 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the title for the {@code GtkHeaderBar}.
      * <p>
-     * When set to <code>null</code>, the headerbar will display the title of
+     * When set to {@code null}, the headerbar will display the title of
      * the window it is contained in.
      * <p>
      * The title should help a user identify the current view.
      * To achieve the same style as the builtin title, use the
      * “title” style class.
      * <p>
-     * You should set the title widget to <code>null</code>, for the window
+     * You should set the title widget to {@code null}, for the window
      * title label to be visible again.
      */
     public void setTitleWidget(Widget titleWidget) {

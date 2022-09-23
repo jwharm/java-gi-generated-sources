@@ -50,7 +50,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Create a new {@link Date} representing the given day-month-year triplet.
      * <p>
      * The triplet you pass in must represent a valid date. Use g_date_valid_dmy()
-     * if needed to validate it. The returned {@link Date} is guaranteed to be non-<code>null</code>
+     * if needed to validate it. The returned {@link Date} is guaranteed to be non-{@code null}
      * and valid.
      */
     public static Date newDmy(DateDay day, DateMonth month, DateYear year) {
@@ -66,7 +66,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Create a new {@link Date} representing the given Julian date.
      * <p>
      * The {@code julian_day} you pass in must be valid. Use g_date_valid_julian() if
-     * needed to validate it. The returned {@link Date} is guaranteed to be non-<code>null</code> and
+     * needed to validate it. The returned {@link Date} is guaranteed to be non-{@code null} and
      * valid.
      */
     public static Date newJulian(int julianDay) {
@@ -107,8 +107,8 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * If {@code date} is prior to {@code min_date}, sets {@code date} equal to {@code min_date}.
      * If {@code date} falls after {@code max_date}, sets {@code date} equal to {@code max_date}.
      * Otherwise, {@code date} is unchanged.
-     * Either of {@code min_date} and {@code max_date} may be <code>null</code>.
-     * All non-<code>null</code> dates must be valid.
+     * Either of {@code min_date} and {@code max_date} may be {@code null}.
+     * All non-{@code null} dates must be valid.
      */
     public void clamp(Date minDate, Date maxDate) {
         gtk_h.g_date_clamp(handle(), minDate.handle(), maxDate.handle());
@@ -242,7 +242,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the date is on the first of a month.
+     * Returns {@code true} if the date is on the first of a month.
      * The date must be valid.
      */
     public boolean isFirstOfMonth() {
@@ -251,7 +251,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the date is the last day of the month.
+     * Returns {@code true} if the date is the last day of the month.
      * The date must be valid.
      */
     public boolean isLastOfMonth() {
@@ -323,12 +323,12 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * the user's current timezone.
      * <p>
      * To set the value of a date to the current day, you could write:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  time_t now = time (NULL);
      *  if (now == (time_t) -1)
      *    // handle the error
      *  g_date_set_time_t (date, now);
-     * ]|
+     * }</pre>
      */
     public void setTimeT(long timet) {
         gtk_h.g_date_set_time_t(handle(), timet);
@@ -381,7 +381,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the {@link Date} represents an existing day. The date must not
+     * Returns {@code true} if the {@link Date} represents an existing day. The date must not
      * contain garbage; it should have been initialized with g_date_clear()
      * if it wasn't allocated by one of the g_date_new() variants.
      */
@@ -428,7 +428,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the year is a leap year.
+     * Returns {@code true} if the year is a leap year.
      * <p>
      * For the purposes of this function, leap year is every year
      * divisible by 4 unless that year is divisible by 100. If it
@@ -461,7 +461,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the day of the month is valid (a day is valid if it's
+     * Returns {@code true} if the day of the month is valid (a day is valid if it's
      * between 1 and 31 inclusive).
      */
     public static boolean validDay(DateDay day) {
@@ -470,7 +470,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the day-month-year triplet forms a valid, existing day
+     * Returns {@code true} if the day-month-year triplet forms a valid, existing day
      * in the range of days {@link Date} understands (Year 1 or later, no more than
      * a few thousand years in the future).
      */
@@ -480,7 +480,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the Julian day is valid. Anything greater than zero
+     * Returns {@code true} if the Julian day is valid. Anything greater than zero
      * is basically a valid Julian, though there is a 32-bit limit.
      */
     public static boolean validJulian(int julianDate) {
@@ -489,7 +489,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the month value is valid. The 12 {@link DateMonth}
+     * Returns {@code true} if the month value is valid. The 12 {@link DateMonth}
      * enumeration values are the only valid months.
      */
     public static boolean validMonth(DateMonth month) {
@@ -498,7 +498,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the weekday is valid. The seven {@link DateWeekday} enumeration
+     * Returns {@code true} if the weekday is valid. The seven {@link DateWeekday} enumeration
      * values are the only valid weekdays.
      */
     public static boolean validWeekday(DateWeekday weekday) {
@@ -507,7 +507,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the year is valid. Any year greater than 0 is valid,
+     * Returns {@code true} if the year is valid. Any year greater than 0 is valid,
      * though there is a 16-bit limit to what {@link Date} will understand.
      */
     public static boolean validYear(DateYear year) {

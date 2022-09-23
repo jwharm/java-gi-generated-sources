@@ -32,10 +32,14 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Private() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GPrivate.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Returns the current value of the thread local variable {@code key}.
      * <p>
-     * If the value has not yet been set in this thread, <code>null</code> is returned.
+     * If the value has not yet been set in this thread, {@code null} is returned.
      * Values are never copied between threads (when a new thread is
      * created, for example).
      */
@@ -49,7 +53,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * current thread.
      * <p>
      * This function differs from g_private_set() in the following way: if
-     * the previous value was non-<code>null</code> then the {@link DestroyNotify} handler for
+     * the previous value was non-{@code null} then the {@link DestroyNotify} handler for
      * {@code key} is run on it.
      */
     public void replace(java.lang.foreign.MemoryAddress value) {

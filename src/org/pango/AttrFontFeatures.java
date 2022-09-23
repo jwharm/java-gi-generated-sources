@@ -17,6 +17,10 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrFontFeatures() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrFontFeatures.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Create a new font features tag attribute.
      * <p>

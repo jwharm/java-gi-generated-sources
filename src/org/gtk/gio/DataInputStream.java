@@ -83,7 +83,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -102,7 +102,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -158,7 +158,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -177,7 +177,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */

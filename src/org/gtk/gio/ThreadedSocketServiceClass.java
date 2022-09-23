@@ -13,4 +13,8 @@ public class ThreadedSocketServiceClass extends io.github.jwharm.javagi.Resource
         super(reference);
     }
     
+    public ThreadedSocketServiceClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GThreadedSocketServiceClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

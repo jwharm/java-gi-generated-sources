@@ -16,6 +16,10 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Node() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GNode.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Gets the position of the first child of a {@link Node}
      * which contains the given data.
@@ -84,7 +88,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the depth of a {@link Node}.
      * <p>
-     * If {@code node} is <code>null</code> the depth is 0. The root node has a depth of 1.
+     * If {@code node} is {@code null} the depth is 0. The root node has a depth of 1.
      * For the children of the root node the depth is 2. And so on.
      */
     public int depth() {
@@ -158,7 +162,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if {@code node} is an ancestor of {@code descendant}.
+     * Returns {@code true} if {@code node} is an ancestor of {@code descendant}.
      * This is true if node is the parent of {@code descendant},
      * or if node is the grandparent of {@code descendant} etc.
      */
@@ -188,7 +192,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Gets the maximum height of all branches beneath a {@link Node}.
      * This is the maximum distance from the {@link Node} to all leaf nodes.
      * <p>
-     * If {@code root} is <code>null</code>, 0 is returned. If {@code root} has no children,
+     * If {@code root} is {@code null}, 0 is returned. If {@code root} has no children,
      * 1 is returned. If {@code root} has children, 2 is returned. And so on.
      */
     public int maxHeight() {
@@ -215,7 +219,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets a child of a {@link Node}, using the given index.
      * The first child is at index 0. If the index is
-     * too big, <code>null</code> is returned.
+     * too big, {@code null} is returned.
      */
     public Node nthChild(int n) {
         var RESULT = gtk_h.g_node_nth_child(handle(), n);
@@ -241,7 +245,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Traverses a tree starting at the given root {@link Node}.
      * It calls the given function for each node visited.
-     * The traversal can be halted at any point by returning <code>true</code> from {@code func}.
+     * The traversal can be halted at any point by returning {@code true} from {@code func}.
      * {@code func} must not do anything that would modify the structure of the tree.
      */
     public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {

@@ -16,4 +16,8 @@ public class TextBufferClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TextBufferClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTextBufferClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

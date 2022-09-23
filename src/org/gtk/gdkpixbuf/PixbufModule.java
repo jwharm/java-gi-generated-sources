@@ -61,4 +61,8 @@ public class PixbufModule extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PixbufModule() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufModule.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

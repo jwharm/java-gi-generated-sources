@@ -13,4 +13,8 @@ public class ButtonClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ButtonClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkButtonClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

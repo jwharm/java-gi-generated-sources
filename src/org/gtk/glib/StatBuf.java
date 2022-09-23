@@ -19,4 +19,8 @@ public class StatBuf extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public StatBuf() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GStatBuf.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

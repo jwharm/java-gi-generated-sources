@@ -16,4 +16,8 @@ public class OtMathKernEntryT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OtMathKernEntryT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_math_kern_entry_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

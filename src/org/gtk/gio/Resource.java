@@ -66,25 +66,25 @@ import java.lang.invoke.*;
  * are combined into a binary resource bundle.
  * <p>
  * An example resource description:
- * |[
- * &lt;?xml version="1.0" encoding="UTF-8"?&gt;
- * &lt;gresources&gt;
- *   &lt;gresource prefix="/org/gtk/Example"&gt;
- *     &lt;file>data/splashscreen.png</file&gt;
- *     &lt;file compressed="true">dialog.ui</file&gt;
- *     &lt;file preprocess="xml-stripblanks">menumarkup.xml</file&gt;
- *     &lt;file alias="example.css">data/example.css</file&gt;
- *   &lt;/gresource&gt;
- * &lt;/gresources&gt;
- * ]|
+ * <pre>{@code 
+ * <?xml version="1.0" encoding="UTF-8"?>
+ * <gresources>
+ *   <gresource prefix="/org/gtk/Example">
+ *     <file>data/splashscreen.png</file>
+ *     <file compressed="true">dialog.ui</file>
+ *     <file preprocess="xml-stripblanks">menumarkup.xml</file>
+ *     <file alias="example.css">data/example.css</file>
+ *   </gresource>
+ * </gresources>
+ * }</pre>
  * <p>
  * This will create a resource bundle with the following files:
- * |[
+ * <pre>{@code 
  * /org/gtk/Example/data/splashscreen.png
  * /org/gtk/Example/dialog.ui
  * /org/gtk/Example/menumarkup.xml
  * /org/gtk/Example/example.css
- * ]|
+ * }</pre>
  * <p>
  * Note that all resources in the process share the same namespace, so use Java-style
  * path prefixes (like in the above example) to avoid conflicts.
@@ -127,9 +127,9 @@ import java.lang.invoke.*;
  * <p>
  * A substitution has the form
  * <p>
- * |[
+ * <pre>{@code 
  *    /org/gtk/libgtk=/home/desrt/gtk-overlay
- * ]|
+ * }</pre>
  * <p>
  * The part before the {@code =} is the resource subpath for which the overlay applies.  The part after is a
  * filesystem path which contains files and subdirectories as you would like to be loaded as resources with the

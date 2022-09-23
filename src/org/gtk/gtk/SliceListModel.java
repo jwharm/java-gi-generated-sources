@@ -41,7 +41,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
     }
     
     /**
-     * Gets the model that is currently being used or <code>null</code> if none.
+     * Gets the model that is currently being used or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_slice_list_model_get_model(handle());

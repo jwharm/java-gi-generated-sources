@@ -13,4 +13,8 @@ public class ColorChooserInterface extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public ColorChooserInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkColorChooserInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

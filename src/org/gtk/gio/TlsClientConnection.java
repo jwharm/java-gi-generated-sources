@@ -51,7 +51,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.NativeAddre
      * Gets the list of distinguished names of the Certificate Authorities
      * that the server will accept certificates from. This will be set
      * during the TLS handshake if the server requests a certificate.
-     * Otherwise, it will be <code>null</code>.
+     * Otherwise, it will be {@code null}.
      * <p>
      * Each item in the list is a {@link org.gtk.glib.ByteArray} which contains the complete
      * subject DN of the certificate authority.

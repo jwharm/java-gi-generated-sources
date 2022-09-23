@@ -16,4 +16,8 @@ public class LoadableIconIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public LoadableIconIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GLoadableIconIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

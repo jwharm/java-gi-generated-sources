@@ -17,4 +17,8 @@ public class IOFuncs extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public IOFuncs() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GIOFuncs.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -18,4 +18,8 @@ public class RequestedSize extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public RequestedSize() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkRequestedSize.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

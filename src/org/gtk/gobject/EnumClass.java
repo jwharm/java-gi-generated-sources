@@ -17,4 +17,8 @@ public class EnumClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public EnumClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GEnumClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

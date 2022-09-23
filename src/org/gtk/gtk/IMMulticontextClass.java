@@ -13,4 +13,8 @@ public class IMMulticontextClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public IMMulticontextClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkIMMulticontextClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

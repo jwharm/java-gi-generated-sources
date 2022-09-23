@@ -76,9 +76,9 @@ public class PadController extends EventController {
      * Creates a new {@code GtkPadController} that will associate events from {@code pad} to
      * actions.
      * <p>
-     * A <code>null</code> pad may be provided so the controller manages all pad devices
+     * A {@code null} pad may be provided so the controller manages all pad devices
      * generically, it is discouraged to mix {@code GtkPadController} objects with
-     * <code>null</code> and non-<code>null</code> {@code pad} argument on the same toplevel window, as execution
+     * {@code null} and non-{@code null} {@code pad} argument on the same toplevel window, as execution
      * order is not guaranteed.
      * <p>
      * The {@code GtkPadController} is created with no mapped actions. In order to

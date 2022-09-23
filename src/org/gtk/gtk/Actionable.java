@@ -44,7 +44,7 @@ public interface Actionable extends io.github.jwharm.javagi.NativeAddress {
      * Specifies the name of the action with which this widget should be
      * associated.
      * <p>
-     * If {@code action_name} is <code>null</code> then the widget will be unassociated from
+     * If {@code action_name} is {@code null} then the widget will be unassociated from
      * any previous action.
      * <p>
      * Usually this function is used when the widget is located (or will be
@@ -62,7 +62,7 @@ public interface Actionable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the target value of an actionable widget.
      * <p>
-     * If {@code target_value} is <code>null</code> then the target value is unset.
+     * If {@code target_value} is {@code null} then the target value is unset.
      * <p>
      * The target value has two purposes. First, it is used as the parameter
      * to activation of the action associated with the {@code GtkActionable} widget.

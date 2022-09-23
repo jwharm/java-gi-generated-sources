@@ -268,7 +268,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     /**
      * Returns the tab label widget for the page {@code child}.
      * <p>
-     * <code>null</code> is returned if {@code child} is not in {@code notebook} or
+     * {@code null} is returned if {@code child} is not in {@code notebook} or
      * if no tab label has specifically been set for {@code child}.
      */
     public Widget getTabLabel(Widget child) {
@@ -425,7 +425,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      * Sets a group name for {@code notebook}.
      * <p>
      * Notebooks with the same name will be able to exchange tabs
-     * via drag and drop. A notebook with a <code>null</code> group name will
+     * via drag and drop. A notebook with a {@code null} group name will
      * not be able to exchange tabs with any other notebook.
      */
     public void setGroupName(java.lang.String groupName) {
@@ -523,7 +523,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     /**
      * Changes the tab label for {@code child}.
      * <p>
-     * If <code>null</code> is specified for {@code tab_label}, then the page will
+     * If {@code null} is specified for {@code tab_label}, then the page will
      * have the label “page N”.
      */
     public void setTabLabel(Widget child, Widget tabLabel) {

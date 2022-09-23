@@ -75,7 +75,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
      * the database set in this call.  Existing databases and connections are not
      * modified.
      * <p>
-     * Setting a <code>null</code> default database will reset to using the system default
+     * Setting a {@code null} default database will reset to using the system default
      * database as if g_tls_backend_set_default_database() had never been called.
      */
     public default void setDefaultDatabase(TlsDatabase database) {
@@ -92,7 +92,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Checks if TLS is supported; if this returns <code>false</code> for the default
+     * Checks if TLS is supported; if this returns {@code false} for the default
      * {@link TlsBackend}, it means no "real" TLS backend is available.
      */
     public default boolean supportsTls() {

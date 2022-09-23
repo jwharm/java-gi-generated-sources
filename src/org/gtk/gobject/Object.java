@@ -127,7 +127,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Adds a weak reference from weak_pointer to {@code object} to indicate that
      * the pointer located at {@code weak_pointer_location} is only valid during
      * the lifetime of {@code object}. When the {@code object} is finalized,
-     * {@code weak_pointer} will be set to <code>null</code>.
+     * {@code weak_pointer} will be set to {@code null}.
      * <p>
      * Note that as with g_object_weak_ref(), the weak references created by
      * this method are not thread-safe: they cannot safely be used in one
@@ -145,9 +145,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Whenever the {@code source_property} is changed the {@code target_property} is
      * updated using the same value. For instance:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   g_object_bind_property (action, "active", widget, "sensitive", 0);
-     * ]|
+     * }</pre>
      * <p>
      * Will result in the "sensitive" property of the widget {@link Object} instance to be
      * updated with the same value of the "active" property of the action {@link Object}
@@ -245,7 +245,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * take a reference on a ref-counted object.
      * <p>
      * If the {@code key} is not set on the object then {@code dup_func}
-     * will be called with a <code>null</code> argument.
+     * will be called with a {@code null} argument.
      * <p>
      * Note that {@code dup_func} is called while user data of {@code object}
      * is locked.
@@ -276,7 +276,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * take a reference on a ref-counted object.
      * <p>
      * If the {@code quark} is not set on the object then {@code dup_func}
-     * will be called with a <code>null</code> argument.
+     * will be called with a {@code null} argument.
      * <p>
      * Note that {@code dup_func} is called while user data of {@code object}
      * is locked.
@@ -424,16 +424,16 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * instead, is to store the GParamSpec used with
      * g_object_class_install_property() inside a static array, e.g.:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   enum
      *   {
      *     PROP_0,
      *     PROP_FOO,
      *     PROP_LAST
      *   };
-     * <p>
+     * 
      *   static GParamSpec *properties[PROP_LAST];
-     * <p>
+     * 
      *   static void
      *   my_object_class_init (MyObjectClass *klass)
      *   {
@@ -445,13 +445,13 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      *                                      PROP_FOO,
      *                                      properties[PROP_FOO]);
      *   }
-     * ]|
+     * }</pre>
      * <p>
      * and then notify a change on the "foo" property with:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   g_object_notify_by_pspec (self, properties[PROP_FOO]);
-     * ]|
+     * }</pre>
      */
     public void notifyByPspec(ParamSpec pspec) {
         gtk_h.g_object_notify_by_pspec(handle(), pspec.handle());
@@ -546,7 +546,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * for when the association is destroyed, either by setting it
      * to a different value or when the object is destroyed.
      * <p>
-     * Note that the {@code destroy} callback is not called if {@code data} is <code>null</code>.
+     * Note that the {@code destroy} callback is not called if {@code data} is {@code null}.
      */
     public void setDataFull(java.lang.String key, java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
         gtk_h.g_object_set_data_full(handle(), Interop.allocateNativeString(key).handle(), data, 
@@ -619,7 +619,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * set).
      * Usually, calling this function is only required to update
      * user data pointers with a destroy notifier, for example:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * void
      * object_add_to_user_list (GObject     *object,
      *                          const gchar *new_string)
@@ -628,7 +628,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      *   GQuark quark_string_list = g_quark_from_static_string ("my-string-list");
      *   // retrieve the old string list
      *   GList *list = g_object_steal_qdata (object, quark_string_list);
-     * <p>
+     * 
      *   // prepend new string
      *   list = g_list_prepend (list, g_strdup (new_string));
      *   // this changed 'list', so we need to set it again
@@ -637,13 +637,13 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * static void
      * free_string_list (gpointer data)
      * {
-     *   GList <strong>node, </strong>list = data;
-     * <p>
+     *   GList *node, *list = data;
+     * 
      *   for (node = list; node; node = node->next)
      *     g_free (node->data);
      *   g_list_free (list);
      * }
-     * ]|
+     * }</pre>
      * Using g_object_get_qdata() in the above example, instead of
      * g_object_steal_qdata() would have left the destroy function set,
      * and thus the partial string list would have been freed upon
@@ -717,7 +717,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If the pointer to the {@link Object} may be reused in future (for example, if it is
      * an instance variable of another object), it is recommended to clear the
-     * pointer to <code>null</code> rather than retain a dangling pointer to a potentially
+     * pointer to {@code null} rather than retain a dangling pointer to a potentially
      * invalid {@link Object} instance. Use g_clear_object() for this.
      */
     public void unref() {
@@ -843,11 +843,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * single property, by specifying the property name as a detail in the
      * g_signal_connect() call, like this:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * g_signal_connect (text_view->buffer, "notify::paste-target-list",
      *                   G_CALLBACK (gtk_text_view_target_list_notify),
      *                   text_view)
-     * ]|
+     * }</pre>
      * <p>
      * It is important to note that you must use
      * [canonical parameter names][canonical-parameter-names] as

@@ -22,4 +22,8 @@ public class LogField extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public LogField() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GLogField.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

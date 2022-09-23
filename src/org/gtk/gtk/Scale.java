@@ -141,7 +141,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * and GTK makes it easy for the user to position the scale exactly at the
      * marks value.
      * <p>
-     * If {@code markup} is not <code>null</code>, text is shown next to the tick mark.
+     * If {@code markup} is not {@code null}, text is shown next to the tick mark.
      * <p>
      * To remove marks from a scale, use {@link Scale#clearMarks}.
      */
@@ -205,9 +205,9 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      * <p>
      * Also causes the value of the adjustment to be rounded to this number
      * of digits, so the retrieved value matches the displayed one, if
-     * {@code GtkScale:draw-value} is <code>true</code> when the value changes. If
+     * {@code GtkScale:draw-value} is {@code true} when the value changes. If
      * you want to enforce rounding the value when {@code GtkScale:draw-value}
-     * is <code>false</code>, you can set {@code GtkRange:round-digits} instead.
+     * is {@code false}, you can set {@code GtkRange:round-digits} instead.
      * <p>
      * Note that rounding to a small number of digits can interfere with
      * the smooth autoscrolling that is built into {@code GtkScale}. As an alternative,
@@ -254,7 +254,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
     /**
      * Sets whether the scale has an origin.
      * <p>
-     * If {@code GtkScale:has-origin} is set to <code>true</code> (the default),
+     * If {@code GtkScale:has-origin} is set to {@code true} (the default),
      * the scale will highlight the part of the trough between the origin
      * (bottom or left side) and the current value.
      */

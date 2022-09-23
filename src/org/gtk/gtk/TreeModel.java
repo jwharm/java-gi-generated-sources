@@ -224,7 +224,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Calls {@code func} on each node in model in a depth-first fashion.
      * <p>
-     * If {@code func} returns <code>true</code>, then the tree ceases to be walked,
+     * If {@code func} returns {@code true}, then the tree ceases to be walked,
      * and gtk_tree_model_foreach() returns.
      */
     public default void foreach(TreeModelForeachFunc func) {
@@ -265,7 +265,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code iter} to a valid iterator pointing to {@code path}.
      * <p>
      * If {@code path} does not exist, {@code iter} is set to an invalid
-     * iterator and <code>false</code> is returned.
+     * iterator and {@code false} is returned.
      */
     public default boolean getIter(TreeIter iter, TreePath path) {
         var RESULT = gtk_h.gtk_tree_model_get_iter(handle(), iter.handle(), path.handle());
@@ -276,7 +276,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Initializes {@code iter} with the first iterator in the tree
      * (the one at the path "0").
      * <p>
-     * Returns <code>false</code> if the tree is empty, <code>true</code> otherwise.
+     * Returns {@code false} if the tree is empty, {@code true} otherwise.
      */
     public default boolean getIterFirst(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_get_iter_first(handle(), iter.handle());
@@ -287,7 +287,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code iter} to a valid iterator pointing to {@code path_string}, if it
      * exists.
      * <p>
-     * Otherwise, {@code iter} is left invalid and <code>false</code> is returned.
+     * Otherwise, {@code iter} is left invalid and {@code false} is returned.
      */
     public default boolean getIterFromString(TreeIter iter, java.lang.String pathString) {
         var RESULT = gtk_h.gtk_tree_model_get_iter_from_string(handle(), iter.handle(), Interop.allocateNativeString(pathString).handle());
@@ -347,11 +347,11 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets {@code iter} to point to the first child of {@code parent}.
      * <p>
-     * If {@code parent} has no children, <code>false</code> is returned and {@code iter} is
+     * If {@code parent} has no children, {@code false} is returned and {@code iter} is
      * set to be invalid. {@code parent} will remain a valid node after this
      * function has been called.
      * <p>
-     * If {@code parent} is <code>null</code> returns the first node, equivalent to
+     * If {@code parent} is {@code null} returns the first node, equivalent to
      * {@code gtk_tree_model_get_iter_first (tree_model, iter);}
      */
     public default boolean iterChildren(TreeIter iter, TreeIter parent) {
@@ -360,7 +360,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Returns <code>true</code> if {@code iter} has children, <code>false</code> otherwise.
+     * Returns {@code true} if {@code iter} has children, {@code false} otherwise.
      */
     public default boolean iterHasChild(TreeIter iter) {
         var RESULT = gtk_h.gtk_tree_model_iter_has_child(handle(), iter.handle());
@@ -370,7 +370,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Returns the number of children that {@code iter} has.
      * <p>
-     * As a special case, if {@code iter} is <code>null</code>, then the number
+     * As a special case, if {@code iter} is {@code null}, then the number
      * of toplevel nodes is returned.
      */
     public default int iterNChildren(TreeIter iter) {
@@ -381,7 +381,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets {@code iter} to point to the node following it at the current level.
      * <p>
-     * If there is no next {@code iter}, <code>false</code> is returned and {@code iter} is set
+     * If there is no next {@code iter}, {@code false} is returned and {@code iter} is set
      * to be invalid.
      */
     public default boolean iterNext(TreeIter iter) {
@@ -393,9 +393,9 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code iter} to be the child of {@code parent}, using the given index.
      * <p>
      * The first index is 0. If @n is too big, or {@code parent} has no children,
-     * {@code iter} is set to an invalid iterator and <code>false</code> is returned. {@code parent}
+     * {@code iter} is set to an invalid iterator and {@code false} is returned. {@code parent}
      * will remain a valid node after this function has been called. As a
-     * special case, if {@code parent} is <code>null</code>, then the @n-th root node
+     * special case, if {@code parent} is {@code null}, then the @n-th root node
      * is set.
      */
     public default boolean iterNthChild(TreeIter iter, TreeIter parent, int n) {
@@ -407,7 +407,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code iter} to be the parent of {@code child}.
      * <p>
      * If {@code child} is at the toplevel, and doesn’t have a parent, then
-     * {@code iter} is set to an invalid iterator and <code>false</code> is returned.
+     * {@code iter} is set to an invalid iterator and {@code false} is returned.
      * {@code child} will remain a valid node after this function has been
      * called.
      * <p>
@@ -422,7 +422,7 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets {@code iter} to point to the previous node at the current level.
      * <p>
-     * If there is no previous {@code iter}, <code>false</code> is returned and {@code iter} is
+     * If there is no previous {@code iter}, {@code false} is returned and {@code iter} is
      * set to be invalid.
      */
     public default boolean iterPrevious(TreeIter iter) {

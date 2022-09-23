@@ -114,7 +114,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Finds the first mime type from {@code first} that is also contained
      * in {@code second}.
      * <p>
-     * If no matching mime type is found, <code>null</code> is returned.
+     * If no matching mime type is found, {@code null} is returned.
      */
     public java.lang.String matchMimeType(ContentFormats second) {
         var RESULT = gtk_h.gdk_content_formats_match_mime_type(handle(), second.handle());
@@ -213,7 +213,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
      * Strings printed via {@link ContentFormats#toString}
      * can be read in again successfully using this function.
      * <p>
-     * If {@code string} does not describe valid content formats, <code>null</code>
+     * If {@code string} does not describe valid content formats, {@code null}
      * is returned.
      */
     public static ContentFormats parse(java.lang.String string) {

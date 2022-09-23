@@ -20,4 +20,8 @@ public class MemVTable extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MemVTable() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMemVTable.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

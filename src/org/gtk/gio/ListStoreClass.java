@@ -13,4 +13,8 @@ public class ListStoreClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ListStoreClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GListStoreClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

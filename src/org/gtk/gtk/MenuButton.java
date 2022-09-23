@@ -158,7 +158,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * Returns the {@code GtkPopover} that pops out of the button.
      * <p>
      * If the button is not using a {@code GtkPopover}, this function
-     * returns <code>null</code>.
+     * returns {@code null}.
      */
     public Popover getPopover() {
         var RESULT = gtk_h.gtk_menu_button_get_popover(handle());
@@ -229,7 +229,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      * </ul>
      * <p>
      * to set a popup for {@code menu_button}.
-     * If {@code func} is non-<code>null</code>, {@code menu_button} will always be sensitive.
+     * If {@code func} is non-{@code null}, {@code menu_button} will always be sensitive.
      * <p>
      * Using this function will not reset the menu widget attached to
      * {@code menu_button}. Instead, this can be done manually in {@code func}.
@@ -302,14 +302,14 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets the {@code GMenuModel} from which the popup will be constructed.
      * <p>
-     * If {@code menu_model} is <code>null</code>, the button is disabled.
+     * If {@code menu_model} is {@code null}, the button is disabled.
      * <p>
      * A {@link Popover} will be created from the menu model with
      * {@link PopoverMenu#newFromModel}. Actions will be connected
      * as documented for this function.
      * <p>
      * If {@code Gtk.MenuButton:popover} is already set, it will be
-     * dissociated from the {@code menu_button}, and the property is set to <code>null</code>.
+     * dissociated from the {@code menu_button}, and the property is set to {@code null}.
      */
     public void setMenuModel(org.gtk.gio.MenuModel menuModel) {
         gtk_h.gtk_menu_button_set_menu_model(handle(), menuModel.handle());
@@ -318,10 +318,10 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets the {@code GtkPopover} that will be popped up when the {@code menu_button} is clicked.
      * <p>
-     * If {@code popover} is <code>null</code>, the button is disabled.
+     * If {@code popover} is {@code null}, the button is disabled.
      * <p>
      * If {@code Gtk.MenuButton:menu-model} is set, the menu model is dissociated
-     * from the {@code menu_button}, and the property is set to <code>null</code>.
+     * from the {@code menu_button}, and the property is set to {@code null}.
      */
     public void setPopover(Widget popover) {
         gtk_h.gtk_menu_button_set_popover(handle(), popover.handle());

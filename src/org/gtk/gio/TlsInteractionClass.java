@@ -29,4 +29,8 @@ public class TlsInteractionClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TlsInteractionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTlsInteractionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

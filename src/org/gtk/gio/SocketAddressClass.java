@@ -13,4 +13,8 @@ public class SocketAddressClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SocketAddressClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSocketAddressClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

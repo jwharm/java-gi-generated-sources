@@ -18,4 +18,8 @@ public class OptionEntry extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OptionEntry() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GOptionEntry.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -16,4 +16,8 @@ public class DtlsClientConnectionInterface extends io.github.jwharm.javagi.Resou
         super(reference);
     }
     
+    public DtlsClientConnectionInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDtlsClientConnectionInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

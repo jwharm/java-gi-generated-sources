@@ -133,7 +133,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Euler} using the angles and order of
      * another {@link Euler}.
      * <p>
-     * If the {@link Euler} {@code src} is <code>null</code>, this function is equivalent
+     * If the {@link Euler} {@code src} is {@code null}, this function is equivalent
      * to calling graphene_euler_init() with all angles set to 0.
      */
     public Euler initFromEuler(Euler src) {
@@ -144,7 +144,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Euler} using the given rotation matrix.
      * <p>
-     * If the {@link Matrix} @m is <code>null</code>, the {@link Euler} will
+     * If the {@link Matrix} @m is {@code null}, the {@link Euler} will
      * be initialized with all angles set to 0.
      */
     public Euler initFromMatrix(Matrix m, EulerOrder order) {
@@ -155,7 +155,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Euler} using the given normalized quaternion.
      * <p>
-     * If the {@link Quaternion} @q is <code>null</code>, the {@link Euler} will
+     * If the {@link Quaternion} @q is {@code null}, the {@link Euler} will
      * be initialized with all angles set to 0.
      */
     public Euler initFromQuaternion(Quaternion q, EulerOrder order) {
@@ -176,7 +176,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Euler} using the angles contained in a
      * {@link Vec3}.
      * <p>
-     * If the {@link Vec3} @v is <code>null</code>, the {@link Euler} will be
+     * If the {@link Vec3} @v is {@code null}, the {@link Euler} will be
      * initialized with all angles set to 0.
      */
     public Euler initFromVec3(Vec3 v, EulerOrder order) {

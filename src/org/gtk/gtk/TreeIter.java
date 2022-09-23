@@ -20,6 +20,10 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeIter() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeIter.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Creates a dynamically allocated tree iterator as a copy of {@code iter}.
      * <p>

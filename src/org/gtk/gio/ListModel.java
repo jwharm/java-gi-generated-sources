@@ -39,7 +39,7 @@ import java.lang.invoke.*;
  * g_list_model_get_item() returns an item at a (0-based) position. In
  * order to allow implementations to calculate the list length lazily,
  * you can also iterate over items: starting from 0, repeatedly call
- * g_list_model_get_item() until it returns <code>null</code>.
+ * g_list_model_get_item() until it returns {@code null}.
  * <p>
  * An implementation may create objects lazily, but must take care to
  * return the same object for a given position until all references to
@@ -61,10 +61,10 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Get the item at {@code position}.
      * <p>
-     * If {@code position} is greater than the number of items in {@code list}, <code>null</code> is
+     * If {@code position} is greater than the number of items in {@code list}, {@code null} is
      * returned.
      * <p>
-     * <code>null</code> is never returned for an index that is smaller than the length
+     * {@code null} is never returned for an index that is smaller than the length
      * of the list.
      * <p>
      * See also: g_list_model_get_n_items()
@@ -94,7 +94,7 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * Depending on the model implementation, calling this function may be
      * less efficient than iterating the list with increasing values for
-     * {@code position} until g_list_model_get_item() returns <code>null</code>.
+     * {@code position} until g_list_model_get_item() returns {@code null}.
      */
     public default int getNItems() {
         var RESULT = gtk_h.g_list_model_get_n_items(handle());
@@ -104,10 +104,10 @@ public interface ListModel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Get the item at {@code position}.
      * <p>
-     * If {@code position} is greater than the number of items in {@code list}, <code>null</code> is
+     * If {@code position} is greater than the number of items in {@code list}, {@code null} is
      * returned.
      * <p>
-     * <code>null</code> is never returned for an index that is smaller than the length
+     * {@code null} is never returned for an index that is smaller than the length
      * of the list.
      * <p>
      * This function is meant to be used by language bindings in place

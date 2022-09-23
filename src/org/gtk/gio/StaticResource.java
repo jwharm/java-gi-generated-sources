@@ -17,6 +17,10 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public StaticResource() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GStaticResource.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Finalized a GResource initialized by g_static_resource_init().
      * <p>

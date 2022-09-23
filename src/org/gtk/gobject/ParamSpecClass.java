@@ -18,4 +18,8 @@ public class ParamSpecClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ParamSpecClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GParamSpecClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

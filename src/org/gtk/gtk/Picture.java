@@ -162,7 +162,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     /**
      * Gets the alternative textual description of the picture.
      * <p>
-     * The returned string will be <code>null</code> if the picture cannot be described textually.
+     * The returned string will be {@code null} if the picture cannot be described textually.
      */
     public java.lang.String getAlternativeText() {
         var RESULT = gtk_h.gtk_picture_get_alternative_text(handle());
@@ -181,7 +181,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Gets the {@code GFile} currently displayed if {@code self} is displaying a file.
      * <p>
      * If {@code self} is not displaying a file, for example when
-     * {@link Picture#setPaintable} was used, then <code>null</code> is returned.
+     * {@link Picture#setPaintable} was used, then {@code null} is returned.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_picture_get_file(handle());
@@ -211,14 +211,14 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * This text will be made available to accessibility tools.
      * <p>
-     * If the picture cannot be described textually, set this property to <code>null</code>.
+     * If the picture cannot be described textually, set this property to {@code null}.
      */
     public void setAlternativeText(java.lang.String alternativeText) {
         gtk_h.gtk_picture_set_alternative_text(handle(), Interop.allocateNativeString(alternativeText).handle());
     }
     
     /**
-     * If set to <code>true</code>, the {@code self} can be made smaller than its contents.
+     * If set to {@code true}, the {@code self} can be made smaller than its contents.
      * <p>
      * The contents will then be scaled down when rendering.
      * <p>
@@ -252,13 +252,13 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If set to <code>true</code>, the {@code self} will render its contents according to
+     * If set to {@code true}, the {@code self} will render its contents according to
      * their aspect ratio.
      * <p>
      * That means that empty space may show up at the top/bottom or
      * left/right of {@code self}.
      * <p>
-     * If set to <code>false</code> or if the contents provide no aspect ratio,
+     * If set to {@code false} or if the contents provide no aspect ratio,
      * the contents will be stretched over the picture's whole area.
      */
     public void setKeepAspectRatio(boolean keepAspectRatio) {
@@ -268,7 +268,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     /**
      * Makes {@code self} display the given {@code paintable}.
      * <p>
-     * If {@code paintable} is <code>null</code>, nothing will be displayed.
+     * If {@code paintable} is {@code null}, nothing will be displayed.
      * <p>
      * See {@link Picture#newForPaintable} for details.
      */

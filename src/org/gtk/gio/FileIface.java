@@ -16,4 +16,8 @@ public class FileIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FileIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFileIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

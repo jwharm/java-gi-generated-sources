@@ -41,7 +41,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Returns the {@code GdkContentProvider} currently set on {@code clipboard}.
      * <p>
      * If the {@code clipboard} is empty or its contents are not owned by the
-     * current process, <code>null</code> will be returned.
+     * current process, {@code null} will be returned.
      */
     public ContentProvider getContent() {
         var RESULT = gtk_h.gdk_clipboard_get_content(handle());
@@ -70,7 +70,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * A clipboard is considered local if it was last claimed
      * by the running application.
      * <p>
-     * Note that {@link Clipboard#getContent} may return <code>null</code>
+     * Note that {@link Clipboard#getContent} may return {@code null}
      * even on a local clipboard. In this case the clipboard is empty.
      */
     public boolean isLocal() {
@@ -237,7 +237,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * The clipboard will claim the {@code GdkDisplay}'s resources and advertise
      * these new contents to other applications.
      * <p>
-     * In the rare case of a failure, this function will return <code>false</code>. The
+     * In the rare case of a failure, this function will return {@code false}. The
      * clipboard will then continue reporting its old contents and ignore
      * {@code provider}.
      * <p>

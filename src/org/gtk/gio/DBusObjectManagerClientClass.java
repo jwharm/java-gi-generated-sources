@@ -16,4 +16,8 @@ public class DBusObjectManagerClientClass extends io.github.jwharm.javagi.Resour
         super(reference);
     }
     
+    public DBusObjectManagerClientClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusObjectManagerClientClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -14,7 +14,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.NativeAddress {
 
     /**
      * Asks the {@code GtkTreeDragSource} to delete the row at {@code path}, because
-     * it was moved somewhere else via drag-and-drop. Returns <code>false</code>
+     * it was moved somewhere else via drag-and-drop. Returns {@code false}
      * if the deletion fails because {@code path} no longer exists, or for
      * some model-specific reason. Should robustly handle a {@code path} no
      * longer found in the model!

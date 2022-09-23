@@ -105,7 +105,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * When {@code info} was created from a known filename, return it.  In some
      * situations such as the {@link DesktopAppInfo} returned from
-     * g_desktop_app_info_new_from_keyfile(), this function will return <code>null</code>.
+     * g_desktop_app_info_new_from_keyfile(), this function will return {@code null}.
      */
     public java.lang.String getFilename() {
         var RESULT = gtk_h.g_desktop_app_info_get_filename(handle());
@@ -155,13 +155,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * applications for a specific name of the desktop, based on the
      * {@code OnlyShowIn} and {@code NotShowIn} keys.
      * <p>
-     * {@code desktop_env} should typically be given as <code>null</code>, in which case the
+     * {@code desktop_env} should typically be given as {@code null}, in which case the
      * {@code XDG_CURRENT_DESKTOP} environment variable is consulted.  If you want
      * to override the default mechanism then you may specify {@code desktop_env},
      * but this is not recommended.
      * <p>
      * Note that g_app_info_should_show() for {@code info} will include this check (with
-     * <code>null</code> for {@code desktop_env}) as well as additional checks.
+     * {@code null} for {@code desktop_env}) as well as additional checks.
      */
     public boolean getShowIn(java.lang.String desktopEnv) {
         var RESULT = gtk_h.g_desktop_app_info_get_show_in(handle(), Interop.allocateNativeString(desktopEnv).handle());
@@ -205,7 +205,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * <p>
      * Note that if the main entry of the desktop file indicates that the
      * application supports startup notification, and {@code launch_context} is
-     * non-<code>null</code>, then startup notification will be used when activating the
+     * non-{@code null}, then startup notification will be used when activating the
      * action (and as such, invocation of the action on the receiving side
      * must signal the end of startup notification when it is completed).
      * This is the expected behaviour of applications declaring additional

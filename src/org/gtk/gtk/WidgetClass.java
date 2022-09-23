@@ -13,6 +13,10 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public WidgetClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkWidgetClass.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Installs a shortcut in {@code widget_class}.
      * <p>
@@ -42,7 +46,7 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * of your instance’s life cycle, it will be released automatically when
      * {@code GObjectClass.dispose()} runs on your instance and if a {@code struct_offset}
      * that is {@code != 0} is specified, then the automatic location in your instance
-     * public or private data will be set to <code>null</code>. You can however access an
+     * public or private data will be set to {@code null}. You can however access an
      * automated child pointer the first time your classes {@code GObjectClass.dispose()}
      * runs, or alternatively in {@code Gtk.Widget::destroy}.
      * <p>

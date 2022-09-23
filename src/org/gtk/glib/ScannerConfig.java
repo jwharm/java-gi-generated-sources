@@ -18,4 +18,8 @@ public class ScannerConfig extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ScannerConfig() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GScannerConfig.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

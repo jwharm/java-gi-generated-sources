@@ -17,6 +17,10 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Color() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoColor.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Creates a copy of {@code src}.
      * <p>

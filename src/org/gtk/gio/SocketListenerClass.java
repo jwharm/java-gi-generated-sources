@@ -16,4 +16,8 @@ public class SocketListenerClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SocketListenerClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSocketListenerClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

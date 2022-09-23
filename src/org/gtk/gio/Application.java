@@ -150,7 +150,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     /**
      * Creates a new {@link Application} instance.
      * <p>
-     * If non-<code>null</code>, the application id must be valid.  See
+     * If non-{@code null}, the application id must be valid.  See
      * g_application_id_is_valid().
      * <p>
      * If no application ID is given then some features of {@link Application}
@@ -177,7 +177,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * Calling this function is the equivalent of calling
      * g_application_add_main_option_entries() with a single {@link org.gtk.glib.OptionEntry}
-     * that has its arg_data member set to <code>null</code>.
+     * that has its arg_data member set to {@code null}.
      * <p>
      * The parsed arguments will be packed into a {@link org.gtk.glib.VariantDict} which
      * is passed to {@link Application}::handle-local-options. If
@@ -201,7 +201,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * point, the application can inspect the values pointed to by {@code arg_data}
      * in the given {@code GOptionEntrys}.
      * <p>
-     * Unlike {@link org.gtk.glib.OptionContext}, {@link Application} supports giving a <code>null</code>
+     * Unlike {@link org.gtk.glib.OptionContext}, {@link Application} supports giving a {@code null}
      * {@code arg_data} for a non-callback {@link org.gtk.glib.OptionEntry}.  This results in the
      * argument in question being packed into a {@link org.gtk.glib.VariantDict} which is also
      * passed to {@link Application}::handle-local-options, where it can be
@@ -230,7 +230,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * If {@link Application}::handle-local-options needs to see the list of
      * filenames, then the use of {@code G_OPTION_REMAINING} is recommended.  If
-     * {@code arg_data} is <code>null</code> then {@code G_OPTION_REMAINING} can be used as a key into
+     * {@code arg_data} is {@code null} then {@code G_OPTION_REMAINING} can be used as a key into
      * the options dictionary.  If you do use {@code G_OPTION_REMAINING} then you
      * need to handle these arguments for yourself because once they are
      * consumed, they will no longer be visible to the default handling
@@ -258,7 +258,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * This function is comparable to g_option_context_add_group().
      * <p>
      * Unlike g_application_add_main_option_entries(), this function does
-     * not deal with <code>null</code> {@code arg_data} and never transmits options to the
+     * not deal with {@code null} {@code arg_data} and never transmits options to the
      * primary instance.
      * <p>
      * The reason for that is because, by the time the options arrive at the
@@ -285,7 +285,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     
     /**
      * Marks {@code application} as busy (see g_application_mark_busy()) while
-     * {@code property} on {@code object} is <code>true</code>.
+     * {@code property} on {@code object} is {@code true}.
      * <p>
      * The binding holds a reference to {@code application} while it is active, but
      * not to {@code object}. Instead, the binding is destroyed when {@code object} is
@@ -304,7 +304,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     /**
-     * Gets the {@link DBusConnection} being used by the application, or <code>null</code>.
+     * Gets the {@link DBusConnection} being used by the application, or {@code null}.
      * <p>
      * If {@link Application} is using its D-Bus backend then this function will
      * return the {@link DBusConnection} being used for uniqueness and
@@ -312,7 +312,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * application.
      * <p>
      * If {@link Application} is not using D-Bus then this function will return
-     * <code>null</code>.  This includes the situation where the D-Bus backend would
+     * {@code null}.  This includes the situation where the D-Bus backend would
      * normally be in use but we were unable to connect to the bus.
      * <p>
      * This function must not be called before the application has been
@@ -324,7 +324,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
     }
     
     /**
-     * Gets the D-Bus object path being used by the application, or <code>null</code>.
+     * Gets the D-Bus object path being used by the application, or {@code null}.
      * <p>
      * If {@link Application} is using its D-Bus backend then this function will
      * return the D-Bus object path that {@link Application} is using.  If the
@@ -333,7 +333,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * the result of this function is undefined.
      * <p>
      * If {@link Application} is not using D-Bus then this function will return
-     * <code>null</code>.  This includes the situation where the D-Bus backend would
+     * {@code null}.  This includes the situation where the D-Bus backend would
      * normally be in use but we were unable to connect to the bus.
      * <p>
      * This function must not be called before the application has been
@@ -499,7 +499,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * this reason, you must ensure that any object paths that you wish to
      * register are registered before calling this function.
      * <p>
-     * If the application has already been registered then <code>true</code> is
+     * If the application has already been registered then {@code true} is
      * returned with no work performed.
      * <p>
      * The {@link Application}::startup signal is emitted if registration succeeds
@@ -507,7 +507,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * case).
      * <p>
      * In the event of an error (such as {@code cancellable} being cancelled, or a
-     * failure to connect to the session bus), <code>false</code> is returned and {@code error}
+     * failure to connect to the session bus), {@code false} is returned and {@code error}
      * is set appropriately.
      * <p>
      * Note: the return value of this function is not an indicator that this
@@ -541,7 +541,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * This function is intended to be run from main() and its return value
      * is intended to be returned by main(). Although you are expected to pass
      * the {@code argc}, {@code argv} parameters from main() to this function, it is possible
-     * to pass <code>null</code> if {@code argv} is not available or commandline handling is not
+     * to pass {@code null} if {@code argv} is not available or commandline handling is not
      * required.  Note that on Windows, {@code argc} and {@code argv} are ignored, and
      * g_win32_get_command_line() is called internally (for proper support
      * of Unicode commandline arguments).
@@ -572,7 +572,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * If you are interested in doing more complicated local handling of the
      * commandline then you should implement your own {@link Application} subclass
      * and override local_command_line(). In this case, you most likely want
-     * to return <code>true</code> from your local_command_line() implementation to
+     * to return {@code true} from your local_command_line() implementation to
      * suppress the default handling. See
      * [gapplication-example-cmdline2.c][https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline2.c]
      * for an example.
@@ -639,7 +639,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * notification. This works even for notifications sent from a previous
      * execution of the application, as long as {@code id} is the same string.
      * <p>
-     * {@code id} may be <code>null</code>, but it is impossible to replace or withdraw
+     * {@code id} may be {@code null}, but it is impossible to replace or withdraw
      * notifications without an id.
      * <p>
      * If {@code notification} is no longer relevant, it can be withdrawn with
@@ -655,7 +655,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * The application id can only be modified if {@code application} has not yet
      * been registered.
      * <p>
-     * If non-<code>null</code>, the application id must be valid.  See
+     * If non-{@code null}, the application id must be valid.  See
      * g_application_id_is_valid().
      */
     public void setApplicationId(java.lang.String applicationId) {
@@ -668,7 +668,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * This function does not take its own reference on {@code application}.  If
      * {@code application} is destroyed then the default application will revert
-     * back to <code>null</code>.
+     * back to {@code null}.
      */
     public void setDefault() {
         gtk_h.g_application_set_default(handle());
@@ -754,7 +754,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * application.
      * <p>
      * You can disable automatic resource loading functionality by setting
-     * the path to <code>null</code>.
+     * the path to {@code null}.
      * <p>
      * Changing the resource base path once the application is running is
      * not recommended.  The point at which the resource path is consulted
@@ -817,7 +817,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * the default when it is created.  You can exercise more control over
      * this by using g_application_set_default().
      * <p>
-     * If there is no default application then <code>null</code> is returned.
+     * If there is no default application then {@code null} is returned.
      */
     public static Application getDefault() {
         var RESULT = gtk_h.g_application_get_default();

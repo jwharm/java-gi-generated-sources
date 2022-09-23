@@ -16,7 +16,7 @@ import java.lang.invoke.*;
  * instead of actual progress.
  * <p>
  * To start the animation in a cell, set the {@code GtkCellRendererSpinner:active}
- * property to <code>true</code> and increment the {@code GtkCellRendererSpinner:pulse} property
+ * property to {@code true} and increment the {@code GtkCellRendererSpinner:pulse} property
  * at regular intervals. The usual way to set the cell renderer properties
  * for each cell is to bind them to columns in your tree model using e.g.
  * gtk_tree_view_column_add_attribute().

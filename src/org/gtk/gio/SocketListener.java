@@ -53,11 +53,11 @@ public class SocketListener extends org.gtk.gobject.Object {
      * to the listener. Returns a {@link SocketConnection} for the socket that was
      * accepted.
      * <p>
-     * If {@code source_object} is not <code>null</code> it will be filled out with the source
+     * If {@code source_object} is not {@code null} it will be filled out with the source
      * object specified when the corresponding socket or address was added
      * to the listener.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -111,11 +111,11 @@ public class SocketListener extends org.gtk.gobject.Object {
      * which is often the case, then you should use g_socket_listener_accept()
      * instead.
      * <p>
-     * If {@code source_object} is not <code>null</code> it will be filled out with the source
+     * If {@code source_object} is not {@code null} it will be filled out with the source
      * object specified when the corresponding socket or address was added
      * to the listener.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -176,7 +176,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * useful if you're listening on multiple addresses and do
      * different things depending on what address is connected to.
      * <p>
-     * If successful and {@code effective_address} is non-<code>null</code> then it will
+     * If successful and {@code effective_address} is non-{@code null} then it will
      * be set to the address that the binding actually occurred at.  This
      * is helpful for determining the port number that was used for when
      * requesting a binding to port 0 (ie: "any port").  This address, if

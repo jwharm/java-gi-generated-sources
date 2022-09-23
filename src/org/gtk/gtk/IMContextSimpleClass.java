@@ -13,4 +13,8 @@ public class IMContextSimpleClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public IMContextSimpleClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkIMContextSimpleClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

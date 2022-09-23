@@ -13,4 +13,8 @@ public class MultiSelectionClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MultiSelectionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkMultiSelectionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

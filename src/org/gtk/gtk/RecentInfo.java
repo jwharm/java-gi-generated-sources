@@ -108,7 +108,7 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
      * Gets the value of the “private” flag.
      * <p>
      * Resources in the recently used list that have this flag
-     * set to <code>true</code> should only be displayed by the applications
+     * set to {@code true} should only be displayed by the applications
      * that have registered them.
      */
     public boolean getPrivateHint() {

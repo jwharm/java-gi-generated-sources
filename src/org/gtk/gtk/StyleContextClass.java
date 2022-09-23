@@ -13,4 +13,8 @@ public class StyleContextClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public StyleContextClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkStyleContextClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

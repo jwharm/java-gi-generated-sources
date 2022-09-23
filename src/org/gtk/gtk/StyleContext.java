@@ -153,7 +153,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if {@code context} currently has defined the
+     * Returns {@code true} if {@code context} currently has defined the
      * given class name.
      */
     public boolean hasClass(java.lang.String className) {

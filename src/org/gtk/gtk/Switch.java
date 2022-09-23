@@ -135,7 +135,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * To implement delayed state change, applications can connect to this
      * signal, initiate the change of the underlying state, and call
      * {@link Switch#setState} when the underlying state change is
-     * complete. The signal handler should return <code>true</code> to prevent the
+     * complete. The signal handler should return {@code true} to prevent the
      * default handler from running.
      * <p>
      * Visually, the underlying state is represented by the trough color of

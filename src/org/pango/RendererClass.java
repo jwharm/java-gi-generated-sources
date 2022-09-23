@@ -34,4 +34,8 @@ public class RendererClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public RendererClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoRendererClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

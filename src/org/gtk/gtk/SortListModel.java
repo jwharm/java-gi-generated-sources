@@ -62,7 +62,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
     }
     
     /**
-     * Gets the model currently sorted or <code>null</code> if none.
+     * Gets the model currently sorted or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_sort_list_model_get_model(handle());
@@ -85,7 +85,7 @@ public class SortListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * }</pre>
      * <p>
      * If no sort operation is ongoing - in particular when
-     * {@code Gtk.SortListModel:incremental} is <code>false</code> - this
+     * {@code Gtk.SortListModel:incremental} is {@code false} - this
      * function returns 0.
      */
     public int getPending() {

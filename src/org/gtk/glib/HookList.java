@@ -16,6 +16,10 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public HookList() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GHookList.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Removes all the {@link Hook} elements from a {@link HookList}.
      */
@@ -40,7 +44,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls all of the {@link Hook} functions in a {@link HookList}.
-     * Any function which returns <code>false</code> is removed from the {@link HookList}.
+     * Any function which returns {@code false} is removed from the {@link HookList}.
      */
     public void invokeCheck(boolean mayRecurse) {
         gtk_h.g_hook_list_invoke_check(handle(), mayRecurse ? 1 : 0);
@@ -65,7 +69,7 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Calls a function on each valid {@link Hook} and destroys it if the
-     * function returns <code>false</code>.
+     * function returns {@code false}.
      */
     public void marshalCheck(boolean mayRecurse, HookCheckMarshaller marshaller) {
         try {

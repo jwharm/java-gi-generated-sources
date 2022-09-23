@@ -153,7 +153,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Queries a {@code GtkExpander} and returns its current state.
      * <p>
-     * Returns <code>true</code> if the child widget is revealed.
+     * Returns {@code true} if the child widget is revealed.
      */
     public boolean getExpanded() {
         var RESULT = gtk_h.gtk_expander_get_expanded(handle());
@@ -165,7 +165,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * This is including any embedded underlines indicating mnemonics and
      * Pango markup, as set by {@link Expander#setLabel}. If the label
-     * text has not been set the return value will be <code>null</code>. This will be the
+     * text has not been set the return value will be {@code null}. This will be the
      * case if you create an empty button with gtk_button_new() to use as a
      * container.
      */
@@ -217,8 +217,8 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the state of the expander.
      * <p>
-     * Set to <code>true</code>, if you want the child widget to be revealed,
-     * and <code>false</code> if you want the child widget to be hidden.
+     * Set to {@code true}, if you want the child widget to be revealed,
+     * and {@code false} if you want the child widget to be hidden.
      */
     public void setExpanded(boolean expanded) {
         gtk_h.gtk_expander_set_expanded(handle(), expanded ? 1 : 0);

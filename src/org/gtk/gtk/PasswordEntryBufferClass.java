@@ -13,4 +13,8 @@ public class PasswordEntryBufferClass extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public PasswordEntryBufferClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkPasswordEntryBufferClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

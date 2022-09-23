@@ -91,7 +91,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Turns {@code icon_view} into a drop destination for automatic DND. Calling this
-     * method sets {@code GtkIconView}:reorderable to <code>false</code>.
+     * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
     public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, int actions) {
         gtk_h.gtk_icon_view_enable_model_drag_dest(handle(), formats.handle(), actions);
@@ -99,7 +99,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Turns {@code icon_view} into a drag source for automatic DND. Calling this
-     * method sets {@code GtkIconView}:reorderable to <code>false</code>.
+     * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
     public void enableModelDragSource(int startButtonMask, org.gtk.gdk.ContentFormats formats, int actions) {
         gtk_h.gtk_icon_view_enable_model_drag_source(handle(), startButtonMask, formats.handle(), actions);
@@ -115,7 +115,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Fills the bounding rectangle in widget coordinates for the cell specified by
-     * {@code path} and {@code cell}. If {@code cell} is <code>null</code> the main cell area is used.
+     * {@code path} and {@code cell}. If {@code cell} is {@code null} the main cell area is used.
      * <p>
      * This function is only valid if {@code icon_view} is realized.
      */
@@ -142,8 +142,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Fills in {@code path} and {@code cell} with the current cursor path and cell.
-     * If the cursor isn’t currently set, then *{@code path} will be <code>null</code>.
-     * If no cell currently has focus, then *{@code cell} will be <code>null</code>.
+     * If the cursor isn’t currently set, then *{@code path} will be {@code null}.
+     * If no cell currently has focus, then *{@code cell} will be {@code null}.
      * <p>
      * The returned {@code GtkTreePath} must be freed with gtk_tree_path_free().
      */
@@ -220,7 +220,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Returns the model the {@code GtkIconView} is based on.  Returns <code>null</code> if the
+     * Returns the model the {@code GtkIconView} is based on.  Returns {@code null} if the
      * model is unset.
      */
     public TreeModel getModel() {
@@ -268,16 +268,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * To do this, you can use gtk_tree_row_reference_new().
      * <p>
      * To free the return value, use {@code g_list_free_full}:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * GtkWidget *icon_view = gtk_icon_view_new ();
      * // Use icon_view
-     * <p>
+     * 
      * GList *list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (icon_view));
-     * <p>
+     * 
      * // use list
-     * <p>
+     * 
      * g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
-     * ]|
+     * }</pre>
      */
     public org.gtk.glib.List getSelectedItems() {
         var RESULT = gtk_h.gtk_icon_view_get_selected_items(handle());
@@ -324,8 +324,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * function without modification.
      * <p>
      * The return value indicates whether there is an icon view item at the given
-     * coordinates (<code>true</code>) or not (<code>false</code>) for mouse tooltips. For keyboard
-     * tooltips the item returned will be the cursor item. When <code>true</code>, then any of
+     * coordinates ({@code true}) or not ({@code false}) for mouse tooltips. For keyboard
+     * tooltips the item returned will be the cursor item. When {@code true}, then any of
      * {@code model}, {@code path} and {@code iter} which have been provided will be set to point to
      * that row and the corresponding model.
      */
@@ -353,8 +353,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     }
     
     /**
-     * Returns <code>true</code> if the icon pointed to by {@code path} is currently
-     * selected. If {@code path} does not point to a valid location, <code>false</code> is returned.
+     * Returns {@code true} if the icon pointed to by {@code path} is currently
+     * selected. If {@code path} does not point to a valid location, {@code false} is returned.
      */
     public boolean pathIsSelected(TreePath path) {
         var RESULT = gtk_h.gtk_icon_view_path_is_selected(handle(), path.handle());
@@ -368,7 +368,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * 0.0 means left/top alignment, 1.0 means right/bottom alignment, 0.5 means
      * center.
      * <p>
-     * If {@code use_align} is <code>false</code>, then the alignment arguments are ignored, and the
+     * If {@code use_align} is {@code false}, then the alignment arguments are ignored, and the
      * tree does the minimum amount of work to scroll the item onto the screen.
      * This means that the item will be scrolled to the edge closest to its current
      * position.  If the item is currently visible on the screen, nothing is done.
@@ -443,8 +443,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the current keyboard focus to be at {@code path}, and selects it.  This is
      * useful when you want to focus the user’s attention on a particular item.
-     * If {@code cell} is not <code>null</code>, then focus is given to the cell specified by
-     * it. Additionally, if {@code start_editing} is <code>true</code>, then editing should be
+     * If {@code cell} is not {@code null}, then focus is given to the cell specified by
+     * it. Additionally, if {@code start_editing} is {@code true}, then editing should be
      * started in the specified cell.
      * <p>
      * This function is often followed by {@code gtk_widget_grab_focus
@@ -509,7 +509,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the model for a {@code GtkIconView}.
      * If the {@code icon_view} already has a model set, it will remove
-     * it before setting the new model.  If {@code model} is <code>null</code>, then
+     * it before setting the new model.  If {@code model} is {@code null}, then
      * it will unset the old model.
      */
     public void setModel(TreeModel model) {
@@ -527,7 +527,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * This function is a convenience function to allow you to reorder models that
      * support the {@code GtkTreeDragSourceIface} and the {@code GtkTreeDragDestIface}. Both
-     * {@code GtkTreeStore} and {@code GtkListStore} support these. If {@code reorderable} is <code>true</code>, then
+     * {@code GtkTreeStore} and {@code GtkListStore} support these. If {@code reorderable} is {@code true}, then
      * the user can reorder the model by dragging and dropping rows.  The
      * developer can listen to these changes by connecting to the model's
      * row_inserted and row_deleted signals. The reordering is implemented by setting up
@@ -590,7 +590,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * for you. {@code column} should be set to the column in {@code icon_view}’s model
      * containing the tooltip texts, or -1 to disable this feature.
      * <p>
-     * When enabled, {@code GtkWidget:has-tooltip} will be set to <code>true</code> and
+     * When enabled, {@code GtkWidget:has-tooltip} will be set to {@code true} and
      * {@code icon_view} will connect a {@code GtkWidget::query-tooltip} signal handler.
      * <p>
      * Note that the signal handler sets the text with gtk_tooltip_set_markup(),
@@ -625,7 +625,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Undoes the effect of gtk_icon_view_enable_model_drag_dest(). Calling this
-     * method sets {@code GtkIconView}:reorderable to <code>false</code>.
+     * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
     public void unsetModelDragDest() {
         gtk_h.gtk_icon_view_unset_model_drag_dest(handle());
@@ -633,7 +633,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     /**
      * Undoes the effect of gtk_icon_view_enable_model_drag_source(). Calling this
-     * method sets {@code GtkIconView}:reorderable to <code>false</code>.
+     * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
     public void unsetModelDragSource() {
         gtk_h.gtk_icon_view_unset_model_drag_source(handle());
@@ -679,8 +679,8 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * The ::item-activated signal is emitted when the method
      * gtk_icon_view_item_activated() is called, when the user double
      * clicks an item with the "activate-on-single-click" property set
-     * to <code>false</code>, or when the user single clicks an item when the
-     * "activate-on-single-click" property set to <code>true</code>. It is also
+     * to {@code false}, or when the user single clicks an item when the
+     * "activate-on-single-click" property set to {@code true}. It is also
      * emitted when a non-editable item is selected and one of the keys:
      * Space, Return or Enter is pressed.
      */

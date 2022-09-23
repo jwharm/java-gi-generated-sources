@@ -13,4 +13,8 @@ public class ConverterInputStreamClass extends io.github.jwharm.javagi.ResourceB
         super(reference);
     }
     
+    public ConverterInputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GConverterInputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

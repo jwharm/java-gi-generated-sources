@@ -18,4 +18,8 @@ public class TypeQuery extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TypeQuery() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeQuery.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

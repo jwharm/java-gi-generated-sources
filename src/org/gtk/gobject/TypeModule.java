@@ -58,7 +58,7 @@ public class TypeModule extends Object implements TypePlugin {
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
      * <p>
-     * Since 2.56 if {@code module} is <code>null</code> this will call g_type_add_interface_static()
+     * Since 2.56 if {@code module} is {@code null} this will call g_type_add_interface_static()
      * instead. This can be used when making a static build of the module.
      */
     public void addInterface(Type instanceType, Type interfaceType, InterfaceInfo interfaceInfo) {
@@ -74,7 +74,7 @@ public class TypeModule extends Object implements TypePlugin {
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
      * <p>
-     * Since 2.56 if {@code module} is <code>null</code> this will call g_type_register_static()
+     * Since 2.56 if {@code module} is {@code null} this will call g_type_register_static()
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerEnum(java.lang.String name, EnumValue constStaticValues) {
@@ -91,7 +91,7 @@ public class TypeModule extends Object implements TypePlugin {
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
      * <p>
-     * Since 2.56 if {@code module} is <code>null</code> this will call g_type_register_static()
+     * Since 2.56 if {@code module} is {@code null} this will call g_type_register_static()
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerFlags(java.lang.String name, FlagsValue constStaticValues) {
@@ -112,7 +112,7 @@ public class TypeModule extends Object implements TypePlugin {
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
      * <p>
-     * Since 2.56 if {@code module} is <code>null</code> this will call g_type_register_static()
+     * Since 2.56 if {@code module} is {@code null} this will call g_type_register_static()
      * instead. This can be used when making a static build of the module.
      */
     public org.gtk.gobject.Type registerType(Type parentType, java.lang.String typeName, TypeInfo typeInfo, int flags) {

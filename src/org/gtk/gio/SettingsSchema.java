@@ -26,52 +26,52 @@ import java.lang.invoke.*;
  * <p>
  * Consider the following example:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * typedef struct
  * {
  *    ...
  *    GSettingsSchemaSource *schema_source;
  *    ...
  * } Plugin;
- * <p>
+ * 
  * Plugin *
  * initialise_plugin (const gchar *dir)
  * {
  *   Plugin *plugin;
- * <p>
+ * 
  *   ...
- * <p>
+ * 
  *   plugin->schema_source =
  *     g_settings_schema_source_new_from_directory (dir,
  *       g_settings_schema_source_get_default (), FALSE, NULL);
- * <p>
+ * 
  *   ...
- * <p>
+ * 
  *   return plugin;
  * }
- * <p>
+ * 
  * ...
- * <p>
+ * 
  * GSettings *
  * plugin_get_settings (Plugin      *plugin,
  *                      const gchar *schema_id)
  * {
  *   GSettingsSchema *schema;
- * <p>
+ * 
  *   if (schema_id == NULL)
  *     schema_id = plugin->identifier;
- * <p>
+ * 
  *   schema = g_settings_schema_source_lookup (plugin->schema_source,
  *                                             schema_id, FALSE);
- * <p>
+ * 
  *   if (schema == NULL)
  *     {
  *       ... disable the plugin or abort, etc ...
  *     }
- * <p>
+ * 
  *   return g_settings_new_full (schema, NULL, NULL);
  * }
- * ]|
+ * }</pre>
  * <p>
  * The code above shows how hooks should be added to the code that
  * initialises (or enables) the plugin to create the schema source and
@@ -83,16 +83,16 @@ import java.lang.invoke.*;
  * ships a gschemas.compiled file as part of itself, and then simply do
  * the following:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * {
  *   GSettings *settings;
  *   gint some_value;
- * <p>
+ * 
  *   settings = plugin_get_settings (self, NULL);
  *   some_value = g_settings_get_int (settings, "some-value");
  *   ...
  * }
- * ]|
+ * }</pre>
  * <p>
  * It's also possible that the plugin system expects the schema source
  * files (ie: .gschema.xml files) instead of a gschemas.compiled file.
@@ -125,7 +125,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Gets the path associated with {@code schema}, or <code>null</code>.
+     * Gets the path associated with {@code schema}, or {@code null}.
      * <p>
      * Schemas may be single-instance or relocatable.  Single-instance
      * schemas correspond to exactly one set of keys in the backend
@@ -133,7 +133,7 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Relocatable schemas can be referenced by other schemas and can
      * therefore describe multiple sets of keys at different locations.  For
-     * relocatable schemas, this function will return <code>null</code>.
+     * relocatable schemas, this function will return {@code null}.
      */
     public java.lang.String getPath() {
         var RESULT = gtk_h.g_settings_schema_get_path(handle());

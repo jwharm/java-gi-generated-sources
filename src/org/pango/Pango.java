@@ -479,7 +479,7 @@ public final class Pango {
      * <p>
      * It applies rules from the <a href="http://www.unicode.org/unicode/reports/tr14/">Unicode Line Breaking Algorithm</a>
      * without language-specific tailoring, therefore the {@code analyis} argument is unused
-     * and can be <code>null</code>.
+     * and can be {@code null}.
      * <p>
      * See {@link Pango#tailorBreak} for language-specific breaks.
      * <p>
@@ -559,7 +559,7 @@ public final class Pango {
      * <p>
      * Any one of the options may be absent. If FAMILY-LIST is absent, then
      * the family_name field of the resulting font description will be
-     * initialized to <code>null</code>. If STYLE-OPTIONS is missing, then all style
+     * initialized to {@code null}. If STYLE-OPTIONS is missing, then all style
      * options will be set to the default values. If SIZE is missing, the
      * size in the resulting font description will be set to 0.
      * <p>
@@ -879,7 +879,7 @@ public final class Pango {
      * the full paragraph text as input, which will then be used to perform
      * certain cross-item shaping interactions. If you have access to the broader
      * text of which {@code item_text} is part of, provide the broader text as
-     * {@code paragraph_text}. If {@code paragraph_text} is <code>null</code>, item text is used instead.
+     * {@code paragraph_text}. If {@code paragraph_text} is {@code null}, item text is used instead.
      * <p>
      * Note that the extra attributes in the {@code analyis} that is returned from
      * {@link Pango#itemize} have indices that are relative to the entire paragraph,

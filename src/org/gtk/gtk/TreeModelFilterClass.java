@@ -13,4 +13,8 @@ public class TreeModelFilterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeModelFilterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeModelFilterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

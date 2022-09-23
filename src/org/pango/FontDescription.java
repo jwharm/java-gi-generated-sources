@@ -35,7 +35,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Determines if the style attributes of {@code new_match} are a closer match
-     * for {@code desc} than those of {@code old_match} are, or if {@code old_match} is <code>null</code>,
+     * for {@code desc} than those of {@code old_match} are, or if {@code old_match} is {@code null},
      * determines if {@code new_match} is a match at all.
      * <p>
      * Approximate matching is done for weight and style; other style attributes
@@ -79,7 +79,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Two font descriptions are considered equal if the fonts they describe
      * are provably identical. This means that their masks do not have to match,
      * as long as other fields are all the same. (Two font descriptions may
-     * result in identical fonts being loaded, but still compare <code>false</code>.)
+     * result in identical fonts being loaded, but still compare {@code false}.)
      */
     public boolean equal(FontDescription desc2) {
         var RESULT = gtk_h.pango_font_description_equal(handle(), desc2.handle());
@@ -208,11 +208,11 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * Merges the fields that are set in {@code desc_to_merge} into the fields in
      * {@code desc}.
      * <p>
-     * If {@code replace_existing} is <code>false</code>, only fields in {@code desc} that
-     * are not already set are affected. If <code>true</code>, then fields that are
+     * If {@code replace_existing} is {@code false}, only fields in {@code desc} that
+     * are not already set are affected. If {@code true}, then fields that are
      * already set will be replaced as well.
      * <p>
-     * If {@code desc_to_merge} is <code>null</code>, this function performs nothing.
+     * If {@code desc_to_merge} is {@code null}, this function performs nothing.
      */
     public void merge(FontDescription descToMerge, boolean replaceExisting) {
         gtk_h.pango_font_description_merge(handle(), descToMerge.handle(), replaceExisting ? 1 : 0);
@@ -449,7 +449,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Any one of the options may be absent. If FAMILY-LIST is absent, then
      * the family_name field of the resulting font description will be
-     * initialized to <code>null</code>. If STYLE-OPTIONS is missing, then all style
+     * initialized to {@code null}. If STYLE-OPTIONS is missing, then all style
      * options will be set to the default values. If SIZE is missing, the
      * size in the resulting font description will be set to 0.
      * <p>

@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * <p>
  * The model will use the filter to determine if it should include items
  * or not by calling {@link Filter#match} for each item and only
- * keeping the ones that the function returns <code>true</code> for.
+ * keeping the ones that the function returns {@code true} for.
  * <p>
  * Filters may change what items they match through their lifetime. In that
  * case, they will emit the {@code Gtk.Filter::changed} signal to notify

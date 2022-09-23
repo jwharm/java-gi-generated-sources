@@ -13,4 +13,8 @@ public class CellRendererTextClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public CellRendererTextClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCellRendererTextClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

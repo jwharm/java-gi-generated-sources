@@ -17,7 +17,7 @@ import java.lang.invoke.*;
 public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
-     * Returns <code>true</code> if the model has a default sort function. This is used
+     * Returns {@code true} if the model has a default sort function. This is used
      * primarily by GtkTreeViewColumns in order to determine if a model can
      * go back to the default state, or not.
      */
@@ -32,7 +32,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.NativeAddress {
      * {@code GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID}, then the model will sort using
      * this function.
      * <p>
-     * If {@code sort_func} is <code>null</code>, then there will be no default comparison function.
+     * If {@code sort_func} is {@code null}, then there will be no default comparison function.
      * This means that once the model  has been sorted, it can’t go back to the
      * default state. In this case, when the current sort column id of {@code sortable}
      * is {@code GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID}, the model will be unsorted.

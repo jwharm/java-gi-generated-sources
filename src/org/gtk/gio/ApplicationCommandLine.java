@@ -44,7 +44,7 @@ import java.lang.invoke.*;
  * once the signal handler in the primary instance has returned, and
  * the return value of the signal handler becomes the exit status
  * of the launching instance.
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * static int
  * command_line (GApplication            *application,
  *               GApplicationCommandLine *cmdline)
@@ -52,73 +52,73 @@ import java.lang.invoke.*;
  *   gchar **argv;
  *   gint argc;
  *   gint i;
- * <p>
+ * 
  *   argv = g_application_command_line_get_arguments (cmdline, &argc);
- * <p>
+ * 
  *   g_application_command_line_print (cmdline,
  *                                     "This text is written back\\n"
  *                                     "to stdout of the caller\\n");
- * <p>
+ * 
  *   for (i = 0; i < argc; i++)
- *     g_print ("argument {@code d}: {@code s}\\n", i, argv[i]);
- * <p>
+ *     g_print ("argument %d: %s\\n", i, argv[i]);
+ * 
  *   g_strfreev (argv);
- * <p>
+ * 
  *   return 0;
  * }
- * ]|
+ * }</pre>
  * The complete example can be found here:
  * <a href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline.c">gapplication-example-cmdline.c</a>
  * <p>
  * In more complicated cases, the handling of the commandline can be
  * split between the launcher and the primary instance.
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * static gboolean
  *  test_local_cmdline (GApplication   *application,
- *                      gchar        <strong>*</strong>arguments,
+ *                      gchar        ***arguments,
  *                      gint           *exit_status)
  * {
  *   gint i, j;
  *   gchar **argv;
- * <p>
+ * 
  *   argv = *arguments;
- * <p>
+ * 
  *   if (argv[0] == NULL)
  *     {
  *       *exit_status = 0;
  *       return FALSE;
  *     }
- * <p>
+ * 
  *   i = 1;
  *   while (argv[i])
  *     {
  *       if (g_str_has_prefix (argv[i], "--local-"))
  *         {
- *           g_print ("handling argument {@code s} locally\\n", argv[i]);
+ *           g_print ("handling argument %s locally\\n", argv[i]);
  *           g_free (argv[i]);
  *           for (j = i; argv[j]; j++)
  *             argv[j] = argv[j + 1];
  *         }
  *       else
  *         {
- *           g_print ("not handling argument {@code s} locally\\n", argv[i]);
+ *           g_print ("not handling argument %s locally\\n", argv[i]);
  *           i++;
  *         }
  *     }
- * <p>
+ * 
  *   *exit_status = 0;
- * <p>
+ * 
  *   return FALSE;
  * }
- * <p>
+ * 
  * static void
  * test_application_class_init (TestApplicationClass *class)
  * {
  *   G_APPLICATION_CLASS (class)->local_command_line = test_local_cmdline;
- * <p>
+ * 
  *   ...
  * }
- * ]|
+ * }</pre>
  * In this example of split commandline handling, options that start
  * with {@code --local-} are handled locally, all other options are passed
  * to the {@link Application}::command-line handler which runs in the primary
@@ -129,37 +129,37 @@ import java.lang.invoke.*;
  * <p>
  * If handling the commandline requires a lot of work, it may
  * be better to defer it.
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * static gboolean
  * my_cmdline_handler (gpointer data)
  * {
  *   GApplicationCommandLine *cmdline = data;
- * <p>
+ * 
  *   // do the heavy lifting in an idle
- * <p>
+ * 
  *   g_application_command_line_set_exit_status (cmdline, 0);
  *   g_object_unref (cmdline); // this releases the application
- * <p>
+ * 
  *   return G_SOURCE_REMOVE;
  * }
- * <p>
+ * 
  * static int
  * command_line (GApplication            *application,
  *               GApplicationCommandLine *cmdline)
  * {
  *   // keep the application running until we are done with this commandline
  *   g_application_hold (application);
- * <p>
+ * 
  *   g_object_set_data_full (G_OBJECT (cmdline),
  *                           "application", application,
  *                           (GDestroyNotify)g_application_release);
- * <p>
+ * 
  *   g_object_ref (cmdline);
  *   g_idle_add (my_cmdline_handler, cmdline);
- * <p>
+ * 
  *   return 0;
  * }
- * ]|
+ * }</pre>
  * In this example the commandline is not completely handled before
  * the {@link Application}::command-line handler returns. Instead, we keep
  * a reference to the {@link ApplicationCommandLine} object and handle it
@@ -198,7 +198,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * The string may contain non-utf8 data.
      * <p>
      * It is possible that the remote application did not send a working
-     * directory, so this may be <code>null</code>.
+     * directory, so this may be {@code null}.
      * <p>
      * The return value should not be modified or freed and is valid for as
      * long as {@code cmdline} exists.
@@ -234,7 +234,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * modified from your GApplication::handle-local-options handler.
      * <p>
      * If no options were sent then an empty dictionary is returned so that
-     * you don't need to check for <code>null</code>.
+     * you don't need to check for {@code null}.
      */
     public org.gtk.glib.VariantDict getOptionsDict() {
         var RESULT = gtk_h.g_application_command_line_get_options_dict(handle());
@@ -249,7 +249,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * information like the current working directory and the startup
      * notification ID.
      * <p>
-     * For local invocation, it will be <code>null</code>.
+     * For local invocation, it will be {@code null}.
      */
     public org.gtk.glib.Variant getPlatformData() {
         var RESULT = gtk_h.g_application_command_line_get_platform_data(handle());
@@ -263,7 +263,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * input of the invoking process.
      * This doesn't work on all platforms.  Presently, it is only available
      * on UNIX when using a D-Bus daemon capable of passing file descriptors.
-     * If stdin is not available then <code>null</code> will be returned.  In the
+     * If stdin is not available then {@code null} will be returned.  In the
      * future, support may be expanded to other platforms.
      * <p>
      * You must only call this function once per commandline invocation.

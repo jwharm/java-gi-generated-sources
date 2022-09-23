@@ -17,4 +17,8 @@ public class SignalInvocationHint extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SignalInvocationHint() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSignalInvocationHint.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

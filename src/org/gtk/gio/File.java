@@ -105,7 +105,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * will be made readable only to the current user, to the level that
      * is supported on the target filesystem.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
@@ -196,11 +196,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * that is possible to copy is copied, not just the default subset (which,
      * for instance, does not include the owner, see {@link FileInfo}).
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
-     * If {@code progress_callback} is not <code>null</code>, then the operation can be monitored
+     * If {@code progress_callback} is not {@code null}, then the operation can be monitored
      * by setting this to a {@link FileProgressCallback} function.
      * {@code progress_callback_data} will be passed to this function. It is guaranteed
      * that this callback will be called after all data has been transferred with
@@ -246,7 +246,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Copies the file {@code source} to the location specified by {@code destination}
      * asynchronously. For details of the behaviour, see g_file_copy().
      * <p>
-     * If {@code progress_callback} is not <code>null</code>, then that function that will be called
+     * If {@code progress_callback} is not {@code null}, then that function that will be called
      * just like in g_file_copy(). The callback will run in the default main context
      * of the thread calling g_file_copy_async() — the same context as {@code callback} is
      * run in.
@@ -314,7 +314,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * will be made readable only to the current user, to the level
      * that is supported on the target filesystem.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
@@ -382,7 +382,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * will be made readable only to the current user, to the level
      * that is supported on the target filesystem.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
@@ -452,19 +452,19 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * If {@code file} doesn’t exist, {@link IOErrorEnum#NOT_FOUND} will be returned. This allows
      * for deletion to be implemented avoiding
      * <a href="https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use">time-of-check to time-of-use races</a>:
-     * |[
+     * <pre>{@code 
      * g_autoptr(GError) local_error = NULL;
      * if (!g_file_delete (my_file, my_cancellable, &local_error) &&
      *     !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND))
      *   {
      *     // deletion failed for some reason other than the file not existing:
      *     // so report the error
-     *     g_warning ("Failed to delete {@code s}: {@code s}",
+     *     g_warning ("Failed to delete %s: %s",
      *                g_file_peek_path (my_file), local_error->message);
      *   }
-     * ]|
+     * }</pre>
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -531,7 +531,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@code user_user} data, and the operation can be finalized with
      * g_file_eject_mountable_with_operation_finish().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -580,7 +580,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * always be specified if you plan to call g_file_enumerator_get_child() or
      * g_file_enumerator_iterate() on the returned enumerator.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
@@ -656,9 +656,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * {@link Mount} is returned only for user interesting locations, see
      * {@link VolumeMonitor}. If the {@link FileIface} for {@code file} does not have a {@code mount},
-     * {@code error} will be set to {@link IOErrorEnum#NOT_FOUND} and <code>null</code> {@code will} be returned.
+     * {@code error} will be set to {@link IOErrorEnum#NOT_FOUND} and {@code null} {@code will} be returned.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -744,7 +744,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Gets the child of {@code file} for a given {@code display_name} (i.e. a UTF-8
-     * version of the name). If this function fails, it returns <code>null</code>
+     * version of the name). If this function fails, it returns {@code null}
      * and {@code error} will be set. This is very useful when constructing a
      * {@link File} for a new file and the user entered the filename in the
      * user interface, for instance when you select a directory and
@@ -764,7 +764,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the parent directory for the {@code file}.
      * If the {@code file} represents the root directory of the
-     * file system, then <code>null</code> will be returned.
+     * file system, then {@code null} will be returned.
      * <p>
      * This call does no blocking I/O.
      */
@@ -795,7 +795,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
-     * Gets the local pathname for {@link File}, if one exists. If non-<code>null</code>, this is
+     * Gets the local pathname for {@link File}, if one exists. If non-{@code null}, this is
      * guaranteed to be an absolute, canonical path. It might contain symlinks.
      * <p>
      * This call does no blocking I/O.
@@ -828,9 +828,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the URI scheme for a {@link File}.
      * RFC 3986 decodes the scheme as:
-     * |[
+     * <pre>{@code 
      * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-     * ]|
+     * }</pre>
      * Common schemes include "file", "http", "ftp", etc.
      * <p>
      * The scheme can be different from the one used to construct the {@link File},
@@ -846,8 +846,8 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Checks if {@code file} has a parent, and optionally, if it is {@code parent}.
      * <p>
-     * If {@code parent} is <code>null</code> then this function returns <code>true</code> if {@code file} has any
-     * parent at all.  If {@code parent} is non-<code>null</code> then <code>true</code> is only returned
+     * If {@code parent} is {@code null} then this function returns {@code true} if {@code file} has any
+     * parent at all.  If {@code parent} is non-{@code null} then {@code true} is only returned
      * if {@code file} is an immediate child of {@code parent}.
      */
     public default boolean hasParent(File parent) {
@@ -867,7 +867,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * equality, use g_file_equal().
      * <p>
      * This call does no I/O, as it works purely on names. As such it can
-     * sometimes return <code>false</code> even if {@code file} is inside a {@code prefix} (from a
+     * sometimes return {@code false} even if {@code file} is inside a {@code prefix} (from a
      * filesystem point of view), because the prefix of {@code file} is an alias
      * of {@code prefix}.
      */
@@ -905,7 +905,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * On some systems non-native files may be available using the native
      * filesystem via a userspace filesystem (FUSE), in these cases this call
-     * will return <code>false</code>, but g_file_get_path() will still return a native path.
+     * will return {@code false}, but g_file_get_path() will still return a native path.
      * <p>
      * This call does no blocking I/O.
      */
@@ -921,7 +921,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * embedded resource instead of a copy. Otherwise, this is equivalent to calling
      * g_file_load_contents() and g_bytes_new_take().
      * <p>
-     * For resources, {@code etag_out} will be set to <code>null</code>.
+     * For resources, {@code etag_out} will be set to {@code null}.
      * <p>
      * The data contained in the resulting {@link org.gtk.glib.Bytes} is always zero-terminated, but
      * this is not included in the {@link org.gtk.glib.Bytes} length. The resulting {@link org.gtk.glib.Bytes} should be
@@ -965,7 +965,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Completes an asynchronous request to g_file_load_bytes_async().
      * <p>
-     * For resources, {@code etag_out} will be set to <code>null</code>.
+     * For resources, {@code etag_out} will be set to {@code null}.
      * <p>
      * The data contained in the resulting {@link org.gtk.glib.Bytes} is always zero-terminated, but
      * this is not included in the {@link org.gtk.glib.Bytes} length. The resulting {@link org.gtk.glib.Bytes} should be
@@ -993,7 +993,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * g_file_load_contents_finish() with the {@link AsyncResult} returned by
      * the {@code callback}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1020,7 +1020,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Users of this function should be aware that {@code user_data} is passed to
      * both the {@code read_more_callback} and the {@code callback}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1055,7 +1055,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * For a local {@link File} the newly created directory will have the default
      * (current) ownership and permissions of the current process.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1109,7 +1109,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * For a local {@link File} the newly created directories will have the default
      * (current) ownership and permissions of the current process.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1126,7 +1126,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Creates a symbolic link named {@code file} which contains the string
      * {@code symlink_value}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1169,7 +1169,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Obtains a file or directory monitor for the given file,
      * depending on the type of the file.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1186,7 +1186,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Obtains a directory monitor for the given file.
      * This may fail if directory monitoring is not supported.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -1209,7 +1209,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Obtains a file monitor for the given file. If no file notification
      * mechanism exists, then regular polling of the file is used.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -1238,7 +1238,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@code user_user} data, and the operation can be finalized with
      * g_file_mount_enclosing_volume_finish().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1273,7 +1273,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Using {@code mount_operation}, you can request callbacks when, for instance,
      * passwords are needed during authentication.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -1320,11 +1320,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * If the flag {@link FileCopyFlags#OVERWRITE} is specified an already
      * existing {@code destination} file is overwritten.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
-     * If {@code progress_callback} is not <code>null</code>, then the operation can be monitored
+     * If {@code progress_callback} is not {@code null}, then the operation can be monitored
      * by setting this to a {@link FileProgressCallback} function.
      * {@code progress_callback_data} will be passed to this function. It is
      * guaranteed that this callback will be called after all data has been
@@ -1367,7 +1367,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Asynchronously moves a file {@code source} to the location of {@code destination}. For details of the behaviour, see g_file_move().
      * <p>
-     * If {@code progress_callback} is not <code>null</code>, then that function that will be called
+     * If {@code progress_callback} is not {@code null}, then that function that will be called
      * just like in g_file_move(). The callback will run in the default main context
      * of the thread calling g_file_move_async() — the same context as {@code callback} is
      * run in.
@@ -1413,7 +1413,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * a {@link FileIOStream} that can be used to read and write the contents
      * of the file.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
@@ -1489,7 +1489,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Polls a file of type {@link FileType#MOUNTABLE}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -1530,7 +1530,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Returns the {@link AppInfo} that is registered as the default
      * application to handle the file specified by {@code file}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1631,7 +1631,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * in bytes), {@code G_FILE_ATTRIBUTE_FILESYSTEM_FREE} (number of bytes available),
      * and {@code G_FILE_ATTRIBUTE_FILESYSTEM_TYPE} (type of the filesystem).
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
@@ -1705,7 +1705,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * The standard attributes are available as defines, like
      * {@code G_FILE_ATTRIBUTE_STANDARD_NAME}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
@@ -1776,7 +1776,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * always succeed though, you might get an access failure, or some
      * specific file may not support a specific attribute.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1794,7 +1794,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * can be created by a user. An example of this is extended
      * attributes (in the "xattr" namespace).
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -1811,7 +1811,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Opens a file for reading. The result is a {@link FileInputStream} that
      * can be used to read the contents of the file.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -1882,12 +1882,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * will be made readable only to the current user, to the level that
      * is supported on the target filesystem.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled
      * by triggering the cancellable object from another thread. If the
      * operation was cancelled, the error {@link IOErrorEnum#CANCELLED} will be
      * returned.
      * <p>
-     * If you pass in a non-<code>null</code> {@code etag} value and {@code file} already exists, then
+     * If you pass in a non-{@code null} {@code etag} value and {@code file} already exists, then
      * this value is compared to the current entity tag of the file, and if
      * they differ an {@link IOErrorEnum#WRONG_ETAG} error is returned. This
      * generally means that the file has been changed since you last read
@@ -1896,10 +1896,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * you load a new file you can use g_file_input_stream_query_info() to
      * get the etag of the file.
      * <p>
-     * If {@code make_backup} is <code>true</code>, this function will attempt to make a
+     * If {@code make_backup} is {@code true}, this function will attempt to make a
      * backup of the current file before overwriting it. If this fails
      * a {@link IOErrorEnum#CANT_CREATE_BACKUP} error will be returned. If you
-     * want to replace anyway, try again with {@code make_backup} set to <code>false</code>.
+     * want to replace anyway, try again with {@code make_backup} set to {@code false}.
      * <p>
      * If the file is a directory the {@link IOErrorEnum#IS_DIRECTORY} error will
      * be returned, and if the file is some other form of non-regular file
@@ -1946,15 +1946,15 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Replaces the contents of {@code file} with {@code contents} of {@code length} bytes.
      * <p>
-     * If {@code etag} is specified (not <code>null</code>), any existing file must have that etag,
+     * If {@code etag} is specified (not {@code null}), any existing file must have that etag,
      * or the error {@link IOErrorEnum#WRONG_ETAG} will be returned.
      * <p>
-     * If {@code make_backup} is <code>true</code>, this function will attempt to make a backup
+     * If {@code make_backup} is {@code true}, this function will attempt to make a backup
      * of {@code file}. Internally, it uses g_file_replace(), so will try to replace the
      * file contents in the safest way possible. For example, atomic renames are
      * used when replacing local files’ contents.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -1979,11 +1979,11 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@code user_user} data, and the operation can be finalized with
      * g_file_replace_contents_finish().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
-     * If {@code make_backup} is <code>true</code>, this function will attempt to
+     * If {@code make_backup} is {@code true}, this function will attempt to
      * make a backup of {@code file}.
      * <p>
      * Note that no copy of {@code contents} will be made, so it must stay valid
@@ -2133,9 +2133,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Sets an attribute in the file with attribute name {@code attribute} to {@code value_p}.
      * <p>
      * Some attributes can be unset by setting {@code type} to
-     * {@link FileAttributeType#INVALID} and {@code value_p} to <code>null</code>.
+     * {@link FileAttributeType#INVALID} and {@code value_p} to {@code null}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2151,9 +2151,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets {@code attribute} of type {@link FileAttributeType#BYTE_STRING} to {@code value}.
      * If {@code attribute} is of a different type, this operation will fail,
-     * returning <code>false</code>.
+     * returning {@code false}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2170,7 +2170,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code attribute} of type {@link FileAttributeType#INT32} to {@code value}.
      * If {@code attribute} is of a different type, this operation will fail.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2187,7 +2187,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code attribute} of type {@link FileAttributeType#INT64} to {@code value}.
      * If {@code attribute} is of a different type, this operation will fail.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2204,7 +2204,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code attribute} of type {@link FileAttributeType#STRING} to {@code value}.
      * If {@code attribute} is of a different type, this operation will fail.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2221,7 +2221,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code attribute} of type {@link FileAttributeType#UINT32} to {@code value}.
      * If {@code attribute} is of a different type, this operation will fail.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2238,7 +2238,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Sets {@code attribute} of type {@link FileAttributeType#UINT64} to {@code value}.
      * If {@code attribute} is of a different type, this operation will fail.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2297,7 +2297,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@link FileAttributeStatus#ERROR_SETTING}, which means you can
      * also detect further errors.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2323,7 +2323,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * On success the resulting converted filename is returned.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2378,7 +2378,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * Using {@code start_operation}, you can request callbacks when, for instance,
      * passwords are needed during authentication.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -2418,7 +2418,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Stops a file of type {@link FileType#MOUNTABLE}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -2458,7 +2458,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Checks if {@code file} supports
      * [thread-default contexts][g-main-context-push-thread-default-context].
-     * If this returns <code>false</code>, you cannot perform asynchronous operations on
+     * If this returns {@code false}, you cannot perform asynchronous operations on
      * {@code file} in a thread that has a thread-default context.
      */
     public default boolean supportsThreadContexts() {
@@ -2474,7 +2474,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * mount option can be used to disable g_file_trash() support for certain
      * mounts, the {@link IOErrorEnum#NOT_SUPPORTED} error will be returned in that case.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -2520,7 +2520,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Unmounts a file of type {@link FileType#MOUNTABLE}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * <p>
@@ -2625,9 +2625,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * {@code tmpl} should be a string in the GLib file name encoding
      * containing a sequence of six 'X' characters, and containing no
-     * directory components. If it is <code>null</code>, a default template is used.
+     * directory components. If it is {@code null}, a default template is used.
      * <p>
-     * Unlike the other {@link File} constructors, this will return <code>null</code> if
+     * Unlike the other {@link File} constructors, this will return {@code null} if
      * a temporary file could not be created.
      */
     public static File newTmp(java.lang.String tmpl, FileIOStream[] iostream) throws io.github.jwharm.javagi.GErrorException {

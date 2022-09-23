@@ -13,4 +13,8 @@ public class DataOutputStreamClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public DataOutputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDataOutputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

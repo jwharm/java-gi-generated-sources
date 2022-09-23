@@ -17,6 +17,10 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Queue() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GQueue.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Removes all the elements in {@code queue}. If queue elements contain
      * dynamically-allocated memory, they should be freed first.
@@ -136,7 +140,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts {@code data} into {@code queue} after {@code sibling}.
      * <p>
-     * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a <code>null</code> sibling pushes the
+     * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a {@code null} sibling pushes the
      * data at the head of the queue.
      */
     public void insertAfter(org.gtk.glib.List sibling, java.lang.foreign.MemoryAddress data) {
@@ -155,7 +159,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts {@code data} into {@code queue} before {@code sibling}.
      * <p>
-     * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a <code>null</code> sibling pushes the
+     * {@code sibling} must be part of {@code queue}. Since GLib 2.44 a {@code null} sibling pushes the
      * data at the tail of the queue.
      */
     public void insertBefore(org.gtk.glib.List sibling, java.lang.foreign.MemoryAddress data) {
@@ -190,7 +194,7 @@ public class Queue extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the queue is empty.
+     * Returns {@code true} if the queue is empty.
      */
     public boolean isEmpty() {
         var RESULT = gtk_h.g_queue_is_empty(handle());

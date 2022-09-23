@@ -52,7 +52,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Supported types include strings, {@code GdkRGBA} and {@code GtkTextBuffer}.
      * If GTK does not know how to create a widget for a given value,
-     * it will return <code>null</code>.
+     * it will return {@code null}.
      * <p>
      * This method is used to set the default drag icon on drag-and-drop
      * operations started by {@code GtkDragSource}, so you don't need to set

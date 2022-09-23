@@ -87,7 +87,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Note that {@code text} is the start of the text for layout, which is then
      * indexed by {@code glyph_item->item->offset}.
      * <p>
-     * If {@code text} is <code>null</code>, this simply calls {@link Renderer#drawGlyphs}.
+     * If {@code text} is {@code null}, this simply calls {@link Renderer#drawGlyphs}.
      * <p>
      * The default implementation of this method simply falls back to
      * {@link Renderer#drawGlyphs}.

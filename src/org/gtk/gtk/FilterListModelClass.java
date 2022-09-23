@@ -13,4 +13,8 @@ public class FilterListModelClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FilterListModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFilterListModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

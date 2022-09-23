@@ -16,4 +16,8 @@ public class ProxyAddressClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ProxyAddressClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GProxyAddressClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

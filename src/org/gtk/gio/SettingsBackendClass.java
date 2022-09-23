@@ -16,4 +16,8 @@ public class SettingsBackendClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SettingsBackendClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSettingsBackendClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

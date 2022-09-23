@@ -71,7 +71,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
     /**
      * Gets the string that is at {@code position} in {@code self}.
      * <p>
-     * If {@code self} does not contain {@code position} items, <code>null</code> is returned.
+     * If {@code self} does not contain {@code position} items, {@code null} is returned.
      * <p>
      * This function returns the const char *. To get the
      * object wrapping it, use g_list_model_get_item().

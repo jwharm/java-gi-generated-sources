@@ -145,7 +145,7 @@ public class DragSource extends GestureSingle {
      * During a DND operation, the actions are offered to potential
      * drop targets. If {@code actions} include {@link org.gtk.gdk.DragAction#MOVE}, you need
      * to listen to the {@code Gtk.DragSource::drag-end} signal and
-     * handle {@code delete_data} being <code>true</code>.
+     * handle {@code delete_data} being {@code true}.
      * <p>
      * This function can be called before a drag is started,
      * or in a handler for the {@code Gtk.DragSource::prepare} signal.
@@ -164,7 +164,7 @@ public class DragSource extends GestureSingle {
      * or in a handler for the {@code Gtk.DragSource::prepare} signal.
      * <p>
      * You may consider setting the content provider back to
-     * <code>null</code> in a {@code Gtk.DragSource::drag-end} signal handler.
+     * {@code null} in a {@code Gtk.DragSource::drag-end} signal handler.
      */
     public void setContent(org.gtk.gdk.ContentProvider content) {
         gtk_h.gtk_drag_source_set_content(handle(), content.handle());
@@ -176,7 +176,7 @@ public class DragSource extends GestureSingle {
      * The hotspot coordinates determine the point on the icon
      * that gets aligned with the hotspot of the cursor.
      * <p>
-     * If {@code paintable} is <code>null</code>, a default icon is used.
+     * If {@code paintable} is {@code null}, a default icon is used.
      * <p>
      * This function can be called before a drag is started, or in
      * a {@code Gtk.DragSource::prepare} or
@@ -221,7 +221,7 @@ public class DragSource extends GestureSingle {
      * Emitted on the drag source when a drag has failed.
      * <p>
      * The signal handler may handle a failed drag operation based on
-     * the type of error. It should return <code>true</code> if the failure has been handled
+     * the type of error. It should return {@code true} if the failure has been handled
      * and the default "drag operation failed" animation should not be shown.
      */
     public SignalHandle onDragCancel(DragCancelHandler handler) {

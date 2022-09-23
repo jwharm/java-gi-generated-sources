@@ -148,7 +148,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the sequence contains zero items.
+     * Returns {@code true} if the sequence contains zero items.
      * <p>
      * This function is functionally identical to checking the result of
      * g_sequence_get_length() being equal to zero. However this function is
@@ -384,7 +384,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * allowed for {@code dest} to point to a different sequence than the one pointed
      * into by {@code begin} and {@code end}.
      * <p>
-     * If {@code dest} is <code>null</code>, the range indicated by {@code begin} and {@code end} is
+     * If {@code dest} is {@code null}, the range indicated by {@code begin} and {@code end} is
      * removed from the sequence. If {@code dest} points to a place within
      * the ({@code begin}, {@code end}) range, the range does not move.
      */

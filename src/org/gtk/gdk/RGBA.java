@@ -24,6 +24,10 @@ public class RGBA extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public RGBA() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkRGBA.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Makes a copy of a {@code GdkRGBA}.
      * <p>

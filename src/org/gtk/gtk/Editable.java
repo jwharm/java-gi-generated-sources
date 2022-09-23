@@ -310,7 +310,7 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * This results in an additional copy of text changes and are not
      * stored in secure memory. As such, undo is forcefully disabled
-     * when {@code Gtk.Text:visibility} is set to <code>false</code>.
+     * when {@code Gtk.Text:visibility} is set to {@code false}.
      */
     public default void setEnableUndo(boolean enableUndo) {
         gtk_h.gtk_editable_set_enable_undo(handle(), enableUndo ? 1 : 0);

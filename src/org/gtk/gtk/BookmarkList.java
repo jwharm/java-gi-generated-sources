@@ -66,7 +66,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     }
     
     /**
-     * Returns <code>true</code> if the files are currently being loaded.
+     * Returns {@code true} if the files are currently being loaded.
      * <p>
      * Files will be added to {@code self} from time to time while loading is
      * going on. The order in which are added is undefined and may change
@@ -80,7 +80,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     /**
      * Sets the {@code attributes} to be enumerated and starts the enumeration.
      * <p>
-     * If {@code attributes} is <code>null</code>, no attributes will be queried, but a list
+     * If {@code attributes} is {@code null}, no attributes will be queried, but a list
      * of {@code GFileInfo}s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {

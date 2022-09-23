@@ -33,7 +33,7 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Informs GDK that the drop ended.
      * <p>
-     * Passing <code>false</code> for {@code success} may trigger a drag cancellation
+     * Passing {@code false} for {@code success} may trigger a drag cancellation
      * animation.
      * <p>
      * This function is called by the drag source, and should be the

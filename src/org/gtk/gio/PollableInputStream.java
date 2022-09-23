@@ -18,7 +18,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
     /**
      * Checks if {@code stream} is actually pollable. Some classes may implement
      * {@link PollableInputStream} but have only certain instances of that class
-     * be pollable. If this method returns <code>false</code>, then the behavior of
+     * be pollable. If this method returns {@code false}, then the behavior of
      * other {@link PollableInputStream} methods is undefined.
      * <p>
      * For any given stream, the value returned by this method is constant;
@@ -49,7 +49,7 @@ public interface PollableInputStream extends io.github.jwharm.javagi.NativeAddre
      * <p>
      * Note that some stream types may not be able to implement this 100%
      * reliably, and it is possible that a call to g_input_stream_read()
-     * after this returns <code>true</code> would still block. To guarantee
+     * after this returns {@code true} would still block. To guarantee
      * non-blocking behavior, you should always use
      * g_pollable_input_stream_read_nonblocking(), which will return a
      * {@link IOErrorEnum#WOULD_BLOCK} error rather than blocking.

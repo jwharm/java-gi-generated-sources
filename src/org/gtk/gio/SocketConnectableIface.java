@@ -17,4 +17,8 @@ public class SocketConnectableIface extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public SocketConnectableIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSocketConnectableIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

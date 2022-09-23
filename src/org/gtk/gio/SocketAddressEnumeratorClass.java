@@ -16,4 +16,8 @@ public class SocketAddressEnumeratorClass extends io.github.jwharm.javagi.Resour
         super(reference);
     }
     
+    public SocketAddressEnumeratorClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSocketAddressEnumeratorClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

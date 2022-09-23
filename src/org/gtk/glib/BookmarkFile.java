@@ -27,8 +27,8 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * the bookmark has been registered by the application and the last
      * time the application registered this bookmark.
      * <p>
-     * If {@code name} is <code>null</code>, the name of the application will be the
-     * same returned by g_get_application_name(); if {@code exec} is <code>null</code>, the
+     * If {@code name} is {@code null}, the name of the application will be the
+     * same returned by g_get_application_name(); if {@code exec} is {@code null}, the
      * command line will be a composition of the program name as
      * returned by g_get_prgname() and the "\\{@code u}" modifier, which will be
      * expanded to the bookmark's URI.
@@ -64,7 +64,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the time the bookmark for {@code uri} was added to {@code bookmark}
      * <p>
-     * In the event the URI cannot be found, <code>null</code> is returned and
+     * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
@@ -79,7 +79,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the description of the bookmark for {@code uri}.
      * <p>
-     * In the event the URI cannot be found, <code>null</code> is returned and
+     * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
@@ -94,7 +94,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the icon of the bookmark for {@code uri}.
      * <p>
-     * In the event the URI cannot be found, <code>false</code> is returned and
+     * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean getIcon(java.lang.String uri, java.lang.String[] href, java.lang.String[] mimeType) throws io.github.jwharm.javagi.GErrorException {
@@ -109,9 +109,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets whether the private flag of the bookmark for {@code uri} is set.
      * <p>
-     * In the event the URI cannot be found, <code>false</code> is returned and
+     * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.  In the
-     * event that the private flag cannot be found, <code>false</code> is returned and
+     * event that the private flag cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
     public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
@@ -126,9 +126,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the MIME type of the resource pointed by {@code uri}.
      * <p>
-     * In the event the URI cannot be found, <code>null</code> is returned and
+     * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.  In the
-     * event that the MIME type cannot be found, <code>null</code> is returned and
+     * event that the MIME type cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
     public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
@@ -143,7 +143,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the time when the bookmark for {@code uri} was last modified.
      * <p>
-     * In the event the URI cannot be found, <code>null</code> is returned and
+     * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
@@ -166,9 +166,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the title of the bookmark for {@code uri}.
      * <p>
-     * If {@code uri} is <code>null</code>, the title of {@code bookmark} is returned.
+     * If {@code uri} is {@code null}, the title of {@code bookmark} is returned.
      * <p>
-     * In the event the URI cannot be found, <code>null</code> is returned and
+     * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public java.lang.String getTitle(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
@@ -183,7 +183,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the time the bookmark for {@code uri} was last visited.
      * <p>
-     * In the event the URI cannot be found, <code>null</code> is returned and
+     * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
@@ -199,7 +199,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * Checks whether the bookmark for {@code uri} inside {@code bookmark} has been
      * registered by application {@code name}.
      * <p>
-     * In the event the URI cannot be found, <code>false</code> is returned and
+     * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
@@ -215,7 +215,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * Checks whether {@code group} appears in the list of groups to which
      * the bookmark for {@code uri} belongs to.
      * <p>
-     * In the event the URI cannot be found, <code>false</code> is returned and
+     * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
@@ -282,9 +282,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Changes the URI of a bookmark item from {@code old_uri} to {@code new_uri}.  Any
      * existing bookmark for {@code new_uri} will be overwritten.  If {@code new_uri} is
-     * <code>null</code>, then the bookmark is removed.
+     * {@code null}, then the bookmark is removed.
      * <p>
-     * In the event the URI cannot be found, <code>false</code> is returned and
+     * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
     public boolean moveItem(java.lang.String oldUri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
@@ -300,10 +300,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * Removes application registered with {@code name} from the list of applications
      * that have registered a bookmark for {@code uri} inside {@code bookmark}.
      * <p>
-     * In the event the URI cannot be found, <code>false</code> is returned and
+     * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      * In the event that no application with name {@code app_name} has registered
-     * a bookmark for {@code uri},  <code>false</code> is returned and error is set to
+     * a bookmark for {@code uri},  {@code false} is returned and error is set to
      * {@link BookmarkFileError#APP_NOT_REGISTERED}.
      */
     public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
@@ -319,9 +319,9 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * Removes {@code group} from the list of groups to which the bookmark
      * for {@code uri} belongs to.
      * <p>
-     * In the event the URI cannot be found, <code>false</code> is returned and
+     * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
-     * In the event no group was defined, <code>false</code> is returned and
+     * In the event no group was defined, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
     public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
@@ -376,10 +376,10 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code stamp} is the Unix time of the last registration.
      * <p>
      * If you try to remove an application by setting its registration count to
-     * zero, and no bookmark for {@code uri} is found, <code>false</code> is returned and
+     * zero, and no bookmark for {@code uri} is found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}; similarly,
      * in the event that no application {@code name} has registered a bookmark
-     * for {@code uri},  <code>false</code> is returned and error is set to
+     * for {@code uri},  {@code false} is returned and error is set to
      * {@link BookmarkFileError#APP_NOT_REGISTERED}.  Otherwise, if no bookmark
      * for {@code uri} is found, one is created.
      */
@@ -395,7 +395,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets {@code description} as the description of the bookmark for {@code uri}.
      * <p>
-     * If {@code uri} is <code>null</code>, the description of {@code bookmark} is set.
+     * If {@code uri} is {@code null}, the description of {@code bookmark} is set.
      * <p>
      * If a bookmark for {@code uri} cannot be found then it is created.
      */
@@ -414,7 +414,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Sets the icon for the bookmark for {@code uri}. If {@code href} is <code>null</code>, unsets
+     * Sets the icon for the bookmark for {@code uri}. If {@code href} is {@code null}, unsets
      * the currently set icon. {@code href} can either be a full URL for the icon
      * file or the icon name following the Icon Naming specification.
      * <p>
@@ -460,7 +460,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * Sets {@code title} as the title of the bookmark for {@code uri} inside the
      * bookmark file {@code bookmark}.
      * <p>
-     * If {@code uri} is <code>null</code>, the title of {@code bookmark} is set.
+     * If {@code uri} is {@code null}, the title of {@code bookmark} is set.
      * <p>
      * If a bookmark for {@code uri} cannot be found then it is created.
      */

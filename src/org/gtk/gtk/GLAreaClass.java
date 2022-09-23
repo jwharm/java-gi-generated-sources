@@ -16,4 +16,8 @@ public class GLAreaClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GLAreaClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkGLAreaClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

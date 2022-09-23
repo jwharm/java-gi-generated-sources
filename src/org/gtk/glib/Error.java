@@ -61,8 +61,8 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if {@code error} matches {@code domain} and {@code code}, <code>false</code>
-     * otherwise. In particular, when {@code error} is <code>null</code>, <code>false</code> will
+     * Returns {@code true} if {@code error} matches {@code domain} and {@code code}, {@code false}
+     * otherwise. In particular, when {@code error} is {@code null}, {@code false} will
      * be returned.
      * <p>
      * If {@code domain} contains a {@code FAILED} (or otherwise generic) error code,

@@ -13,4 +13,8 @@ public class TreeModelIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeModelIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeModelIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -27,6 +27,10 @@ public class Rect extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Rect() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.graphene_rect_t.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Checks whether a {@link Rect} contains the given coordinates.
      */

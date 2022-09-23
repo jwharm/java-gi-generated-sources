@@ -29,6 +29,10 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FontMetrics() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoFontMetrics.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Gets the approximate character width for a font metrics structure.
      * <p>

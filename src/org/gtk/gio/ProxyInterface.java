@@ -16,4 +16,8 @@ public class ProxyInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ProxyInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GProxyInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

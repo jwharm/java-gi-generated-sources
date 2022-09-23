@@ -54,7 +54,7 @@ public class FileInputStream extends InputStream implements Seekable {
      * For the synchronous version of this function,
      * see g_file_input_stream_query_info().
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set
      */

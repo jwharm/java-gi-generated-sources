@@ -16,4 +16,8 @@ public class ContentProviderClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ContentProviderClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkContentProviderClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

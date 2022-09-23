@@ -17,4 +17,8 @@ public class TrashStack extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TrashStack() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTrashStack.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

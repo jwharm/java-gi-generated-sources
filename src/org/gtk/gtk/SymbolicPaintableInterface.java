@@ -17,4 +17,8 @@ public class SymbolicPaintableInterface extends io.github.jwharm.javagi.Resource
         super(reference);
     }
     
+    public SymbolicPaintableInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkSymbolicPaintableInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

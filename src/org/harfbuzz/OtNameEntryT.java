@@ -16,4 +16,8 @@ public class OtNameEntryT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OtNameEntryT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_name_entry_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

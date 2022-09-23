@@ -13,4 +13,8 @@ public class Path extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Path() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.cairo_path_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

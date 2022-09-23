@@ -16,4 +16,8 @@ public class DBusInterfaceIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DBusInterfaceIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -62,11 +62,11 @@ public class TextMark extends org.gtk.gobject.Object {
      * Creates a text mark.
      * <p>
      * Add it to a buffer using {@link TextBuffer#addMark}.
-     * If {@code name} is <code>null</code>, the mark is anonymous; otherwise, the mark can be
+     * If {@code name} is {@code null}, the mark is anonymous; otherwise, the mark can be
      * retrieved by name using {@link TextBuffer#getMark}. If a mark
      * has left gravity, and text is inserted at the mark’s current location,
      * the mark will be moved to the left of the newly-inserted text. If the
-     * mark has right gravity ({@code left_gravity} = <code>false</code>), the mark will end up
+     * mark has right gravity ({@code left_gravity} = {@code false}), the mark will end up
      * on the right of newly-inserted text. The standard left-to-right cursor
      * is a mark with right gravity (when you type, the cursor stays on the
      * right side of the text you’re typing).
@@ -78,7 +78,7 @@ public class TextMark extends org.gtk.gobject.Object {
     /**
      * Gets the buffer this mark is located inside.
      * <p>
-     * Returns <code>null</code> if the mark is deleted.
+     * Returns {@code null} if the mark is deleted.
      */
     public TextBuffer getBuffer() {
         var RESULT = gtk_h.gtk_text_mark_get_buffer(handle());
@@ -86,7 +86,7 @@ public class TextMark extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the mark has been removed from its buffer.
+     * Returns {@code true} if the mark has been removed from its buffer.
      * <p>
      * See {@link TextBuffer#addMark} for a way to add it
      * to a buffer again.
@@ -107,7 +107,7 @@ public class TextMark extends org.gtk.gobject.Object {
     /**
      * Returns the mark name.
      * <p>
-     * Returns <code>null</code> for anonymous marks.
+     * Returns {@code null} for anonymous marks.
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gtk_text_mark_get_name(handle());
@@ -115,7 +115,7 @@ public class TextMark extends org.gtk.gobject.Object {
     }
     
     /**
-     * Returns <code>true</code> if the mark is visible.
+     * Returns {@code true} if the mark is visible.
      * <p>
      * A cursor is displayed for visible marks.
      */

@@ -24,6 +24,10 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public UriParamsIter() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GUriParamsIter.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Initializes an attribute/value pair iterator.
      * <p>
@@ -41,11 +45,11 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      * effect if passed to {@code flags} for g_uri_params_iter_init(). The caller is
      * responsible for doing their own case-insensitive comparisons.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * GUriParamsIter iter;
      * GError *error = NULL;
-     * gchar <strong>unowned_attr, </strong>unowned_value;
-     * <p>
+     * gchar *unowned_attr, *unowned_value;
+     * 
      * g_uri_params_iter_init (&iter, "foo=bar&baz=bar&Foo=frob&baz=bar2", -1, "&", G_URI_PARAMS_NONE);
      * while (g_uri_params_iter_next (&iter, &unowned_attr, &unowned_value, &error))
      *   {
@@ -57,17 +61,17 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      *   }
      * if (error)
      *   // handle parsing error
-     * ]|
+     * }</pre>
      */
     public void init(java.lang.String params, long length, java.lang.String separators, int flags) {
         gtk_h.g_uri_params_iter_init(handle(), Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags);
     }
     
     /**
-     * Advances {@code iter} and retrieves the next attribute/value. <code>false</code> is returned if
+     * Advances {@code iter} and retrieves the next attribute/value. {@code false} is returned if
      * an error has occurred (in which case {@code error} is set), or if the end of the
-     * iteration is reached (in which case {@code attribute} and {@code value} are set to <code>null</code>
-     * and the iterator becomes invalid). If <code>true</code> is returned,
+     * iteration is reached (in which case {@code attribute} and {@code value} are set to {@code null}
+     * and the iterator becomes invalid). If {@code true} is returned,
      * g_uri_params_iter_next() may be called again to receive another
      * attribute/value pair.
      * <p>

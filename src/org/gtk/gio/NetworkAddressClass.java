@@ -13,4 +13,8 @@ public class NetworkAddressClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public NetworkAddressClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GNetworkAddressClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

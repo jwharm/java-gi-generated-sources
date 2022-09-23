@@ -17,4 +17,8 @@ public class ObjectConstructParam extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ObjectConstructParam() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GObjectConstructParam.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

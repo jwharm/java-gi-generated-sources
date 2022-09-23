@@ -16,4 +16,8 @@ public class PowerProfileMonitorInterface extends io.github.jwharm.javagi.Resour
         super(reference);
     }
     
+    public PowerProfileMonitorInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GPowerProfileMonitorInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

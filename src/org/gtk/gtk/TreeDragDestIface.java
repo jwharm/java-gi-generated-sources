@@ -13,4 +13,8 @@ public class TreeDragDestIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeDragDestIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeDragDestIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

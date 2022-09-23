@@ -52,7 +52,7 @@ public class IMMulticontext extends IMContext {
      * This causes the currently active delegate of {@code context} to be
      * replaced by the delegate corresponding to the new context id.
      * <p>
-     * Setting this to a non-<code>null</code> value overrides the system-wide
+     * Setting this to a non-{@code null} value overrides the system-wide
      * IM module setting. See the {@code Gtk.Settings:gtk-im-module}
      * property.
      */

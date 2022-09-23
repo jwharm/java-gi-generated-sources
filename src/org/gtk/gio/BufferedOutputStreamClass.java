@@ -13,4 +13,8 @@ public class BufferedOutputStreamClass extends io.github.jwharm.javagi.ResourceB
         super(reference);
     }
     
+    public BufferedOutputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GBufferedOutputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

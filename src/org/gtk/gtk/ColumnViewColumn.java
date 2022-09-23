@@ -57,7 +57,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     /**
      * Gets the column view that's currently displaying this column.
      * <p>
-     * If {@code self} has not been added to a column view yet, <code>null</code> is returned.
+     * If {@code self} has not been added to a column view yet, {@code null} is returned.
      */
     public ColumnView getColumnView() {
         var RESULT = gtk_h.gtk_column_view_column_get_column_view(handle());
@@ -134,7 +134,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * Sets the column to take available extra space.
      * <p>
      * The extra space is shared equally amongst all columns that
-     * have the expand set to <code>true</code>.
+     * have the expand set to {@code true}.
      */
     public void setExpand(boolean expand) {
         gtk_h.gtk_column_view_column_set_expand(handle(), expand ? 1 : 0);
@@ -177,7 +177,7 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
     /**
      * Associates a sorter with the column.
      * <p>
-     * If {@code sorter} is <code>null</code>, the column will not let users change
+     * If {@code sorter} is {@code null}, the column will not let users change
      * the sorting by clicking on its header.
      * <p>
      * This sorter can be made active by clicking on the column

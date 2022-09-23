@@ -13,4 +13,8 @@ public class MenuLinkIterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MenuLinkIterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMenuLinkIterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

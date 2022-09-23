@@ -13,6 +13,10 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TestLogBuffer() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTestLogBuffer.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Internal function for gtester to free test log messages, no ABI guarantees provided.
      */

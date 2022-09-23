@@ -13,4 +13,8 @@ public class FontFamilyClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FontFamilyClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoFontFamilyClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

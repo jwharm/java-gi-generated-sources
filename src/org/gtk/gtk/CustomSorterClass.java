@@ -13,4 +13,8 @@ public class CustomSorterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CustomSorterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCustomSorterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -112,7 +112,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Finds the child with the name given as the argument.
      * <p>
-     * Returns <code>null</code> if there is no child with this name.
+     * Returns {@code null} if there is no child with this name.
      */
     public Widget getChildByName(java.lang.String name) {
         var RESULT = gtk_h.gtk_stack_get_child_by_name(handle(), Interop.allocateNativeString(name).handle());
@@ -196,7 +196,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets the currently visible child of {@code stack}.
      * <p>
-     * Returns <code>null</code> if there are no visible children.
+     * Returns {@code null} if there are no visible children.
      */
     public Widget getVisibleChild() {
         var RESULT = gtk_h.gtk_stack_get_visible_child(handle());
@@ -206,7 +206,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns the name of the currently visible child of {@code stack}.
      * <p>
-     * Returns <code>null</code> if there is no visible child.
+     * Returns {@code null} if there is no visible child.
      */
     public java.lang.String getVisibleChildName() {
         var RESULT = gtk_h.gtk_stack_get_visible_child_name(handle());
@@ -236,7 +236,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * changing the visible child.
      * <p>
      * If the {@code Gtk.Stack:interpolate-size} property is set
-     * to <code>true</code>, {@code stack} will interpolate its size between the current
+     * to {@code true}, {@code stack} will interpolate its size between the current
      * one and the one it'll take after changing the visible child,
      * according to the set transition duration.
      */

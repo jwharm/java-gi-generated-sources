@@ -70,7 +70,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a new {@code GtkFrame}, with optional label {@code label}.
      * <p>
-     * If {@code label} is <code>null</code>, the label is omitted.
+     * If {@code label} is {@code null}, the label is omitted.
      */
     public Frame(java.lang.String label) {
         super(constructNew(label));
@@ -87,7 +87,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Returns the frame labels text.
      * <p>
-     * If the frame's label widget is not a {@code GtkLabel}, <code>null</code>
+     * If the frame's label widget is not a {@code GtkLabel}, {@code null}
      * is returned.
      */
     public java.lang.String getLabel() {

@@ -17,6 +17,10 @@ public class AttrLanguage extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrLanguage() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrLanguage.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Create a new language tag attribute.
      */

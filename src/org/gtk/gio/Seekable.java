@@ -54,7 +54,7 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * Any operation that would result in a negative offset will fail.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -80,7 +80,7 @@ public interface Seekable extends io.github.jwharm.javagi.NativeAddress {
      * larger than {@code offset}, the extra data is discarded. If the stream was
      * previously shorter than {@code offset}, it is extended with NUL ('\\0') bytes.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the

@@ -93,8 +93,8 @@ import java.lang.invoke.*;
  * {@code GtkBuilder} can parse textual representations for the most common
  * property types: characters, strings, integers, floating-point numbers,
  * booleans (strings like “TRUE”, “t”, “yes”, “y”, “1” are interpreted
- * as <code>true</code>, strings like “FALSE”, “f”, “no”, “n”, “0” are interpreted
- * as <code>false</code>), enumerations (can be specified by their name, nick or
+ * as {@code true}, strings like “FALSE”, “f”, “no”, “n”, “0” are interpreted
+ * as {@code false}), enumerations (can be specified by their name, nick or
  * integer value), flags (can be specified by their name, nick, integer
  * value, optionally combined with “|”, e.g.
  * “GTK_INPUT_HINT_EMOJI|GTK_INPUT_HINT_LOWERCASE”)
@@ -256,7 +256,7 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Parses the UI definition in {@code string}.
      * <p>
-     * If {@code string} is <code>null</code>-terminated, then {@code length} should be -1.
+     * If {@code string} is {@code null}-terminated, then {@code length} should be -1.
      * If {@code length} is not -1, then it is the length of {@code string}.
      * <p>
      * If there is an error parsing {@code string} then the program will be
@@ -331,7 +331,7 @@ public class Builder extends org.gtk.gobject.Object {
      * callbacks before loading {@code GtkBuilder} UI. Otherwise, you probably
      * want {@link Builder#newFromString} instead.
      * <p>
-     * Upon errors <code>false</code> will be returned and {@code error} will be assigned a
+     * Upon errors {@code false} will be returned and {@code error} will be assigned a
      * {@code GError} from the {@code GTK_BUILDER_ERROR}, {@code G_MARKUP_ERROR} or
      * {@code G_VARIANT_PARSE_ERROR} domain.
      * <p>
@@ -397,7 +397,7 @@ public class Builder extends org.gtk.gobject.Object {
      * requested objects and merges them with the current contents of
      * {@code builder}.
      * <p>
-     * Upon errors <code>false</code> will be returned and {@code error} will be assigned a
+     * Upon errors {@code false} will be returned and {@code error} will be assigned a
      * {@code GError} from the {@code GTK_BUILDER_ERROR} or {@code G_MARKUP_ERROR} domain.
      * <p>
      * If you are adding an object that depends on an object that is not
@@ -419,7 +419,7 @@ public class Builder extends org.gtk.gobject.Object {
      * This is using the create_closure() implementation of {@code builder}'s
      * {@code Gtk.BuilderScope}.
      * <p>
-     * If no closure could be created, <code>null</code> will be returned and {@code error}
+     * If no closure could be created, {@code null} will be returned and {@code error}
      * will be set.
      */
     public org.gtk.gobject.Closure createClosure(java.lang.String functionName, int flags, org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
@@ -522,7 +522,7 @@ public class Builder extends org.gtk.gobject.Object {
      * <p>
      * {@link Widget#initTemplate} for example will set the current
      * object to the widget the template is inited for. For functions like
-     * {@link Builder#newFromResource}, the current object will be <code>null</code>.
+     * {@link Builder#newFromResource}, the current object will be {@code null}.
      */
     public void setCurrentObject(org.gtk.gobject.Object currentObject) {
         gtk_h.gtk_builder_set_current_object(handle(), currentObject.handle());
@@ -531,7 +531,7 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Sets the scope the builder should operate in.
      * <p>
-     * If {@code scope} is <code>null</code>, a new {@link BuilderCScope} will be created.
+     * If {@code scope} is {@code null}, a new {@link BuilderCScope} will be created.
      */
     public void setScope(BuilderScope scope) {
         gtk_h.gtk_builder_set_scope(handle(), scope.handle());
@@ -554,7 +554,7 @@ public class Builder extends org.gtk.gobject.Object {
      * ulong, enum, flags, float, double, string, {@code GdkRGBA} and
      * {@code GtkAdjustment} type values.
      * <p>
-     * Upon errors <code>false</code> will be returned and {@code error} will be
+     * Upon errors {@code false} will be returned and {@code error} will be
      * assigned a {@code GError} from the {@code GTK_BUILDER_ERROR} domain.
      */
     public boolean valueFromString(org.gtk.gobject.ParamSpec pspec, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
@@ -575,7 +575,7 @@ public class Builder extends org.gtk.gobject.Object {
      * Calls g_value_init() on the {@code value} argument, so it
      * need not be initialised beforehand.
      * <p>
-     * Upon errors <code>false</code> will be returned and {@code error} will be
+     * Upon errors {@code false} will be returned and {@code error} will be
      * assigned a {@code GError} from the {@code GTK_BUILDER_ERROR} domain.
      */
     public boolean valueFromStringType(Type type, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {

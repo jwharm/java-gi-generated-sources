@@ -22,13 +22,13 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
      * {@code connectable} can be reached, without actually trying to connect to
      * it.
      * <p>
-     * This may return <code>true</code> even when {@link NetworkMonitor}:network-available
-     * is <code>false</code>, if, for example, {@code monitor} can determine that
+     * This may return {@code true} even when {@link NetworkMonitor}:network-available
+     * is {@code false}, if, for example, {@code monitor} can determine that
      * {@code connectable} refers to a host on a local network.
      * <p>
      * If {@code monitor} believes that an attempt to connect to {@code connectable}
-     * will succeed, it will return <code>true</code>. Otherwise, it will return
-     * <code>false</code> and set {@code error} to an appropriate error (such as
+     * will succeed, it will return {@code true}. Otherwise, it will return
+     * {@code false} and set {@code error} to an appropriate error (such as
      * {@link IOErrorEnum#HOST_UNREACHABLE}).
      * <p>
      * Note that although this does not attempt to connect to
@@ -87,10 +87,10 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
      * Gets a more detailed networking state than
      * g_network_monitor_get_network_available().
      * <p>
-     * If {@link NetworkMonitor}:network-available is <code>false</code>, then the
+     * If {@link NetworkMonitor}:network-available is {@code false}, then the
      * connectivity state will be {@link NetworkConnectivity#LOCAL}.
      * <p>
-     * If {@link NetworkMonitor}:network-available is <code>true</code>, then the
+     * If {@link NetworkMonitor}:network-available is {@code true}, then the
      * connectivity state will be {@link NetworkConnectivity#FULL} (if there
      * is full Internet connectivity), {@link NetworkConnectivity#LIMITED} (if
      * the host has a default route, but appears to be unable to actually

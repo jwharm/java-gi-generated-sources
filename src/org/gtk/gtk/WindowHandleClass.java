@@ -13,4 +13,8 @@ public class WindowHandleClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public WindowHandleClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkWindowHandleClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

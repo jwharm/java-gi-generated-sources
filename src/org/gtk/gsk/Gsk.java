@@ -21,8 +21,8 @@ public final class Gsk {
      * Strings printed via {@link Transform#toString}
      * can be read in again successfully using this function.
      * <p>
-     * If {@code string} does not describe a valid transform, <code>false</code> is
-     * returned and <code>null</code> is put in {@code out_transform}.
+     * If {@code string} does not describe a valid transform, {@code false} is
+     * returned and {@code null} is put in {@code out_transform}.
      */
     public static boolean transformParse(java.lang.String string, Transform[] outTransform) {
         var RESULT = gtk_h.gsk_transform_parse(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());

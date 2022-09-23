@@ -16,4 +16,8 @@ public class RemoteActionGroupInterface extends io.github.jwharm.javagi.Resource
         super(reference);
     }
     
+    public RemoteActionGroupInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GRemoteActionGroupInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

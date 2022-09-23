@@ -45,8 +45,8 @@ public class Permission extends org.gtk.gobject.Object {
      * You should check with g_permission_get_can_acquire() before calling
      * this function.
      * <p>
-     * If the permission is acquired then <code>true</code> is returned.  Otherwise,
-     * <code>false</code> is returned and {@code error} is set appropriately.
+     * If the permission is acquired then {@code true} is returned.  Otherwise,
+     * {@code false} is returned and {@code error} is set appropriately.
      * <p>
      * This call is blocking, likely for a very long time (in the case that
      * user interaction is required).  See g_permission_acquire_async() for
@@ -98,7 +98,7 @@ public class Permission extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the value of the 'allowed' property.  This property is <code>true</code> if
+     * Gets the value of the 'allowed' property.  This property is {@code true} if
      * the caller currently has permission to perform the action that
      * {@code permission} represents the permission to perform.
      */
@@ -108,7 +108,7 @@ public class Permission extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the value of the 'can-acquire' property.  This property is <code>true</code>
+     * Gets the value of the 'can-acquire' property.  This property is {@code true}
      * if it is generally possible to acquire the permission by calling
      * g_permission_acquire().
      */
@@ -118,7 +118,7 @@ public class Permission extends org.gtk.gobject.Object {
     }
     
     /**
-     * Gets the value of the 'can-release' property.  This property is <code>true</code>
+     * Gets the value of the 'can-release' property.  This property is {@code true}
      * if it is generally possible to release the permission by calling
      * g_permission_release().
      */
@@ -148,8 +148,8 @@ public class Permission extends org.gtk.gobject.Object {
      * You should check with g_permission_get_can_release() before calling
      * this function.
      * <p>
-     * If the permission is released then <code>true</code> is returned.  Otherwise,
-     * <code>false</code> is returned and {@code error} is set appropriately.
+     * If the permission is released then {@code true} is returned.  Otherwise,
+     * {@code false} is returned and {@code error} is set appropriately.
      * <p>
      * This call is blocking, likely for a very long time (in the case that
      * user interaction is required).  See g_permission_release_async() for

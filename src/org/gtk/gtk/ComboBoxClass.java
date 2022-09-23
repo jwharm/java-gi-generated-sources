@@ -13,4 +13,8 @@ public class ComboBoxClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ComboBoxClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkComboBoxClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

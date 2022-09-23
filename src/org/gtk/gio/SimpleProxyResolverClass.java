@@ -13,4 +13,8 @@ public class SimpleProxyResolverClass extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public SimpleProxyResolverClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSimpleProxyResolverClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -13,4 +13,8 @@ public class NetworkServiceClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public NetworkServiceClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GNetworkServiceClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

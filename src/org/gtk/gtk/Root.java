@@ -37,7 +37,7 @@ public interface Root extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * Note that this is the widget that would have the focus
      * if the root is active; if the root is not focused then
-     * {@code gtk_widget_has_focus (widget)} will be <code>false</code> for the
+     * {@code gtk_widget_has_focus (widget)} will be {@code false} for the
      * widget.
      */
     public default Widget getFocus() {
@@ -49,7 +49,7 @@ public interface Root extends io.github.jwharm.javagi.NativeAddress {
      * If {@code focus} is not the current focus widget, and is focusable, sets
      * it as the focus widget for the root.
      * <p>
-     * If {@code focus} is <code>null</code>, unsets the focus widget for the root.
+     * If {@code focus} is {@code null}, unsets the focus widget for the root.
      * <p>
      * To set the focus to a particular widget in the root, it is usually
      * more convenient to use {@link Widget#grabFocus} instead of

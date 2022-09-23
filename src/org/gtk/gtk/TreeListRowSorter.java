@@ -43,7 +43,7 @@ public class TreeListRowSorter extends Sorter {
      * of {@code sorter} to the levels of a {@code GtkTreeListModel}.
      * <p>
      * Note that this sorter relies on {@code Gtk.TreeListModel:passthrough}
-     * being <code>false</code> as it can only sort {@link TreeListRow}s.
+     * being {@code false} as it can only sort {@link TreeListRow}s.
      */
     public TreeListRowSorter(Sorter sorter) {
         super(constructNew(sorter));

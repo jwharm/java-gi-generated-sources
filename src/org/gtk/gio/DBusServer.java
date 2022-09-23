@@ -56,7 +56,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * <p>
      * To have control over the available authentication mechanisms and
      * the users that are authorized to connect, it is strongly recommended
-     * to provide a non-<code>null</code> {@link DBusAuthObserver}.
+     * to provide a non-{@code null} {@link DBusAuthObserver}.
      * <p>
      * Connect to the {@link DBusServer}::new-connection signal to handle
      * incoming connections.
@@ -134,7 +134,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * identity (if any), was authenticated.
      * <p>
      * If you want to accept the connection, take a reference to the
-     * {@code connection} object and return <code>true</code>. When you are done with the
+     * {@code connection} object and return {@code true}. When you are done with the
      * connection call g_dbus_connection_close() and give up your
      * reference. Note that the other peer may disconnect at any time -
      * a typical thing to do when accepting a connection is to listen to

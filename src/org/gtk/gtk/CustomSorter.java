@@ -42,7 +42,7 @@ public class CustomSorter extends Sorter {
      * Creates a new {@code GtkSorter} that works by calling
      * {@code sort_func} to compare items.
      * <p>
-     * If {@code sort_func} is <code>null</code>, all items are considered equal.
+     * If {@code sort_func} is {@code null}, all items are considered equal.
      */
     public CustomSorter(org.gtk.glib.CompareDataFunc sortFunc) {
         super(constructNew(sortFunc));
@@ -51,7 +51,7 @@ public class CustomSorter extends Sorter {
     /**
      * Sets (or unsets) the function used for sorting items.
      * <p>
-     * If {@code sort_func} is <code>null</code>, all items are considered equal.
+     * If {@code sort_func} is {@code null}, all items are considered equal.
      * <p>
      * If the sort func changes its sorting behavior,
      * gtk_sorter_changed() needs to be called.

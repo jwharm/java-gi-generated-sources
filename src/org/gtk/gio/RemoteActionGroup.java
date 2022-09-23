@@ -40,7 +40,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.NativeAddress
      * activation request.  This typically contains details such as the user
      * interaction timestamp or startup notification information.
      * <p>
-     * {@code platform_data} must be non-<code>null</code> and must have the type
+     * {@code platform_data} must be non-{@code null} and must have the type
      * {@code G_VARIANT_TYPE_VARDICT}.  If it is floating, it will be consumed.
      */
     public default void activateActionFull(java.lang.String actionName, org.gtk.glib.Variant parameter, org.gtk.glib.Variant platformData) {
@@ -55,7 +55,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.NativeAddress
      * state change request.  This typically contains details such as the
      * user interaction timestamp or startup notification information.
      * <p>
-     * {@code platform_data} must be non-<code>null</code> and must have the type
+     * {@code platform_data} must be non-{@code null} and must have the type
      * {@code G_VARIANT_TYPE_VARDICT}.  If it is floating, it will be consumed.
      */
     public default void changeActionStateFull(java.lang.String actionName, org.gtk.glib.Variant value, org.gtk.glib.Variant platformData) {

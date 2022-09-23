@@ -29,7 +29,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * This reference will keep pointing to the node pointed to
      * by {@code path}, so long as it exists. Any changes that occur on {@code model} are
      * propagated, and the path is updated appropriately. If
-     * {@code path} isn’t a valid path in {@code model}, then <code>null</code> is returned.
+     * {@code path} isn’t a valid path in {@code model}, then {@code null} is returned.
      */
     public TreeRowReference(TreeModel model, TreePath path) {
         super(constructNew(model, path));
@@ -47,7 +47,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This reference will keep pointing to the node pointed to
      * by {@code path}, so long as it exists. If {@code path} isn’t a valid
-     * path in {@code model}, then <code>null</code> is returned. However, unlike
+     * path in {@code model}, then {@code null} is returned. However, unlike
      * references created with gtk_tree_row_reference_new(), it
      * does not listen to the model for changes. The creator of
      * the row reference must do this explicitly using
@@ -79,7 +79,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Free’s {@code reference}. {@code reference} may be <code>null</code>
+     * Free’s {@code reference}. {@code reference} may be {@code null}
      */
     public void free() {
         gtk_h.gtk_tree_row_reference_free(handle());
@@ -95,7 +95,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns a path that the row reference currently points to,
-     * or <code>null</code> if the path pointed to is no longer valid.
+     * or {@code null} if the path pointed to is no longer valid.
      */
     public TreePath getPath() {
         var RESULT = gtk_h.gtk_tree_row_reference_get_path(handle());
@@ -103,7 +103,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if the {@code reference} is non-<code>null</code> and refers to
+     * Returns {@code true} if the {@code reference} is non-{@code null} and refers to
      * a current valid path.
      */
     public boolean valid() {

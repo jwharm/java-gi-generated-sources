@@ -127,7 +127,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * Gets {@code uri}'s authentication parameters, which may contain
      * {@code %}-encoding, depending on the flags with which {@code uri} was created.
      * (If {@code uri} was not created with {@link UriFlags#HAS_AUTH_PARAMS} then this will
-     * be <code>null</code>.)
+     * be {@code null}.)
      * <p>
      * Depending on the URI scheme, g_uri_parse_params() may be useful for
      * further parsing this information.
@@ -173,7 +173,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets {@code uri}'s password, which may contain {@code %}-encoding, depending on
      * the flags with which {@code uri} was created. (If {@code uri} was not created
-     * with {@link UriFlags#HAS_PASSWORD} then this will be <code>null</code>.)
+     * with {@link UriFlags#HAS_PASSWORD} then this will be {@code null}.)
      */
     public java.lang.String getPassword() {
         var RESULT = gtk_h.g_uri_get_password(handle());
@@ -317,8 +317,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@link UriFlags#ENCODED}.
      * <p>
      * In contrast to g_uri_build(), this allows specifying the components
-     * of the ‘userinfo’ field separately. Note that {@code user} must be non-<code>null</code>
-     * if either {@code password} or {@code auth_params} is non-<code>null</code>.
+     * of the ‘userinfo’ field separately. Note that {@code user} must be non-{@code null}
+     * if either {@code password} or {@code auth_params} is non-{@code null}.
      */
     public static Uri buildWithUser(int flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_build_with_user(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
@@ -384,7 +384,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Joins the given components together according to {@code flags} to create
-     * an absolute URI string. {@code path} may not be <code>null</code> (though it may be the empty
+     * an absolute URI string. {@code path} may not be {@code null} (though it may be the empty
      * string).
      * <p>
      * When {@code host} is present, {@code path} must either be empty or begin with a slash ({@code /})
@@ -405,7 +405,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Joins the given components together according to {@code flags} to create
-     * an absolute URI string. {@code path} may not be <code>null</code> (though it may be the empty
+     * an absolute URI string. {@code path} may not be {@code null} (though it may be the empty
      * string).
      * <p>
      * In contrast to g_uri_join(), this allows specifying the components
@@ -457,7 +457,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * the returned attributes.
      * <p>
      * If {@code params} cannot be parsed (for example, it contains two {@code separators}
-     * characters in a row), then {@code error} is set and <code>null</code> is returned.
+     * characters in a row), then {@code error} is set and {@code null} is returned.
      */
     public static org.gtk.glib.HashTable parseParams(java.lang.String params, long length, java.lang.String separators, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -472,9 +472,9 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * Gets the scheme portion of a URI string.
      * <a href="https://tools.ietf.org/html/rfc3986#section-3">RFC 3986</a> decodes the scheme
      * as:
-     * |[
+     * <pre>{@code 
      * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-     * ]|
+     * }</pre>
      * Common schemes include {@code file}, {@code https}, {@code svn+ssh}, etc.
      */
     public static java.lang.String parseScheme(java.lang.String uri) {
@@ -486,9 +486,9 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * Gets the scheme portion of a URI string.
      * <a href="https://tools.ietf.org/html/rfc3986#section-3">RFC 3986</a> decodes the scheme
      * as:
-     * |[
+     * <pre>{@code 
      * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-     * ]|
+     * }</pre>
      * Common schemes include {@code file}, {@code https}, {@code svn+ssh}, etc.
      * <p>
      * Unlike g_uri_parse_scheme(), the returned scheme is normalized to
@@ -505,8 +505,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@code base_uri_string}. If the result is not a valid absolute URI, it will be
      * discarded, and an error returned.
      * <p>
-     * (If {@code base_uri_string} is <code>null</code>, this just returns {@code uri_ref}, or
-     * <code>null</code> if {@code uri_ref} is invalid or not absolute.)
+     * (If {@code base_uri_string} is {@code null}, this just returns {@code uri_ref}, or
+     * {@code null} if {@code uri_ref} is invalid or not absolute.)
      */
     public static java.lang.String resolveRelative(java.lang.String baseUriString, java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -524,7 +524,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * nul bytes to appear in the output.
      * <p>
      * If any of the characters in {@code illegal_characters} appears as an escaped
-     * character in {@code escaped_string}, then that is an error and <code>null</code> will be
+     * character in {@code escaped_string}, then that is an error and {@code null} will be
      * returned. This is useful if you want to avoid for instance having a slash
      * being expanded in an escaped path element, which might confuse pathname
      * handling.
@@ -543,7 +543,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If any of the characters in {@code illegal_characters} or the NUL
      * character appears as an escaped character in {@code escaped_string}, then
-     * that is an error and <code>null</code> will be returned. This is useful if you
+     * that is an error and {@code null} will be returned. This is useful if you
      * want to avoid for instance having a slash being expanded in an
      * escaped path element, which might confuse pathname handling.
      * <p>
@@ -560,7 +560,7 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If any of the characters in {@code illegal_characters} or the NUL
      * character appears as an escaped character in {@code escaped_string}, then
-     * that is an error and <code>null</code> will be returned. This is useful if you
+     * that is an error and {@code null} will be returned. This is useful if you
      * want to avoid for instance having a slash being expanded in an
      * escaped path element, which might confuse pathname handling.
      */

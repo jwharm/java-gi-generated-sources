@@ -13,4 +13,8 @@ public class SingleSelectionClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SingleSelectionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkSingleSelectionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

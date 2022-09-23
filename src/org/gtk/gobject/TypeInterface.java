@@ -16,6 +16,10 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TypeInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Returns the corresponding {@link TypeInterface} structure of the parent type
      * of the instance type to which {@code g_iface} belongs. This is useful when
@@ -40,7 +44,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the {@link TypePlugin} structure for the dynamic interface
-     * {@code interface_type} which has been added to {@code instance_type}, or <code>null</code>
+     * {@code interface_type} which has been added to {@code instance_type}, or {@code null}
      * if {@code interface_type} has not been added to {@code instance_type} or does
      * not have a {@link TypePlugin} structure. See g_type_add_interface_dynamic().
      */

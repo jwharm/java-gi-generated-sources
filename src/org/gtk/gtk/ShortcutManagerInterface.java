@@ -20,4 +20,8 @@ public class ShortcutManagerInterface extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public ShortcutManagerInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkShortcutManagerInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

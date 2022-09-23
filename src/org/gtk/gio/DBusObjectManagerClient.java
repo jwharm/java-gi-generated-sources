@@ -30,28 +30,28 @@ import java.lang.invoke.*;
  * case, {@link DBusObjectManagerClient} object construction still succeeds but
  * there will be no object proxies
  * (e.g. g_dbus_object_manager_get_objects() returns the empty list) and
- * the {@link DBusObjectManagerClient}:name-owner property is <code>null</code>.
+ * the {@link DBusObjectManagerClient}:name-owner property is {@code null}.
  * <p>
  * The owner of the requested name can come and go (for example
  * consider a system service being restarted) – {@link DBusObjectManagerClient}
  * handles this case too; simply connect to the {@link org.gtk.gobject.Object}::notify
  * signal to watch for changes on the {@link DBusObjectManagerClient}:name-owner
  * property. When the name owner vanishes, the behavior is that
- * {@link DBusObjectManagerClient}:name-owner is set to <code>null</code> (this includes
+ * {@link DBusObjectManagerClient}:name-owner is set to {@code null} (this includes
  * emission of the {@link org.gtk.gobject.Object}::notify signal) and then
  * {@link DBusObjectManager}::object-removed signals are synthesized
  * for all currently existing object proxies. Since
- * {@link DBusObjectManagerClient}:name-owner is <code>null</code> when this happens, you can
+ * {@link DBusObjectManagerClient}:name-owner is {@code null} when this happens, you can
  * use this information to disambiguate a synthesized signal from a
  * genuine signal caused by object removal on the remote
  * {@link DBusObjectManager}. Similarly, when a new name owner appears,
  * {@link DBusObjectManager}::object-added signals are synthesized
- * while {@link DBusObjectManagerClient}:name-owner is still <code>null</code>. Only when all
+ * while {@link DBusObjectManagerClient}:name-owner is still {@code null}. Only when all
  * object proxies have been added, the {@link DBusObjectManagerClient}:name-owner
  * is set to the new name owner (this includes emission of the
  * {@link org.gtk.gobject.Object}::notify signal).  Furthermore, you are guaranteed that
  * {@link DBusObjectManagerClient}:name-owner will alternate between a name owner
- * (e.g. {@code :1.42}) and <code>null</code> even in the case where
+ * (e.g. {@code :1.42}) and {@code null} even in the case where
  * the name of interest is atomically replaced
  * <p>
  * Ultimately, {@link DBusObjectManagerClient} is used to obtain {@link DBusProxy}
@@ -207,7 +207,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * Gets the name that {@code manager} is for, or <code>null</code> if not a message bus
+     * Gets the name that {@code manager} is for, or {@code null} if not a message bus
      * connection.
      */
     public java.lang.String getName() {
@@ -216,7 +216,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     }
     
     /**
-     * The unique name that owns the name that {@code manager} is for or <code>null</code> if
+     * The unique name that owns the name that {@code manager} is for or {@code null} if
      * no-one currently owns that name. You can connect to the
      * {@link org.gtk.gobject.Object}::notify signal to track changes to the
      * {@link DBusObjectManagerClient}:name-owner property.
@@ -298,7 +298,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * Emitted when one or more D-Bus properties on proxy changes. The
      * local cache has already been updated when this signal fires. Note
      * that both {@code changed_properties} and {@code invalidated_properties} are
-     * guaranteed to never be <code>null</code> (either may be empty though).
+     * guaranteed to never be {@code null} (either may be empty though).
      * <p>
      * This signal exists purely as a convenience to avoid having to
      * connect signals to all interface proxies managed by {@code manager}.

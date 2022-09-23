@@ -16,4 +16,8 @@ public class DrawStateT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DrawStateT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_draw_state_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

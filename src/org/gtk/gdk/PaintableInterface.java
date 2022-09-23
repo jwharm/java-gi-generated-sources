@@ -24,4 +24,8 @@ public class PaintableInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PaintableInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkPaintableInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

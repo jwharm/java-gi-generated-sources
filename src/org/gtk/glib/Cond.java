@@ -21,11 +21,11 @@ import java.lang.invoke.*;
  * <p>
  * Here is an example for using GCond to block a thread until a condition
  * is satisfied:
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   gpointer current_data = NULL;
  *   GMutex data_mutex;
  *   GCond data_cond;
- * <p>
+ * 
  *   void
  *   push_data (gpointer data)
  *   {
@@ -34,24 +34,24 @@ import java.lang.invoke.*;
  *     g_cond_signal (&data_cond);
  *     g_mutex_unlock (&data_mutex);
  *   }
- * <p>
+ * 
  *   gpointer
  *   pop_data (void)
  *   {
  *     gpointer data;
- * <p>
+ * 
  *     g_mutex_lock (&data_mutex);
  *     while (!current_data)
  *       g_cond_wait (&data_cond, &data_mutex);
  *     data = current_data;
  *     current_data = NULL;
  *     g_mutex_unlock (&data_mutex);
- * <p>
+ * 
  *     return data;
  *   }
- * ]|
+ * }</pre>
  * Whenever a thread calls pop_data() now, it will wait until
- * current_data is non-<code>null</code>, i.e. until some other thread
+ * current_data is non-{@code null}, i.e. until some other thread
  * has called push_data().
  * <p>
  * The example shows that use of a condition variable must always be
@@ -78,6 +78,10 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
 
     public Cond(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public Cond() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GCond.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -157,23 +161,23 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * could occur.  For that reason, waiting on a condition variable should
      * always be in a loop, based on an explicitly-checked predicate.
      * <p>
-     * <code>true</code> is returned if the condition variable was signalled (or in the
-     * case of a spurious wakeup).  <code>false</code> is returned if {@code end_time} has
+     * {@code true} is returned if the condition variable was signalled (or in the
+     * case of a spurious wakeup).  {@code false} is returned if {@code end_time} has
      * passed.
      * <p>
      * The following code shows how to correctly perform a timed wait on a
      * condition variable (extending the example presented in the
      * documentation for {@link Cond}):
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * gpointer
      * pop_data_timed (void)
      * {
      *   gint64 end_time;
      *   gpointer data;
-     * <p>
+     * 
      *   g_mutex_lock (&data_mutex);
-     * <p>
+     * 
      *   end_time = g_get_monotonic_time () + 5 * G_TIME_SPAN_SECOND;
      *   while (!current_data)
      *     if (!g_cond_wait_until (&data_cond, &data_mutex, end_time))
@@ -182,16 +186,16 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      *         g_mutex_unlock (&data_mutex);
      *         return NULL;
      *       }
-     * <p>
+     * 
      *   // there is data for us
      *   data = current_data;
      *   current_data = NULL;
-     * <p>
+     * 
      *   g_mutex_unlock (&data_mutex);
-     * <p>
+     * 
      *   return data;
      * }
-     * ]|
+     * }</pre>
      * <p>
      * Notice that the end time is calculated once, before entering the
      * loop and reused.  This is the motivation behind the use of absolute

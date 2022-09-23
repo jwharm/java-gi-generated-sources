@@ -13,4 +13,8 @@ public class NumericSorterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public NumericSorterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkNumericSorterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

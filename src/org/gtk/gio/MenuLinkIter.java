@@ -37,7 +37,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * g_menu_link_iter_get_name() and g_menu_link_iter_get_value().
      * <p>
      * First the iterator is advanced to the next (possibly first) link.
-     * If that fails, then <code>false</code> is returned and there are no other effects.
+     * If that fails, then {@code false} is returned and there are no other effects.
      * <p>
      * If successful, {@code out_link} and {@code value} are set to the name and {@link MenuModel}
      * of the link that has just been advanced to.  At this point,
@@ -67,7 +67,7 @@ public class MenuLinkIter extends org.gtk.gobject.Object {
      * Attempts to advance the iterator to the next (possibly first)
      * link.
      * <p>
-     * <code>true</code> is returned on success, or <code>false</code> if there are no more links.
+     * {@code true} is returned on success, or {@code false} if there are no more links.
      * <p>
      * You must call this function when you first acquire the iterator to
      * advance it to the first link (and determine if the first link exists

@@ -129,7 +129,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Adds a widget to the grid.
      * <p>
      * The widget is placed next to {@code sibling}, on the side determined by
-     * {@code side}. When {@code sibling} is <code>null</code>, the widget is placed in row (for
+     * {@code side}. When {@code sibling} is {@code null}, the widget is placed in row (for
      * left or right placement) or column 0 (for top or bottom placement),
      * at the end indicated by {@code side}.
      * <p>

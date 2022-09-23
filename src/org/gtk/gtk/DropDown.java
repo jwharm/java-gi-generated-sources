@@ -130,7 +130,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
-     * Gets the selected item. If no item is selected, <code>null</code> is returned.
+     * Gets the selected item. If no item is selected, {@code null} is returned.
      */
     public org.gtk.gobject.Object getSelectedItem() {
         var RESULT = gtk_h.gtk_drop_down_get_selected_item(handle());

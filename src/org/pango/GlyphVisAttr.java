@@ -25,4 +25,8 @@ public class GlyphVisAttr extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GlyphVisAttr() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphVisAttr.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

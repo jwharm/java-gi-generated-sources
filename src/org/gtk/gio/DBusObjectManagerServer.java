@@ -104,7 +104,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     
     /**
      * Exports all objects managed by {@code manager} on {@code connection}. If
-     * {@code connection} is <code>null</code>, stops exporting objects.
+     * {@code connection} is {@code null}, stops exporting objects.
      */
     public void setConnection(DBusConnection connection) {
         gtk_h.g_dbus_object_manager_server_set_connection(handle(), connection.handle());

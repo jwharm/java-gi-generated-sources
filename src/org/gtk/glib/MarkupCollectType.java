@@ -20,7 +20,7 @@ public class MarkupCollectType {
      * collect the string pointer directly from
      *     the attribute_values[] array. Expects a parameter of type (const
      *     char **). If {@link MarkupCollectType#OPTIONAL} is specified and the
-     *     attribute isn't present then the pointer will be set to <code>null</code>
+     *     attribute isn't present then the pointer will be set to {@code null}
      */
     public static final int STRING = 1;
     
@@ -33,7 +33,7 @@ public class MarkupCollectType {
     
     /**
      * expects a parameter of type (gboolean *)
-     *     and parses the attribute value as a boolean. Sets <code>false</code> if the
+     *     and parses the attribute value as a boolean. Sets {@code false} if the
      *     attribute isn't present. Valid boolean values consist of
      *     (case-insensitive) "false", "f", "no", "n", "0" and "true", "t",
      *     "yes", "y", "1"
@@ -43,7 +43,7 @@ public class MarkupCollectType {
     /**
      * as with {@link MarkupCollectType#BOOLEAN}, but
      *     in the case of a missing attribute a value is set that compares
-     *     equal to neither <code>false</code> nor <code>true</code> G_MARKUP_COLLECT_OPTIONAL is
+     *     equal to neither {@code false} nor {@code true} G_MARKUP_COLLECT_OPTIONAL is
      *     implied
      */
     public static final int TRISTATE = 4;

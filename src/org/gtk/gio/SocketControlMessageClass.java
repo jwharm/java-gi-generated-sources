@@ -16,4 +16,8 @@ public class SocketControlMessageClass extends io.github.jwharm.javagi.ResourceB
         super(reference);
     }
     
+    public SocketControlMessageClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSocketControlMessageClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

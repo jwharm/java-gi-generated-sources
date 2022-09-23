@@ -34,7 +34,7 @@ public enum TransformCategory {
     
     /**
      * The matrix is a 2D matrix. This is equivalent
-     *   to graphene_matrix_is_2d() returning <code>true</code>. In particular, this
+     *   to graphene_matrix_is_2d() returning {@code true}. In particular, this
      *   means that Cairo can deal with the matrix.
      */
     _2D,

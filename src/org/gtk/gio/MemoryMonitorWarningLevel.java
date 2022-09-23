@@ -5,10 +5,10 @@ package org.gtk.gio;
  * <p>
  * Note that because new values might be added, it is recommended that applications check
  * {@link MemoryMonitorWarningLevel} as ranges, for example:
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
  *   drop_caches ();
- * ]|
+ * }</pre>
  */
 public enum MemoryMonitorWarningLevel {
 

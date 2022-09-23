@@ -159,8 +159,8 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * must not free it.
      * <p>
      * If the {@code Gtk.ComboBox:id-column} property of {@code combo_box} is
-     * not set, or if no row is active, or if the active row has a <code>null</code>
-     * ID value, then <code>null</code> is returned.
+     * not set, or if no row is active, or if the active row has a {@code null}
+     * ID value, then {@code null} is returned.
      */
     public java.lang.String getActiveId() {
         var RESULT = gtk_h.gtk_combo_box_get_active_id(handle());
@@ -281,12 +281,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Changes the active row of {@code combo_box} to the one that has an ID equal to
      * {@code active_id}.
      * <p>
-     * If {@code active_id} is <code>null</code>, the active row is unset. Rows having
-     * a <code>null</code> ID string cannot be made active by this function.
+     * If {@code active_id} is {@code null}, the active row is unset. Rows having
+     * a {@code null} ID string cannot be made active by this function.
      * <p>
      * If the {@code Gtk.ComboBox:id-column} property of {@code combo_box} is
      * unset or if no row has the given ID then the function does nothing
-     * and returns <code>false</code>.
+     * and returns {@code false}.
      */
     public boolean setActiveId(java.lang.String activeId) {
         var RESULT = gtk_h.gtk_combo_box_set_active_id(handle(), Interop.allocateNativeString(activeId).handle());
@@ -296,7 +296,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Sets the current active item to be the one referenced by {@code iter}.
      * <p>
-     * If {@code iter} is <code>null</code>, the active item is unset.
+     * If {@code iter} is {@code null}, the active item is unset.
      */
     public void setActiveIter(TreeIter iter) {
         gtk_h.gtk_combo_box_set_active_iter(handle(), iter.handle());
@@ -328,7 +328,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * type {@code G_TYPE_STRING}.
      * <p>
      * This is only relevant if {@code combo_box} has been created with
-     * {@code Gtk.ComboBox:has-entry} as <code>true</code>.
+     * {@code Gtk.ComboBox:has-entry} as {@code true}.
      */
     public void setEntryTextColumn(int textColumn) {
         gtk_h.gtk_combo_box_set_entry_text_column(handle(), textColumn);
@@ -348,7 +348,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Sets the model used by {@code combo_box} to be {@code model}.
      * <p>
-     * Will unset a previously set model (if applicable). If model is <code>null</code>,
+     * Will unset a previously set model (if applicable). If model is {@code null},
      * then it will unset the model.
      * <p>
      * Note that this function does not clear the cell renderers, you have to
@@ -362,7 +362,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Specifies whether the popup’s width should be a fixed width.
      * <p>
-     * If {@code fixed} is <code>true</code>, the popup's width is set to match the
+     * If {@code fixed} is {@code true}, the popup's width is set to match the
      * allocated width of the combo box.
      */
     public void setPopupFixedWidth(boolean fixed) {
@@ -373,7 +373,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Sets the row separator function, which is used to determine
      * whether a row should be drawn as a separator.
      * <p>
-     * If the row separator function is <code>null</code>, no separators are drawn.
+     * If the row separator function is {@code null}, no separators are drawn.
      * This is the default value.
      */
     public void setRowSeparatorFunc(TreeViewRowSeparatorFunc func) {

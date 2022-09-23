@@ -226,7 +226,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * Note: this does not show or hide {@code info_bar} in the
      * {@code Gtk.Widget:visible} sense, so revealing has no effect
-     * if {@code Gtk.Widget:visible} is <code>false</code>.
+     * if {@code Gtk.Widget:visible} is {@code false}.
      */
     public void setRevealed(boolean revealed) {
         gtk_h.gtk_info_bar_set_revealed(handle(), revealed ? 1 : 0);

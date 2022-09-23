@@ -13,4 +13,8 @@ public class BookmarkListClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BookmarkListClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBookmarkListClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

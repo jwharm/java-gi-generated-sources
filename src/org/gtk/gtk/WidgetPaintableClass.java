@@ -13,4 +13,8 @@ public class WidgetPaintableClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public WidgetPaintableClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkWidgetPaintableClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

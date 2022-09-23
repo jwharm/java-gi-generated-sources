@@ -13,4 +13,8 @@ public class FileInputStreamClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FileInputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFileInputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

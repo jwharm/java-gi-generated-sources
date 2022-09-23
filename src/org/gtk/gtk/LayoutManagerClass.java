@@ -18,4 +18,8 @@ public class LayoutManagerClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public LayoutManagerClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkLayoutManagerClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

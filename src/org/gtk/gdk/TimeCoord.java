@@ -16,4 +16,8 @@ public class TimeCoord extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TimeCoord() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkTimeCoord.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

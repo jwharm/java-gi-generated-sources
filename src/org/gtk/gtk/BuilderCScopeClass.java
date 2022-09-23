@@ -13,4 +13,8 @@ public class BuilderCScopeClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BuilderCScopeClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBuilderCScopeClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

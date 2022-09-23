@@ -146,7 +146,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Retrieves a {@code GdkCursor} pointer for the cursor currently set on the
      * {@code GdkSurface}.
      * <p>
-     * If the return value is <code>null</code> then there is no custom cursor set on
+     * If the return value is {@code null} then there is no custom cursor set on
      * the surface, and it is using the cursor for its parent surface.
      * <p>
      * Use {@link Surface#setCursor} to unset the cursor of the surface.
@@ -160,7 +160,7 @@ public class Surface extends org.gtk.gobject.Object {
      * Retrieves a {@code GdkCursor} pointer for the {@code device} currently set on the
      * specified {@code GdkSurface}.
      * <p>
-     * If the return value is <code>null</code> then there is no custom cursor set on the
+     * If the return value is {@code null} then there is no custom cursor set on the
      * specified surface, and it is using the cursor for its parent surface.
      * <p>
      * Use {@link Surface#setCursor} to unset the cursor of the surface.
@@ -283,7 +283,7 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Sets the default mouse pointer for a {@code GdkSurface}.
      * <p>
-     * Passing <code>null</code> for the {@code cursor} argument means that {@code surface} will use
+     * Passing {@code null} for the {@code cursor} argument means that {@code surface} will use
      * the cursor of its parent surface. Most surfaces should use this default.
      * Note that {@code cursor} must be for the same display as {@code surface}.
      * <p>
@@ -297,7 +297,7 @@ public class Surface extends org.gtk.gobject.Object {
     /**
      * Sets a specific {@code GdkCursor} for a given device when it gets inside {@code surface}.
      * <p>
-     * Passing <code>null</code> for the {@code cursor} argument means that {@code surface} will use the
+     * Passing {@code null} for the {@code cursor} argument means that {@code surface} will use the
      * cursor of its parent surface. Most surfaces should use this default.
      * <p>
      * Use {@code Gdk.Cursor.new_from_texture}

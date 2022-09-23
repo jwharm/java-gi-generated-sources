@@ -13,4 +13,8 @@ public class BufferedInputStreamClass extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public BufferedInputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GBufferedInputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -40,10 +40,10 @@ import java.lang.invoke.*;
  * <p>
  * <h1>CSS nodes</h1>
  * <p>
- * |[&lt;!-- language="plain" --&gt;
+ * <pre>{@code <!-- language="plain" -->
  * list[.separators][.rich-list][.navigation-sidebar]
  * ╰── row[.activatable]
- * ]|
+ * }</pre>
  * <p>
  * {@code GtkListBox} uses a single CSS node named list. It may carry the .separators
  * style class, when the {@code Gtk.ListBox:show-separators} property is set.
@@ -100,7 +100,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The contents of {@code box} are cleared and then filled with widgets that
      * represent items from {@code model}. {@code box} is updated whenever {@code model} changes.
-     * If {@code model} is <code>null</code>, {@code box} is left empty.
+     * If {@code model} is {@code null}, {@code box} is left empty.
      * <p>
      * It is undefined to add or remove widgets directly (for example, with
      * {@link ListBox#insert}) while {@code box} is bound to a model.
@@ -168,7 +168,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Gets the n-th child in the list (not counting headers).
      * <p>
      * If {@code index_} is negative or larger than the number of items in the
-     * list, <code>null</code> is returned.
+     * list, {@code null} is returned.
      */
     public ListBoxRow getRowAtIndex(int index) {
         var RESULT = gtk_h.gtk_list_box_get_row_at_index(handle(), index);
@@ -184,7 +184,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Gets the selected row, or <code>null</code> if no rows are selected.
+     * Gets the selected row, or {@code null} if no rows are selected.
      * <p>
      * Note that the box may allow multiple selection, in which
      * case you should use {@link ListBox#selectedForeach} to
@@ -319,7 +319,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If {@code single} is <code>true</code>, rows will be activated when you click on them,
+     * If {@code single} is {@code true}, rows will be activated when you click on them,
      * otherwise you need to double-click.
      */
     public void setActivateOnSingleClick(boolean single) {
@@ -385,7 +385,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * The {@code update_header} can look at the current header widget using
      * {@link ListBoxRow#getHeader} and either update the state of the widget
      * as needed, or set a new one using {@link ListBoxRow#setHeader}. If no
-     * header is needed, set the header to <code>null</code>.
+     * header is needed, set the header to {@code null}.
      * <p>
      * Note that you may get many calls {@code update_header} to this for a particular
      * row when e.g. changing things that don’t affect the header. In this case
@@ -549,7 +549,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * Emitted when a new row is selected, or (with a <code>null</code> {@code row})
+     * Emitted when a new row is selected, or (with a {@code null} {@code row})
      * when the selection is cleared.
      * <p>
      * When the {@code box} is using {@link SelectionMode#MULTIPLE}, this signal will not

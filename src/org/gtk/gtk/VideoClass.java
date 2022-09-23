@@ -13,4 +13,8 @@ public class VideoClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public VideoClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkVideoClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

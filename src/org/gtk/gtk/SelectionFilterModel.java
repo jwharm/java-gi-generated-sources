@@ -36,7 +36,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
     }
     
     /**
-     * Gets the model currently filtered or <code>null</code> if none.
+     * Gets the model currently filtered or {@code null} if none.
      */
     public SelectionModel getModel() {
         var RESULT = gtk_h.gtk_selection_filter_model_get_model(handle());

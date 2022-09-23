@@ -13,4 +13,8 @@ public class PrintOperationPreviewIface extends io.github.jwharm.javagi.Resource
         super(reference);
     }
     
+    public PrintOperationPreviewIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkPrintOperationPreviewIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

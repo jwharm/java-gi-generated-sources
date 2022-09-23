@@ -62,7 +62,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * {@code self}'s root model.
      * <p>
      * If {@code position} is greater than the number of children in the root model,
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      * <p>
      * Do not confuse this function with {@link TreeListModel#getRow}.
      */
@@ -82,12 +82,12 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Gets whether the model is passing through original row items.
      * <p>
-     * If this function returns <code>false</code>, the {@code GListModel} functions for {@code self}
+     * If this function returns {@code false}, the {@code GListModel} functions for {@code self}
      * return custom {@code GtkTreeListRow} objects. You need to call
      * {@link TreeListRow#getItem} on these objects to get the original
      * item.
      * <p>
-     * If <code>true</code>, the values of the child models are passed through in their
+     * If {@code true}, the values of the child models are passed through in their
      * original state. You then need to call {@link TreeListModel#getRow}
      * to get the custom {@code GtkTreeListRow}s.
      */
@@ -100,7 +100,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Gets the row object for the given row.
      * <p>
      * If {@code position} is greater than the number of items in {@code self},
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      * <p>
      * The row object can be used to expand and collapse rows as
      * well as to inspect its position in the tree. See its
@@ -123,7 +123,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets whether the model should autoexpand.
      * <p>
-     * If set to <code>true</code>, the model will recursively expand all rows that
+     * If set to {@code true}, the model will recursively expand all rows that
      * get added to the model. This can be either rows added by changes
      * to the underlying models or via {@link TreeListRow#setExpanded}.
      */

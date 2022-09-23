@@ -19,7 +19,7 @@ import java.lang.invoke.*;
  * g_socket_address_enumerator_next_finish() should be used where possible.
  * <p>
  * Each {@link SocketAddressEnumerator} can only be enumerated once. Once
- * g_socket_address_enumerator_next() has returned <code>null</code>, further
+ * g_socket_address_enumerator_next() has returned {@code null}, further
  * enumeration with that {@link SocketAddressEnumerator} is not possible, and it can
  * be unreffed.
  */

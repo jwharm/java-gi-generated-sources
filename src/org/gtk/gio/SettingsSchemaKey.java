@@ -32,7 +32,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * Gets the description for {@code key}.
      * <p>
      * If no description has been provided in the schema for {@code key}, returns
-     * <code>null</code>.
+     * {@code null}.
      * <p>
      * The description can be one sentence to several paragraphs in length.
      * Paragraphs are delimited with a double newline.  Descriptions can be
@@ -104,7 +104,7 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * Gets the summary for {@code key}.
      * <p>
      * If no summary has been provided in the schema for {@code key}, returns
-     * <code>null</code>.
+     * {@code null}.
      * <p>
      * The summary is a short description of the purpose of the key; usually
      * one short sentence.  Summaries can be translated and the value

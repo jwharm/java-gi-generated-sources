@@ -61,17 +61,17 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * that can be created by shortening {@code iconname} at '-' characters.
      * <p>
      * In the following example, {@code icon1} and {@code icon2} are equivalent:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * const char *names[] = {
      *   "gnome-dev-cdrom-audio",
      *   "gnome-dev-cdrom",
      *   "gnome-dev",
      *   "gnome"
      * };
-     * <p>
+     * 
      * icon1 = g_themed_icon_new_from_names (names, 4);
      * icon2 = g_themed_icon_new_with_default_fallbacks ("gnome-dev-cdrom-audio");
-     * ]|
+     * }</pre>
      */
     public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
         return new ThemedIcon(constructNewWithDefaultFallbacks(iconname));

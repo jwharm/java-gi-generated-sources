@@ -13,4 +13,8 @@ public class TreeListModelClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeListModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeListModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

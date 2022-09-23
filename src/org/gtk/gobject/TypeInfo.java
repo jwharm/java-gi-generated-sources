@@ -24,4 +24,8 @@ public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TypeInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

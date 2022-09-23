@@ -78,7 +78,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
     /**
      * Switches the label out of “editing mode”.
      * <p>
-     * If {@code commit} is <code>true</code>, the resulting text is kept as the
+     * If {@code commit} is {@code true}, the resulting text is kept as the
      * {@code Gtk.Editable:text} property value, otherwise the
      * resulting text is discarded and the label will keep its
      * previous {@code Gtk.Editable:text} property value.

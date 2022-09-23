@@ -30,4 +30,8 @@ public class GlyphGeometry extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GlyphGeometry() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoGlyphGeometry.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

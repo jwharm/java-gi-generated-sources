@@ -44,7 +44,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Tries to become the owner of the specified context.
      * If some other thread is the owner of the context,
-     * returns <code>false</code> immediately. Ownership is properly
+     * returns {@code false} immediately. Ownership is properly
      * recursive: the owner can require ownership again
      * and will release ownership when g_main_context_release()
      * is called as many times as g_main_context_acquire().
@@ -134,7 +134,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * Invokes a function in such a way that {@code context} is owned during the
      * invocation of {@code function}.
      * <p>
-     * If {@code context} is <code>null</code> then the global default main context — as
+     * If {@code context} is {@code null} then the global default main context — as
      * returned by g_main_context_default() — is used.
      * <p>
      * If {@code context} is owned by the current thread, {@code function} is called
@@ -150,7 +150,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_invoke_full().
      * <p>
      * Note that, as with normal idle functions, {@code function} should probably
-     * return <code>false</code>.  If it returns <code>true</code>, it will be continuously run in a
+     * return {@code false}.  If it returns {@code true}, it will be continuously run in a
      * loop (and may prevent this call from returning).
      */
     public void invoke(SourceFunc function) {
@@ -207,15 +207,15 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Runs a single iteration for the given main loop. This involves
      * checking to see if any event sources are ready to be processed,
-     * then if no events sources are ready and {@code may_block} is <code>true</code>, waiting
+     * then if no events sources are ready and {@code may_block} is {@code true}, waiting
      * for a source to become ready, then dispatching the highest priority
-     * events sources that are ready. Otherwise, if {@code may_block} is <code>false</code>
+     * events sources that are ready. Otherwise, if {@code may_block} is {@code false}
      * sources are not waited to become ready, only those highest priority
      * events sources will be dispatched (if any), that are ready at this
      * given moment without further waiting.
      * <p>
-     * Note that even when {@code may_block} is <code>true</code>, it is still possible for
-     * g_main_context_iteration() to return <code>false</code>, since the wait may
+     * Note that even when {@code may_block} is {@code true}, it is still possible for
+     * g_main_context_iteration() to return {@code false}, since the wait may
      * be interrupted for other reasons than an event source becoming ready.
      */
     public boolean iteration(boolean mayBlock) {
@@ -330,22 +330,22 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * Another related use for this function is when implementing a main
      * loop with a termination condition, computed from multiple threads:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
-     *   {@code define} NUM_TASKS 10
+     * <pre>{@code <!-- language="C" -->
+     *   #define NUM_TASKS 10
      *   static gint tasks_remaining = NUM_TASKS;  // (atomic)
      *   ...
      *  
      *   while (g_atomic_int_get (&tasks_remaining) != 0)
      *     g_main_context_iteration (NULL, TRUE);
-     * ]|
+     * }</pre>
      *  
      * Then in a thread:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   perform_work();
-     * <p>
+     * 
      *   if (g_atomic_int_dec_and_test (&tasks_remaining))
      *     g_main_context_wakeup (NULL);
-     * ]|
+     * }</pre>
      */
     public void wakeup() {
         gtk_h.g_main_context_wakeup(handle());
@@ -370,7 +370,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * their {@code GSources} to. (Note that even in single-threaded
      * programs applications may sometimes want to temporarily push a
      * non-default context, so it is not safe to assume that this will
-     * always return <code>null</code> if you are running in the default thread.)
+     * always return {@code null} if you are running in the default thread.)
      * <p>
      * If you need to hold a reference on the context, use
      * g_main_context_ref_thread_default() instead.
@@ -386,7 +386,7 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * it with g_main_context_ref(). In addition, unlike
      * g_main_context_get_thread_default(), if the thread-default context
      * is the global default context, this will return that {@link MainContext}
-     * (with a ref added to it) rather than returning <code>null</code>.
+     * (with a ref added to it) rather than returning {@code null}.
      */
     public static MainContext refThreadDefault() {
         var RESULT = gtk_h.g_main_context_ref_thread_default();

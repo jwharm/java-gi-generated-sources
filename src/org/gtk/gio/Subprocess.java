@@ -89,7 +89,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * Create a new process with the given flags and argument list.
      * <p>
-     * The argument list is expected to be <code>null</code>-terminated.
+     * The argument list is expected to be {@code null}-terminated.
      */
     public static Subprocess newv(java.lang.String[] argv, int flags) throws GErrorException {
         return new Subprocess(constructNewv(argv, flags));
@@ -112,23 +112,23 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * If the subprocess was created with {@link SubprocessFlags#STDOUT_PIPE},
      * {@code stdout_buf} will contain the data read from stdout.  Otherwise, for
      * subprocesses not created with {@link SubprocessFlags#STDOUT_PIPE},
-     * {@code stdout_buf} will be set to <code>null</code>.  Similar provisions apply to
+     * {@code stdout_buf} will be set to {@code null}.  Similar provisions apply to
      * {@code stderr_buf} and {@link SubprocessFlags#STDERR_PIPE}.
      * <p>
-     * As usual, any output variable may be given as <code>null</code> to ignore it.
+     * As usual, any output variable may be given as {@code null} to ignore it.
      * <p>
      * If you desire the stdout and stderr data to be interleaved, create
      * the subprocess with {@link SubprocessFlags#STDOUT_PIPE} and
      * {@link SubprocessFlags#STDERR_MERGE}.  The merged result will be returned
-     * in {@code stdout_buf} and {@code stderr_buf} will be set to <code>null</code>.
+     * in {@code stdout_buf} and {@code stderr_buf} will be set to {@code null}.
      * <p>
-     * In case of any error (including cancellation), <code>false</code> will be
+     * In case of any error (including cancellation), {@code false} will be
      * returned with {@code error} set.  Some or all of the stdin data may have
      * been written.  Any stdout or stderr data that has been read will be
      * discarded. None of the out variables (aside from {@code error}) will have
      * been set to anything in particular and should not be inspected.
      * <p>
-     * In the case that <code>true</code> is returned, the subprocess has exited and the
+     * In the case that {@code true} is returned, the subprocess has exited and the
      * exit status inspection APIs (eg: g_subprocess_get_if_exited(),
      * g_subprocess_get_exit_status()) may be used.
      * <p>
@@ -244,7 +244,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * This is equivalent to the system WEXITSTATUS macro.
      * <p>
      * It is an error to call this function before g_subprocess_wait() and
-     * unless g_subprocess_get_if_exited() returned <code>true</code>.
+     * unless g_subprocess_get_if_exited() returned {@code true}.
      */
     public int getExitStatus() {
         var RESULT = gtk_h.g_subprocess_get_exit_status(handle());
@@ -254,7 +254,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
     /**
      * On UNIX, returns the process ID as a decimal string.
      * On Windows, returns the result of GetProcessId() also as a string.
-     * If the subprocess has terminated, this will return <code>null</code>.
+     * If the subprocess has terminated, this will return {@code null}.
      */
     public java.lang.String getIdentifier() {
         var RESULT = gtk_h.g_subprocess_get_identifier(handle());
@@ -311,7 +311,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * {@code subprocess}.
      * <p>
      * The process must have been created with {@link SubprocessFlags#STDERR_PIPE},
-     * otherwise <code>null</code> will be returned.
+     * otherwise {@code null} will be returned.
      */
     public InputStream getStderrPipe() {
         var RESULT = gtk_h.g_subprocess_get_stderr_pipe(handle());
@@ -323,7 +323,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * to the stdin of {@code subprocess}.
      * <p>
      * The process must have been created with {@link SubprocessFlags#STDIN_PIPE} and
-     * not {@link SubprocessFlags#STDIN_INHERIT}, otherwise <code>null</code> will be returned.
+     * not {@link SubprocessFlags#STDIN_INHERIT}, otherwise {@code null} will be returned.
      */
     public OutputStream getStdinPipe() {
         var RESULT = gtk_h.g_subprocess_get_stdin_pipe(handle());
@@ -335,7 +335,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * {@code subprocess}.
      * <p>
      * The process must have been created with {@link SubprocessFlags#STDOUT_PIPE},
-     * otherwise <code>null</code> will be returned.
+     * otherwise {@code null} will be returned.
      */
     public InputStream getStdoutPipe() {
         var RESULT = gtk_h.g_subprocess_get_stdout_pipe(handle());
@@ -362,7 +362,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * This is equivalent to the system WTERMSIG macro.
      * <p>
      * It is an error to call this function before g_subprocess_wait() and
-     * unless g_subprocess_get_if_signaled() returned <code>true</code>.
+     * unless g_subprocess_get_if_signaled() returned {@code true}.
      */
     public int getTermSig() {
         var RESULT = gtk_h.g_subprocess_get_term_sig(handle());

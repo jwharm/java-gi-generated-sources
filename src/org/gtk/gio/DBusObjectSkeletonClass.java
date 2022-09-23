@@ -16,4 +16,8 @@ public class DBusObjectSkeletonClass extends io.github.jwharm.javagi.ResourceBas
         super(reference);
     }
     
+    public DBusObjectSkeletonClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusObjectSkeletonClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

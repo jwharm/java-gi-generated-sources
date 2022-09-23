@@ -13,4 +13,8 @@ public class VfsClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public VfsClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GVfsClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

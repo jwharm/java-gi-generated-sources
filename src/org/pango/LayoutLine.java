@@ -21,6 +21,10 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public LayoutLine() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoLayoutLine.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Computes the logical and ink extents of a layout line.
      * <p>

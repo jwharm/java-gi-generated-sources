@@ -18,4 +18,8 @@ public class BuilderScopeInterface extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public BuilderScopeInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBuilderScopeInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

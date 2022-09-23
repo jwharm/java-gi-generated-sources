@@ -17,4 +17,8 @@ public class TypePluginClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TypePluginClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypePluginClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

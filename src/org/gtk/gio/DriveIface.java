@@ -16,4 +16,8 @@ public class DriveIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DriveIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDriveIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

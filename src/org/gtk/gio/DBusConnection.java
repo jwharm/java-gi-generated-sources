@@ -126,7 +126,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * This is a synchronous failable constructor. See
      * g_dbus_connection_new_for_address() for the asynchronous version.
      * <p>
-     * If {@code observer} is not <code>null</code> it may be used to control the
+     * If {@code observer} is not {@code null} it may be used to control the
      * authentication process.
      */
     public static DBusConnection newForAddressSync(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
@@ -153,7 +153,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * As a result, the caller should not interact with {@code stream} after this
      * method has been called, except by calling g_object_unref() on it.
      * <p>
-     * If {@code observer} is not <code>null</code> it may be used to control the
+     * If {@code observer} is not {@code null} it may be used to control the
      * authentication process.
      * <p>
      * This is a synchronous failable constructor. See
@@ -185,7 +185,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * message. Similarly, if a filter consumes an outgoing message, the
      * message will not be sent to the other peer.
      * <p>
-     * If {@code user_data_free_func} is non-<code>null</code>, it will be called (in the
+     * If {@code user_data_free_func} is non-{@code null}, it will be called (in the
      * thread-default main context of the thread you are calling this
      * method from) at some point after {@code user_data} is no longer
      * needed. (It is not guaranteed to be called synchronously when the
@@ -219,15 +219,15 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * not compatible with the D-Bus protocol, the operation fails with
      * {@link IOErrorEnum#INVALID_ARGUMENT}.
      * <p>
-     * If {@code reply_type} is non-<code>null</code> then the reply will be checked for having this type and an
+     * If {@code reply_type} is non-{@code null} then the reply will be checked for having this type and an
      * error will be raised if it does not match.  Said another way, if you give a {@code reply_type}
-     * then any non-<code>null</code> return value will be of this type. Unless it’s
+     * then any non-{@code null} return value will be of this type. Unless it’s
      * {@code G_VARIANT_TYPE_UNIT}, the {@code reply_type} will be a tuple containing one or more
      * values.
      * <p>
      * If the {@code parameters} {@link org.gtk.glib.Variant} is floating, it is consumed. This allows
      * convenient 'inline' use of g_variant_new(), e.g.:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  g_dbus_connection_call (connection,
      *                          "org.freedesktop.StringThings",
      *                          "/org/freedesktop/StringThings",
@@ -242,7 +242,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      *                          NULL,
      *                          (GAsyncReadyCallback) two_strings_done,
      *                          NULL);
-     * ]|
+     * }</pre>
      * <p>
      * This is an asynchronous method. When the operation is finished,
      * {@code callback} will be invoked in the
@@ -252,7 +252,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * See g_dbus_connection_call_sync() for the synchronous version of this
      * function.
      * <p>
-     * If {@code callback} is <code>null</code> then the D-Bus method call message will be sent with
+     * If {@code callback} is {@code null} then the D-Bus method call message will be sent with
      * the {@link DBusMessageFlags#NO_REPLY_EXPECTED} flag set.
      */
     public void call(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -292,14 +292,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * contains a value not compatible with the D-Bus protocol, the operation
      * fails with {@link IOErrorEnum#INVALID_ARGUMENT}.
      * <p>
-     * If {@code reply_type} is non-<code>null</code> then the reply will be checked for having
+     * If {@code reply_type} is non-{@code null} then the reply will be checked for having
      * this type and an error will be raised if it does not match.  Said
-     * another way, if you give a {@code reply_type} then any non-<code>null</code> return
+     * another way, if you give a {@code reply_type} then any non-{@code null} return
      * value will be of this type.
      * <p>
      * If the {@code parameters} {@link org.gtk.glib.Variant} is floating, it is consumed.
      * This allows convenient 'inline' use of g_variant_new(), e.g.:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  g_dbus_connection_call_sync (connection,
      *                               "org.freedesktop.StringThings",
      *                               "/org/freedesktop/StringThings",
@@ -313,7 +313,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      *                               -1,
      *                               NULL,
      *                               &error);
-     * ]|
+     * }</pre>
      * <p>
      * The calling thread is blocked until a reply is received. See
      * g_dbus_connection_call() for the asynchronous version of
@@ -644,14 +644,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     
     /**
      * Gets the credentials of the authenticated peer. This will always
-     * return <code>null</code> unless {@code connection} acted as a server
+     * return {@code null} unless {@code connection} acted as a server
      * (e.g. {@link DBusConnectionFlags#AUTHENTICATION_SERVER} was passed)
      * when set up and the client passed credentials as part of the
      * authentication process.
      * <p>
      * In a message bus setup, the message bus is always the server and
      * each application is a client. So this method will always return
-     * <code>null</code> for message bus clients.
+     * {@code null} for message bus clients.
      */
     public Credentials getPeerCredentials() {
         var RESULT = gtk_h.g_dbus_connection_get_peer_credentials(handle());
@@ -840,7 +840,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Note that this function should be used with care. Most modern UNIX
      * desktops tie the notion of a user session with the session bus, and expect
      * all of a user's applications to quit when their bus connection goes away.
-     * If you are setting {@code exit_on_close} to <code>false</code> for the shared session
+     * If you are setting {@code exit_on_close} to {@code false} for the shared session
      * bus connection, you should make sure that your application exits
      * when the user session ends.
      */
@@ -855,7 +855,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * of the thread you are calling this method from.
      * <p>
      * If {@code connection} is not a message bus connection, {@code sender} must be
-     * <code>null</code>.
+     * {@code null}.
      * <p>
      * If {@code sender} is a well-known name note that {@code callback} is invoked with
      * the unique name for the owner of {@code sender}, not the well-known name
@@ -869,7 +869,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * interpreted as part of a namespace or path.  The first argument
      * of a signal is matched against that part as specified by D-Bus.
      * <p>
-     * If {@code user_data_free_func} is non-<code>null</code>, it will be called (in the
+     * If {@code user_data_free_func} is non-{@code null}, it will be called (in the
      * thread-default main context of the thread you are calling this
      * method from) at some point after {@code user_data} is no longer
      * needed. (It is not guaranteed to be called synchronously when the
@@ -994,7 +994,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * As a result, the caller should not interact with {@code stream} after this
      * method has been called, except by calling g_object_unref() on it.
      * <p>
-     * If {@code observer} is not <code>null</code> it may be used to control the
+     * If {@code observer} is not {@code null} it may be used to control the
      * authentication process.
      * <p>
      * When the operation is finished, {@code callback} will be invoked. You can
@@ -1036,7 +1036,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * then call g_dbus_connection_new_for_address_finish() to get the result of
      * the operation.
      * <p>
-     * If {@code observer} is not <code>null</code> it may be used to control the
+     * If {@code observer} is not {@code null} it may be used to control the
      * authentication process.
      * <p>
      * This is an asynchronous failable constructor. See
@@ -1069,17 +1069,17 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * <p>
      * <ul>
      * <li>If g_dbus_connection_close() is called. In this case
-     *   {@code remote_peer_vanished} is set to <code>false</code> and {@code error} is <code>null</code>.
+     *   {@code remote_peer_vanished} is set to {@code false} and {@code error} is {@code null}.
      * </ul>
      * <p>
      * <ul>
      * <li>If the remote peer closes the connection. In this case
-     *   {@code remote_peer_vanished} is set to <code>true</code> and {@code error} is set.
+     *   {@code remote_peer_vanished} is set to {@code true} and {@code error} is set.
      * </ul>
      * <p>
      * <ul>
      * <li>If the remote peer sends invalid or malformed data. In this
-     *   case {@code remote_peer_vanished} is set to <code>false</code> and {@code error} is set.
+     *   case {@code remote_peer_vanished} is set to {@code false} and {@code error} is set.
      * </ul>
      * <p>
      * Upon receiving this signal, you should give up your reference to

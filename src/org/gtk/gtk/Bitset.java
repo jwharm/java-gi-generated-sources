@@ -117,7 +117,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if {@code self} and {@code other} contain the same values.
+     * Returns {@code true} if {@code self} and {@code other} contain the same values.
      */
     public boolean equals(Bitset other) {
         var RESULT = gtk_h.gtk_bitset_equals(handle(), other.handle());

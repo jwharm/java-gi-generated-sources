@@ -126,7 +126,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * This allows window managers to e.g. keep the dialog on top of the
      * main window, or center the dialog over the main window.
      * <p>
-     * Passing <code>null</code> for {@code parent} unsets the current transient window.
+     * Passing {@code null} for {@code parent} unsets the current transient window.
      */
     public void setTransientFor(Window parent) {
         gtk_h.gtk_native_dialog_set_transient_for(handle(), parent.handle());

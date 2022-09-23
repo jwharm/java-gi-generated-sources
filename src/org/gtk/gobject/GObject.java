@@ -238,7 +238,7 @@ public final class GObject {
      * <a href="http://sourceware.org/libffi/">libffi</a>.
      * <p>
      * Normally this function is not passed explicitly to g_signal_new(),
-     * but used automatically by GLib when specifying a <code>null</code> marshaller.
+     * but used automatically by GLib when specifying a {@code null} marshaller.
      */
     public static void cclosureMarshalGeneric(Closure closure, Value returnGvalue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
         gtk_h.g_cclosure_marshal_generic(closure.handle(), returnGvalue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
@@ -299,11 +299,11 @@ public final class GObject {
     /**
      * Clears a reference to a {@link Object}.
      * <p>
-     * {@code object_ptr} must not be <code>null</code>.
+     * {@code object_ptr} must not be {@code null}.
      * <p>
-     * If the reference is <code>null</code> then this function does nothing.
+     * If the reference is {@code null} then this function does nothing.
      * Otherwise, the reference count of the object is decreased and the
-     * pointer is set to <code>null</code>.
+     * pointer is set to {@code null}.
      * <p>
      * A macro is also included that allows this function to be used without
      * pointer casts.
@@ -317,7 +317,7 @@ public final class GObject {
      * function of a {@link TypePlugin} implementation, as in the following
      * example:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void
      * my_enum_complete_type_info (GTypePlugin     *plugin,
      *                             GType            g_type,
@@ -329,10 +329,10 @@ public final class GObject {
      *     { MY_ENUM_BAR, "MY_ENUM_BAR", "bar" },
      *     { 0, NULL, NULL }
      *   };
-     * <p>
+     * 
      *   g_enum_complete_type_info (type, info, values);
      * }
-     * ]|
+     * }</pre>
      */
     public static void enumCompleteTypeInfo(Type gEnumType, TypeInfo info, EnumValue constValues) {
         gtk_h.g_enum_complete_type_info(gEnumType.getValue(), info.handle(), constValues.handle());
@@ -712,7 +712,7 @@ public final class GObject {
     /**
      * Transforms {@code src_value} into {@code dest_value} if possible, and then
      * validates {@code dest_value}, in order for it to conform to {@code pspec}.  If
-     * {@code strict_validation} is <code>true</code> this function will only succeed if the
+     * {@code strict_validation} is {@code true} this function will only succeed if the
      * transformed {@code dest_value} complied to {@code pspec} without modifications.
      * <p>
      * See also g_value_type_transformable(), g_value_transform() and
@@ -790,9 +790,9 @@ public final class GObject {
     /**
      * A predefined {@link SignalAccumulator} for signals that return a
      * boolean values. The behavior that this accumulator gives is
-     * that a return of <code>true</code> stops the signal emission: no further
-     * callbacks will be invoked, while a return of <code>false</code> allows
-     * the emission to continue. The idea here is that a <code>true</code> return
+     * that a return of {@code true} stops the signal emission: no further
+     * callbacks will be invoked, while a return of {@code false} allows
+     * the emission to continue. The idea here is that a {@code true} return
      * indicates that the callback handled the signal, and no further
      * handling is needed.
      */
@@ -1165,9 +1165,9 @@ public final class GObject {
     
     /**
      * Sets a dummy callback for {@code source}. The callback will do nothing, and
-     * if the source expects a {@code gboolean} return value, it will return <code>true</code>.
+     * if the source expects a {@code gboolean} return value, it will return {@code true}.
      * (If the source expects any other type of return value, it will return
-     * a 0/<code>null</code> value; whatever g_value_init() initializes a {@link Value} to for
+     * a 0/{@code null} value; whatever g_value_init() initializes a {@link Value} to for
      * that type.)
      * <p>
      * If the source is not one of the standard GLib types, the
@@ -1194,7 +1194,7 @@ public final class GObject {
      * Adds a {@link TypeClassCacheFunc} to be called before the reference count of a
      * class goes from one to zero. This can be used to prevent premature class
      * destruction. All installed {@link TypeClassCacheFunc} functions will be chained
-     * until one of them returns <code>true</code>. The functions have to check the class id
+     * until one of them returns {@code true}. The functions have to check the class id
      * passed in to figure whether they actually want to cache the class of this
      * type, since all classes are routed through the same {@link TypeClassCacheFunc}
      * chain.
@@ -1329,7 +1329,7 @@ public final class GObject {
     /**
      * This function is essentially the same as g_type_class_ref(),
      * except that the classes reference count isn't incremented.
-     * As a consequence, this function may return <code>null</code> if the class
+     * As a consequence, this function may return {@code null} if the class
      * of the type passed in does not currently exist (hasn't been
      * referenced before).
      */
@@ -1543,7 +1543,7 @@ public final class GObject {
     
     /**
      * Returns the {@link TypePlugin} structure for the dynamic interface
-     * {@code interface_type} which has been added to {@code instance_type}, or <code>null</code>
+     * {@code interface_type} which has been added to {@code instance_type}, or {@code null}
      * if {@code interface_type} has not been added to {@code instance_type} or does
      * not have a {@link TypePlugin} structure. See g_type_add_interface_dynamic().
      */

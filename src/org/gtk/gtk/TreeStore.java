@@ -26,15 +26,15 @@ import java.lang.invoke.*;
  * attribute specifies the data type for the column.
  * <p>
  * An example of a UI Definition fragment for a tree store:
- * |[
- * &lt;object class="GtkTreeStore"&gt;
- *   &lt;columns&gt;
- *     &lt;column type="gchararray"/&gt;
- *     &lt;column type="gchararray"/&gt;
- *     &lt;column type="gint"/&gt;
- *   &lt;/columns&gt;
- * &lt;/object&gt;
- * ]|
+ * <pre>{@code 
+ * <object class="GtkTreeStore">
+ *   <columns>
+ *     <column type="gchararray"/>
+ *     <column type="gchararray"/>
+ *     <column type="gint"/>
+ *   </columns>
+ * </object>
+ * }</pre>
  */
 public class TreeStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
 
@@ -60,7 +60,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Appends a new row to {@code tree_store}.  If {@code parent} is non-<code>null</code>, then it will append the
+     * Appends a new row to {@code tree_store}.  If {@code parent} is non-{@code null}, then it will append the
      * new row after the last child of {@code parent}, otherwise it will append a row to
      * the top level.  {@code iter} will be changed to point to this new row.  The row will
      * be empty after this function is called.  To fill in values, you need to call
@@ -78,7 +78,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Creates a new row at {@code position}.  If parent is non-<code>null</code>, then the row will be
+     * Creates a new row at {@code position}.  If parent is non-{@code null}, then the row will be
      * made a child of {@code parent}.  Otherwise, the row will be created at the toplevel.
      * If {@code position} is -1 or is larger than the number of rows at that level, then
      * the new row will be inserted to the end of the list.  {@code iter} will be changed
@@ -91,8 +91,8 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row after {@code sibling}.  If {@code sibling} is <code>null</code>, then the row will be
-     * prepended to {@code parent} ’s children.  If {@code parent} and {@code sibling} are <code>null</code>, then
+     * Inserts a new row after {@code sibling}.  If {@code sibling} is {@code null}, then the row will be
+     * prepended to {@code parent} ’s children.  If {@code parent} and {@code sibling} are {@code null}, then
      * the row will be prepended to the toplevel.  If both {@code sibling} and {@code parent} are
      * set, then {@code parent} must be the parent of {@code sibling}.  When {@code sibling} is set,
      * {@code parent} is optional.
@@ -106,8 +106,8 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row before {@code sibling}.  If {@code sibling} is <code>null</code>, then the row will
-     * be appended to {@code parent} ’s children.  If {@code parent} and {@code sibling} are <code>null</code>, then
+     * Inserts a new row before {@code sibling}.  If {@code sibling} is {@code null}, then the row will
+     * be appended to {@code parent} ’s children.  If {@code parent} and {@code sibling} are {@code null}, then
      * the row will be appended to the toplevel.  If both {@code sibling} and {@code parent} are
      * set, then {@code parent} must be the parent of {@code sibling}.  When {@code sibling} is set,
      * {@code parent} is optional.
@@ -130,7 +130,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Returns <code>true</code> if {@code iter} is an ancestor of {@code descendant}.  That is, {@code iter} is the
+     * Returns {@code true} if {@code iter} is an ancestor of {@code descendant}.  That is, {@code iter} is the
      * parent (or grandparent or great-grandparent) of {@code descendant}.
      */
     public boolean isAncestor(TreeIter iter, TreeIter descendant) {
@@ -161,7 +161,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     /**
      * Moves {@code iter} in {@code tree_store} to the position after {@code position}. {@code iter} and
      * {@code position} should be in the same level. Note that this function only
-     * works with unsorted stores. If {@code position} is <code>null</code>, {@code iter} will be moved
+     * works with unsorted stores. If {@code position} is {@code null}, {@code iter} will be moved
      * to the start of the level.
      */
     public void moveAfter(TreeIter iter, TreeIter position) {
@@ -171,7 +171,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     /**
      * Moves {@code iter} in {@code tree_store} to the position before {@code position}. {@code iter} and
      * {@code position} should be in the same level. Note that this function only
-     * works with unsorted stores. If {@code position} is <code>null</code>, {@code iter} will be
+     * works with unsorted stores. If {@code position} is {@code null}, {@code iter} will be
      * moved to the end of the level.
      */
     public void moveBefore(TreeIter iter, TreeIter position) {
@@ -179,7 +179,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Prepends a new row to {@code tree_store}.  If {@code parent} is non-<code>null</code>, then it will prepend
+     * Prepends a new row to {@code tree_store}.  If {@code parent} is non-{@code null}, then it will prepend
      * the new row before the first child of {@code parent}, otherwise it will prepend a row
      * to the top level.  {@code iter} will be changed to point to this new row.  The row
      * will be empty after this function is called.  To fill in values, you need to

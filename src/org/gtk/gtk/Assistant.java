@@ -235,7 +235,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * <p>
      * This function will be used to determine what will be
      * the next page when the user presses the forward button.
-     * Setting {@code page_func} to <code>null</code> will make the assistant to
+     * Setting {@code page_func} to {@code null} will make the assistant to
      * use the default forward function, which just goes to the
      * next visible page.
      */

@@ -38,7 +38,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * g_menu_attribute_iter_get_name() and g_menu_attribute_iter_get_value().
      * <p>
      * First the iterator is advanced to the next (possibly first) attribute.
-     * If that fails, then <code>false</code> is returned and there are no other
+     * If that fails, then {@code false} is returned and there are no other
      * effects.
      * <p>
      * If successful, {@code name} and {@code value} are set to the name and value of the
@@ -69,7 +69,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * Attempts to advance the iterator to the next (possibly first)
      * attribute.
      * <p>
-     * <code>true</code> is returned on success, or <code>false</code> if there are no more
+     * {@code true} is returned on success, or {@code false} if there are no more
      * attributes.
      * <p>
      * You must call this function when you first acquire the iterator

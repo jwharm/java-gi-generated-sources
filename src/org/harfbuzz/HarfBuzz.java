@@ -550,7 +550,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts {@code format} to the string corresponding it, or <code>null</code> if it is not a valid
+     * Converts {@code format} to the string corresponding it, or {@code null} if it is not a valid
      * {@link buffer_serialize_format_t}.
      */
     public static java.lang.String bufferSerializeFormatToString(BufferSerializeFormatT format) {
@@ -1047,7 +1047,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts a {@link feature_t} into a <code>null</code>-terminated string in the format
+     * Converts a {@link feature_t} into a {@code null}-terminated string in the format
      * understood by hb_feature_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
@@ -2332,7 +2332,7 @@ public final class HarfBuzz {
     
     /**
      * Shapes {@code buffer} using {@code font} turning its Unicode characters content to
-     * positioned glyphs. If {@code features} is not <code>null</code>, it will be used to control the
+     * positioned glyphs. If {@code features} is not {@code null}, it will be used to control the
      * features applied during shaping. If two {@code features} have the same tag but
      * overlapping ranges the value of the feature with the higher index takes
      * precedence.
@@ -2342,7 +2342,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * See hb_shape() for details. If {@code shaper_list} is not <code>null</code>, the specified
+     * See hb_shape() for details. If {@code shaper_list} is not {@code null}, the specified
      * shapers will be used in the given order, otherwise the default shapers list
      * will be used.
      */
@@ -2599,7 +2599,7 @@ public final class HarfBuzz {
     }
     
     /**
-     * Converts an {@link variation_t} into a <code>null</code>-terminated string in the format
+     * Converts an {@link variation_t} into a {@code null}-terminated string in the format
      * understood by hb_variation_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */

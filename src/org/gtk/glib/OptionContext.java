@@ -227,7 +227,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets the function which is used to translate the contexts
-     * user-visible strings, for {@code --help} output. If {@code func} is <code>null</code>,
+     * user-visible strings, for {@code --help} output. If {@code func} is {@code null},
      * strings are not translated.
      * <p>
      * Note that option groups have their own translation functions,

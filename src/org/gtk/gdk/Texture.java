@@ -65,7 +65,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * The file format is detected automatically. The supported formats
      * are PNG and JPEG, though more formats might be available.
      * <p>
-     * If <code>null</code> is returned, then {@code error} will be set.
+     * If {@code null} is returned, then {@code error} will be set.
      * <p>
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
@@ -90,7 +90,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * The file format is detected automatically. The supported formats
      * are PNG and JPEG, though more formats might be available.
      * <p>
-     * If <code>null</code> is returned, then {@code error} will be set.
+     * If {@code null} is returned, then {@code error} will be set.
      * <p>
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
@@ -115,7 +115,7 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * The file format is detected automatically. The supported formats
      * are PNG and JPEG, though more formats might be available.
      * <p>
-     * If <code>null</code> is returned, then {@code error} will be set.
+     * If {@code null} is returned, then {@code error} will be set.
      * <p>
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread

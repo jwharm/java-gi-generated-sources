@@ -12,7 +12,7 @@ import java.lang.invoke.*;
  * interface.
  * <p>
  * Since 2.38, if you want to handle getting/setting D-Bus properties
- * asynchronously, give <code>null</code> as your get_property() or set_property()
+ * asynchronously, give {@code null} as your get_property() or set_property()
  * function. The D-Bus call will be directed to your {@code method_call} function,
  * with the provided {@code interface_name} set to "org.freedesktop.DBus.Properties".
  * <p>
@@ -38,7 +38,7 @@ import java.lang.invoke.*;
  * to the {@link DBusPropertyInfo} of the property.
  * <p>
  * If you have readable properties specified in your interface info,
- * you must ensure that you either provide a non-<code>null</code> {@code get_property}()
+ * you must ensure that you either provide a non-{@code null} {@code get_property}()
  * function or provide implementations of both the {@code Get} and {@code GetAll}
  * methods on org.freedesktop.DBus.Properties interface in your {@code method_call}
  * function. Note that the required return type of the {@code Get} call is
@@ -46,7 +46,7 @@ import java.lang.invoke.*;
  * of type {@code a{sv}}.
  * <p>
  * If you have writable properties specified in your interface info,
- * you must ensure that you either provide a non-<code>null</code> {@code set_property}()
+ * you must ensure that you either provide a non-{@code null} {@code set_property}()
  * function or provide an implementation of the {@code Set} call. If implementing
  * the call, you must return the value of type {@code G_VARIANT_TYPE_UNIT}.
  */
@@ -54,6 +54,10 @@ public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
 
     public DBusInterfaceVTable(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public DBusInterfaceVTable() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusInterfaceVTable.allocate(Interop.getAllocator()).address()));
     }
     
 }

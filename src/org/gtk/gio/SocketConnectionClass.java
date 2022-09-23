@@ -13,4 +13,8 @@ public class SocketConnectionClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public SocketConnectionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSocketConnectionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

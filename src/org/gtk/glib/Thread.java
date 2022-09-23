@@ -100,7 +100,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * it allows for the possibility of failure.
      * <p>
      * If a thread can not be created (due to resource limits),
-     * {@code error} is set and <code>null</code> is returned.
+     * {@code error} is set and {@code null} is returned.
      */
     public static Thread tryNew(java.lang.String name, ThreadFunc func) throws GErrorException {
         return new Thread(constructTryNew(name, func));

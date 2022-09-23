@@ -23,7 +23,7 @@ import java.lang.invoke.*;
  * the integration of your rendering with that of other widgets.
  * <p>
  * Support for {@code GdkGLContext} is platform-specific and context creation
- * can fail, returning <code>null</code> context.
+ * can fail, returning {@code null} context.
  * <p>
  * A {@code GdkGLContext} has to be made "current" in order to start using
  * it, otherwise any OpenGL call will be ignored.
@@ -139,11 +139,11 @@ public class GLContext extends DrawContext {
      * When realizing a GL context, GDK will try to use the OpenGL 3.2 core
      * profile; this profile removes all the OpenGL API that was deprecated
      * prior to the 3.2 version of the specification. If the realization is
-     * successful, this function will return <code>false</code>.
+     * successful, this function will return {@code false}.
      * <p>
      * If the underlying OpenGL implementation does not support core profiles,
      * GDK will fall back to a pre-3.2 compatibility profile, and this function
-     * will return <code>true</code>.
+     * will return {@code true}.
      * <p>
      * You can use the value returned by this function to decide which kind
      * of OpenGL API to use, or whether to do extension discovery, or what
@@ -166,7 +166,7 @@ public class GLContext extends DrawContext {
      * For other contexts it depends on the GL backend.
      * <p>
      * Both contexts must be realized for this check to succeed. If either one
-     * is not, this function will return <code>false</code>.
+     * is not, this function will return {@code false}.
      */
     public boolean isShared(GLContext other) {
         var RESULT = gtk_h.gdk_gl_context_is_shared(handle(), other.handle());

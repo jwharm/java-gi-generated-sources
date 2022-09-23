@@ -13,4 +13,8 @@ public class TextViewClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TextViewClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTextViewClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

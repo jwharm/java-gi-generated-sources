@@ -13,4 +13,8 @@ public class EntryBufferClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public EntryBufferClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkEntryBufferClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

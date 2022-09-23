@@ -5,7 +5,7 @@ package org.gtk.gio;
  * <p>
  * This is also invoked when the {@link DBusConnection} on which the watch was
  * established has been closed.  In that case, {@code connection} will be
- * <code>null</code>.
+ * {@code null}.
  */
 @FunctionalInterface
 public interface BusNameVanishedCallback {

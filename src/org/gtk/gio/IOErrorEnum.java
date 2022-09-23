@@ -7,13 +7,13 @@ package org.gtk.gio;
  * general, new error codes either only apply to new APIs, or else
  * replace {@link IOErrorEnum#FAILED} in cases that were not explicitly
  * distinguished before. You should therefore avoid writing code like
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_FAILED))
  *   {
  *     // Assume that this is EPRINTERONFIRE
  *     ...
  *   }
- * ]|
+ * }</pre>
  * but should instead treat all unrecognized error codes the same as
  * {@link IOErrorEnum#FAILED}.
  * <p>

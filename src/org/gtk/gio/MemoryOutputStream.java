@@ -47,9 +47,9 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * In most cases this is not the function you want.  See
      * g_memory_output_stream_new_resizable() instead.
      * <p>
-     * If {@code data} is non-<code>null</code>, the stream will use that for its internal storage.
+     * If {@code data} is non-{@code null}, the stream will use that for its internal storage.
      * <p>
-     * If {@code realloc_fn} is non-<code>null</code>, it will be used for resizing the internal
+     * If {@code realloc_fn} is non-{@code null}, it will be used for resizing the internal
      * storage when necessary and the stream will be considered resizable.
      * In that case, the stream will start out being (conceptually) empty.
      * {@code size} is used only as a hint for how big {@code data} is.  Specifically,
@@ -57,7 +57,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * {@code size}.  Seeking past the end of the stream and then writing will
      * introduce a zero-filled gap.
      * <p>
-     * If {@code realloc_fn} is <code>null</code> then the stream is fixed-sized.  Seeking to
+     * If {@code realloc_fn} is {@code null} then the stream is fixed-sized.  Seeking to
      * the end will seek to {@code size} exactly.  Writing past the end will give
      * an 'out of space' error.  Attempting to seek past the end will fail.
      * Unlike the resizable case, seeking to an offset within the stream and
@@ -68,21 +68,21 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * <p>
      * It is probably only meaningful to provide {@code data} and {@code size} in the case
      * that you want a fixed-sized stream.  Put another way: if {@code realloc_fn}
-     * is non-<code>null</code> then it makes most sense to give {@code data} as <code>null</code> and
+     * is non-{@code null} then it makes most sense to give {@code data} as {@code null} and
      * {@code size} as 0 (allowing {@link MemoryOutputStream} to do the initial
      * allocation for itself).
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * // a stream that can grow
      * stream = g_memory_output_stream_new (NULL, 0, realloc, free);
-     * <p>
+     * 
      * // another stream that can grow
      * stream2 = g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
-     * <p>
+     * 
      * // a fixed-size stream
      * data = malloc (200);
      * stream3 = g_memory_output_stream_new (data, 200, NULL, free);
-     * ]|
+     * }</pre>
      */
     public MemoryOutputStream(long size, ReallocFunc reallocFunction) {
         super(constructNew(size, reallocFunction));

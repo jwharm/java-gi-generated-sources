@@ -13,4 +13,8 @@ public class StringSorterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public StringSorterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkStringSorterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

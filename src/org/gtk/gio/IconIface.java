@@ -18,4 +18,8 @@ public class IconIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public IconIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GIconIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

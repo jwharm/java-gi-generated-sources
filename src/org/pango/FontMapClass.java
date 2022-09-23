@@ -17,4 +17,8 @@ public class FontMapClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FontMapClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoFontMapClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -18,6 +18,10 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Once() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GOnce.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Function to be called when starting a critical initialization
      * section. The argument {@code location} must point to a static
@@ -29,18 +33,18 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * blocked until initialization completed. To be used in constructs
      * like this:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   static gsize initialization_value = 0;
-     * <p>
+     * 
      *   if (g_once_init_enter (&initialization_value))
      *     {
      *       gsize setup_value = 42; // initialization code here
-     * <p>
+     * 
      *       g_once_init_leave (&initialization_value, setup_value);
      *     }
-     * <p>
+     * 
      *   // use initialization_value here
-     * ]|
+     * }</pre>
      * <p>
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.

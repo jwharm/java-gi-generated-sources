@@ -13,4 +13,8 @@ public class TextTagClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TextTagClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTextTagClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

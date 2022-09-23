@@ -13,4 +13,8 @@ public class TreeStoreClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeStoreClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeStoreClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

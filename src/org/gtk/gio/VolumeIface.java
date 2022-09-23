@@ -16,4 +16,8 @@ public class VolumeIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public VolumeIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GVolumeIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

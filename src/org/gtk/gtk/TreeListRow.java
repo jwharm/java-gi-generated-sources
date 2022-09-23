@@ -33,7 +33,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
     
     /**
      * If {@code self} is not expanded or {@code position} is greater than the
-     * number of children, <code>null</code> is returned.
+     * number of children, {@code null} is returned.
      */
     public TreeListRow getChildRow(int position) {
         var RESULT = gtk_h.gtk_tree_list_row_get_child_row(handle(), position);
@@ -93,7 +93,7 @@ public class TreeListRow extends org.gtk.gobject.Object {
      * to make this row disappear.
      * <p>
      * If {@code self} is a row corresponding to the root model,
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      * <p>
      * The value returned by this function never changes
      * until the row is destroyed.

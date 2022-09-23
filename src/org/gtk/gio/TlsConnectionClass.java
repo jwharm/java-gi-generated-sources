@@ -16,4 +16,8 @@ public class TlsConnectionClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TlsConnectionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTlsConnectionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

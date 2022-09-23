@@ -85,9 +85,9 @@ public class CellRendererToggle extends CellRenderer {
     }
     
     /**
-     * If {@code radio} is <code>true</code>, the cell renderer renders a radio toggle
+     * If {@code radio} is {@code true}, the cell renderer renders a radio toggle
      * (i.e. a toggle in a group of mutually-exclusive toggles).
-     * If <code>false</code>, it renders a check toggle (a standalone boolean option).
+     * If {@code false}, it renders a check toggle (a standalone boolean option).
      * This can be set globally for the cell renderer, or changed just
      * before rendering each cell in the model (for {@code GtkTreeView}, you set
      * up a per-row setting using {@code GtkTreeViewColumn} to associate model

@@ -21,11 +21,15 @@ public class BitsetIter extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BitsetIter() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBitsetIter.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Gets the current value that {@code iter} points to.
      * <p>
      * If {@code iter} is not valid and {@link BitsetIter#isValid}
-     * returns <code>false</code>, this function returns 0.
+     * returns {@code false}, this function returns 0.
      */
     public int getValue() {
         var RESULT = gtk_h.gtk_bitset_iter_get_value(handle());

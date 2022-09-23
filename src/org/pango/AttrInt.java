@@ -17,4 +17,8 @@ public class AttrInt extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrInt() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrInt.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

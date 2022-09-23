@@ -16,4 +16,8 @@ public class TlsFileDatabaseInterface extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public TlsFileDatabaseInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTlsFileDatabaseInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

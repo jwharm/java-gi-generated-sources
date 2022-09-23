@@ -13,7 +13,7 @@ import java.lang.invoke.*;
  * <p>
  * The order of the items in the structure are intended to reflect
  * frequency of use.  It is permissible to use an incomplete initialiser
- * in order to leave some of the later values as <code>null</code>.  All values
+ * in order to leave some of the later values as {@code null}.  All values
  * after {@code name} are optional.  Additional optional fields may be added in
  * the future.
  * <p>
@@ -23,6 +23,10 @@ public class ActionEntry extends io.github.jwharm.javagi.ResourceBase {
 
     public ActionEntry(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public ActionEntry() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GActionEntry.allocate(Interop.getAllocator()).address()));
     }
     
 }

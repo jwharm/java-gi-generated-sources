@@ -40,7 +40,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
     /**
      * Gets the {@code GFile} that was used to load the icon.
      * <p>
-     * Returns <code>null</code> if the icon was not loaded from a file.
+     * Returns {@code null} if the icon was not loaded from a file.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_icon_paintable_get_file(handle());
@@ -56,7 +56,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * "image-missing". The icon chosen is returned by this function.
      * <p>
      * If the icon was created without an icon theme, this function
-     * returns <code>null</code>.
+     * returns {@code null}.
      */
     public java.lang.String getIconName() {
         var RESULT = gtk_h.gtk_icon_paintable_get_icon_name(handle());

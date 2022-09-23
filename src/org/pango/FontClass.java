@@ -13,4 +13,8 @@ public class FontClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FontClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoFontClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

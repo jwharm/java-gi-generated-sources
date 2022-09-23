@@ -167,7 +167,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * <p>
      * If the {@code parameters} {@link org.gtk.glib.Variant} is floating, it is consumed. This allows
      * convenient 'inline' use of g_variant_new(), e.g.:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  g_dbus_proxy_call (proxy,
      *                     "TwoStrings",
      *                     g_variant_new ("(ss)",
@@ -178,7 +178,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      *                     NULL,
      *                     (GAsyncReadyCallback) two_strings_done,
      *                     &data);
-     * ]|
+     * }</pre>
      * <p>
      * If {@code proxy} has an expected interface (see
      * {@link DBusProxy}:g-interface-info) and {@code method_name} is referenced by it,
@@ -192,7 +192,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * the operation. See g_dbus_proxy_call_sync() for the synchronous
      * version of this method.
      * <p>
-     * If {@code callback} is <code>null</code> then the D-Bus method call message will be sent with
+     * If {@code callback} is {@code null} then the D-Bus method call message will be sent with
      * the {@link DBusMessageFlags#NO_REPLY_EXPECTED} flag set.
      */
     public void call(java.lang.String methodName, org.gtk.glib.Variant parameters, int flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
@@ -237,7 +237,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * <p>
      * If the {@code parameters} {@link org.gtk.glib.Variant} is floating, it is consumed. This allows
      * convenient 'inline' use of g_variant_new(), e.g.:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  g_dbus_proxy_call_sync (proxy,
      *                          "TwoStrings",
      *                          g_variant_new ("(ss)",
@@ -247,7 +247,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      *                          -1,
      *                          NULL,
      *                          &error);
-     * ]|
+     * }</pre>
      * <p>
      * The calling thread is blocked until a reply is received. See
      * g_dbus_proxy_call() for the asynchronous version of this
@@ -373,8 +373,8 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     /**
      * Gets the name that {@code proxy} was constructed for.
      * <p>
-     * When connected to a message bus, this will usually be non-<code>null</code>.
-     * However, it may be <code>null</code> for a proxy that communicates using a peer-to-peer
+     * When connected to a message bus, this will usually be non-{@code null}.
+     * However, it may be {@code null} for a proxy that communicates using a peer-to-peer
      * pattern.
      */
     public java.lang.String getName() {
@@ -383,7 +383,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     }
     
     /**
-     * The unique name that owns the name that {@code proxy} is for or <code>null</code> if
+     * The unique name that owns the name that {@code proxy} is for or {@code null} if
      * no-one currently owns that name. You may connect to the
      * {@link org.gtk.gobject.Object}::notify signal to track changes to the
      * {@link DBusProxy}:g-name-owner property.
@@ -402,10 +402,10 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
     }
     
     /**
-     * If {@code value} is not <code>null</code>, sets the cached value for the property with
+     * If {@code value} is not {@code null}, sets the cached value for the property with
      * name {@code property_name} to the value in {@code value}.
      * <p>
-     * If {@code value} is <code>null</code>, then the cached value is removed from the
+     * If {@code value} is {@code null}, then the cached value is removed from the
      * property cache.
      * <p>
      * If {@code proxy} has an expected interface (see
@@ -414,13 +414,13 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * <p>
      * If the {@code value} {@link org.gtk.glib.Variant} is floating, it is consumed. This allows
      * convenient 'inline' use of g_variant_new(), e.g.
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  g_dbus_proxy_set_cached_property (proxy,
      *                                    "SomeProperty",
      *                                    g_variant_new ("(si)",
      *                                                  "A String",
      *                                                  42));
-     * ]|
+     * }</pre>
      * <p>
      * Normally you will not need to use this method since {@code proxy}
      * is tracking changes using the
@@ -531,7 +531,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
      * Emitted when one or more D-Bus properties on {@code proxy} changes. The
      * local cache has already been updated when this signal fires. Note
      * that both {@code changed_properties} and {@code invalidated_properties} are
-     * guaranteed to never be <code>null</code> (either may be empty though).
+     * guaranteed to never be {@code null} (either may be empty though).
      * <p>
      * If the proxy has the flag
      * {@link DBusProxyFlags#GET_INVALIDATED_PROPERTIES} set, then

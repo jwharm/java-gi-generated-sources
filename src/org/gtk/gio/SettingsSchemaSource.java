@@ -35,19 +35,19 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * The directory should contain a file called {@code gschemas.compiled} as
      * produced by the [glib-compile-schemas][glib-compile-schemas] tool.
      * <p>
-     * If {@code trusted} is <code>true</code> then {@code gschemas.compiled} is trusted not to be
+     * If {@code trusted} is {@code true} then {@code gschemas.compiled} is trusted not to be
      * corrupted. This assumption has a performance advantage, but can result
      * in crashes or inconsistent behaviour in the case of a corrupted file.
-     * Generally, you should set {@code trusted} to <code>true</code> for files installed by the
-     * system and to <code>false</code> for files in the home directory.
+     * Generally, you should set {@code trusted} to {@code true} for files installed by the
+     * system and to {@code false} for files in the home directory.
      * <p>
      * In either case, an empty file or some types of corruption in the file will
      * result in {@link org.gtk.glib.FileError#INVAL} being returned.
      * <p>
-     * If {@code parent} is non-<code>null</code> then there are two effects.
+     * If {@code parent} is non-{@code null} then there are two effects.
      * <p>
      * First, if g_settings_schema_source_lookup() is called with the
-     * {@code recursive} flag set to <code>true</code> and the schema can not be found in the
+     * {@code recursive} flag set to {@code true} and the schema can not be found in the
      * source, the lookup will recurse to the parent.
      * <p>
      * Second, any references to other schemas specified within this
@@ -65,9 +65,9 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Lists the schemas in a given source.
      * <p>
-     * If {@code recursive} is <code>true</code> then include parent sources.  If <code>false</code> then
+     * If {@code recursive} is {@code true} then include parent sources.  If {@code false} then
      * only include the schemas from one source (ie: one directory).  You
-     * probably want <code>true</code>.
+     * probably want {@code true}.
      * <p>
      * Non-relocatable schemas are those for which you can call
      * g_settings_new().  Relocatable schemas are those for which you must
@@ -87,10 +87,10 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * may be useful to authors of plugin management systems or to those who
      * want to introspect the content of schemas.
      * <p>
-     * If the schema isn't found directly in {@code source} and {@code recursive} is <code>true</code>
+     * If the schema isn't found directly in {@code source} and {@code recursive} is {@code true}
      * then the parent sources will also be checked.
      * <p>
-     * If the schema isn't found, <code>null</code> is returned.
+     * If the schema isn't found, {@code null} is returned.
      */
     public SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
         var RESULT = gtk_h.g_settings_schema_source_lookup(handle(), Interop.allocateNativeString(schemaId).handle(), recursive ? 1 : 0);
@@ -119,7 +119,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * may be useful to authors of plugin management systems or to those who
      * want to introspect the content of schemas.
      * <p>
-     * If no schemas are installed, <code>null</code> will be returned.
+     * If no schemas are installed, {@code null} will be returned.
      * <p>
      * The returned source may actually consist of multiple schema sources
      * from different directories, depending on which directories were given

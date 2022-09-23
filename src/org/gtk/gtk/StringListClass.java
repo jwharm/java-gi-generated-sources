@@ -13,4 +13,8 @@ public class StringListClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public StringListClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkStringListClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

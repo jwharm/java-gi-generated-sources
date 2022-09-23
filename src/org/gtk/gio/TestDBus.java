@@ -35,18 +35,18 @@ import java.lang.invoke.*;
  * uninstalled service executable in your source tree. Using autotools we would
  * achieve this by adding a file such as {@code my-server.service.in} in the services
  * directory and have it processed by configure.
- * |[
+ * <pre>{@code 
  *     [D-BUS Service]
  *     Name=org.gtk.GDBus.Examples.ObjectManager
- *     Exec={@code abs_top_builddir}{@code /gio}/tests/gdbus-example-objectmanager-server
- * ]|
+ *     Exec=@abs_top_builddir@/gio/tests/gdbus-example-objectmanager-server
+ * }</pre>
  * You will also need to indicate this service directory in your test
  * fixtures, so you will need to pass the path while compiling your
  * test cases. Typically this is done with autotools with an added
  * preprocessor flag specified to compile your tests such as:
- * |[
+ * <pre>{@code 
  *     -DTEST_SERVICES=\\""$(abs_top_builddir)/tests/services"\\"
- * ]|
+ * }</pre>
  *     Once you have a service definition file which is local to your source tree,
  * you can proceed to set up a GTest fixture using the {@link TestDBus} scaffolding.
  * <p>
@@ -74,12 +74,12 @@ import java.lang.invoke.*;
  * The GSettings schemas need to be locally pre-compiled for this to work. This can be achieved
  * by compiling the schemas locally as a step before running test cases, an autotools setup might
  * do the following in the directory holding schemas:
- * |[
+ * <pre>{@code 
  *     all-am:
  *             $(GLIB_COMPILE_SCHEMAS) .
- * <p>
+ * 
  *     CLEANFILES += gschemas.compiled
- * ]|
+ * }</pre>
  */
 public class TestDBus extends org.gtk.gobject.Object {
 
@@ -125,7 +125,7 @@ public class TestDBus extends org.gtk.gobject.Object {
     
     /**
      * Get the address on which dbus-daemon is running. If g_test_dbus_up() has not
-     * been called yet, <code>null</code> is returned. This can be used with
+     * been called yet, {@code null} is returned. This can be used with
      * g_dbus_connection_new_for_address().
      */
     public java.lang.String getBusAddress() {

@@ -11,9 +11,9 @@ import java.lang.invoke.*;
  * A {@link ParamSpec} derived structure that contains the meta data for {@link org.gtk.glib.Variant} properties.
  * <p>
  * When comparing values with g_param_values_cmp(), scalar values with the same
- * type will be compared with g_variant_compare(). Other non-<code>null</code> variants will
+ * type will be compared with g_variant_compare(). Other non-{@code null} variants will
  * be checked for equality with g_variant_equal(), and their sort order is
- * otherwise undefined. <code>null</code> is ordered before non-<code>null</code> variants. Two <code>null</code>
+ * otherwise undefined. {@code null} is ordered before non-{@code null} variants. Two {@code null}
  * values compare equal.
  */
 public class ParamSpecVariant extends ParamSpec {

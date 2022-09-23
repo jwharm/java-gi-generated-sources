@@ -32,52 +32,52 @@ import java.lang.invoke.*;
  * operation is not needed, there is no need to call the "_finish()"
  * function; GIO will take care of cleaning up the result and error
  * information after the {@link AsyncReadyCallback} returns. You can pass
- * <code>null</code> for the {@link AsyncReadyCallback} if you don't need to take any
+ * {@code null} for the {@link AsyncReadyCallback} if you don't need to take any
  * action at all after the operation completes. Applications may also
  * take a reference to the {@link AsyncResult} and call "_finish()" later;
  * however, the "_finish()" function may be called at most once.
  * <p>
  * Example of a typical asynchronous operation flow:
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * void _theoretical_frobnitz_async (Theoretical         *t,
  *                                   GCancellable        *c,
  *                                   GAsyncReadyCallback  cb,
  *                                   gpointer             u);
- * <p>
+ * 
  * gboolean _theoretical_frobnitz_finish (Theoretical   *t,
  *                                        GAsyncResult  *res,
  *                                        GError       **e);
- * <p>
+ * 
  * static void
  * frobnitz_result_func (GObject      *source_object,
  * 		 GAsyncResult *res,
  * 		 gpointer      user_data)
  * {
  *   gboolean success = FALSE;
- * <p>
+ * 
  *   success = _theoretical_frobnitz_finish (source_object, res, NULL);
- * <p>
+ * 
  *   if (success)
  *     g_printf ("Hurray!\\n");
  *   else
  *     g_printf ("Uh oh!\\n");
- * <p>
+ * 
  *   ...
- * <p>
+ * 
  * }
- * <p>
+ * 
  * int main (int argc, void *argv[])
  * {
  *    ...
- * <p>
+ * 
  *    _theoretical_frobnitz_async (theoretical_data,
  *                                 NULL,
  *                                 frobnitz_result_func,
  *                                 NULL);
- * <p>
+ * 
  *    ...
  * }
- * ]|
+ * }</pre>
  * <p>
  * The callback for an asynchronous operation is called only once, and is
  * always called, even in the case of a cancelled operation. On cancellation
@@ -123,7 +123,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.NativeAddress {
     /**
      * If {@code res} is a {@link SimpleAsyncResult}, this is equivalent to
      * g_simple_async_result_propagate_error(). Otherwise it returns
-     * <code>false</code>.
+     * {@code false}.
      * <p>
      * This can be used for legacy error handling in async *_finish()
      * wrapper functions that traditionally handled {@link SimpleAsyncResult}

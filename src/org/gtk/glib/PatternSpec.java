@@ -56,7 +56,7 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Matches a string against a compiled pattern. Passing the correct
      * length of the string given is mandatory. The reversed string can be
-     * omitted by passing <code>null</code>, this is more efficient if the reversed
+     * omitted by passing {@code null}, this is more efficient if the reversed
      * version of the string to be matched is not at hand, as
      * g_pattern_match() will only construct it if the compiled pattern
      * requires reverse matches.

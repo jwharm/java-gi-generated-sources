@@ -16,4 +16,8 @@ public class ProxyAddressEnumeratorClass extends io.github.jwharm.javagi.Resourc
         super(reference);
     }
     
+    public ProxyAddressEnumeratorClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GProxyAddressEnumeratorClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

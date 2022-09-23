@@ -37,7 +37,7 @@ public class UnixInputStream extends InputStream implements FileDescriptorBased,
     /**
      * Creates a new {@link UnixInputStream} for the given {@code fd}.
      * <p>
-     * If {@code close_fd} is <code>true</code>, the file descriptor will be closed
+     * If {@code close_fd} is {@code true}, the file descriptor will be closed
      * when the stream is closed.
      */
     public UnixInputStream(int fd, boolean closeFd) {

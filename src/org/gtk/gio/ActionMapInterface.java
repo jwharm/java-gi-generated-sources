@@ -16,4 +16,8 @@ public class ActionMapInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ActionMapInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GActionMapInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -13,4 +13,8 @@ public class OverlayLayoutChildClass extends io.github.jwharm.javagi.ResourceBas
         super(reference);
     }
     
+    public OverlayLayoutChildClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkOverlayLayoutChildClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

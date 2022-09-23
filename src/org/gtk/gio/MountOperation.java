@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * Users should instantiate a subclass of this that implements all the
  * various callbacks to show the required dialogs, such as
  * {@link org.gtk.gtk.MountOperation}. If no user interaction is desired (for example
- * when automounting filesystems at login time), usually <code>null</code> can be
+ * when automounting filesystems at login time), usually {@code null} can be
  * passed, see each method taking a {@link MountOperation} for details.
  * <p>
  * The term ‘TCRYPT’ is used to mean ‘compatible with TrueCrypt and VeraCrypt’.
@@ -136,7 +136,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the mount operation to use an anonymous user if {@code anonymous} is <code>true</code>.
+     * Sets the mount operation to use an anonymous user if {@code anonymous} is {@code true}.
      */
     public void setAnonymous(boolean anonymous) {
         gtk_h.g_mount_operation_set_anonymous(handle(), anonymous ? 1 : 0);
@@ -157,14 +157,14 @@ public class MountOperation extends org.gtk.gobject.Object {
     }
     
     /**
-     * Sets the mount operation to use a hidden volume if {@code hidden_volume} is <code>true</code>.
+     * Sets the mount operation to use a hidden volume if {@code hidden_volume} is {@code true}.
      */
     public void setIsTcryptHiddenVolume(boolean hiddenVolume) {
         gtk_h.g_mount_operation_set_is_tcrypt_hidden_volume(handle(), hiddenVolume ? 1 : 0);
     }
     
     /**
-     * Sets the mount operation to use a system volume if {@code system_volume} is <code>true</code>.
+     * Sets the mount operation to use a system volume if {@code system_volume} is {@code true}.
      */
     public void setIsTcryptSystemVolume(boolean systemVolume) {
         gtk_h.g_mount_operation_set_is_tcrypt_system_volume(handle(), systemVolume ? 1 : 0);

@@ -13,4 +13,8 @@ public class CenterLayoutClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CenterLayoutClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCenterLayoutClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

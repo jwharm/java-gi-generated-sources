@@ -13,4 +13,8 @@ public class FileMonitorClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FileMonitorClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFileMonitorClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

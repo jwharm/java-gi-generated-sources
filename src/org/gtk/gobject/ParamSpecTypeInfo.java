@@ -23,4 +23,8 @@ public class ParamSpecTypeInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ParamSpecTypeInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GParamSpecTypeInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -17,4 +17,8 @@ public class DesktopAppInfoLookupIface extends io.github.jwharm.javagi.ResourceB
         super(reference);
     }
     
+    public DesktopAppInfoLookupIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDesktopAppInfoLookupIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

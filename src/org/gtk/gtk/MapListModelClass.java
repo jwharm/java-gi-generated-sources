@@ -13,4 +13,8 @@ public class MapListModelClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MapListModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkMapListModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

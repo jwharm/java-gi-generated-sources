@@ -13,4 +13,8 @@ public class SocketClientClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public SocketClientClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSocketClientClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

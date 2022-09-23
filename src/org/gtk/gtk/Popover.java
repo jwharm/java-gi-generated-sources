@@ -156,8 +156,8 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      * Gets the rectangle that the popover points to.
      * <p>
      * If a rectangle to point to has been set, this function will
-     * return <code>true</code> and fill in {@code rect} with such rectangle, otherwise
-     * it will return <code>false</code> and fill in {@code rect} with the parent
+     * return {@code true} and fill in {@code rect} with such rectangle, otherwise
+     * it will return {@code false} and fill in {@code rect} with the parent
      * widget coordinates.
      */
     public boolean getPointingTo(org.gtk.gdk.Rectangle rect) {
@@ -213,10 +213,10 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
-     * If {@code cascade_popdown} is <code>true</code>, the popover will be
+     * If {@code cascade_popdown} is {@code true}, the popover will be
      * closed when a child modal popover is closed.
      * <p>
-     * If <code>false</code>, {@code popover} will stay visible.
+     * If {@code false}, {@code popover} will stay visible.
      */
     public void setCascadePopdown(boolean cascadePopdown) {
         gtk_h.gtk_popover_set_cascade_popdown(handle(), cascadePopdown ? 1 : 0);

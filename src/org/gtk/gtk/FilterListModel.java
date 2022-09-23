@@ -61,7 +61,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     }
     
     /**
-     * Gets the model currently filtered or <code>null</code> if none.
+     * Gets the model currently filtered or {@code null} if none.
      */
     public org.gtk.gio.ListModel getModel() {
         var RESULT = gtk_h.gtk_filter_list_model_get_model(handle());
@@ -83,7 +83,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * }</pre>
      * <p>
      * If no filter operation is ongoing - in particular when
-     * {@code Gtk.FilterListModel:incremental} is <code>false</code> - this
+     * {@code Gtk.FilterListModel:incremental} is {@code false} - this
      * function returns 0.
      */
     public int getPending() {

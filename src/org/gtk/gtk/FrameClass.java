@@ -13,4 +13,8 @@ public class FrameClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FrameClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFrameClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -682,7 +682,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Explicitly stops the editing of the currently edited cell.
      * <p>
-     * If {@code canceled} is <code>true</code>, the currently edited cell renderer
+     * If {@code canceled} is {@code true}, the currently edited cell renderer
      * will emit the ::editing-canceled signal, otherwise the
      * the ::editing-done signal will be emitted on the current
      * edit widget.

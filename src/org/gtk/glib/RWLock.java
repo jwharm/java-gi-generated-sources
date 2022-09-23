@@ -24,41 +24,41 @@ import java.lang.invoke.*;
  * it.
  * <p>
  * Here is an example for an array with access functions:
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   GRWLock lock;
  *   GPtrArray *array;
- * <p>
+ * 
  *   gpointer
  *   my_array_get (guint index)
  *   {
  *     gpointer retval = NULL;
- * <p>
+ * 
  *     if (!array)
  *       return NULL;
- * <p>
+ * 
  *     g_rw_lock_reader_lock (&lock);
- *     if (index &lt; array-&gt;len)
+ *     if (index < array->len)
  *       retval = g_ptr_array_index (array, index);
  *     g_rw_lock_reader_unlock (&lock);
- * <p>
+ * 
  *     return retval;
  *   }
- * <p>
+ * 
  *   void
  *   my_array_set (guint index, gpointer data)
  *   {
  *     g_rw_lock_writer_lock (&lock);
- * <p>
+ * 
  *     if (!array)
  *       array = g_ptr_array_new ();
- * <p>
+ * 
  *     if (index >= array->len)
  *       g_ptr_array_set_size (array, index+1);
  *     g_ptr_array_index (array, index) = data;
- * <p>
+ * 
  *     g_rw_lock_writer_unlock (&lock);
  *   }
- *  ]|
+ *  }</pre>
  * This example shows an array which can be accessed by many readers
  * (the my_array_get() function) simultaneously, whereas the writers
  * (the my_array_set() function) will only be allowed one at a time
@@ -76,6 +76,10 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
 
     public RWLock(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public RWLock() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GRWLock.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -101,17 +105,17 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * necessary to initialise a reader-writer lock that has been statically
      * allocated.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   typedef struct {
      *     GRWLock l;
      *     ...
      *   } Blob;
-     * <p>
+     * 
      * Blob *b;
-     * <p>
+     * 
      * b = g_new (Blob, 1);
      * g_rw_lock_init (&b->l);
-     * ]|
+     * }</pre>
      * <p>
      * To undo the effect of g_rw_lock_init() when a lock is no longer
      * needed, use g_rw_lock_clear().
@@ -145,9 +149,9 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Tries to obtain a read lock on {@code rw_lock} and returns <code>true</code> if
+     * Tries to obtain a read lock on {@code rw_lock} and returns {@code true} if
      * the read lock was successfully obtained. Otherwise it
-     * returns <code>false</code>.
+     * returns {@code false}.
      */
     public boolean readerTrylock() {
         var RESULT = gtk_h.g_rw_lock_reader_trylock(handle());
@@ -179,8 +183,8 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Tries to obtain a write lock on {@code rw_lock}. If another thread
      * currently holds a read or write lock on {@code rw_lock}, it immediately
-     * returns <code>false</code>.
-     * Otherwise it locks {@code rw_lock} and returns <code>true</code>.
+     * returns {@code false}.
+     * Otherwise it locks {@code rw_lock} and returns {@code true}.
      */
     public boolean writerTrylock() {
         var RESULT = gtk_h.g_rw_lock_writer_trylock(handle());

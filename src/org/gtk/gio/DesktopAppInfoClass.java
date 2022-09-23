@@ -13,4 +13,8 @@ public class DesktopAppInfoClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DesktopAppInfoClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDesktopAppInfoClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -13,4 +13,8 @@ public class TreeExpanderClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TreeExpanderClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeExpanderClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -8,7 +8,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 
 /**
- * Any of the fields in {@link MarkupParser} can be <code>null</code>, in which case they
+ * Any of the fields in {@link MarkupParser} can be {@code null}, in which case they
  * will be ignored. Except for the {@code error} function, any of these callbacks
  * can set an error; in particular the {@link MarkupError#UNKNOWN_ELEMENT},
  * {@link MarkupError#UNKNOWN_ATTRIBUTE}, and {@link MarkupError#INVALID_CONTENT}
@@ -20,6 +20,10 @@ public class MarkupParser extends io.github.jwharm.javagi.ResourceBase {
 
     public MarkupParser(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public MarkupParser() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMarkupParser.allocate(Interop.getAllocator()).address()));
     }
     
 }

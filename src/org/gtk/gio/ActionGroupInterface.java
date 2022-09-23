@@ -16,4 +16,8 @@ public class ActionGroupInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ActionGroupInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GActionGroupInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -102,7 +102,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * <p>
      * Note that commandline arguments are not passed to {@link Gtk#init}.
      * <p>
-     * If {@code application_id} is not <code>null</code>, then it must be valid. See
+     * If {@code application_id} is not {@code null}, then it must be valid. See
      * {@code g_application_id_is_valid()}.
      * <p>
      * If no application ID is given then some features (most notably application

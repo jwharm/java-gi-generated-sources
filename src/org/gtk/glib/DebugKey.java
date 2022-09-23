@@ -17,4 +17,8 @@ public class DebugKey extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DebugKey() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDebugKey.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

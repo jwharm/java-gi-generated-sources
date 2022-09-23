@@ -13,4 +13,8 @@ public class TlsCertificateClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TlsCertificateClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTlsCertificateClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

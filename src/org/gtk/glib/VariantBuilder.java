@@ -117,7 +117,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initialises a {@link VariantBuilder} structure.
      * <p>
-     * {@code type} must be non-<code>null</code>.  It specifies the type of container to
+     * {@code type} must be non-{@code null}.  It specifies the type of container to
      * construct.  It can be an indefinite type such as
      * {@code G_VARIANT_TYPE_ARRAY} or a definite type such as "as" or "(ii)".
      * Maybe, array, tuple, dictionary entry and variant-typed values may be
@@ -160,7 +160,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * a value of an incorrect type).
      * <p>
      * Example of building a nested variant:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * GVariantBuilder builder;
      * guint32 some_number = get_number ();
      * g_autoptr (GHashTable) some_dict = get_dict ();
@@ -168,24 +168,24 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * const gchar *key;
      * const GVariant *value;
      * g_autoptr (GVariant) output = NULL;
-     * <p>
+     * 
      * g_variant_builder_init (&builder, G_VARIANT_TYPE ("(ua{sv})"));
      * g_variant_builder_add (&builder, "u", some_number);
      * g_variant_builder_open (&builder, G_VARIANT_TYPE ("a{sv}"));
-     * <p>
+     * 
      * g_hash_table_iter_init (&iter, some_dict);
-     * while (g_hash_table_iter_next (&iter, (gpointer <strong>) &key, (gpointer </strong>) &value))
+     * while (g_hash_table_iter_next (&iter, (gpointer *) &key, (gpointer *) &value))
      *   {
      *     g_variant_builder_open (&builder, G_VARIANT_TYPE ("{sv}"));
      *     g_variant_builder_add (&builder, "s", key);
      *     g_variant_builder_add (&builder, "v", value);
      *     g_variant_builder_close (&builder);
      *   }
-     * <p>
+     * 
      * g_variant_builder_close (&builder);
-     * <p>
+     * 
      * output = g_variant_builder_end (&builder);
-     * ]|
+     * }</pre>
      */
     public void open(VariantType type) {
         gtk_h.g_variant_builder_open(handle(), type.handle());

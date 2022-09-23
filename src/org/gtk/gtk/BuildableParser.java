@@ -16,4 +16,8 @@ public class BuildableParser extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BuildableParser() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBuildableParser.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

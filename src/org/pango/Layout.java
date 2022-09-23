@@ -404,7 +404,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Gets the current {@code PangoTabArray} used by this layout.
      * <p>
      * If no {@code PangoTabArray} has been set, then the default tabs are
-     * in use and <code>null</code> is returned. Default tabs are every 8 spaces.
+     * in use and {@code null} is returned. Default tabs are every 8 spaces.
      * <p>
      * The return value should be freed with {@link TabArray#free}.
      */
@@ -471,7 +471,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Queries whether the layout had to ellipsize any paragraphs.
      * <p>
-     * This returns <code>true</code> if the ellipsization mode for {@code layout}
+     * This returns {@code true} if the ellipsization mode for {@code layout}
      * is not {@link EllipsizeMode#NONE}, a positive width is set on {@code layout},
      * and there are paragraphs exceeding that width that have to be
      * ellipsized.
@@ -484,7 +484,7 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Queries whether the layout had to wrap any paragraphs.
      * <p>
-     * This returns <code>true</code> if a positive width is set on {@code layout},
+     * This returns {@code true} if a positive width is set on {@code layout},
      * ellipsization mode of {@code layout} is set to {@link EllipsizeMode#NONE},
      * and there are paragraphs exceeding the layout width that have
      * to be wrapped.
@@ -538,7 +538,7 @@ public class Layout extends org.gtk.gobject.Object {
      * will have left-to-right layout. Paragraphs with only neutral characters
      * get their direction from the surrounding paragraphs.
      * <p>
-     * When <code>false</code>, the choice between left-to-right and right-to-left
+     * When {@code false}, the choice between left-to-right and right-to-left
      * layout is done according to the base direction of the layout's
      * {@code PangoContext}. (See {@link Context#setBaseDir}).
      * <p>
@@ -643,7 +643,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Justification will move content away from its tab-aligned
      * positions.
      * <p>
-     * The default value is <code>false</code>.
+     * The default value is {@code false}.
      * <p>
      * Also see {@link Layout#setJustifyLastLine}.
      */
@@ -658,7 +658,7 @@ public class Layout extends org.gtk.gobject.Object {
      * This only has an effect if {@link Layout#setJustify} has
      * been called as well.
      * <p>
-     * The default value is <code>false</code>.
+     * The default value is {@code false}.
      */
     public void setJustifyLastLine(boolean justify) {
         gtk_h.pango_layout_set_justify_last_line(handle(), justify ? 1 : 0);
@@ -703,12 +703,12 @@ public class Layout extends org.gtk.gobject.Object {
     /**
      * Sets the single paragraph mode of {@code layout}.
      * <p>
-     * If {@code setting} is <code>true</code>, do not treat newlines and similar characters
+     * If {@code setting} is {@code true}, do not treat newlines and similar characters
      * as paragraph separators; instead, keep all text in a single paragraph,
      * and display a glyph for paragraph separator characters. Used when
      * you want to allow editing of newlines on a single text line.
      * <p>
-     * The default value is <code>false</code>.
+     * The default value is {@code false}.
      */
     public void setSingleParagraphMode(boolean setting) {
         gtk_h.pango_layout_set_single_paragraph_mode(handle(), setting ? 1 : 0);
@@ -742,7 +742,7 @@ public class Layout extends org.gtk.gobject.Object {
      * {@code PangoLayout} will place content at the next tab position
      * whenever it meets a Tab character (U+0009).
      * <p>
-     * By default, tabs are every 8 spaces. If {@code tabs} is <code>null</code>, the
+     * By default, tabs are every 8 spaces. If {@code tabs} is {@code null}, the
      * default tabs are reinstated. {@code tabs} is copied into the layout;
      * you must free your copy of {@code tabs} yourself.
      * <p>

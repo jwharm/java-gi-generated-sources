@@ -17,4 +17,8 @@ public class AttrColor extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public AttrColor() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAttrColor.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

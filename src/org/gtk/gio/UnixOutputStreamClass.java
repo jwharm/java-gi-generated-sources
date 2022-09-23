@@ -13,4 +13,8 @@ public class UnixOutputStreamClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public UnixOutputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GUnixOutputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

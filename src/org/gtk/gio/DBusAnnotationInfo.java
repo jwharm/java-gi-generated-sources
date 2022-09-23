@@ -16,6 +16,10 @@ public class DBusAnnotationInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DBusAnnotationInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusAnnotationInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.

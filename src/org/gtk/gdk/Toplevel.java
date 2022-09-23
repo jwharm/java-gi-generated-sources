@@ -130,7 +130,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the toplevel to be decorated.
      * <p>
-     * Setting {@code decorated} to <code>false</code> hints the desktop environment
+     * Setting {@code decorated} to {@code false} hints the desktop environment
      * that the surface has its own, client-side decorations and
      * does not need to have window decorations added.
      */
@@ -141,7 +141,7 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the toplevel to be deletable.
      * <p>
-     * Setting {@code deletable} to <code>true</code> hints the desktop environment
+     * Setting {@code deletable} to {@code true} hints the desktop environment
      * that it should offer the user a way to close the surface.
      */
     public default void setDeletable(boolean deletable) {

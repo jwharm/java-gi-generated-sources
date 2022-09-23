@@ -93,7 +93,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      * Sets whether the entry should have a clickable icon
      * to reveal the contents.
      * <p>
-     * Setting this to <code>false</code> also hides the text again.
+     * Setting this to {@code false} also hides the text again.
      */
     public void setShowPeekIcon(boolean showPeekIcon) {
         gtk_h.gtk_password_entry_set_show_peek_icon(handle(), showPeekIcon ? 1 : 0);

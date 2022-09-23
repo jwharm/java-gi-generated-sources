@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * {@code GtkRevealer} has a single CSS node with name revealer.
  * When styling {@code GtkRevealer} using CSS, remember that it only hides its contents,
  * not itself. That means applied margin, padding and borders will be visible even
- * when the {@code Gtk.Revealer:reveal-child} property is set to <code>false</code>.
+ * when the {@code Gtk.Revealer:reveal-child} property is set to {@code false}.
  * <p>
  * <h1>Accessibility</h1>
  * <p>
@@ -75,7 +75,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     /**
      * Returns whether the child is currently revealed.
      * <p>
-     * This function returns <code>true</code> as soon as the transition
+     * This function returns {@code true} as soon as the transition
      * is to the revealed state is started. To learn whether
      * the child is fully revealed (ie the transition is completed),
      * use {@link Revealer#getChildRevealed}.

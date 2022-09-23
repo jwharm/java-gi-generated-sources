@@ -16,4 +16,8 @@ public class OtColorLayerT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OtColorLayerT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_ot_color_layer_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

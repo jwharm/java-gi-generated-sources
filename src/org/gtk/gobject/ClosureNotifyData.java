@@ -13,4 +13,8 @@ public class ClosureNotifyData extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ClosureNotifyData() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GClosureNotifyData.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

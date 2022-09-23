@@ -18,40 +18,40 @@ import java.lang.invoke.*;
  * method directly; instead it will be used automatically in various ways.
  * For C applications you generally just call g_async_initable_new_async()
  * directly, or indirectly via a foo_thing_new_async() wrapper. This will call
- * g_async_initable_init_async() under the cover, calling back with <code>null</code> and
+ * g_async_initable_init_async() under the cover, calling back with {@code null} and
  * a set {@code GError} on failure.
  * <p>
  * A typical implementation might look something like this:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * enum {
  *    NOT_INITIALIZED,
  *    INITIALIZING,
  *    INITIALIZED
  * };
- * <p>
+ * 
  * static void
  * _foo_ready_cb (Foo *self)
  * {
  *   GList *l;
- * <p>
+ * 
  *   self->priv->state = INITIALIZED;
- * <p>
+ * 
  *   for (l = self->priv->init_results; l != NULL; l = l->next)
  *     {
  *       GTask *task = l->data;
- * <p>
+ * 
  *       if (self->priv->success)
  *         g_task_return_boolean (task, TRUE);
  *       else
  *         g_task_return_new_error (task, ...);
  *       g_object_unref (task);
  *     }
- * <p>
+ * 
  *   g_list_free (self->priv->init_results);
  *   self->priv->init_results = NULL;
  * }
- * <p>
+ * 
  * static void
  * foo_init_async (GAsyncInitable       *initable,
  *                 int                   io_priority,
@@ -61,10 +61,10 @@ import java.lang.invoke.*;
  * {
  *   Foo *self = FOO (initable);
  *   GTask *task;
- * <p>
+ * 
  *   task = g_task_new (initable, cancellable, callback, user_data);
  *   g_task_set_name (task, G_STRFUNC);
- * <p>
+ * 
  *   switch (self->priv->state)
  *     {
  *       case NOT_INITIALIZED:
@@ -86,27 +86,27 @@ import java.lang.invoke.*;
  *         break;
  *     }
  * }
- * <p>
+ * 
  * static gboolean
  * foo_init_finish (GAsyncInitable       *initable,
  *                  GAsyncResult         *result,
  *                  GError              **error)
  * {
  *   g_return_val_if_fail (g_task_is_valid (result, initable), FALSE);
- * <p>
+ * 
  *   return g_task_propagate_boolean (G_TASK (result), error);
  * }
- * <p>
+ * 
  * static void
  * foo_async_initable_iface_init (gpointer g_iface,
  *                                gpointer data)
  * {
  *   GAsyncInitableIface *iface = g_iface;
- * <p>
+ * 
  *   iface->init_async = foo_init_async;
  *   iface->init_finish = foo_init_finish;
  * }
- * ]|
+ * }</pre>
  */
 public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
 
@@ -124,9 +124,9 @@ public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
      * initialization.
      * <p>
      * Implementations may also support cancellation. If {@code cancellable} is not
-     * <code>null</code>, then initialization can be cancelled by triggering the cancellable
+     * {@code null}, then initialization can be cancelled by triggering the cancellable
      * object from another thread. If the operation was cancelled, the error
-     * {@link IOErrorEnum#CANCELLED} will be returned. If {@code cancellable} is not <code>null</code>, and
+     * {@link IOErrorEnum#CANCELLED} will be returned. If {@code cancellable} is not {@code null}, and
      * the object doesn't support cancellable initialization, the error
      * {@link IOErrorEnum#NOT_SUPPORTED} will be returned.
      * <p>

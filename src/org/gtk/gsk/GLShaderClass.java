@@ -13,4 +13,8 @@ public class GLShaderClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GLShaderClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GskGLShaderClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

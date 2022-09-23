@@ -17,7 +17,7 @@ import java.lang.invoke.*;
  * {@code Gtk.DirectoryList:file} property is set.
  * <p>
  * While the {@code GtkDirectoryList} is being filled, the
- * {@code Gtk.DirectoryList:loading} property will be set to <code>true</code>. You can
+ * {@code Gtk.DirectoryList:loading} property will be set to {@code true}. You can
  * listen to that property if you want to show information like a {@code GtkSpinner}
  * or a "Loading..." text.
  * <p>
@@ -106,7 +106,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     }
     
     /**
-     * Returns <code>true</code> if the children enumeration is currently in
+     * Returns {@code true} if the children enumeration is currently in
      * progress.
      * <p>
      * Files will be added to {@code self} from time to time while loading is
@@ -121,7 +121,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets the {@code attributes} to be enumerated and starts the enumeration.
      * <p>
-     * If {@code attributes} is <code>null</code>, no attributes will be queried, but a list
+     * If {@code attributes} is {@code null}, no attributes will be queried, but a list
      * of {@code GFileInfo}s will still be created.
      */
     public void setAttributes(java.lang.String attributes) {
@@ -131,7 +131,7 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Sets the {@code file} to be enumerated and starts the enumeration.
      * <p>
-     * If {@code file} is <code>null</code>, the result will be an empty list.
+     * If {@code file} is {@code null}, the result will be an empty list.
      */
     public void setFile(org.gtk.gio.File file) {
         gtk_h.gtk_directory_list_set_file(handle(), file.handle());

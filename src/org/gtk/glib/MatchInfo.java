@@ -29,7 +29,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * The backreferences are extracted from the string passed to the match
      * function, so you cannot call this function after freeing the string.
      * <p>
-     * {@code match_info} may be <code>null</code> in which case {@code string_to_expand} must not
+     * {@code match_info} may be {@code null} in which case {@code string_to_expand} must not
      * contain references. For instance "foo\\n" does not refer to an actual
      * pattern and '\\n' merely will be replaced with \\n character,
      * while to expand "\\0" (whole match) one needs the result of a match.
@@ -84,7 +84,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * If {@code match_info} is not <code>null</code>, calls g_match_info_unref(); otherwise does
+     * If {@code match_info} is not {@code null}, calls g_match_info_unref(); otherwise does
      * nothing.
      */
     public void free() {
@@ -128,7 +128,7 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Usually if the string passed to g_regex_match*() matches as far as
-     * it goes, but is too short to match the entire pattern, <code>false</code> is
+     * it goes, but is too short to match the entire pattern, {@code false} is
      * returned. There are circumstances where it might be helpful to
      * distinguish this case from other cases in which there is no match.
      * <p>
@@ -143,9 +143,9 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * GRegex supports the concept of partial matching by means of the
      * {@link RegexMatchFlags#PARTIAL_SOFT} and {@link RegexMatchFlags#PARTIAL_HARD} flags.
      * When they are used, the return code for
-     * g_regex_match() or g_regex_match_full() is, as usual, <code>true</code>
-     * for a complete match, <code>false</code> otherwise. But, when these functions
-     * return <code>false</code>, you can check if the match was partial calling
+     * g_regex_match() or g_regex_match_full() is, as usual, {@code true}
+     * for a complete match, {@code false} otherwise. But, when these functions
+     * return {@code false}, you can check if the match was partial calling
      * g_match_info_is_partial_match().
      * <p>
      * The difference between {@link RegexMatchFlags#PARTIAL_SOFT} and

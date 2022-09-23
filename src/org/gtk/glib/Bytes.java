@@ -47,7 +47,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link Bytes} from {@code data}.
      * <p>
-     * {@code data} is copied. If {@code size} is 0, {@code data} may be <code>null</code>.
+     * {@code data} is copied. If {@code size} is 0, {@code data} may be {@code null}.
      */
     public Bytes(byte[] data, long size) {
         super(constructNew(data, size));
@@ -61,7 +61,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link Bytes} from static data.
      * <p>
-     * {@code data} must be static (ie: never modified or freed). It may be <code>null</code> if {@code size}
+     * {@code data} must be static (ie: never modified or freed). It may be {@code null} if {@code size}
      * is 0.
      */
     public static Bytes newStatic(byte[] data, long size) {
@@ -85,7 +85,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * For creating {@link Bytes} with memory from other allocators, see
      * g_bytes_new_with_free_func().
      * <p>
-     * {@code data} may be <code>null</code> if {@code size} is 0.
+     * {@code data} may be {@code null} if {@code size} is 0.
      */
     public static Bytes newTake(byte[] data, long size) {
         return new Bytes(constructNewTake(data, size));
@@ -106,7 +106,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * {@code data} must not be modified after this call is made until {@code free_func} has
      * been called to indicate that the bytes is no longer in use.
      * <p>
-     * {@code data} may be <code>null</code> if {@code size} is 0.
+     * {@code data} may be {@code null} if {@code size} is 0.
      */
     public static Bytes newWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
         return new Bytes(constructNewWithFreeFunc(data, size, freeFunc, userData));
@@ -130,10 +130,10 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Compares the two {@link Bytes} values being pointed to and returns
-     * <code>true</code> if they are equal.
+     * {@code true} if they are equal.
      * <p>
      * This function can be passed to g_hash_table_new() as the {@code key_equal_func}
-     * parameter, when using non-<code>null</code> {@link Bytes} pointers as keys in a {@link HashTable}.
+     * parameter, when using non-{@code null} {@link Bytes} pointers as keys in a {@link HashTable}.
      */
     public boolean equal(Bytes bytes2) {
         var RESULT = gtk_h.g_bytes_equal(handle(), bytes2.handle());
@@ -150,17 +150,17 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * Ideally, {@code element_size} is a static constant (eg: sizeof a struct).
      * <p>
      * This function does careful bounds checking (including checking for
-     * arithmetic overflows) and returns a non-<code>null</code> pointer if the
+     * arithmetic overflows) and returns a non-{@code null} pointer if the
      * specified region lies entirely within the {@code bytes}. If the region is
-     * in some way out of range, or if an overflow has occurred, then <code>null</code>
+     * in some way out of range, or if an overflow has occurred, then {@code null}
      * is returned.
      * <p>
      * Note: it is possible to have a valid zero-size region. In this case,
      * the returned pointer will be equal to the base pointer of the data of
-     * {@code bytes}, plus {@code offset}.  This will be non-<code>null</code> except for the case
+     * {@code bytes}, plus {@code offset}.  This will be non-{@code null} except for the case
      * where {@code bytes} itself was a zero-sized region.  Since it is unlikely
      * that you will be using this function to check for a zero-sized region
-     * in a zero-sized {@code bytes}, <code>null</code> effectively always means "error".
+     * in a zero-sized {@code bytes}, {@code null} effectively always means "error".
      */
     public java.lang.foreign.MemoryAddress getRegion(long elementSize, long offset, long nElements) {
         var RESULT = gtk_h.g_bytes_get_region(handle(), elementSize, offset, nElements);
@@ -181,7 +181,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * Creates an integer hash code for the byte data in the {@link Bytes}.
      * <p>
      * This function can be passed to g_hash_table_new() as the {@code key_hash_func}
-     * parameter, when using non-<code>null</code> {@link Bytes} pointers as keys in a {@link HashTable}.
+     * parameter, when using non-{@code null} {@link Bytes} pointers as keys in a {@link HashTable}.
      */
     public int hash() {
         var RESULT = gtk_h.g_bytes_hash(handle());
@@ -216,7 +216,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Releases a reference on {@code bytes}.  This may result in the bytes being
-     * freed. If {@code bytes} is <code>null</code>, it will return immediately.
+     * freed. If {@code bytes} is {@code null}, it will return immediately.
      */
     public void unref() {
         gtk_h.g_bytes_unref(handle());

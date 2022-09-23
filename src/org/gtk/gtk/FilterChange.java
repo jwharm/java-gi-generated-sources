@@ -18,15 +18,15 @@ public enum FilterChange {
     
     /**
      * The filter is less strict than
-     *   it was before: All items that it used to return <code>true</code> for
-     *   still return <code>true</code>, others now may, too.
+     *   it was before: All items that it used to return {@code true} for
+     *   still return {@code true}, others now may, too.
      */
     LESS_STRICT,
     
     /**
      * The filter is more strict than
-     *   it was before: All items that it used to return <code>false</code> for
-     *   still return <code>false</code>, others now may, too.
+     *   it was before: All items that it used to return {@code false} for
+     *   still return {@code false}, others now may, too.
      */
     MORE_STRICT;
     

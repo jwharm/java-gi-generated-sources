@@ -18,4 +18,8 @@ public class BuildableIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public BuildableIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkBuildableIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

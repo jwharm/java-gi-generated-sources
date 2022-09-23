@@ -232,7 +232,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     /**
      * Convenience getter for the {@link DBusMessageHeaderField#SIGNATURE} header field.
      * <p>
-     * This will always be non-<code>null</code>, but may be an empty string.
+     * This will always be non-{@code null}, but may be an empty string.
      */
     public java.lang.String getSignature() {
         var RESULT = gtk_h.g_dbus_message_get_signature(handle());
@@ -292,7 +292,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * The contents of the description has no ABI guarantees, the contents
      * and formatting is subject to change at any time. Typical output
      * looks something like this:
-     * |[
+     * <pre>{@code 
      * Flags:   none
      * Version: 0
      * Serial:  4
@@ -304,9 +304,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Body: ()
      * UNIX File Descriptors:
      *   (none)
-     * ]|
+     * }</pre>
      * or
-     * |[
+     * <pre>{@code 
      * Flags:   no-reply-expected
      * Version: 0
      * Serial:  477
@@ -318,7 +318,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Body: ()
      * UNIX File Descriptors:
      *   fd 12: dev=0:10,mode=020620,ino=5,uid=500,gid=5,rdev=136:2,size=0,atime=1273085037,mtime=1273085851,ctime=1272982635
-     * ]|
+     * }</pre>
      */
     public java.lang.String print(int indent) {
         var RESULT = gtk_h.g_dbus_message_print(handle(), indent);
@@ -328,7 +328,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     /**
      * Sets the body {@code message}. As a side-effect the
      * {@link DBusMessageHeaderField#SIGNATURE} header field is set to the
-     * type string of {@code body} (or cleared if {@code body} is <code>null</code>).
+     * type string of {@code body} (or cleared if {@code body} is {@code null}).
      * <p>
      * If {@code body} is floating, {@code message} assumes ownership of {@code body}.
      */
@@ -440,7 +440,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * Sets the UNIX file descriptors associated with {@code message}. As a
      * side-effect the {@link DBusMessageHeaderField#NUM_UNIX_FDS} header
      * field is set to the number of fds in {@code fd_list} (or cleared if
-     * {@code fd_list} is <code>null</code>).
+     * {@code fd_list} is {@code null}).
      * <p>
      * This method is only available on UNIX.
      * <p>
@@ -455,7 +455,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
     
     /**
      * If {@code message} is not of type {@link DBusMessageType#ERROR} does
-     * nothing and returns <code>false</code>.
+     * nothing and returns {@code false}.
      * <p>
      * Otherwise this method encodes the error in {@code message} as a {@link org.gtk.glib.Error}
      * using g_dbus_error_set_dbus_error() using the information in the

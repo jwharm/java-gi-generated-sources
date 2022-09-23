@@ -289,8 +289,8 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * It allows an application to determine the type of scroll event
      * that occurred and the resultant new value. The application can
-     * handle the event itself and return <code>true</code> to prevent further
-     * processing. Or, by returning <code>false</code>, it can pass the event to
+     * handle the event itself and return {@code true} to prevent further
+     * processing. Or, by returning {@code false}, it can pass the event to
      * other handlers until the default GTK handler is reached.
      * <p>
      * The value parameter is unrounded. An application that overrides

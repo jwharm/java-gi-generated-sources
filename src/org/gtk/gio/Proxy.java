@@ -64,8 +64,8 @@ public interface Proxy extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Some proxy protocols expect to be passed a hostname, which they
      * will resolve to an IP address themselves. Others, like SOCKS4, do
-     * not allow this. This function will return <code>false</code> if {@code proxy} is
-     * implementing such a protocol. When <code>false</code> is returned, the caller
+     * not allow this. This function will return {@code false} if {@code proxy} is
+     * implementing such a protocol. When {@code false} is returned, the caller
      * should resolve the destination hostname first, and then pass a
      * {@link ProxyAddress} containing the stringified IP address to
      * g_proxy_connect() or g_proxy_connect_async().

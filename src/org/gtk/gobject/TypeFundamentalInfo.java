@@ -17,4 +17,8 @@ public class TypeFundamentalInfo extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TypeFundamentalInfo() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeFundamentalInfo.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

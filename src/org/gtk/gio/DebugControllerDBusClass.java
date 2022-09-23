@@ -16,4 +16,8 @@ public class DebugControllerDBusClass extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public DebugControllerDBusClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDebugControllerDBusClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

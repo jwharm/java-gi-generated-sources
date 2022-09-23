@@ -16,4 +16,8 @@ public class MountIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MountIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMountIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

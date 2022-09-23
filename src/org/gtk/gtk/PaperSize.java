@@ -36,7 +36,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
      * <a href="ftp://ftp.pwg.org/pub/pwg/candidates/cs-pwgmsn10-20020226-5101.1.pdf">PWG 5101.1-2002</a>
      * paper name.
      * <p>
-     * If {@code name} is <code>null</code>, the default paper size is returned,
+     * If {@code name} is {@code null}, the default paper size is returned,
      * see {@link Gtk#PaperSize}.
      */
     public PaperSize(java.lang.String name) {
@@ -196,7 +196,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the PPD name of the {@code GtkPaperSize}, which
-     * may be <code>null</code>.
+     * may be {@code null}.
      */
     public java.lang.String getPpdName() {
         var RESULT = gtk_h.gtk_paper_size_get_ppd_name(handle());
@@ -213,7 +213,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if {@code size} is not a standard paper size.
+     * Returns {@code true} if {@code size} is not a standard paper size.
      */
     public boolean isCustom() {
         var RESULT = gtk_h.gtk_paper_size_is_custom(handle());
@@ -229,7 +229,7 @@ public class PaperSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if {@code size} is an IPP standard paper size.
+     * Returns {@code true} if {@code size} is an IPP standard paper size.
      */
     public boolean isIpp() {
         var RESULT = gtk_h.gtk_paper_size_is_ipp(handle());

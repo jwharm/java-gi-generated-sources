@@ -13,12 +13,12 @@ import java.lang.invoke.*;
  * <p>
  * The following example shows how to build a two element array:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   g_autoptr(GStrvBuilder) builder = g_strv_builder_new ();
  *   g_strv_builder_add (builder, "hello");
  *   g_strv_builder_add (builder, "world");
  *   g_auto(GStrv) array = g_strv_builder_end (builder);
- * ]|
+ * }</pre>
  */
 public class StrvBuilder extends io.github.jwharm.javagi.ResourceBase {
 

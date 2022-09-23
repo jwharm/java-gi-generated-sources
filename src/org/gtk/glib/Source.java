@@ -47,7 +47,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If you don't need {@code child_source} to do anything on its own when it
      * triggers, you can call g_source_set_dummy_callback() on it to set a
-     * callback that does nothing (except return <code>true</code> if appropriate).
+     * callback that does nothing (except return {@code true} if appropriate).
      * <p>
      * {@code source} will hold a reference on {@code child_source} while {@code child_source}
      * is attached to it.
@@ -63,7 +63,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * Adds a file descriptor to the set of file descriptors polled for
      * this source. This is usually combined with g_source_new() to add an
      * event source. The event source's check function will typically test
-     * the {@code revents} field in the {@link PollFD} struct and return <code>true</code> if events need
+     * the {@code revents} field in the {@link PollFD} struct and return {@code true} if events need
      * to be processed.
      * <p>
      * This API is only intended to be used by implementations of {@link Source}.
@@ -219,7 +219,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * from within idle handlers, but may have freed the object
      * before the dispatch of your idle handler.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static gboolean
      * idle_callback (gpointer data)
      * {
@@ -245,10 +245,10 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * some_widget_init (SomeWidget *self)
      * {
      *   g_mutex_init (&self->idle_id_mutex);
-     * <p>
+     * 
      *   // ...
      * }
-     * <p>
+     * 
      * static void
      * some_widget_finalize (GObject *object)
      * {
@@ -258,10 +258,10 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      *     g_source_remove (self->idle_id);
      *    
      *   g_mutex_clear (&self->idle_id_mutex);
-     * <p>
+     * 
      *   G_OBJECT_CLASS (parent_class)->finalize (object);
      * }
-     * ]|
+     * }</pre>
      * <p>
      * This will fail in a multi-threaded application if the
      * widget is destroyed before the idle handler fires due
@@ -269,7 +269,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * this particular problem, is to check to if the source
      * has already been destroy within the callback.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static gboolean
      * idle_callback (gpointer data)
      * {
@@ -284,7 +284,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      *   
      *   return FALSE;
      * }
-     * ]|
+     * }</pre>
      * <p>
      * Calls to this function from a thread other than the one acquired by the
      * {@link MainContext} the {@link Source} is attached to are typically redundant, as the
@@ -431,7 +431,7 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Sets whether a source can be called recursively. If {@code can_recurse} is
-     * <code>true</code>, then while the source is being dispatched then this source
+     * {@code true}, then while the source is being dispatched then this source
      * will be processed normally. Otherwise, all processing of this
      * source is blocked until the dispatch function returns.
      */

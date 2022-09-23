@@ -13,4 +13,8 @@ public class CellEditableIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CellEditableIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCellEditableIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -5,7 +5,7 @@ package org.gtk.gtk;
  * whether or not a row may be selected. It is called whenever a row's
  * state might change.
  * <p>
- * A return value of <code>true</code> indicates to {@code selection} that it is okay to
+ * A return value of {@code true} indicates to {@code selection} that it is okay to
  * change the selection.
  */
 @FunctionalInterface

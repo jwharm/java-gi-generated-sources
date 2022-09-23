@@ -19,4 +19,8 @@ public class FontExtentsT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FontExtentsT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_font_extents_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

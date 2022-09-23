@@ -192,12 +192,12 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Sets whether the progress bar will show text next to the bar.
      * <p>
      * The shown text is either the value of the {@code Gtk.ProgressBar:text}
-     * property or, if that is <code>null</code>, the {@code Gtk.ProgressBar:fraction} value,
+     * property or, if that is {@code null}, the {@code Gtk.ProgressBar:fraction} value,
      * as a percentage.
      * <p>
      * To make a progress bar that is styled and sized suitably for containing
      * text (even if the actual text is blank), set {@code Gtk.ProgressBar:show-text}
-     * to <code>true</code> and {@code Gtk.ProgressBar:text} to the empty string (not <code>null</code>).
+     * to {@code true} and {@code Gtk.ProgressBar:text} to the empty string (not {@code null}).
      */
     public void setShowText(boolean showText) {
         gtk_h.gtk_progress_bar_set_show_text(handle(), showText ? 1 : 0);
@@ -206,15 +206,15 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
     /**
      * Causes the given {@code text} to appear next to the progress bar.
      * <p>
-     * If {@code text} is <code>null</code> and {@code Gtk.ProgressBar:show-text} is <code>true</code>,
+     * If {@code text} is {@code null} and {@code Gtk.ProgressBar:show-text} is {@code true},
      * the current value of {@code Gtk.ProgressBar:fraction} will be displayed
      * as a percentage.
      * <p>
-     * If {@code text} is non-<code>null</code> and {@code Gtk.ProgressBar:show-text} is <code>true</code>,
+     * If {@code text} is non-{@code null} and {@code Gtk.ProgressBar:show-text} is {@code true},
      * the text will be displayed. In this case, it will not display the progress
      * percentage. If {@code text} is the empty string, the progress bar will still
      * be styled and sized suitably for containing text, as long as
-     * {@code Gtk.ProgressBar:show-text} is <code>true</code>.
+     * {@code Gtk.ProgressBar:show-text} is {@code true}.
      */
     public void setText(java.lang.String text) {
         gtk_h.gtk_progress_bar_set_text(handle(), Interop.allocateNativeString(text).handle());

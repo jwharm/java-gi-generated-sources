@@ -99,7 +99,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     
     /**
      * Creates a new {@link SocketConnectable} for connecting to the given
-     * {@code hostname} and {@code port}. May fail and return <code>null</code> in case
+     * {@code hostname} and {@code port}. May fail and return {@code null} in case
      * parsing {@code host_and_port} fails.
      * <p>
      * {@code host_and_port} may be in any of a number of recognised formats; an IPv6
@@ -131,7 +131,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     
     /**
      * Creates a new {@link SocketConnectable} for connecting to the given
-     * {@code uri}. May fail and return <code>null</code> in case parsing {@code uri} fails.
+     * {@code uri}. May fail and return {@code null} in case parsing {@code uri} fails.
      * <p>
      * Using this rather than g_network_address_new() or
      * g_network_address_parse() allows {@link SocketClient} to determine

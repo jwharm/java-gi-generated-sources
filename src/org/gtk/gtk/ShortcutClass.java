@@ -13,4 +13,8 @@ public class ShortcutClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ShortcutClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkShortcutClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

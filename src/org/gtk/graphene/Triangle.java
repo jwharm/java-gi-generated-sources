@@ -128,7 +128,7 @@ public class Triangle extends io.github.jwharm.javagi.ResourceBase {
      * Computes the UV coordinates of the given point @p.
      * <p>
      * The point @p must lie on the same plane as the triangle @t; if the point
-     * is not coplanar, the result of this function is undefined. If @p is <code>null</code>,
+     * is not coplanar, the result of this function is undefined. If @p is {@code null},
      * the point will be set in (0, 0, 0).
      * <p>
      * The UV coordinates will be placed in the {@code res} vector:

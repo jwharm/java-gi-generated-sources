@@ -62,11 +62,11 @@ public class FileIOStream extends IOStream implements Seekable {
      * {@link IOErrorEnum#CLOSED}), the stream has pending operations (with {@code error} being
      * set to {@link IOErrorEnum#PENDING}), or if querying info is not supported for
      * the stream's interface (with {@code error} being set to {@link IOErrorEnum#NOT_SUPPORTED}). I
-     * all cases of failure, <code>null</code> will be returned.
+     * all cases of failure, {@code null} will be returned.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set, and <code>null</code> will
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set, and {@code null} will
      * be returned.
      */
     public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {

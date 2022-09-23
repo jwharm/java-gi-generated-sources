@@ -40,7 +40,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * Tries to parse the given string into a trigger.
      * <p>
      * On success, the parsed trigger is returned.
-     * When parsing failed, <code>null</code> is returned.
+     * When parsing failed, {@code null} is returned.
      * <p>
      * The accepted strings are:
      * <p>

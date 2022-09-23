@@ -16,4 +16,8 @@ public class ActionableInterface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ActionableInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkActionableInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

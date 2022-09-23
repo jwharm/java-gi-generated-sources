@@ -165,18 +165,18 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * <a href="http://hal.freedesktop.org/docs/polkit/PolkitAuthority.html#POLKIT-CHECK-AUTHORIZATION-FLAGS-ALLOW-USER-INTERACTION:CAPS">POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION</a>
      * flag set.
      * <p>
-     * If <code>false</code> is returned then no further handlers are run and the
+     * If {@code false} is returned then no further handlers are run and the
      * signal handler must take a reference to {@code invocation} and finish
      * handling the call (e.g. return an error via
      * g_dbus_method_invocation_return_error()).
      * <p>
-     * Otherwise, if <code>true</code> is returned, signal emission continues. If no
-     * handlers return <code>false</code>, then the method is dispatched. If
+     * Otherwise, if {@code true} is returned, signal emission continues. If no
+     * handlers return {@code false}, then the method is dispatched. If
      * {@code interface} has an enclosing {@link DBusObjectSkeleton}, then the
      * {@link DBusObjectSkeleton}::authorize-method signal handlers run before
      * the handlers for this signal.
      * <p>
-     * The default class handler just returns <code>true</code>.
+     * The default class handler just returns {@code true}.
      * <p>
      * Please note that the common case is optimized: if no signals
      * handlers are connected and the default class handler isn't

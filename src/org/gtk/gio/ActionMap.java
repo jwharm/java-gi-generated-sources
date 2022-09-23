@@ -38,7 +38,7 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * Each action is constructed as per one {@link ActionEntry}.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void
      * activate_quit (GSimpleAction *simple,
      *                GVariant      *parameter,
@@ -46,15 +46,15 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      * {
      *   exit (0);
      * }
-     * <p>
+     * 
      * static void
      * activate_print_string (GSimpleAction *simple,
      *                        GVariant      *parameter,
      *                        gpointer       user_data)
      * {
-     *   g_print ("{@code s}\\n", g_variant_get_string (parameter, NULL));
+     *   g_print ("%s\\n", g_variant_get_string (parameter, NULL));
      * }
-     * <p>
+     * 
      * static GActionGroup *
      * create_action_group (void)
      * {
@@ -63,13 +63,13 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
      *     { "print-string", activate_print_string, "s" }
      *   };
      *   GSimpleActionGroup *group;
-     * <p>
+     * 
      *   group = g_simple_action_group_new ();
      *   g_action_map_add_action_entries (G_ACTION_MAP (group), entries, G_N_ELEMENTS (entries), NULL);
-     * <p>
+     * 
      *   return G_ACTION_GROUP (group);
      * }
-     * ]|
+     * }</pre>
      */
     public default void addActionEntries(ActionEntry[] entries, int nEntries, java.lang.foreign.MemoryAddress userData) {
         gtk_h.g_action_map_add_action_entries(handle(), Interop.allocateNativeArray(entries).handle(), nEntries, userData);
@@ -78,7 +78,7 @@ public interface ActionMap extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Looks up the action with the name {@code action_name} in {@code action_map}.
      * <p>
-     * If no such action exists, returns <code>null</code>.
+     * If no such action exists, returns {@code null}.
      */
     public default Action lookupAction(java.lang.String actionName) {
         var RESULT = gtk_h.g_action_map_lookup_action(handle(), Interop.allocateNativeString(actionName).handle());

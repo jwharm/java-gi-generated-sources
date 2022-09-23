@@ -13,4 +13,8 @@ public class ListBoxRowClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ListBoxRowClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkListBoxRowClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

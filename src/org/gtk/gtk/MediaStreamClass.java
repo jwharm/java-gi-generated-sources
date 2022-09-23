@@ -13,4 +13,8 @@ public class MediaStreamClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MediaStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkMediaStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

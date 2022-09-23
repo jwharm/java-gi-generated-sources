@@ -107,7 +107,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     
     /**
      * Sets {@code filter_iter} to point to the row in {@code filter} that corresponds to the
-     * row pointed at by {@code child_iter}.  If {@code filter_iter} was not set, <code>false</code> is
+     * row pointed at by {@code child_iter}.  If {@code filter_iter} was not set, {@code false} is
      * returned.
      */
     public boolean convertChildIterToIter(TreeIter filterIter, TreeIter childIter) {
@@ -119,7 +119,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Converts {@code child_path} to a path relative to {@code filter}. That is, {@code child_path}
      * points to a path in the child model. The rerturned path will point to the
      * same row in the filtered model. If {@code child_path} isn’t a valid path on the
-     * child model or points to a row which is not visible in {@code filter}, then <code>null</code>
+     * child model or points to a row which is not visible in {@code filter}, then {@code null}
      * is returned.
      */
     public TreePath convertChildPathToPath(TreePath childPath) {
@@ -138,7 +138,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Converts {@code filter_path} to a path on the child model of {@code filter}. That is,
      * {@code filter_path} points to a location in {@code filter}. The returned path will
      * point to the same location in the model not being filtered. If {@code filter_path}
-     * does not point to a location in the child model, <code>null</code> is returned.
+     * does not point to a location in the child model, {@code null} is returned.
      */
     public TreePath convertPathToChildPath(TreePath filterPath) {
         var RESULT = gtk_h.gtk_tree_model_filter_convert_path_to_child_path(handle(), filterPath.handle());
@@ -191,7 +191,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     /**
      * Sets {@code column} of the child_model to be the column where {@code filter} should
      * look for visibility information. {@code columns} should be a column of type
-     * {@code G_TYPE_BOOLEAN}, where <code>true</code> means that a row is visible, and <code>false</code>
+     * {@code G_TYPE_BOOLEAN}, where {@code true} means that a row is visible, and {@code false}
      * if not.
      * <p>
      * Note that gtk_tree_model_filter_set_visible_func() or
@@ -204,8 +204,8 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
     
     /**
      * Sets the visible function used when filtering the {@code filter} to be {@code func}.
-     * The function should return <code>true</code> if the given row should be visible and
-     * <code>false</code> otherwise.
+     * The function should return {@code true} if the given row should be visible and
+     * {@code false} otherwise.
      * <p>
      * If the condition calculated by the function changes over time (e.g.
      * because it depends on some global parameters), you must call
@@ -216,7 +216,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * be empty. The visible function should therefore take special care of empty
      * rows, like in the example below.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static gboolean
      * visible_func (GtkTreeModel *model,
      *               GtkTreeIter  *iter,
@@ -225,15 +225,15 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      *   // Visible if row is non-empty and first column is “HI”
      *   char *str;
      *   gboolean visible = FALSE;
-     * <p>
+     * 
      *   gtk_tree_model_get (model, iter, 0, &str, -1);
      *   if (str && strcmp (str, "HI") == 0)
      *     visible = TRUE;
      *   g_free (str);
-     * <p>
+     * 
      *   return visible;
      * }
-     * ]|
+     * }</pre>
      * <p>
      * Note that gtk_tree_model_filter_set_visible_func() or
      * gtk_tree_model_filter_set_visible_column() can only be called

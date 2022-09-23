@@ -16,6 +16,10 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Hook() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GHook.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Compares the ids of two {@link Hook} elements, returning a negative value
      * if the second id is greater than the first.
@@ -112,7 +116,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns the {@link Hook} with the given id, or <code>null</code> if it is not found.
+     * Returns the {@link Hook} with the given id, or {@code null} if it is not found.
      */
     public static Hook get(HookList hookList, long hookId) {
         var RESULT = gtk_h.g_hook_get(hookList.handle(), hookId);
@@ -130,7 +134,7 @@ public class Hook extends io.github.jwharm.javagi.ResourceBase {
      * Returns the next {@link Hook} in a {@link HookList} which has not been destroyed.
      * The reference count for the {@link Hook} is incremented, so you must call
      * g_hook_unref() to restore it when no longer needed. (Or continue to call
-     * g_hook_next_valid() until <code>null</code> is returned.)
+     * g_hook_next_valid() until {@code null} is returned.)
      */
     public static Hook nextValid(HookList hookList, Hook hook, boolean mayBeInCall) {
         var RESULT = gtk_h.g_hook_next_valid(hookList.handle(), hook.handle(), mayBeInCall ? 1 : 0);

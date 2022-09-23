@@ -31,7 +31,7 @@ public class CairoContext extends DrawContext {
      * of {@code context}.
      * <p>
      * A call to {@link DrawContext#beginFrame} with this
-     * {@code context} must have been done or this function will return <code>null</code>.
+     * {@code context} must have been done or this function will return {@code null}.
      * <p>
      * The returned context is guaranteed to be valid until
      * {@link DrawContext#endFrame} is called.

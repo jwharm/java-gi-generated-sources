@@ -32,7 +32,7 @@ package org.gtk.gobject;
  * An example may help to correspond the intend of the different class
  * initializers:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  * typedef struct {
  *   GObjectClass parent_class;
  *   gint         static_integer;
@@ -53,7 +53,7 @@ package org.gtk.gobject;
  * {
  *   class->static_integer = 42;
  * }
- * <p>
+ * 
  * typedef struct {
  *   TypeAClass   parent_class;
  *   gfloat       static_float;
@@ -74,7 +74,7 @@ package org.gtk.gobject;
  * {
  *   class->static_float = 3.14159265358979323846;
  * }
- * ]|
+ * }</pre>
  * <p>
  * Initialization of TypeBClass will first cause initialization of
  * TypeAClass (derived classes reference their parent classes, see

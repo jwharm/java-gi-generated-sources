@@ -13,4 +13,8 @@ public class OrientableIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public OrientableIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkOrientableIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

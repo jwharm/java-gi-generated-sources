@@ -24,7 +24,7 @@ import java.lang.invoke.*;
  * the interface method directly, instead it will be used automatically
  * in various ways. For C applications you generally just call
  * g_initable_new() directly, or indirectly via a foo_thing_new() wrapper.
- * This will call g_initable_init() under the cover, returning <code>null</code> and
+ * This will call g_initable_init() under the cover, returning {@code null} and
  * setting a {@link org.gtk.glib.Error} on failure (at which point the instance is
  * unreferenced).
  * <p>
@@ -44,10 +44,10 @@ public interface Initable extends io.github.jwharm.javagi.NativeAddress {
      * The object must be initialized before any real use after initial
      * construction, either with this function or g_async_initable_init_async().
      * <p>
-     * Implementations may also support cancellation. If {@code cancellable} is not <code>null</code>,
+     * Implementations may also support cancellation. If {@code cancellable} is not {@code null},
      * then initialization can be cancelled by triggering the cancellable object
      * from another thread. If the operation was cancelled, the error
-     * {@link IOErrorEnum#CANCELLED} will be returned. If {@code cancellable} is not <code>null</code> and
+     * {@link IOErrorEnum#CANCELLED} will be returned. If {@code cancellable} is not {@code null} and
      * the object doesn't support cancellable initialization the error
      * {@link IOErrorEnum#NOT_SUPPORTED} will be returned.
      * <p>
@@ -87,7 +87,7 @@ public interface Initable extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Helper function for constructing {@link Initable} object. This is
      * similar to g_object_new_valist() but also initializes the object
-     * and returns <code>null</code>, setting an error on failure.
+     * and returns {@code null}, setting an error on failure.
      */
     public static org.gtk.gobject.Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

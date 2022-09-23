@@ -67,7 +67,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Gets information about the method call, if any.
      * <p>
      * If this method invocation is a property Get, Set or GetAll call that
-     * has been redirected to the method call handler then <code>null</code> will be
+     * has been redirected to the method call handler then {@code null} will be
      * returned.  See g_dbus_method_invocation_get_property_info() and
      * {@link DBusInterfaceVTable} for more information.
      */
@@ -112,7 +112,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * <p>
      * See {@link DBusInterfaceVTable} for more information.
      * <p>
-     * If the call was GetAll, <code>null</code> will be returned.
+     * If the call was GetAll, {@code null} will be returned.
      */
     public DBusPropertyInfo getPropertyInfo() {
         var RESULT = gtk_h.g_dbus_method_invocation_get_property_info(handle());
@@ -188,23 +188,23 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * It is an error if {@code parameters} is not of the right format: it must be a tuple
      * containing the out-parameters of the D-Bus method. Even if the method has a
      * single out-parameter, it must be contained in a tuple. If the method has no
-     * out-parameters, {@code parameters} may be <code>null</code> or an empty tuple.
+     * out-parameters, {@code parameters} may be {@code null} or an empty tuple.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * GDBusMethodInvocation *invocation = some_invocation;
      * g_autofree gchar *result_string = NULL;
      * g_autoptr (GError) error = NULL;
-     * <p>
+     * 
      * result_string = calculate_result (&error);
-     * <p>
+     * 
      * if (error != NULL)
      *   g_dbus_method_invocation_return_gerror (invocation, error);
      * else
      *   g_dbus_method_invocation_return_value (invocation,
      *                                          g_variant_new ("(s)", result_string));
-     * <p>
-     * // Do not free {@code invocation} here; returning a value does that
-     * ]|
+     * 
+     * // Do not free @invocation here; returning a value does that
+     * }</pre>
      * <p>
      * This method will take ownership of {@code invocation}. See
      * {@link DBusInterfaceVTable} for more information about the ownership of

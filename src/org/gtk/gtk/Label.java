@@ -207,7 +207,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a new label with the given text inside it.
      * <p>
-     * You can pass <code>null</code> to get an empty label widget.
+     * You can pass {@code null} to get an empty label widget.
      */
     public Label(java.lang.String str) {
         super(constructNew(str));
@@ -575,7 +575,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * }</pre>
      * <p>
      * This function will set the {@code Gtk.Label:use-markup} property
-     * to <code>true</code> as a side effect.
+     * to {@code true} as a side effect.
      * <p>
      * If you set the label contents using the {@code Gtk.Label:label}
      * property you should also ensure that you set the
@@ -665,11 +665,11 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * It overwrites any text that was there before.
      * <p>
      * This function will clear any previously set mnemonic accelerators,
-     * and set the {@code Gtk.Label:use-underline property} to <code>false</code> as
+     * and set the {@code Gtk.Label:use-underline property} to {@code false} as
      * a side effect.
      * <p>
      * This function will set the {@code Gtk.Label:use-markup} property
-     * to <code>false</code> as a side effect.
+     * to {@code false} as a side effect.
      * <p>
      * See also: {@link Label#setMarkup}
      */
@@ -715,11 +715,11 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Toggles line wrapping within the {@code GtkLabel} widget.
      * <p>
-     * <code>true</code> makes it break lines if text exceeds the widget’s size.
-     * <code>false</code> lets the text get cut off by the edge of the widget if
+     * {@code true} makes it break lines if text exceeds the widget’s size.
+     * {@code false} lets the text get cut off by the edge of the widget if
      * it exceeds the widget size.
      * <p>
-     * Note that setting line wrapping to <code>true</code> does not make the label
+     * Note that setting line wrapping to {@code true} does not make the label
      * wrap at its parent container’s width, because GTK widgets
      * conceptually can’t make their requisition depend on the parent
      * container’s size. For a label that wraps at a specific position,

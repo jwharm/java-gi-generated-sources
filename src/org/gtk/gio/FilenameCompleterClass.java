@@ -13,4 +13,8 @@ public class FilenameCompleterClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public FilenameCompleterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFilenameCompleterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

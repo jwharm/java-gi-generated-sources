@@ -57,7 +57,7 @@ public class GestureSingle extends Gesture {
      * Returns the event sequence currently interacting with {@code gesture}.
      * <p>
      * This is only meaningful if {@link Gesture#isActive}
-     * returns <code>true</code>.
+     * returns {@code true}.
      */
     public org.gtk.gdk.EventSequence getCurrentSequence() {
         var RESULT = gtk_h.gtk_gesture_single_get_current_sequence(handle());
@@ -75,7 +75,7 @@ public class GestureSingle extends Gesture {
     }
     
     /**
-     * Returns <code>true</code> if the gesture is only triggered by touch events.
+     * Returns {@code true} if the gesture is only triggered by touch events.
      */
     public boolean getTouchOnly() {
         var RESULT = gtk_h.gtk_gesture_single_get_touch_only(handle());
@@ -107,8 +107,8 @@ public class GestureSingle extends Gesture {
     /**
      * Sets whether to handle only touch events.
      * <p>
-     * If {@code touch_only} is <code>true</code>, {@code gesture} will only handle events of type
-     * {@link org.gtk.gdk.EventType#TOUCH_BEGIN}, {@link org.gtk.gdk.EventType#TOUCH_UPDATE} or {@link org.gtk.gdk.EventType#TOUCH_END}. If <code>false</code>,
+     * If {@code touch_only} is {@code true}, {@code gesture} will only handle events of type
+     * {@link org.gtk.gdk.EventType#TOUCH_BEGIN}, {@link org.gtk.gdk.EventType#TOUCH_UPDATE} or {@link org.gtk.gdk.EventType#TOUCH_END}. If {@code false},
      * mouse events will be handled too.
      */
     public void setTouchOnly(boolean touchOnly) {

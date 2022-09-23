@@ -80,7 +80,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Given a {@code PangoAttrList} and callback function, removes
-     * any elements of {@code list} for which {@code func} returns <code>true</code> and
+     * any elements of {@code list} for which {@code func} returns {@code true} and
      * inserts them into a new list.
      */
     public AttrList filter(AttrFilterFunc func) {

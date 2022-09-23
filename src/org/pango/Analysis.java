@@ -17,4 +17,8 @@ public class Analysis extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Analysis() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.PangoAnalysis.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

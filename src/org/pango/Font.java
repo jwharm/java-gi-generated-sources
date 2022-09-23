@@ -67,7 +67,7 @@ public class Font extends org.gtk.gobject.Object {
      * the font map, so if all references to font map are
      * dropped, the font map will be finalized even if there
      * are fonts created with the font map that are still alive.
-     * In that case this function will return <code>null</code>.
+     * In that case this function will return {@code null}.
      * <p>
      * It is the responsibility of the user to ensure that the
      * font map is kept alive. In most uses this is not an issue
@@ -88,7 +88,7 @@ public class Font extends org.gtk.gobject.Object {
      * from the extents rectangle to more traditional font metrics. The units
      * of the rectangles are in 1/PANGO_SCALE of a device unit.
      * <p>
-     * If {@code font} is <code>null</code>, this function gracefully sets some sane values in the
+     * If {@code font} is {@code null}, this function gracefully sets some sane values in the
      * output variables and returns.
      */
     public void getGlyphExtents(Glyph glyph, Rectangle inkRect, Rectangle logicalRect) {
@@ -114,7 +114,7 @@ public class Font extends org.gtk.gobject.Object {
      * a language tag can be provided to indicate that the metrics should be
      * retrieved that correspond to the script(s) used by that language.
      * <p>
-     * If {@code font} is <code>null</code>, this function gracefully sets some sane values in the
+     * If {@code font} is {@code null}, this function gracefully sets some sane values in the
      * output variables and returns.
      */
     public FontMetrics getMetrics(Language language) {

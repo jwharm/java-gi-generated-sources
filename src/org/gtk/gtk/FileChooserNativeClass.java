@@ -13,4 +13,8 @@ public class FileChooserNativeClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public FileChooserNativeClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFileChooserNativeClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

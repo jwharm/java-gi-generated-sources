@@ -16,4 +16,8 @@ public class AatLayoutFeatureSelectorInfoT extends io.github.jwharm.javagi.Resou
         super(reference);
     }
     
+    public AatLayoutFeatureSelectorInfoT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_aat_layout_feature_selector_info_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

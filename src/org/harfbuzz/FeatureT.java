@@ -20,8 +20,12 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FeatureT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_feature_t.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
-     * Converts a {@link feature_t} into a <code>null</code>-terminated string in the format
+     * Converts a {@link feature_t} into a {@code null}-terminated string in the format
      * understood by hb_feature_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */

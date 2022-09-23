@@ -25,9 +25,9 @@ import java.lang.invoke.*;
  * For instance, if you want to create a {@link Variant} holding an integer value you
  * can use:
  * <p>
- * |[&lt;!-- language="C" --&gt;
+ * <pre>{@code <!-- language="C" -->
  *   GVariant *v = g_variant_new ("u", 40);
- * ]|
+ * }</pre>
  * <p>
  * The string "u" in the first argument tells {@link Variant} that the data passed to
  * the constructor (40) is going to be an unsigned integer.
@@ -265,13 +265,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link Variant} array from {@code children}.
      * <p>
-     * {@code child_type} must be non-<code>null</code> if {@code n_children} is zero.  Otherwise, the
+     * {@code child_type} must be non-{@code null} if {@code n_children} is zero.  Otherwise, the
      * child type is determined by inspecting the first element of the
-     * {@code children} array.  If {@code child_type} is non-<code>null</code> then it must be a
+     * {@code children} array.  If {@code child_type} is non-{@code null} then it must be a
      * definite type.
      * <p>
      * The items of the array are taken from the {@code children} array.  No entry
-     * in the {@code children} array may be <code>null</code>.
+     * in the {@code children} array may be {@code null}.
      * <p>
      * All items in the array must have the same type, which must be the
      * same as {@code child_type}, if given.
@@ -289,7 +289,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Creates a new boolean {@link Variant} instance -- either <code>true</code> or <code>false</code>.
+     * Creates a new boolean {@link Variant} instance -- either {@code true} or {@code false}.
      */
     public static Variant newBoolean(boolean value) {
         return new Variant(constructNewBoolean(value));
@@ -333,7 +333,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Constructs an array of bytestring {@link Variant} from the given array of
      * strings.
      * <p>
-     * If {@code length} is -1 then {@code strv} is <code>null</code>-terminated.
+     * If {@code length} is -1 then {@code strv} is {@code null}-terminated.
      */
     public static Variant newBytestringArray(java.lang.String[] strv, long length) {
         return new Variant(constructNewBytestringArray(strv, length));
@@ -346,7 +346,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new dictionary entry {@link Variant}. {@code key} and {@code value} must be
-     * non-<code>null</code>. {@code key} must be a value of a basic type (ie: not a container).
+     * non-{@code null}. {@code key} must be a value of a basic type (ie: not a container).
      * <p>
      * If the {@code key} or {@code value} are floating references (see g_variant_ref_sink()),
      * the new instance takes ownership of them as if via g_variant_ref_sink().
@@ -429,10 +429,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * the result is undefined.
      * <p>
      * If {@code data} is trusted to be serialized data in normal form then
-     * {@code trusted} should be <code>true</code>.  This applies to serialized data created
+     * {@code trusted} should be {@code true}.  This applies to serialized data created
      * within this process or read from a trusted location on the disk (such
      * as a file installed in /usr/lib alongside your application).  You
-     * should set trusted to <code>false</code> if {@code data} is read from the network, a
+     * should set trusted to {@code false} if {@code data} is read from the network, a
      * file in the user's home directory, etc.
      * <p>
      * If {@code data} was not stored in this machine's native endianness, any multi-byte
@@ -510,12 +510,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Depending on if {@code child} is <code>null</code>, either wraps {@code child} inside of a
+     * Depending on if {@code child} is {@code null}, either wraps {@code child} inside of a
      * maybe container or creates a Nothing instance for the given {@code type}.
      * <p>
-     * At least one of {@code child_type} and {@code child} must be non-<code>null</code>.
-     * If {@code child_type} is non-<code>null</code> then it must be a definite type.
-     * If they are both non-<code>null</code> then {@code child_type} must be the type
+     * At least one of {@code child_type} and {@code child} must be non-{@code null}.
+     * If {@code child_type} is non-{@code null} then it must be a definite type.
+     * If they are both non-{@code null} then {@code child_type} must be the type
      * of {@code child}.
      * <p>
      * If {@code child} is a floating reference (see g_variant_ref_sink()), the new
@@ -551,7 +551,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Each string must be a valid {@link Variant} object path; see
      * g_variant_is_object_path().
      * <p>
-     * If {@code length} is -1 then {@code strv} is <code>null</code>-terminated.
+     * If {@code length} is -1 then {@code strv} is {@code null}-terminated.
      */
     public static Variant newObjv(java.lang.String[] strv, long length) {
         return new Variant(constructNewObjv(strv, length));
@@ -611,8 +611,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a string {@link Variant} with the contents of {@code string}.
      * <p>
-     * {@code string} must be valid UTF-8, and must not be <code>null</code>. To encode
-     * potentially-<code>null</code> strings, use g_variant_new() with {@code ms} as the
+     * {@code string} must be valid UTF-8, and must not be {@code null}. To encode
+     * potentially-{@code null} strings, use g_variant_new() with {@code ms} as the
      * [format string][gvariant-format-strings-maybe-types].
      */
     public static Variant newString(java.lang.String string) {
@@ -628,7 +628,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * Constructs an array of strings {@link Variant} from the given array of
      * strings.
      * <p>
-     * If {@code length} is -1 then {@code strv} is <code>null</code>-terminated.
+     * If {@code length} is -1 then {@code strv} is {@code null}-terminated.
      */
     public static Variant newStrv(java.lang.String[] strv, long length) {
         return new Variant(constructNewStrv(strv, length));
@@ -642,8 +642,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a string {@link Variant} with the contents of {@code string}.
      * <p>
-     * {@code string} must be valid UTF-8, and must not be <code>null</code>. To encode
-     * potentially-<code>null</code> strings, use this with g_variant_new_maybe().
+     * {@code string} must be valid UTF-8, and must not be {@code null}. To encode
+     * potentially-{@code null} strings, use this with g_variant_new_maybe().
      * <p>
      * This function consumes {@code string}.  g_free() will be called on {@code string}
      * when it is no longer required.
@@ -664,7 +664,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new tuple {@link Variant} out of the items in {@code children}.  The
      * type is determined from the types of {@code children}.  No entry in the
-     * {@code children} array may be <code>null</code>.
+     * {@code children} array may be {@code null}.
      * <p>
      * If {@code n_children} is 0 then the unit tuple is constructed.
      * <p>
@@ -725,8 +725,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * of possible uses.
      * <p>
      * {@code format_string} must still point to a valid format string, but it only
-     * needs to be nul-terminated if {@code endptr} is <code>null</code>.  If {@code endptr} is
-     * non-<code>null</code> then it is updated to point to the first character past the
+     * needs to be nul-terminated if {@code endptr} is {@code null}.  If {@code endptr} is
+     * non-{@code null} then it is updated to point to the first character past the
      * end of the format string.
      * <p>
      * {@code app} is a pointer to a {@code va_list}.  The arguments, according to
@@ -797,12 +797,12 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * be valid from a type-compatibility standpoint.  {@code format_string} is
      * assumed to be a valid format string (from a syntactic standpoint).
      * <p>
-     * If {@code copy_only} is <code>true</code> then this function additionally checks that it
+     * If {@code copy_only} is {@code true} then this function additionally checks that it
      * would be safe to call g_variant_unref() on {@code value} immediately after
      * the call to g_variant_get() without invalidating the result.  This is
      * only possible if deep copies are made (ie: there are no pointers to
      * the data inside of the soon-to-be-freed {@link Variant} instance).  If this
-     * check fails then a g_critical() is printed and <code>false</code> is returned.
+     * check fails then a g_critical() is printed and {@code false} is returned.
      * <p>
      * This function is meant to be used by functions that wish to provide
      * varargs accessors to {@link Variant} values of uncertain values (eg:
@@ -829,7 +829,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * {@link Variant}.
      * <p>
      * Comparison is only defined for basic types (ie: booleans, numbers,
-     * strings).  For booleans, <code>false</code> is less than <code>true</code>.  Numbers are
+     * strings).  For booleans, {@code false} is less than {@code true}.  Numbers are
      * ordered in the usual way.  Strings are in ASCII lexographical order.
      * <p>
      * It is a programmer error to attempt to compare container values or
@@ -917,10 +917,10 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * valid for as long as {@code value} exists.
      * <p>
      * If {@code value} is a fixed-sized value that was deserialized from a
-     * corrupted serialized container then <code>null</code> may be returned.  In this
+     * corrupted serialized container then {@code null} may be returned.  In this
      * case, the proper thing to do is typically to use the appropriate
      * number of nul bytes in place of {@code value}.  If {@code value} is not fixed-sized
-     * then <code>null</code> is never returned.
+     * then {@code null} is never returned.
      * <p>
      * In the case that {@code value} is already in serialized form, this function
      * is O(1).  If the value is not already in serialized form,
@@ -1014,7 +1014,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Given a maybe-typed {@link Variant} instance, extract its value.  If the
-     * value is Nothing, then this function returns <code>null</code>.
+     * value is Nothing, then this function returns {@code null}.
      */
     public Variant getMaybe() {
         var RESULT = gtk_h.g_variant_get_maybe(handle());
@@ -1132,8 +1132,8 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * of possible uses.
      * <p>
      * {@code format_string} must still point to a valid format string, but it only
-     * need to be nul-terminated if {@code endptr} is <code>null</code>.  If {@code endptr} is
-     * non-<code>null</code> then it is updated to point to the first character past the
+     * need to be nul-terminated if {@code endptr} is {@code null}.  If {@code endptr} is
+     * non-{@code null} then it is updated to point to the first character past the
      * end of the format string.
      * <p>
      * {@code app} is a pointer to a {@code va_list}.  The arguments, according to
@@ -1212,7 +1212,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If {@code value} is found to be in normal form then it will be marked as
      * being trusted.  If the value was already marked as being trusted then
-     * this function will immediately return <code>true</code>.
+     * this function will immediately return {@code true}.
      * <p>
      * There may be implementation specific restrictions on deeply nested values.
      * GVariant is guaranteed to handle nesting up to at least 64 levels.
@@ -1255,14 +1255,14 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * In the event that {@code dictionary} has the type a{sv}, the {@code expected_type}
      * string specifies what type of value is expected to be inside of the
      * variant. If the value inside the variant has a different type then
-     * <code>null</code> is returned. In the event that {@code dictionary} has a value type other
+     * {@code null} is returned. In the event that {@code dictionary} has a value type other
      * than v then {@code expected_type} must directly match the value type and it is
      * used to unpack the value directly or an error occurs.
      * <p>
-     * In either case, if {@code key} is not found in {@code dictionary}, <code>null</code> is returned.
+     * In either case, if {@code key} is not found in {@code dictionary}, {@code null} is returned.
      * <p>
      * If the key is found and the value has the correct type, it is
-     * returned.  If {@code expected_type} was specified then any non-<code>null</code> return
+     * returned.  If {@code expected_type} was specified then any non-{@code null} return
      * value will have this type.
      * <p>
      * This function is currently implemented with a linear scan.  If you
@@ -1296,7 +1296,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The format is described [here][gvariant-text].
      * <p>
-     * If {@code type_annotate} is <code>true</code>, then type information is included in
+     * If {@code type_annotate} is {@code true}, then type information is included in
      * the output.
      */
     public java.lang.String print(boolean typeAnnotate) {
@@ -1307,7 +1307,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Behaves as g_variant_print(), but operates on a {@link String}.
      * <p>
-     * If {@code string} is non-<code>null</code> then it is appended to and returned.  Else,
+     * If {@code string} is non-{@code null} then it is appended to and returned.  Else,
      * a new empty {@link String} is allocated and it is returned.
      */
     public String printString(String string, boolean typeAnnotate) {
@@ -1456,13 +1456,13 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * if the character at {@code limit} is the nul terminator.  This has the
      * effect of bounding {@code text}.
      * <p>
-     * If {@code endptr} is non-<code>null</code> then {@code text} is permitted to contain data
+     * If {@code endptr} is non-{@code null} then {@code text} is permitted to contain data
      * following the value that this function parses and {@code endptr} will be
      * updated to point to the first character past the end of the text
-     * parsed by this function.  If {@code endptr} is <code>null</code> and there is extra data
+     * parsed by this function.  If {@code endptr} is {@code null} and there is extra data
      * then an error is returned.
      * <p>
-     * If {@code type} is non-<code>null</code> then the value will be parsed to have that
+     * If {@code type} is non-{@code null} then the value will be parsed to have that
      * type.  This may result in additional parse errors (in the case that
      * the parsed value doesn't fit the type) but may also result in fewer
      * errors (in the case that the type would have been ambiguous, such as
@@ -1472,7 +1472,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * is returned. It is never floating, and must be freed with
      * g_variant_unref().
      * <p>
-     * In case of any error, <code>null</code> will be returned.  If {@code error} is non-<code>null</code>
+     * In case of any error, {@code null} will be returned.  If {@code error} is non-{@code null}
      * then it will be set to reflect the error that occurred.
      * <p>
      * Officially, the language understood by the parser is "any string
@@ -1500,19 +1500,19 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The message will typically look something like one of the following:
      * <p>
-     * |[
+     * <pre>{@code 
      * unterminated string constant:
      *   (1, 2, 3, 'abc
      *             ^^^^
-     * ]|
+     * }</pre>
      * <p>
      * or
      * <p>
-     * |[
+     * <pre>{@code 
      * unable to find a common type:
      *   [1, 2, 3, 'str']
      *    ^        ^^^^^
-     * ]|
+     * }</pre>
      * <p>
      * The format of the message may change in a future version.
      * <p>

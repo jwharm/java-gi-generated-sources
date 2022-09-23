@@ -13,4 +13,8 @@ public class ConstraintLayoutChildClass extends io.github.jwharm.javagi.Resource
         super(reference);
     }
     
+    public ConstraintLayoutChildClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkConstraintLayoutChildClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

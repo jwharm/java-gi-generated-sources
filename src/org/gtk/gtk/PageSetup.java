@@ -87,7 +87,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Reads the page setup from the file {@code file_name}.
      * <p>
      * Returns a new {@code GtkPageSetup} object with the restored
-     * page setup, or <code>null</code> if an error occurred.
+     * page setup, or {@code null} if an error occurred.
      * See {@link PageSetup#toFile}.
      */
     public static PageSetup newFromFile(java.lang.String fileName) throws GErrorException {
@@ -123,7 +123,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * {@code key_file}.
      * <p>
      * Returns a new {@code GtkPageSetup} object with the restored
-     * page setup, or <code>null</code> if an error occurred.
+     * page setup, or {@code null} if an error occurred.
      */
     public static PageSetup newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
         return new PageSetup(constructNewFromKeyFile(keyFile, groupName));

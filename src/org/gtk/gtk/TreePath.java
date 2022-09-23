@@ -67,7 +67,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * For example, the string “10:4:0” would create a path of depth
      * 3 pointing to the 11th child of the root node, the 5th
      * child of that 11th child, and the 1st child of that 5th child.
-     * If an invalid path string is passed in, <code>null</code> is returned.
+     * If an invalid path string is passed in, {@code null} is returned.
      */
     public static TreePath newFromString(java.lang.String path) {
         return new TreePath(constructNewFromString(path));
@@ -110,7 +110,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Frees {@code path}. If {@code path} is <code>null</code>, it simply returns.
+     * Frees {@code path}. If {@code path} is {@code null}, it simply returns.
      */
     public void free() {
         gtk_h.gtk_tree_path_free(handle());
@@ -125,7 +125,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if {@code descendant} is a descendant of {@code path}.
+     * Returns {@code true} if {@code descendant} is a descendant of {@code path}.
      */
     public boolean isAncestor(TreePath descendant) {
         var RESULT = gtk_h.gtk_tree_path_is_ancestor(handle(), descendant.handle());
@@ -133,7 +133,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
-     * Returns <code>true</code> if {@code path} is a descendant of {@code ancestor}.
+     * Returns {@code true} if {@code path} is a descendant of {@code ancestor}.
      */
     public boolean isDescendant(TreePath ancestor) {
         var RESULT = gtk_h.gtk_tree_path_is_descendant(handle(), ancestor.handle());
@@ -171,7 +171,7 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
      * This string is a “:” separated list of numbers.
      * For example, “4:10:0:3” would be an acceptable
      * return value for this string. If the path has
-     * depth 0, <code>null</code> is returned.
+     * depth 0, {@code null} is returned.
      */
     public java.lang.String toString() {
         var RESULT = gtk_h.gtk_tree_path_to_string(handle());

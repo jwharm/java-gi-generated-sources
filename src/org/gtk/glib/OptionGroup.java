@@ -53,7 +53,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the function which is used to translate user-visible strings,
      * for {@code --help} output. Different groups can use different
-     * {@code GTranslateFuncs}. If {@code func} is <code>null</code>, strings are not translated.
+     * {@code GTranslateFuncs}. If {@code func} is {@code null}, strings are not translated.
      * <p>
      * If you are using gettext(), you only need to set the translation
      * domain, see g_option_group_set_translation_domain().

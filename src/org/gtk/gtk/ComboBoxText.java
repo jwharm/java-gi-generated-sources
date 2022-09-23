@@ -102,7 +102,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Appends {@code text} to the list of strings stored in {@code combo_box}.
      * <p>
-     * If {@code id} is non-<code>null</code> then it is used as the ID of the row.
+     * If {@code id} is non-{@code null} then it is used as the ID of the row.
      * <p>
      * This is the same as calling {@link ComboBoxText#insert}
      * with a position of -1.
@@ -124,7 +124,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Returns the currently active string in {@code combo_box}.
      * <p>
-     * If no row is currently selected, <code>null</code> is returned.
+     * If no row is currently selected, {@code null} is returned.
      * If {@code combo_box} contains an entry, this function will
      * return its contents (which will not necessarily
      * be an item from the list).
@@ -137,7 +137,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Inserts {@code text} at {@code position} in the list of strings stored in {@code combo_box}.
      * <p>
-     * If {@code id} is non-<code>null</code> then it is used as the ID of the row.
+     * If {@code id} is non-{@code null} then it is used as the ID of the row.
      * See {@code Gtk.ComboBox:id-column}.
      * <p>
      * If {@code position} is negative then {@code text} is appended.
@@ -152,7 +152,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * If {@code position} is negative then {@code text} is appended.
      * <p>
      * This is the same as calling {@link ComboBoxText#insert}
-     * with a <code>null</code> ID string.
+     * with a {@code null} ID string.
      */
     public void insertText(int position, java.lang.String text) {
         gtk_h.gtk_combo_box_text_insert_text(handle(), position, Interop.allocateNativeString(text).handle());
@@ -161,7 +161,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Prepends {@code text} to the list of strings stored in {@code combo_box}.
      * <p>
-     * If {@code id} is non-<code>null</code> then it is used as the ID of the row.
+     * If {@code id} is non-{@code null} then it is used as the ID of the row.
      * <p>
      * This is the same as calling {@link ComboBoxText#insert}
      * with a position of 0.

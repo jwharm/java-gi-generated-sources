@@ -16,4 +16,8 @@ public class NetworkMonitorInterface extends io.github.jwharm.javagi.ResourceBas
         super(reference);
     }
     
+    public NetworkMonitorInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GNetworkMonitorInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

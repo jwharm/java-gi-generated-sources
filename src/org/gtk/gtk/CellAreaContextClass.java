@@ -13,4 +13,8 @@ public class CellAreaContextClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CellAreaContextClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCellAreaContextClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

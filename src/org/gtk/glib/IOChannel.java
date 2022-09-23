@@ -57,7 +57,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * to the {@link IOChannel} data structure is dropped.
      * <p>
      * If you want to read raw binary data without interpretation, then
-     * call the g_io_channel_set_encoding() function with <code>null</code> for the
+     * call the g_io_channel_set_encoding() function with {@code null} for the
      * encoding argument.
      * <p>
      * This function is available in GLib on Windows, too, but you should
@@ -112,8 +112,8 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns whether the file/socket/whatever associated with {@code channel}
      * will be closed when {@code channel} receives its final unref and is
-     * destroyed. The default value of this is <code>true</code> for channels created
-     * by g_io_channel_new_file (), and <code>false</code> for all other channels.
+     * destroyed. The default value of this is {@code true} for channels created
+     * by g_io_channel_new_file (), and {@code false} for all other channels.
      */
     public boolean getCloseOnUnref() {
         var RESULT = gtk_h.g_io_channel_get_close_on_unref(handle());
@@ -122,7 +122,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Gets the encoding for the input/output of the channel.
-     * The internal encoding is always UTF-8. The encoding <code>null</code>
+     * The internal encoding is always UTF-8. The encoding {@code null}
      * makes the channel safe for binary data.
      */
     public java.lang.String getEncoding() {
@@ -186,7 +186,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * The buffering state can only be set if the channel's encoding
-     * is <code>null</code>. For any other encoding, the channel must be buffered.
+     * is {@code null}. For any other encoding, the channel must be buffered.
      * <p>
      * A buffered channel can only be set unbuffered if the channel's
      * internal buffers have been flushed. Newly created channels or
@@ -211,10 +211,10 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Whether to close the channel on the final unref of the {@link IOChannel}
-     * data structure. The default value of this is <code>true</code> for channels
-     * created by g_io_channel_new_file (), and <code>false</code> for all other channels.
+     * data structure. The default value of this is {@code true} for channels
+     * created by g_io_channel_new_file (), and {@code false} for all other channels.
      * <p>
-     * Setting this flag to <code>true</code> for a channel you have already closed
+     * Setting this flag to {@code true} for a channel you have already closed
      * can cause problems when the final reference to the {@link IOChannel} is dropped.
      */
     public void setCloseOnUnref(boolean doClose) {
@@ -226,7 +226,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * The internal encoding is always UTF-8. The default encoding
      * for the external file is UTF-8.
      * <p>
-     * The encoding <code>null</code> is safe to use with binary data.
+     * The encoding {@code null} is safe to use with binary data.
      * <p>
      * The encoding can only be set if one of the following conditions
      * is true:
@@ -246,7 +246,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * </ul>
      * <p>
      * <ul>
-     * <li>The current encoding is <code>null</code> or UTF-8.
+     * <li>The current encoding is {@code null} or UTF-8.
      * </ul>
      * <p>
      * <ul>
@@ -300,7 +300,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Close an IO channel. Any pending data to be written will be
-     * flushed if {@code flush} is <code>true</code>. The channel will not be freed until the
+     * flushed if {@code flush} is {@code true}. The channel will not be freed until the
      * last reference is dropped using g_io_channel_unref().
      */
     public IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.GErrorException {
@@ -332,7 +332,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Writes a Unicode character to {@code channel}.
-     * This function cannot be called on a channel with <code>null</code> encoding.
+     * This function cannot be called on a channel with {@code null} encoding.
      */
     public IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

@@ -6,7 +6,7 @@ package org.gtk.gobject;
  * during a signal emission.
  * <p>
  * The signal accumulator is specified at signal creation time, if it is
- * left <code>null</code>, no accumulation of callback return values is performed.
+ * left {@code null}, no accumulation of callback return values is performed.
  * The return value of signal emissions is then the value returned by the
  * last callback.
  */

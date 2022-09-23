@@ -16,4 +16,8 @@ public class DtlsServerConnectionInterface extends io.github.jwharm.javagi.Resou
         super(reference);
     }
     
+    public DtlsServerConnectionInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDtlsServerConnectionInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

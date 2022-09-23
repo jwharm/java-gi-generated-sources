@@ -13,4 +13,8 @@ public class PixbufLoaderClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PixbufLoaderClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufLoaderClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -18,7 +18,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
     /**
      * Checks if {@code stream} is actually pollable. Some classes may implement
      * {@link PollableOutputStream} but have only certain instances of that
-     * class be pollable. If this method returns <code>false</code>, then the behavior
+     * class be pollable. If this method returns {@code false}, then the behavior
      * of other {@link PollableOutputStream} methods is undefined.
      * <p>
      * For any given stream, the value returned by this method is constant;
@@ -49,7 +49,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
      * <p>
      * Note that some stream types may not be able to implement this 100%
      * reliably, and it is possible that a call to g_output_stream_write()
-     * after this returns <code>true</code> would still block. To guarantee
+     * after this returns {@code true} would still block. To guarantee
      * non-blocking behavior, you should always use
      * g_pollable_output_stream_write_nonblocking(), which will return a
      * {@link IOErrorEnum#WOULD_BLOCK} error rather than blocking.

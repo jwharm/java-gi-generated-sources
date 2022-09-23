@@ -20,6 +20,10 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PixbufFormat() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufFormat.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Creates a copy of {@code format}.
      */

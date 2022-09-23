@@ -13,4 +13,8 @@ public class Simd4X4F extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public Simd4X4F() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.graphene_simd4x4f_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

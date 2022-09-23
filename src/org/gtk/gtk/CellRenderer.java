@@ -215,7 +215,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     
     /**
      * Informs the cell renderer that the editing is stopped.
-     * If {@code canceled} is <code>true</code>, the cell renderer will emit the
+     * If {@code canceled} is {@code true}, the cell renderer will emit the
      * {@code GtkCellRenderer}::editing-canceled signal.
      * <p>
      * This function should be called by cell renderer implementations
@@ -271,7 +271,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * continue to use the same kind of widget for editing in future
      * releases, therefore you should check the type of {@code editable}
      * before doing any specific setup, as in the following example:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void
      * text_editing_started (GtkCellRenderer *cell,
      *                       GtkCellEditable *editable,
@@ -287,7 +287,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      *       gtk_entry_set_completion (entry, completion);
      *     }
      * }
-     * ]|
+     * }</pre>
      */
     public SignalHandle onEditingStarted(EditingStartedHandler handler) {
         try {

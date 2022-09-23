@@ -18,4 +18,8 @@ public class TlsDatabaseClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TlsDatabaseClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTlsDatabaseClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

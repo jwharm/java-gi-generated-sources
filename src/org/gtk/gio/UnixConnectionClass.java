@@ -13,4 +13,8 @@ public class UnixConnectionClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public UnixConnectionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GUnixConnectionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

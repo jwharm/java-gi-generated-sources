@@ -73,7 +73,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Gets the center widget, or <code>null</code> if there is none.
+     * Gets the center widget, or {@code null} if there is none.
      */
     public Widget getCenterWidget() {
         var RESULT = gtk_h.gtk_center_box_get_center_widget(handle());
@@ -81,7 +81,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Gets the end widget, or <code>null</code> if there is none.
+     * Gets the end widget, or {@code null} if there is none.
      */
     public Widget getEndWidget() {
         var RESULT = gtk_h.gtk_center_box_get_end_widget(handle());
@@ -89,7 +89,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     }
     
     /**
-     * Gets the start widget, or <code>null</code> if there is none.
+     * Gets the start widget, or {@code null} if there is none.
      */
     public Widget getStartWidget() {
         var RESULT = gtk_h.gtk_center_box_get_start_widget(handle());
@@ -112,7 +112,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the center widget.
      * <p>
-     * To remove the existing center widget, pas <code>null</code>.
+     * To remove the existing center widget, pas {@code null}.
      */
     public void setCenterWidget(Widget child) {
         gtk_h.gtk_center_box_set_center_widget(handle(), child.handle());
@@ -121,7 +121,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the end widget.
      * <p>
-     * To remove the existing end widget, pass <code>null</code>.
+     * To remove the existing end widget, pass {@code null}.
      */
     public void setEndWidget(Widget child) {
         gtk_h.gtk_center_box_set_end_widget(handle(), child.handle());
@@ -130,7 +130,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the start widget.
      * <p>
-     * To remove the existing start widget, pass <code>null</code>.
+     * To remove the existing start widget, pass {@code null}.
      */
     public void setStartWidget(Widget child) {
         gtk_h.gtk_center_box_set_start_widget(handle(), child.handle());

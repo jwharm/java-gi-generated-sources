@@ -16,12 +16,12 @@ import java.lang.invoke.*;
  * 1. The type is initially introduced (usually upon loading the module
  *    the first time, or by your main application that knows what modules
  *    introduces what types), like this:
- *    |[&lt;!-- language="C" --&gt;
+ *    <pre>{@code <!-- language="C" -->
  *    new_type_id = g_type_register_dynamic (parent_type_id,
  *                                           "TypeName",
  *                                           new_type_plugin,
  *                                           type_flags);
- *    ]|
+ *    }</pre>
  *    where {@code new_type_plugin} is an implementation of the
  *    {@link TypePlugin} interface.
  * <p>

@@ -77,7 +77,7 @@ public class DropTargetAsync extends EventController {
     /**
      * Gets the data formats that this drop target accepts.
      * <p>
-     * If the result is <code>null</code>, all formats are expected to be supported.
+     * If the result is {@code null}, all formats are expected to be supported.
      */
     public org.gtk.gdk.ContentFormats getFormats() {
         var RESULT = gtk_h.gtk_drop_target_async_get_formats(handle());
@@ -117,10 +117,10 @@ public class DropTargetAsync extends EventController {
     /**
      * Emitted on the drop site when a drop operation is about to begin.
      * <p>
-     * If the drop is not accepted, <code>false</code> will be returned and the drop target
-     * will ignore the drop. If <code>true</code> is returned, the drop is accepted for now
+     * If the drop is not accepted, {@code false} will be returned and the drop target
+     * will ignore the drop. If {@code true} is returned, the drop is accepted for now
      * but may be rejected later via a call to {@link DropTargetAsync#rejectDrop}
-     * or ultimately by returning <code>false</code> from a {@code Gtk.DropTargetAsync::drop}
+     * or ultimately by returning {@code false} from a {@code Gtk.DropTargetAsync::drop}
      * handler.
      * <p>
      * The default handler for this signal decides whether to accept the drop
@@ -128,7 +128,7 @@ public class DropTargetAsync extends EventController {
      * <p>
      * If the decision whether the drop will be accepted or rejected needs
      * further processing, such as inspecting the data, this function should
-     * return <code>true</code> and proceed as is {@code drop} was accepted and if it decides to
+     * return {@code true} and proceed as is {@code drop} was accepted and if it decides to
      * reject the drop later, it should call {@link DropTargetAsync#rejectDrop}.
      */
     public SignalHandle onAccept(AcceptHandler handler) {
@@ -229,10 +229,10 @@ public class DropTargetAsync extends EventController {
      * Emitted on the drop site when the user drops the data onto the widget.
      * <p>
      * The signal handler must determine whether the pointer position is in a
-     * drop zone or not. If it is not in a drop zone, it returns <code>false</code> and no
+     * drop zone or not. If it is not in a drop zone, it returns {@code false} and no
      * further processing is necessary.
      * <p>
-     * Otherwise, the handler returns <code>true</code>. In this case, this handler will
+     * Otherwise, the handler returns {@code true}. In this case, this handler will
      * accept the drop. The handler must ensure that {@link org.gtk.gdk.Drop#finish}
      * is called to let the source know that the drop is done. The call to
      * {@link org.gtk.gdk.Drop#finish} must only be done when all data has been received.

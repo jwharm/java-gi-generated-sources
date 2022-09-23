@@ -45,9 +45,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Returns the value associated with {@code key} under {@code group_name} as a
      * boolean.
      * <p>
-     * If {@code key} cannot be found then <code>false</code> is returned and {@code error} is set
+     * If {@code key} cannot be found then {@code false} is returned and {@code error} is set
      * to {@link KeyFileError#KEY_NOT_FOUND}. Likewise, if the value
-     * associated with {@code key} cannot be interpreted as a boolean then <code>false</code>
+     * associated with {@code key} cannot be interpreted as a boolean then {@code false}
      * is returned and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
     public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
@@ -61,8 +61,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Retrieves a comment above {@code key} from {@code group_name}.
-     * If {@code key} is <code>null</code> then {@code comment} will be read from above
-     * {@code group_name}. If both {@code key} and {@code group_name} are <code>null</code>, then
+     * If {@code key} is {@code null} then {@code comment} will be read from above
+     * {@code group_name}. If both {@code key} and {@code group_name} are {@code null}, then
      * {@code comment} will be read from above the first group in the file.
      * <p>
      * Note that the returned string does not include the '#' comment markers,
@@ -80,7 +80,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Returns the value associated with {@code key} under {@code group_name} as a
-     * double. If {@code group_name} is <code>null</code>, the start_group is used.
+     * double. If {@code group_name} is {@code null}, the start_group is used.
      * <p>
      * If {@code key} cannot be found then 0.0 is returned and {@code error} is set to
      * {@link KeyFileError#KEY_NOT_FOUND}. Likewise, if the value associated
@@ -148,13 +148,13 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the value associated with {@code key} under {@code group_name}
      * translated in the given {@code locale} if available.  If {@code locale} is
-     * <code>null</code> then the current locale is assumed.
+     * {@code null} then the current locale is assumed.
      * <p>
-     * If {@code locale} is to be non-<code>null</code>, or if the current locale will change over
+     * If {@code locale} is to be non-{@code null}, or if the current locale will change over
      * the lifetime of the {@link KeyFile}, it must be loaded with
      * {@link KeyFileFlags#KEEP_TRANSLATIONS} in order to load strings for all locales.
      * <p>
-     * If {@code key} cannot be found then <code>null</code> is returned and {@code error} is set
+     * If {@code key} cannot be found then {@code null} is returned and {@code error} is set
      * to {@link KeyFileError#KEY_NOT_FOUND}. If the value associated
      * with {@code key} cannot be interpreted or no suitable translation can
      * be found then the untranslated value is returned.
@@ -181,9 +181,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Unlike g_key_file_get_value(), this function handles escape sequences
      * like \\s.
      * <p>
-     * In the event the key cannot be found, <code>null</code> is returned and
+     * In the event the key cannot be found, {@code null} is returned and
      * {@code error} is set to {@link KeyFileError#KEY_NOT_FOUND}.  In the
-     * event that the {@code group_name} cannot be found, <code>null</code> is returned
+     * event that the {@code group_name} cannot be found, {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#GROUP_NOT_FOUND}.
      */
     public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
@@ -213,9 +213,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Returns the raw value associated with {@code key} under {@code group_name}.
      * Use g_key_file_get_string() to retrieve an unescaped UTF-8 string.
      * <p>
-     * In the event the key cannot be found, <code>null</code> is returned and
+     * In the event the key cannot be found, {@code null} is returned and
      * {@code error} is set to {@link KeyFileError#KEY_NOT_FOUND}.  In the
-     * event that the {@code group_name} cannot be found, <code>null</code> is returned
+     * event that the {@code group_name} cannot be found, {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#GROUP_NOT_FOUND}.
      */
     public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
@@ -242,7 +242,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Note that this function does not follow the rules for {@link Error} strictly;
      * the return value both carries meaning and signals an error.  To use
      * this function, you must pass a {@link Error} pointer in {@code error}, and check
-     * whether it is not <code>null</code> to see if an error occurred.
+     * whether it is not {@code null} to see if an error occurred.
      * <p>
      * Language bindings should use g_key_file_get_value() to test whether
      * or not a key exists.
@@ -347,8 +347,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Removes a comment above {@code key} from {@code group_name}.
-     * If {@code key} is <code>null</code> then {@code comment} will be removed above {@code group_name}.
-     * If both {@code key} and {@code group_name} are <code>null</code>, then {@code comment} will
+     * If {@code key} is {@code null} then {@code comment} will be removed above {@code group_name}.
+     * If both {@code key} and {@code group_name} are {@code null}, then {@code comment} will
      * be removed above the first group in the file.
      */
     public boolean removeComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
@@ -414,7 +414,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Associates a list of boolean values with {@code key} under {@code group_name}.
      * If {@code key} cannot be found then it is created.
-     * If {@code group_name} is <code>null</code>, the start_group is used.
+     * If {@code group_name} is {@code null}, the start_group is used.
      */
     public void setBooleanList(java.lang.String groupName, java.lang.String key, boolean[] list, long length) {
         gtk_h.g_key_file_set_boolean_list(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
@@ -423,8 +423,8 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Places a comment above {@code key} from {@code group_name}.
      * <p>
-     * If {@code key} is <code>null</code> then {@code comment} will be written above {@code group_name}.
-     * If both {@code key} and {@code group_name}  are <code>null</code>, then {@code comment} will be
+     * If {@code key} is {@code null} then {@code comment} will be written above {@code group_name}.
+     * If both {@code key} and {@code group_name}  are {@code null}, then {@code comment} will be
      * written above the first group in the file.
      * <p>
      * Note that this function prepends a '#' comment marker to

@@ -170,7 +170,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * reference to it when finished with it.
      * <p>
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) <code>null</code> is returned and {@code error} (if non-<code>null</code>) is set
+     * connectable) {@code null} is returned and {@code error} (if non-{@code null}) is set
      * accordingly.
      */
     public SocketConnection connectToHost(java.lang.String hostAndPort, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -228,7 +228,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * reference to it when finished with it.
      * <p>
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) <code>null</code> is returned and {@code error} (if non-<code>null</code>) is set
+     * connectable) {@code null} is returned and {@code error} (if non-{@code null}) is set
      * accordingly.
      */
     public SocketConnection connectToService(java.lang.String domain, java.lang.String service, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -277,7 +277,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * <p>
      * {@code uri} may be any valid URI containing an "authority" (hostname/port)
      * component. If a port is not specified in the URI, {@code default_port}
-     * will be used. TLS will be negotiated if {@link SocketClient}:tls is <code>true</code>.
+     * will be used. TLS will be negotiated if {@link SocketClient}:tls is {@code true}.
      * ({@link SocketClient} does not know to automatically assume TLS for
      * certain URI schemes.)
      * <p>
@@ -290,7 +290,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * reference to it when finished with it.
      * <p>
      * In the event of any failure (DNS error, service not found, no hosts
-     * connectable) <code>null</code> is returned and {@code error} (if non-<code>null</code>) is set
+     * connectable) {@code null} is returned and {@code error} (if non-{@code null}) is set
      * accordingly.
      */
     public SocketConnection connectToUri(java.lang.String uri, short defaultPort, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
@@ -441,7 +441,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     /**
      * Sets the local address of the socket client.
      * The sockets created by this object will bound to the
-     * specified address (if not <code>null</code>) before connecting.
+     * specified address (if not {@code null}) before connecting.
      * <p>
      * This is useful if you want to ensure that the local
      * side of the connection is on a specific port, or on
@@ -470,7 +470,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * <p>
      * Note that whether or not the proxy resolver is actually used
      * depends on the setting of {@link SocketClient}:enable-proxy, which is not
-     * changed by this function (but which is <code>true</code> by default)
+     * changed by this function (but which is {@code true} by default)
      */
     public void setProxyResolver(ProxyResolver proxyResolver) {
         gtk_h.g_socket_client_set_proxy_resolver(handle(), proxyResolver.handle());
@@ -502,7 +502,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     
     /**
      * Sets whether {@code client} creates TLS (aka SSL) connections. If {@code tls} is
-     * <code>true</code>, {@code client} will wrap its connections in a {@link TlsClientConnection}
+     * {@code true}, {@code client} will wrap its connections in a {@link TlsClientConnection}
      * and perform a TLS handshake when connecting.
      * <p>
      * Note that since {@link SocketClient} must return a {@link SocketConnection},
@@ -537,12 +537,12 @@ public class SocketClient extends org.gtk.gobject.Object {
      * <p>
      * <ul>
      * <li>{@link SocketClientEvent#RESOLVING}: {@code client} is about to look up {@code connectable}
-     *   in DNS. {@code connection} will be <code>null</code>.
+     *   in DNS. {@code connection} will be {@code null}.
      * </ul>
      * <p>
      * <ul>
      * <li>{@link SocketClientEvent#RESOLVED}:  {@code client} has successfully resolved
-     *   {@code connectable} in DNS. {@code connection} will be <code>null</code>.
+     *   {@code connectable} in DNS. {@code connection} will be {@code null}.
      * </ul>
      * <p>
      * <ul>
@@ -585,7 +585,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      * <li>{@link SocketClientEvent#COMPLETE}: {@code client} has either successfully connected
      *   to {@code connectable} (in which case {@code connection} is the {@link SocketConnection}
      *   that it will be returning to the caller) or has failed (in which
-     *   case {@code connection} is <code>null</code> and the client is about to return an error).
+     *   case {@code connection} is {@code null} and the client is about to return an error).
      * </ul>
      * <p>
      * Each event except {@link SocketClientEvent#COMPLETE} may be emitted

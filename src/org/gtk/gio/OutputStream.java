@@ -61,7 +61,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * is important to check and report the error to the user, otherwise
      * there might be a loss of data as all data might not be written.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * Cancelling a close will still leave the stream closed, but there some streams
@@ -123,7 +123,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * <p>
      * This function is optional for inherited classes.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
@@ -200,7 +200,7 @@ public class OutputStream extends org.gtk.gobject.Object {
     
     /**
      * Sets {@code stream} to have actions pending. If the pending flag is
-     * already set or {@code stream} is closed, it will return <code>false</code> and set
+     * already set or {@code stream} is closed, it will return {@code false} and set
      * {@code error}.
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {
@@ -273,7 +273,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * is written or an error occurs; 0 is never returned (unless
      * {@code count} is 0).
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the

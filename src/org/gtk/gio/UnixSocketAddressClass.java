@@ -13,4 +13,8 @@ public class UnixSocketAddressClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public UnixSocketAddressClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GUnixSocketAddressClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

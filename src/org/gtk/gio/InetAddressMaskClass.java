@@ -13,4 +13,8 @@ public class InetAddressMaskClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public InetAddressMaskClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GInetAddressMaskClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

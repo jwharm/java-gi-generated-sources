@@ -13,4 +13,8 @@ public class FileEnumeratorClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FileEnumeratorClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GFileEnumeratorClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

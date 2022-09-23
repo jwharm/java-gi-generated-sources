@@ -13,4 +13,8 @@ public class ToggleButtonClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ToggleButtonClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkToggleButtonClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

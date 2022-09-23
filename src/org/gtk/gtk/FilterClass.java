@@ -13,4 +13,8 @@ public class FilterClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public FilterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkFilterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -32,7 +32,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
     /**
      * Create a handle string for the certificate. The database will only be able
      * to create a handle for certificates that originate from the database. In
-     * cases where the database cannot create a handle for a certificate, <code>null</code>
+     * cases where the database cannot create a handle for a certificate, {@code null}
      * will be returned.
      * <p>
      * This handle should be stable across various instances of the application,
@@ -53,7 +53,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * instantiations of the database.
      * <p>
      * If the handle is no longer valid, or does not point to a certificate in
-     * this database, then <code>null</code> will be returned.
+     * this database, then {@code null} will be returned.
      * <p>
      * This function can block, use g_tls_database_lookup_certificate_for_handle_async() to perform
      * the lookup operation asynchronously.
@@ -90,7 +90,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * g_tls_database_lookup_certificate_for_handle() for more information.
      * <p>
      * If the handle is no longer valid, or does not point to a certificate in
-     * this database, then <code>null</code> will be returned.
+     * this database, then {@code null} will be returned.
      */
     public TlsCertificate lookupCertificateForHandleFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -228,7 +228,7 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * The {@code identity} is used to ensure the server certificate is valid for
      * the expected peer identity. If the identity does not match the
      * certificate, {@link TlsCertificateFlags#BAD_IDENTITY} will be set in the
-     * return value. If {@code identity} is <code>null</code>, that bit will never be set in
+     * return value. If {@code identity} is {@code null}, that bit will never be set in
      * the return value. The peer identity may also be used to check for
      * pinned certificates (trust exceptions) in the database. These may
      * override the normal verification process on a host-by-host basis.

@@ -13,4 +13,8 @@ public class TreeListRowSorterClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public TreeListRowSorterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkTreeListRowSorterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

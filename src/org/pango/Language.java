@@ -29,7 +29,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * font feature requirements unique to the language. It is suitable for use
      * as sample text in a font selection dialog.
      * <p>
-     * If {@code language} is <code>null</code>, the default language as found by
+     * If {@code language} is {@code null}, the default language as found by
      * {@link Pango#Language} is used.
      * <p>
      * If Pango does not have a sample string for {@code language}, the classic
@@ -51,7 +51,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * write {@code language}.
      * <p>
      * The returned value is conservative; if nothing is known about
-     * the language tag {@code language}, <code>true</code> will be returned, since, as
+     * the language tag {@code language}, {@code true} will be returned, since, as
      * far as Pango knows, {@code script} might be used to write {@code language}.
      * <p>
      * This routine is used in Pango's itemization process when

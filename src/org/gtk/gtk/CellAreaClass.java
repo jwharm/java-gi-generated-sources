@@ -13,6 +13,10 @@ public class CellAreaClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CellAreaClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkCellAreaClass.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Finds a cell property of a cell area class by name.
      */

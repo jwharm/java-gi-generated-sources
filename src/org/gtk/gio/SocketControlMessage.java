@@ -85,7 +85,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * of {@link SocketControlMessage} if they can understand this kind
      * of message and if so deserialize it into a {@link SocketControlMessage}.
      * <p>
-     * If there is no implementation for this kind of control message, <code>null</code>
+     * If there is no implementation for this kind of control message, {@code null}
      * will be returned.
      */
     public static SocketControlMessage deserialize(int level, int type, long size, byte[] data) {

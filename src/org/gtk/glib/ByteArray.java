@@ -16,6 +16,10 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ByteArray() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GByteArray.allocate(Interop.getAllocator()).address()));
+    }
+    
     /**
      * Transfers the data from the {@link ByteArray} into a new immutable {@link Bytes}.
      * <p>

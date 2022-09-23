@@ -13,4 +13,8 @@ public class MenuModelClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public MenuModelClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMenuModelClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

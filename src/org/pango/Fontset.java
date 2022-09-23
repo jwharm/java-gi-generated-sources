@@ -30,7 +30,7 @@ public class Fontset extends org.gtk.gobject.Object {
      * Iterates through all the fonts in a fontset, calling {@code func} for
      * each one.
      * <p>
-     * If {@code func} returns <code>true</code>, that stops the iteration.
+     * If {@code func} returns {@code true}, that stops the iteration.
      */
     public void foreach(FontsetForeachFunc func) {
         try {

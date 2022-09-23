@@ -16,10 +16,10 @@ import java.lang.invoke.*;
  * {@code GtkCellRendererPixbuf:icon-name} property).
  * <p>
  * To support the tree view, {@code GtkCellRendererPixbuf} also supports rendering two
- * alternative pixbufs, when the {@code GtkCellRenderer:is-expander} property is <code>true</code>.
- * If the {@code GtkCellRenderer:is-expanded property} is <code>true</code> and the
+ * alternative pixbufs, when the {@code GtkCellRenderer:is-expander} property is {@code true}.
+ * If the {@code GtkCellRenderer:is-expanded property} is {@code true} and the
  * {@code GtkCellRendererPixbuf:pixbuf-expander-open} property is set to a pixbuf, it
- * renders that pixbuf, if the {@code GtkCellRenderer:is-expanded} property is <code>false</code>
+ * renders that pixbuf, if the {@code GtkCellRenderer:is-expanded} property is {@code false}
  * and the {@code GtkCellRendererPixbuf:pixbuf-expander-closed} property is set to a
  * pixbuf, it renders that one.
  */

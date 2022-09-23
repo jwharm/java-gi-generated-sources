@@ -18,4 +18,8 @@ public class GlyphExtentsT extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public GlyphExtentsT() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.hb_glyph_extents_t.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

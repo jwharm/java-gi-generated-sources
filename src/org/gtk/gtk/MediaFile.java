@@ -108,7 +108,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * Returns the file that {@code self} is currently playing from.
      * <p>
      * When {@code self} is not playing or not playing from a file,
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      */
     public org.gtk.gio.File getFile() {
         var RESULT = gtk_h.gtk_media_file_get_file(handle());
@@ -119,7 +119,7 @@ public class MediaFile extends MediaStream implements org.gtk.gdk.Paintable {
      * Returns the stream that {@code self} is currently playing from.
      * <p>
      * When {@code self} is not playing or not playing from a stream,
-     * <code>null</code> is returned.
+     * {@code null} is returned.
      */
     public org.gtk.gio.InputStream getInputStream() {
         var RESULT = gtk_h.gtk_media_file_get_input_stream(handle());

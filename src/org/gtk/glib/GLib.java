@@ -368,7 +368,7 @@ public final class GLib {
      * characters include all ASCII letters. If you compare two CP932
      * strings using this function, you will get false matches.
      * <p>
-     * Both {@code s1} and {@code s2} must be non-<code>null</code>.
+     * Both {@code s1} and {@code s2} must be non-{@code null}.
      */
     public static int asciiStrcasecmp(java.lang.String s1, java.lang.String s2) {
         var RESULT = gtk_h.g_ascii_strcasecmp(Interop.allocateNativeString(s1).handle(), Interop.allocateNativeString(s2).handle());
@@ -449,7 +449,7 @@ public final class GLib {
      * If the base is outside the valid range, zero is returned, and
      * {@code EINVAL} is stored in {@code errno}. If the
      * string conversion fails, zero is returned, and {@code endptr} returns {@code nptr}
-     * (if {@code endptr} is non-<code>null</code>).
+     * (if {@code endptr} is non-{@code null}).
      */
     public static long asciiStrtoll(java.lang.String nptr, java.lang.String[] endptr, int base) {
         var RESULT = gtk_h.g_ascii_strtoll(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
@@ -478,7 +478,7 @@ public final class GLib {
      * If the base is outside the valid range, zero is returned, and
      * {@code EINVAL} is stored in {@code errno}.
      * If the string conversion fails, zero is returned, and {@code endptr} returns
-     * {@code nptr} (if {@code endptr} is non-<code>null</code>).
+     * {@code nptr} (if {@code endptr} is non-{@code null}).
      */
     public static long asciiStrtoull(java.lang.String nptr, java.lang.String[] endptr, int base) {
         var RESULT = gtk_h.g_ascii_strtoull(Interop.allocateNativeString(nptr).handle(), Interop.allocateNativeArray(endptr).handle(), base);
@@ -853,7 +853,7 @@ public final class GLib {
      * <p>
      * If {@code filename} is an absolute path, {@code relative_to} is ignored. Otherwise,
      * {@code relative_to} will be prepended to {@code filename} to make it absolute. {@code relative_to}
-     * must be an absolute path, or <code>null</code>. If {@code relative_to} is <code>null</code>, it'll fallback
+     * must be an absolute path, or {@code null}. If {@code relative_to} is {@code null}, it'll fallback
      * to g_get_current_dir().
      * <p>
      * This function never fails, and will canonicalize file paths even if they don't
@@ -1176,7 +1176,7 @@ public final class GLib {
      * take a reference on a ref-counted object.
      * <p>
      * If the {@code key_id} is not set in the datalist then {@code dup_func}
-     * will be called with a <code>null</code> argument.
+     * will be called with a {@code null} argument.
      * <p>
      * Note that {@code dup_func} is called while the datalist is locked, so it
      * is not allowed to read or modify the datalist.
@@ -1228,7 +1228,7 @@ public final class GLib {
     }
     
     /**
-     * Resets the datalist to <code>null</code>. It does not free any memory or call
+     * Resets the datalist to {@code null}. It does not free any memory or call
      * any destroy functions.
      */
     public static void datalistInit(Data[] datalist) {
@@ -1352,7 +1352,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the year is a leap year.
+     * Returns {@code true} if the year is a leap year.
      * <p>
      * For the purposes of this function, leap year is every year
      * divisible by 4 unless that year is divisible by 100. If it
@@ -1385,7 +1385,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the day of the month is valid (a day is valid if it's
+     * Returns {@code true} if the day of the month is valid (a day is valid if it's
      * between 1 and 31 inclusive).
      */
     public static boolean dateValidDay(DateDay day) {
@@ -1394,7 +1394,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the day-month-year triplet forms a valid, existing day
+     * Returns {@code true} if the day-month-year triplet forms a valid, existing day
      * in the range of days {@link Date} understands (Year 1 or later, no more than
      * a few thousand years in the future).
      */
@@ -1404,7 +1404,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the Julian day is valid. Anything greater than zero
+     * Returns {@code true} if the Julian day is valid. Anything greater than zero
      * is basically a valid Julian, though there is a 32-bit limit.
      */
     public static boolean dateValidJulian(int julianDate) {
@@ -1413,7 +1413,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the month value is valid. The 12 {@link DateMonth}
+     * Returns {@code true} if the month value is valid. The 12 {@link DateMonth}
      * enumeration values are the only valid months.
      */
     public static boolean dateValidMonth(DateMonth month) {
@@ -1422,7 +1422,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the weekday is valid. The seven {@link DateWeekday} enumeration
+     * Returns {@code true} if the weekday is valid. The seven {@link DateWeekday} enumeration
      * values are the only valid weekdays.
      */
     public static boolean dateValidWeekday(DateWeekday weekday) {
@@ -1431,7 +1431,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the year is valid. Any year greater than 0 is valid,
+     * Returns {@code true} if the year is valid. Any year greater than 0 is valid,
      * though there is a 16-bit limit to what {@link Date} will understand.
      */
     public static boolean dateValidYear(DateYear year) {
@@ -1468,7 +1468,7 @@ public final class GLib {
      * call all the following conditions hold:
      * <p>
      * <ul>
-     * <li>{@code domain} is not <code>null</code>
+     * <li>{@code domain} is not {@code null}
      * </ul>
      * <p>
      * <ul>
@@ -1505,7 +1505,7 @@ public final class GLib {
      * a sequence of six 'X' characters, as the parameter to g_mkstemp().
      * However, unlike these functions, the template should only be a
      * basename, no directory components are allowed. If template is
-     * <code>null</code>, a default template is used.
+     * {@code null}, a default template is used.
      * <p>
      * Note that in contrast to g_mkdtemp() (and mkdtemp()) {@code tmpl} is not
      * modified, and might thus be a read-only literal string.
@@ -1520,7 +1520,7 @@ public final class GLib {
     }
     
     /**
-     * Compares two {@code gpointer} arguments and returns <code>true</code> if they are equal.
+     * Compares two {@code gpointer} arguments and returns {@code true} if they are equal.
      * It can be passed to g_hash_table_new() as the {@code key_equal_func}
      * parameter, when using opaque pointers compared by pointer value as
      * keys in a {@link HashTable}.
@@ -1562,9 +1562,9 @@ public final class GLib {
     
     /**
      * Compares the two {@code gdouble} values being pointed to and returns
-     * <code>true</code> if they are equal.
+     * {@code true} if they are equal.
      * It can be passed to g_hash_table_new() as the {@code key_equal_func}
-     * parameter, when using non-<code>null</code> pointers to doubles as keys in a
+     * parameter, when using non-{@code null} pointers to doubles as keys in a
      * {@link HashTable}.
      */
     public static boolean doubleEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
@@ -1576,7 +1576,7 @@ public final class GLib {
      * Converts a pointer to a {@code gdouble} to a hash value.
      * It can be passed to g_hash_table_new() as the {@code hash_func} parameter,
      * It can be passed to g_hash_table_new() as the {@code hash_func} parameter,
-     * when using non-<code>null</code> pointers to doubles as keys in a {@link HashTable}.
+     * when using non-{@code null} pointers to doubles as keys in a {@link HashTable}.
      */
     public static int doubleHash(java.lang.foreign.MemoryAddress v) {
         var RESULT = gtk_h.g_double_hash(v);
@@ -1658,12 +1658,12 @@ public final class GLib {
      * a sequence of six 'X' characters, as the parameter to g_mkstemp().
      * However, unlike these functions, the template should only be a
      * basename, no directory components are allowed. If template is
-     * <code>null</code>, a default template is used.
+     * {@code null}, a default template is used.
      * <p>
      * Note that in contrast to g_mkstemp() (and mkstemp()) {@code tmpl} is not
      * modified, and might thus be a read-only literal string.
      * <p>
-     * Upon success, and if {@code name_used} is non-<code>null</code>, the actual name used
+     * Upon success, and if {@code name_used} is non-{@code null}, the actual name used
      * is returned in {@code name_used}. This string should be freed with g_free()
      * when not needed any longer. The returned name is in the GLib file
      * name encoding.
@@ -1761,8 +1761,8 @@ public final class GLib {
      *   {@code filename} already exists and is open.
      * </ul>
      * <p>
-     * If the call was successful, it returns <code>true</code>. If the call was not successful,
-     * it returns <code>false</code> and sets {@code error}. The error domain is {@code G_FILE_ERROR}.
+     * If the call was successful, it returns {@code true}. If the call was not successful,
+     * it returns {@code false} and sets {@code error}. The error domain is {@code G_FILE_ERROR}.
      * Possible error codes are those in the {@link FileError} enumeration.
      * <p>
      * Note that the name for the temporary file is constructed by appending up
@@ -1782,19 +1782,19 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if any of the tests in the bitfield {@code test} are
-     * <code>true</code>. For example, {@code (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)}
-     * will return <code>true</code> if the file exists; the check whether it's a
-     * directory doesn't matter since the existence test is <code>true</code>. With
+     * Returns {@code true} if any of the tests in the bitfield {@code test} are
+     * {@code true}. For example, {@code (G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)}
+     * will return {@code true} if the file exists; the check whether it's a
+     * directory doesn't matter since the existence test is {@code true}. With
      * the current set of available tests, there's no point passing in
      * more than one test at a time.
      * <p>
      * Apart from {@link FileTest#IS_SYMLINK} all tests follow symbolic links,
      * so for a symbolic link to a regular file g_file_test() will return
-     * <code>true</code> for both {@link FileTest#IS_SYMLINK} and {@link FileTest#IS_REGULAR}.
+     * {@code true} for both {@link FileTest#IS_SYMLINK} and {@link FileTest#IS_REGULAR}.
      * <p>
      * Note, that for a dangling symbolic link g_file_test() will return
-     * <code>true</code> for {@link FileTest#IS_SYMLINK} and <code>false</code> for all other flags.
+     * {@code true} for {@link FileTest#IS_SYMLINK} and {@code false} for all other flags.
      * <p>
      * You should never use g_file_test() to test whether it is safe
      * to perform an operation, because there is always the possibility
@@ -1802,14 +1802,14 @@ public final class GLib {
      * For example, you might think you could use {@link FileTest#IS_SYMLINK}
      * to know whether it is safe to write to a file without being
      * tricked into writing into a different location. It doesn't work!
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *  // DON'T DO THIS
      *  if (!g_file_test (filename, G_FILE_TEST_IS_SYMLINK))
      *    {
      *      fd = g_open (filename, O_WRONLY);
      *      // write to fd
      *    }
-     * ]|
+     * }</pre>
      * <p>
      * Another thing to note is that {@link FileTest#EXISTS} and
      * {@link FileTest#IS_EXECUTABLE} are implemented using the access()
@@ -1819,7 +1819,7 @@ public final class GLib {
      * effective user ID and group ID.
      * <p>
      * On Windows, there are no symlinks, so testing for
-     * {@link FileTest#IS_SYMLINK} will always return <code>false</code>. Testing for
+     * {@link FileTest#IS_SYMLINK} will always return {@code false}. Testing for
      * {@link FileTest#IS_EXECUTABLE} will just check that the file exists and
      * its name indicates that it is executable, checking for well-known
      * extensions and those listed in the {@code PATHEXT} environment variable.
@@ -1856,7 +1856,7 @@ public final class GLib {
      * Converts a filename into a valid UTF-8 string. The conversion is
      * not necessarily reversible, so you should keep the original around
      * and use the return value of this function only for display purposes.
-     * Unlike g_filename_to_utf8(), the result is guaranteed to be non-<code>null</code>
+     * Unlike g_filename_to_utf8(), the result is guaranteed to be non-{@code null}
      * even if the filename actually isn't in the GLib file name encoding.
      * <p>
      * If GLib cannot make sense of the encoding of {@code filename}, as a last resort it
@@ -1903,9 +1903,9 @@ public final class GLib {
     /**
      * Locates the first executable named {@code program} in the user's path, in the
      * same way that execvp() would locate it. Returns an allocated string
-     * with the absolute path name, or <code>null</code> if the program is not found in
+     * with the absolute path name, or {@code null} if the program is not found in
      * the path. If {@code program} is already an absolute path, returns a copy of
-     * {@code program} if {@code program} exists and is executable, and <code>null</code> otherwise.
+     * {@code program} if {@code program} exists and is executable, and {@code null} otherwise.
      *  
      * On Windows, if {@code program} does not have a file type suffix, tries
      * with the suffixes .exe, .cmd, .bat and .com, and the suffixes in
@@ -1958,8 +1958,8 @@ public final class GLib {
     /**
      * Frees the memory pointed to by {@code mem}.
      * <p>
-     * If {@code mem} is <code>null</code> it simply returns, so there is no need to check {@code mem}
-     * against <code>null</code> before calling this function.
+     * If {@code mem} is {@code null} it simply returns, so there is no need to check {@code mem}
+     * against {@code null} before calling this function.
      */
     public static void free(java.lang.foreign.MemoryAddress mem) {
         gtk_h.g_free(mem);
@@ -1971,7 +1971,7 @@ public final class GLib {
      * possible, and is intended for display to the user.  Contrast with
      * g_get_prgname(), which gets a non-localized name. If
      * g_set_application_name() has not been called, returns the result of
-     * g_get_prgname() (which may be <code>null</code> if g_set_prgname() has also not
+     * g_get_prgname() (which may be {@code null} if g_set_prgname() has also not
      * been called).
      */
     public static java.lang.String getApplicationName() {
@@ -1995,7 +1995,7 @@ public final class GLib {
      * available. If not, the environment variables {@code LC_ALL}, {@code LC_CTYPE}, {@code LANG}
      * and {@code CHARSET} are queried in order.
      * <p>
-     * The return value is <code>true</code> if the locale's encoding is UTF-8, in that
+     * The return value is {@code true} if the locale's encoding is UTF-8, in that
      * case you can perhaps avoid calling g_convert().
      * <p>
      * The string returned in {@code charset} is not allocated, and should not be
@@ -2027,7 +2027,7 @@ public final class GLib {
      * If the codepage can't be determined (for example because there is no
      * console attached) UTF-8 is assumed.
      * <p>
-     * The return value is <code>true</code> if the locale's encoding is UTF-8, in that
+     * The return value is {@code true} if the locale's encoding is UTF-8, in that
      * case you can perhaps avoid calling g_convert().
      * <p>
      * The string returned in {@code charset} is not allocated, and should not be
@@ -2170,7 +2170,7 @@ public final class GLib {
      * like {@code G_OS_INFO_KEY_NAME} or pass any UTF-8 string key name. For example,
      * {@code /etc/os-release} provides a number of other less commonly used values that may
      * be useful. No key is guaranteed to be provided, so the caller should always
-     * check if the result is <code>null</code>.
+     * check if the result is {@code null}.
      */
     public static java.lang.String getOsInfo(java.lang.String keyName) {
         var RESULT = gtk_h.g_get_os_info(Interop.allocateNativeString(keyName).handle());
@@ -2233,7 +2233,7 @@ public final class GLib {
      * as a default.
      * <p>
      * The encoding of the returned string is system-defined. On Windows,
-     * it is always UTF-8. The return value is never <code>null</code> or the empty
+     * it is always UTF-8. The return value is never {@code null} or the empty
      * string.
      */
     public static java.lang.String getTmpDir() {
@@ -2462,7 +2462,7 @@ public final class GLib {
     /**
      * Looks up a key in a {@link HashTable}. Note that this function cannot
      * distinguish between a key that is not present and one which is present
-     * and has the value <code>null</code>. If you need this distinction, use
+     * and has the value {@code null}. If you need this distinction, use
      * g_hash_table_lookup_extended().
      */
     public static java.lang.foreign.MemoryAddress hashTableLookup(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress key) {
@@ -2472,13 +2472,13 @@ public final class GLib {
     
     /**
      * Looks up a key in the {@link HashTable}, returning the original key and the
-     * associated value and a {@code gboolean} which is <code>true</code> if the key was found. This
+     * associated value and a {@code gboolean} which is {@code true} if the key was found. This
      * is useful if you need to free the memory allocated for the original key,
      * for example before calling g_hash_table_remove().
      * <p>
-     * You can actually pass <code>null</code> for {@code lookup_key} to test
-     * whether the <code>null</code> key exists, provided the hash and equal functions
-     * of {@code hash_table} are <code>null</code>-safe.
+     * You can actually pass {@code null} for {@code lookup_key} to test
+     * whether the {@code null} key exists, provided the hash and equal functions
+     * of {@code hash_table} are {@code null}-safe.
      */
     public static boolean hashTableLookupExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress origKey, java.lang.foreign.MemoryAddress value) {
         var RESULT = gtk_h.g_hash_table_lookup_extended(hashTable.handle(), lookupKey, origKey, value);
@@ -2570,15 +2570,15 @@ public final class GLib {
     
     /**
      * Looks up a key in the {@link HashTable}, stealing the original key and the
-     * associated value and returning <code>true</code> if the key was found. If the key was
-     * not found, <code>false</code> is returned.
+     * associated value and returning {@code true} if the key was found. If the key was
+     * not found, {@code false} is returned.
      * <p>
      * If found, the stolen key and value are removed from the hash table without
      * calling the key and value destroy functions, and ownership is transferred to
      * the caller of this method; as with g_hash_table_steal().
      * <p>
-     * You can pass <code>null</code> for {@code lookup_key}, provided the hash and equal functions
-     * of {@code hash_table} are <code>null</code>-safe.
+     * You can pass {@code null} for {@code lookup_key}, provided the hash and equal functions
+     * of {@code hash_table} are {@code null}-safe.
      */
     public static boolean hashTableStealExtended(org.gtk.glib.HashTable hashTable, java.lang.foreign.MemoryAddress lookupKey, java.lang.foreign.MemoryAddress stolenKey, java.lang.foreign.MemoryAddress stolenValue) {
         var RESULT = gtk_h.g_hash_table_steal_extended(hashTable.handle(), lookupKey, stolenKey, stolenValue);
@@ -2645,12 +2645,12 @@ public final class GLib {
     /**
      * Tests if {@code hostname} contains segments with an ASCII-compatible
      * encoding of an Internationalized Domain Name. If this returns
-     * <code>true</code>, you should decode the hostname with g_hostname_to_unicode()
+     * {@code true}, you should decode the hostname with g_hostname_to_unicode()
      * before displaying it to the user.
      * <p>
      * Note that a hostname might contain a mix of encoded and unencoded
      * segments, and so it is possible for g_hostname_is_non_ascii() and
-     * g_hostname_is_ascii_encoded() to both return <code>true</code> for a name.
+     * g_hostname_is_ascii_encoded() to both return {@code true} for a name.
      */
     public static boolean hostnameIsAsciiEncoded(java.lang.String hostname) {
         var RESULT = gtk_h.g_hostname_is_ascii_encoded(Interop.allocateNativeString(hostname).handle());
@@ -2670,12 +2670,12 @@ public final class GLib {
     
     /**
      * Tests if {@code hostname} contains Unicode characters. If this returns
-     * <code>true</code>, you need to encode the hostname with g_hostname_to_ascii()
+     * {@code true}, you need to encode the hostname with g_hostname_to_ascii()
      * before using it in non-IDN-aware contexts.
      * <p>
      * Note that a hostname might contain a mix of encoded and unencoded
      * segments, and so it is possible for g_hostname_is_non_ascii() and
-     * g_hostname_is_ascii_encoded() to both return <code>true</code> for a name.
+     * g_hostname_is_ascii_encoded() to both return {@code true} for a name.
      */
     public static boolean hostnameIsNonAscii(java.lang.String hostname) {
         var RESULT = gtk_h.g_hostname_is_non_ascii(Interop.allocateNativeString(hostname).handle());
@@ -2723,7 +2723,7 @@ public final class GLib {
      * Adds a function to be called whenever there are no higher priority
      * events pending to the default main loop. The function is given the
      * default idle priority, {@code G_PRIORITY_DEFAULT_IDLE}.  If the function
-     * returns <code>false</code> it is automatically removed from the list of event
+     * returns {@code false} it is automatically removed from the list of event
      * sources and will not be called again.
      * <p>
      * See [memory management of sources][mainloop-memory-management] for details
@@ -2754,7 +2754,7 @@ public final class GLib {
      * Adds a function to be called whenever there are no higher priority
      * events pending.
      * <p>
-     * If the function returns {@code G_SOURCE_REMOVE} or <code>false</code> it is automatically
+     * If the function returns {@code G_SOURCE_REMOVE} or {@code false} it is automatically
      * removed from the list of event sources and will not be called again.
      * <p>
      * See [memory management of sources][mainloop-memory-management] for details
@@ -2806,9 +2806,9 @@ public final class GLib {
     
     /**
      * Compares the two {@code gint64} values being pointed to and returns
-     * <code>true</code> if they are equal.
+     * {@code true} if they are equal.
      * It can be passed to g_hash_table_new() as the {@code key_equal_func}
-     * parameter, when using non-<code>null</code> pointers to 64-bit integers as keys in a
+     * parameter, when using non-{@code null} pointers to 64-bit integers as keys in a
      * {@link HashTable}.
      */
     public static boolean int64Equal(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
@@ -2820,7 +2820,7 @@ public final class GLib {
      * Converts a pointer to a {@code gint64} to a hash value.
      * <p>
      * It can be passed to g_hash_table_new() as the {@code hash_func} parameter,
-     * when using non-<code>null</code> pointers to 64-bit integer values as keys in a
+     * when using non-{@code null} pointers to 64-bit integer values as keys in a
      * {@link HashTable}.
      */
     public static int int64Hash(java.lang.foreign.MemoryAddress v) {
@@ -2830,9 +2830,9 @@ public final class GLib {
     
     /**
      * Compares the two {@code gint} values being pointed to and returns
-     * <code>true</code> if they are equal.
+     * {@code true} if they are equal.
      * It can be passed to g_hash_table_new() as the {@code key_equal_func}
-     * parameter, when using non-<code>null</code> pointers to integers as keys in a
+     * parameter, when using non-{@code null} pointers to integers as keys in a
      * {@link HashTable}.
      * <p>
      * Note that this function acts on pointers to {@code gint}, not on {@code gint}
@@ -2847,7 +2847,7 @@ public final class GLib {
     /**
      * Converts a pointer to a {@code gint} to a hash value.
      * It can be passed to g_hash_table_new() as the {@code hash_func} parameter,
-     * when using non-<code>null</code> pointers to integer values as keys in a {@link HashTable}.
+     * when using non-{@code null} pointers to integer values as keys in a {@link HashTable}.
      * <p>
      * Note that this function acts on pointers to {@code gint}, not on {@code gint}
      * directly: if your hash table's keys are of the form
@@ -3102,24 +3102,24 @@ public final class GLib {
      * Here is an example for adding a log handler for all warning messages
      * in the default domain:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * g_log_set_handler (NULL, G_LOG_LEVEL_WARNING | G_LOG_FLAG_FATAL
      *                    | G_LOG_FLAG_RECURSION, my_log_handler, NULL);
-     * ]|
+     * }</pre>
      * <p>
      * This example adds a log handler for all critical messages from GTK+:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * g_log_set_handler ("Gtk", G_LOG_LEVEL_CRITICAL | G_LOG_FLAG_FATAL
      *                    | G_LOG_FLAG_RECURSION, my_log_handler, NULL);
-     * ]|
+     * }</pre>
      * <p>
      * This example adds a log handler for all messages from GLib:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * g_log_set_handler ("GLib", G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL
      *                    | G_LOG_FLAG_RECURSION, my_log_handler, NULL);
-     * ]|
+     * }</pre>
      */
     public static int logSetHandler(java.lang.String logDomain, int logLevels, LogFunc logFunc) {
         try {
@@ -3275,23 +3275,23 @@ public final class GLib {
      * This can be used when implementing log writers with the same filtering
      * behaviour as the default, but a different destination or output format:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   if (g_log_writer_default_would_drop (log_level, log_domain))
      *     return G_LOG_WRITER_HANDLED;
-     * ]|
+     * }</pre>
      * <p>
      * or to skip an expensive computation if it is only needed for a debugging
      * message, and {@code G_MESSAGES_DEBUG} is not set:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   if (!g_log_writer_default_would_drop (G_LOG_LEVEL_DEBUG, G_LOG_DOMAIN))
      *     {
      *       gchar *result = expensive_computation (my_object);
-     * <p>
-     *       g_debug ("my_object result: {@code s}", result);
+     * 
+     *       g_debug ("my_object result: %s", result);
      *       g_free (result);
      *     }
-     * ]|
+     * }</pre>
      */
     public static boolean logWriterDefaultWouldDrop(int logLevel, java.lang.String logDomain) {
         var RESULT = gtk_h.g_log_writer_default_would_drop(logLevel, Interop.allocateNativeString(logDomain).handle());
@@ -3319,11 +3319,11 @@ public final class GLib {
      * systemd journal, or something else (like a log file or {@code stdout} or
      * {@code stderr}).
      * <p>
-     * Invalid file descriptors are accepted and return <code>false</code>, which allows for
+     * Invalid file descriptors are accepted and return {@code false}, which allows for
      * the following construct without needing any additional error handling:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   is_journald = g_log_writer_is_journald (fileno (stderr));
-     * ]|
+     * }</pre>
      */
     public static boolean logWriterIsJournald(int outputFd) {
         var RESULT = gtk_h.g_log_writer_is_journald(outputFd);
@@ -3414,7 +3414,7 @@ public final class GLib {
      * their {@code GSources} to. (Note that even in single-threaded
      * programs applications may sometimes want to temporarily push a
      * non-default context, so it is not safe to assume that this will
-     * always return <code>null</code> if you are running in the default thread.)
+     * always return {@code null} if you are running in the default thread.)
      * <p>
      * If you need to hold a reference on the context, use
      * g_main_context_ref_thread_default() instead.
@@ -3430,7 +3430,7 @@ public final class GLib {
      * it with g_main_context_ref(). In addition, unlike
      * g_main_context_get_thread_default(), if the thread-default context
      * is the global default context, this will return that {@link MainContext}
-     * (with a ref added to it) rather than returning <code>null</code>.
+     * (with a ref added to it) rather than returning {@code null}.
      */
     public static MainContext mainContextRefThreadDefault() {
         var RESULT = gtk_h.g_main_context_ref_thread_default();
@@ -3457,9 +3457,9 @@ public final class GLib {
      * This function is useful in a situation like the following:
      * Imagine an extremely simple "garbage collected" system.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static GList *free_list;
-     * <p>
+     * 
      * gpointer
      * allocate_memory (gsize size)
      * {
@@ -3467,7 +3467,7 @@ public final class GLib {
      *   free_list = g_list_prepend (free_list, result);
      *   return result;
      * }
-     * <p>
+     * 
      * void
      * free_allocated_memory (void)
      * {
@@ -3477,15 +3477,15 @@ public final class GLib {
      *   g_list_free (free_list);
      *   free_list = NULL;
      *  }
-     * <p>
+     * 
      * [...]
-     * <p>
+     * 
      * while (TRUE);
      *  {
      *    g_main_context_iteration (NULL, TRUE);
      *    free_allocated_memory();
      *   }
-     * ]|
+     * }</pre>
      * <p>
      * This works from an application, however, if you want to do the same
      * thing from a library, it gets more difficult, since you no longer
@@ -3494,7 +3494,7 @@ public final class GLib {
      * doesn't work, since the idle function could be called from a
      * recursive callback. This can be fixed by using g_main_depth()
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * gpointer
      * allocate_memory (gsize size)
      * {
@@ -3504,7 +3504,7 @@ public final class GLib {
      *   free_list = g_list_prepend (free_list, block);
      *   return block->mem;
      * }
-     * <p>
+     * 
      * void
      * free_allocated_memory (void)
      * {
@@ -3525,7 +3525,7 @@ public final class GLib {
      *       l = next;
      *     }
      *   }
-     * ]|
+     * }</pre>
      * <p>
      * There is a temptation to use g_main_depth() to solve
      * problems with reentrancy. For instance, while waiting for data
@@ -3555,7 +3555,7 @@ public final class GLib {
     
     /**
      * Allocates {@code n_bytes} bytes of memory.
-     * If {@code n_bytes} is 0 it returns <code>null</code>.
+     * If {@code n_bytes} is 0 it returns {@code null}.
      */
     public static java.lang.foreign.MemoryAddress malloc(long nBytes) {
         var RESULT = gtk_h.g_malloc(nBytes);
@@ -3564,7 +3564,7 @@ public final class GLib {
     
     /**
      * Allocates {@code n_bytes} bytes of memory, initialized to 0's.
-     * If {@code n_bytes} is 0 it returns <code>null</code>.
+     * If {@code n_bytes} is 0 it returns {@code null}.
      */
     public static java.lang.foreign.MemoryAddress malloc0(long nBytes) {
         var RESULT = gtk_h.g_malloc0(nBytes);
@@ -3627,7 +3627,7 @@ public final class GLib {
     
     /**
      * Allocates {@code byte_size} bytes of memory, and copies {@code byte_size} bytes into it
-     * from {@code mem}. If {@code mem} is <code>null</code> it returns <code>null</code>.
+     * from {@code mem}. If {@code mem} is {@code null} it returns {@code null}.
      * <p>
      * This replaces g_memdup(), which was prone to integer overflows when
      * converting the argument from a {@code gsize} to a {@code guint}.
@@ -3726,7 +3726,7 @@ public final class GLib {
     }
     
     /**
-     * Set the pointer at the specified location to <code>null</code>.
+     * Set the pointer at the specified location to {@code null}.
      */
     public static void nullifyPointer(java.lang.foreign.MemoryAddress nullifyLocation) {
         gtk_h.g_nullify_pointer(nullifyLocation);
@@ -3744,9 +3744,9 @@ public final class GLib {
      * The following example shows how it can be used together with
      * the g_log() functions.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
-     * {@code include} &lt;glib.h&gt;
-     * <p>
+     * <pre>{@code <!-- language="C" -->
+     * #include <glib.h>
+     * 
      * static void
      * log_handler (const gchar   *log_domain,
      *              GLogLevelFlags log_level,
@@ -3754,10 +3754,10 @@ public final class GLib {
      *              gpointer       user_data)
      * {
      *   g_log_default_handler (log_domain, log_level, message, user_data);
-     * <p>
+     * 
      *   g_on_error_query (MY_PROGRAM_NAME);
      * }
-     * <p>
+     * 
      * int
      * main (int argc, char *argv[])
      * {
@@ -3768,7 +3768,7 @@ public final class GLib {
      *                      log_handler,
      *                      NULL);
      *   ...
-     * ]|
+     * }</pre>
      * <p>
      * If "[E]xit" is selected, the application terminates with a call
      * to _exit(0).
@@ -3819,18 +3819,18 @@ public final class GLib {
      * blocked until initialization completed. To be used in constructs
      * like this:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   static gsize initialization_value = 0;
-     * <p>
+     * 
      *   if (g_once_init_enter (&initialization_value))
      *     {
      *       gsize setup_value = 42; // initialization code here
-     * <p>
+     * 
      *       g_once_init_leave (&initialization_value, setup_value);
      *     }
-     * <p>
+     * 
      *   // use initialization_value here
-     * ]|
+     * }</pre>
      * <p>
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
@@ -3905,7 +3905,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> if the given {@code file_name} is an absolute file name.
+     * Returns {@code true} if the given {@code file_name} is an absolute file name.
      * Note that this is a somewhat vague concept on Windows.
      * <p>
      * On POSIX systems, an absolute file name is well-defined. It always
@@ -3938,7 +3938,7 @@ public final class GLib {
     /**
      * Returns a pointer into {@code file_name} after the root component,
      * i.e. after the "/" in UNIX or "C:\\" under Windows. If {@code file_name}
-     * is not an absolute path it returns <code>null</code>.
+     * is not an absolute path it returns {@code null}.
      */
     public static java.lang.String pathSkipRoot(java.lang.String fileName) {
         var RESULT = gtk_h.g_path_skip_root(Interop.allocateNativeString(fileName).handle());
@@ -4025,7 +4025,7 @@ public final class GLib {
     
     /**
      * Prefixes {@code prefix} to an existing error message. If {@code err} or *{@code err} is
-     * <code>null</code> (i.e.: no error variable) then do nothing.
+     * {@code null} (i.e.: no error variable) then do nothing.
      */
     public static void prefixErrorLiteral(Error[] err, java.lang.String prefix) {
         gtk_h.g_prefix_error_literal(Interop.allocateNativeArray(err).handle(), Interop.allocateNativeString(prefix).handle());
@@ -4041,13 +4041,13 @@ public final class GLib {
     }
     
     /**
-     * If {@code dest} is <code>null</code>, free {@code src}; otherwise, moves {@code src} into *{@code dest}.
-     * The error variable {@code dest} points to must be <code>null</code>.
+     * If {@code dest} is {@code null}, free {@code src}; otherwise, moves {@code src} into *{@code dest}.
+     * The error variable {@code dest} points to must be {@code null}.
      * <p>
-     * {@code src} must be non-<code>null</code>.
+     * {@code src} must be non-{@code null}.
      * <p>
      * Note that {@code src} is no longer valid after this call. If you want
-     * to keep using the same GError*, you need to set it to <code>null</code>
+     * to keep using the same GError*, you need to set it to {@code null}
      * after calling this function on it.
      */
     public static void propagateError(Error[] dest, Error src) {
@@ -4121,7 +4121,7 @@ public final class GLib {
     
     /**
      * Gets the {@link Quark} associated with the given string, or 0 if string is
-     * <code>null</code> or it has no associated {@link Quark}.
+     * {@code null} or it has no associated {@link Quark}.
      * <p>
      * If you want the GQuark to be created if it doesn't already exist,
      * use g_quark_from_string() or g_quark_from_static_string().
@@ -4248,9 +4248,9 @@ public final class GLib {
     /**
      * Reallocates the memory pointed to by {@code mem}, so that it now has space for
      * {@code n_bytes} bytes of memory. It returns the new address of the memory, which may
-     * have been moved. {@code mem} may be <code>null</code>, in which case it's considered to
-     * have zero-length. {@code n_bytes} may be 0, in which case <code>null</code> will be returned
-     * and {@code mem} will be freed unless it is <code>null</code>.
+     * have been moved. {@code mem} may be {@code null}, in which case it's considered to
+     * have zero-length. {@code n_bytes} may be 0, in which case {@code null} will be returned
+     * and {@code mem} will be freed unless it is {@code null}.
      */
     public static java.lang.foreign.MemoryAddress realloc(java.lang.foreign.MemoryAddress mem, long nBytes) {
         var RESULT = gtk_h.g_realloc(mem, nBytes);
@@ -4438,7 +4438,7 @@ public final class GLib {
      * allowed for {@code dest} to point to a different sequence than the one pointed
      * into by {@code begin} and {@code end}.
      * <p>
-     * If {@code dest} is <code>null</code>, the range indicated by {@code begin} and {@code end} is
+     * If {@code dest} is {@code null}, the range indicated by {@code begin} and {@code end} is
      * removed from the sequence. If {@code dest} points to a place within
      * the ({@code begin}, {@code end}) range, the range does not move.
      */
@@ -4515,8 +4515,8 @@ public final class GLib {
     }
     
     /**
-     * Does nothing if {@code err} is <code>null</code>; if {@code err} is non-<code>null</code>, then *{@code err}
-     * must be <code>null</code>. A new {@link Error} is created and assigned to *{@code err}.
+     * Does nothing if {@code err} is {@code null}; if {@code err} is non-{@code null}, then *{@code err}
+     * must be {@code null}. A new {@link Error} is created and assigned to *{@code err}.
      * Unlike g_set_error(), {@code message} is not a printf()-style format string.
      * Use this function if {@code message} contains text you don't have control over,
      * that could include printf() escape sequences.
@@ -4601,7 +4601,7 @@ public final class GLib {
      * will be passed through literally instead of being expanded).
      * <p>
      * This function is guaranteed to succeed if applied to the result of
-     * g_shell_quote(). If it fails, it returns <code>null</code> and sets the
+     * g_shell_quote(). If it fails, it returns {@code null} and sets the
      * error.
      * <p>
      * The {@code quoted_string} need not actually contain quoted or escaped text;
@@ -4662,7 +4662,7 @@ public final class GLib {
      * Allocates a block of memory from the slice allocator
      * and copies {@code block_size} bytes into it from {@code mem_block}.
      * <p>
-     * {@code mem_block} must be non-<code>null</code> if {@code block_size} is non-zero.
+     * {@code mem_block} must be non-{@code null} if {@code block_size} is non-zero.
      */
     public static java.lang.foreign.MemoryAddress sliceCopy(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         var RESULT = gtk_h.g_slice_copy(blockSize, memBlock);
@@ -4678,7 +4678,7 @@ public final class GLib {
      * can be changed with the [{@code G_DEBUG=gc-friendly}][G_DEBUG] environment
      * variable, also see [{@code G_SLICE}][G_SLICE] for related debugging options.
      * <p>
-     * If {@code mem_block} is <code>null</code>, this function does nothing.
+     * If {@code mem_block} is {@code null}, this function does nothing.
      */
     public static void sliceFree1(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         gtk_h.g_slice_free1(blockSize, memBlock);
@@ -4695,7 +4695,7 @@ public final class GLib {
      * [{@code G_DEBUG=gc-friendly}][G_DEBUG] environment variable, also see
      * [{@code G_SLICE}][G_SLICE] for related debugging options.
      * <p>
-     * If {@code mem_chain} is <code>null</code>, this function does nothing.
+     * If {@code mem_chain} is {@code null}, this function does nothing.
      */
     public static void sliceFreeChainWithOffset(long blockSize, java.lang.foreign.MemoryAddress memChain, long nextOffset) {
         gtk_h.g_slice_free_chain_with_offset(blockSize, memChain, nextOffset);
@@ -4894,13 +4894,13 @@ public final class GLib {
     }
     
     /**
-     * Compares two strings for byte-by-byte equality and returns <code>true</code>
+     * Compares two strings for byte-by-byte equality and returns {@code true}
      * if they are equal. It can be passed to g_hash_table_new() as the
-     * {@code key_equal_func} parameter, when using non-<code>null</code> strings as keys in a
+     * {@code key_equal_func} parameter, when using non-{@code null} strings as keys in a
      * {@link HashTable}.
      * <p>
      * This function is typically used for hash table comparisons, but can be used
-     * for general purpose comparisons of non-<code>null</code> strings. For a <code>null</code>-safe string
+     * for general purpose comparisons of non-{@code null} strings. For a {@code null}-safe string
      * comparison function, see g_strcmp0().
      */
     public static boolean strEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
@@ -4934,7 +4934,7 @@ public final class GLib {
      * uses the signed value of each byte.
      * <p>
      * It can be passed to g_hash_table_new() as the {@code hash_func} parameter,
-     * when using non-<code>null</code> strings as keys in a {@link HashTable}.
+     * when using non-{@code null} strings as keys in a {@link HashTable}.
      * <p>
      * Note that this function may not be a perfect fit for all use cases.
      * For example, it produces some hash collisions with strings as short
@@ -4997,7 +4997,7 @@ public final class GLib {
      * be a valid POSIX locale string (of the form
      * {@code language[_territory][.codeset][@modifier]}).
      * <p>
-     * If {@code from_locale} is <code>null</code> then the current locale is used.
+     * If {@code from_locale} is {@code null} then the current locale is used.
      * <p>
      * If you want to do translation for no specific locale, and you want it
      * to be done independently of the currently locale, specify {@code "C"} for
@@ -5015,17 +5015,17 @@ public final class GLib {
      * Modifies {@code string} in place, and return {@code string} itself, not a copy. The
      * return value is to allow nesting such as:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   g_ascii_strup (g_strcanon (str, "abc", '?'))
-     * ]|
+     * }</pre>
      * <p>
      * In order to modify a copy, you may use g_strdup():
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   reformatted = g_strcanon (g_strdup (const_str), "abc", '?');
      *   ...
      *   g_free (reformatted);
-     * ]|
+     * }</pre>
      */
     public static java.lang.String strcanon(java.lang.String string, java.lang.String validChars, byte substitutor) {
         var RESULT = gtk_h.g_strcanon(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(validChars).handle(), substitutor);
@@ -5066,9 +5066,9 @@ public final class GLib {
     }
     
     /**
-     * Compares {@code str1} and {@code str2} like strcmp(). Handles <code>null</code>
-     * gracefully by sorting it before non-<code>null</code> strings.
-     * Comparing two <code>null</code> pointers returns 0.
+     * Compares {@code str1} and {@code str2} like strcmp(). Handles {@code null}
+     * gracefully by sorting it before non-{@code null} strings.
+     * Comparing two {@code null} pointers returns 0.
      */
     public static int strcmp0(java.lang.String str1, java.lang.String str2) {
         var RESULT = gtk_h.g_strcmp0(Interop.allocateNativeString(str1).handle(), Interop.allocateNativeString(str2).handle());
@@ -5094,17 +5094,17 @@ public final class GLib {
      * <p>
      * The return value is to allow nesting such as:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   g_ascii_strup (g_strdelimit (str, "abc", '?'))
-     * ]|
+     * }</pre>
      * <p>
      * In order to modify a copy, you may use g_strdup():
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   reformatted = g_strdelimit (g_strdup (const_str), "abc", '?');
      *   ...
      *   g_free (reformatted);
-     * ]|
+     * }</pre>
      */
     public static java.lang.String strdelimit(java.lang.String string, java.lang.String delimiters, byte newDelimiter) {
         var RESULT = gtk_h.g_strdelimit(Interop.allocateNativeString(string).handle(), Interop.allocateNativeString(delimiters).handle(), newDelimiter);
@@ -5112,7 +5112,7 @@ public final class GLib {
     }
     
     /**
-     * Duplicates a string. If {@code str} is <code>null</code> it returns <code>null</code>.
+     * Duplicates a string. If {@code str} is {@code null} it returns {@code null}.
      * The returned string should be freed with g_free()
      * when no longer needed.
      */
@@ -5150,14 +5150,14 @@ public final class GLib {
      * The value of {@code errno} will not be changed by this function. However, it may
      * be changed by intermediate function calls, so you should save its value
      * as soon as the call returns:
-     * |[
+     * <pre>{@code 
      *   int saved_errno;
-     * <p>
+     * 
      *   ret = read (blah);
      *   saved_errno = errno;
-     * <p>
+     * 
      *   g_strerror (saved_errno);
-     * ]|
+     * }</pre>
      */
     public static java.lang.String strerror(int errnum) {
         var RESULT = gtk_h.g_strerror(errnum);
@@ -5180,10 +5180,10 @@ public final class GLib {
     }
     
     /**
-     * Frees a <code>null</code>-terminated array of strings, as well as each
+     * Frees a {@code null}-terminated array of strings, as well as each
      * string it contains.
      * <p>
-     * If {@code str_array} is <code>null</code>, this function simply returns.
+     * If {@code str_array} is {@code null}, this function simply returns.
      */
     public static void strfreev(java.lang.String[] strArray) {
         gtk_h.g_strfreev(Interop.allocateNativeArray(strArray).handle());
@@ -5256,7 +5256,7 @@ public final class GLib {
      * Duplicates the first @n bytes of a string, returning a newly-allocated
      * buffer @n + 1 bytes long which will always be nul-terminated. If {@code str}
      * is less than @n bytes long the buffer is padded with nuls. If {@code str} is
-     * <code>null</code> it returns <code>null</code>. The returned value should be freed when no longer
+     * {@code null} it returns {@code null}. The returned value should be freed when no longer
      * needed.
      * <p>
      * To copy a number of characters from a UTF-8 encoded string,
@@ -5348,7 +5348,7 @@ public final class GLib {
     }
     
     /**
-     * Checks if {@code strv} contains {@code str}. {@code strv} must not be <code>null</code>.
+     * Checks if {@code strv} contains {@code str}. {@code strv} must not be {@code null}.
      */
     public static boolean strvContains(java.lang.String strv, java.lang.String str) {
         var RESULT = gtk_h.g_strv_contains(Interop.allocateNativeString(strv).handle(), Interop.allocateNativeString(str).handle());
@@ -5361,7 +5361,7 @@ public final class GLib {
      * of order, sort the arrays first (using g_qsort_with_data() or similar).
      * <p>
      * Two empty arrays are considered equal. Neither {@code strv1} not {@code strv2} may be
-     * <code>null</code>.
+     * {@code null}.
      */
     public static boolean strvEqual(java.lang.String strv1, java.lang.String strv2) {
         var RESULT = gtk_h.g_strv_equal(Interop.allocateNativeString(strv1).handle(), Interop.allocateNativeString(strv2).handle());
@@ -5374,8 +5374,8 @@ public final class GLib {
     }
     
     /**
-     * Returns the length of the given <code>null</code>-terminated
-     * string array {@code str_array}. {@code str_array} must not be <code>null</code>.
+     * Returns the length of the given {@code null}-terminated
+     * string array {@code str_array}. {@code str_array} must not be {@code null}.
      */
     public static int strvLength(java.lang.String[] strArray) {
         var RESULT = gtk_h.g_strv_length(Interop.allocateNativeArray(strArray).handle());
@@ -5565,15 +5565,15 @@ public final class GLib {
      * <p>
      * For example:
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   // g_main_context_push_thread_default() should fail if the
      *   // context is already owned by another thread.
      *   g_test_expect_message (G_LOG_DOMAIN,
      *                          G_LOG_LEVEL_CRITICAL,
-     *                          "assertion<strong>acquired_context</strong>failed");
+     *                          "assertion*acquired_context*failed");
      *   g_main_context_push_thread_default (bad_context);
      *   g_test_assert_expected_messages ();
-     * ]|
+     * }</pre>
      * <p>
      * Note that you cannot use this to test g_error() messages, since
      * g_error() intentionally never returns even if the program doesn't
@@ -5870,7 +5870,7 @@ public final class GLib {
     }
     
     /**
-     * Returns <code>true</code> (after g_test_init() has been called) if the test
+     * Returns {@code true} (after g_test_init() has been called) if the test
      * program is running under g_test_trap_subprocess().
      */
     public static boolean testSubprocess() {
@@ -5887,16 +5887,16 @@ public final class GLib {
      * This should be called at the top of a test function.
      * <p>
      * For example:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void
      * test_array_sort (void)
      * {
      *   g_test_summary ("Test my_array_sort() sorts the array correctly and stably, "
      *                   "including testing zero length and one-element arrays.");
-     * <p>
+     * 
      *   …
      * }
-     * ]|
+     * }</pre>
      */
     public static void testSummary(java.lang.String summary) {
         gtk_h.g_test_summary(Interop.allocateNativeString(summary).handle());
@@ -5952,7 +5952,7 @@ public final class GLib {
      * This can be used for a test case that might not return, or that
      * might abort.
      * <p>
-     * If {@code test_path} is <code>null</code> then the same test is re-run in a subprocess.
+     * If {@code test_path} is {@code null} then the same test is re-run in a subprocess.
      * You can use g_test_subprocess() to determine whether the test is in
      * a subprocess or not.
      * <p>
@@ -5983,7 +5983,7 @@ public final class GLib {
      * {@code my_object_new(1000000)} will abort with an error
      * message.
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   static void
      *   test_create_large_object (void)
      *   {
@@ -5992,23 +5992,23 @@ public final class GLib {
      *         my_object_new (1000000);
      *         return;
      *       }
-     * <p>
+     * 
      *     // Reruns this same test in a subprocess
      *     g_test_trap_subprocess (NULL, 0, 0);
      *     g_test_trap_assert_failed ();
-     *     g_test_trap_assert_stderr ("<strong>ERROR*too large</strong>");
+     *     g_test_trap_assert_stderr ("*ERROR*too large*");
      *   }
-     * <p>
+     * 
      *   int
      *   main (int argc, char **argv)
      *   {
      *     g_test_init (&argc, &argv, NULL);
-     * <p>
+     * 
      *     g_test_add_func ("/myobject/create_large_object",
      *                      test_create_large_object);
      *     return g_test_run ();
      *   }
-     * ]|
+     * }</pre>
      */
     public static void testTrapSubprocess(java.lang.String testPath, long usecTimeout, int testFlags) {
         gtk_h.g_test_trap_subprocess(Interop.allocateNativeString(testPath).handle(), usecTimeout, testFlags);
@@ -6133,7 +6133,7 @@ public final class GLib {
      * priority, {@code G_PRIORITY_DEFAULT}.
      * <p>
      * The given {@code function} is called repeatedly until it returns {@code G_SOURCE_REMOVE}
-     * or <code>false</code>, at which point the timeout is automatically destroyed and the
+     * or {@code false}, at which point the timeout is automatically destroyed and the
      * function will not be called again. The first call to the function will be
      * at the end of the first {@code interval}.
      * <p>
@@ -6180,7 +6180,7 @@ public final class GLib {
     /**
      * Sets a function to be called at regular intervals, with the given
      * priority.  The function is called repeatedly until it returns
-     * <code>false</code>, at which point the timeout is automatically destroyed and
+     * {@code false}, at which point the timeout is automatically destroyed and
      * the function will not be called again.  The {@code notify} function is
      * called when the timeout is destroyed.  The first call to the
      * function will be at the end of the first {@code interval}.
@@ -6224,7 +6224,7 @@ public final class GLib {
      * priority, {@code G_PRIORITY_DEFAULT}.
      * <p>
      * The function is called repeatedly until it returns {@code G_SOURCE_REMOVE}
-     * or <code>false</code>, at which point the timeout is automatically destroyed
+     * or {@code false}, at which point the timeout is automatically destroyed
      * and the function will not be called again.
      * <p>
      * This internally creates a main loop source using
@@ -6263,7 +6263,7 @@ public final class GLib {
      * Sets a function to be called at regular intervals, with {@code priority}.
      * <p>
      * The function is called repeatedly until it returns {@code G_SOURCE_REMOVE}
-     * or <code>false</code>, at which point the timeout is automatically destroyed and
+     * or {@code false}, at which point the timeout is automatically destroyed and
      * the function will not be called again.
      * <p>
      * Unlike g_timeout_add(), this function operates at whole second granularity.
@@ -6350,7 +6350,7 @@ public final class GLib {
     }
     
     /**
-     * Attempts to allocate {@code n_bytes}, and returns <code>null</code> on failure.
+     * Attempts to allocate {@code n_bytes}, and returns {@code null} on failure.
      * Contrast with g_malloc(), which aborts the program on failure.
      */
     public static java.lang.foreign.MemoryAddress tryMalloc(long nBytes) {
@@ -6359,7 +6359,7 @@ public final class GLib {
     }
     
     /**
-     * Attempts to allocate {@code n_bytes}, initialized to 0's, and returns <code>null</code> on
+     * Attempts to allocate {@code n_bytes}, initialized to 0's, and returns {@code null} on
      * failure. Contrast with g_malloc0(), which aborts the program on failure.
      */
     public static java.lang.foreign.MemoryAddress tryMalloc0(long nBytes) {
@@ -6386,11 +6386,11 @@ public final class GLib {
     }
     
     /**
-     * Attempts to realloc {@code mem} to a new size, {@code n_bytes}, and returns <code>null</code>
+     * Attempts to realloc {@code mem} to a new size, {@code n_bytes}, and returns {@code null}
      * on failure. Contrast with g_realloc(), which aborts the program
      * on failure.
      * <p>
-     * If {@code mem} is <code>null</code>, behaves the same as g_try_malloc().
+     * If {@code mem} is {@code null}, behaves the same as g_try_malloc().
      */
     public static java.lang.foreign.MemoryAddress tryRealloc(java.lang.foreign.MemoryAddress mem, long nBytes) {
         var RESULT = gtk_h.g_try_realloc(mem, nBytes);
@@ -6501,8 +6501,8 @@ public final class GLib {
     
     /**
      * Determines whether a character is printable and not a space
-     * (returns <code>false</code> for control characters, format characters, and
-     * spaces). g_unichar_isprint() is similar, but returns <code>true</code> for
+     * (returns {@code false} for control characters, format characters, and
+     * spaces). g_unichar_isprint() is similar, but returns {@code true} for
      * spaces. Given some UTF-8 text, obtain a character value with
      * g_utf8_get_char().
      */
@@ -6539,7 +6539,7 @@ public final class GLib {
     
     /**
      * Determines whether a character is printable.
-     * Unlike g_unichar_isgraph(), returns <code>true</code> for spaces.
+     * Unlike g_unichar_isgraph(), returns {@code true} for spaces.
      * Given some UTF-8 text, obtain a character value with
      * g_utf8_get_char().
      */
@@ -6629,7 +6629,7 @@ public final class GLib {
     
     /**
      * Determines if a given character typically takes zero width when rendered.
-     * The return value is <code>true</code> for all non-spacing and enclosing marks
+     * The return value is {@code true} for all non-spacing and enclosing marks
      * (e.g., combining accents), format characters, zero-width
      * space, but not U+00AD SOFT HYPHEN.
      * <p>
@@ -6744,9 +6744,9 @@ public final class GLib {
      * {@code condition} becomes true for {@code fd}.
      * <p>
      * {@code function} will be called when the specified IO condition becomes
-     * <code>true</code>.  The function is expected to clear whatever event caused the
-     * IO condition to become true and return <code>true</code> in order to be notified
-     * when it happens again.  If {@code function} returns <code>false</code> then the watch
+     * {@code true}.  The function is expected to clear whatever event caused the
+     * IO condition to become true and return {@code true} in order to be notified
+     * when it happens again.  If {@code function} returns {@code false} then the watch
      * will be cancelled.
      * <p>
      * The return value of this function can be passed to g_source_remove()
@@ -6967,8 +6967,8 @@ public final class GLib {
      * {@link UriFlags#ENCODED}.
      * <p>
      * In contrast to g_uri_build(), this allows specifying the components
-     * of the ‘userinfo’ field separately. Note that {@code user} must be non-<code>null</code>
-     * if either {@code password} or {@code auth_params} is non-<code>null</code>.
+     * of the ‘userinfo’ field separately. Note that {@code user} must be non-{@code null}
+     * if either {@code password} or {@code auth_params} is non-{@code null}.
      */
     public static Uri uriBuildWithUser(int flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
         var RESULT = gtk_h.g_uri_build_with_user(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
@@ -7034,7 +7034,7 @@ public final class GLib {
     
     /**
      * Joins the given components together according to {@code flags} to create
-     * an absolute URI string. {@code path} may not be <code>null</code> (though it may be the empty
+     * an absolute URI string. {@code path} may not be {@code null} (though it may be the empty
      * string).
      * <p>
      * When {@code host} is present, {@code path} must either be empty or begin with a slash ({@code /})
@@ -7055,7 +7055,7 @@ public final class GLib {
     
     /**
      * Joins the given components together according to {@code flags} to create
-     * an absolute URI string. {@code path} may not be <code>null</code> (though it may be the empty
+     * an absolute URI string. {@code path} may not be {@code null} (though it may be the empty
      * string).
      * <p>
      * In contrast to g_uri_join(), this allows specifying the components
@@ -7107,7 +7107,7 @@ public final class GLib {
      * the returned attributes.
      * <p>
      * If {@code params} cannot be parsed (for example, it contains two {@code separators}
-     * characters in a row), then {@code error} is set and <code>null</code> is returned.
+     * characters in a row), then {@code error} is set and {@code null} is returned.
      */
     public static org.gtk.glib.HashTable uriParseParams(java.lang.String params, long length, java.lang.String separators, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -7122,9 +7122,9 @@ public final class GLib {
      * Gets the scheme portion of a URI string.
      * <a href="https://tools.ietf.org/html/rfc3986#section-3">RFC 3986</a> decodes the scheme
      * as:
-     * |[
+     * <pre>{@code 
      * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-     * ]|
+     * }</pre>
      * Common schemes include {@code file}, {@code https}, {@code svn+ssh}, etc.
      */
     public static java.lang.String uriParseScheme(java.lang.String uri) {
@@ -7136,9 +7136,9 @@ public final class GLib {
      * Gets the scheme portion of a URI string.
      * <a href="https://tools.ietf.org/html/rfc3986#section-3">RFC 3986</a> decodes the scheme
      * as:
-     * |[
+     * <pre>{@code 
      * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
-     * ]|
+     * }</pre>
      * Common schemes include {@code file}, {@code https}, {@code svn+ssh}, etc.
      * <p>
      * Unlike g_uri_parse_scheme(), the returned scheme is normalized to
@@ -7155,8 +7155,8 @@ public final class GLib {
      * {@code base_uri_string}. If the result is not a valid absolute URI, it will be
      * discarded, and an error returned.
      * <p>
-     * (If {@code base_uri_string} is <code>null</code>, this just returns {@code uri_ref}, or
-     * <code>null</code> if {@code uri_ref} is invalid or not absolute.)
+     * (If {@code base_uri_string} is {@code null}, this just returns {@code uri_ref}, or
+     * {@code null} if {@code uri_ref} is invalid or not absolute.)
      */
     public static java.lang.String uriResolveRelative(java.lang.String baseUriString, java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -7174,7 +7174,7 @@ public final class GLib {
      * nul bytes to appear in the output.
      * <p>
      * If any of the characters in {@code illegal_characters} appears as an escaped
-     * character in {@code escaped_string}, then that is an error and <code>null</code> will be
+     * character in {@code escaped_string}, then that is an error and {@code null} will be
      * returned. This is useful if you want to avoid for instance having a slash
      * being expanded in an escaped path element, which might confuse pathname
      * handling.
@@ -7193,7 +7193,7 @@ public final class GLib {
      * <p>
      * If any of the characters in {@code illegal_characters} or the NUL
      * character appears as an escaped character in {@code escaped_string}, then
-     * that is an error and <code>null</code> will be returned. This is useful if you
+     * that is an error and {@code null} will be returned. This is useful if you
      * want to avoid for instance having a slash being expanded in an
      * escaped path element, which might confuse pathname handling.
      * <p>
@@ -7210,7 +7210,7 @@ public final class GLib {
      * <p>
      * If any of the characters in {@code illegal_characters} or the NUL
      * character appears as an escaped character in {@code escaped_string}, then
-     * that is an error and <code>null</code> will be returned. This is useful if you
+     * that is an error and {@code null} will be returned. This is useful if you
      * want to avoid for instance having a slash being expanded in an
      * escaped path element, which might confuse pathname handling.
      */
@@ -7307,9 +7307,9 @@ public final class GLib {
      * is made to see if the character found is actually valid other than
      * it starts with an appropriate byte.
      * <p>
-     * If {@code end} is <code>null</code>, the return value will never be <code>null</code>: if the end of the
+     * If {@code end} is {@code null}, the return value will never be {@code null}: if the end of the
      * string is reached, a pointer to the terminating nul byte is returned. If
-     * {@code end} is non-<code>null</code>, the return value will be <code>null</code> if the end of the string
+     * {@code end} is non-{@code null}, the return value will be {@code null} if the end of the string
      * is reached.
      */
     public static java.lang.String utf8FindNextChar(java.lang.String p, java.lang.String end) {
@@ -7319,7 +7319,7 @@ public final class GLib {
     
     /**
      * Given a position @p with a UTF-8 encoded string {@code str}, find the start
-     * of the previous UTF-8 character starting before @p. Returns <code>null</code> if no
+     * of the previous UTF-8 character starting before @p. Returns {@code null} if no
      * UTF-8 characters are present in {@code str} before @p.
      * <p>
      * @p does not have to be at the beginning of a UTF-8 character. No check
@@ -7380,7 +7380,7 @@ public final class GLib {
      * such issues as whether a character with an accent
      * is represented as a base character and combining
      * accent or as a single precomposed character. The
-     * string has to be valid UTF-8, otherwise <code>null</code> is
+     * string has to be valid UTF-8, otherwise {@code null} is
      * returned. You should generally call g_utf8_normalize()
      * before comparing two Unicode strings.
      * <p>
@@ -7555,15 +7555,15 @@ public final class GLib {
      * Validates UTF-8 encoded text. {@code str} is the text to validate;
      * if {@code str} is nul-terminated, then {@code max_len} can be -1, otherwise
      * {@code max_len} should be the number of bytes to validate.
-     * If {@code end} is non-<code>null</code>, then the end of the valid range
+     * If {@code end} is non-{@code null}, then the end of the valid range
      * will be stored there (i.e. the start of the first invalid
      * character if some bytes were invalid, or the end of the text
      * being validated otherwise).
      * <p>
-     * Note that g_utf8_validate() returns <code>false</code> if {@code max_len} is
+     * Note that g_utf8_validate() returns {@code false} if {@code max_len} is
      * positive and any of the {@code max_len} bytes are nul.
      * <p>
-     * Returns <code>true</code> if all of {@code str} was valid. Many GLib and GTK+
+     * Returns {@code true} if all of {@code str} was valid. Many GLib and GTK+
      * routines require valid UTF-8 as input; so data read from a file
      * or the network should be checked with g_utf8_validate() before
      * doing anything else with it.
@@ -7577,7 +7577,7 @@ public final class GLib {
      * Validates UTF-8 encoded text.
      * <p>
      * As with g_utf8_validate(), but {@code max_len} must be set, and hence this function
-     * will always return <code>false</code> if any of the bytes of {@code str} are nul.
+     * will always return {@code false} if any of the bytes of {@code str} are nul.
      */
     public static boolean utf8ValidateLen(byte[] str, long maxLen, java.lang.String[] end) {
         var RESULT = gtk_h.g_utf8_validate_len(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), maxLen, Interop.allocateNativeArray(end).handle());
@@ -7655,13 +7655,13 @@ public final class GLib {
      * if the character at {@code limit} is the nul terminator.  This has the
      * effect of bounding {@code text}.
      * <p>
-     * If {@code endptr} is non-<code>null</code> then {@code text} is permitted to contain data
+     * If {@code endptr} is non-{@code null} then {@code text} is permitted to contain data
      * following the value that this function parses and {@code endptr} will be
      * updated to point to the first character past the end of the text
-     * parsed by this function.  If {@code endptr} is <code>null</code> and there is extra data
+     * parsed by this function.  If {@code endptr} is {@code null} and there is extra data
      * then an error is returned.
      * <p>
-     * If {@code type} is non-<code>null</code> then the value will be parsed to have that
+     * If {@code type} is non-{@code null} then the value will be parsed to have that
      * type.  This may result in additional parse errors (in the case that
      * the parsed value doesn't fit the type) but may also result in fewer
      * errors (in the case that the type would have been ambiguous, such as
@@ -7671,7 +7671,7 @@ public final class GLib {
      * is returned. It is never floating, and must be freed with
      * g_variant_unref().
      * <p>
-     * In case of any error, <code>null</code> will be returned.  If {@code error} is non-<code>null</code>
+     * In case of any error, {@code null} will be returned.  If {@code error} is non-{@code null}
      * then it will be set to reflect the error that occurred.
      * <p>
      * Officially, the language understood by the parser is "any string
@@ -7699,19 +7699,19 @@ public final class GLib {
      * <p>
      * The message will typically look something like one of the following:
      * <p>
-     * |[
+     * <pre>{@code 
      * unterminated string constant:
      *   (1, 2, 3, 'abc
      *             ^^^^
-     * ]|
+     * }</pre>
      * <p>
      * or
      * <p>
-     * |[
+     * <pre>{@code 
      * unable to find a common type:
      *   [1, 2, 3, 'str']
      *    ^        ^^^^^
-     * ]|
+     * }</pre>
      * <p>
      * The format of the message may change in a future version.
      * <p>
@@ -7757,11 +7757,11 @@ public final class GLib {
      * accessed.
      * <p>
      * If a valid type string is found, {@code endptr} is updated to point to the
-     * first character past the end of the string that was found and <code>true</code>
+     * first character past the end of the string that was found and {@code true}
      * is returned.
      * <p>
      * If there is no valid type string starting at {@code string}, or if the type
-     * string does not end before {@code limit} then <code>false</code> is returned.
+     * string does not end before {@code limit} then {@code false} is returned.
      * <p>
      * For the simple case of checking if a string is a valid type string,
      * see g_variant_type_string_is_valid().

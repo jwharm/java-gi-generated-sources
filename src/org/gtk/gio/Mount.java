@@ -67,7 +67,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes ejecting a mount. If any errors occurred during the operation,
-     * {@code error} will be set to contain the errors and <code>false</code> will be returned.
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -142,7 +142,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Gets the UUID for the {@code mount}. The reference is typically based on
      * the file system UUID for the mount in question and should be
-     * considered an opaque string. Returns <code>null</code> if there is no UUID
+     * considered an opaque string. Returns {@code null} if there is no UUID
      * available.
      */
     public default java.lang.String getUuid() {
@@ -242,7 +242,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes remounting a mount. If any errors occurred during the operation,
-     * {@code error} will be set to contain the errors and <code>false</code> will be returned.
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
      */
     public default boolean remountFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -284,7 +284,7 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes unmounting a mount. If any errors occurred during the operation,
-     * {@code error} will be set to contain the errors and <code>false</code> will be returned.
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
      */
     public default boolean unmountWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

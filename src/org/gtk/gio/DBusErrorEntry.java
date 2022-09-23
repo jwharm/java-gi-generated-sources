@@ -16,4 +16,8 @@ public class DBusErrorEntry extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DBusErrorEntry() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusErrorEntry.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -16,4 +16,8 @@ public class DtlsConnectionInterface extends io.github.jwharm.javagi.ResourceBas
         super(reference);
     }
     
+    public DtlsConnectionInterface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDtlsConnectionInterface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

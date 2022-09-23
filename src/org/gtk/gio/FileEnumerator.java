@@ -66,7 +66,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
     /**
      * Asynchronously closes the file enumerator.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned in
      * g_file_enumerator_close_finish().
@@ -90,11 +90,11 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * <p>
      * If the file enumerator was already closed when g_file_enumerator_close_async()
      * was called, then this function will report {@link IOErrorEnum#CLOSED} in {@code error}, and
-     * return <code>false</code>. If the file enumerator had pending operation when the close
+     * return {@code false}. If the file enumerator had pending operation when the close
      * operation was started, then this function will report {@link IOErrorEnum#PENDING}, and
-     * return <code>false</code>.  If {@code cancellable} was not <code>null</code>, then the operation may have been
+     * return {@code false}.  If {@code cancellable} was not {@code null}, then the operation may have been
      * cancelled by triggering the cancellable object from another thread. If the operation
-     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set, and <code>false</code> will be
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set, and {@code false} will be
      * returned.
      */
     public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
@@ -115,11 +115,11 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * attributes list used when creating the {@link FileEnumerator}.
      * <p>
      * This is a convenience method that's equivalent to:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      *   gchar *name = g_file_info_get_name (info);
      *   GFile *child = g_file_get_child (g_file_enumerator_get_container (enumr),
      *                                    name);
-     * ]|
+     * }</pre>
      */
     public File getChild(FileInfo info) {
         var RESULT = gtk_h.g_file_enumerator_get_child(handle(), info.handle());
@@ -156,9 +156,9 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * the gboolean return value signifies "end of iteration or error", which
      * requires allocation of a temporary {@link org.gtk.glib.Error}.
      * <p>
-     * In contrast, with this function, a <code>false</code> return from
+     * In contrast, with this function, a {@code false} return from
      * g_file_enumerator_iterate() <strong>always</strong> means
-     * "error".  End of iteration is signaled by {@code out_info} or {@code out_child} being <code>null</code>.
+     * "error".  End of iteration is signaled by {@code out_info} or {@code out_child} being {@code null}.
      * <p>
      * Another crucial difference is that the references for {@code out_info} and
      * {@code out_child} are owned by {@code direnum} (they are cached as hidden
@@ -174,7 +174,7 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * The code pattern for correctly using g_file_enumerator_iterate() from C
      * is:
      * <p>
-     * |[
+     * <pre>{@code 
      * direnum = g_file_enumerate_children (file, ...);
      * while (TRUE)
      *   {
@@ -185,10 +185,10 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      *       break;
      *     ... do stuff with "info"; do not unref it! ...
      *   }
-     * <p>
+     * 
      * out:
-     *   g_object_unref (direnum); // Note: frees the last {@code info}
-     * ]|
+     *   g_object_unref (direnum); // Note: frees the last @info
+     * }</pre>
      */
     public boolean iterate(FileInfo[] outInfo, File[] outChild, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -208,8 +208,8 @@ public class FileEnumerator extends org.gtk.gobject.Object {
      * See the documentation of {@link FileEnumerator} for information about the
      * order of returned files.
      * <p>
-     * On error, returns <code>null</code> and sets {@code error} to the error. If the
-     * enumerator is at the end, <code>null</code> will be returned and {@code error} will
+     * On error, returns {@code null} and sets {@code error} to the error. If the
+     * enumerator is at the end, {@code null} will be returned and {@code error} will
      * be unset.
      */
     public FileInfo nextFile(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {

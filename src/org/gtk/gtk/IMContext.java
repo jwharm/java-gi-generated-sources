@@ -87,7 +87,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * Allow an input method to internally handle key press and release
      * events.
      * <p>
-     * If this function returns <code>true</code>, then no further processing
+     * If this function returns {@code true}, then no further processing
      * should be done for this key event.
      */
     public boolean filterKeypress(org.gtk.gdk.Event event) {
@@ -162,7 +162,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * Sets whether the IM context should use the preedit string
      * to display feedback.
      * <p>
-     * If {@code use_preedit} is <code>false</code> (default is <code>true</code>), then the IM context
+     * If {@code use_preedit} is {@code false} (default is {@code true}), then the IM context
      * may use some other method to display feedback, such as displaying
      * it in a child of the root window.
      */

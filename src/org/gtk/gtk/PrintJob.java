@@ -300,7 +300,7 @@ public class PrintJob extends org.gtk.gobject.Object {
     }
     
     /**
-     * If track_status is <code>true</code>, the print job will try to continue report
+     * If track_status is {@code true}, the print job will try to continue report
      * on the status of the print job in the printer queues and printer.
      * <p>
      * This can allow your application to show things like “out of paper”

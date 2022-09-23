@@ -179,7 +179,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     /**
      * Returns the current print settings.
      * <p>
-     * Note that the return value is <code>null</code> until either
+     * Note that the return value is {@code null} until either
      * {@link PrintOperation#setPrintSettings} or
      * {@link PrintOperation#run} have been called.
      */
@@ -434,7 +434,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     /**
-     * If {@code show_progress} is <code>true</code>, the print operation will show
+     * If {@code show_progress} is {@code true}, the print operation will show
      * a progress dialog during the print operation.
      */
     public void setShowProgress(boolean showProgress) {
@@ -449,7 +449,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     /**
-     * If track_status is <code>true</code>, the print operation will try to continue
+     * If track_status is {@code true}, the print operation will try to continue
      * report on the status of the print job in the printer queues and printer.
      * <p>
      * This can allow your application to show things like “out of paper”
@@ -472,7 +472,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     }
     
     /**
-     * If {@code full_page} is <code>true</code>, the transformation for the cairo context
+     * If {@code full_page} is {@code true}, the transformation for the cairo context
      * obtained from {@code GtkPrintContext} puts the origin at the top left
      * corner of the page.
      * <p>
@@ -588,7 +588,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * {@link PrintOperation#getError} for more information.
      * <p>
      * If you enabled print status tracking then
-     * {@link PrintOperation#isFinished} may still return <code>false</code>
+     * {@link PrintOperation#isFinished} may still return {@code false}
      * after the ::done signal was emitted.
      */
     public SignalHandle onDone(DoneHandler handler) {
@@ -714,12 +714,12 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * Emitted after the ::begin-print signal, but before the actual rendering
      * starts.
      * <p>
-     * It keeps getting emitted until a connected signal handler returns <code>true</code>.
+     * It keeps getting emitted until a connected signal handler returns {@code true}.
      * <p>
      * The ::paginate signal is intended to be used for paginating a document
      * in small chunks, to avoid blocking the user interface for a long
      * time. The signal handler should update the number of pages using
-     * {@link PrintOperation#setNPages}, and return <code>true</code> if the document
+     * {@link PrintOperation#setNPages}, and return {@code true} if the document
      * has been completely paginated.
      * <p>
      * If you don't need to do pagination in chunks, you can simply do
@@ -753,7 +753,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      * application to preview.
      * <p>
      * To implement a custom print preview, an application must return
-     * <code>true</code> from its handler for this signal. In order to use the
+     * {@code true} from its handler for this signal. In order to use the
      * provided {@code context} for the preview implementation, it must be
      * given a suitable cairo context with
      * {@link PrintContext#setCairoContext}.

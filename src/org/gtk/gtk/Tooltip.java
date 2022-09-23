@@ -21,7 +21,7 @@ import java.lang.invoke.*;
  * little more work:
  * <p>
  * <ul>
- * <li>Set the {@code Gtk.Widget:has-tooltip} property to <code>true</code>.
+ * <li>Set the {@code Gtk.Widget:has-tooltip} property to {@code true}.
  *   This will make GTK monitor the widget for motion and related events
  *   which are needed to determine when and where to show a tooltip.
  * </ul>
@@ -38,8 +38,8 @@ import java.lang.invoke.*;
  * </ul>
  * <p>
  * <ul>
- * <li>Return <code>true</code> from your ::query-tooltip handler. This causes the tooltip
- *   to be show. If you return <code>false</code>, it will not be shown.
+ * <li>Return {@code true} from your ::query-tooltip handler. This causes the tooltip
+ *   to be show. If you return {@code false}, it will not be shown.
  */
 public class Tooltip extends org.gtk.gobject.Object {
 
@@ -66,7 +66,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
-     * {@code paintable}.  If {@code paintable} is <code>null</code>, the image will be hidden.
+     * {@code paintable}.  If {@code paintable} is {@code null}, the image will be hidden.
      */
     public void setIcon(org.gtk.gdk.Paintable paintable) {
         gtk_h.gtk_tooltip_set_icon(handle(), paintable.handle());
@@ -75,7 +75,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     /**
      * Sets the icon of the tooltip (which is in front of the text)
      * to be the icon indicated by {@code gicon} with the size indicated
-     * by {@code size}. If {@code gicon} is <code>null</code>, the image will be hidden.
+     * by {@code size}. If {@code gicon} is {@code null}, the image will be hidden.
      */
     public void setIconFromGicon(org.gtk.gio.Icon gicon) {
         gtk_h.gtk_tooltip_set_icon_from_gicon(handle(), gicon.handle());
@@ -84,7 +84,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     /**
      * Sets the icon of the tooltip (which is in front of the text) to be
      * the icon indicated by {@code icon_name} with the size indicated
-     * by {@code size}.  If {@code icon_name} is <code>null</code>, the image will be hidden.
+     * by {@code size}.  If {@code icon_name} is {@code null}, the image will be hidden.
      */
     public void setIconFromIconName(java.lang.String iconName) {
         gtk_h.gtk_tooltip_set_icon_from_icon_name(handle(), Interop.allocateNativeString(iconName).handle());
@@ -94,7 +94,7 @@ public class Tooltip extends org.gtk.gobject.Object {
      * Sets the text of the tooltip to be {@code markup}.
      * <p>
      * The string must be marked up with Pango markup.
-     * If {@code markup} is <code>null</code>, the label will be hidden.
+     * If {@code markup} is {@code null}, the label will be hidden.
      */
     public void setMarkup(java.lang.String markup) {
         gtk_h.gtk_tooltip_set_markup(handle(), Interop.allocateNativeString(markup).handle());
@@ -103,7 +103,7 @@ public class Tooltip extends org.gtk.gobject.Object {
     /**
      * Sets the text of the tooltip to be {@code text}.
      * <p>
-     * If {@code text} is <code>null</code>, the label will be hidden.
+     * If {@code text} is {@code null}, the label will be hidden.
      * See also {@link Tooltip#setMarkup}.
      */
     public void setText(java.lang.String text) {

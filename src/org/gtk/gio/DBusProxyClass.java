@@ -16,4 +16,8 @@ public class DBusProxyClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public DBusProxyClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GDBusProxyClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

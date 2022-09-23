@@ -17,4 +17,8 @@ public class PollFD extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public PollFD() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GPollFD.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

@@ -17,4 +17,8 @@ public class InitableIface extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public InitableIface() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GInitableIface.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

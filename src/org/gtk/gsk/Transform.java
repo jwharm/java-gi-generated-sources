@@ -52,10 +52,10 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inverts the given transform.
      * <p>
-     * If {@code self} is not invertible, <code>null</code> is returned.
-     * Note that inverting <code>null</code> also returns <code>null</code>, which is
-     * the correct inverse of <code>null</code>. If you need to differentiate
-     * between those cases, you should check {@code self} is not <code>null</code>
+     * If {@code self} is not invertible, {@code null} is returned.
+     * Note that inverting {@code null} also returns {@code null}, which is
+     * the correct inverse of {@code null}. If you need to differentiate
+     * between those cases, you should check {@code self} is not {@code null}
      * before calling this function.
      */
     public Transform invert() {
@@ -225,8 +225,8 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * Strings printed via {@link Transform#toString}
      * can be read in again successfully using this function.
      * <p>
-     * If {@code string} does not describe a valid transform, <code>false</code> is
-     * returned and <code>null</code> is put in {@code out_transform}.
+     * If {@code string} does not describe a valid transform, {@code false} is
+     * returned and {@code null} is put in {@code out_transform}.
      */
     public static boolean parse(java.lang.String string, Transform[] outTransform) {
         var RESULT = gtk_h.gsk_transform_parse(Interop.allocateNativeString(string).handle(), Interop.allocateNativeArray(outTransform).handle());

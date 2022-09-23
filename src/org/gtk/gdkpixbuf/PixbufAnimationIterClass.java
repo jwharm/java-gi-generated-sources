@@ -18,4 +18,8 @@ public class PixbufAnimationIterClass extends io.github.jwharm.javagi.ResourceBa
         super(reference);
     }
     
+    public PixbufAnimationIterClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GdkPixbufAnimationIterClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

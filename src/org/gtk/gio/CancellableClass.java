@@ -13,4 +13,8 @@ public class CancellableClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public CancellableClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GCancellableClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

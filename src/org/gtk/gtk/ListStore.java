@@ -199,7 +199,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row after {@code sibling}. If {@code sibling} is <code>null</code>, then the row will be
+     * Inserts a new row after {@code sibling}. If {@code sibling} is {@code null}, then the row will be
      * prepended to the beginning of the list. {@code iter} will be changed to point to
      * this new row. The row will be empty after this function is called. To fill
      * in values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
@@ -209,7 +209,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     /**
-     * Inserts a new row before {@code sibling}. If {@code sibling} is <code>null</code>, then the row will
+     * Inserts a new row before {@code sibling}. If {@code sibling} is {@code null}, then the row will
      * be appended to the end of the list. {@code iter} will be changed to point to this
      * new row. The row will be empty after this function is called. To fill in
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
@@ -242,7 +242,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     
     /**
      * Moves {@code iter} in {@code store} to the position after {@code position}. Note that this
-     * function only works with unsorted stores. If {@code position} is <code>null</code>, {@code iter}
+     * function only works with unsorted stores. If {@code position} is {@code null}, {@code iter}
      * will be moved to the start of the list.
      */
     public void moveAfter(TreeIter iter, TreeIter position) {
@@ -251,7 +251,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     
     /**
      * Moves {@code iter} in {@code store} to the position before {@code position}. Note that this
-     * function only works with unsorted stores. If {@code position} is <code>null</code>, {@code iter}
+     * function only works with unsorted stores. If {@code position} is {@code null}, {@code iter}
      * will be moved to the end of the list.
      */
     public void moveBefore(TreeIter iter, TreeIter position) {

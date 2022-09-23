@@ -13,4 +13,8 @@ public class TcpConnectionClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public TcpConnectionClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GTcpConnectionClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

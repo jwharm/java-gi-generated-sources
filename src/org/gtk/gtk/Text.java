@@ -226,7 +226,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * Retrieves the text that will be displayed when
      * {@code self} is empty and unfocused
      * <p>
-     * If no placeholder text has been set, <code>null</code> will be returned.
+     * If no placeholder text has been set, {@code null} will be returned.
      */
     public java.lang.String getPlaceholderText() {
         var RESULT = gtk_h.gtk_text_get_placeholder_text(handle());
@@ -295,7 +295,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
-     * If {@code activates} is <code>true</code>, pressing Enter will activate
+     * If {@code activates} is {@code true}, pressing Enter will activate
      * the default widget for the window containing {@code self}.
      * <p>
      * This usually means that the dialog containing the {@code GtkText}
@@ -426,7 +426,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     /**
      * Sets whether the contents of the {@code GtkText} are visible or not.
      * <p>
-     * When visibility is set to <code>false</code>, characters are displayed
+     * When visibility is set to {@code false}, characters are displayed
      * as the invisible char, and will also appear that way when
      * the text in the widget is copied to the clipboard.
      * <p>
@@ -437,7 +437,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * Note that you probably want to set {@code Gtk.Text:input-purpose}
      * to {@link InputPurpose#PASSWORD} or {@link InputPurpose#PIN} to
      * inform input methods about the purpose of this self,
-     * in addition to setting visibility to <code>false</code>.
+     * in addition to setting visibility to {@code false}.
      */
     public void setVisibility(boolean visible) {
         gtk_h.gtk_text_set_visibility(handle(), visible ? 1 : 0);

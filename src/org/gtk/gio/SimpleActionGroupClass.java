@@ -13,4 +13,8 @@ public class SimpleActionGroupClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public SimpleActionGroupClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GSimpleActionGroupClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

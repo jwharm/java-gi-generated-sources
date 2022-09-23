@@ -89,7 +89,7 @@ public class CenterLayout extends LayoutManager {
     /**
      * Sets the new center widget of {@code self}.
      * <p>
-     * To remove the existing center widget, pass <code>null</code>.
+     * To remove the existing center widget, pass {@code null}.
      */
     public void setCenterWidget(Widget widget) {
         gtk_h.gtk_center_layout_set_center_widget(handle(), widget.handle());
@@ -98,7 +98,7 @@ public class CenterLayout extends LayoutManager {
     /**
      * Sets the new end widget of {@code self}.
      * <p>
-     * To remove the existing center widget, pass <code>null</code>.
+     * To remove the existing center widget, pass {@code null}.
      */
     public void setEndWidget(Widget widget) {
         gtk_h.gtk_center_layout_set_end_widget(handle(), widget.handle());
@@ -114,7 +114,7 @@ public class CenterLayout extends LayoutManager {
     /**
      * Sets the new start widget of {@code self}.
      * <p>
-     * To remove the existing start widget, pass <code>null</code>.
+     * To remove the existing start widget, pass {@code null}.
      */
     public void setStartWidget(Widget widget) {
         gtk_h.gtk_center_layout_set_start_widget(handle(), widget.handle());

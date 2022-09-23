@@ -13,4 +13,8 @@ public class ScaleButtonClass extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
+    public ScaleButtonClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GtkScaleButtonClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

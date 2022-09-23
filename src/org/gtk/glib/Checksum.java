@@ -26,7 +26,7 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Creates a new {@link Checksum}, using the checksum algorithm {@code checksum_type}.
-     * If the {@code checksum_type} is not known, <code>null</code> is returned.
+     * If the {@code checksum_type} is not known, {@code null} is returned.
      * A {@link Checksum} can be used to compute the checksum, or digest, of an
      * arbitrary binary blob, using different hashing algorithms.
      * <p>

@@ -98,7 +98,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
     
     /**
      * Finishes ejecting a drive. If any errors occurred during the operation,
-     * {@code error} will be set to contain the errors and <code>false</code> will be returned.
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
      */
     public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);

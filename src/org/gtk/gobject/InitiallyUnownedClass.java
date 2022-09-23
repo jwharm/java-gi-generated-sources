@@ -16,4 +16,8 @@ public class InitiallyUnownedClass extends io.github.jwharm.javagi.ResourceBase 
         super(reference);
     }
     
+    public InitiallyUnownedClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GInitiallyUnownedClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

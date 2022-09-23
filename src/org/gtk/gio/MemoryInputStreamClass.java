@@ -13,4 +13,8 @@ public class MemoryInputStreamClass extends io.github.jwharm.javagi.ResourceBase
         super(reference);
     }
     
+    public MemoryInputStreamClass() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GMemoryInputStreamClass.allocate(Interop.getAllocator()).address()));
+    }
+    
 }

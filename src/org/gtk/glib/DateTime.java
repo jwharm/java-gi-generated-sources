@@ -46,7 +46,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * It not considered a programmer error for the values to this function
      * to be out of range, but in the case that they are, the function will
-     * return <code>null</code>.
+     * return {@code null}.
      * <p>
      * You should release the return value by calling g_date_time_unref()
      * when you are done with it.
@@ -105,7 +105,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * If the timezone is not provided in {@code text} it must be provided in {@code default_tz}
      * (this field is otherwise ignored).
      * <p>
-     * This call can fail (returning <code>null</code>) if {@code text} is not a valid ISO 8601
+     * This call can fail (returning {@code null}) if {@code text} is not a valid ISO 8601
      * formatted string.
      * <p>
      * You should release the return value by calling g_date_time_unref()
@@ -128,7 +128,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * seconds elapsed since 1970-01-01 00:00:00 UTC, regardless of the
      * local time offset.
      * <p>
-     * This call can fail (returning <code>null</code>) if {@code tv} represents a time outside
+     * This call can fail (returning {@code null}) if {@code tv} represents a time outside
      * of the supported range of {@link DateTime}.
      * <p>
      * You should release the return value by calling g_date_time_unref()
@@ -149,7 +149,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * The time contained in a {@link TimeVal} is always stored in the form of
      * seconds elapsed since 1970-01-01 00:00:00 UTC.
      * <p>
-     * This call can fail (returning <code>null</code>) if {@code tv} represents a time outside
+     * This call can fail (returning {@code null}) if {@code tv} represents a time outside
      * of the supported range of {@link DateTime}.
      * <p>
      * You should release the return value by calling g_date_time_unref()
@@ -171,7 +171,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Unix time is the number of seconds that have elapsed since 1970-01-01
      * 00:00:00 UTC, regardless of the local time offset.
      * <p>
-     * This call can fail (returning <code>null</code>) if @t represents a time outside
+     * This call can fail (returning {@code null}) if @t represents a time outside
      * of the supported range of {@link DateTime}.
      * <p>
      * You should release the return value by calling g_date_time_unref()
@@ -192,7 +192,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
      * Unix time is the number of seconds that have elapsed since 1970-01-01
      * 00:00:00 UTC.
      * <p>
-     * This call can fail (returning <code>null</code>) if @t represents a time outside
+     * This call can fail (returning {@code null}) if @t represents a time outside
      * of the supported range of {@link DateTime}.
      * <p>
      * You should release the return value by calling g_date_time_unref()
@@ -375,7 +375,7 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * A comparison function for {@code GDateTimes} that is suitable
-     * as a {@link CompareFunc}. Both {@code GDateTimes} must be non-<code>null</code>.
+     * as a {@link CompareFunc}. Both {@code GDateTimes} must be non-{@code null}.
      */
     public int compare(DateTime dt2) {
         var RESULT = gtk_h.g_date_time_compare(handle(), dt2.handle());

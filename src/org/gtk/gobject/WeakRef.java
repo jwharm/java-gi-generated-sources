@@ -10,10 +10,10 @@ import java.lang.invoke.*;
 /**
  * A structure containing a weak reference to a {@link Object}.
  * <p>
- * A {@code GWeakRef} can either be empty (i.e. point to <code>null</code>), or point to an
+ * A {@code GWeakRef} can either be empty (i.e. point to {@code null}), or point to an
  * object for as long as at least one "strong" reference to that object
  * exists. Before the object's {@link ObjectClass}.dispose method is called,
- * every {@link WeakRef} associated with becomes empty (i.e. points to <code>null</code>).
+ * every {@link WeakRef} associated with becomes empty (i.e. points to {@code null}).
  * <p>
  * Like {@link Value}, {@link WeakRef} can be statically allocated, stack- or
  * heap-allocated, or embedded in larger structures.
@@ -25,7 +25,7 @@ import java.lang.invoke.*;
  * <p>
  * If the object's {@link ObjectClass}.dispose method results in additional
  * references to the object being held (‘re-referencing’), any {@code GWeakRefs} taken
- * before it was disposed will continue to point to <code>null</code>.  Any {@code GWeakRefs} taken
+ * before it was disposed will continue to point to {@code null}.  Any {@code GWeakRefs} taken
  * during disposal and after re-referencing, or after disposal has returned due
  * to the re-referencing, will continue to point to the object until its refcount
  * goes back to zero, at which point they too will be invalidated.
@@ -37,6 +37,10 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
 
     public WeakRef(io.github.jwharm.javagi.Reference reference) {
         super(reference);
+    }
+    
+    public WeakRef() {
+        super(References.get(io.github.jwharm.javagi.interop.jextract.GWeakRef.allocate(Interop.getAllocator()).address()));
     }
     
     /**
@@ -83,7 +87,7 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Change the object to which {@code weak_ref} points, or set it to
-     * <code>null</code>.
+     * {@code null}.
      * <p>
      * You must own a strong reference on {@code object} while calling this
      * function.

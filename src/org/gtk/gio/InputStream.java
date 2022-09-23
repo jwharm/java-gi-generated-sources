@@ -57,7 +57,7 @@ public class InputStream extends org.gtk.gobject.Object {
      * close will still return {@link IOErrorEnum#CLOSED} for all operations. Still, it
      * is important to check and report the error to the user.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * Cancelling a close will still leave the stream closed, but some streams
@@ -141,7 +141,7 @@ public class InputStream extends org.gtk.gobject.Object {
      * The returned {@code buffer} is not a nul-terminated string, it can contain nul bytes
      * at any position, and this function doesn't nul-terminate the {@code buffer}.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
@@ -240,13 +240,13 @@ public class InputStream extends org.gtk.gobject.Object {
      * returned on end of file (or if {@code count} is zero), but never
      * otherwise.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
      * <p>
-     * On error <code>null</code> is returned and {@code error} is set accordingly.
+     * On error {@code null} is returned and {@code error} is set accordingly.
      */
     public org.gtk.glib.Bytes readBytes(long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -319,7 +319,7 @@ public class InputStream extends org.gtk.gobject.Object {
     
     /**
      * Sets {@code stream} to have actions pending. If the pending flag is
-     * already set or {@code stream} is closed, it will return <code>false</code> and set
+     * already set or {@code stream} is closed, it will return {@code false} and set
      * {@code error}.
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {
@@ -341,7 +341,7 @@ public class InputStream extends org.gtk.gobject.Object {
      * This function is optional for inherited classes, as the default implementation
      * emulates it using read.
      * <p>
-     * If {@code cancellable} is not <code>null</code>, then the operation can be cancelled by
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the

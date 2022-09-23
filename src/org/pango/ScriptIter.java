@@ -45,7 +45,7 @@ public class ScriptIter extends io.github.jwharm.javagi.ResourceBase {
      * Advances a {@code PangoScriptIter} to the next range.
      * <p>
      * If {@code iter} is already at the end, it is left unchanged
-     * and <code>false</code> is returned.
+     * and {@code false} is returned.
      */
     public boolean next() {
         var RESULT = gtk_h.pango_script_iter_next(handle());

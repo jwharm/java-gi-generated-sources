@@ -179,14 +179,14 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * Unless {@link RegexCompileFlags#RAW} is specified in the options, {@code string} must be valid UTF-8.
      * <p>
      * A {@link MatchInfo} structure, used to get information on the match,
-     * is stored in {@code match_info} if not <code>null</code>. Note that if {@code match_info}
-     * is not <code>null</code> then it is created even if the function returns <code>false</code>,
+     * is stored in {@code match_info} if not {@code null}. Note that if {@code match_info}
+     * is not {@code null} then it is created even if the function returns {@code false},
      * i.e. you must free it regardless if regular expression actually matched.
      * <p>
      * To retrieve all the non-overlapping matches of the pattern in
      * string you can use g_match_info_next().
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void
      * print_uppercase_words (const gchar *string)
      * {
@@ -199,14 +199,14 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      *   while (g_match_info_matches (match_info))
      *     {
      *       gchar *word = g_match_info_fetch (match_info, 0);
-     *       g_print ("Found: {@code s}\\n", word);
+     *       g_print ("Found: %s\\n", word);
      *       g_free (word);
      *       g_match_info_next (match_info, NULL);
      *     }
      *   g_match_info_free (match_info);
      *   g_regex_unref (regex);
      * }
-     * ]|
+     * }</pre>
      * <p>
      * {@code string} is not copied and is used in {@link MatchInfo} internally. If
      * you use any {@link MatchInfo} method (except g_match_info_free()) after
@@ -224,8 +224,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * For more documentation see g_regex_match_all_full().
      * <p>
      * A {@link MatchInfo} structure, used to get information on the match, is
-     * stored in {@code match_info} if not <code>null</code>. Note that if {@code match_info} is
-     * not <code>null</code> then it is created even if the function returns <code>false</code>,
+     * stored in {@code match_info} if not {@code null}. Note that if {@code match_info} is
+     * not {@code null} then it is created even if the function returns {@code false},
      * i.e. you must free it regardless if regular expression actually
      * matched.
      * <p>
@@ -269,8 +269,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * Unless {@link RegexCompileFlags#RAW} is specified in the options, {@code string} must be valid UTF-8.
      * <p>
      * A {@link MatchInfo} structure, used to get information on the match, is
-     * stored in {@code match_info} if not <code>null</code>. Note that if {@code match_info} is
-     * not <code>null</code> then it is created even if the function returns <code>false</code>,
+     * stored in {@code match_info} if not {@code null}. Note that if {@code match_info} is
+     * not {@code null} then it is created even if the function returns {@code false},
      * i.e. you must free it regardless if regular expression actually
      * matched.
      * <p>
@@ -300,8 +300,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * Unless {@link RegexCompileFlags#RAW} is specified in the options, {@code string} must be valid UTF-8.
      * <p>
      * A {@link MatchInfo} structure, used to get information on the match, is
-     * stored in {@code match_info} if not <code>null</code>. Note that if {@code match_info} is
-     * not <code>null</code> then it is created even if the function returns <code>false</code>,
+     * stored in {@code match_info} if not {@code null}. Note that if {@code match_info} is
+     * not {@code null} then it is created even if the function returns {@code false},
      * i.e. you must free it regardless if regular expression actually
      * matched.
      * <p>
@@ -312,7 +312,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * To retrieve all the non-overlapping matches of the pattern in
      * string you can use g_match_info_next().
      * <p>
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static void
      * print_uppercase_words (const gchar *string)
      * {
@@ -326,7 +326,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      *   while (g_match_info_matches (match_info))
      *     {
      *       gchar *word = g_match_info_fetch (match_info, 0);
-     *       g_print ("Found: {@code s}\\n", word);
+     *       g_print ("Found: %s\\n", word);
      *       g_free (word);
      *       g_match_info_next (match_info, &error);
      *     }
@@ -334,11 +334,11 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      *   g_regex_unref (regex);
      *   if (error != NULL)
      *     {
-     *       g_printerr ("Error while matching: {@code s}\\n", error->message);
+     *       g_printerr ("Error while matching: %s\\n", error->message);
      *       g_error_free (error);
      *     }
      * }
-     * ]|
+     * }</pre>
      */
     public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -406,7 +406,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The following example uses g_regex_replace_eval() to replace multiple
      * strings at once:
-     * |[&lt;!-- language="C" --&gt;
+     * <pre>{@code <!-- language="C" -->
      * static gboolean
      * eval_cb (const GMatchInfo *info,
      *          GString          *res,
@@ -414,34 +414,34 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * {
      *   gchar *match;
      *   gchar *r;
-     * <p>
+     * 
      *    match = g_match_info_fetch (info, 0);
      *    r = g_hash_table_lookup ((GHashTable *)data, match);
      *    g_string_append (res, r);
      *    g_free (match);
-     * <p>
+     * 
      *    return FALSE;
      * }
-     * <p>
+     * 
      * ...
-     * <p>
+     * 
      * GRegex *reg;
      * GHashTable *h;
      * gchar *res;
-     * <p>
+     * 
      * h = g_hash_table_new (g_str_hash, g_str_equal);
-     * <p>
+     * 
      * g_hash_table_insert (h, "1", "ONE");
      * g_hash_table_insert (h, "2", "TWO");
      * g_hash_table_insert (h, "3", "THREE");
      * g_hash_table_insert (h, "4", "FOUR");
-     * <p>
+     * 
      * reg = g_regex_new ("1|2|3|4", 0, 0, NULL);
      * res = g_regex_replace_eval (reg, text, -1, 0, 0, eval_cb, h, NULL);
      * g_hash_table_destroy (h);
-     * <p>
+     * 
      * ...
-     * ]|
+     * }</pre>
      */
     public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
