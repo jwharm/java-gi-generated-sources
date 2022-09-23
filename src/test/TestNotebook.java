@@ -1,7 +1,28 @@
 package test;
 
-import org.gtk.gtk.*;
+import org.gnome.adw.Application;
+import org.gnome.adw.ApplicationWindow;
+import org.gtk.gtk.Window;
 import org.gtk.gio.ApplicationFlags;
+import org.gtk.gtk.Align;
+import org.gtk.gtk.Box;
+import org.gtk.gtk.Button;
+import org.gtk.gtk.ComboBox;
+import org.gtk.gtk.DropDown;
+import org.gtk.gtk.Entry;
+import org.gtk.gtk.Label;
+import org.gtk.gtk.ListBox;
+import org.gtk.gtk.ListItem;
+import org.gtk.gtk.ListView;
+import org.gtk.gtk.Notebook;
+import org.gtk.gtk.Orientation;
+import org.gtk.gtk.PositionType;
+import org.gtk.gtk.SelectionMode;
+import org.gtk.gtk.SelectionModel;
+import org.gtk.gtk.SignalListItemFactory;
+import org.gtk.gtk.SingleSelection;
+import org.gtk.gtk.StringList;
+import org.gtk.gtk.Widget;
 
 public class TestNotebook {
 
@@ -13,6 +34,10 @@ public class TestNotebook {
         var window = new ApplicationWindow(Application.castFrom(g_application));
         window.setTitle("Window");
         window.setDefaultSize(300, 200);
+        var box = new Box(Orientation.VERTICAL, 0);
+        window.setContent(box);
+        var headerbar = new org.gnome.adw.HeaderBar();
+        box.append(headerbar);
 
         var notebook = new Notebook();
         notebook.setTabPos(PositionType.TOP);
@@ -27,7 +52,7 @@ public class TestNotebook {
                 System.out.println("Switched to page " + pageNum)
         );
 
-        window.setChild(notebook);
+        box.append(notebook);
         window.show();
     }
 
@@ -107,7 +132,7 @@ public class TestNotebook {
         return box;
     }
 
-    private Box boxWithButton(ApplicationWindow window) {
+    private Box boxWithButton(Window window) {
         var box = new Box(Orientation.VERTICAL, 0);
         box.setHalign(Align.CENTER);
         box.setValign(Align.CENTER);
@@ -131,7 +156,7 @@ public class TestNotebook {
     }
 
     public TestNotebook(String[] args) {
-        Application app = new Application("org.gtk.example", ApplicationFlags.FLAGS_NONE);
+        var app = new Application("io.github.jwharm.java-gtk4.example", ApplicationFlags.FLAGS_NONE);
         app.onActivate(this::activate);
         app.run(args.length, args);
     }
