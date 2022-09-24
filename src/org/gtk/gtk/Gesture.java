@@ -336,17 +336,26 @@ public class Gesture extends EventController {
      */
     public SignalHandle onBegin(BeginHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureBegin", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("begin").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("begin").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(Gesture.class, "__signalGestureBegin",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalGestureBegin(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (Gesture.BeginHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }
     
     @FunctionalInterface
@@ -368,17 +377,26 @@ public class Gesture extends EventController {
      */
     public SignalHandle onCancel(CancelHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureCancel", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("cancel").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("cancel").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(Gesture.class, "__signalGestureCancel",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalGestureCancel(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (Gesture.CancelHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }
     
     @FunctionalInterface
@@ -399,17 +417,26 @@ public class Gesture extends EventController {
      */
     public SignalHandle onEnd(EndHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureEnd", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("end").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("end").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(Gesture.class, "__signalGestureEnd",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalGestureEnd(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (Gesture.EndHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }
     
     @FunctionalInterface
@@ -425,17 +452,26 @@ public class Gesture extends EventController {
      */
     public SignalHandle onSequenceStateChanged(SequenceStateChangedHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureSequenceStateChanged", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("sequence-state-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("sequence-state-changed").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(Gesture.class, "__signalGestureSequenceStateChanged",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalGestureSequenceStateChanged(MemoryAddress source, MemoryAddress sequence, int state, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (Gesture.SequenceStateChangedHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)), EventSequenceState.fromValue(state));
     }
     
     @FunctionalInterface
@@ -450,17 +486,26 @@ public class Gesture extends EventController {
      */
     public SignalHandle onUpdate(UpdateHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalGestureUpdate", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("update").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("update").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(Gesture.class, "__signalGestureUpdate",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalGestureUpdate(MemoryAddress source, MemoryAddress sequence, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (Gesture.UpdateHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)));
     }
     
 }

@@ -451,17 +451,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public SignalHandle onClosePage(ClosePageHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTabViewClosePage", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("close-page").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("close-page").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(TabView.class, "__signalTabViewClosePage",
+                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static boolean __signalTabViewClosePage(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TabView.ClosePageHandler) Interop.signalRegistry.get(hash);
+        return handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
     }
     
     @FunctionalInterface
@@ -479,17 +488,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public SignalHandle onCreateWindow(CreateWindowHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTabViewCreateWindow", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("create-window").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("create-window").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(TabView.class, "__signalTabViewCreateWindow",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalTabViewCreateWindow(MemoryAddress source, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TabView.CreateWindowHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new TabView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -505,17 +523,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public SignalHandle onIndicatorActivated(IndicatorActivatedHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTabViewIndicatorActivated", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("indicator-activated").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("indicator-activated").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(TabView.class, "__signalTabViewIndicatorActivated",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalTabViewIndicatorActivated(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TabView.IndicatorActivatedHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
     }
     
     @FunctionalInterface
@@ -531,17 +558,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public SignalHandle onPageAttached(PageAttachedHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTabViewPageAttached", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("page-attached").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("page-attached").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(TabView.class, "__signalTabViewPageAttached",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalTabViewPageAttached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TabView.PageAttachedHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
     }
     
     @FunctionalInterface
@@ -562,17 +598,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public SignalHandle onPageDetached(PageDetachedHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTabViewPageDetached", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("page-detached").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("page-detached").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(TabView.class, "__signalTabViewPageDetached",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalTabViewPageDetached(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TabView.PageDetachedHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
     }
     
     @FunctionalInterface
@@ -585,17 +630,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public SignalHandle onPageReordered(PageReorderedHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTabViewPageReordered", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("page-reordered").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("page-reordered").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(TabView.class, "__signalTabViewPageReordered",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalTabViewPageReordered(MemoryAddress source, MemoryAddress page, int position, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TabView.PageReorderedHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)), position);
     }
     
     @FunctionalInterface
@@ -613,17 +667,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      */
     public SignalHandle onSetupMenu(SetupMenuHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalTabViewSetupMenu", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("setup-menu").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("setup-menu").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(TabView.class, "__signalTabViewSetupMenu",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalTabViewSetupMenu(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TabView.SetupMenuHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new TabView(References.get(source)), new TabPage(References.get(page, false)));
     }
     
 }

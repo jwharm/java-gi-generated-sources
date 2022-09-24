@@ -57,12 +57,12 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_hook_list_marshal(handle(), mayRecurse ? 1 : 0, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookMarshaller",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbHookMarshaller",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(marshaller.hashCode(), marshaller)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -75,12 +75,12 @@ public class HookList extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_hook_list_marshal_check(handle(), mayRecurse ? 1 : 0, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHookCheckMarshaller",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbHookCheckMarshaller",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(marshaller.hashCode(), marshaller)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

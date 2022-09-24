@@ -153,17 +153,26 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      */
     public SignalHandle onNewConnection(NewConnectionHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusServerNewConnection", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("new-connection").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("new-connection").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(DBusServer.class, "__signalDBusServerNewConnection",
+                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static boolean __signalDBusServerNewConnection(MemoryAddress source, MemoryAddress connection, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (DBusServer.NewConnectionHandler) Interop.signalRegistry.get(hash);
+        return handler.signalReceived(new DBusServer(References.get(source)), new DBusConnection(References.get(connection, false)));
     }
     
 }

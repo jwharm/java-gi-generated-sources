@@ -500,17 +500,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onBeginPrint(BeginPrintHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationBeginPrint", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("begin-print").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("begin-print").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationBeginPrint",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationBeginPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.BeginPrintHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
     
     @FunctionalInterface
@@ -533,17 +542,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onCreateCustomWidget(CreateCustomWidgetHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationCreateCustomWidget", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("create-custom-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("create-custom-widget").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationCreateCustomWidget",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationCreateCustomWidget(MemoryAddress source, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.CreateCustomWidgetHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)));
     }
     
     @FunctionalInterface
@@ -561,17 +579,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onCustomWidgetApply(CustomWidgetApplyHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationCustomWidgetApply", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("custom-widget-apply").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("custom-widget-apply").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationCustomWidgetApply",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationCustomWidgetApply(MemoryAddress source, MemoryAddress widget, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.CustomWidgetApplyHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)));
     }
     
     @FunctionalInterface
@@ -593,17 +620,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onDone(DoneHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationDone", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("done").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("done").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationDone",
+                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.DoneHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)), PrintOperationResult.fromValue(result));
     }
     
     @FunctionalInterface
@@ -666,17 +702,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onDrawPage(DrawPageHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationDrawPage", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("draw-page").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("draw-page").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationDrawPage",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationDrawPage(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.DrawPageHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr);
     }
     
     @FunctionalInterface
@@ -692,17 +737,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onEndPrint(EndPrintHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationEndPrint", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("end-print").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("end-print").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationEndPrint",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationEndPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.EndPrintHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
     
     @FunctionalInterface
@@ -728,17 +782,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onPaginate(PaginateHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPaginate", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("paginate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("paginate").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationPaginate",
+                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static boolean __signalPrintOperationPaginate(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.PaginateHandler) Interop.signalRegistry.get(hash);
+        return handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
     
     @FunctionalInterface
@@ -767,17 +830,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onPreview(PreviewHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationPreview", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("preview").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("preview").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationPreview",
+                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static boolean __signalPrintOperationPreview(MemoryAddress source, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.PreviewHandler) Interop.signalRegistry.get(hash);
+        return handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationPreview.PrintOperationPreviewImpl(References.get(preview, false)), new PrintContext(References.get(context, false)), new Window(References.get(parent, false)));
     }
     
     @FunctionalInterface
@@ -794,17 +866,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onRequestPageSetup(RequestPageSetupHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationRequestPageSetup", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("request-page-setup").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("request-page-setup").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationRequestPageSetup",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationRequestPageSetup(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.RequestPageSetupHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr, new PageSetup(References.get(setup, false)));
     }
     
     @FunctionalInterface
@@ -821,17 +902,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onStatusChanged(StatusChangedHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationStatusChanged", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("status-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("status-changed").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationStatusChanged",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationStatusChanged(MemoryAddress source, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.StatusChangedHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)));
     }
     
     @FunctionalInterface
@@ -847,17 +937,26 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public SignalHandle onUpdateCustomWidget(UpdateCustomWidgetHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalPrintOperationUpdateCustomWidget", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("update-custom-widget").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("update-custom-widget").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationUpdateCustomWidget",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalPrintOperationUpdateCustomWidget(MemoryAddress source, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (PrintOperation.UpdateCustomWidgetHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)), new PageSetup(References.get(setup, false)), new PrintSettings(References.get(settings, false)));
     }
     
 }

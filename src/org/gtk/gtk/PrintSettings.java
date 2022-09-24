@@ -116,12 +116,12 @@ public class PrintSettings extends org.gtk.gobject.Object {
         try {
             gtk_h.gtk_print_settings_foreach(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPrintSettingsFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbPrintSettingsFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

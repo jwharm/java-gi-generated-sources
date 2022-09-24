@@ -32,7 +32,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         try {
             Reference RESULT = References.get(gtk_h.g_thread_new(Interop.allocateNativeString(name).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbThreadFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -81,7 +81,7 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
         try {
             Reference RESULT = References.get(gtk_h.g_thread_try_new(Interop.allocateNativeString(name).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbThreadFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 

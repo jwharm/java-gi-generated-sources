@@ -148,12 +148,12 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_scanner_scope_foreach_symbol(handle(), scopeId, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbHFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbHFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

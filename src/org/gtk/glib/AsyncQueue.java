@@ -131,12 +131,12 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_async_queue_push_sorted(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -163,12 +163,12 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_async_queue_push_sorted_unlocked(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -237,12 +237,12 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_async_queue_sort(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -262,12 +262,12 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_async_queue_sort_unlocked(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

@@ -62,13 +62,13 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_option_group_set_translate_func(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTranslateFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTranslateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

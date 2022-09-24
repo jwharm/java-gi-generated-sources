@@ -25,7 +25,7 @@ public class CustomFilter extends Filter {
         try {
             Reference RESULT = References.get(gtk_h.gtk_custom_filter_new(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCustomFilterFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbCustomFilterFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -65,13 +65,13 @@ public class CustomFilter extends Filter {
         try {
             gtk_h.gtk_custom_filter_set_filter_func(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCustomFilterFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbCustomFilterFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(matchFunc.hashCode(), matchFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

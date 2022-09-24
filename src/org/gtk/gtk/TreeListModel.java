@@ -25,7 +25,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         try {
             Reference RESULT = References.get(gtk_h.gtk_tree_list_model_new(root.getReference().unowned().handle(), passthrough ? 1 : 0, autoexpand ? 1 : 0, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTreeListModelCreateModelFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeListModelCreateModelFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 

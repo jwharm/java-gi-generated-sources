@@ -155,12 +155,12 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         try {
             gtk_h.g_subprocess_communicate_async(handle(), stdinBuf.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -201,12 +201,12 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         try {
             gtk_h.g_subprocess_communicate_utf8_async(handle(), Interop.allocateNativeString(stdinBuf).handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -413,12 +413,12 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         try {
             gtk_h.g_subprocess_wait_async(handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -444,12 +444,12 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         try {
             gtk_h.g_subprocess_wait_check_async(handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

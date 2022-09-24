@@ -138,12 +138,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_append_to_async(handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -228,7 +228,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             var RESULT = gtk_h.g_file_copy(handle(), destination.handle(), flags, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -237,7 +237,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
                 throw new GErrorException(GERROR);
             }
             return (RESULT != 0);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -258,18 +258,18 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_copy_async(handle(), destination.handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -350,12 +350,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_create_async(handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -422,12 +422,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_create_readwrite_async(handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -486,12 +486,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_delete_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -539,12 +539,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_eject_mountable_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -614,12 +614,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_enumerate_children_async(handle(), Interop.allocateNativeString(attributes).handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -685,12 +685,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_find_enclosing_mount_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -952,12 +952,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_load_bytes_async(handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1001,12 +1001,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_load_contents_async(handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1028,17 +1028,17 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_load_partial_contents_async(handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileReadMoreCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbFileReadMoreCallback",
                             MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(readMoreCallback.hashCode(), readMoreCallback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1075,12 +1075,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_make_directory_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1149,18 +1149,18 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_measure_disk_usage_async(handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileMeasureProgressCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbFileMeasureProgressCallback",
                             MethodType.methodType(void.class, boolean.class, long.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, boolean.class, long.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1246,12 +1246,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_mount_enclosing_volume(handle(), flags, mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1285,12 +1285,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_mount_mountable(handle(), flags, mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1350,7 +1350,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             var RESULT = gtk_h.g_file_move(handle(), destination.handle(), flags, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -1359,7 +1359,7 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
                 throw new GErrorException(GERROR);
             }
             return (RESULT != 0);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1379,18 +1379,18 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_move_async(handle(), destination.handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFileProgressCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1449,12 +1449,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_open_readwrite_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1501,12 +1501,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_poll_mountable(handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1550,12 +1550,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_query_default_handler_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1666,12 +1666,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_query_filesystem_info_async(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1745,12 +1745,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1843,12 +1843,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_read_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1933,12 +1933,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_replace_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1995,12 +1995,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_replace_contents_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2019,12 +2019,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_replace_contents_bytes_async(handle(), contents.handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2093,12 +2093,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_replace_readwrite_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2265,12 +2265,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_set_attributes_async(handle(), info.handle(), flags, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2350,12 +2350,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_set_display_name_async(handle(), Interop.allocateNativeString(displayName).handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2390,12 +2390,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_start_mountable(handle(), flags, startOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2430,12 +2430,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_stop_mountable(handle(), flags, mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2494,12 +2494,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_trash_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2532,12 +2532,12 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_file_unmount_mountable_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

@@ -51,7 +51,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         try {
             Reference RESULT = References.get(gtk_h.gtk_map_list_model_new(model.getReference().unowned().handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMapListModelMapFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -103,13 +103,13 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         try {
             gtk_h.gtk_map_list_model_set_map_func(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbMapListModelMapFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

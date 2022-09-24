@@ -132,7 +132,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         try {
             Reference RESULT = References.get(gtk_h.g_dbus_object_manager_client_new_for_bus_sync(busType.getValue(), flags, Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDBusProxyTypeFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -164,7 +164,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         try {
             Reference RESULT = References.get(gtk_h.g_dbus_object_manager_client_new_sync(connection.handle(), flags, Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDBusProxyTypeFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -240,19 +240,19 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         try {
             gtk_h.g_dbus_object_manager_client_new(connection.handle(), flags, Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDBusProxyTypeFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
                     Interop.cbDestroyNotifySymbol(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -272,19 +272,19 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         try {
             gtk_h.g_dbus_object_manager_client_new_for_bus(busType.getValue(), flags, Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDBusProxyTypeFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
                     Interop.cbDestroyNotifySymbol(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -309,17 +309,26 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      */
     public SignalHandle onInterfaceProxyPropertiesChanged(InterfaceProxyPropertiesChangedHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerClientInterfaceProxyPropertiesChanged", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("interface-proxy-properties-changed").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("interface-proxy-properties-changed").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(DBusObjectManagerClient.class, "__signalDBusObjectManagerClientInterfaceProxyPropertiesChanged",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalDBusObjectManagerClientInterfaceProxyPropertiesChanged(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (DBusObjectManagerClient.InterfaceProxyPropertiesChangedHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new DBusObjectManagerClient(References.get(source)), new DBusObjectProxy(References.get(objectProxy, false)), new DBusProxy(References.get(interfaceProxy, false)), new org.gtk.glib.Variant(References.get(changedProperties, false)), null);
     }
     
     @FunctionalInterface
@@ -339,17 +348,26 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      */
     public SignalHandle onInterfaceProxySignal(InterfaceProxySignalHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDBusObjectManagerClientInterfaceProxySignal", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("interface-proxy-signal").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("interface-proxy-signal").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(DBusObjectManagerClient.class, "__signalDBusObjectManagerClientInterfaceProxySignal",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalDBusObjectManagerClientInterfaceProxySignal(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (DBusObjectManagerClient.InterfaceProxySignalHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new DBusObjectManagerClient(References.get(source)), new DBusObjectProxy(References.get(objectProxy, false)), new DBusProxy(References.get(interfaceProxy, false)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
     }
     
 }

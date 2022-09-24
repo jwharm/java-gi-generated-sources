@@ -422,12 +422,12 @@ public final class Gio {
         try {
             gtk_h.g_app_info_launch_default_for_uri_async(Interop.allocateNativeString(uri).handle(), context.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -468,12 +468,12 @@ public final class Gio {
         try {
             gtk_h.g_bus_get(busType.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -591,24 +591,24 @@ public final class Gio {
         try {
             var RESULT = gtk_h.g_bus_own_name(busType.getValue(), Interop.allocateNativeString(name).handle(), flags, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusAcquiredCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameAcquiredCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameLostCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameLostCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(busAcquiredHandler.hashCode(), busAcquiredHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -621,19 +621,19 @@ public final class Gio {
         try {
             var RESULT = gtk_h.g_bus_own_name_on_connection(connection.handle(), Interop.allocateNativeString(name).handle(), flags, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameAcquiredCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameLostCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameLostCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(nameAcquiredHandler.hashCode(), nameAcquiredHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -719,19 +719,19 @@ public final class Gio {
         try {
             var RESULT = gtk_h.g_bus_watch_name(busType.getValue(), Interop.allocateNativeString(name).handle(), flags, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameAppearedCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameAppearedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameVanishedCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameVanishedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(nameAppearedHandler.hashCode(), nameAppearedHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -744,19 +744,19 @@ public final class Gio {
         try {
             var RESULT = gtk_h.g_bus_watch_name_on_connection(connection.handle(), Interop.allocateNativeString(name).handle(), flags, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameAppearedCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameAppearedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBusNameVanishedCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameVanishedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(nameAppearedHandler.hashCode(), nameAppearedHandler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -965,12 +965,12 @@ public final class Gio {
         try {
             gtk_h.g_dbus_address_get_stream(Interop.allocateNativeString(address).handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2153,6 +2153,186 @@ public final class Gio {
     public static boolean unixMountsChangedSince(long time) {
         var RESULT = gtk_h.g_unix_mounts_changed_since(time);
         return (RESULT != 0);
+    }
+    
+    public static void __cbBusNameVanishedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameVanishedCallback) Interop.signalRegistry.get(hash);
+        handler.onBusNameVanishedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
+    public static void __cbBusNameAppearedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress nameOwner, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameAppearedCallback) Interop.signalRegistry.get(hash);
+        handler.onBusNameAppearedCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0), nameOwner.getUtf8String(0));
+    }
+    
+    public static void __cbFileMeasureProgressCallback(boolean reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FileMeasureProgressCallback) Interop.signalRegistry.get(hash);
+        handler.onFileMeasureProgressCallback(reporting, currentSize, numDirs, numFiles);
+    }
+    
+    public static boolean __cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DatagramBasedSourceFunc) Interop.signalRegistry.get(hash);
+        return handler.onDatagramBasedSourceFunc(new DatagramBased.DatagramBasedImpl(References.get(datagramBased, false)), condition);
+    }
+    
+    public static boolean __cbSettingsGetMapping(MemoryAddress value, MemoryAddress result, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SettingsGetMapping) Interop.signalRegistry.get(hash);
+        return handler.onSettingsGetMapping(new org.gtk.glib.Variant(References.get(value, false)), result);
+    }
+    
+    public static org.gtk.glib.Variant __cbDBusInterfaceGetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress error, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusInterfaceGetPropertyFunc) Interop.signalRegistry.get(hash);
+        return handler.onDBusInterfaceGetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0));
+    }
+    
+    public static void __cbBusAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusAcquiredCallback) Interop.signalRegistry.get(hash);
+        handler.onBusAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
+    public static org.gtk.glib.Variant __cbSettingsBindSetMapping(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SettingsBindSetMapping) Interop.signalRegistry.get(hash);
+        return handler.onSettingsBindSetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.VariantType(References.get(expectedType, false)));
+    }
+    
+    public static java.lang.foreign.MemoryAddress __cbReallocFunc(MemoryAddress data, long size) {
+        int hash = data.get(C_INT, 0);
+        var handler = (ReallocFunc) Interop.signalRegistry.get(hash);
+        return handler.onReallocFunc(size);
+    }
+    
+    public static boolean __cbCancellableSourceFunc(MemoryAddress cancellable, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (CancellableSourceFunc) Interop.signalRegistry.get(hash);
+        return handler.onCancellableSourceFunc(new Cancellable(References.get(cancellable, false)));
+    }
+    
+    public static boolean __cbDBusInterfaceSetPropertyFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress propertyName, MemoryAddress value, MemoryAddress error, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusInterfaceSetPropertyFunc) Interop.signalRegistry.get(hash);
+        return handler.onDBusInterfaceSetPropertyFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), propertyName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
+    }
+    
+    public static void __cbBusNameLostCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameLostCallback) Interop.signalRegistry.get(hash);
+        handler.onBusNameLostCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
+    public static boolean __cbFileReadMoreCallback(MemoryAddress fileContents, long fileSize, MemoryAddress callbackData) {
+        int hash = callbackData.get(C_INT, 0);
+        var handler = (FileReadMoreCallback) Interop.signalRegistry.get(hash);
+        return handler.onFileReadMoreCallback(fileContents.getUtf8String(0), fileSize);
+    }
+    
+    public static boolean __cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SocketSourceFunc) Interop.signalRegistry.get(hash);
+        return handler.onSocketSourceFunc(new Socket(References.get(socket, false)), condition);
+    }
+    
+    public static void __cbDesktopAppLaunchCallback(MemoryAddress appinfo, int pid, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DesktopAppLaunchCallback) Interop.signalRegistry.get(hash);
+        handler.onDesktopAppLaunchCallback(new DesktopAppInfo(References.get(appinfo, false)), new org.gtk.glib.Pid(pid));
+    }
+    
+    public static boolean __cbPollableSourceFunc(MemoryAddress pollableStream, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (PollableSourceFunc) Interop.signalRegistry.get(hash);
+        return handler.onPollableSourceFunc(new org.gtk.gobject.Object(References.get(pollableStream, false)));
+    }
+    
+    public static void __cbAsyncReadyCallback(MemoryAddress sourceObject, MemoryAddress res, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (AsyncReadyCallback) Interop.signalRegistry.get(hash);
+        handler.onAsyncReadyCallback(new org.gtk.gobject.Object(References.get(sourceObject, false)), new AsyncResult.AsyncResultImpl(References.get(res, false)));
+    }
+    
+    public static boolean __cbSettingsBindGetMapping(MemoryAddress value, MemoryAddress variant, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SettingsBindGetMapping) Interop.signalRegistry.get(hash);
+        return handler.onSettingsBindGetMapping(new org.gtk.gobject.Value(References.get(value, false)), new org.gtk.glib.Variant(References.get(variant, false)));
+    }
+    
+    public static DBusInterfaceVTable __cbDBusSubtreeDispatchFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress node, MemoryAddress outUserData, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusSubtreeDispatchFunc) Interop.signalRegistry.get(hash);
+        return handler.onDBusSubtreeDispatchFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), node.getUtf8String(0), outUserData);
+    }
+    
+    public static void __cbDBusSignalCallback(MemoryAddress connection, MemoryAddress senderName, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusSignalCallback) Interop.signalRegistry.get(hash);
+        handler.onDBusSignalCallback(new DBusConnection(References.get(connection, false)), senderName.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
+    }
+    
+    public static void __cbFileProgressCallback(long currentNumBytes, long totalNumBytes, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FileProgressCallback) Interop.signalRegistry.get(hash);
+        handler.onFileProgressCallback(currentNumBytes, totalNumBytes);
+    }
+    
+    public static File __cbVfsFileLookupFunc(MemoryAddress vfs, MemoryAddress identifier, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (VfsFileLookupFunc) Interop.signalRegistry.get(hash);
+        return handler.onVfsFileLookupFunc(new Vfs(References.get(vfs, false)), identifier.getUtf8String(0));
+    }
+    
+    public static void __cbDBusInterfaceMethodCallFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress methodName, MemoryAddress parameters, MemoryAddress invocation, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusInterfaceMethodCallFunc) Interop.signalRegistry.get(hash);
+        handler.onDBusInterfaceMethodCallFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), interfaceName.getUtf8String(0), methodName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)), new DBusMethodInvocation(References.get(invocation, true)));
+    }
+    
+    public static void __cbDBusSubtreeEnumerateFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusSubtreeEnumerateFunc) Interop.signalRegistry.get(hash);
+        handler.onDBusSubtreeEnumerateFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0));
+    }
+    
+    public static DBusMessage __cbDBusMessageFilterFunction(MemoryAddress connection, MemoryAddress message, boolean incoming, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusMessageFilterFunction) Interop.signalRegistry.get(hash);
+        return handler.onDBusMessageFilterFunction(new DBusConnection(References.get(connection, false)), new DBusMessage(References.get(message, true)), incoming);
+    }
+    
+    public static void __cbDBusSubtreeIntrospectFunc(MemoryAddress connection, MemoryAddress sender, MemoryAddress objectPath, MemoryAddress node, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusSubtreeIntrospectFunc) Interop.signalRegistry.get(hash);
+        handler.onDBusSubtreeIntrospectFunc(new DBusConnection(References.get(connection, false)), sender.getUtf8String(0), objectPath.getUtf8String(0), node.getUtf8String(0));
+    }
+    
+    public static org.gtk.gobject.Type __cbDBusProxyTypeFunc(MemoryAddress manager, MemoryAddress objectPath, MemoryAddress interfaceName, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DBusProxyTypeFunc) Interop.signalRegistry.get(hash);
+        return handler.onDBusProxyTypeFunc(new DBusObjectManagerClient(References.get(manager, false)), objectPath.getUtf8String(0), interfaceName.getUtf8String(0));
+    }
+    
+    public static void __cbTaskThreadFunc(MemoryAddress task, MemoryAddress sourceObject, MemoryAddress taskData, MemoryAddress cancellable) {
+        int hash = taskData.get(C_INT, 0);
+        var handler = (TaskThreadFunc) Interop.signalRegistry.get(hash);
+        handler.onTaskThreadFunc(new Task(References.get(task, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)), new Cancellable(References.get(cancellable, false)));
+    }
+    
+    public static void __cbBusNameAcquiredCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BusNameAcquiredCallback) Interop.signalRegistry.get(hash);
+        handler.onBusNameAcquiredCallback(new DBusConnection(References.get(connection, false)), name.getUtf8String(0));
+    }
+    
+    public static boolean __cbIOSchedulerJobFunc(MemoryAddress job, MemoryAddress cancellable, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (IOSchedulerJobFunc) Interop.signalRegistry.get(hash);
+        return handler.onIOSchedulerJobFunc(new IOSchedulerJob(References.get(job, false)), new Cancellable(References.get(cancellable, false)));
     }
     
 }

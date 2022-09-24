@@ -68,12 +68,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_dtls_connection_close_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -267,12 +267,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_dtls_connection_handshake_async(handle(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -425,12 +425,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
         try {
             gtk_h.g_dtls_connection_shutdown_async(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -499,17 +499,26 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      */
     public default SignalHandle onAcceptCertificate(AcceptCertificateHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalDtlsConnectionAcceptCertificate", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("accept-certificate").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("accept-certificate").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(DtlsConnection.class, "__signalDtlsConnectionAcceptCertificate",
+                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
+                    FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static boolean __signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (DtlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
+        return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(References.get(source)), new TlsCertificate(References.get(peerCert, false)), errors);
     }
     
     class DtlsConnectionImpl extends org.gtk.gobject.Object implements DtlsConnection {

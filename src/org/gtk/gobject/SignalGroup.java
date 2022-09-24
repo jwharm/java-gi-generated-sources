@@ -73,12 +73,12 @@ public class SignalGroup extends Object {
         try {
             gtk_h.g_signal_group_connect(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -95,12 +95,12 @@ public class SignalGroup extends Object {
         try {
             gtk_h.g_signal_group_connect_after(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -115,17 +115,17 @@ public class SignalGroup extends Object {
         try {
             gtk_h.g_signal_group_connect_data(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), flags);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -143,12 +143,12 @@ public class SignalGroup extends Object {
         try {
             gtk_h.g_signal_group_connect_swapped(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -196,17 +196,26 @@ public class SignalGroup extends Object {
      */
     public SignalHandle onBind(BindHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSignalGroupBind", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("bind").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("bind").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(SignalGroup.class, "__signalSignalGroupBind",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalSignalGroupBind(MemoryAddress source, MemoryAddress instance, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (SignalGroup.BindHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new SignalGroup(References.get(source)), new Object(References.get(instance, false)));
     }
     
     @FunctionalInterface
@@ -223,17 +232,26 @@ public class SignalGroup extends Object {
      */
     public SignalHandle onUnbind(UnbindHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalSignalGroupUnbind", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("unbind").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("unbind").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(SignalGroup.class, "__signalSignalGroupUnbind",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalSignalGroupUnbind(MemoryAddress source, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (SignalGroup.UnbindHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new SignalGroup(References.get(source)));
     }
     
 }

@@ -240,13 +240,13 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
         try {
             gtk_h.gtk_scale_set_format_value_func(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbScaleFormatValueFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbScaleFormatValueFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

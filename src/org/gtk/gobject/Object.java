@@ -113,12 +113,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_object_add_toggle_ref(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -207,19 +207,19 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbBindingTransformFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(transformTo.hashCode(), transformTo)), 
                     Interop.cbDestroyNotifySymbol());
             return new Binding(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -258,13 +258,13 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_object_dup_data(handle(), Interop.allocateNativeString(key).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -289,13 +289,13 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_object_dup_qdata(handle(), quark.getValue(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -496,12 +496,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_object_remove_toggle_ref(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbToggleNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbToggleNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, boolean.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BOOLEAN),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -755,12 +755,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_object_weak_ref(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -772,12 +772,12 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_object_weak_unref(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbWeakNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbWeakNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -855,17 +855,26 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      */
     public SignalHandle onNotify(NotifyHandler handler) {
         try {
-            int hash = Interop.registerCallback(handler.hashCode(), handler);
-            MemorySegment intSegment = Interop.getAllocator().allocate(C_INT, hash);
-            MethodType methodType = MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class);
-            MethodHandle methodHandle = MethodHandles.lookup().findStatic(JVMCallbacks.class, "signalObjectNotify", methodType);
-            FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS);
-            MemorySegment nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, Interop.getScope());
-            long handlerId = gtk_h.g_signal_connect_data(handle(), Interop.allocateNativeString("notify").handle(), nativeSymbol, intSegment, MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), handlerId);
-        } catch (Exception e) {
+            var RESULT = gtk_h.g_signal_connect_data(
+                handle(),
+                Interop.allocateNativeString("notify").handle(),
+                Linker.nativeLinker().upcallStub(
+                    MethodHandles.lookup().findStatic(Object.class, "__signalObjectNotify",
+                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                    Interop.getScope()),
+                Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                MemoryAddress.NULL, 0);
+            return new SignalHandle(handle(), RESULT);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void __signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (Object.NotifyHandler) Interop.signalRegistry.get(hash);
+        handler.signalReceived(new Object(References.get(source)), new ParamSpec(References.get(pspec, false)));
     }
     
 }

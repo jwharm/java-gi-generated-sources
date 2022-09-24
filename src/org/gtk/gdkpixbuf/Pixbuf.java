@@ -193,7 +193,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         try {
             Reference RESULT = References.get(gtk_h.gdk_pixbuf_new_from_data(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), colorspace.getValue(), hasAlpha ? 1 : 0, bitsPerSample, width, height, rowstride, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPixbufDestroyNotify",
+                        MethodHandles.lookup().findStatic(GdkPixbuf.class, "__cbPixbufDestroyNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -835,7 +835,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         try {
             var RESULT = gtk_h.gdk_pixbuf_save_to_callbackv(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbPixbufSaveFunc",
+                        MethodHandles.lookup().findStatic(GdkPixbuf.class, "__cbPixbufSaveFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -844,7 +844,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
                 throw new GErrorException(GERROR);
             }
             return (RESULT != 0);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -881,12 +881,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         try {
             gtk_h.gdk_pixbuf_save_to_streamv_async(handle(), stream.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(GdkPixbuf.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -991,12 +991,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         try {
             gtk_h.gdk_pixbuf_get_file_info_async(Interop.allocateNativeString(filename).handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(GdkPixbuf.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1048,12 +1048,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         try {
             gtk_h.gdk_pixbuf_new_from_stream_async(stream.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(GdkPixbuf.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1071,12 +1071,12 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         try {
             gtk_h.gdk_pixbuf_new_from_stream_at_scale_async(stream.handle(), width, height, preserveAspectRatio ? 1 : 0, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(GdkPixbuf.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

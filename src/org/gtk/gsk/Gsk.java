@@ -64,4 +64,10 @@ public final class Gsk {
         gtk_h.gsk_value_take_render_node(value.handle(), node.getReference().unowned().handle());
     }
     
+    public static void __cbParseErrorFunc(MemoryAddress start, MemoryAddress end, MemoryAddress error, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ParseErrorFunc) Interop.signalRegistry.get(hash);
+        handler.onParseErrorFunc(new ParseLocation(References.get(start, false)), new ParseLocation(References.get(end, false)), new org.gtk.glib.Error(References.get(error, false)));
+    }
+    
 }

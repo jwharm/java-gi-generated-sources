@@ -117,4 +117,10 @@ public final class Adw {
         return RESULT;
     }
     
+    public static void __cbAnimationTargetFunc(double value, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (AnimationTargetFunc) Interop.signalRegistry.get(hash);
+        handler.onAnimationTargetFunc(value);
+    }
+    
 }

@@ -25,7 +25,7 @@ public class CallbackAction extends ShortcutAction {
         try {
             Reference RESULT = References.get(gtk_h.gtk_callback_action_new(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbShortcutFunc",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbShortcutFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 

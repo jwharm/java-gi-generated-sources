@@ -125,13 +125,13 @@ public class RenderNode extends org.gtk.gobject.Object {
         try {
             var RESULT = gtk_h.gsk_render_node_deserialize(bytes.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbParseErrorFunc",
+                        MethodHandles.lookup().findStatic(Gsk.class, "__cbParseErrorFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(errorFunc.hashCode(), errorFunc)));
             return new RenderNode(References.get(RESULT, true));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

@@ -933,13 +933,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_child_watch_add(pid.getValue(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbChildWatchFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -974,14 +974,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_child_watch_add_full(priority, pid.getValue(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbChildWatchFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbChildWatchFunc",
                             MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1141,12 +1141,12 @@ public final class GLib {
         try {
             gtk_h.g_datalist_foreach(Interop.allocateNativeArray(datalist).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDataForeachFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1188,13 +1188,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_datalist_id_dup_data(Interop.allocateNativeArray(datalist).handle(), keyId.getValue(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDuplicateFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbDuplicateFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dupFunc.hashCode(), dupFunc)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1276,12 +1276,12 @@ public final class GLib {
         try {
             gtk_h.g_dataset_foreach(datasetLocation, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDataForeachFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbDataForeachFunc",
                             MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2739,13 +2739,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_idle_add(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2770,14 +2770,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_idle_add_full(priority, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2895,13 +2895,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_io_add_watch(channel.handle(), condition, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbIOFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -2918,14 +2918,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_io_add_watch_full(channel.handle(), priority, condition, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbIOFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -3125,13 +3125,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_log_set_handler(Interop.allocateNativeString(logDomain).handle(), logLevels, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbLogFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -3146,14 +3146,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_log_set_handler_full(Interop.allocateNativeString(logDomain).handle(), logLevels, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbLogFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -3173,13 +3173,13 @@ public final class GLib {
         try {
             gtk_h.g_log_set_writer_func(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbLogWriterFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbLogWriterFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -4064,12 +4064,12 @@ public final class GLib {
         try {
             gtk_h.g_qsort_with_data(pbase, totalElems, size, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -5402,11 +5402,11 @@ public final class GLib {
             gtk_h.g_test_add_data_func(Interop.allocateNativeString(testpath).handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -5420,12 +5420,12 @@ public final class GLib {
             gtk_h.g_test_add_data_func_full(Interop.allocateNativeString(testpath).handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(testFunc.hashCode(), testFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestDataFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -5435,21 +5435,21 @@ public final class GLib {
             gtk_h.g_test_add_vtable(Interop.allocateNativeString(testpath).handle(), dataSize, 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -5518,22 +5518,22 @@ public final class GLib {
             var RESULT = gtk_h.g_test_create_case(Interop.allocateNativeString(testName).handle(), dataSize, 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(dataSetup.hashCode(), dataSetup)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestFixtureFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestFixtureFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
             return new TestCase(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -5704,12 +5704,12 @@ public final class GLib {
         try {
             gtk_h.g_test_log_set_fatal_handler(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTestLogFatalFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTestLogFatalFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(logFunc.hashCode(), logFunc)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6166,13 +6166,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_timeout_add(interval, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6207,14 +6207,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_timeout_add_full(priority, interval, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6248,13 +6248,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_timeout_add_seconds(interval, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6304,14 +6304,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_timeout_add_seconds_full(priority, interval, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6758,13 +6758,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_unix_fd_add(fd, condition, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbUnixFDSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
                             MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6781,14 +6781,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_unix_fd_add_full(priority, fd, condition, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbUnixFDSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
                             MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6849,13 +6849,13 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_unix_signal_add(signum, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -6869,14 +6869,14 @@ public final class GLib {
         try {
             var RESULT = gtk_h.g_unix_signal_add_full(priority, signum, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(handler.hashCode(), handler)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -7852,6 +7852,216 @@ public final class GLib {
      */
     public static void warnMessage(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String warnexpr) {
         gtk_h.g_warn_message(Interop.allocateNativeString(domain).handle(), Interop.allocateNativeString(file).handle(), line, Interop.allocateNativeString(func).handle(), Interop.allocateNativeString(warnexpr).handle());
+    }
+    
+    public static boolean __cbHookCheckFunc(MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (HookCheckFunc) Interop.signalRegistry.get(hash);
+        return handler.onHookCheckFunc();
+    }
+    
+    public static boolean __cbIOFunc(MemoryAddress source, int condition, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (IOFunc) Interop.signalRegistry.get(hash);
+        return handler.onIOFunc(new IOChannel(References.get(source, false)), condition);
+    }
+    
+    public static java.lang.foreign.MemoryAddress __cbThreadFunc(MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (ThreadFunc) Interop.signalRegistry.get(hash);
+        return handler.onThreadFunc();
+    }
+    
+    public static boolean __cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
+        int hash = marshalData.get(C_INT, 0);
+        var handler = (HookCheckMarshaller) Interop.signalRegistry.get(hash);
+        return handler.onHookCheckMarshaller(new Hook(References.get(hook, false)));
+    }
+    
+    public static boolean __cbNodeTraverseFunc(MemoryAddress node, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (NodeTraverseFunc) Interop.signalRegistry.get(hash);
+        return handler.onNodeTraverseFunc(new Node(References.get(node, false)));
+    }
+    
+    public static void __cbHookFunc(MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (HookFunc) Interop.signalRegistry.get(hash);
+        handler.onHookFunc();
+    }
+    
+    public static void __cbTestFixtureFunc(MemoryAddress fixture, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TestFixtureFunc) Interop.signalRegistry.get(hash);
+        handler.onTestFixtureFunc(fixture);
+    }
+    
+    public static java.lang.foreign.MemoryAddress __cbCopyFunc(MemoryAddress src, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (CopyFunc) Interop.signalRegistry.get(hash);
+        return handler.onCopyFunc(src);
+    }
+    
+    public static boolean __cbHookFindFunc(MemoryAddress hook, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (HookFindFunc) Interop.signalRegistry.get(hash);
+        return handler.onHookFindFunc(new Hook(References.get(hook, false)));
+    }
+    
+    public static boolean __cbRegexEvalCallback(MemoryAddress matchInfo, MemoryAddress result, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (RegexEvalCallback) Interop.signalRegistry.get(hash);
+        return handler.onRegexEvalCallback(new MatchInfo(References.get(matchInfo, false)), new String(References.get(result, false)));
+    }
+    
+    public static boolean __cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (UnixFDSourceFunc) Interop.signalRegistry.get(hash);
+        return handler.onUnixFDSourceFunc(fd, condition);
+    }
+    
+    public static void __cbSpawnChildSetupFunc(MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SpawnChildSetupFunc) Interop.signalRegistry.get(hash);
+        handler.onSpawnChildSetupFunc();
+    }
+    
+    public static void __cbDestroyNotify(MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (DestroyNotify) Interop.signalRegistry.get(hash);
+        handler.onDestroyNotify();
+    }
+    
+    public static void __cbChildWatchFunc(int pid, int waitStatus, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (ChildWatchFunc) Interop.signalRegistry.get(hash);
+        handler.onChildWatchFunc(new Pid(pid), waitStatus);
+    }
+    
+    public static void __cbTestDataFunc(MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TestDataFunc) Interop.signalRegistry.get(hash);
+        handler.onTestDataFunc();
+    }
+    
+    public static int __cbCompareDataFunc(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (CompareDataFunc) Interop.signalRegistry.get(hash);
+        return handler.onCompareDataFunc(a, b);
+    }
+    
+    public static boolean __cbTraverseFunc(MemoryAddress key, MemoryAddress value, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TraverseFunc) Interop.signalRegistry.get(hash);
+        return handler.onTraverseFunc(key, value);
+    }
+    
+    public static void __cbFunc(MemoryAddress data, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (Func) Interop.signalRegistry.get(hash);
+        handler.onFunc();
+    }
+    
+    public static LogWriterOutput __cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (LogWriterFunc) Interop.signalRegistry.get(hash);
+        return handler.onLogWriterFunc(logLevel, null, nFields);
+    }
+    
+    public static int __cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (SequenceIterCompareFunc) Interop.signalRegistry.get(hash);
+        return handler.onSequenceIterCompareFunc(new SequenceIter(References.get(a, false)), new SequenceIter(References.get(b, false)));
+    }
+    
+    public static void __cbHookMarshaller(MemoryAddress hook, MemoryAddress marshalData) {
+        int hash = marshalData.get(C_INT, 0);
+        var handler = (HookMarshaller) Interop.signalRegistry.get(hash);
+        handler.onHookMarshaller(new Hook(References.get(hook, false)));
+    }
+    
+    public static boolean __cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (OptionParseFunc) Interop.signalRegistry.get(hash);
+        return handler.onOptionParseFunc(new OptionContext(References.get(context, false)), new OptionGroup(References.get(group, false)));
+    }
+    
+    public static boolean __cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (OptionArgFunc) Interop.signalRegistry.get(hash);
+        return handler.onOptionArgFunc(optionName.getUtf8String(0), value.getUtf8String(0));
+    }
+    
+    public static boolean __cbTestLogFatalFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (TestLogFatalFunc) Interop.signalRegistry.get(hash);
+        return handler.onTestLogFatalFunc(logDomain.getUtf8String(0), logLevel, message.getUtf8String(0));
+    }
+    
+    public static boolean __cbSourceFunc(MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (SourceFunc) Interop.signalRegistry.get(hash);
+        return handler.onSourceFunc();
+    }
+    
+    public static void __cbOptionErrorFunc(MemoryAddress context, MemoryAddress group, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (OptionErrorFunc) Interop.signalRegistry.get(hash);
+        handler.onOptionErrorFunc(new OptionContext(References.get(context, false)), new OptionGroup(References.get(group, false)));
+    }
+    
+    public static boolean __cbTraverseNodeFunc(MemoryAddress node, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TraverseNodeFunc) Interop.signalRegistry.get(hash);
+        return handler.onTraverseNodeFunc(new TreeNode(References.get(node, false)));
+    }
+    
+    public static void __cbHFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (HFunc) Interop.signalRegistry.get(hash);
+        handler.onHFunc(key, value);
+    }
+    
+    public static java.lang.foreign.MemoryAddress __cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DuplicateFunc) Interop.signalRegistry.get(hash);
+        return handler.onDuplicateFunc();
+    }
+    
+    public static void __cbFreeFunc(MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (FreeFunc) Interop.signalRegistry.get(hash);
+        handler.onFreeFunc();
+    }
+    
+    public static boolean __cbHRFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (HRFunc) Interop.signalRegistry.get(hash);
+        return handler.onHRFunc(key, value);
+    }
+    
+    public static void __cbLogFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (LogFunc) Interop.signalRegistry.get(hash);
+        handler.onLogFunc(logDomain.getUtf8String(0), logLevel, message.getUtf8String(0));
+    }
+    
+    public static void __cbNodeForeachFunc(MemoryAddress node, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (NodeForeachFunc) Interop.signalRegistry.get(hash);
+        handler.onNodeForeachFunc(new Node(References.get(node, false)));
+    }
+    
+    public static void __cbDataForeachFunc(int keyId, MemoryAddress data, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (DataForeachFunc) Interop.signalRegistry.get(hash);
+        handler.onDataForeachFunc(new Quark(keyId));
+    }
+    
+    public static java.lang.String __cbTranslateFunc(MemoryAddress str, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (TranslateFunc) Interop.signalRegistry.get(hash);
+        return handler.onTranslateFunc(str.getUtf8String(0));
     }
     
 }

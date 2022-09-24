@@ -85,21 +85,21 @@ public class Vfs extends org.gtk.gobject.Object {
         try {
             var RESULT = gtk_h.g_vfs_register_uri_scheme(handle(), Interop.allocateNativeString(scheme).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbVfsFileLookupFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbVfsFileLookupFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
                     Interop.cbDestroyNotifySymbol(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbVfsFileLookupFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbVfsFileLookupFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(uriFunc.hashCode(), uriFunc)), 
                     Interop.cbDestroyNotifySymbol());
             return (RESULT != 0);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

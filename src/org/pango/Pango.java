@@ -309,13 +309,13 @@ public final class Pango {
             var RESULT = gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrDataCopyFunc",
+                        MethodHandles.lookup().findStatic(Pango.class, "__cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
             return new Attribute(References.get(RESULT, true));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1037,6 +1037,24 @@ public final class Pango {
     public static java.lang.String versionString() {
         var RESULT = gtk_h.pango_version_string();
         return RESULT.getUtf8String(0);
+    }
+    
+    public static boolean __cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (FontsetForeachFunc) Interop.signalRegistry.get(hash);
+        return handler.onFontsetForeachFunc(new Fontset(References.get(fontset, false)), new Font(References.get(font, false)));
+    }
+    
+    public static java.lang.foreign.MemoryAddress __cbAttrDataCopyFunc(MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (AttrDataCopyFunc) Interop.signalRegistry.get(hash);
+        return handler.onAttrDataCopyFunc();
+    }
+    
+    public static boolean __cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (AttrFilterFunc) Interop.signalRegistry.get(hash);
+        return handler.onAttrFilterFunc(new Attribute(References.get(attribute, false)));
     }
     
 }

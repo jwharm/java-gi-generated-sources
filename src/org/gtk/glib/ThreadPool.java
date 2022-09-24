@@ -138,12 +138,12 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_thread_pool_set_sort_function(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -223,7 +223,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_thread_pool_new(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -232,7 +232,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                 throw new GErrorException(GERROR);
             }
             return new ThreadPool(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -248,7 +248,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_thread_pool_new_full(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -258,7 +258,7 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
                 throw new GErrorException(GERROR);
             }
             return new ThreadPool(References.get(RESULT, true));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

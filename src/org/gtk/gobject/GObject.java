@@ -254,18 +254,18 @@ public final class GObject {
         try {
             var RESULT = gtk_h.g_cclosure_new(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
             return new Closure(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -280,18 +280,18 @@ public final class GObject {
         try {
             var RESULT = gtk_h.g_cclosure_new_swap(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
             return new Closure(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -810,14 +810,14 @@ public final class GObject {
         try {
             var RESULT = gtk_h.g_signal_add_emission_hook(signalId, detail.getValue(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSignalEmissionHook",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbSignalEmissionHook",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(hookFunc.hashCode(), hookFunc)), 
                     Interop.cbDestroyNotifySymbol());
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -859,18 +859,18 @@ public final class GObject {
         try {
             var RESULT = gtk_h.g_signal_connect_data(instance.handle(), Interop.allocateNativeString(detailedSignal).handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), connectFlags);
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1204,11 +1204,11 @@ public final class GObject {
             gtk_h.g_type_add_class_cache_func(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeClassCacheFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbTypeClassCacheFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1250,11 +1250,11 @@ public final class GObject {
             gtk_h.g_type_add_interface_check(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeInterfaceCheckFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1697,11 +1697,11 @@ public final class GObject {
             gtk_h.g_type_remove_class_cache_func(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeClassCacheFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbTypeClassCacheFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1715,11 +1715,11 @@ public final class GObject {
             gtk_h.g_type_remove_interface_check(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTypeInterfaceCheckFunc",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -1766,6 +1766,84 @@ public final class GObject {
     public static boolean valueTypeTransformable(Type srcType, Type destType) {
         var RESULT = gtk_h.g_value_type_transformable(srcType.getValue(), destType.getValue());
         return (RESULT != 0);
+    }
+    
+    public static void __cbToggleNotify(MemoryAddress data, MemoryAddress object, boolean isLastRef) {
+        int hash = data.get(C_INT, 0);
+        var handler = (ToggleNotify) Interop.signalRegistry.get(hash);
+        handler.onToggleNotify(new Object(References.get(object, false)), isLastRef);
+    }
+    
+    public static void __cbClassInitFunc(MemoryAddress gClass, MemoryAddress classData) {
+        int hash = classData.get(C_INT, 0);
+        var handler = (ClassInitFunc) Interop.signalRegistry.get(hash);
+        handler.onClassInitFunc(new TypeClass(References.get(gClass, false)));
+    }
+    
+    public static void __cbInterfaceInitFunc(MemoryAddress gIface, MemoryAddress ifaceData) {
+        int hash = ifaceData.get(C_INT, 0);
+        var handler = (InterfaceInitFunc) Interop.signalRegistry.get(hash);
+        handler.onInterfaceInitFunc(new TypeInterface(References.get(gIface, false)));
+    }
+    
+    public static boolean __cbSignalAccumulator(MemoryAddress ihint, MemoryAddress returnAccu, MemoryAddress handlerReturn, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (SignalAccumulator) Interop.signalRegistry.get(hash);
+        return handler.onSignalAccumulator(new SignalInvocationHint(References.get(ihint, false)), new Value(References.get(returnAccu, false)), new Value(References.get(handlerReturn, false)));
+    }
+    
+    public static void __cbClosureMarshal(MemoryAddress closure, MemoryAddress returnValue, int nParamValues, MemoryAddress paramValues, MemoryAddress invocationHint, MemoryAddress marshalData) {
+        int hash = marshalData.get(C_INT, 0);
+        var handler = (ClosureMarshal) Interop.signalRegistry.get(hash);
+        handler.onClosureMarshal(new Closure(References.get(closure, false)), new Value(References.get(returnValue, false)), nParamValues, null, invocationHint);
+    }
+    
+    public static void __cbClosureNotify(MemoryAddress data, MemoryAddress closure) {
+        int hash = data.get(C_INT, 0);
+        var handler = (ClosureNotify) Interop.signalRegistry.get(hash);
+        handler.onClosureNotify(new Closure(References.get(closure, false)));
+    }
+    
+    public static boolean __cbTypeClassCacheFunc(MemoryAddress cacheData, MemoryAddress gClass) {
+        int hash = cacheData.get(C_INT, 0);
+        var handler = (TypeClassCacheFunc) Interop.signalRegistry.get(hash);
+        return handler.onTypeClassCacheFunc(new TypeClass(References.get(gClass, false)));
+    }
+    
+    public static boolean __cbBindingTransformFunc(MemoryAddress binding, MemoryAddress fromValue, MemoryAddress toValue, MemoryAddress userData) {
+        int hash = userData.get(C_INT, 0);
+        var handler = (BindingTransformFunc) Interop.signalRegistry.get(hash);
+        return handler.onBindingTransformFunc(new Binding(References.get(binding, false)), new Value(References.get(fromValue, false)), new Value(References.get(toValue, false)));
+    }
+    
+    public static void __cbClassFinalizeFunc(MemoryAddress gClass, MemoryAddress classData) {
+        int hash = classData.get(C_INT, 0);
+        var handler = (ClassFinalizeFunc) Interop.signalRegistry.get(hash);
+        handler.onClassFinalizeFunc(new TypeClass(References.get(gClass, false)));
+    }
+    
+    public static boolean __cbSignalEmissionHook(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress data) {
+        int hash = data.get(C_INT, 0);
+        var handler = (SignalEmissionHook) Interop.signalRegistry.get(hash);
+        return handler.onSignalEmissionHook(new SignalInvocationHint(References.get(ihint, false)), nParamValues, null);
+    }
+    
+    public static void __cbInterfaceFinalizeFunc(MemoryAddress gIface, MemoryAddress ifaceData) {
+        int hash = ifaceData.get(C_INT, 0);
+        var handler = (InterfaceFinalizeFunc) Interop.signalRegistry.get(hash);
+        handler.onInterfaceFinalizeFunc(new TypeInterface(References.get(gIface, false)));
+    }
+    
+    public static void __cbWeakNotify(MemoryAddress data, MemoryAddress whereTheObjectWas) {
+        int hash = data.get(C_INT, 0);
+        var handler = (WeakNotify) Interop.signalRegistry.get(hash);
+        handler.onWeakNotify(new Object(References.get(whereTheObjectWas, false)));
+    }
+    
+    public static void __cbTypeInterfaceCheckFunc(MemoryAddress checkData, MemoryAddress gIface) {
+        int hash = checkData.get(C_INT, 0);
+        var handler = (TypeInterfaceCheckFunc) Interop.signalRegistry.get(hash);
+        handler.onTypeInterfaceCheckFunc(new TypeInterface(References.get(gIface, false)));
     }
     
 }

@@ -22,7 +22,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         try {
             Reference RESULT = References.get(gtk_h.g_tree_new_full(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -48,7 +48,7 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         try {
             Reference RESULT = References.get(gtk_h.g_tree_new_with_data(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -93,12 +93,12 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_tree_foreach(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTraverseFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTraverseFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -117,12 +117,12 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_tree_foreach_node(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbTraverseNodeFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbTraverseNodeFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(func.hashCode(), func)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -313,13 +313,13 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_tree_search(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(searchFunc.hashCode(), searchFunc)));
             return RESULT;
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -339,13 +339,13 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_tree_search_node(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCompareFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(searchFunc.hashCode(), searchFunc)));
             return new TreeNode(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

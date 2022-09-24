@@ -91,13 +91,13 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         try {
             gtk_h.g_subprocess_launcher_set_child_setup(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

@@ -46,13 +46,13 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
             var RESULT = gtk_h.pango_attr_shape_new_with_data(inkRect.handle(), logicalRect.handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAttrDataCopyFunc",
+                        MethodHandles.lookup().findStatic(Pango.class, "__cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol());
             return new Attribute(References.get(RESULT, true));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

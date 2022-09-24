@@ -157,12 +157,12 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_main_context_invoke(handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -182,13 +182,13 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         try {
             gtk_h.g_main_context_invoke_full(handle(), priority, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(function.hashCode(), function)), 
                     Interop.cbDestroyNotifySymbol());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

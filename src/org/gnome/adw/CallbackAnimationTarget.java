@@ -26,7 +26,7 @@ public class CallbackAnimationTarget extends AnimationTarget {
         try {
             Reference RESULT = References.get(gtk_h.adw_callback_animation_target_new(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbAnimationTargetFunc",
+                        MethodHandles.lookup().findStatic(Adw.class, "__cbAnimationTargetFunc",
                             MethodType.methodType(void.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                         Interop.getScope()), 

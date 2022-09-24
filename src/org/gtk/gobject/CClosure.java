@@ -382,18 +382,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_cclosure_new(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
             return new Closure(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -408,18 +408,18 @@ public class CClosure extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_cclosure_new_swap(
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbCallback",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
             return new Closure(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

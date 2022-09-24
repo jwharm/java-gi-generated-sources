@@ -448,7 +448,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         try {
             var RESULT = gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbRegexEvalCallback",
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbRegexEvalCallback",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -457,7 +457,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
                 throw new GErrorException(GERROR);
             }
             return RESULT.getUtf8String(0);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

@@ -141,11 +141,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_closure_add_finalize_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -162,11 +162,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_closure_add_invalidate_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -184,17 +184,17 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_closure_add_marshal_guards(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -246,11 +246,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_closure_remove_finalize_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -265,11 +265,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_closure_remove_invalidate_notifier(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureNotify",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -298,11 +298,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
             gtk_h.g_closure_set_meta_marshal(handle(), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbClosureMarshal",
+                        MethodHandles.lookup().findStatic(GObject.class, "__cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

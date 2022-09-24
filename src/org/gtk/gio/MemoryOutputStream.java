@@ -30,7 +30,7 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
             Reference RESULT = References.get(gtk_h.g_memory_output_stream_new(
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(reallocFunction.hashCode(), reallocFunction)), size, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbReallocFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbReallocFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
                         Interop.getScope()), 

@@ -240,13 +240,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
         try {
             var RESULT = gtk_h.g_desktop_app_info_launch_uris_as_manager(handle(), uris.handle(), launchContext.handle(), spawnFlags, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDesktopAppLaunchCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -255,7 +255,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
                 throw new GErrorException(GERROR);
             }
             return (RESULT != 0);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -273,13 +273,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
         try {
             var RESULT = gtk_h.g_desktop_app_info_launch_uris_as_manager_with_fds(handle(), uris.handle(), launchContext.handle(), spawnFlags, 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbSpawnChildSetupFunc",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbDesktopAppLaunchCallback",
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -288,7 +288,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
                 throw new GErrorException(GERROR);
             }
             return (RESULT != 0);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

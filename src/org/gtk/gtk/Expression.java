@@ -240,14 +240,14 @@ public class Expression extends org.gtk.gobject.Object {
         try {
             var RESULT = gtk_h.gtk_expression_watch(handle(), this_.handle(), 
                     Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(JVMCallbacks.class, "cbExpressionNotify",
+                        MethodHandles.lookup().findStatic(Gtk.class, "__cbExpressionNotify",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     Interop.getAllocator().allocate(C_INT, Interop.registerCallback(notify.hashCode(), notify)), 
                     Interop.cbDestroyNotifySymbol());
             return new ExpressionWatch(References.get(RESULT, false));
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
