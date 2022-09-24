@@ -184,7 +184,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * This signal is emitted when content is dropped onto a tab.
      * <p>
      * The content must be of one of the types set up via
-     * {@link tabbar.setup_extra_drop_target#null}.
+     * {@link TabBar#setupExtraDropTarget}.
      * <p>
      * See {@code Gtk.DropTarget::drop}.
      */

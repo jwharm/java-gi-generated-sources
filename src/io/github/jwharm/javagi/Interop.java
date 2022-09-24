@@ -28,7 +28,7 @@ public class Interop {
             MethodHandle methodHandle = MethodHandles.lookup().findStatic(Interop.class, "cbDestroyNotify", methodType);
             FunctionDescriptor descriptor = FunctionDescriptor.ofVoid(ValueLayout.ADDRESS);
             cbDestroyNotify_nativeSymbol = Linker.nativeLinker().upcallStub(methodHandle, descriptor, session);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

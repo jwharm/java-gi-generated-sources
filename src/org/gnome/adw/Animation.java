@@ -145,7 +145,7 @@ public class Animation extends org.gtk.gobject.Object {
      * Resumes a paused animation for {@code self}.
      * <p>
      * This function must only be used if the animation has been paused with
-     * {@link animation.pause#null}.
+     * {@link Animation#pause}.
      * <p>
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_PLAYING}.
      */
@@ -173,7 +173,7 @@ public class Animation extends org.gtk.gobject.Object {
     
     /**
      * This signal is emitted when the animation has been completed, either on its
-     * own or via calling {@link animation.skip#null}.
+     * own or via calling {@link Animation#skip}.
      */
     public SignalHandle onDone(DoneHandler handler) {
         try {

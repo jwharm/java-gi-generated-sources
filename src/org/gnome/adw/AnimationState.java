@@ -3,7 +3,7 @@ package org.gnome.adw;
 /**
  * Describes the possible states of an {@link Animation}.
  * <p>
- * The state can be controlled with {@link animation.play#null},
+ * The state can be controlled with {@link Animation#play},
  * {@code Animation.resume},
  * {@code Animation.skip}.
  */

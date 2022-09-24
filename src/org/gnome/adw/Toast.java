@@ -10,7 +10,7 @@ import java.lang.invoke.*;
 /**
  * A helper object for {@link ToastOverlay}.
  * <p>
- * Toasts are meant to be passed into {@link toastoverlay.add_toast#null} as
+ * Toasts are meant to be passed into {@link ToastOverlay#addToast} as
  * follows:
  * <p>
  * <pre>{@code c

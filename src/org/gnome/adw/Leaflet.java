@@ -74,7 +74,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
     /**
      * Finds the previous or next navigatable child.
      * <p>
-     * This will be the same child {@link leaflet.navigate#null} or swipe gestures will
+     * This will be the same child {@link Leaflet#navigate} or swipe gestures will
      * navigate to.
      * <p>
      * If there's no child to navigate to, {@code NULL} will be returned instead.
@@ -231,7 +231,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      * {@code TRUE}, otherwise it will be skipped.
      * <p>
      * This will be the same child as returned by
-     * {@link leaflet.get_adjacent_child#null} or navigated to via swipe gestures.
+     * {@link Leaflet#getAdjacentChild} or navigated to via swipe gestures.
      */
     public boolean navigate(NavigationDirection direction) {
         var RESULT = gtk_h.adw_leaflet_navigate(handle(), direction.getValue());

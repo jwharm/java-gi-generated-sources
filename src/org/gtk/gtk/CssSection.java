@@ -11,7 +11,7 @@ import java.lang.invoke.*;
  * Defines a part of a CSS document.
  * <p>
  * Because sections are nested into one another, you can use
- * {@link csssection.get_parent#null} to get the containing region.
+ * {@link CssSection#getParent} to get the containing region.
  */
 public class CssSection extends io.github.jwharm.javagi.ResourceBase {
 

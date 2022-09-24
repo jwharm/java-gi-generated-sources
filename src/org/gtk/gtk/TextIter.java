@@ -838,7 +838,7 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Each character in a {@code GtkTextBuffer} has an offset,
      * starting with 0 for the first character in the buffer.
-     * Use {@link gtk,textbuffer.get_iter_at_offset#null} to convert
+     * Use {@link Gtk,TextBuffer#getIterAtOffset} to convert
      * an offset back into an iterator.
      */
     public int getOffset() {

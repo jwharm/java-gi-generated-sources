@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  * <p>
  * The node at the top of the stack is the one that {@code gtk_snapshot_append_…()}
  * functions operate on. Use the {@code gtk_snapshot_push_…()} functions and
- * {@link snapshot.pop#null} to change the current node.
+ * {@link Snapshot#pop} to change the current node.
  * <p>
  * The typical way to obtain a {@code GtkSnapshot} object is as an argument to
  * the {@link Widget#snapshot} vfunc. If you need to create your own
@@ -373,7 +373,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     
     /**
      * Restores {@code snapshot} to the state saved by a preceding call to
-     * {@link snapshot.save#null} and removes that state from the stack of
+     * {@link Snapshot#save} and removes that state from the stack of
      * saved states.
      */
     public void restore() {

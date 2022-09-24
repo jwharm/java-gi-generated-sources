@@ -17,8 +17,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code AdwTabView} maintains a {@link TabPage} object for each page, which holds
  * additional per-page properties. You can obtain the {@code AdwTabPage} for a page
- * with {@link tabview.get_page#null}, and as the return value for
- * {@link tabview.append#null} and other functions for adding children.
+ * with {@link TabView#getPage}, and as the return value for
+ * {@link TabView#append} and other functions for adding children.
  * <p>
  * {@code AdwTabView} only aims to be useful for dynamic tabs in multi-window
  * document-based applications, such as web browsers, file managers, text
@@ -79,9 +79,9 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * This function can be used to automatically position new pages, and to select
      * the correct page when this page is closed while being selected (see
-     * {@link tabview.close_page#null}).
+     * {@link TabView#closePage}).
      * <p>
-     * If {@code parent} is {@code NULL}, this function is equivalent to {@link tabview.append#null}.
+     * If {@code parent} is {@code NULL}, this function is equivalent to {@link TabView#append}.
      */
     public TabPage addPage(org.gtk.gtk.Widget child, TabPage parent) {
         var RESULT = gtk_h.adw_tab_view_add_page(handle(), child.handle(), parent.handle());
@@ -116,9 +116,9 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * Calling this function will result in the {@code TabView::close-page} signal
      * being emitted for {@code page}. Closing the page can then be confirmed or
-     * denied via {@link tabview.close_page_finish#null}.
+     * denied via {@link TabView#closePageFinish}.
      * <p>
-     * If the page is waiting for a {@link tabview.close_page_finish#null} call, this
+     * If the page is waiting for a {@link TabView#closePageFinish} call, this
      * function will do nothing.
      * <p>
      * The default handler for {@code TabView::close-page} will immediately confirm
@@ -140,10 +140,10 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     }
     
     /**
-     * Completes a {@link tabview.close_page#null} call for {@code page}.
+     * Completes a {@link TabView#closePage} call for {@code page}.
      * <p>
      * If {@code confirm} is {@code TRUE}, {@code page} will be closed. If it's {@code FALSE}, it will be
-     * reverted to its previous state and {@link tabview.close_page#null} can be called
+     * reverted to its previous state and {@link TabView#closePage} can be called
      * for it again.
      * <p>
      * This function should not be called unless a custom handler for
@@ -255,7 +255,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Inserts a non-pinned page at {@code position}.
      * <p>
      * It's an error to try to insert a page before a pinned page, in that case
-     * {@link tabview.insert_pinned#null} should be used instead.
+     * {@link TabView#insertPinned} should be used instead.
      */
     public TabPage insert(org.gtk.gtk.Widget child, int position) {
         var RESULT = gtk_h.adw_tab_view_insert(handle(), child.handle(), position);
@@ -266,7 +266,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Inserts a pinned page at {@code position}.
      * <p>
      * It's an error to try to insert a pinned page after a non-pinned page, in
-     * that case {@link tabview.insert#null} should be used instead.
+     * that case {@link TabView#insert} should be used instead.
      */
     public TabPage insertPinned(org.gtk.gtk.Widget child, int position) {
         var RESULT = gtk_h.adw_tab_view_insert_pinned(handle(), child.handle(), position);
@@ -442,7 +442,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * }
      * }</pre>
      * <p>
-     * The {@link tabview.close_page_finish#null} call doesn't have to happen inside
+     * The {@link TabView#closePageFinish} call doesn't have to happen inside
      * the handler, so can be used to do asynchronous checks before confirming the
      * closing.
      * <p>
@@ -594,7 +594,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * It is important not to try and destroy the page child in the handler of
      * this function as the child might merely be moved to another window; use
      * child dispose handler for that or do it in sync with your
-     * {@link tabview.close_page_finish#null} calls.
+     * {@link TabView#closePageFinish} calls.
      */
     public SignalHandle onPageDetached(PageDetachedHandler handler) {
         try {

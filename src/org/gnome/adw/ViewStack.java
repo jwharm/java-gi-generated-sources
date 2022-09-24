@@ -30,7 +30,7 @@ import java.lang.invoke.*;
  * which holds additional per-child properties. You obtain the
  * {@code ViewStack.get_page} and you
  * can obtain a {@code Gtk.SelectionModel} containing all the pages with
- * {@link viewstack.get_pages#null}.
+ * {@link ViewStack#getPages}.
  * <p>
  * <h2>AdwViewStack as GtkBuildable</h2>
  * <p>

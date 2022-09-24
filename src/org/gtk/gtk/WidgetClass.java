@@ -225,7 +225,7 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * this class’s template data.
      * <p>
      * Note that this must be called from a composite widget classes class
-     * initializer after calling {@link gtkwidgetclass.set_template#null}.
+     * initializer after calling {@link GtkWidgetClass#setTemplate}.
      */
     public void setTemplateScope(BuilderScope scope) {
         gtk_h.gtk_widget_class_set_template_scope(handle(), scope.handle());

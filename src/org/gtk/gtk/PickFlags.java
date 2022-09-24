@@ -1,7 +1,7 @@
 package org.gtk.gtk;
 
 /**
- * Flags that influence the behavior of {@link widget.pick#null}.
+ * Flags that influence the behavior of {@link Widget#pick}.
  */
 public class PickFlags {
 

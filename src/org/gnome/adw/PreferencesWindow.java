@@ -56,7 +56,7 @@ public class PreferencesWindow extends Window implements org.gtk.gtk.Accessible,
     /**
      * Displays {@code toast}.
      * <p>
-     * See {@link toastoverlay.add_toast#null}.
+     * See {@link ToastOverlay#addToast}.
      */
     public void addToast(Toast toast) {
         gtk_h.adw_preferences_window_add_toast(handle(), toast.getReference().unowned().handle());

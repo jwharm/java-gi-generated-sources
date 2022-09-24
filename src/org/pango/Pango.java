@@ -636,7 +636,7 @@ public final class Pango {
      * Converts a {@code PangoGravity} value to its natural rotation in radians.
      * <p>
      * Note that {@link Matrix#rotate} takes angle in degrees, not radians.
-     * So, to call {@link Matrix,rotate#null} with the output of this function
+     * So, to call {@link Pango#Matrix,rotate} with the output of this function
      * you should multiply it by (180. / G_PI).
      */
     public static double gravityToRotation(Gravity gravity) {

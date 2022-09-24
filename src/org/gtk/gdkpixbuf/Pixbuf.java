@@ -39,7 +39,7 @@ import java.lang.invoke.*;
  * As a special case, you can use the {@code GdkPixbuf.Pixbuf.new_from_xpm_data`}
  * function to create a pixbuf from inline XPM image data.
  * <p>
- * You can also copy an existing pixbuf with the {@link pixbuf.copy#null}
+ * You can also copy an existing pixbuf with the {@link Pixbuf#copy}
  * function. This is not the same as just acquiring a reference to
  * the old pixbuf instance: the copy function will actually duplicate
  * the pixel data in memory and create a new {@link Pixbuf} instance

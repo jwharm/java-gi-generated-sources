@@ -65,7 +65,7 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
      * * If {@code damping_ratio} is larger than 1, the spring is overdamped and will reach
      *   its resting position faster than it can complete an oscillation.
      * <p>
-     * {@link springparams.new_full#null} allows to pass a raw damping value instead.
+     * {@link SpringParams#newFull} allows to pass a raw damping value instead.
      */
     public SpringParams(double dampingRatio, double mass, double stiffness) {
         super(constructNew(dampingRatio, mass, stiffness));
@@ -79,7 +79,7 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@code AdwSpringParams} from {@code mass}, {@code stiffness} and {@code damping}.
      * <p>
-     * See {@link springparams.new#null} for a simplified constructor using damping ratio
+     * See {@link SpringParams#new_} for a simplified constructor using damping ratio
      * instead of {@code damping}.
      */
     public static SpringParams newFull(double damping, double mass, double stiffness) {

@@ -173,7 +173,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Removes a child from {@code self}.
      * <p>
-     * The child must have been added with {@link headerbar.pack_start#null},
+     * The child must have been added with {@link HeaderBar#packStart},
      * {@code HeaderBar:title-widget}.
      */
     public void remove(org.gtk.gtk.Widget child) {

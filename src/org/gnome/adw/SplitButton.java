@@ -87,7 +87,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Gets the name of the icon used to automatically populate the button.
      * <p>
-     * If the icon name has not been set with {@link splitbutton.set_icon_name#null}
+     * If the icon name has not been set with {@link SplitButton#setIconName}
      * the return value will be {@code NULL}.
      */
     public java.lang.String getIconName() {

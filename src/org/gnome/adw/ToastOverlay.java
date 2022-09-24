@@ -15,7 +15,7 @@ import java.lang.invoke.*;
  *   &lt;img src="toast-overlay.png" alt="toast-overlay"&gt;
  * &lt;/picture&gt;
  * <p>
- * Toasts can be shown with {@link toastoverlay.add_toast#null}.
+ * Toasts can be shown with {@link ToastOverlay#addToast}.
  * <p>
  * See {@link Toast} for details.
  * <p>

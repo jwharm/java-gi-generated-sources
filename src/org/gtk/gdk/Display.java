@@ -306,7 +306,7 @@ public class Display extends org.gtk.gobject.Object {
      * <p>
      * This is often used for making sure that the display is synchronized
      * with the current state of the program. Calling {@link Display#sync}
-     * before {@link gdkx11.Display#errorTrapPop} makes sure that any errors
+     * before {@link null.Display#errorTrapPop} makes sure that any errors
      * generated from earlier requests are handled before the error trap is removed.
      * <p>
      * This is most useful for X11. On windowing systems where requests are
