@@ -10,16 +10,10 @@ import java.lang.invoke.*;
 /**
  * Data type for booleans.
  */
-public class BoolT {
+public class BoolT extends Alias<Integer> {
 
-    private final int value;
-    
     public BoolT(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(BoolT[] array) {

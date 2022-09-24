@@ -11,16 +11,10 @@ import java.lang.invoke.*;
  * A typedef alias for gchar**. This is mostly useful when used together with
  * g_auto().
  */
-public class Strv {
+public class Strv extends Alias<java.lang.String> {
 
-    private final java.lang.String value;
-    
     public Strv(java.lang.String value) {
         this.value = value;
-    }
-    
-    public java.lang.String getValue() {
-        return this.value;
     }
     
     public static java.lang.String[] getValues(Strv[] array) {

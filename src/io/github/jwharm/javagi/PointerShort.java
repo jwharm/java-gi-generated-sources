@@ -1,0 +1,50 @@
+package io.github.jwharm.javagi;
+
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.ValueLayout;
+
+/**
+ * A pointer to a short value.
+ * Use {@code new PointerShort()} to create an instance, and
+ * use {@link #get()} afterwards to retreive the results.
+ */
+public class PointerShort extends Pointer {
+
+    /**
+     * Create the pointer. It does not point to a specific value.
+     */
+    public PointerShort() {
+        super(ValueLayout.JAVA_SHORT);
+    }
+
+    /**
+     * Create a pointer to an existing memory address.
+     */
+    public PointerShort(MemoryAddress address) {
+        super(address);
+    }
+
+    /**
+     * Create the pointer and point it to the given initial value.
+     */
+    public PointerShort(short initialValue) {
+        this();
+        address.set(ValueLayout.JAVA_SHORT, 0, initialValue);
+    }
+
+    /**
+     * Use this mehod to set the value that the pointer points to.
+     */
+    public void set(short value) {
+        address.set(ValueLayout.JAVA_SHORT, 0, value);
+    }
+    
+    /**
+     * Use this method to retreive the value of the parameter after the
+     * function call that set the value, has been executed.
+     */
+    public short get() {
+        return address.get(ValueLayout.JAVA_SHORT, 0);
+    }
+    
+}

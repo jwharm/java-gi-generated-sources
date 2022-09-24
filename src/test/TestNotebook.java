@@ -1,5 +1,6 @@
 package test;
 
+import io.github.jwharm.javagi.PointerInteger;
 import org.gnome.adw.Application;
 import org.gnome.adw.ApplicationWindow;
 import org.gtk.gtk.Window;
@@ -17,6 +18,7 @@ import org.gtk.gtk.ListView;
 import org.gtk.gtk.Notebook;
 import org.gtk.gtk.Orientation;
 import org.gtk.gtk.PositionType;
+import org.gtk.gtk.Scale;
 import org.gtk.gtk.SelectionMode;
 import org.gtk.gtk.SelectionModel;
 import org.gtk.gtk.SignalListItemFactory;
@@ -25,9 +27,15 @@ import org.gtk.gtk.StringList;
 import org.gtk.gtk.Widget;
 
 public class TestNotebook {
+    
+    Scale scale;
 
     public void printSomething(Widget source) {
         System.out.println("Event processed. Source = " + source.getClass().getSimpleName());
+        var x = new PointerInteger();
+        var y = new PointerInteger();
+        scale.getLayoutOffsets(x, y);
+        System.out.println("X = " + x.get() + ", Y = " + y.get());
     }
 
     public void activate(org.gtk.gio.Application g_application) {
@@ -47,6 +55,7 @@ public class TestNotebook {
         notebook.appendPage(boxWithList(), new Label("List"));
         notebook.appendPage(boxWithCombobox(), new Label("Combobox"));
         notebook.appendPage(boxWithListbox(), new Label("Listbox"));
+        notebook.appendPage(boxWithScale(), new Label("Scale"));
 
         notebook.onSwitchPage((source, page, pageNum) ->
                 System.out.println("Switched to page " + pageNum)
@@ -54,6 +63,20 @@ public class TestNotebook {
 
         box.append(notebook);
         window.show();
+    }
+
+    private Box boxWithScale() {
+        var box = new Box(Orientation.VERTICAL, 0);
+        box.setHalign(Align.CENTER);
+        box.setValign(Align.CENTER);
+
+        scale = Scale.newWithRange(Orientation.HORIZONTAL, 0, 100, 1);
+        scale.setShowFillLevel(true);
+        scale.setDrawValue(true);
+        scale.addMark(50, PositionType.BOTTOM, "Text");
+
+        box.append(scale);
+        return box;
     }
 
     private Box boxWithListbox() {

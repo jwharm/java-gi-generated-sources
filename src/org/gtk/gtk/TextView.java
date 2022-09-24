@@ -144,6 +144,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
+     * Converts buffer coordinates to window coordinates.
+     */
+    public void bufferToWindowCoords(TextWindowType win, int bufferX, int bufferY, PointerInteger windowX, PointerInteger windowY) {
+        gtk_h.gtk_text_view_buffer_to_window_coords(handle(), win.getValue(), bufferX, bufferY, windowX.handle(), windowY.handle());
+    }
+    
+    /**
      * Moves the given {@code iter} forward by one display (wrapped) line.
      * <p>
      * A display line is different from a paragraph. Paragraphs are
@@ -311,6 +318,23 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
+     * Retrieves the iterator pointing to the character at buffer
+     * coordinates @x and @y.
+     * <p>
+     * Buffer coordinates are coordinates for the entire buffer, not just
+     * the currently-displayed portion. If you have coordinates from an event,
+     * you have to convert those to buffer coordinates with
+     * {@link TextView#windowToBufferCoords}.
+     * <p>
+     * Note that this is different from {@link TextView#getIterAtLocation},
+     * which returns cursor locations, i.e. positions between characters.
+     */
+    public boolean getIterAtPosition(TextIter iter, PointerInteger trailing, int x, int y) {
+        var RESULT = gtk_h.gtk_text_view_get_iter_at_position(handle(), iter.handle(), trailing.handle(), x, y);
+        return (RESULT != 0);
+    }
+    
+    /**
      * Gets a rectangle which roughly contains the character at {@code iter}.
      * <p>
      * The rectangle position is in buffer coordinates; use
@@ -339,6 +363,30 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     public int getLeftMargin() {
         var RESULT = gtk_h.gtk_text_view_get_left_margin(handle());
         return RESULT;
+    }
+    
+    /**
+     * Gets the {@code GtkTextIter} at the start of the line containing
+     * the coordinate @y.
+     * <p>
+     * @y is in buffer coordinates, convert from window coordinates with
+     * {@link TextView#windowToBufferCoords}. If non-{@code null},
+     * {@code line_top} will be filled with the coordinate of the top edge
+     * of the line.
+     */
+    public void getLineAtY(TextIter targetIter, int y, PointerInteger lineTop) {
+        gtk_h.gtk_text_view_get_line_at_y(handle(), targetIter.handle(), y, lineTop.handle());
+    }
+    
+    /**
+     * Gets the y coordinate of the top of the line containing {@code iter},
+     * and the height of the line.
+     * <p>
+     * The coordinate is a buffer coordinate; convert to window
+     * coordinates with {@link TextView#bufferToWindowCoords}.
+     */
+    public void getLineYrange(TextIter iter, PointerInteger y, PointerInteger height) {
+        gtk_h.gtk_text_view_get_line_yrange(handle(), iter.handle(), y.handle(), height.handle());
     }
     
     /**
@@ -835,6 +883,14 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     public boolean startsDisplayLine(TextIter iter) {
         var RESULT = gtk_h.gtk_text_view_starts_display_line(handle(), iter.handle());
         return (RESULT != 0);
+    }
+    
+    /**
+     * Converts coordinates on the window identified by {@code win} to buffer
+     * coordinates.
+     */
+    public void windowToBufferCoords(TextWindowType win, int windowX, int windowY, PointerInteger bufferX, PointerInteger bufferY) {
+        gtk_h.gtk_text_view_window_to_buffer_coords(handle(), win.getValue(), windowX, windowY, bufferX.handle(), bufferY.handle());
     }
     
     @FunctionalInterface

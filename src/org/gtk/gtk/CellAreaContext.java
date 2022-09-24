@@ -49,6 +49,17 @@ public class CellAreaContext extends org.gtk.gobject.Object {
     }
     
     /**
+     * Fetches the current allocation size for {@code context}.
+     * <p>
+     * If the context was not allocated in width or height, or if the
+     * context was recently reset with gtk_cell_area_context_reset(),
+     * the returned value will be -1.
+     */
+    public void getAllocation(PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_cell_area_context_get_allocation(handle(), width.handle(), height.handle());
+    }
+    
+    /**
      * Fetches the {@code GtkCellArea} this {@code context} was created by.
      * <p>
      * This is generally unneeded by layouting widgets; however,
@@ -63,6 +74,50 @@ public class CellAreaContext extends org.gtk.gobject.Object {
     public CellArea getArea() {
         var RESULT = gtk_h.gtk_cell_area_context_get_area(handle());
         return new CellArea(References.get(RESULT, false));
+    }
+    
+    /**
+     * Gets the accumulative preferred height for all rows which have been
+     * requested with this context.
+     * <p>
+     * After gtk_cell_area_context_reset() is called and/or before ever
+     * requesting the size of a {@code GtkCellArea}, the returned values are 0.
+     */
+    public void getPreferredHeight(PointerInteger minimumHeight, PointerInteger naturalHeight) {
+        gtk_h.gtk_cell_area_context_get_preferred_height(handle(), minimumHeight.handle(), naturalHeight.handle());
+    }
+    
+    /**
+     * Gets the accumulative preferred height for {@code width} for all rows
+     * which have been requested for the same said {@code width} with this context.
+     * <p>
+     * After gtk_cell_area_context_reset() is called and/or before ever
+     * requesting the size of a {@code GtkCellArea}, the returned values are -1.
+     */
+    public void getPreferredHeightForWidth(int width, PointerInteger minimumHeight, PointerInteger naturalHeight) {
+        gtk_h.gtk_cell_area_context_get_preferred_height_for_width(handle(), width, minimumHeight.handle(), naturalHeight.handle());
+    }
+    
+    /**
+     * Gets the accumulative preferred width for all rows which have been
+     * requested with this context.
+     * <p>
+     * After gtk_cell_area_context_reset() is called and/or before ever
+     * requesting the size of a {@code GtkCellArea}, the returned values are 0.
+     */
+    public void getPreferredWidth(PointerInteger minimumWidth, PointerInteger naturalWidth) {
+        gtk_h.gtk_cell_area_context_get_preferred_width(handle(), minimumWidth.handle(), naturalWidth.handle());
+    }
+    
+    /**
+     * Gets the accumulative preferred width for {@code height} for all rows which
+     * have been requested for the same said {@code height} with this context.
+     * <p>
+     * After gtk_cell_area_context_reset() is called and/or before ever
+     * requesting the size of a {@code GtkCellArea}, the returned values are -1.
+     */
+    public void getPreferredWidthForHeight(int height, PointerInteger minimumWidth, PointerInteger naturalWidth) {
+        gtk_h.gtk_cell_area_context_get_preferred_width_for_height(handle(), height, minimumWidth.handle(), naturalWidth.handle());
     }
     
     /**

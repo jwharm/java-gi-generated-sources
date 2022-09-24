@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * This function type is used by g_vfs_register_uri_scheme() to make it
  * possible for a client to associate an URI scheme to a different {@link File}

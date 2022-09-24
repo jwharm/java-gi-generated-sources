@@ -74,6 +74,31 @@ public class Array extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Frees the data in the array and resets the size to zero, while
+     * the underlying array is preserved for use elsewhere and returned
+     * to the caller.
+     * <p>
+     * If the array was created with the {@code zero_terminate} property
+     * set to {@code true}, the returned data is zero terminated too.
+     * <p>
+     * If array elements contain dynamically-allocated memory,
+     * the array elements should also be freed by the caller.
+     * <p>
+     * A short example of use:
+     * <pre>{@code <!-- language="C" -->
+     * ...
+     * gpointer data;
+     * gsize data_len;
+     * data = g_array_steal (some_array, &data_len);
+     * ...
+     * }</pre>
+     */
+    public static java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, PointerLong len) {
+        var RESULT = gtk_h.g_array_steal(Interop.allocateNativeArray(array).handle(), len.handle());
+        return RESULT;
+    }
+    
+    /**
      * Atomically decrements the reference count of {@code array} by one. If the
      * reference count drops to 0, all memory allocated by the array is
      * released. This function is thread-safe and may be called from any

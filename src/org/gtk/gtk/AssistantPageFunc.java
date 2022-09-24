@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Type of callback used to calculate the next page in a {@code GtkAssistant}.
  * <p>

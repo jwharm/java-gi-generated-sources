@@ -22,10 +22,10 @@ public final class GdkPixbuf {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static void __cbPixbufModuleSizeFunc(int width, int height, MemoryAddress userData) {
+    public static void __cbPixbufModuleSizeFunc(MemoryAddress width, MemoryAddress height, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (PixbufModuleSizeFunc) Interop.signalRegistry.get(hash);
-        handler.onPixbufModuleSizeFunc(width, height);
+        handler.onPixbufModuleSizeFunc(new PointerInteger(width), new PointerInteger(height));
     }
     
     public static void __cbPixbufDestroyNotify(MemoryAddress pixels, MemoryAddress data) {

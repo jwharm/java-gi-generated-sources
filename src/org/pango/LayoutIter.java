@@ -141,6 +141,23 @@ public class LayoutIter extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Divides the vertical space in the {@code PangoLayout} being iterated over
+     * between the lines in the layout, and returns the space belonging to
+     * the current line.
+     * <p>
+     * A line's range includes the line's logical extents. plus half of the
+     * spacing above and below the line, if {@link Layout#setSpacing}
+     * has been called to set layout spacing. The Y positions are in layout
+     * coordinates (origin at top left of the entire layout).
+     * <p>
+     * Note: Since 1.44, Pango uses line heights for placing lines, and there
+     * may be gaps between the ranges returned by this function.
+     */
+    public void getLineYrange(PointerInteger y0, PointerInteger y1) {
+        gtk_h.pango_layout_iter_get_line_yrange(handle(), y0.handle(), y1.handle());
+    }
+    
+    /**
      * Gets the current run.
      * <p>
      * When iterating by run, at the end of each line, there's a position

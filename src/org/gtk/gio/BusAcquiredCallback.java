@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Invoked when a connection to a message bus has been obtained.
  */

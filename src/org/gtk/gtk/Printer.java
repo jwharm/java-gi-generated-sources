@@ -108,6 +108,36 @@ public class Printer extends org.gtk.gobject.Object {
     }
     
     /**
+     * Retrieve the hard margins of {@code printer}.
+     * <p>
+     * These are the margins that define the area at the borders
+     * of the paper that the printer cannot print to.
+     * <p>
+     * Note: This will not succeed unless the printer’s details are
+     * available, see {@link Printer#hasDetails} and
+     * {@link Printer#requestDetails}.
+     */
+    public boolean getHardMargins(PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
+        var RESULT = gtk_h.gtk_printer_get_hard_margins(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Retrieve the hard margins of {@code printer} for {@code paper_size}.
+     * <p>
+     * These are the margins that define the area at the borders
+     * of the paper that the printer cannot print to.
+     * <p>
+     * Note: This will not succeed unless the printer’s details are
+     * available, see {@link Printer#hasDetails} and
+     * {@link Printer#requestDetails}.
+     */
+    public boolean getHardMarginsForPaperSize(PaperSize paperSize, PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
+        var RESULT = gtk_h.gtk_printer_get_hard_margins_for_paper_size(handle(), paperSize.handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Gets the name of the icon to use for the printer.
      */
     public java.lang.String getIconName() {

@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function to compare two children to determine which
  * should come first.

@@ -15,16 +15,10 @@ import java.lang.invoke.*;
  * For more information on these fields, see the
  * <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/name#name-ids">OpenType spec</a>.
  */
-public class OtNameIdT {
+public class OtNameIdT extends Alias<Integer> {
 
-    private final int value;
-    
     public OtNameIdT(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(OtNameIdT[] array) {

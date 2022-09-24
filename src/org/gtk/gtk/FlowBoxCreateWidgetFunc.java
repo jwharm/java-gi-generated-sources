@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Called for flow boxes that are bound to a {@code GListModel}.
  * <p>

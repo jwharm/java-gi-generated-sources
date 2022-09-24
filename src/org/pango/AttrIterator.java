@@ -75,4 +75,16 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         return (RESULT != 0);
     }
     
+    /**
+     * Get the range of the current segment.
+     * <p>
+     * Note that the stored return values are signed, not unsigned
+     * like the values in {@code PangoAttribute}. To deal with this API
+     * oversight, stored return values that wouldn't fit into
+     * a signed integer are clamped to {@code G_MAXINT}.
+     */
+    public void range(PointerInteger start, PointerInteger end) {
+        gtk_h.pango_attr_iterator_range(handle(), start.handle(), end.handle());
+    }
+    
 }

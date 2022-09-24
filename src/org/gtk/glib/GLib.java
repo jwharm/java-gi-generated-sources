@@ -384,6 +384,71 @@ public final class GLib {
     }
     
     /**
+     * A convenience function for converting a string to a signed number.
+     * <p>
+     * This function assumes that {@code str} contains only a number of the given
+     * {@code base} that is within inclusive bounds limited by {@code min} and {@code max}. If
+     * this is true, then the converted number is stored in {@code out_num}. An
+     * empty string is not a valid input. A string with leading or
+     * trailing whitespace is also an invalid input.
+     * <p>
+     * {@code base} can be between 2 and 36 inclusive. Hexadecimal numbers must
+     * not be prefixed with "0x" or "0X". Such a problem does not exist
+     * for octal numbers, since they were usually prefixed with a zero
+     * which does not change the value of the parsed number.
+     * <p>
+     * Parsing failures result in an error with the {@code G_NUMBER_PARSER_ERROR}
+     * domain. If the input is invalid, the error code will be
+     * {@link NumberParserError#INVALID}. If the parsed number is out of
+     * bounds - {@link NumberParserError#OUT_OF_BOUNDS}.
+     * <p>
+     * See g_ascii_strtoll() if you have more complex needs such as
+     * parsing a string which starts with a number, but then has other
+     * characters.
+     */
+    public static boolean asciiStringToSigned(java.lang.String str, int base, long min, long max, PointerLong outNum) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_ascii_string_to_signed(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * A convenience function for converting a string to an unsigned number.
+     * <p>
+     * This function assumes that {@code str} contains only a number of the given
+     * {@code base} that is within inclusive bounds limited by {@code min} and {@code max}. If
+     * this is true, then the converted number is stored in {@code out_num}. An
+     * empty string is not a valid input. A string with leading or
+     * trailing whitespace is also an invalid input. A string with a leading sign
+     * ({@code -} or {@code +}) is not a valid input for the unsigned parser.
+     * <p>
+     * {@code base} can be between 2 and 36 inclusive. Hexadecimal numbers must
+     * not be prefixed with "0x" or "0X". Such a problem does not exist
+     * for octal numbers, since they were usually prefixed with a zero
+     * which does not change the value of the parsed number.
+     * <p>
+     * Parsing failures result in an error with the {@code G_NUMBER_PARSER_ERROR}
+     * domain. If the input is invalid, the error code will be
+     * {@link NumberParserError#INVALID}. If the parsed number is out of
+     * bounds - {@link NumberParserError#OUT_OF_BOUNDS}.
+     * <p>
+     * See g_ascii_strtoull() if you have more complex needs such as
+     * parsing a string which starts with a number, but then has other
+     * characters.
+     */
+    public static boolean asciiStringToUnsigned(java.lang.String str, int base, long min, long max, PointerLong outNum) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_ascii_string_to_unsigned(Interop.allocateNativeString(str).handle(), base, min, max, outNum.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Compare {@code s1} and {@code s2}, ignoring the case of ASCII characters and any
      * characters after the first @n in each string. If either string is
      * less than @n bytes long, comparison will stop at the first nul byte
@@ -572,6 +637,152 @@ public final class GLib {
      * <p>
      * This call acts as a full compiler and hardware memory barrier.
      * <p>
+     * Before version 2.30, this function did not return a value
+     * (but g_atomic_int_exchange_and_add() did, and had the same meaning).
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static int atomicIntAdd(PointerInteger atomic, int val) {
+        var RESULT = gtk_h.g_atomic_int_add(atomic.handle(), val);
+        return RESULT;
+    }
+    
+    /**
+     * Performs an atomic bitwise 'and' of the value of {@code atomic} and {@code val},
+     * storing the result back in {@code atomic}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { tmp = *atomic; *atomic &= val; return tmp; }}.
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static int atomicIntAnd(PointerInteger atomic, int val) {
+        var RESULT = gtk_h.g_atomic_int_and(atomic.handle(), val);
+        return RESULT;
+    }
+    
+    /**
+     * Compares {@code atomic} to {@code oldval} and, if equal, sets it to {@code newval}.
+     * If {@code atomic} was not equal to {@code oldval} then no change occurs.
+     * <p>
+     * This compare and exchange is done atomically.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { if (*atomic == oldval) { *atomic = newval; return TRUE; } else return FALSE; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static boolean atomicIntCompareAndExchange(PointerInteger atomic, int oldval, int newval) {
+        var RESULT = gtk_h.g_atomic_int_compare_and_exchange(atomic.handle(), oldval, newval);
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Decrements the value of {@code atomic} by 1.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { *atomic -= 1; return (*atomic == 0); }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static boolean atomicIntDecAndTest(PointerInteger atomic) {
+        var RESULT = gtk_h.g_atomic_int_dec_and_test(atomic.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Gets the current value of {@code atomic}.
+     * <p>
+     * This call acts as a full compiler and hardware
+     * memory barrier (before the get).
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static int atomicIntGet(PointerInteger atomic) {
+        var RESULT = gtk_h.g_atomic_int_get(atomic.handle());
+        return RESULT;
+    }
+    
+    /**
+     * Increments the value of {@code atomic} by 1.
+     * <p>
+     * Think of this operation as an atomic version of {@code { *atomic += 1; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static void atomicIntInc(PointerInteger atomic) {
+        gtk_h.g_atomic_int_inc(atomic.handle());
+    }
+    
+    /**
+     * Performs an atomic bitwise 'or' of the value of {@code atomic} and {@code val},
+     * storing the result back in {@code atomic}.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { tmp = *atomic; *atomic |= val; return tmp; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static int atomicIntOr(PointerInteger atomic, int val) {
+        var RESULT = gtk_h.g_atomic_int_or(atomic.handle(), val);
+        return RESULT;
+    }
+    
+    /**
+     * Sets the value of {@code atomic} to {@code newval}.
+     * <p>
+     * This call acts as a full compiler and hardware
+     * memory barrier (after the set).
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static void atomicIntSet(PointerInteger atomic, int newval) {
+        gtk_h.g_atomic_int_set(atomic.handle(), newval);
+    }
+    
+    /**
+     * Performs an atomic bitwise 'xor' of the value of {@code atomic} and {@code val},
+     * storing the result back in {@code atomic}.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { tmp = *atomic; *atomic ^= val; return tmp; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
+     * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
+     * the pointer passed to it should not be {@code volatile}.
+     */
+    public static int atomicIntXor(PointerInteger atomic, int val) {
+        var RESULT = gtk_h.g_atomic_int_xor(atomic.handle(), val);
+        return RESULT;
+    }
+    
+    /**
+     * Atomically adds {@code val} to the value of {@code atomic}.
+     * <p>
+     * Think of this operation as an atomic version of
+     * {@code { tmp = *atomic; *atomic += val; return tmp; }}.
+     * <p>
+     * This call acts as a full compiler and hardware memory barrier.
+     * <p>
      * While {@code atomic} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
@@ -746,12 +957,121 @@ public final class GLib {
     }
     
     /**
+     * Atomically compares the current value of {@code arc} with {@code val}.
+     */
+    public static boolean atomicRefCountCompare(PointerInteger arc, int val) {
+        var RESULT = gtk_h.g_atomic_ref_count_compare(arc.handle(), val);
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Atomically decreases the reference count.
+     * <p>
+     * If {@code true} is returned, the reference count reached 0. After this point, {@code arc}
+     * is an undefined state and must be reinitialized with
+     * g_atomic_ref_count_init() to be used again.
+     */
+    public static boolean atomicRefCountDec(PointerInteger arc) {
+        var RESULT = gtk_h.g_atomic_ref_count_dec(arc.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Atomically increases the reference count.
+     */
+    public static void atomicRefCountInc(PointerInteger arc) {
+        gtk_h.g_atomic_ref_count_inc(arc.handle());
+    }
+    
+    /**
+     * Initializes a reference count variable to 1.
+     */
+    public static void atomicRefCountInit(PointerInteger arc) {
+        gtk_h.g_atomic_ref_count_init(arc.handle());
+    }
+    
+    /**
+     * Incrementally decode a sequence of binary data from its Base-64 stringified
+     * representation. By calling this function multiple times you can convert
+     * data in chunks to avoid having to have the full encoded data in memory.
+     * <p>
+     * The output buffer must be large enough to fit all the data that will
+     * be written to it. Since base64 encodes 3 bytes in 4 chars you need
+     * at least: ({@code len} / 4) * 3 + 3 bytes (+ 3 may be needed in case of non-zero
+     * state).
+     */
+    public static long base64DecodeStep(byte[] in, long len, byte[] out, PointerInteger state, PointerInteger save) {
+        var RESULT = gtk_h.g_base64_decode_step(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, in)).handle(), len, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, out)).handle(), state.handle(), save.handle());
+        return RESULT;
+    }
+    
+    /**
      * Encode a sequence of binary data into its Base-64 stringified
      * representation.
      */
     public static java.lang.String base64Encode(byte[] data, long len) {
         var RESULT = gtk_h.g_base64_encode(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), len);
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Flush the status from a sequence of calls to g_base64_encode_step().
+     * <p>
+     * The output buffer must be large enough to fit all the data that will
+     * be written to it. It will need up to 4 bytes, or up to 5 bytes if
+     * line-breaking is enabled.
+     * <p>
+     * The {@code out} array will not be automatically nul-terminated.
+     */
+    public static long base64EncodeClose(boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
+        var RESULT = gtk_h.g_base64_encode_close(breakLines ? 1 : 0, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, out)).handle(), state.handle(), save.handle());
+        return RESULT;
+    }
+    
+    /**
+     * Incrementally encode a sequence of binary data into its Base-64 stringified
+     * representation. By calling this function multiple times you can convert
+     * data in chunks to avoid having to have the full encoded data in memory.
+     * <p>
+     * When all of the data has been converted you must call
+     * g_base64_encode_close() to flush the saved state.
+     * <p>
+     * The output buffer must be large enough to fit all the data that will
+     * be written to it. Due to the way base64 encodes you will need
+     * at least: ({@code len} / 3 + 1) * 4 + 4 bytes (+ 4 may be needed in case of
+     * non-zero state). If you enable line-breaking you will need at least:
+     * (({@code len} / 3 + 1) * 4 + 4) / 76 + 1 bytes of extra space.
+     * <p>
+     * {@code break_lines} is typically used when putting base64-encoded data in emails.
+     * It breaks the lines at 76 columns instead of putting all of the text on
+     * the same line. This avoids problems with long lines in the email system.
+     * Note however that it breaks the lines with {@code LF} characters, not
+     * {@code CR LF} sequences, so the result cannot be passed directly to SMTP
+     * or certain other protocols.
+     */
+    public static long base64EncodeStep(byte[] in, long len, boolean breakLines, byte[] out, PointerInteger state, PointerInteger save) {
+        var RESULT = gtk_h.g_base64_encode_step(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, in)).handle(), len, breakLines ? 1 : 0, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, out)).handle(), state.handle(), save.handle());
+        return RESULT;
+    }
+    
+    /**
+     * Sets the indicated {@code lock_bit} in {@code address}.  If the bit is already
+     * set, this call will block until g_bit_unlock() unsets the
+     * corresponding bit.
+     * <p>
+     * Attempting to lock on two different bits within the same integer is
+     * not supported and will very probably cause deadlocks.
+     * <p>
+     * The value of the bit that is set is (1u << {@code bit}).  If {@code bit} is not
+     * between 0 and 31 then the result is undefined.
+     * <p>
+     * This function accesses {@code address} atomically.  All other accesses to
+     * {@code address} must be atomic in order for this function to work
+     * reliably. While {@code address} has a {@code volatile} qualifier, this is a historical
+     * artifact and the argument passed to it should not be {@code volatile}.
+     */
+    public static void bitLock(PointerInteger address, int lockBit) {
+        gtk_h.g_bit_lock(address.handle(), lockBit);
     }
     
     /**
@@ -784,6 +1104,40 @@ public final class GLib {
     public static int bitStorage(long number) {
         var RESULT = gtk_h.g_bit_storage(number);
         return RESULT;
+    }
+    
+    /**
+     * Sets the indicated {@code lock_bit} in {@code address}, returning {@code true} if
+     * successful.  If the bit is already set, returns {@code false} immediately.
+     * <p>
+     * Attempting to lock on two different bits within the same integer is
+     * not supported.
+     * <p>
+     * The value of the bit that is set is (1u << {@code bit}).  If {@code bit} is not
+     * between 0 and 31 then the result is undefined.
+     * <p>
+     * This function accesses {@code address} atomically.  All other accesses to
+     * {@code address} must be atomic in order for this function to work
+     * reliably. While {@code address} has a {@code volatile} qualifier, this is a historical
+     * artifact and the argument passed to it should not be {@code volatile}.
+     */
+    public static boolean bitTrylock(PointerInteger address, int lockBit) {
+        var RESULT = gtk_h.g_bit_trylock(address.handle(), lockBit);
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Clears the indicated {@code lock_bit} in {@code address}.  If another thread is
+     * currently blocked in g_bit_lock() on this same bit then it will be
+     * woken up.
+     * <p>
+     * This function accesses {@code address} atomically.  All other accesses to
+     * {@code address} must be atomic in order for this function to work
+     * reliably. While {@code address} has a {@code volatile} qualifier, this is a historical
+     * artifact and the argument passed to it should not be {@code volatile}.
+     */
+    public static void bitUnlock(PointerInteger address, int lockBit) {
+        gtk_h.g_bit_unlock(address.handle(), lockBit);
     }
     
     public static Quark bookmarkFileErrorQuark() {
@@ -1651,6 +2005,27 @@ public final class GLib {
     }
     
     /**
+     * Reads an entire file into allocated memory, with good error
+     * checking.
+     * <p>
+     * If the call was successful, it returns {@code true} and sets {@code contents} to the file
+     * contents and {@code length} to the length of the file contents in bytes. The string
+     * stored in {@code contents} will be nul-terminated, so for text files you can pass
+     * {@code null} for the {@code length} argument. If the call was not successful, it returns
+     * {@code false} and sets {@code error}. The error domain is {@code G_FILE_ERROR}. Possible error
+     * codes are those in the {@link FileError} enumeration. In the error case,
+     * {@code contents} is set to {@code null} and {@code length} is set to zero.
+     */
+    public static boolean fileGetContents(java.lang.String filename, byte[] contents, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_file_get_contents(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Opens a file for writing in the preferred directory for temporary
      * files (as returned by g_get_tmp_dir()).
      * <p>
@@ -1888,12 +2263,56 @@ public final class GLib {
     }
     
     /**
+     * Converts a string from UTF-8 to the encoding GLib uses for
+     * filenames. Note that on Windows GLib uses UTF-8 for filenames;
+     * on other platforms, this function indirectly depends on the
+     * [current locale][setlocale].
+     * <p>
+     * The input string shall not contain nul characters even if the {@code len}
+     * argument is positive. A nul character found inside the string will result
+     * in error {@link ConvertError#ILLEGAL_SEQUENCE}. If the filename encoding is
+     * not UTF-8 and the conversion output contains a nul character, the error
+     * {@link ConvertError#EMBEDDED_NUL} is set and the function returns {@code null}.
+     */
+    public static java.lang.String filenameFromUtf8(java.lang.String utf8string, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_filename_from_utf8(Interop.allocateNativeString(utf8string).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * Converts an absolute filename to an escaped ASCII-encoded URI, with the path
      * component following Section 3.3. of RFC 2396.
      */
     public static java.lang.String filenameToUri(java.lang.String filename, java.lang.String hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_filename_to_uri(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(hostname).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Converts a string which is in the encoding used by GLib for
+     * filenames into a UTF-8 string. Note that on Windows GLib uses UTF-8
+     * for filenames; on other platforms, this function indirectly depends on
+     * the [current locale][setlocale].
+     * <p>
+     * The input string shall not contain nul characters even if the {@code len}
+     * argument is positive. A nul character found inside the string will result
+     * in error {@link ConvertError#ILLEGAL_SEQUENCE}.
+     * If the source encoding is not UTF-8 and the conversion output contains a
+     * nul character, the error {@link ConvertError#EMBEDDED_NUL} is set and the
+     * function returns {@code null}. Use g_convert() to produce output that
+     * may contain embedded nul characters.
+     */
+    public static java.lang.String filenameToUtf8(java.lang.String opsysstring, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_filename_to_utf8(Interop.allocateNativeString(opsysstring).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2707,6 +3126,26 @@ public final class GLib {
     }
     
     /**
+     * Same as the standard UNIX routine iconv(), but
+     * may be implemented via libiconv on UNIX flavors that lack
+     * a native implementation.
+     * <p>
+     * GLib provides g_convert() and g_locale_to_utf8() which are likely
+     * more convenient than the raw iconv wrappers.
+     * <p>
+     * Note that the behaviour of iconv() for characters which are valid in the
+     * input character set, but which have no representation in the output character
+     * set, is implementation defined. This function may return success (with a
+     * positive number of non-reversible conversions as replacement characters were
+     * used), or it may return -1 and set an error such as {@code EILSEQ}, in such a
+     * situation.
+     */
+    public static long iconv(IConv converter, java.lang.String[] inbuf, PointerLong inbytesLeft, java.lang.String[] outbuf, PointerLong outbytesLeft) {
+        var RESULT = gtk_h.g_iconv(converter.handle(), Interop.allocateNativeArray(inbuf).handle(), inbytesLeft.handle(), Interop.allocateNativeArray(outbuf).handle(), outbytesLeft.handle());
+        return RESULT;
+    }
+    
+    /**
      * Same as the standard UNIX routine iconv_open(), but
      * may be implemented via libiconv on UNIX flavors that lack
      * a native implementation.
@@ -2967,6 +3406,28 @@ public final class GLib {
     public static Quark keyFileErrorQuark() {
         var RESULT = gtk_h.g_key_file_error_quark();
         return new Quark(RESULT);
+    }
+    
+    /**
+     * Converts a string which is in the encoding used for strings by
+     * the C runtime (usually the same as that used by the operating
+     * system) in the [current locale][setlocale] into a UTF-8 string.
+     * <p>
+     * If the source encoding is not UTF-8 and the conversion output contains a
+     * nul character, the error {@link ConvertError#EMBEDDED_NUL} is set and the
+     * function returns {@code null}.
+     * If the source encoding is UTF-8, an embedded nul character is treated with
+     * the {@link ConvertError#ILLEGAL_SEQUENCE} error for backward compatibility with
+     * earlier versions of this library. Use g_convert() to produce output that
+     * may contain embedded nul characters.
+     */
+    public static java.lang.String localeToUtf8(byte[] opsysstring, long len, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_locale_to_utf8(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, opsysstring)).handle(), len, bytesRead.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
     /**
@@ -4055,6 +4516,20 @@ public final class GLib {
     }
     
     /**
+     * Checks whether {@code needle} exists in {@code haystack}. If the element is found, {@code true} is
+     * returned and the element’s index is returned in {@code index_} (if non-{@code null}).
+     * Otherwise, {@code false} is returned and {@code index_} is undefined. If {@code needle} exists
+     * multiple times in {@code haystack}, the index of the first instance is returned.
+     * <p>
+     * This does pointer comparisons only. If you want to use more complex equality
+     * checks, such as string comparisons, use g_ptr_array_find_with_equal_func().
+     */
+    public static boolean ptrArrayFind(java.lang.foreign.MemoryAddress[] haystack, java.lang.foreign.MemoryAddress needle, PointerInteger index) {
+        var RESULT = gtk_h.g_ptr_array_find(Interop.allocateNativeArray(haystack).handle(), needle, index.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * This is just like the standard C qsort() function, but
      * the comparison routine accepts a user data argument.
      * <p>
@@ -4267,6 +4742,40 @@ public final class GLib {
     }
     
     /**
+     * Compares the current value of {@code rc} with {@code val}.
+     */
+    public static boolean refCountCompare(PointerInteger rc, int val) {
+        var RESULT = gtk_h.g_ref_count_compare(rc.handle(), val);
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Decreases the reference count.
+     * <p>
+     * If {@code true} is returned, the reference count reached 0. After this point, {@code rc}
+     * is an undefined state and must be reinitialized with
+     * g_ref_count_init() to be used again.
+     */
+    public static boolean refCountDec(PointerInteger rc) {
+        var RESULT = gtk_h.g_ref_count_dec(rc.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Increases the reference count.
+     */
+    public static void refCountInc(PointerInteger rc) {
+        gtk_h.g_ref_count_inc(rc.handle());
+    }
+    
+    /**
+     * Initializes a reference count variable to 1.
+     */
+    public static void refCountInit(PointerInteger rc) {
+        gtk_h.g_ref_count_init(rc.handle());
+    }
+    
+    /**
      * Acquires a reference on a string.
      */
     public static java.lang.String refStringAcquire(java.lang.String str) {
@@ -4322,6 +4831,26 @@ public final class GLib {
      */
     public static void refStringRelease(java.lang.String str) {
         gtk_h.g_ref_string_release(Interop.allocateNativeString(str).handle());
+    }
+    
+    /**
+     * Checks whether {@code replacement} is a valid replacement string
+     * (see g_regex_replace()), i.e. that all escape sequences in
+     * it are valid.
+     * <p>
+     * If {@code has_references} is not {@code null} then {@code replacement} is checked
+     * for pattern references. For instance, replacement text 'foo\\n'
+     * does not contain references and may be evaluated without information
+     * about actual match, but '\\0\\1' (whole match followed by first
+     * subpattern) requires valid {@link MatchInfo} object.
+     */
+    public static boolean regexCheckReplacement(java.lang.String replacement, PointerBoolean hasReferences) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_regex_check_replacement(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     public static Quark regexErrorQuark() {
@@ -4575,6 +5104,35 @@ public final class GLib {
     }
     
     /**
+     * Parses a command line into an argument vector, in much the same way
+     * the shell would, but without many of the expansions the shell would
+     * perform (variable expansion, globs, operators, filename expansion,
+     * etc. are not supported).
+     * <p>
+     * The results are defined to be the same as those you would get from
+     * a UNIX98 {@code /bin/sh}, as long as the input contains none of the
+     * unsupported shell expansions. If the input does contain such expansions,
+     * they are passed through literally.
+     * <p>
+     * Possible errors are those from the {@code G_SHELL_ERROR} domain.
+     * <p>
+     * In particular, if {@code command_line} is an empty string (or a string containing
+     * only whitespace), {@link ShellError#EMPTY_STRING} will be returned. It’s
+     * guaranteed that {@code argvp} will be a non-empty array if this function returns
+     * successfully.
+     * <p>
+     * Free the returned vector with g_strfreev().
+     */
+    public static boolean shellParseArgv(java.lang.String commandLine, PointerInteger argcp, java.lang.String[] argvp) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_shell_parse_argv(Interop.allocateNativeString(commandLine).handle(), argcp.handle(), Interop.allocateNativeArray(argvp).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Quotes a string so that the shell (/bin/sh) will interpret the
      * quoted string to mean {@code unquoted_string}.
      * <p>
@@ -4792,6 +5350,308 @@ public final class GLib {
     }
     
     /**
+     * Executes a child program asynchronously.
+     * <p>
+     * See g_spawn_async_with_pipes() for a full description; this function
+     * simply calls the g_spawn_async_with_pipes() without any pipes.
+     * <p>
+     * You should call g_spawn_close_pid() on the returned child process
+     * reference when you don't need it any more.
+     * <p>
+     * If you are writing a GTK application, and the program you are spawning is a
+     * graphical application too, then to ensure that the spawned program opens its
+     * windows on the right screen, you may want to use {@link org.gtk.gdk.AppLaunchContext},
+     * {@link org.gtk.gio.AppLaunchContext}, or set the {@code DISPLAY} environment variable.
+     * <p>
+     * Note that the returned {@code child_pid} on Windows is a handle to the child
+     * process and not its identifier. Process handles and process identifiers
+     * are different concepts on Windows.
+     */
+    public static boolean spawnAsync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
+        try {
+            var RESULT = gtk_h.g_spawn_async(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPidPOINTER.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            childPid.setValue(childPidPOINTER.get());
+            return (RESULT != 0);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Executes a child program asynchronously.
+     * <p>
+     * Identical to g_spawn_async_with_pipes_and_fds() but with {@code n_fds} set to zero,
+     * so no FD assignments are used.
+     */
+    public static boolean spawnAsyncWithFds(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
+        try {
+            var RESULT = gtk_h.g_spawn_async_with_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPidPOINTER.handle(), stdinFd, stdoutFd, stderrFd, GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            childPid.setValue(childPidPOINTER.get());
+            return (RESULT != 0);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Identical to g_spawn_async_with_pipes_and_fds() but with {@code n_fds} set to zero,
+     * so no FD assignments are used.
+     */
+    public static boolean spawnAsyncWithPipes(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid, PointerInteger standardInput, PointerInteger standardOutput, PointerInteger standardError) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
+        try {
+            var RESULT = gtk_h.g_spawn_async_with_pipes(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPidPOINTER.handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            childPid.setValue(childPidPOINTER.get());
+            return (RESULT != 0);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Executes a child program asynchronously (your program will not
+     * block waiting for the child to exit).
+     * <p>
+     * The child program is specified by the only argument that must be
+     * provided, {@code argv}. {@code argv} should be a {@code null}-terminated array of strings,
+     * to be passed as the argument vector for the child. The first string
+     * in {@code argv} is of course the name of the program to execute. By default,
+     * the name of the program must be a full path. If {@code flags} contains the
+     * {@link SpawnFlags#SEARCH_PATH} flag, the {@code PATH} environment variable is used to
+     * search for the executable. If {@code flags} contains the
+     * {@link SpawnFlags#SEARCH_PATH_FROM_ENVP} flag, the {@code PATH} variable from {@code envp}
+     * is used to search for the executable. If both the
+     * {@link SpawnFlags#SEARCH_PATH} and {@link SpawnFlags#SEARCH_PATH_FROM_ENVP} flags are
+     * set, the {@code PATH} variable from {@code envp} takes precedence over the
+     * environment variable.
+     * <p>
+     * If the program name is not a full path and {@link SpawnFlags#SEARCH_PATH} flag
+     * is not used, then the program will be run from the current directory
+     * (or {@code working_directory}, if specified); this might be unexpected or even
+     * dangerous in some cases when the current directory is world-writable.
+     * <p>
+     * On Windows, note that all the string or string vector arguments to
+     * this function and the other {@code g_spawn*()} functions are in UTF-8, the
+     * GLib file name encoding. Unicode characters that are not part of
+     * the system codepage passed in these arguments will be correctly
+     * available in the spawned program only if it uses wide character API
+     * to retrieve its command line. For C programs built with Microsoft's
+     * tools it is enough to make the program have a {@code wmain()} instead of
+     * {@code main()}. {@code wmain()} has a wide character argument vector as parameter.
+     * <p>
+     * At least currently, mingw doesn't support {@code wmain()}, so if you use
+     * mingw to develop the spawned program, it should call
+     * g_win32_get_command_line() to get arguments in UTF-8.
+     * <p>
+     * On Windows the low-level child process creation API {@code CreateProcess()}
+     * doesn't use argument vectors, but a command line. The C runtime
+     * library's {@code spawn*()} family of functions (which g_spawn_async_with_pipes()
+     * eventually calls) paste the argument vector elements together into
+     * a command line, and the C runtime startup code does a corresponding
+     * reconstruction of an argument vector from the command line, to be
+     * passed to {@code main()}. Complications arise when you have argument vector
+     * elements that contain spaces or double quotes. The {@code spawn*()} functions
+     * don't do any quoting or escaping, but on the other hand the startup
+     * code does do unquoting and unescaping in order to enable receiving
+     * arguments with embedded spaces or double quotes. To work around this
+     * asymmetry, g_spawn_async_with_pipes() will do quoting and escaping on
+     * argument vector elements that need it before calling the C runtime
+     * {@code spawn()} function.
+     * <p>
+     * The returned {@code child_pid} on Windows is a handle to the child
+     * process, not its identifier. Process handles and process
+     * identifiers are different concepts on Windows.
+     * <p>
+     * {@code envp} is a {@code null}-terminated array of strings, where each string
+     * has the form {@code KEY=VALUE}. This will become the child's environment.
+     * If {@code envp} is {@code null}, the child inherits its parent's environment.
+     * <p>
+     * {@code flags} should be the bitwise OR of any flags you want to affect the
+     * function's behaviour. The {@link SpawnFlags#DO_NOT_REAP_CHILD} means that the
+     * child will not automatically be reaped; you must use a child watch
+     * (g_child_watch_add()) to be notified about the death of the child process,
+     * otherwise it will stay around as a zombie process until this process exits.
+     * Eventually you must call g_spawn_close_pid() on the {@code child_pid}, in order to
+     * free resources which may be associated with the child process. (On Unix,
+     * using a child watch is equivalent to calling waitpid() or handling
+     * the {@code SIGCHLD} signal manually. On Windows, calling g_spawn_close_pid()
+     * is equivalent to calling {@code CloseHandle()} on the process handle returned
+     * in {@code child_pid}). See g_child_watch_add().
+     * <p>
+     * Open UNIX file descriptors marked as {@code FD_CLOEXEC} will be automatically
+     * closed in the child process. {@link SpawnFlags#LEAVE_DESCRIPTORS_OPEN} means that
+     * other open file descriptors will be inherited by the child; otherwise all
+     * descriptors except stdin/stdout/stderr will be closed before calling {@code exec()}
+     * in the child. {@link SpawnFlags#SEARCH_PATH} means that {@code argv}[0] need not be an
+     * absolute path, it will be looked for in the {@code PATH} environment
+     * variable. {@link SpawnFlags#SEARCH_PATH_FROM_ENVP} means need not be an
+     * absolute path, it will be looked for in the {@code PATH} variable from
+     * {@code envp}. If both {@link SpawnFlags#SEARCH_PATH} and {@link SpawnFlags#SEARCH_PATH_FROM_ENVP}
+     * are used, the value from {@code envp} takes precedence over the environment.
+     * <p>
+     * {@link SpawnFlags#STDOUT_TO_DEV_NULL} means that the child's standard output
+     * will be discarded, instead of going to the same location as the parent's
+     * standard output. If you use this flag, {@code stdout_pipe_out} must be {@code null}.
+     * <p>
+     * {@link SpawnFlags#STDERR_TO_DEV_NULL} means that the child's standard error
+     * will be discarded, instead of going to the same location as the parent's
+     * standard error. If you use this flag, {@code stderr_pipe_out} must be {@code null}.
+     * <p>
+     * {@link SpawnFlags#CHILD_INHERITS_STDIN} means that the child will inherit the parent's
+     * standard input (by default, the child's standard input is attached to
+     * {@code /dev/null}). If you use this flag, {@code stdin_pipe_out} must be {@code null}.
+     * <p>
+     * It is valid to pass the same FD in multiple parameters (e.g. you can pass
+     * a single FD for both {@code stdout_fd} and {@code stderr_fd}, and include it in
+     * {@code source_fds} too).
+     * <p>
+     * {@code source_fds} and {@code target_fds} allow zero or more FDs from this process to be
+     * remapped to different FDs in the spawned process. If {@code n_fds} is greater than
+     * zero, {@code source_fds} and {@code target_fds} must both be non-{@code null} and the same length.
+     * Each FD in {@code source_fds} is remapped to the FD number at the same index in
+     * {@code target_fds}. The source and target FD may be equal to simply propagate an FD
+     * to the spawned process. FD remappings are processed after standard FDs, so
+     * any target FDs which equal {@code stdin_fd}, {@code stdout_fd} or {@code stderr_fd} will overwrite
+     * them in the spawned process.
+     * <p>
+     * {@code source_fds} is supported on Windows since 2.72.
+     * <p>
+     * {@link SpawnFlags#FILE_AND_ARGV_ZERO} means that the first element of {@code argv} is
+     * the file to execute, while the remaining elements are the actual
+     * argument vector to pass to the file. Normally g_spawn_async_with_pipes()
+     * uses {@code argv}[0] as the file to execute, and passes all of {@code argv} to the child.
+     * <p>
+     * {@code child_setup} and {@code user_data} are a function and user data. On POSIX
+     * platforms, the function is called in the child after GLib has
+     * performed all the setup it plans to perform (including creating
+     * pipes, closing file descriptors, etc.) but before calling {@code exec()}.
+     * That is, {@code child_setup} is called just before calling {@code exec()} in the
+     * child. Obviously actions taken in this function will only affect
+     * the child, not the parent.
+     * <p>
+     * On Windows, there is no separate {@code fork()} and {@code exec()} functionality.
+     * Child processes are created and run with a single API call,
+     * {@code CreateProcess()}. There is no sensible thing {@code child_setup}
+     * could be used for on Windows so it is ignored and not called.
+     * <p>
+     * If non-{@code null}, {@code child_pid} will on Unix be filled with the child's
+     * process ID. You can use the process ID to send signals to the child,
+     * or to use g_child_watch_add() (or {@code waitpid()}) if you specified the
+     * {@link SpawnFlags#DO_NOT_REAP_CHILD} flag. On Windows, {@code child_pid} will be
+     * filled with a handle to the child process only if you specified the
+     * {@link SpawnFlags#DO_NOT_REAP_CHILD} flag. You can then access the child
+     * process using the Win32 API, for example wait for its termination
+     * with the {@code WaitFor*()} functions, or examine its exit code with
+     * {@code GetExitCodeProcess()}. You should close the handle with {@code CloseHandle()}
+     * or g_spawn_close_pid() when you no longer need it.
+     * <p>
+     * If non-{@code null}, the {@code stdin_pipe_out}, {@code stdout_pipe_out}, {@code stderr_pipe_out}
+     * locations will be filled with file descriptors for writing to the child's
+     * standard input or reading from its standard output or standard error.
+     * The caller of g_spawn_async_with_pipes() must close these file descriptors
+     * when they are no longer in use. If these parameters are {@code null}, the
+     * corresponding pipe won't be created.
+     * <p>
+     * If {@code stdin_pipe_out} is {@code null}, the child's standard input is attached to
+     * {@code /dev/null} unless {@link SpawnFlags#CHILD_INHERITS_STDIN} is set.
+     * <p>
+     * If {@code stderr_pipe_out} is NULL, the child's standard error goes to the same
+     * location as the parent's standard error unless {@link SpawnFlags#STDERR_TO_DEV_NULL}
+     * is set.
+     * <p>
+     * If {@code stdout_pipe_out} is NULL, the child's standard output goes to the same
+     * location as the parent's standard output unless {@link SpawnFlags#STDOUT_TO_DEV_NULL}
+     * is set.
+     * <p>
+     * {@code error} can be {@code null} to ignore errors, or non-{@code null} to report errors.
+     * If an error is set, the function returns {@code false}. Errors are reported
+     * even if they occur in the child (for example if the executable in
+     * {@code @argv[0]} is not found). Typically the {@code message} field of returned
+     * errors should be displayed to users. Possible errors are those from
+     * the {@code G_SPAWN_ERROR} domain.
+     * <p>
+     * If an error occurs, {@code child_pid}, {@code stdin_pipe_out}, {@code stdout_pipe_out},
+     * and {@code stderr_pipe_out} will not be filled with valid values.
+     * <p>
+     * If {@code child_pid} is not {@code null} and an error does not occur then the returned
+     * process reference must be closed using g_spawn_close_pid().
+     * <p>
+     * On modern UNIX platforms, GLib can use an efficient process launching
+     * codepath driven internally by {@code posix_spawn()}. This has the advantage of
+     * avoiding the fork-time performance costs of cloning the parent process
+     * address space, and avoiding associated memory overcommit checks that are
+     * not relevant in the context of immediately executing a distinct process.
+     * This optimized codepath will be used provided that the following conditions
+     * are met:
+     * <p>
+     * 1. {@link SpawnFlags#DO_NOT_REAP_CHILD} is set
+     * 2. {@link SpawnFlags#LEAVE_DESCRIPTORS_OPEN} is set
+     * 3. {@link SpawnFlags#SEARCH_PATH_FROM_ENVP} is not set
+     * 4. {@code working_directory} is {@code null}
+     * 5. {@code child_setup} is {@code null}
+     * 6. The program is of a recognised binary format, or has a shebang.
+     *    Otherwise, GLib will have to execute the program through the
+     *    shell, which is not done using the optimized codepath.
+     * <p>
+     * If you are writing a GTK application, and the program you are spawning is a
+     * graphical application too, then to ensure that the spawned program opens its
+     * windows on the right screen, you may want to use {@link org.gtk.gdk.AppLaunchContext},
+     * {@link org.gtk.gio.AppLaunchContext}, or set the {@code DISPLAY} environment variable.
+     */
+    public static boolean spawnAsyncWithPipesAndFds(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, int stdinFd, int stdoutFd, int stderrFd, int[] sourceFds, int[] targetFds, long nFds, Pid childPidOut, PointerInteger stdinPipeOut, PointerInteger stdoutPipeOut, PointerInteger stderrPipeOut) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        PointerInteger childPidOutPOINTER = new PointerInteger(childPidOut.getValue());
+        try {
+            var RESULT = gtk_h.g_spawn_async_with_pipes_and_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, sourceFds)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, targetFds)).handle(), nFds, childPidOutPOINTER.handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            childPidOut.setValue(childPidOutPOINTER.get());
+            return (RESULT != 0);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Set {@code error} if {@code wait_status} indicates the child exited abnormally
      * (e.g. with a nonzero exit code, or via a fatal signal).
      * <p>
@@ -4872,6 +5732,46 @@ public final class GLib {
         return (RESULT != 0);
     }
     
+    /**
+     * A simple version of g_spawn_sync() with little-used parameters
+     * removed, taking a command line instead of an argument vector.
+     * <p>
+     * See g_spawn_sync() for full details.
+     * <p>
+     * The {@code command_line} argument will be parsed by g_shell_parse_argv().
+     * <p>
+     * Unlike g_spawn_sync(), the {@link SpawnFlags#SEARCH_PATH} flag is enabled.
+     * Note that {@link SpawnFlags#SEARCH_PATH} can have security implications, so
+     * consider using g_spawn_sync() directly if appropriate.
+     * <p>
+     * Possible errors are those from g_spawn_sync() and those
+     * from g_shell_parse_argv().
+     * <p>
+     * If {@code wait_status} is non-{@code null}, the platform-specific status of
+     * the child is stored there; see the documentation of
+     * g_spawn_check_wait_status() for how to use and interpret this.
+     * On Unix platforms, note that it is usually not equal
+     * to the integer passed to {@code exit()} or returned from {@code main()}.
+     * <p>
+     * On Windows, please note the implications of g_shell_parse_argv()
+     * parsing {@code command_line}. Parsing is done according to Unix shell rules, not
+     * Windows command interpreter rules.
+     * Space is a separator, and backslashes are
+     * special. Thus you cannot simply pass a {@code command_line} containing
+     * canonical Windows paths, like "c:\\\\program files\\\\app\\\\app.exe", as
+     * the backslashes will be eaten, and the space will act as a
+     * separator. You need to enclose such paths with single quotes, like
+     * "'c:\\\\program files\\\\app\\\\app.exe' 'e:\\\\folder\\\\argument.txt'".
+     */
+    public static boolean spawnCommandLineSync(java.lang.String commandLine, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_spawn_command_line_sync(Interop.allocateNativeString(commandLine).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardOutput)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardError)).handle(), waitStatus.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
     public static Quark spawnErrorQuark() {
         var RESULT = gtk_h.g_spawn_error_quark();
         return new Quark(RESULT);
@@ -4880,6 +5780,50 @@ public final class GLib {
     public static Quark spawnExitErrorQuark() {
         var RESULT = gtk_h.g_spawn_exit_error_quark();
         return new Quark(RESULT);
+    }
+    
+    /**
+     * Executes a child synchronously (waits for the child to exit before returning).
+     * <p>
+     * All output from the child is stored in {@code standard_output} and {@code standard_error},
+     * if those parameters are non-{@code null}. Note that you must set the
+     * {@link SpawnFlags#STDOUT_TO_DEV_NULL} and {@link SpawnFlags#STDERR_TO_DEV_NULL} flags when
+     * passing {@code null} for {@code standard_output} and {@code standard_error}.
+     * <p>
+     * If {@code wait_status} is non-{@code null}, the platform-specific status of
+     * the child is stored there; see the documentation of
+     * g_spawn_check_wait_status() for how to use and interpret this.
+     * On Unix platforms, note that it is usually not equal
+     * to the integer passed to {@code exit()} or returned from {@code main()}.
+     * <p>
+     * Note that it is invalid to pass {@link SpawnFlags#DO_NOT_REAP_CHILD} in
+     * {@code flags}, and on POSIX platforms, the same restrictions as for
+     * g_child_watch_source_new() apply.
+     * <p>
+     * If an error occurs, no data is returned in {@code standard_output},
+     * {@code standard_error}, or {@code wait_status}.
+     * <p>
+     * This function calls g_spawn_async_with_pipes() internally; see that
+     * function for full details on the other parameters and details on
+     * how these functions work on Windows.
+     */
+    public static boolean spawnSync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        try {
+            var RESULT = gtk_h.g_spawn_sync(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
+                            MethodType.methodType(void.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardOutput)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, standardError)).handle(), waitStatus.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return (RESULT != 0);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
     
     /**
@@ -6407,6 +7351,19 @@ public final class GLib {
     }
     
     /**
+     * Convert a string from a 32-bit fixed width representation as UCS-4.
+     * to UTF-8. The result will be terminated with a 0 byte.
+     */
+    public static java.lang.String ucs4ToUtf8(PointerInteger str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_ucs4_to_utf8(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * Determines the break type of @c. @c should be a Unicode character
      * (to derive a character from UTF-8 encoded text, use
      * g_utf8_get_char()). The break type is used to find word and line
@@ -6428,12 +7385,107 @@ public final class GLib {
     }
     
     /**
+     * Performs a single composition step of the
+     * Unicode canonical composition algorithm.
+     * <p>
+     * This function includes algorithmic Hangul Jamo composition,
+     * but it is not exactly the inverse of g_unichar_decompose().
+     * No composition can have either of @a or @b equal to zero.
+     * To be precise, this function composes if and only if
+     * there exists a Primary Composite P which is canonically
+     * equivalent to the sequence &lt;@a,@b&gt;.  See the Unicode
+     * Standard for the definition of Primary Composite.
+     * <p>
+     * If @a and @b do not compose a new character, {@code ch} is set to zero.
+     * <p>
+     * See
+     * <a href="http://unicode.org/reports/tr15/">UAX#15</a>
+     * for details.
+     */
+    public static boolean unicharCompose(int a, int b, PointerInteger ch) {
+        var RESULT = gtk_h.g_unichar_compose(a, b, ch.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Performs a single decomposition step of the
+     * Unicode canonical decomposition algorithm.
+     * <p>
+     * This function does not include compatibility
+     * decompositions. It does, however, include algorithmic
+     * Hangul Jamo decomposition, as well as 'singleton'
+     * decompositions which replace a character by a single
+     * other character. In the case of singletons *@b will
+     * be set to zero.
+     * <p>
+     * If {@code ch} is not decomposable, <strong>@a is set to @ch and </strong>@b
+     * is set to zero.
+     * <p>
+     * Note that the way Unicode decomposition pairs are
+     * defined, it is guaranteed that @b would not decompose
+     * further, but @a may itself decompose.  To get the full
+     * canonical decomposition for {@code ch}, one would need to
+     * recursively call this function on @a.  Or use
+     * g_unichar_fully_decompose().
+     * <p>
+     * See
+     * <a href="http://unicode.org/reports/tr15/">UAX#15</a>
+     * for details.
+     */
+    public static boolean unicharDecompose(int ch, PointerInteger a, PointerInteger b) {
+        var RESULT = gtk_h.g_unichar_decompose(ch, a.handle(), b.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Determines the numeric value of a character as a decimal
      * digit.
      */
     public static int unicharDigitValue(int c) {
         var RESULT = gtk_h.g_unichar_digit_value(c);
         return RESULT;
+    }
+    
+    /**
+     * Computes the canonical or compatibility decomposition of a
+     * Unicode character.  For compatibility decomposition,
+     * pass {@code true} for {@code compat}; for canonical decomposition
+     * pass {@code false} for {@code compat}.
+     * <p>
+     * The decomposed sequence is placed in {@code result}.  Only up to
+     * {@code result_len} characters are written into {@code result}.  The length
+     * of the full decomposition (irrespective of {@code result_len}) is
+     * returned by the function.  For canonical decomposition,
+     * currently all decompositions are of length at most 4, but
+     * this may change in the future (very unlikely though).
+     * At any rate, Unicode does guarantee that a buffer of length
+     * 18 is always enough for both compatibility and canonical
+     * decompositions, so that is the size recommended. This is provided
+     * as {@code G_UNICHAR_MAX_DECOMPOSITION_LENGTH}.
+     * <p>
+     * See
+     * <a href="http://unicode.org/reports/tr15/">UAX#15</a>
+     * for details.
+     */
+    public static long unicharFullyDecompose(int ch, boolean compat, PointerInteger result, long resultLen) {
+        var RESULT = gtk_h.g_unichar_fully_decompose(ch, compat ? 1 : 0, result.handle(), resultLen);
+        return RESULT;
+    }
+    
+    /**
+     * In Unicode, some characters are "mirrored". This means that their
+     * images are mirrored horizontally in text that is laid out from right
+     * to left. For instance, "(" would become its mirror image, ")", in
+     * right-to-left text.
+     * <p>
+     * If {@code ch} has the Unicode mirrored property and there is another unicode
+     * character that typically has a glyph that is the mirror image of {@code ch}'s
+     * glyph and {@code mirrored_ch} is set, it puts that character in the address
+     * pointed to by {@code mirrored_ch}.  Otherwise the original character is put.
+     */
+    public static boolean unicharGetMirrorChar(int ch, PointerInteger mirroredCh) {
+        var RESULT = gtk_h.g_unichar_get_mirror_char(ch, mirroredCh.handle());
+        return (RESULT != 0);
     }
     
     /**
@@ -6703,6 +7755,16 @@ public final class GLib {
     }
     
     /**
+     * Computes the canonical ordering of a string in-place.
+     * This rearranges decomposed characters in the string
+     * according to their combining classes.  See the Unicode
+     * manual for more information.
+     */
+    public static void unicodeCanonicalOrdering(PointerInteger string, long len) {
+        gtk_h.g_unicode_canonical_ordering(string.handle(), len);
+    }
+    
+    /**
      * Looks up the Unicode script for {@code iso15924}.  ISO 15924 assigns four-letter
      * codes to scripts.  For example, the code for Arabic is 'Arab'.
      * This function accepts four letter codes encoded as a {@code guint32} in a
@@ -6824,6 +7886,25 @@ public final class GLib {
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * Similar to the UNIX pipe() call, but on modern systems like Linux
+     * uses the pipe2() system call, which atomically creates a pipe with
+     * the configured flags. The only supported flag currently is
+     * {@code FD_CLOEXEC}. If for example you want to configure {@code O_NONBLOCK}, that
+     * must still be done separately with fcntl().
+     * <p>
+     * This function does not take {@code O_CLOEXEC}, it takes {@code FD_CLOEXEC} as if
+     * for fcntl(); these are different on Linux/glibc.
+     */
+    public static boolean unixOpenPipe(PointerInteger fds, int flags) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_unix_open_pipe(fds.handle(), flags, GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**
@@ -7168,6 +8249,72 @@ public final class GLib {
     }
     
     /**
+     * Parses {@code uri_ref} (which can be an
+     * [absolute or relative URI][relative-absolute-uris]) according to {@code flags}, and
+     * returns the pieces. Any component that doesn't appear in {@code uri_ref} will be
+     * returned as {@code null} (but note that all URIs always have a path component,
+     * though it may be the empty string).
+     * <p>
+     * If {@code flags} contains {@link UriFlags#ENCODED}, then {@code %}-encoded characters in
+     * {@code uri_ref} will remain encoded in the output strings. (If not,
+     * then all such characters will be decoded.) Note that decoding will
+     * only work if the URI components are ASCII or UTF-8, so you will
+     * need to use {@link UriFlags#ENCODED} if they are not.
+     * <p>
+     * Note that the {@link UriFlags#HAS_PASSWORD} and
+     * {@link UriFlags#HAS_AUTH_PARAMS} {@code flags} are ignored by g_uri_split(),
+     * since it always returns only the full userinfo; use
+     * g_uri_split_with_user() if you want it split up.
+     */
+    public static boolean uriSplit(java.lang.String uriRef, int flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_split(Interop.allocateNativeString(uriRef).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Parses {@code uri_string} (which must be an [absolute URI][relative-absolute-uris])
+     * according to {@code flags}, and returns the pieces relevant to connecting to a host.
+     * See the documentation for g_uri_split() for more details; this is
+     * mostly a wrapper around that function with simpler arguments.
+     * However, it will return an error if {@code uri_string} is a relative URI,
+     * or does not contain a hostname component.
+     */
+    public static boolean uriSplitNetwork(java.lang.String uriString, int flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_split_network(Interop.allocateNativeString(uriString).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Parses {@code uri_ref} (which can be an
+     * [absolute or relative URI][relative-absolute-uris]) according to {@code flags}, and
+     * returns the pieces. Any component that doesn't appear in {@code uri_ref} will be
+     * returned as {@code null} (but note that all URIs always have a path component,
+     * though it may be the empty string).
+     * <p>
+     * See g_uri_split(), and the definition of {@link UriFlags}, for more
+     * information on the effect of {@code flags}. Note that {@code password} will only
+     * be parsed out if {@code flags} contains {@link UriFlags#HAS_PASSWORD}, and
+     * {@code auth_params} will only be parsed out if {@code flags} contains
+     * {@link UriFlags#HAS_AUTH_PARAMS}.
+     */
+    public static boolean uriSplitWithUser(java.lang.String uriRef, int flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_split_with_user(Interop.allocateNativeString(uriRef).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Unescapes a segment of an escaped string as binary data.
      * <p>
      * Note that in contrast to g_uri_unescape_string(), this does allow
@@ -7229,6 +8376,30 @@ public final class GLib {
      */
     public static void usleep(long microseconds) {
         gtk_h.g_usleep(microseconds);
+    }
+    
+    /**
+     * Convert a string from UTF-16 to UTF-8. The result will be
+     * terminated with a 0 byte.
+     * <p>
+     * Note that the input is expected to be already in native endianness,
+     * an initial byte-order-mark character is not handled specially.
+     * g_convert() can be used to convert a byte buffer of UTF-16 data of
+     * ambiguous endianness.
+     * <p>
+     * Further note that this function does not validate the result
+     * string; it may e.g. include embedded NUL characters. The only
+     * validation done by this function is to ensure that the input can
+     * be correctly interpreted as UTF-16, i.e. it doesn't contain
+     * unpaired surrogates or partial character sequences.
+     */
+    public static java.lang.String utf16ToUtf8(PointerShort str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_utf16_to_utf8(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
     /**

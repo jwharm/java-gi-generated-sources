@@ -48,6 +48,14 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Computes the distance between @a and @b.
+     */
+    public float distance(Point b, PointerFloat dX, PointerFloat dY) {
+        var RESULT = gtk_h.graphene_point_distance(handle(), b.handle(), dX.handle(), dY.handle());
+        return RESULT;
+    }
+    
+    /**
      * Checks if the two points @a and @b point to the same
      * coordinates.
      * <p>

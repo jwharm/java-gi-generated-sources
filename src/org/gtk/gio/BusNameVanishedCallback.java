@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Invoked when the name being watched is known not to have to have an owner.
  * <p>

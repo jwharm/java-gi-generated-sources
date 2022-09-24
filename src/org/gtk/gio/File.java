@@ -983,6 +983,25 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
+     * Loads the content of the file into memory. The data is always
+     * zero-terminated, but this is not included in the resultant {@code length}.
+     * The returned {@code contents} should be freed with g_free() when no longer
+     * needed.
+     * <p>
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     */
+    public default boolean loadContents(Cancellable cancellable, byte[] contents, PointerLong length, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_file_load_contents(handle(), cancellable.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Starts an asynchronous load of the {@code file}'s contents.
      * <p>
      * For more details, see g_file_load_contents() which is
@@ -1009,6 +1028,22 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes an asynchronous load of the {@code file}'s contents.
+     * The contents are placed in {@code contents}, and {@code length} is set to the
+     * size of the {@code contents} string. The {@code contents} should be freed with
+     * g_free() when no longer needed. If {@code etag_out} is present, it will be
+     * set to the new entity tag for the {@code file}.
+     */
+    public default boolean loadContentsFinish(AsyncResult res, byte[] contents, PointerLong length, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_file_load_contents_finish(handle(), res.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**
@@ -1041,6 +1076,22 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes an asynchronous partial load operation that was started
+     * with g_file_load_partial_contents_async(). The data is always
+     * zero-terminated, but this is not included in the resultant {@code length}.
+     * The returned {@code contents} should be freed with g_free() when no longer
+     * needed.
+     */
+    public default boolean loadPartialContentsFinish(AsyncResult res, byte[] contents, PointerLong length, java.lang.String[] etagOut) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_file_load_partial_contents_finish(handle(), res.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length.handle(), Interop.allocateNativeArray(etagOut).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**
@@ -1142,6 +1193,45 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Recursively measures the disk usage of {@code file}.
      * <p>
+     * This is essentially an analog of the 'du' command, but it also
+     * reports the number of directories and non-directory files encountered
+     * (including things like symbolic links).
+     * <p>
+     * By default, errors are only reported against the toplevel file
+     * itself.  Errors found while recursing are silently ignored, unless
+     * {@link FileMeasureFlags#REPORT_ANY_ERROR} is given in {@code flags}.
+     * <p>
+     * The returned size, {@code disk_usage}, is in bytes and should be formatted
+     * with g_format_size() in order to get something reasonable for showing
+     * in a user interface.
+     * <p>
+     * {@code progress_callback} and {@code progress_data} can be given to request
+     * periodic progress updates while scanning.  See the documentation for
+     * {@link FileMeasureProgressCallback} for information about when and how the
+     * callback will be invoked.
+     */
+    public default boolean measureDiskUsage(int flags, Cancellable cancellable, FileMeasureProgressCallback progressCallback, PointerLong diskUsage, PointerLong numDirs, PointerLong numFiles) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        try {
+            var RESULT = gtk_h.g_file_measure_disk_usage(handle(), flags, cancellable.handle(), 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbFileMeasureProgressCallback",
+                            MethodType.methodType(void.class, boolean.class, long.class, long.class, long.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.JAVA_BOOLEAN, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), diskUsage.handle(), numDirs.handle(), numFiles.handle(), GERROR);
+            if (GErrorException.isErrorSet(GERROR)) {
+                throw new GErrorException(GERROR);
+            }
+            return (RESULT != 0);
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * Recursively measures the disk usage of {@code file}.
+     * <p>
      * This is the asynchronous version of g_file_measure_disk_usage().  See
      * there for more information.
      */
@@ -1163,6 +1253,20 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Collects the results from an earlier call to
+     * g_file_measure_disk_usage_async().  See g_file_measure_disk_usage() for
+     * more information.
+     */
+    public default boolean measureDiskUsageFinish(AsyncResult result, PointerLong diskUsage, PointerLong numDirs, PointerLong numFiles) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_file_measure_disk_usage_finish(handle(), result.handle(), diskUsage.handle(), numDirs.handle(), numFiles.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**

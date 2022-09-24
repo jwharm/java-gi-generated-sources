@@ -129,4 +129,17 @@ public class UnixMountPoint extends io.github.jwharm.javagi.ResourceBase {
         return (RESULT != 0);
     }
     
+    /**
+     * Gets a {@link UnixMountPoint} for a given mount path. If {@code time_read} is set, it
+     * will be filled with a unix timestamp for checking if the mount points have
+     * changed since with g_unix_mount_points_changed_since().
+     * <p>
+     * If more mount points have the same mount path, the last matching mount point
+     * is returned.
+     */
+    public static UnixMountPoint at(java.lang.String mountPath, PointerLong timeRead) {
+        var RESULT = gtk_h.g_unix_mount_point_at(Interop.allocateNativeString(mountPath).handle(), timeRead.handle());
+        return new UnixMountPoint(References.get(RESULT, true));
+    }
+    
 }

@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * User-provided callback function to create a popup for a
  * {@code GtkMenuButton} on demand.

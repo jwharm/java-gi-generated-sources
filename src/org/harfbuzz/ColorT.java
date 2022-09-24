@@ -11,16 +11,10 @@ import java.lang.invoke.*;
  * Data type for holding color values. Colors are eight bits per
  * channel RGB plus alpha transparency.
  */
-public class ColorT {
+public class ColorT extends Alias<Integer> {
 
-    private final int value;
-    
     public ColorT(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(ColorT[] array) {

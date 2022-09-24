@@ -15,16 +15,10 @@ import java.lang.invoke.*;
  * scripts, languages, font features, and baselines with
  * human-readable names.
  */
-public class TagT {
+public class TagT extends Alias<Integer> {
 
-    private final int value;
-    
     public TagT(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(TagT[] array) {

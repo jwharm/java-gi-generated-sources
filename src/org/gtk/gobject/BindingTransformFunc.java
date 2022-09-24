@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function to be called to transform {@code from_value} to {@code to_value}.
  * <p>

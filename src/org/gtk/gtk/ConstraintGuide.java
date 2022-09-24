@@ -45,11 +45,32 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
     }
     
     /**
+     * Gets the maximum size of {@code guide}.
+     */
+    public void getMaxSize(PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_constraint_guide_get_max_size(handle(), width.handle(), height.handle());
+    }
+    
+    /**
+     * Gets the minimum size of {@code guide}.
+     */
+    public void getMinSize(PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_constraint_guide_get_min_size(handle(), width.handle(), height.handle());
+    }
+    
+    /**
      * Retrieves the name set using gtk_constraint_guide_set_name().
      */
     public java.lang.String getName() {
         var RESULT = gtk_h.gtk_constraint_guide_get_name(handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the natural size of {@code guide}.
+     */
+    public void getNatSize(PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_constraint_guide_get_nat_size(handle(), width.handle(), height.handle());
     }
     
     /**

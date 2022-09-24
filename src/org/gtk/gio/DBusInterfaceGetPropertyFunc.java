@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of the {@code get_property} function in {@link DBusInterfaceVTable}.
  */

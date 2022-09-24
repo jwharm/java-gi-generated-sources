@@ -65,6 +65,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Calculates the scale factor of a matrix on the width and height of the font.
+     * <p>
+     * That is, {@code xscale} is the scale factor in the direction of the X coordinate,
+     * and {@code yscale} is the scale factor in the direction perpendicular to the
+     * vector that the X coordinate is mapped to.
+     * <p>
+     * Note that output numbers will always be non-negative.
+     */
+    public void getFontScaleFactors(PointerDouble xscale, PointerDouble yscale) {
+        gtk_h.pango_matrix_get_font_scale_factors(handle(), xscale.handle(), yscale.handle());
+    }
+    
+    /**
      * Gets the slant ratio of a matrix.
      * <p>
      * For a simple shear matrix in the form:
@@ -99,6 +112,27 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Transforms the distance vector ({@code dx},{@code dy}) by {@code matrix}.
+     * <p>
+     * This is similar to {@link Matrix#transformPoint},
+     * except that the translation components of the transformation
+     * are ignored. The calculation of the returned vector is as follows:
+     * <p>
+     * <pre>{@code 
+     * dx2 = dx1 * xx + dy1 * xy;
+     * dy2 = dx1 * yx + dy1 * yy;
+     * }</pre>
+     * <p>
+     * Affine transformations are position invariant, so the same vector
+     * always transforms to the same vector. If ({@code x1},{@code y1}) transforms
+     * to ({@code x2},{@code y2}) then ({@code x1}+{@code dx1},{@code y1}+{@code dy1}) will transform to
+     * ({@code x1}+{@code dx2},{@code y1}+{@code dy2}) for all values of {@code x1} and {@code x2}.
+     */
+    public void transformDistance(PointerDouble dx, PointerDouble dy) {
+        gtk_h.pango_matrix_transform_distance(handle(), dx.handle(), dy.handle());
+    }
+    
+    /**
      * First transforms the {@code rect} using {@code matrix}, then calculates the bounding box
      * of the transformed rectangle.
      * <p>
@@ -112,6 +146,13 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      */
     public void transformPixelRectangle(Rectangle rect) {
         gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.handle());
+    }
+    
+    /**
+     * Transforms the point (@x, @y) by {@code matrix}.
+     */
+    public void transformPoint(PointerDouble x, PointerDouble y) {
+        gtk_h.pango_matrix_transform_point(handle(), x.handle(), y.handle());
     }
     
     /**

@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Loads a file from a standard C file stream into a new {@code GdkPixbufAnimation}.
  * <p>

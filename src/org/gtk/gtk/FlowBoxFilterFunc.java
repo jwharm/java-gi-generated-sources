@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function that will be called whenever a child changes
  * or is added.

@@ -46,6 +46,18 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches a list of the selectors available for the specified feature in the given face.
+     * <p>
+     * If upon return, {@code default_index} is set to {@code HB_AAT_LAYOUT_NO_SELECTOR_INDEX}, then
+     * the feature type is non-exclusive.  Otherwise, {@code default_index} is the index of
+     * the selector that is selected by default.
+     */
+    public static int aatLayoutFeatureTypeGetSelectorInfos(FaceT face, AatLayoutFeatureTypeT featureType, int startOffset, PointerInteger selectorCount, AatLayoutFeatureSelectorInfoT[] selectors, PointerInteger defaultIndex) {
+        var RESULT = gtk_h.hb_aat_layout_feature_type_get_selector_infos(face.handle(), featureType.getValue(), startOffset, selectorCount.handle(), Interop.allocateNativeArray(selectors).handle(), defaultIndex.handle());
+        return RESULT;
+    }
+    
+    /**
      * Tests whether the specified face includes any positioning information
      * in the {@code kerx} table.
      * <p>
@@ -540,6 +552,18 @@ public final class HarfBuzz {
     }
     
     /**
+     * Serializes {@code buffer} into a textual representation of its content, whether
+     * Unicode codepoints or glyph identifiers and positioning information. This is
+     * useful for showing the contents of the buffer, for example during debugging.
+     * See the documentation of hb_buffer_serialize_unicode() and
+     * hb_buffer_serialize_glyphs() for a description of the output format.
+     */
+    public static int bufferSerialize(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, int flags) {
+        var RESULT = gtk_h.hb_buffer_serialize(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags);
+        return RESULT;
+    }
+    
+    /**
      * Parses a string into an {@link buffer_serialize_format_t}. Does not check if
      * {@code str} is a valid buffer serialization format, use
      * hb_buffer_serialize_list_formats() to get the list of supported formats.
@@ -556,6 +580,101 @@ public final class HarfBuzz {
     public static java.lang.String bufferSerializeFormatToString(BufferSerializeFormatT format) {
         var RESULT = gtk_h.hb_buffer_serialize_format_to_string(format.getValue());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Serializes {@code buffer} into a textual representation of its glyph content,
+     * useful for showing the contents of the buffer, for example during debugging.
+     * There are currently two supported serialization formats:
+     * <p>
+     * <h2>text</h2>
+     * A human-readable, plain text format.
+     * The serialized glyphs will look something like:
+     * <p>
+     * <pre>{@code 
+     * [uni0651=0@518,0+0|uni0628=0+1897]
+     * }</pre>
+     * <p>
+     * <ul>
+     * <li>The serialized glyphs are delimited with {@code [} and {@code ]}.
+     * <li>Glyphs are separated with {@code |}
+     * <li>Each glyph starts with glyph name, or glyph index if
+     *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_GLYPH_NAMES} flag is set. Then,
+     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set, {@code =} then {@link glyph_info_t}.cluster.
+     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS} is not set, the {@link glyph_position_t} in the format:
+     * <li>If both {@link glyph_position_t}.x_offset and {@link glyph_position_t}.y_offset are not 0, {@code @x_offset,y_offset}. Then,
+     * <li>{@code +x_advance}, then {@code ,y_advance} if {@link glyph_position_t}.y_advance is not 0. Then,
+     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set, the {@link glyph_extents_t} in the format {@code <x_bearing,y_bearing,width,height>}
+     * </ul>
+     * <p>
+     * <h2>json</h2>
+     * A machine-readable, structured format.
+     * The serialized glyphs will look something like:
+     * <p>
+     * <pre>{@code 
+     * [{"g":"uni0651","cl":0,"dx":518,"dy":0,"ax":0,"ay":0},
+     * {"g":"uni0628","cl":0,"dx":0,"dy":0,"ax":1897,"ay":0}]
+     * }</pre>
+     * <p>
+     * Each glyph is a JSON object, with the following properties:
+     * <ul>
+     * <li>{@code g}: the glyph name or glyph index if
+     *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_GLYPH_NAMES} flag is set.
+     * <li>{@code cl}: {@link glyph_info_t}.cluster if
+     *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set.
+     * <li>{@code dx},{@code dy},{@code ax},{@code ay}: {@link glyph_position_t}.x_offset, {@link glyph_position_t}.y_offset,
+     *    {@link glyph_position_t}.x_advance and {@link glyph_position_t}.y_advance
+     *    respectively, if {@code HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS} is not set.
+     * <li>{@code xb},{@code yb},{@code w},{@code h}: {@link glyph_extents_t}.x_bearing, {@link glyph_extents_t}.y_bearing,
+     *    {@link glyph_extents_t}.width and {@link glyph_extents_t}.height respectively if
+     *    {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set.
+     */
+    public static int bufferSerializeGlyphs(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, int flags) {
+        var RESULT = gtk_h.hb_buffer_serialize_glyphs(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags);
+        return RESULT;
+    }
+    
+    /**
+     * Serializes {@code buffer} into a textual representation of its content,
+     * when the buffer contains Unicode codepoints (i.e., before shaping). This is
+     * useful for showing the contents of the buffer, for example during debugging.
+     * There are currently two supported serialization formats:
+     * <p>
+     * <h2>text</h2>
+     * A human-readable, plain text format.
+     * The serialized codepoints will look something like:
+     * <p>
+     * <pre>{@code 
+     *  <U+0651=0|U+0628=1>
+     * }</pre>
+     * <p>
+     * <ul>
+     * <li>Glyphs are separated with {@code |}
+     * <li>Unicode codepoints are expressed as zero-padded four (or more)
+     *   digit hexadecimal numbers preceded by {@code U+}
+     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set, the cluster
+     *   will be indicated with a {@code =} then {@link glyph_info_t}.cluster.
+     * </ul>
+     * <p>
+     * <h2>json</h2>
+     * A machine-readable, structured format.
+     * The serialized codepoints will be a list of objects with the following
+     * properties:
+     * <ul>
+     * <li>{@code u}: the Unicode codepoint as a decimal integer
+     * <li>{@code cl}: {@link glyph_info_t}.cluster if
+     *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set.
+     * </ul>
+     * <p>
+     * For example:
+     * <p>
+     * <pre>{@code 
+     * [{u:1617,cl:0},{u:1576,cl:1}]
+     * }</pre>
+     */
+    public static int bufferSerializeUnicode(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, BufferSerializeFormatT format, int flags) {
+        var RESULT = gtk_h.hb_buffer_serialize_unicode(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags);
+        return RESULT;
     }
     
     /**
@@ -919,6 +1038,15 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches a list of all table tags for a face, if possible. The list returned will
+     * begin at the offset provided
+     */
+    public static int faceGetTableTags(FaceT face, int startOffset, PointerInteger tableCount, TagT[] tableTags) {
+        var RESULT = gtk_h.hb_face_get_table_tags(face.handle(), startOffset, tableCount.handle(), Interop.allocateNativeArray(TagT.getValues(tableTags)).handle());
+        return RESULT;
+    }
+    
+    /**
      * Fetches the units-per-em (upem) value of the specified face object.
      */
     public static int faceGetUpem(FaceT face) {
@@ -1056,6 +1184,21 @@ public final class HarfBuzz {
     }
     
     /**
+     * Adds the origin coordinates to an (X,Y) point coordinate, in
+     * the specified glyph ID in the specified font.
+     * <p>
+     * Calls the appropriate direction-specific variant (horizontal
+     * or vertical) depending on the value of {@code direction}.
+     */
+    public static void fontAddGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        gtk_h.hb_font_add_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
+    }
+    
+    /**
      * Constructs a new font object from the specified face.
      * <p>
      * &lt;note&gt;Note: If {@code face}'s index value (as passed to hb_face_create()
@@ -1173,6 +1316,80 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the glyph ID for a Unicode code point in the specified
+     * font, with an optional variation selector.
+     * <p>
+     * If {@code variation_selector} is 0, calls hb_font_get_nominal_glyph();
+     * otherwise calls hb_font_get_variation_glyph().
+     */
+    public static BoolT fontGetGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
+        PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
+        var RESULT = gtk_h.hb_font_get_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), glyphPOINTER.handle());
+        glyph.setValue(glyphPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the advance for a glyph ID from the specified font,
+     * in a text segment of the specified direction.
+     * <p>
+     * Calls the appropriate direction-specific variant (horizontal
+     * or vertical) depending on the value of {@code direction}.
+     */
+    public static void fontGetGlyphAdvanceForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        gtk_h.hb_font_get_glyph_advance_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
+    }
+    
+    /**
+     * Fetches the advances for a sequence of glyph IDs in the specified
+     * font, in a text segment of the specified direction.
+     * <p>
+     * Calls the appropriate direction-specific variant (horizontal
+     * or vertical) depending on the value of {@code direction}.
+     */
+    public static void fontGetGlyphAdvancesForDirection(FontT font, DirectionT direction, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
+        PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
+        PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
+        gtk_h.hb_font_get_glyph_advances_for_direction(font.handle(), direction.getValue(), count, firstGlyphPOINTER.handle(), glyphStride, firstAdvancePOINTER.handle(), advanceStride);
+        firstGlyph.setValue(firstGlyphPOINTER.get());
+        firstAdvance.setValue(firstAdvancePOINTER.get());
+    }
+    
+    /**
+     * Fetches the (x,y) coordinates of a specified contour-point index
+     * in the specified glyph, within the specified font.
+     */
+    public static BoolT fontGetGlyphContourPoint(FontT font, CodepointT glyph, int pointIndex, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        var RESULT = gtk_h.hb_font_get_glyph_contour_point(font.handle(), glyph.getValue(), pointIndex, xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the (X,Y) coordinates of a specified contour-point index
+     * in the specified glyph ID in the specified font, with respect
+     * to the origin in a text segment in the specified direction.
+     * <p>
+     * Calls the appropriate direction-specific variant (horizontal
+     * or vertical) depending on the value of {@code direction}.
+     */
+    public static BoolT fontGetGlyphContourPointForOrigin(FontT font, CodepointT glyph, int pointIndex, DirectionT direction, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        var RESULT = gtk_h.hb_font_get_glyph_contour_point_for_origin(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
      * Fetches the {@link glyph_extents_t} data for a glyph ID
      * in the specified font.
      */
@@ -1195,12 +1412,36 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the glyph ID that corresponds to a name string in the specified {@code font}.
+     * <p>
+     * &lt;note>Note: @len == -1 means the name string is null-terminated.</note&gt;
+     */
+    public static BoolT fontGetGlyphFromName(FontT font, java.lang.String[] name, int len, CodepointT glyph) {
+        PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
+        var RESULT = gtk_h.hb_font_get_glyph_from_name(font.handle(), Interop.allocateNativeArray(name).handle(), len, glyphPOINTER.handle());
+        glyph.setValue(glyphPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
      * Fetches the advance for a glyph ID in the specified font,
      * for horizontal text segments.
      */
     public static PositionT fontGetGlyphHAdvance(FontT font, CodepointT glyph) {
         var RESULT = gtk_h.hb_font_get_glyph_h_advance(font.handle(), glyph.getValue());
         return new PositionT(RESULT);
+    }
+    
+    /**
+     * Fetches the advances for a sequence of glyph IDs in the specified
+     * font, for horizontal text segments.
+     */
+    public static void fontGetGlyphHAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
+        PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
+        PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
+        gtk_h.hb_font_get_glyph_h_advances(font.handle(), count, firstGlyphPOINTER.handle(), glyphStride, firstAdvancePOINTER.handle(), advanceStride);
+        firstGlyph.setValue(firstGlyphPOINTER.get());
+        firstAdvance.setValue(firstAdvancePOINTER.get());
     }
     
     /**
@@ -1216,11 +1457,53 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the (X,Y) coordinates of the origin for a glyph ID
+     * in the specified font, for horizontal text segments.
+     */
+    public static BoolT fontGetGlyphHOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        var RESULT = gtk_h.hb_font_get_glyph_h_origin(font.handle(), glyph.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the kerning-adjustment value for a glyph-pair in the specified font.
+     * <p>
+     * Calls the appropriate direction-specific variant (horizontal
+     * or vertical) depending on the value of {@code direction}.
+     */
+    public static void fontGetGlyphKerningForDirection(FontT font, CodepointT firstGlyph, CodepointT secondGlyph, DirectionT direction, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        gtk_h.hb_font_get_glyph_kerning_for_direction(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
+    }
+    
+    /**
      * Fetches the glyph-name string for a glyph ID in the specified {@code font}.
      */
     public static BoolT fontGetGlyphName(FontT font, CodepointT glyph, java.lang.String[] name, int size) {
         var RESULT = gtk_h.hb_font_get_glyph_name(font.handle(), glyph.getValue(), Interop.allocateNativeArray(name).handle(), size);
         return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the (X,Y) coordinates of the origin for a glyph in
+     * the specified font.
+     * <p>
+     * Calls the appropriate direction-specific variant (horizontal
+     * or vertical) depending on the value of {@code direction}.
+     */
+    public static void fontGetGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        gtk_h.hb_font_get_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
     }
     
     /**
@@ -1242,12 +1525,65 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the advances for a sequence of glyph IDs in the specified
+     * font, for vertical text segments.
+     */
+    public static void fontGetGlyphVAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
+        PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
+        PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
+        gtk_h.hb_font_get_glyph_v_advances(font.handle(), count, firstGlyphPOINTER.handle(), glyphStride, firstAdvancePOINTER.handle(), advanceStride);
+        firstGlyph.setValue(firstGlyphPOINTER.get());
+        firstAdvance.setValue(firstAdvancePOINTER.get());
+    }
+    
+    /**
+     * Fetches the (X,Y) coordinates of the origin for a glyph ID
+     * in the specified font, for vertical text segments.
+     */
+    public static BoolT fontGetGlyphVOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        var RESULT = gtk_h.hb_font_get_glyph_v_origin(font.handle(), glyph.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
      * Fetches the extents for a specified font, for horizontal
      * text segments.
      */
     public static BoolT fontGetHExtents(FontT font, FontExtentsT extents) {
         var RESULT = gtk_h.hb_font_get_h_extents(font.handle(), extents.handle());
         return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the nominal glyph ID for a Unicode code point in the
+     * specified font.
+     * <p>
+     * This version of the function should not be used to fetch glyph IDs
+     * for code points modified by variation selectors. For variation-selector
+     * support, user hb_font_get_variation_glyph() or use hb_font_get_glyph().
+     */
+    public static BoolT fontGetNominalGlyph(FontT font, CodepointT unicode, CodepointT glyph) {
+        PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
+        var RESULT = gtk_h.hb_font_get_nominal_glyph(font.handle(), unicode.getValue(), glyphPOINTER.handle());
+        glyph.setValue(glyphPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the nominal glyph IDs for a sequence of Unicode code points. Glyph
+     * IDs must be returned in a {@link codepoint_t} output parameter.
+     */
+    public static int fontGetNominalGlyphs(FontT font, int count, CodepointT firstUnicode, int unicodeStride, CodepointT firstGlyph, int glyphStride) {
+        PointerInteger firstUnicodePOINTER = new PointerInteger(firstUnicode.getValue());
+        PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
+        var RESULT = gtk_h.hb_font_get_nominal_glyphs(font.handle(), count, firstUnicodePOINTER.handle(), unicodeStride, firstGlyphPOINTER.handle(), glyphStride);
+        firstUnicode.setValue(firstUnicodePOINTER.get());
+        firstGlyph.setValue(firstGlyphPOINTER.get());
+        return RESULT;
     }
     
     /**
@@ -1259,12 +1595,26 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the horizontal and vertical points-per-em (ppem) of a font.
+     */
+    public static void fontGetPpem(FontT font, PointerInteger xPpem, PointerInteger yPpem) {
+        gtk_h.hb_font_get_ppem(font.handle(), xPpem.handle(), yPpem.handle());
+    }
+    
+    /**
      * Fetches the "point size" of a font. Used in CoreText to
      * implement optical sizing.
      */
     public static float fontGetPtem(FontT font) {
         var RESULT = gtk_h.hb_font_get_ptem(font.handle());
         return RESULT;
+    }
+    
+    /**
+     * Fetches the horizontal and vertical scale of a font.
+     */
+    public static void fontGetScale(FontT font, PointerInteger xScale, PointerInteger yScale) {
+        gtk_h.hb_font_get_scale(font.handle(), xScale.handle(), yScale.handle());
     }
     
     /**
@@ -1290,6 +1640,31 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetVExtents(FontT font, FontExtentsT extents) {
         var RESULT = gtk_h.hb_font_get_v_extents(font.handle(), extents.handle());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the glyph ID for a Unicode code point when followed by
+     * by the specified variation-selector code point, in the specified
+     * font.
+     */
+    public static BoolT fontGetVariationGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
+        PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
+        var RESULT = gtk_h.hb_font_get_variation_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), glyphPOINTER.handle());
+        glyph.setValue(glyphPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the glyph ID from {@code font} that matches the specified string.
+     * Strings of the format {@code gidDDD} or {@code uniUUUU} are parsed automatically.
+     * <p>
+     * &lt;note>Note: @len == -1 means the string is null-terminated.</note&gt;
+     */
+    public static BoolT fontGlyphFromString(FontT font, byte[] s, int len, CodepointT glyph) {
+        PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
+        var RESULT = gtk_h.hb_font_glyph_from_string(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, s)).handle(), len, glyphPOINTER.handle());
+        glyph.setValue(glyphPOINTER.get());
         return new BoolT(RESULT);
     }
     
@@ -1426,6 +1801,21 @@ public final class HarfBuzz {
      */
     public static void fontSetVariations(FontT font, VariationT[] variations, int variationsLength) {
         gtk_h.hb_font_set_variations(font.handle(), Interop.allocateNativeArray(variations).handle(), variationsLength);
+    }
+    
+    /**
+     * Subtracts the origin coordinates from an (X,Y) point coordinate,
+     * in the specified glyph ID in the specified font.
+     * <p>
+     * Calls the appropriate direction-specific variant (horizontal
+     * or vertical) depending on the value of {@code direction}.
+     */
+    public static void fontSubtractGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
+        PointerInteger xPOINTER = new PointerInteger(x.getValue());
+        PointerInteger yPOINTER = new PointerInteger(y.getValue());
+        gtk_h.hb_font_subtract_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        x.setValue(xPOINTER.get());
+        y.setValue(yPOINTER.get());
     }
     
     /**
@@ -1666,6 +2056,15 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches a list of all color layers for the specified glyph index in the specified
+     * face. The list returned will begin at the offset provided.
+     */
+    public static int otColorGlyphGetLayers(FaceT face, CodepointT glyph, int startOffset, PointerInteger layerCount, OtColorLayerT[] layers) {
+        var RESULT = gtk_h.hb_ot_color_glyph_get_layers(face.handle(), glyph.getValue(), startOffset, layerCount.handle(), Interop.allocateNativeArray(layers).handle());
+        return RESULT;
+    }
+    
+    /**
      * Fetches the PNG image for a glyph. This function takes a font object, not a face object,
      * as input. To get an optimally sized PNG blob, the UPEM value must be set on the {@code font}
      * object. If UPEM is unset, the blob returned will be the largest PNG available.
@@ -1732,6 +2131,20 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches a list of the colors in a color palette.
+     * <p>
+     * After calling this function, {@code colors} will be filled with the palette
+     * colors. If {@code colors} is NULL, the function will just return the number
+     * of total colors without storing any actual colors; this can be used
+     * for allocating a buffer of suitable size before calling
+     * hb_ot_color_palette_get_colors() a second time.
+     */
+    public static int otColorPaletteGetColors(FaceT face, int paletteIndex, int startOffset, PointerInteger colorCount, ColorT[] colors) {
+        var RESULT = gtk_h.hb_ot_color_palette_get_colors(face.handle(), paletteIndex, startOffset, colorCount.handle(), Interop.allocateNativeArray(ColorT.getValues(colors)).handle());
+        return RESULT;
+    }
+    
+    /**
      * Fetches the number of color palettes in a face.
      */
     public static int otColorPaletteGetCount(FaceT face) {
@@ -1767,6 +2180,117 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches a list of all feature indexes in the specified face's GSUB table
+     * or GPOS table, underneath the specified scripts, languages, and features.
+     * If no list of scripts is provided, all scripts will be queried. If no list
+     * of languages is provided, all languages will be queried. If no list of
+     * features is provided, all features will be queried.
+     */
+    public static void otLayoutCollectFeatures(FaceT face, TagT tableTag, TagT scripts, TagT languages, TagT features, SetT featureIndexes) {
+        PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
+        PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
+        PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
+        gtk_h.hb_ot_layout_collect_features(face.handle(), tableTag.getValue(), scriptsPOINTER.handle(), languagesPOINTER.handle(), featuresPOINTER.handle(), featureIndexes.handle());
+        scripts.setValue(scriptsPOINTER.get());
+        languages.setValue(languagesPOINTER.get());
+        features.setValue(featuresPOINTER.get());
+    }
+    
+    /**
+     * Fetches a list of all feature-lookup indexes in the specified face's GSUB
+     * table or GPOS table, underneath the specified scripts, languages, and
+     * features. If no list of scripts is provided, all scripts will be queried.
+     * If no list of languages is provided, all languages will be queried. If no
+     * list of features is provided, all features will be queried.
+     */
+    public static void otLayoutCollectLookups(FaceT face, TagT tableTag, TagT scripts, TagT languages, TagT features, SetT lookupIndexes) {
+        PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
+        PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
+        PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
+        gtk_h.hb_ot_layout_collect_lookups(face.handle(), tableTag.getValue(), scriptsPOINTER.handle(), languagesPOINTER.handle(), featuresPOINTER.handle(), lookupIndexes.handle());
+        scripts.setValue(scriptsPOINTER.get());
+        languages.setValue(languagesPOINTER.get());
+        features.setValue(featuresPOINTER.get());
+    }
+    
+    /**
+     * Fetches a list of the characters defined as having a variant under the specified
+     * "Character Variant" ("cvXX") feature tag.
+     */
+    public static int otLayoutFeatureGetCharacters(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger charCount, CodepointT[] characters) {
+        var RESULT = gtk_h.hb_ot_layout_feature_get_characters(face.handle(), tableTag.getValue(), featureIndex, startOffset, charCount.handle(), Interop.allocateNativeArray(CodepointT.getValues(characters)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a list of all lookups enumerated for the specified feature, in
+     * the specified face's GSUB table or GPOS table. The list returned will
+     * begin at the offset provided.
+     */
+    public static int otLayoutFeatureGetLookups(FaceT face, TagT tableTag, int featureIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
+        var RESULT = gtk_h.hb_ot_layout_feature_get_lookups(face.handle(), tableTag.getValue(), featureIndex, startOffset, lookupCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, lookupIndexes)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches name indices from feature parameters for "Stylistic Set" ('ssXX') or
+     * "Character Variant" ('cvXX') features.
+     */
+    public static BoolT otLayoutFeatureGetNameIds(FaceT face, TagT tableTag, int featureIndex, OtNameIdT labelId, OtNameIdT tooltipId, OtNameIdT sampleId, PointerInteger numNamedParameters, OtNameIdT firstParamId) {
+        PointerInteger labelIdPOINTER = new PointerInteger(labelId.getValue());
+        PointerInteger tooltipIdPOINTER = new PointerInteger(tooltipId.getValue());
+        PointerInteger sampleIdPOINTER = new PointerInteger(sampleId.getValue());
+        PointerInteger firstParamIdPOINTER = new PointerInteger(firstParamId.getValue());
+        var RESULT = gtk_h.hb_ot_layout_feature_get_name_ids(face.handle(), tableTag.getValue(), featureIndex, labelIdPOINTER.handle(), tooltipIdPOINTER.handle(), sampleIdPOINTER.handle(), numNamedParameters.handle(), firstParamIdPOINTER.handle());
+        labelId.setValue(labelIdPOINTER.get());
+        tooltipId.setValue(tooltipIdPOINTER.get());
+        sampleId.setValue(sampleIdPOINTER.get());
+        firstParamId.setValue(firstParamIdPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches a list of all lookups enumerated for the specified feature, in
+     * the specified face's GSUB table or GPOS table, enabled at the specified
+     * variations index. The list returned will begin at the offset provided.
+     */
+    public static int otLayoutFeatureWithVariationsGetLookups(FaceT face, TagT tableTag, int featureIndex, int variationsIndex, int startOffset, PointerInteger lookupCount, int[] lookupIndexes) {
+        var RESULT = gtk_h.hb_ot_layout_feature_with_variations_get_lookups(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, lookupCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, lookupIndexes)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a list of all attachment points for the specified glyph in the GDEF
+     * table of the face. The list returned will begin at the offset provided.
+     * <p>
+     * Useful if the client program wishes to cache the list.
+     */
+    public static int otLayoutGetAttachPoints(FaceT face, CodepointT glyph, int startOffset, PointerInteger pointCount, int[] pointArray) {
+        var RESULT = gtk_h.hb_ot_layout_get_attach_points(face.handle(), glyph.getValue(), startOffset, pointCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, pointArray)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a baseline value from the face.
+     */
+    public static BoolT otLayoutGetBaseline(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
+        PointerInteger coordPOINTER = new PointerInteger(coord.getValue());
+        var RESULT = gtk_h.hb_ot_layout_get_baseline(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), coordPOINTER.handle());
+        coord.setValue(coordPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches a baseline value from the face, and synthesizes
+     * it if the font does not have it.
+     */
+    public static void otLayoutGetBaselineWithFallback(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
+        PointerInteger coordPOINTER = new PointerInteger(coord.getValue());
+        gtk_h.hb_ot_layout_get_baseline_with_fallback(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), coordPOINTER.handle());
+        coord.setValue(coordPOINTER.get());
+    }
+    
+    /**
      * Fetches the GDEF class of the requested glyph in the specified face.
      */
     public static OtLayoutGlyphClassT otLayoutGetGlyphClass(FaceT face, CodepointT glyph) {
@@ -1788,6 +2312,39 @@ public final class HarfBuzz {
     public static OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(ScriptT script) {
         var RESULT = gtk_h.hb_ot_layout_get_horizontal_baseline_tag_for_script(script.getValue());
         return OtLayoutBaselineTagT.fromValue(RESULT);
+    }
+    
+    /**
+     * Fetches a list of the caret positions defined for a ligature glyph in the GDEF
+     * table of the font. The list returned will begin at the offset provided.
+     * <p>
+     * Note that a ligature that is formed from n characters will have n-1
+     * caret positions. The first character is not represented in the array,
+     * since its caret position is the glyph position.
+     * <p>
+     * The positions returned by this function are 'unshaped', and will have to
+     * be fixed up for kerning that may be applied to the ligature glyph.
+     */
+    public static int otLayoutGetLigatureCarets(FontT font, DirectionT direction, CodepointT glyph, int startOffset, PointerInteger caretCount, PositionT[] caretArray) {
+        var RESULT = gtk_h.hb_ot_layout_get_ligature_carets(font.handle(), direction.getValue(), glyph.getValue(), startOffset, caretCount.handle(), Interop.allocateNativeArray(PositionT.getValues(caretArray)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches optical-size feature data (i.e., the {@code size} feature from GPOS). Note that
+     * the subfamily_id and the subfamily name string (accessible via the subfamily_name_id)
+     * as used here are defined as pertaining only to fonts within a font family that differ
+     * specifically in their respective size ranges; other ways to differentiate fonts within
+     * a subfamily are not covered by the {@code size} feature.
+     * <p>
+     * For more information on this distinction, see the [{@code size} feature documentation](
+     * https://docs.microsoft.com/en-us/typography/opentype/spec/features_pt{@code tag}-size).
+     */
+    public static BoolT otLayoutGetSizeParams(FaceT face, PointerInteger designSize, PointerInteger subfamilyId, OtNameIdT subfamilyNameId, PointerInteger rangeStart, PointerInteger rangeEnd) {
+        PointerInteger subfamilyNameIdPOINTER = new PointerInteger(subfamilyNameId.getValue());
+        var RESULT = gtk_h.hb_ot_layout_get_size_params(face.handle(), designSize.handle(), subfamilyId.handle(), subfamilyNameIdPOINTER.handle(), rangeStart.handle(), rangeEnd.handle());
+        subfamilyNameId.setValue(subfamilyNameIdPOINTER.get());
+        return new BoolT(RESULT);
     }
     
     /**
@@ -1815,11 +2372,68 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the index of a given feature tag in the specified face's GSUB table
+     * or GPOS table, underneath the specified script and language.
+     */
+    public static BoolT otLayoutLanguageFindFeature(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, TagT featureTag, PointerInteger featureIndex) {
+        var RESULT = gtk_h.hb_ot_layout_language_find_feature(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureTag.getValue(), featureIndex.handle());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches a list of all features in the specified face's GSUB table
+     * or GPOS table, underneath the specified script and language. The list
+     * returned will begin at the offset provided.
+     */
+    public static int otLayoutLanguageGetFeatureIndexes(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, int[] featureIndexes) {
+        var RESULT = gtk_h.hb_ot_layout_language_get_feature_indexes(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, featureIndexes)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a list of all features in the specified face's GSUB table
+     * or GPOS table, underneath the specified script and language. The list
+     * returned will begin at the offset provided.
+     */
+    public static int otLayoutLanguageGetFeatureTags(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
+        var RESULT = gtk_h.hb_ot_layout_language_get_feature_tags(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getValues(featureTags)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches the tag of a requested feature index in the given face's GSUB or GPOS table,
+     * underneath the specified script and language.
+     */
+    public static BoolT otLayoutLanguageGetRequiredFeature(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, PointerInteger featureIndex, TagT featureTag) {
+        PointerInteger featureTagPOINTER = new PointerInteger(featureTag.getValue());
+        var RESULT = gtk_h.hb_ot_layout_language_get_required_feature(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle(), featureTagPOINTER.handle());
+        featureTag.setValue(featureTagPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the index of a requested feature in the given face's GSUB or GPOS table,
+     * underneath the specified script and language.
+     */
+    public static BoolT otLayoutLanguageGetRequiredFeatureIndex(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, PointerInteger featureIndex) {
+        var RESULT = gtk_h.hb_ot_layout_language_get_required_feature_index(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle());
+        return new BoolT(RESULT);
+    }
+    
+    /**
      * Fetches a list of all glyphs affected by the specified lookup in the
      * specified face's GSUB table or GPOS table.
      */
     public static void otLayoutLookupCollectGlyphs(FaceT face, TagT tableTag, int lookupIndex, SetT glyphsBefore, SetT glyphsInput, SetT glyphsAfter, SetT glyphsOutput) {
         gtk_h.hb_ot_layout_lookup_collect_glyphs(face.handle(), tableTag.getValue(), lookupIndex, glyphsBefore.handle(), glyphsInput.handle(), glyphsAfter.handle(), glyphsOutput.handle());
+    }
+    
+    /**
+     * Fetches alternates of a glyph from a given GSUB lookup index.
+     */
+    public static int otLayoutLookupGetGlyphAlternates(FaceT face, int lookupIndex, CodepointT glyph, int startOffset, PointerInteger alternateCount, CodepointT[] alternateGlyphs) {
+        var RESULT = gtk_h.hb_ot_layout_lookup_get_glyph_alternates(face.handle(), lookupIndex, glyph.getValue(), startOffset, alternateCount.handle(), Interop.allocateNativeArray(CodepointT.getValues(alternateGlyphs)).handle());
+        return RESULT;
     }
     
     /**
@@ -1831,11 +2445,84 @@ public final class HarfBuzz {
     }
     
     /**
+     * Tests whether a specified lookup in the specified face would
+     * trigger a substitution on the given glyph sequence.
+     */
+    public static BoolT otLayoutLookupWouldSubstitute(FaceT face, int lookupIndex, CodepointT glyphs, int glyphsLength, BoolT zeroContext) {
+        PointerInteger glyphsPOINTER = new PointerInteger(glyphs.getValue());
+        var RESULT = gtk_h.hb_ot_layout_lookup_would_substitute(face.handle(), lookupIndex, glyphsPOINTER.handle(), glyphsLength, zeroContext.getValue());
+        glyphs.setValue(glyphsPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
      * Compute the transitive closure of glyphs needed for all of the
      * provided lookups.
      */
     public static void otLayoutLookupsSubstituteClosure(FaceT face, SetT lookups, SetT glyphs) {
         gtk_h.hb_ot_layout_lookups_substitute_closure(face.handle(), lookups.handle(), glyphs.handle());
+    }
+    
+    /**
+     * Fetches a list of language tags in the given face's GSUB or GPOS table, underneath
+     * the specified script index. The list returned will begin at the offset provided.
+     */
+    public static int otLayoutScriptGetLanguageTags(FaceT face, TagT tableTag, int scriptIndex, int startOffset, PointerInteger languageCount, TagT[] languageTags) {
+        var RESULT = gtk_h.hb_ot_layout_script_get_language_tags(face.handle(), tableTag.getValue(), scriptIndex, startOffset, languageCount.handle(), Interop.allocateNativeArray(TagT.getValues(languageTags)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches the index of the first language tag fom {@code language_tags} that is present
+     * in the specified face's GSUB or GPOS table, underneath the specified script
+     * index.
+     * <p>
+     * If none of the given language tags is found, {@code false} is returned and
+     * {@code language_index} is set to the default language index.
+     */
+    public static BoolT otLayoutScriptSelectLanguage(FaceT face, TagT tableTag, int scriptIndex, int languageCount, TagT languageTags, PointerInteger languageIndex) {
+        PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
+        var RESULT = gtk_h.hb_ot_layout_script_select_language(face.handle(), tableTag.getValue(), scriptIndex, languageCount, languageTagsPOINTER.handle(), languageIndex.handle());
+        languageTags.setValue(languageTagsPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Deprecated since 2.0.0
+     */
+    public static BoolT otLayoutTableChooseScript(FaceT face, TagT tableTag, TagT scriptTags, PointerInteger scriptIndex, TagT chosenScript) {
+        PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
+        PointerInteger chosenScriptPOINTER = new PointerInteger(chosenScript.getValue());
+        var RESULT = gtk_h.hb_ot_layout_table_choose_script(face.handle(), tableTag.getValue(), scriptTagsPOINTER.handle(), scriptIndex.handle(), chosenScriptPOINTER.handle());
+        scriptTags.setValue(scriptTagsPOINTER.get());
+        chosenScript.setValue(chosenScriptPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches a list of feature variations in the specified face's GSUB table
+     * or GPOS table, at the specified variation coordinates.
+     */
+    public static BoolT otLayoutTableFindFeatureVariations(FaceT face, TagT tableTag, PointerInteger coords, int numCoords, PointerInteger variationsIndex) {
+        var RESULT = gtk_h.hb_ot_layout_table_find_feature_variations(face.handle(), tableTag.getValue(), coords.handle(), numCoords, variationsIndex.handle());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the index if a given script tag in the specified face's GSUB table
+     * or GPOS table.
+     */
+    public static BoolT otLayoutTableFindScript(FaceT face, TagT tableTag, TagT scriptTag, PointerInteger scriptIndex) {
+        var RESULT = gtk_h.hb_ot_layout_table_find_script(face.handle(), tableTag.getValue(), scriptTag.getValue(), scriptIndex.handle());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches a list of all feature tags in the given face's GSUB or GPOS table.
+     */
+    public static int otLayoutTableGetFeatureTags(FaceT face, TagT tableTag, int startOffset, PointerInteger featureCount, TagT[] featureTags) {
+        var RESULT = gtk_h.hb_ot_layout_table_get_feature_tags(face.handle(), tableTag.getValue(), startOffset, featureCount.handle(), Interop.allocateNativeArray(TagT.getValues(featureTags)).handle());
+        return RESULT;
     }
     
     /**
@@ -1845,6 +2532,32 @@ public final class HarfBuzz {
     public static int otLayoutTableGetLookupCount(FaceT face, TagT tableTag) {
         var RESULT = gtk_h.hb_ot_layout_table_get_lookup_count(face.handle(), tableTag.getValue());
         return RESULT;
+    }
+    
+    /**
+     * Fetches a list of all scripts enumerated in the specified face's GSUB table
+     * or GPOS table. The list returned will begin at the offset provided.
+     */
+    public static int otLayoutTableGetScriptTags(FaceT face, TagT tableTag, int startOffset, PointerInteger scriptCount, TagT[] scriptTags) {
+        var RESULT = gtk_h.hb_ot_layout_table_get_script_tags(face.handle(), tableTag.getValue(), startOffset, scriptCount.handle(), Interop.allocateNativeArray(TagT.getValues(scriptTags)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Selects an OpenType script for {@code table_tag} from the {@code script_tags} array.
+     * <p>
+     * If the table does not have any of the requested scripts, then {@code DFLT},
+     * {@code dflt}, and {@code latn} tags are tried in that order. If the table still does not
+     * have any of these scripts, {@code script_index} and {@code chosen_script} are set to
+     * {@code HB_OT_LAYOUT_NO_SCRIPT_INDEX}.
+     */
+    public static BoolT otLayoutTableSelectScript(FaceT face, TagT tableTag, int scriptCount, TagT scriptTags, PointerInteger scriptIndex, TagT chosenScript) {
+        PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
+        PointerInteger chosenScriptPOINTER = new PointerInteger(chosenScript.getValue());
+        var RESULT = gtk_h.hb_ot_layout_table_select_script(face.handle(), tableTag.getValue(), scriptCount, scriptTagsPOINTER.handle(), scriptIndex.handle(), chosenScriptPOINTER.handle());
+        scriptTags.setValue(scriptTagsPOINTER.get());
+        chosenScript.setValue(chosenScriptPOINTER.get());
+        return new BoolT(RESULT);
     }
     
     /**
@@ -1859,6 +2572,24 @@ public final class HarfBuzz {
     public static PositionT otMathGetConstant(FontT font, OtMathConstantT constant) {
         var RESULT = gtk_h.hb_ot_math_get_constant(font.handle(), constant.getValue());
         return new PositionT(RESULT);
+    }
+    
+    /**
+     * Fetches the GlyphAssembly for the specified font, glyph index, and direction.
+     * Returned are a list of {@link ot_math_glyph_part_t} glyph parts that can be
+     * used to draw the glyph and an italics-correction value (if one is defined
+     * in the font).
+     * <p>
+     * &lt;note&gt;The {@code direction} parameter is only used to select between horizontal
+     * or vertical directions for the construction. Even though all {@link direction_t}
+     * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
+     * considered.&lt;/note&gt;
+     */
+    public static int otMathGetGlyphAssembly(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger partsCount, OtMathGlyphPartT[] parts, PositionT italicsCorrection) {
+        PointerInteger italicsCorrectionPOINTER = new PointerInteger(italicsCorrection.getValue());
+        var RESULT = gtk_h.hb_ot_math_get_glyph_assembly(font.handle(), glyph.getValue(), direction.getValue(), startOffset, partsCount.handle(), Interop.allocateNativeArray(parts).handle(), italicsCorrectionPOINTER.handle());
+        italicsCorrection.setValue(italicsCorrectionPOINTER.get());
+        return RESULT;
     }
     
     /**
@@ -1885,6 +2616,27 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the raw MathKern (cut-in) data for the specified font, glyph index,
+     * and {@code kern}. The corresponding list of kern values and correction heights is
+     * returned as a list of {@link ot_math_kern_entry_t} structs.
+     * <p>
+     * See also {@code hb_ot_math_get_glyph_kerning}, which handles selecting the
+     * appropriate kern value for a given correction height.
+     * <p>
+     * &lt;note>For a glyph with @n defined kern values (where @n &gt; 0), there are only
+     * @n−1 defined correction heights, as each correction height defines a boundary
+     * past which the next kern value should be selected. Therefore, only the
+     * {@link ot_math_kern_entry_t}.kern_value of the uppermost {@link ot_math_kern_entry_t}
+     * actually comes from the font; its corresponding
+     * {@link ot_math_kern_entry_t}.max_correction_height is always set to
+     * &lt;code>INT32_MAX</code>.</note&gt;
+     */
+    public static int otMathGetGlyphKernings(FontT font, CodepointT glyph, OtMathKernT kern, int startOffset, PointerInteger entriesCount, OtMathKernEntryT[] kernEntries) {
+        var RESULT = gtk_h.hb_ot_math_get_glyph_kernings(font.handle(), glyph.getValue(), kern.getValue(), startOffset, entriesCount.handle(), Interop.allocateNativeArray(kernEntries).handle());
+        return RESULT;
+    }
+    
+    /**
      * Fetches a top-accent-attachment value (if one exists) for the specified
      * glyph index.
      * <p>
@@ -1897,6 +2649,21 @@ public final class HarfBuzz {
     public static PositionT otMathGetGlyphTopAccentAttachment(FontT font, CodepointT glyph) {
         var RESULT = gtk_h.hb_ot_math_get_glyph_top_accent_attachment(font.handle(), glyph.getValue());
         return new PositionT(RESULT);
+    }
+    
+    /**
+     * Fetches the MathGlyphConstruction for the specified font, glyph index, and
+     * direction. The corresponding list of size variants is returned as a list of
+     * {@link ot_math_glyph_variant_t} structs.
+     * <p>
+     * &lt;note&gt;The {@code direction} parameter is only used to select between horizontal
+     * or vertical directions for the construction. Even though all {@link direction_t}
+     * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
+     * considered.&lt;/note&gt;
+     */
+    public static int otMathGetGlyphVariants(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger variantsCount, OtMathGlyphVariantT[] variants) {
+        var RESULT = gtk_h.hb_ot_math_get_glyph_variants(font.handle(), glyph.getValue(), direction.getValue(), startOffset, variantsCount.handle(), Interop.allocateNativeArray(variants).handle());
+        return RESULT;
     }
     
     /**
@@ -1939,6 +2706,26 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches metrics value corresponding to {@code metrics_tag} from {@code font}.
+     */
+    public static BoolT otMetricsGetPosition(FontT font, OtMetricsTagT metricsTag, PositionT position) {
+        PointerInteger positionPOINTER = new PointerInteger(position.getValue());
+        var RESULT = gtk_h.hb_ot_metrics_get_position(font.handle(), metricsTag.getValue(), positionPOINTER.handle());
+        position.setValue(positionPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches metrics value corresponding to {@code metrics_tag} from {@code font},
+     * and synthesizes a value if it the value is missing in the font.
+     */
+    public static void otMetricsGetPositionWithFallback(FontT font, OtMetricsTagT metricsTag, PositionT position) {
+        PointerInteger positionPOINTER = new PointerInteger(position.getValue());
+        gtk_h.hb_ot_metrics_get_position_with_fallback(font.handle(), metricsTag.getValue(), positionPOINTER.handle());
+        position.setValue(positionPOINTER.get());
+    }
+    
+    /**
      * Fetches metrics value corresponding to {@code metrics_tag} from {@code font} with the
      * current font variation settings applied.
      */
@@ -1963,6 +2750,39 @@ public final class HarfBuzz {
     public static PositionT otMetricsGetYVariation(FontT font, OtMetricsTagT metricsTag) {
         var RESULT = gtk_h.hb_ot_metrics_get_y_variation(font.handle(), metricsTag.getValue());
         return new PositionT(RESULT);
+    }
+    
+    /**
+     * Fetches a font name from the OpenType 'name' table.
+     * If {@code language} is {@code HB_LANGUAGE_INVALID}, English ("en") is assumed.
+     * Returns string in UTF-16 encoding. A NUL terminator is always written
+     * for convenience, and isn't included in the output {@code text_size}.
+     */
+    public static int otNameGetUtf16(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, short[] text) {
+        var RESULT = gtk_h.hb_ot_name_get_utf16(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_SHORT, text)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a font name from the OpenType 'name' table.
+     * If {@code language} is {@code HB_LANGUAGE_INVALID}, English ("en") is assumed.
+     * Returns string in UTF-32 encoding. A NUL terminator is always written
+     * for convenience, and isn't included in the output {@code text_size}.
+     */
+    public static int otNameGetUtf32(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, int[] text) {
+        var RESULT = gtk_h.hb_ot_name_get_utf32(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, text)).handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a font name from the OpenType 'name' table.
+     * If {@code language} is {@code HB_LANGUAGE_INVALID}, English ("en") is assumed.
+     * Returns string in UTF-8 encoding. A NUL terminator is always written
+     * for convenience, and isn't included in the output {@code text_size}.
+     */
+    public static int otNameGetUtf8(FaceT face, OtNameIdT nameId, LanguageT language, PointerInteger textSize, java.lang.String[] text) {
+        var RESULT = gtk_h.hb_ot_name_get_utf8(face.handle(), nameId.getValue(), language.handle(), textSize.handle(), Interop.allocateNativeArray(text).handle());
+        return RESULT;
     }
     
     /**
@@ -2003,6 +2823,25 @@ public final class HarfBuzz {
         return ScriptT.fromValue(RESULT);
     }
     
+    public static void otTagsFromScript(ScriptT script, TagT scriptTag1, TagT scriptTag2) {
+        PointerInteger scriptTag1POINTER = new PointerInteger(scriptTag1.getValue());
+        PointerInteger scriptTag2POINTER = new PointerInteger(scriptTag2.getValue());
+        gtk_h.hb_ot_tags_from_script(script.getValue(), scriptTag1POINTER.handle(), scriptTag2POINTER.handle());
+        scriptTag1.setValue(scriptTag1POINTER.get());
+        scriptTag2.setValue(scriptTag2POINTER.get());
+    }
+    
+    /**
+     * Converts an {@link script_t} and an {@link language_t} to script and language tags.
+     */
+    public static void otTagsFromScriptAndLanguage(ScriptT script, LanguageT language, PointerInteger scriptCount, TagT scriptTags, PointerInteger languageCount, TagT languageTags) {
+        PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
+        PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
+        gtk_h.hb_ot_tags_from_script_and_language(script.getValue(), language.handle(), scriptCount.handle(), scriptTagsPOINTER.handle(), languageCount.handle(), languageTagsPOINTER.handle());
+        scriptTags.setValue(scriptTagsPOINTER.get());
+        languageTags.setValue(languageTagsPOINTER.get());
+    }
+    
     /**
      * Fetches the variation-axis information corresponding to the specified axis tag
      * in the specified face.
@@ -2017,6 +2856,15 @@ public final class HarfBuzz {
      */
     public static int otVarGetAxisCount(FaceT face) {
         var RESULT = gtk_h.hb_ot_var_get_axis_count(face.handle());
+        return RESULT;
+    }
+    
+    /**
+     * Fetches a list of all variation axes in the specified face. The list returned will begin
+     * at the offset provided.
+     */
+    public static int otVarGetAxisInfos(FaceT face, int startOffset, PointerInteger axesCount, OtVarAxisInfoT[] axesArray) {
+        var RESULT = gtk_h.hb_ot_var_get_axis_infos(face.handle(), startOffset, axesCount.handle(), Interop.allocateNativeArray(axesArray).handle());
         return RESULT;
     }
     
@@ -2037,6 +2885,15 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the design-space coordinates corresponding to the given
+     * named instance in the face.
+     */
+    public static int otVarNamedInstanceGetDesignCoords(FaceT face, int instanceIndex, PointerInteger coordsLength, float[] coords) {
+        var RESULT = gtk_h.hb_ot_var_named_instance_get_design_coords(face.handle(), instanceIndex, coordsLength.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_FLOAT, coords)).handle());
+        return RESULT;
+    }
+    
+    /**
      * Fetches the {@code name} table Name ID that provides display names for
      * the "PostScript name" defined for the given named instance in the face.
      */
@@ -2052,6 +2909,21 @@ public final class HarfBuzz {
     public static OtNameIdT otVarNamedInstanceGetSubfamilyNameId(FaceT face, int instanceIndex) {
         var RESULT = gtk_h.hb_ot_var_named_instance_get_subfamily_name_id(face.handle(), instanceIndex);
         return new OtNameIdT(RESULT);
+    }
+    
+    /**
+     * Normalizes the given design-space coordinates. The minimum and maximum
+     * values for the axis are mapped to the interval [-1,1], with the default
+     * axis value mapped to 0.
+     * <p>
+     * The normalized values have 14 bits of fixed-point sub-integer precision as per
+     * OpenType specification.
+     * <p>
+     * Any additional scaling defined in the face's {@code avar} table is also
+     * applied, as described at https://docs.microsoft.com/en-us/typography/opentype/spec/avar
+     */
+    public static void otVarNormalizeCoords(FaceT face, int coordsLength, PointerFloat designCoords, PointerInteger normalizedCoords) {
+        gtk_h.hb_ot_var_normalize_coords(face.handle(), coordsLength, designCoords.handle(), normalizedCoords.handle());
     }
     
     /**
@@ -2294,6 +3166,60 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the next element in {@code set} that is greater than current value of {@code codepoint}.
+     * <p>
+     * Set {@code codepoint} to {@code HB_SET_VALUE_INVALID} to get started.
+     */
+    public static BoolT setNext(SetT set, CodepointT codepoint) {
+        PointerInteger codepointPOINTER = new PointerInteger(codepoint.getValue());
+        var RESULT = gtk_h.hb_set_next(set.handle(), codepointPOINTER.handle());
+        codepoint.setValue(codepointPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the next consecutive range of elements in {@code set} that
+     * are greater than current value of {@code last}.
+     * <p>
+     * Set {@code last} to {@code HB_SET_VALUE_INVALID} to get started.
+     */
+    public static BoolT setNextRange(SetT set, CodepointT first, CodepointT last) {
+        PointerInteger firstPOINTER = new PointerInteger(first.getValue());
+        PointerInteger lastPOINTER = new PointerInteger(last.getValue());
+        var RESULT = gtk_h.hb_set_next_range(set.handle(), firstPOINTER.handle(), lastPOINTER.handle());
+        first.setValue(firstPOINTER.get());
+        last.setValue(lastPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the previous element in {@code set} that is lower than current value of {@code codepoint}.
+     * <p>
+     * Set {@code codepoint} to {@code HB_SET_VALUE_INVALID} to get started.
+     */
+    public static BoolT setPrevious(SetT set, CodepointT codepoint) {
+        PointerInteger codepointPOINTER = new PointerInteger(codepoint.getValue());
+        var RESULT = gtk_h.hb_set_previous(set.handle(), codepointPOINTER.handle());
+        codepoint.setValue(codepointPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the previous consecutive range of elements in {@code set} that
+     * are greater than current value of {@code last}.
+     * <p>
+     * Set {@code first} to {@code HB_SET_VALUE_INVALID} to get started.
+     */
+    public static BoolT setPreviousRange(SetT set, CodepointT first, CodepointT last) {
+        PointerInteger firstPOINTER = new PointerInteger(first.getValue());
+        PointerInteger lastPOINTER = new PointerInteger(last.getValue());
+        var RESULT = gtk_h.hb_set_previous_range(set.handle(), firstPOINTER.handle(), lastPOINTER.handle());
+        first.setValue(firstPOINTER.get());
+        last.setValue(lastPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
      * Increases the reference count on a set.
      */
     public static SetT setReference(SetT set) {
@@ -2480,6 +3406,35 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the composition of a sequence of two Unicode
+     * code points.
+     * <p>
+     * Calls the composition function of the specified
+     * Unicode-functions structure {@code ufuncs}.
+     */
+    public static BoolT unicodeCompose(UnicodeFuncsT ufuncs, CodepointT a, CodepointT b, CodepointT ab) {
+        PointerInteger abPOINTER = new PointerInteger(ab.getValue());
+        var RESULT = gtk_h.hb_unicode_compose(ufuncs.handle(), a.getValue(), b.getValue(), abPOINTER.handle());
+        ab.setValue(abPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
+     * Fetches the decomposition of a Unicode code point.
+     * <p>
+     * Calls the decomposition function of the specified
+     * Unicode-functions structure {@code ufuncs}.
+     */
+    public static BoolT unicodeDecompose(UnicodeFuncsT ufuncs, CodepointT ab, CodepointT a, CodepointT b) {
+        PointerInteger aPOINTER = new PointerInteger(a.getValue());
+        PointerInteger bPOINTER = new PointerInteger(b.getValue());
+        var RESULT = gtk_h.hb_unicode_decompose(ufuncs.handle(), ab.getValue(), aPOINTER.handle(), bPOINTER.handle());
+        a.setValue(aPOINTER.get());
+        b.setValue(bPOINTER.get());
+        return new BoolT(RESULT);
+    }
+    
+    /**
      * Creates a new {@link unicode_funcs_t} structure of Unicode functions.
      */
     public static UnicodeFuncsT unicodeFuncsCreate(UnicodeFuncsT parent) {
@@ -2605,6 +3560,13 @@ public final class HarfBuzz {
      */
     public static void variationToString(VariationT variation, java.lang.String[] buf, int size) {
         gtk_h.hb_variation_to_string(variation.handle(), Interop.allocateNativeArray(buf).handle(), size);
+    }
+    
+    /**
+     * Returns library version as three integer components.
+     */
+    public static void version(PointerInteger major, PointerInteger minor, PointerInteger micro) {
+        gtk_h.hb_version(major.handle(), minor.handle(), micro.handle());
     }
     
     /**

@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of the hash function which is passed to
  * g_hash_table_new() when a {@link HashTable} is created.

@@ -1,5 +1,7 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of a function that can be registered with gdk_content_register_deserializer().
  * <p>

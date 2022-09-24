@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * User function that is called to map an {@code item} of the original model to
  * an item expected by the map model.

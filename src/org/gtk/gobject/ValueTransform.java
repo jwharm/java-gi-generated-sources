@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of value transformation functions which can be registered with
  * g_value_register_transform_func().

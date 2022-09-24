@@ -78,6 +78,17 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Initializes the random number generator by an array of longs.
+     * Array can be of arbitrary size, though only the first 624 values
+     * are taken.  This function is useful if you have many low entropy
+     * seeds, or if you require more then 32 bits of actual entropy for
+     * your application.
+     */
+    public void setSeedArray(PointerInteger seed, int seedLength) {
+        gtk_h.g_rand_set_seed_array(handle(), seed.handle(), seedLength);
+    }
+    
+    /**
      * Creates a new random number generator initialized with a seed taken
      * either from {@code /dev/urandom} (if existing) or from the current time
      * (as a fallback).
@@ -94,6 +105,14 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      */
     public static Rand newWithSeed(int seed) {
         var RESULT = gtk_h.g_rand_new_with_seed(seed);
+        return new Rand(References.get(RESULT, false));
+    }
+    
+    /**
+     * Creates a new random number generator initialized with {@code seed}.
+     */
+    public static Rand newWithSeedArray(PointerInteger seed, int seedLength) {
+        var RESULT = gtk_h.g_rand_new_with_seed_array(seed.handle(), seedLength);
         return new Rand(References.get(RESULT, false));
     }
     

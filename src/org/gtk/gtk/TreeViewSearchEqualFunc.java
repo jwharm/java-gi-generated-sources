@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function used for checking whether a row in {@code model} matches
  * a search key string entered by the user. Note the return value

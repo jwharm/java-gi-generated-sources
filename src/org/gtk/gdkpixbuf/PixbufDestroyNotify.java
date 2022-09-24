@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function of this type is responsible for freeing the pixel array
  * of a pixbuf.

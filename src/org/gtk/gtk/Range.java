@@ -103,6 +103,16 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
+     * This function returns sliders range along the long dimension,
+     * in widget->window coordinates.
+     * <p>
+     * This function is useful mainly for {@code GtkRange} subclasses.
+     */
+    public void getSliderRange(PointerInteger sliderStart, PointerInteger sliderEnd) {
+        gtk_h.gtk_range_get_slider_range(handle(), sliderStart.handle(), sliderEnd.handle());
+    }
+    
+    /**
      * This function is useful mainly for {@code GtkRange} subclasses.
      * <p>
      * See {@link Range#setSliderSizeFixed}.

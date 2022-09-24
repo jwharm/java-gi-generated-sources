@@ -1,5 +1,7 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * This method should retrieve the kerning-adjustment value for a glyph-pair in
  * the specified font, for horizontal text segments.

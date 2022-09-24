@@ -27,6 +27,13 @@ public class TouchpadEvent extends Event {
     }
     
     /**
+     * Extracts delta information from a touchpad event.
+     */
+    public void getDeltas(PointerDouble dx, PointerDouble dy) {
+        gtk_h.gdk_touchpad_event_get_deltas(handle(), dx.handle(), dy.handle());
+    }
+    
+    /**
      * Extracts the touchpad gesture phase from a touchpad event.
      */
     public TouchpadGesturePhase getGesturePhase() {

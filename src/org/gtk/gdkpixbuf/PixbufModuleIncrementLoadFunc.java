@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Incrementally loads a buffer into the image data.
  */

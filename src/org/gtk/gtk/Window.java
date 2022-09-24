@@ -175,6 +175,17 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
+     * Gets the default size of the window.
+     * <p>
+     * A value of 0 for the width or height indicates that a default
+     * size has not been explicitly set for that dimension, so the
+     * “natural” size of the window will be used.
+     */
+    public void getDefaultSize(PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_window_get_default_size(handle(), width.handle(), height.handle());
+    }
+    
+    /**
      * Returns the default widget for {@code window}.
      */
     public Widget getDefaultWidget() {

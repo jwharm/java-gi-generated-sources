@@ -160,7 +160,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     private static Reference constructNewv(int nColumns, org.gtk.gobject.Type[] types) {
-        Reference RESULT = References.get(gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(types).handle()), true);
+        Reference RESULT = References.get(gtk_h.gtk_list_store_newv(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle()), true);
         return RESULT;
     }
     
@@ -292,7 +292,7 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * interface is called.
      */
     public void setColumnTypes(int nColumns, org.gtk.gobject.Type[] types) {
-        gtk_h.gtk_list_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(types).handle());
+        gtk_h.gtk_list_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle());
     }
     
     /**

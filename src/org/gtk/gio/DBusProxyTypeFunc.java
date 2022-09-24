@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Function signature for a function used to determine the {@link org.gtk.glib.Type} to
  * use for an interface proxy (if {@code interface_name} is not {@code null}) or

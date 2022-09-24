@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Finalizes the image loading state.
  * <p>

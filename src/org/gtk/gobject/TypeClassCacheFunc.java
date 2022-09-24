@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A callback function which is called when the reference count of a class
  * drops to zero.

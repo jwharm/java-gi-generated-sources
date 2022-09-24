@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of callback that is passed to gtk_print_job_send().
  * <p>

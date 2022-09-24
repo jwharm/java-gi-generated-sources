@@ -1,5 +1,7 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Fully decompose @u to its Unicode compatibility decomposition. The codepoints of the decomposition will be written to {@code decomposed}.
  * The complete length of the decomposition will be returned.

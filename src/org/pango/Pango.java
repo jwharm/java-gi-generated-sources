@@ -522,6 +522,26 @@ public final class Pango {
     }
     
     /**
+     * Locates a paragraph boundary in {@code text}.
+     * <p>
+     * A boundary is caused by delimiter characters, such as
+     * a newline, carriage return, carriage return-newline pair,
+     * or Unicode paragraph separator character.
+     * <p>
+     * The index of the run of delimiters is returned in
+     * {@code paragraph_delimiter_index}. The index of the start of the
+     * next paragraph (index after all delimiters) is stored n
+     * {@code next_paragraph_start}.
+     * <p>
+     * If no delimiters are found, both {@code paragraph_delimiter_index}
+     * and {@code next_paragraph_start} are filled with the length of {@code text}
+     * (an index one off the end).
+     */
+    public static void findParagraphBoundary(java.lang.String text, int length, PointerInteger paragraphDelimiterIndex, PointerInteger nextParagraphStart) {
+        gtk_h.pango_find_paragraph_boundary(Interop.allocateNativeString(text).handle(), length, paragraphDelimiterIndex.handle(), nextParagraphStart.handle());
+    }
+    
+    /**
      * Creates a new font description from a string representation.
      * <p>
      * The string must have the form
@@ -769,6 +789,23 @@ public final class Pango {
     }
     
     /**
+     * Finishes parsing markup.
+     * <p>
+     * After feeding a Pango markup parser some data with {@link org.gtk.glib.MarkupParseContext#parse},
+     * use this function to get the list of attributes and text out of the
+     * markup. This function will not free {@code context}, use {@link org.gtk.glib.MarkupParseContext#free}
+     * to do so.
+     */
+    public static boolean markupParserFinish(org.gtk.glib.MarkupParseContext context, AttrList[] attrList, java.lang.String[] text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.pango_markup_parser_finish(context.handle(), Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Incrementally parses marked-up text to create a plain-text string
      * and an attribute list.
      * <p>
@@ -795,6 +832,48 @@ public final class Pango {
     public static org.gtk.glib.MarkupParseContext markupParserNew(int accelMarker) {
         var RESULT = gtk_h.pango_markup_parser_new(accelMarker);
         return new org.gtk.glib.MarkupParseContext(References.get(RESULT, false));
+    }
+    
+    /**
+     * Parses marked-up text to create a plain-text string and an attribute list.
+     * <p>
+     * See the <a href="pango_markup.html">Pango Markup</a> docs for details about the
+     * supported markup.
+     * <p>
+     * If {@code accel_marker} is nonzero, the given character will mark the
+     * character following it as an accelerator. For example, {@code accel_marker}
+     * might be an ampersand or underscore. All characters marked
+     * as an accelerator will receive a {@link Underline#LOW} attribute,
+     * and the first character so marked will be returned in {@code accel_char}.
+     * Two {@code accel_marker} characters following each other produce a single
+     * literal {@code accel_marker} character.
+     * <p>
+     * To parse a stream of pango markup incrementally, use {@link markup_parser_new#null}.
+     * <p>
+     * If any error happens, none of the output arguments are touched except
+     * for {@code error}.
+     */
+    public static boolean parseMarkup(java.lang.String markupText, int length, int accelMarker, AttrList[] attrList, java.lang.String[] text, PointerInteger accelChar) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.pango_parse_markup(Interop.allocateNativeString(markupText).handle(), length, accelMarker, Interop.allocateNativeArray(attrList).handle(), Interop.allocateNativeArray(text).handle(), accelChar.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Quantizes the thickness and position of a line to whole device pixels.
+     * <p>
+     * This is typically used for underline or strikethrough. The purpose of
+     * this function is to avoid such lines looking blurry.
+     * <p>
+     * Care is taken to make sure {@code thickness} is at least one pixel when this
+     * function returns, but returned {@code position} may become zero as a result
+     * of rounding.
+     */
+    public static void quantizeLineGeometry(PointerInteger thickness, PointerInteger position) {
+        gtk_h.pango_quantize_line_geometry(thickness.handle(), position.handle());
     }
     
     /**

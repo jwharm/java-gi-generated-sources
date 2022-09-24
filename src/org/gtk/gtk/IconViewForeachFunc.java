@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function used by gtk_icon_view_selected_foreach() to map all
  * selected rows.

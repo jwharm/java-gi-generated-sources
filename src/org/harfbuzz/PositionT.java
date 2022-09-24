@@ -12,16 +12,10 @@ import java.lang.invoke.*;
  * Contour points and other multi-dimensional data are
  * stored as tuples of {@link position_t}'s.
  */
-public class PositionT {
+public class PositionT extends Alias<Integer> {
 
-    private final int value;
-    
     public PositionT(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(PositionT[] array) {

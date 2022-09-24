@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type used for marshaller functions.
  */

@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Whenever {@code row} changes or which row is before {@code row} changes this
  * is called, which lets you update the header on {@code row}.

@@ -133,6 +133,18 @@ public class Gesture extends EventController {
     }
     
     /**
+     * If there are touch sequences being currently handled by {@code gesture},
+     * returns {@code true} and fills in @x and @y with the center of the bounding
+     * box containing all active touches.
+     * <p>
+     * Otherwise, {@code false} will be returned.
+     */
+    public boolean getBoundingBoxCenter(PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gtk_gesture_get_bounding_box_center(handle(), x.handle(), y.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Returns the logical {@code GdkDevice} that is currently operating
      * on {@code gesture}.
      * <p>
@@ -169,6 +181,18 @@ public class Gesture extends EventController {
     public org.gtk.gdk.EventSequence getLastUpdatedSequence() {
         var RESULT = gtk_h.gtk_gesture_get_last_updated_sequence(handle());
         return new org.gtk.gdk.EventSequence(References.get(RESULT, false));
+    }
+    
+    /**
+     * If {@code sequence} is currently being interpreted by {@code gesture},
+     * returns {@code true} and fills in @x and @y with the last coordinates
+     * stored for that event sequence.
+     * <p>
+     * The coordinates are always relative to the widget allocation.
+     */
+    public boolean getPoint(org.gtk.gdk.EventSequence sequence, PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gtk_gesture_get_point(handle(), sequence.handle(), x.handle(), y.handle());
+        return (RESULT != 0);
     }
     
     /**

@@ -57,6 +57,22 @@ import java.lang.invoke.*;
 public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
 
     /**
+     * Compute a concrete size for the {@code GdkPaintable}.
+     * <p>
+     * Applies the sizing algorithm outlined in the
+     * <a href="https://drafts.csswg.org/css-images-3/#default-sizing">CSS Image spec</a>
+     * to the given {@code paintable}. See that link for more details.
+     * <p>
+     * It is not necessary to call this function when both {@code specified_width}
+     * and {@code specified_height} are known, but it is useful to call this
+     * function in GtkWidget:measure implementations to compute the
+     * other dimension when only one dimension is given.
+     */
+    public default void computeConcreteSize(double specifiedWidth, double specifiedHeight, double defaultWidth, double defaultHeight, PointerDouble concreteWidth, PointerDouble concreteHeight) {
+        gtk_h.gdk_paintable_compute_concrete_size(handle(), specifiedWidth, specifiedHeight, defaultWidth, defaultHeight, concreteWidth.handle(), concreteHeight.handle());
+    }
+    
+    /**
      * Gets an immutable paintable for the current contents displayed by {@code paintable}.
      * <p>
      * This is useful when you want to retain the current state of an animation,

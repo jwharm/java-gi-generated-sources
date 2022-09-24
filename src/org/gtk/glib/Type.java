@@ -7,16 +7,10 @@ import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
 
-public class Type {
+public class Type extends Alias<Long> {
 
-    private final long value;
-    
     public Type(long value) {
         this.value = value;
-    }
-    
-    public long getValue() {
-        return this.value;
     }
     
     public static long[] getValues(Type[] array) {

@@ -116,6 +116,15 @@ public class GLContext extends DrawContext {
     }
     
     /**
+     * Retrieves required OpenGL version.
+     * <p>
+     * See {@link GLContext#setRequiredVersion}.
+     */
+    public void getRequiredVersion(PointerInteger major, PointerInteger minor) {
+        gtk_h.gdk_gl_context_get_required_version(handle(), major.handle(), minor.handle());
+    }
+    
+    /**
      * Retrieves the surface used by the {@code context}.
      */
     public Surface getSurface() {
@@ -129,6 +138,15 @@ public class GLContext extends DrawContext {
     public boolean getUseEs() {
         var RESULT = gtk_h.gdk_gl_context_get_use_es(handle());
         return (RESULT != 0);
+    }
+    
+    /**
+     * Retrieves the OpenGL version of the {@code context}.
+     * <p>
+     * The {@code context} must be realized prior to calling this function.
+     */
+    public void getVersion(PointerInteger major, PointerInteger minor) {
+        gtk_h.gdk_gl_context_get_version(handle(), major.handle(), minor.handle());
     }
     
     /**

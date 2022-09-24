@@ -82,6 +82,18 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
     }
     
     /**
+     * List all families for a fontmap.
+     * <p>
+     * Note that the returned families are not in any particular order.
+     * <p>
+     * {@code PangoFontMap} also implemented the {@code Gio.ListModel} interface
+     * for enumerating families.
+     */
+    public void listFamilies(FontFamily[] families, PointerInteger nFamilies) {
+        gtk_h.pango_font_map_list_families(handle(), Interop.allocateNativeArray(families).handle(), nFamilies.handle());
+    }
+    
+    /**
      * Load the font in the fontmap that is the closest match for {@code desc}.
      */
     public Font loadFont(Context context, FontDescription desc) {

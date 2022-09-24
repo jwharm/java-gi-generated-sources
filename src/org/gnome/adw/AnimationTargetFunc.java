@@ -1,5 +1,7 @@
 package org.gnome.adw;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Prototype for animation targets based on user callbacks.
  */

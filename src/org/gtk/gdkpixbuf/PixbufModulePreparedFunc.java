@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Defines the type of the function that gets called once the initial
  * setup of {@code pixbuf} is done.

@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * When loading the partial contents of a file with g_file_load_partial_contents_async(),
  * it may become necessary to determine if any more data from the file should be loaded.

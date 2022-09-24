@@ -171,6 +171,17 @@ public class Surface extends org.gtk.gobject.Object {
     }
     
     /**
+     * Obtains the current device position and modifier state.
+     * <p>
+     * The position is given in coordinates relative to the upper
+     * left corner of {@code surface}.
+     */
+    public boolean getDevicePosition(Device device, PointerDouble x, PointerDouble y, PointerInteger mask) {
+        var RESULT = gtk_h.gdk_surface_get_device_position(handle(), device.handle(), x.handle(), y.handle(), mask.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Gets the {@code GdkDisplay} associated with a {@code GdkSurface}.
      */
     public Display getDisplay() {
@@ -346,6 +357,17 @@ public class Surface extends org.gtk.gobject.Object {
      */
     public void setOpaqueRegion(org.cairographics.Region region) {
         gtk_h.gdk_surface_set_opaque_region(handle(), region.handle());
+    }
+    
+    /**
+     * Translates coordinates between two surfaces.
+     * <p>
+     * Note that this only works if {@code to} and {@code from} are popups or
+     * transient-for to the same toplevel (directly or indirectly).
+     */
+    public boolean translateCoordinates(Surface to, PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gdk_surface_translate_coordinates(handle(), to.handle(), x.handle(), y.handle());
+        return (RESULT != 0);
     }
     
     @FunctionalInterface

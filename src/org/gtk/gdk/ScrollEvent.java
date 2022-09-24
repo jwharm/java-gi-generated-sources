@@ -22,6 +22,16 @@ public class ScrollEvent extends Event {
     }
     
     /**
+     * Extracts the scroll deltas of a scroll event.
+     * <p>
+     * The deltas will be zero unless the scroll direction
+     * is {@link ScrollDirection#SMOOTH}.
+     */
+    public void getDeltas(PointerDouble deltaX, PointerDouble deltaY) {
+        gtk_h.gdk_scroll_event_get_deltas(handle(), deltaX.handle(), deltaY.handle());
+    }
+    
+    /**
      * Extracts the direction of a scroll event.
      */
     public ScrollDirection getDirection() {

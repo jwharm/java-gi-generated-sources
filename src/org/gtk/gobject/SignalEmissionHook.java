@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A simple function pointer to get invoked when the signal is emitted.
  * <p>

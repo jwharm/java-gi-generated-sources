@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the prototype of log handler functions.
  * <p>

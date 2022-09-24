@@ -84,6 +84,38 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Retrieves the position in bytes of the capturing parentheses named {@code name}.
+     * <p>
+     * If {@code name} is a valid sub pattern name but it didn't match anything
+     * (e.g. sub pattern "X", matching "b" against "(?P&lt;X&gt;a)?b")
+     * then {@code start_pos} and {@code end_pos} are set to -1 and {@code true} is returned.
+     */
+    public boolean fetchNamedPos(java.lang.String name, PointerInteger startPos, PointerInteger endPos) {
+        var RESULT = gtk_h.g_match_info_fetch_named_pos(handle(), Interop.allocateNativeString(name).handle(), startPos.handle(), endPos.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Retrieves the position in bytes of the {@code match_num}'th capturing
+     * parentheses. 0 is the full text of the match, 1 is the first
+     * paren set, 2 the second, and so on.
+     * <p>
+     * If {@code match_num} is a valid sub pattern but it didn't match anything
+     * (e.g. sub pattern 1, matching "b" against "(a)?b") then {@code start_pos}
+     * and {@code end_pos} are set to -1 and {@code true} is returned.
+     * <p>
+     * If the match was obtained using the DFA algorithm, that is using
+     * g_regex_match_all() or g_regex_match_all_full(), the retrieved
+     * position is not that of a set of parentheses but that of a matched
+     * substring. Substrings are matched in reverse order of length, so
+     * 0 is the longest match.
+     */
+    public boolean fetchPos(int matchNum, PointerInteger startPos, PointerInteger endPos) {
+        var RESULT = gtk_h.g_match_info_fetch_pos(handle(), matchNum, startPos.handle(), endPos.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * If {@code match_info} is not {@code null}, calls g_match_info_unref(); otherwise does
      * nothing.
      */

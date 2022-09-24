@@ -601,6 +601,72 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     }
     
     /**
+     * Retrieves a cell area’s initial minimum and natural height.
+     * <p>
+     * {@code area} will store some geometrical information in {@code context} along the way;
+     * when requesting sizes over an arbitrary number of rows, it’s not important
+     * to check the {@code minimum_height} and {@code natural_height} of this call but rather to
+     * consult gtk_cell_area_context_get_preferred_height() after a series of
+     * requests.
+     */
+    public void getPreferredHeight(CellAreaContext context, Widget widget, PointerInteger minimumHeight, PointerInteger naturalHeight) {
+        gtk_h.gtk_cell_area_get_preferred_height(handle(), context.handle(), widget.handle(), minimumHeight.handle(), naturalHeight.handle());
+    }
+    
+    /**
+     * Retrieves a cell area’s minimum and natural height if it would be given
+     * the specified {@code width}.
+     * <p>
+     * {@code area} stores some geometrical information in {@code context} along the way
+     * while calling gtk_cell_area_get_preferred_width(). It’s important to
+     * perform a series of gtk_cell_area_get_preferred_width() requests with
+     * {@code context} first and then call gtk_cell_area_get_preferred_height_for_width()
+     * on each cell area individually to get the height for width of each
+     * fully requested row.
+     * <p>
+     * If at some point, the width of a single row changes, it should be
+     * requested with gtk_cell_area_get_preferred_width() again and then
+     * the full width of the requested rows checked again with
+     * gtk_cell_area_context_get_preferred_width().
+     */
+    public void getPreferredHeightForWidth(CellAreaContext context, Widget widget, int width, PointerInteger minimumHeight, PointerInteger naturalHeight) {
+        gtk_h.gtk_cell_area_get_preferred_height_for_width(handle(), context.handle(), widget.handle(), width, minimumHeight.handle(), naturalHeight.handle());
+    }
+    
+    /**
+     * Retrieves a cell area’s initial minimum and natural width.
+     * <p>
+     * {@code area} will store some geometrical information in {@code context} along the way;
+     * when requesting sizes over an arbitrary number of rows, it’s not important
+     * to check the {@code minimum_width} and {@code natural_width} of this call but rather to
+     * consult gtk_cell_area_context_get_preferred_width() after a series of
+     * requests.
+     */
+    public void getPreferredWidth(CellAreaContext context, Widget widget, PointerInteger minimumWidth, PointerInteger naturalWidth) {
+        gtk_h.gtk_cell_area_get_preferred_width(handle(), context.handle(), widget.handle(), minimumWidth.handle(), naturalWidth.handle());
+    }
+    
+    /**
+     * Retrieves a cell area’s minimum and natural width if it would be given
+     * the specified {@code height}.
+     * <p>
+     * {@code area} stores some geometrical information in {@code context} along the way
+     * while calling gtk_cell_area_get_preferred_height(). It’s important to
+     * perform a series of gtk_cell_area_get_preferred_height() requests with
+     * {@code context} first and then call gtk_cell_area_get_preferred_width_for_height()
+     * on each cell area individually to get the height for width of each
+     * fully requested row.
+     * <p>
+     * If at some point, the height of a single row changes, it should be
+     * requested with gtk_cell_area_get_preferred_height() again and then
+     * the full height of the requested rows checked again with
+     * gtk_cell_area_context_get_preferred_height().
+     */
+    public void getPreferredWidthForHeight(CellAreaContext context, Widget widget, int height, PointerInteger minimumWidth, PointerInteger naturalWidth) {
+        gtk_h.gtk_cell_area_get_preferred_width_for_height(handle(), context.handle(), widget.handle(), height, minimumWidth.handle(), naturalWidth.handle());
+    }
+    
+    /**
      * Gets whether the area prefers a height-for-width layout
      * or a width-for-height layout.
      */
@@ -657,6 +723,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public void removeFocusSibling(CellRenderer renderer, CellRenderer sibling) {
         gtk_h.gtk_cell_area_remove_focus_sibling(handle(), renderer.handle(), sibling.handle());
+    }
+    
+    /**
+     * This is a convenience function for {@code GtkCellArea} implementations
+     * to request size for cell renderers. It’s important to use this
+     * function to request size and then use gtk_cell_area_inner_cell_area()
+     * at render and event time since this function will add padding
+     * around the cell for focus painting.
+     */
+    public void requestRenderer(CellRenderer renderer, Orientation orientation, Widget widget, int forSize, PointerInteger minimumSize, PointerInteger naturalSize) {
+        gtk_h.gtk_cell_area_request_renderer(handle(), renderer.handle(), orientation.getValue(), widget.handle(), forSize, minimumSize.handle(), naturalSize.handle());
     }
     
     /**

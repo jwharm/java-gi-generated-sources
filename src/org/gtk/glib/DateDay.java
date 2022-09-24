@@ -12,16 +12,10 @@ import java.lang.invoke.*;
  * <p>
  * The {@code G_DATE_BAD_DAY} value represents an invalid day of the month.
  */
-public class DateDay {
+public class DateDay extends Alias<Byte> {
 
-    private final byte value;
-    
     public DateDay(byte value) {
         this.value = value;
-    }
-    
-    public byte getValue() {
-        return this.value;
     }
     
     public static byte[] getValues(DateDay[] array) {

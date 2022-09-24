@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Type definition for a function that will be called back when an asynchronous
  * operation within GIO has been completed. {@link AsyncReadyCallback}

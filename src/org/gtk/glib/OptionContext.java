@@ -113,6 +113,38 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Parses the command line arguments, recognizing options
+     * which have been added to {@code context}. A side-effect of
+     * calling this function is that g_set_prgname() will be
+     * called.
+     * <p>
+     * If the parsing is successful, any parsed arguments are
+     * removed from the array and {@code argc} and {@code argv} are updated
+     * accordingly. A '--' option is stripped from {@code argv}
+     * unless there are unparsed options before and after it,
+     * or some of the options after it start with '-'. In case
+     * of an error, {@code argc} and {@code argv} are left unmodified.
+     * <p>
+     * If automatic {@code --help} support is enabled
+     * (see g_option_context_set_help_enabled()), and the
+     * {@code argv} array contains one of the recognized help options,
+     * this function will produce help output to stdout and
+     * call {@code exit (0)}.
+     * <p>
+     * Note that function depends on the [current locale][setlocale] for
+     * automatic character set conversion of string and filename
+     * arguments.
+     */
+    public boolean parse(PointerInteger argc, java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_option_context_parse(handle(), argc.handle(), Interop.allocateNativeArray(argv).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Parses the command line arguments.
      * <p>
      * This function is similar to g_option_context_parse() except that it

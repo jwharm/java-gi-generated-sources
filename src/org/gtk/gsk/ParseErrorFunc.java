@@ -1,5 +1,7 @@
 package org.gtk.gsk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Type of callback that is called when an error occurs
  * during node deserialization.

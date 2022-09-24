@@ -352,6 +352,14 @@ public class Layout extends org.gtk.gobject.Object {
     }
     
     /**
+     * Retrieves an array of logical attributes for each character in
+     * the {@code layout}.
+     */
+    public void getLogAttrs(LogAttr[] attrs, PointerInteger nAttrs) {
+        gtk_h.pango_layout_get_log_attrs(handle(), Interop.allocateNativeArray(attrs).handle(), nAttrs.handle());
+    }
+    
+    /**
      * Computes the logical and ink extents of {@code layout} in device units.
      * <p>
      * This function just calls {@link Layout#getExtents} followed by
@@ -361,6 +369,18 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public void getPixelExtents(Rectangle inkRect, Rectangle logicalRect) {
         gtk_h.pango_layout_get_pixel_extents(handle(), inkRect.handle(), logicalRect.handle());
+    }
+    
+    /**
+     * Determines the logical width and height of a {@code PangoLayout} in device
+     * units.
+     * <p>
+     * {@link Layout#getSize} returns the width and height
+     * scaled by {@code PANGO_SCALE}. This is simply a convenience function
+     * around {@link Layout#getPixelExtents}.
+     */
+    public void getPixelSize(PointerInteger width, PointerInteger height) {
+        gtk_h.pango_layout_get_pixel_size(handle(), width.handle(), height.handle());
     }
     
     /**
@@ -390,6 +410,16 @@ public class Layout extends org.gtk.gobject.Object {
     public boolean getSingleParagraphMode() {
         var RESULT = gtk_h.pango_layout_get_single_paragraph_mode(handle());
         return (RESULT != 0);
+    }
+    
+    /**
+     * Determines the logical width and height of a {@code PangoLayout} in Pango
+     * units.
+     * <p>
+     * This is simply a convenience function around {@link Layout#getExtents}.
+     */
+    public void getSize(PointerInteger width, PointerInteger height) {
+        gtk_h.pango_layout_get_size(handle(), width.handle(), height.handle());
     }
     
     /**
@@ -456,6 +486,15 @@ public class Layout extends org.gtk.gobject.Object {
     }
     
     /**
+     * Converts from byte {@code index_} within the {@code layout} to line and X position.
+     * <p>
+     * The X position is measured from the left edge of the line.
+     */
+    public void indexToLineX(int index, boolean trailing, PointerInteger line, PointerInteger xPos) {
+        gtk_h.pango_layout_index_to_line_x(handle(), index, trailing ? 1 : 0, line.handle(), xPos.handle());
+    }
+    
+    /**
      * Converts from an index within a {@code PangoLayout} to the onscreen position
      * corresponding to the grapheme at that index.
      * <p>
@@ -492,6 +531,27 @@ public class Layout extends org.gtk.gobject.Object {
     public boolean isWrapped() {
         var RESULT = gtk_h.pango_layout_is_wrapped(handle());
         return (RESULT != 0);
+    }
+    
+    /**
+     * Computes a new cursor position from an old position and a direction.
+     * <p>
+     * If {@code direction} is positive, then the new position will cause the strong
+     * or weak cursor to be displayed one position to right of where it was
+     * with the old cursor position. If {@code direction} is negative, it will be
+     * moved to the left.
+     * <p>
+     * In the presence of bidirectional text, the correspondence between
+     * logical and visual order will depend on the direction of the current
+     * run, and there may be jumps when the cursor is moved off of the end
+     * of a run.
+     * <p>
+     * Motion here is in cursor positions, not in characters, so a single
+     * call to this function may move the cursor over multiple characters
+     * when multiple characters combine to form a single grapheme.
+     */
+    public void moveCursorVisually(boolean strong, int oldIndex, int oldTrailing, int direction, PointerInteger newIndex, PointerInteger newTrailing) {
+        gtk_h.pango_layout_move_cursor_visually(handle(), strong ? 1 : 0, oldIndex, oldTrailing, direction, newIndex.handle(), newTrailing.handle());
     }
     
     /**
@@ -701,6 +761,25 @@ public class Layout extends org.gtk.gobject.Object {
     }
     
     /**
+     * Sets the layout text and attribute list from marked-up text.
+     * <p>
+     * See <a href="pango_markup.html)">Pango Markup</a>.
+     * <p>
+     * Replaces the current text and attribute list.
+     * <p>
+     * If {@code accel_marker} is nonzero, the given character will mark the
+     * character following it as an accelerator. For example, {@code accel_marker}
+     * might be an ampersand or underscore. All characters marked
+     * as an accelerator will receive a {@link Underline#LOW} attribute,
+     * and the first character so marked will be returned in {@code accel_char}.
+     * Two {@code accel_marker} characters following each other produce a single
+     * literal {@code accel_marker} character.
+     */
+    public void setMarkupWithAccel(java.lang.String markup, int length, int accelMarker, PointerInteger accelChar) {
+        gtk_h.pango_layout_set_markup_with_accel(handle(), Interop.allocateNativeString(markup).handle(), length, accelMarker, accelChar.handle());
+    }
+    
+    /**
      * Sets the single paragraph mode of {@code layout}.
      * <p>
      * If {@code setting} is {@code true}, do not treat newlines and similar characters
@@ -811,6 +890,22 @@ public class Layout extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Converts from X and Y position within a layout to the byte index to the
+     * character at that logical position.
+     * <p>
+     * If the Y position is not inside the layout, the closest position is
+     * chosen (the position will be clamped inside the layout). If the X position
+     * is not within the layout, then the start or the end of the line is
+     * chosen as described for {@link LayoutLine#xToIndex}. If either
+     * the X or Y positions were not inside the layout, then the function returns
+     * {@code false}; on an exact hit, it returns {@code true}.
+     */
+    public boolean xyToIndex(int x, int y, PointerInteger index, PointerInteger trailing) {
+        var RESULT = gtk_h.pango_layout_xy_to_index(handle(), x, y, index.handle(), trailing.handle());
         return (RESULT != 0);
     }
     

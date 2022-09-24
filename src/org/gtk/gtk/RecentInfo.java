@@ -61,6 +61,18 @@ public class RecentInfo extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Gets the data regarding the application that has registered the resource
+     * pointed by {@code info}.
+     * <p>
+     * If the command line contains any escape characters defined inside the
+     * storage specification, they will be expanded.
+     */
+    public boolean getApplicationInfo(java.lang.String appName, java.lang.String[] appExec, PointerInteger count, org.gtk.glib.DateTime[] stamp) {
+        var RESULT = gtk_h.gtk_recent_info_get_application_info(handle(), Interop.allocateNativeString(appName).handle(), Interop.allocateNativeArray(appExec).handle(), count.handle(), Interop.allocateNativeArray(stamp).handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Gets the (short) description of the resource.
      */
     public java.lang.String getDescription() {

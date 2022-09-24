@@ -62,6 +62,17 @@ public class KeyEvent extends Event {
     }
     
     /**
+     * Gets a keyval and modifier combination that will match
+     * the event.
+     * <p>
+     * See {@link KeyEvent#matches}.
+     */
+    public boolean getMatch(PointerInteger keyval, PointerInteger modifiers) {
+        var RESULT = gtk_h.gdk_key_event_get_match(handle(), keyval.handle(), modifiers.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Extracts whether the key event is for a modifier key.
      */
     public boolean isModifier() {

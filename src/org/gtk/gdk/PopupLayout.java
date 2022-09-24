@@ -104,11 +104,25 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Retrieves the offset for the anchor rectangle.
+     */
+    public void getOffset(PointerInteger dx, PointerInteger dy) {
+        gtk_h.gdk_popup_layout_get_offset(handle(), dx.handle(), dy.handle());
+    }
+    
+    /**
      * Returns the anchor position on the anchor rectangle.
      */
     public Gravity getRectAnchor() {
         var RESULT = gtk_h.gdk_popup_layout_get_rect_anchor(handle());
         return Gravity.fromValue(RESULT);
+    }
+    
+    /**
+     * Obtains the shadow widths of this layout.
+     */
+    public void getShadowWidth(PointerInteger left, PointerInteger right, PointerInteger top, PointerInteger bottom) {
+        gtk_h.gdk_popup_layout_get_shadow_width(handle(), left.handle(), right.handle(), top.handle(), bottom.handle());
     }
     
     /**

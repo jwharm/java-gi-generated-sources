@@ -44,6 +44,18 @@ public class GestureSwipe extends GestureSingle {
         super(constructNew());
     }
     
+    /**
+     * Gets the current velocity.
+     * <p>
+     * If the gesture is recognized, this function returns {@code true} and fills
+     * in {@code velocity_x} and {@code velocity_y} with the recorded velocity, as per the
+     * last events processed.
+     */
+    public boolean getVelocity(PointerDouble velocityX, PointerDouble velocityY) {
+        var RESULT = gtk_h.gtk_gesture_swipe_get_velocity(handle(), velocityX.handle(), velocityY.handle());
+        return (RESULT != 0);
+    }
+    
     @FunctionalInterface
     public interface SwipeHandler {
         void signalReceived(GestureSwipe source, double velocityX, double velocityY);

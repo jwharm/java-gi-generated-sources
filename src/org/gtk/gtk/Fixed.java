@@ -76,6 +76,16 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
+     * Retrieves the translation transformation of the
+     * given child {@code GtkWidget} in the {@code GtkFixed}.
+     * <p>
+     * See also: {@link Fixed#getChildTransform}.
+     */
+    public void getChildPosition(Widget widget, PointerDouble x, PointerDouble y) {
+        gtk_h.gtk_fixed_get_child_position(handle(), widget.handle(), x.handle(), y.handle());
+    }
+    
+    /**
      * Retrieves the transformation for {@code widget} set using
      * gtk_fixed_set_child_transform().
      */

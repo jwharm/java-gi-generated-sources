@@ -260,6 +260,25 @@ public class OutputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * This is a utility function around g_output_stream_write_all(). It
+     * uses g_strdup_vprintf() to turn {@code format} and {@code args} into a string that
+     * is then written to {@code stream}.
+     * <p>
+     * See the documentation of g_output_stream_write_all() about the
+     * behavior of the actual write operation.
+     * <p>
+     * Note that partial writes cannot be properly checked with this
+     * function due to the variable length of the written string, if you
+     * need precise control over partial write failures, you need to
+     * create you own printf()-like wrapper around g_output_stream_write()
+     * or g_output_stream_write_all().
+     */
+    public boolean vprintf(PointerLong bytesWritten, Cancellable cancellable, org.gtk.glib.Error[] error, java.lang.String format, VaList args) {
+        var RESULT = gtk_h.g_output_stream_vprintf(handle(), bytesWritten.handle(), cancellable.handle(), Interop.allocateNativeArray(error).handle(), Interop.allocateNativeString(format).handle(), args);
+        return (RESULT != 0);
+    }
+    
+    /**
      * Tries to write {@code count} bytes from {@code buffer} into the stream. Will block
      * during the operation.
      * <p>
@@ -291,6 +310,36 @@ public class OutputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Tries to write {@code count} bytes from {@code buffer} into the stream. Will block
+     * during the operation.
+     * <p>
+     * This function is similar to g_output_stream_write(), except it tries to
+     * write as many bytes as requested, only stopping on an error.
+     * <p>
+     * On a successful write of {@code count} bytes, {@code true} is returned, and {@code bytes_written}
+     * is set to {@code count}.
+     * <p>
+     * If there is an error during the operation {@code false} is returned and {@code error}
+     * is set to indicate the error status.
+     * <p>
+     * As a special exception to the normal conventions for functions that
+     * use {@link org.gtk.glib.Error}, if this function returns {@code false} (and sets {@code error}) then
+     * {@code bytes_written} will be set to the number of bytes that were
+     * successfully written before the error was encountered.  This
+     * functionality is only available from C.  If you need it from another
+     * language then you must write your own loop around
+     * g_output_stream_write().
+     */
+    public boolean writeAll(byte[] buffer, long count, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_output_stream_write_all(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, bytesWritten.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Request an asynchronous write of {@code count} bytes from {@code buffer} into
      * the stream. When the operation is finished {@code callback} will be called.
      * You can then call g_output_stream_write_all_finish() to get the result of the
@@ -319,6 +368,27 @@ public class OutputStream extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes an asynchronous stream write operation started with
+     * g_output_stream_write_all_async().
+     * <p>
+     * As a special exception to the normal conventions for functions that
+     * use {@link org.gtk.glib.Error}, if this function returns {@code false} (and sets {@code error}) then
+     * {@code bytes_written} will be set to the number of bytes that were
+     * successfully written before the error was encountered.  This
+     * functionality is only available from C.  If you need it from another
+     * language then you must write your own loop around
+     * g_output_stream_write_async().
+     */
+    public boolean writeAllFinish(AsyncResult result, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_output_stream_write_all_finish(handle(), result.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**
@@ -448,6 +518,73 @@ public class OutputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Tries to write the bytes contained in the {@code n_vectors} {@code vectors} into the
+     * stream. Will block during the operation.
+     * <p>
+     * If {@code n_vectors} is 0 or the sum of all bytes in {@code vectors} is 0, returns 0 and
+     * does nothing.
+     * <p>
+     * On success, the number of bytes written to the stream is returned.
+     * It is not an error if this is not the same as the requested size, as it
+     * can happen e.g. on a partial I/O error, or if there is not enough
+     * storage in the stream. All writes block until at least one byte
+     * is written or an error occurs; 0 is never returned (unless
+     * {@code n_vectors} is 0 or the sum of all bytes in {@code vectors} is 0).
+     * <p>
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
+     * operation was partially finished when the operation was cancelled the
+     * partial result will be returned, without an error.
+     * <p>
+     * Some implementations of g_output_stream_writev() may have limitations on the
+     * aggregate buffer size, and will return {@link IOErrorEnum#INVALID_ARGUMENT} if these
+     * are exceeded. For example, when writing to a local file on UNIX platforms,
+     * the aggregate buffer size must not exceed {@code G_MAXSSIZE} bytes.
+     */
+    public boolean writev(OutputVector[] vectors, long nVectors, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_output_stream_writev(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, bytesWritten.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Tries to write the bytes contained in the {@code n_vectors} {@code vectors} into the
+     * stream. Will block during the operation.
+     * <p>
+     * This function is similar to g_output_stream_writev(), except it tries to
+     * write as many bytes as requested, only stopping on an error.
+     * <p>
+     * On a successful write of all {@code n_vectors} vectors, {@code true} is returned, and
+     * {@code bytes_written} is set to the sum of all the sizes of {@code vectors}.
+     * <p>
+     * If there is an error during the operation {@code false} is returned and {@code error}
+     * is set to indicate the error status.
+     * <p>
+     * As a special exception to the normal conventions for functions that
+     * use {@link org.gtk.glib.Error}, if this function returns {@code false} (and sets {@code error}) then
+     * {@code bytes_written} will be set to the number of bytes that were
+     * successfully written before the error was encountered.  This
+     * functionality is only available from C. If you need it from another
+     * language then you must write your own loop around
+     * g_output_stream_write().
+     * <p>
+     * The content of the individual elements of {@code vectors} might be changed by this
+     * function.
+     */
+    public boolean writevAll(OutputVector[] vectors, long nVectors, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_output_stream_writev_all(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, bytesWritten.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Request an asynchronous write of the bytes contained in the {@code n_vectors} {@code vectors} into
      * the stream. When the operation is finished {@code callback} will be called.
      * You can then call g_output_stream_writev_all_finish() to get the result of the
@@ -477,6 +614,27 @@ public class OutputStream extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes an asynchronous stream write operation started with
+     * g_output_stream_writev_all_async().
+     * <p>
+     * As a special exception to the normal conventions for functions that
+     * use {@link org.gtk.glib.Error}, if this function returns {@code false} (and sets {@code error}) then
+     * {@code bytes_written} will be set to the number of bytes that were
+     * successfully written before the error was encountered.  This
+     * functionality is only available from C.  If you need it from another
+     * language then you must write your own loop around
+     * g_output_stream_writev_async().
+     */
+    public boolean writevAllFinish(AsyncResult result, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_output_stream_writev_all_finish(handle(), result.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**
@@ -523,6 +681,18 @@ public class OutputStream extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes a stream writev operation.
+     */
+    public boolean writevFinish(AsyncResult result, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_output_stream_writev_finish(handle(), result.handle(), bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
 }

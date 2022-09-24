@@ -10,16 +10,10 @@ import java.lang.invoke.*;
 /**
  * Data type for bitmasks.
  */
-public class MaskT {
+public class MaskT extends Alias<Integer> {
 
-    private final int value;
-    
     public MaskT(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(MaskT[] array) {

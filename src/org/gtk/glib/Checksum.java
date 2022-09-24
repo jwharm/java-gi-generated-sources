@@ -61,6 +61,17 @@ public class Checksum extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Gets the digest from {@code checksum} as a raw binary vector and places it
+     * into {@code buffer}. The size of the digest depends on the type of checksum.
+     * <p>
+     * Once this function has been called, the {@link Checksum} is closed and can
+     * no longer be updated with g_checksum_update().
+     */
+    public void getDigest(byte[] buffer, PointerLong digestLen) {
+        gtk_h.g_checksum_get_digest(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), digestLen.handle());
+    }
+    
+    /**
      * Gets the digest as a hexadecimal string.
      * <p>
      * Once this function has been called the {@link Checksum} can no longer be

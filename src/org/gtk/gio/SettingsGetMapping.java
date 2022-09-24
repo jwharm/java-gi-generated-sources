@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of the function that is used to convert from a value stored
  * in a {@link Settings} to a value that is useful to the application.

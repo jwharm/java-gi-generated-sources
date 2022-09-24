@@ -27,6 +27,66 @@ public class Event extends org.gtk.gobject.Object {
     }
     
     /**
+     * Returns the relative angle from {@code event1} to {@code event2}.
+     * <p>
+     * The relative angle is the angle between the X axis and the line
+     * through both events' positions. The rotation direction for positive
+     * angles is from the positive X axis towards the positive Y axis.
+     * <p>
+     * This assumes that both events have X/Y information.
+     * If not, this function returns {@code false}.
+     */
+    public boolean GetAngle(Event event2, PointerDouble angle) {
+        var RESULT = gtk_h.gdk_events_get_angle(handle(), event2.handle(), angle.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns the point halfway between the events' positions.
+     * <p>
+     * This assumes that both events have X/Y information.
+     * If not, this function returns {@code false}.
+     */
+    public boolean GetCenter(Event event2, PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gdk_events_get_center(handle(), event2.handle(), x.handle(), y.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns the distance between the event locations.
+     * <p>
+     * This assumes that both events have X/Y information.
+     * If not, this function returns {@code false}.
+     */
+    public boolean GetDistance(Event event2, PointerDouble distance) {
+        var RESULT = gtk_h.gdk_events_get_distance(handle(), event2.handle(), distance.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Extracts all axis values from an event.
+     * <p>
+     * To find out which axes are used, use {@link DeviceTool#getAxes}
+     * on the device tool returned by {@link Event#getDeviceTool}.
+     */
+    public boolean getAxes(double[] axes, PointerInteger nAxes) {
+        var RESULT = gtk_h.gdk_event_get_axes(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_DOUBLE, axes)).handle(), nAxes.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Extract the axis value for a particular axis use from
+     * an event structure.
+     * <p>
+     * To find out which axes are used, use {@link DeviceTool#getAxes}
+     * on the device tool returned by {@link Event#getDeviceTool}.
+     */
+    public boolean getAxis(AxisUse axisUse, PointerDouble value) {
+        var RESULT = gtk_h.gdk_event_get_axis(handle(), axisUse.getValue(), value.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Returns the device of an event.
      */
     public Device getDevice() {
@@ -93,6 +153,14 @@ public class Event extends org.gtk.gobject.Object {
      */
     public boolean getPointerEmulated() {
         var RESULT = gtk_h.gdk_event_get_pointer_emulated(handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Extract the event surface relative x/y coordinates from an event.
+     */
+    public boolean getPosition(PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gdk_event_get_position(handle(), x.handle(), y.handle());
         return (RESULT != 0);
     }
     

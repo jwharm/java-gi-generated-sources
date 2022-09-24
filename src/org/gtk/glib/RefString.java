@@ -16,16 +16,10 @@ import java.lang.invoke.*;
  * If using {@link RefString} with autocleanups, g_autoptr() must be used rather than
  * g_autofree(), so that the reference counting metadata is also freed.
  */
-public class RefString {
+public class RefString extends Alias<Byte> {
 
-    private final byte value;
-    
     public RefString(byte value) {
         this.value = value;
-    }
-    
-    public byte getValue() {
-        return this.value;
     }
     
     public static byte[] getValues(RefString[] array) {

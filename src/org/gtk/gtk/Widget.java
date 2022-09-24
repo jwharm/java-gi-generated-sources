@@ -1277,6 +1277,21 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     }
     
     /**
+     * Gets the size request that was explicitly set for the widget using
+     * gtk_widget_set_size_request().
+     * <p>
+     * A value of -1 stored in {@code width} or {@code height} indicates that that
+     * dimension has not been set explicitly and the natural requisition
+     * of the widget will be used instead. See
+     * {@link Widget#setSizeRequest}. To get the size a widget will
+     * actually request, call {@link Widget#measure} instead of
+     * this function.
+     */
+    public void getSizeRequest(PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_widget_get_size_request(handle(), width.handle(), height.handle());
+    }
+    
+    /**
      * Returns the widget state as a flag set.
      * <p>
      * It is worth mentioning that the effective {@link StateFlags#INSENSITIVE}
@@ -1689,6 +1704,20 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public void map() {
         gtk_h.gtk_widget_map(handle());
+    }
+    
+    /**
+     * Measures {@code widget} in the orientation {@code orientation} and for the given {@code for_size}.
+     * <p>
+     * As an example, if {@code orientation} is {@link Orientation#HORIZONTAL} and {@code for_size}
+     * is 300, this functions will compute the minimum and natural width of {@code widget}
+     * if it is allocated at a height of 300 pixels.
+     * <p>
+     * See <a href="class.Widget.html#height-for-width-geometry-management">GtkWidget’s geometry management section</a> for
+     * a more details on implementing {@code GtkWidgetClass.measure()}.
+     */
+    public void measure(Orientation orientation, int forSize, PointerInteger minimum, PointerInteger natural, PointerInteger minimumBaseline, PointerInteger naturalBaseline) {
+        gtk_h.gtk_widget_measure(handle(), orientation.getValue(), forSize, minimum.handle(), natural.handle(), minimumBaseline.handle(), naturalBaseline.handle());
     }
     
     /**
@@ -2413,6 +2442,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public void snapshotChild(Widget child, Snapshot snapshot) {
         gtk_h.gtk_widget_snapshot_child(handle(), child.handle(), snapshot.handle());
+    }
+    
+    /**
+     * Translate coordinates relative to {@code src_widget}’s allocation
+     * to coordinates relative to {@code dest_widget}’s allocations.
+     * <p>
+     * In order to perform this operation, both widget must share
+     * a common ancestor.
+     */
+    public boolean translateCoordinates(Widget destWidget, double srcX, double srcY, PointerDouble destX, PointerDouble destY) {
+        var RESULT = gtk_h.gtk_widget_translate_coordinates(handle(), destWidget.handle(), srcX, srcY, destX.handle(), destY.handle());
+        return (RESULT != 0);
     }
     
     /**

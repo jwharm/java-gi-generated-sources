@@ -821,6 +821,23 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
+     * Vector version of {@code gdk_pixbuf_save_to_buffer()}.
+     * <p>
+     * Saves pixbuf to a new buffer in format {@code type}, which is currently "jpeg",
+     * "tiff", "png", "ico" or "bmp".
+     * <p>
+     * See {@link Pixbuf#saveToBuffer} for more details.
+     */
+    public boolean saveToBufferv(byte[] buffer, PointerLong bufferSize, java.lang.String type, java.lang.String[] optionKeys, java.lang.String[] optionValues) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.gdk_pixbuf_save_to_bufferv(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), bufferSize.handle(), Interop.allocateNativeString(type).handle(), Interop.allocateNativeArray(optionKeys).handle(), Interop.allocateNativeArray(optionValues).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Vector version of {@code gdk_pixbuf_save_to_callback()}.
      * <p>
      * Saves pixbuf to a callback in format {@code type}, which is currently "jpeg",
@@ -977,6 +994,14 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
+     * Parses an image file far enough to determine its format and size.
+     */
+    public static PixbufFormat getFileInfo(java.lang.String filename, PointerInteger width, PointerInteger height) {
+        var RESULT = gtk_h.gdk_pixbuf_get_file_info(Interop.allocateNativeString(filename).handle(), width.handle(), height.handle());
+        return new PixbufFormat(References.get(RESULT, false));
+    }
+    
+    /**
      * Asynchronously parses an image file far enough to determine its
      * format and size.
      * <p>
@@ -999,6 +1024,19 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes an asynchronous pixbuf parsing operation started with
+     * gdk_pixbuf_get_file_info_async().
+     */
+    public static PixbufFormat getFileInfoFinish(org.gtk.gio.AsyncResult asyncResult, PointerInteger width, PointerInteger height) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.gdk_pixbuf_get_file_info_finish(asyncResult.handle(), width.handle(), height.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PixbufFormat(References.get(RESULT, false));
     }
     
     /**

@@ -148,6 +148,29 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Finds an interval within {@code tz} that corresponds to the given {@code time_},
+     * possibly adjusting {@code time_} if required to fit into an interval.
+     * The meaning of {@code time_} depends on {@code type}.
+     * <p>
+     * This function is similar to g_time_zone_find_interval(), with the
+     * difference that it always succeeds (by making the adjustments
+     * described below).
+     * <p>
+     * In any of the cases where g_time_zone_find_interval() succeeds then
+     * this function returns the same value, without modifying {@code time_}.
+     * <p>
+     * This function may, however, modify {@code time_} in order to deal with
+     * non-existent times.  If the non-existent local {@code time_} of 02:30 were
+     * requested on March 14th 2010 in Toronto then this function would
+     * adjust {@code time_} to be 03:00 and return the interval containing the
+     * adjusted time.
+     */
+    public int adjustTime(TimeType type, PointerLong time) {
+        var RESULT = gtk_h.g_time_zone_adjust_time(handle(), type.getValue(), time.handle());
+        return RESULT;
+    }
+    
+    /**
      * Finds an interval within {@code tz} that corresponds to the given {@code time_}.
      * The meaning of {@code time_} depends on {@code type}.
      * <p>

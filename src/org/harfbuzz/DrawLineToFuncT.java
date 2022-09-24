@@ -1,5 +1,7 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A virtual method for the {@link draw_funcs_t} to perform a "line-to" draw
  * operation.

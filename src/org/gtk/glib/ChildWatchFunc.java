@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Prototype of a {@code GChildWatchSource} callback, called when a child
  * process has exited.

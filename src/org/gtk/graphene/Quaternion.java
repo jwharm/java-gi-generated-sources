@@ -186,11 +186,36 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Converts a quaternion into an {@code angle}, {@code axis} pair.
+     */
+    public void toAngleVec3(PointerFloat angle, Vec3 axis) {
+        gtk_h.graphene_quaternion_to_angle_vec3(handle(), angle.handle(), axis.handle());
+    }
+    
+    /**
+     * Converts a {@link Quaternion} to its corresponding rotations
+     * on the <a href="http://en.wikipedia.org/wiki/Euler_angles">Euler angles</a>
+     * on each axis.
+     */
+    public void toAngles(PointerFloat degX, PointerFloat degY, PointerFloat degZ) {
+        gtk_h.graphene_quaternion_to_angles(handle(), degX.handle(), degY.handle(), degZ.handle());
+    }
+    
+    /**
      * Converts a quaternion into a transformation matrix expressing
      * the rotation defined by the {@link Quaternion}.
      */
     public void toMatrix(Matrix m) {
         gtk_h.graphene_quaternion_to_matrix(handle(), m.handle());
+    }
+    
+    /**
+     * Converts a {@link Quaternion} to its corresponding rotations
+     * on the <a href="http://en.wikipedia.org/wiki/Euler_angles">Euler angles</a>
+     * on each axis.
+     */
+    public void toRadians(PointerFloat radX, PointerFloat radY, PointerFloat radZ) {
+        gtk_h.graphene_quaternion_to_radians(handle(), radX.handle(), radY.handle(), radZ.handle());
     }
     
     /**

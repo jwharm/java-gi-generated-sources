@@ -29,6 +29,16 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
     }
     
     /**
+     * Retrieves the current line number and the number of the character on
+     * that line. Intended for use in error messages; there are no strict
+     * semantics for what constitutes the "current" line number other than
+     * "the best number we could come up with for error messages."
+     */
+    public void getPosition(PointerInteger lineNumber, PointerInteger charNumber) {
+        gtk_h.gtk_buildable_parse_context_get_position(handle(), lineNumber.handle(), charNumber.handle());
+    }
+    
+    /**
      * Completes the process of a temporary sub-parser redirection.
      * <p>
      * This function exists to collect the user_data allocated by a

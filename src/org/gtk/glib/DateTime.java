@@ -707,6 +707,13 @@ public class DateTime extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Retrieves the Gregorian day, month, and year of a given {@link DateTime}.
+     */
+    public void getYmd(PointerInteger year, PointerInteger month, PointerInteger day) {
+        gtk_h.g_date_time_get_ymd(handle(), year.handle(), month.handle(), day.handle());
+    }
+    
+    /**
      * Hashes {@code datetime} into a {@code guint}, suitable for use within {@link HashTable}.
      */
     public int hash() {

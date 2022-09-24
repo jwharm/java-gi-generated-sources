@@ -1,5 +1,7 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * This method should retrieve the extents for a font.
  */

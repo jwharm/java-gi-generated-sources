@@ -59,12 +59,32 @@ public class ToplevelLayout extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * If the layout specifies whether to the toplevel should go fullscreen,
+     * the value pointed to by {@code fullscreen} is set to {@code true} if it should go
+     * fullscreen, or {@code false}, if it should go unfullscreen.
+     */
+    public boolean getFullscreen(PointerBoolean fullscreen) {
+        var RESULT = gtk_h.gdk_toplevel_layout_get_fullscreen(handle(), fullscreen.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Returns the monitor that the layout is fullscreening
      * the surface on.
      */
     public Monitor getFullscreenMonitor() {
         var RESULT = gtk_h.gdk_toplevel_layout_get_fullscreen_monitor(handle());
         return new Monitor(References.get(RESULT, false));
+    }
+    
+    /**
+     * If the layout specifies whether to the toplevel should go maximized,
+     * the value pointed to by {@code maximized} is set to {@code true} if it should go
+     * fullscreen, or {@code false}, if it should go unmaximized.
+     */
+    public boolean getMaximized(PointerBoolean maximized) {
+        var RESULT = gtk_h.gdk_toplevel_layout_get_maximized(handle(), maximized.handle());
+        return (RESULT != 0);
     }
     
     /**

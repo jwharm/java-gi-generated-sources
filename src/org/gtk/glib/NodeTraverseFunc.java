@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of function passed to g_node_traverse(). The
  * function is called with each of the nodes visited, together with the

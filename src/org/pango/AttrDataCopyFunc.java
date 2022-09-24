@@ -1,5 +1,7 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Type of a function that can duplicate user data for an attribute.
  */

@@ -149,6 +149,18 @@ public class Device extends org.gtk.gobject.Object {
     }
     
     /**
+     * Obtains the surface underneath {@code device}, returning the location of the
+     * device in {@code win_x} and {@code win_y}.
+     * <p>
+     * Returns {@code null} if the surface tree under {@code device} is not known to GDK
+     * (for example, belongs to another application).
+     */
+    public Surface getSurfaceAtPosition(PointerDouble winX, PointerDouble winY) {
+        var RESULT = gtk_h.gdk_device_get_surface_at_position(handle(), winX.handle(), winY.handle());
+        return new Surface(References.get(RESULT, false));
+    }
+    
+    /**
      * Returns the timestamp of the last activity for this device.
      * <p>
      * In practice, this means the timestamp of the last event that was

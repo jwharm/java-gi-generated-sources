@@ -76,6 +76,20 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
+     * Fills in {@code xalign} and {@code yalign} with the appropriate values of {@code cell}.
+     */
+    public void getAlignment(PointerFloat xalign, PointerFloat yalign) {
+        gtk_h.gtk_cell_renderer_get_alignment(handle(), xalign.handle(), yalign.handle());
+    }
+    
+    /**
+     * Fills in {@code width} and {@code height} with the appropriate size of {@code cell}.
+     */
+    public void getFixedSize(PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_cell_renderer_get_fixed_size(handle(), width.handle(), height.handle());
+    }
+    
+    /**
      * Checks whether the given {@code GtkCellRenderer} is expanded.
      */
     public boolean getIsExpanded() {
@@ -92,11 +106,48 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
     }
     
     /**
+     * Fills in {@code xpad} and {@code ypad} with the appropriate values of {@code cell}.
+     */
+    public void getPadding(PointerInteger xpad, PointerInteger ypad) {
+        gtk_h.gtk_cell_renderer_get_padding(handle(), xpad.handle(), ypad.handle());
+    }
+    
+    /**
+     * Retrieves a renderer’s natural size when rendered to {@code widget}.
+     */
+    public void getPreferredHeight(Widget widget, PointerInteger minimumSize, PointerInteger naturalSize) {
+        gtk_h.gtk_cell_renderer_get_preferred_height(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+    }
+    
+    /**
+     * Retrieves a cell renderers’s minimum and natural height if it were rendered to
+     * {@code widget} with the specified {@code width}.
+     */
+    public void getPreferredHeightForWidth(Widget widget, int width, PointerInteger minimumHeight, PointerInteger naturalHeight) {
+        gtk_h.gtk_cell_renderer_get_preferred_height_for_width(handle(), widget.handle(), width, minimumHeight.handle(), naturalHeight.handle());
+    }
+    
+    /**
      * Retrieves the minimum and natural size of a cell taking
      * into account the widget’s preference for height-for-width management.
      */
     public void getPreferredSize(Widget widget, Requisition minimumSize, Requisition naturalSize) {
         gtk_h.gtk_cell_renderer_get_preferred_size(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+    }
+    
+    /**
+     * Retrieves a renderer’s natural size when rendered to {@code widget}.
+     */
+    public void getPreferredWidth(Widget widget, PointerInteger minimumSize, PointerInteger naturalSize) {
+        gtk_h.gtk_cell_renderer_get_preferred_width(handle(), widget.handle(), minimumSize.handle(), naturalSize.handle());
+    }
+    
+    /**
+     * Retrieves a cell renderers’s minimum and natural width if it were rendered to
+     * {@code widget} with the specified {@code height}.
+     */
+    public void getPreferredWidthForHeight(Widget widget, int height, PointerInteger minimumWidth, PointerInteger naturalWidth) {
+        gtk_h.gtk_cell_renderer_get_preferred_width_for_height(handle(), widget.handle(), height, minimumWidth.handle(), naturalWidth.handle());
     }
     
     /**

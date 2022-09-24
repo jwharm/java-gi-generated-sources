@@ -147,6 +147,16 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * This returns the string that {@link IOChannel} uses to determine
+     * where in the file a line break occurs. A value of {@code null}
+     * indicates autodetection.
+     */
+    public java.lang.String getLineTerm(PointerInteger length) {
+        var RESULT = gtk_h.g_io_channel_get_line_term(handle(), length.handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * Initializes a {@link IOChannel} struct.
      * <p>
      * This is called by each of the above functions when creating a
@@ -155,6 +165,70 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public void init() {
         gtk_h.g_io_channel_init(handle());
+    }
+    
+    /**
+     * Replacement for g_io_channel_read() with the new API.
+     */
+    public IOStatus readChars(byte[] buf, long count, PointerLong bytesRead) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_io_channel_read_chars(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), count, bytesRead.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return IOStatus.fromValue(RESULT);
+    }
+    
+    /**
+     * Reads a line, including the terminating character(s),
+     * from a {@link IOChannel} into a newly-allocated string.
+     * {@code str_return} will contain allocated memory if the return
+     * is {@link IOStatus#NORMAL}.
+     */
+    public IOStatus readLine(java.lang.String[] strReturn, PointerLong length, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_io_channel_read_line(handle(), Interop.allocateNativeArray(strReturn).handle(), length.handle(), terminatorPos.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return IOStatus.fromValue(RESULT);
+    }
+    
+    /**
+     * Reads a line from a {@link IOChannel}, using a {@link String} as a buffer.
+     */
+    public IOStatus readLineString(String buffer, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_io_channel_read_line_string(handle(), buffer.handle(), terminatorPos.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return IOStatus.fromValue(RESULT);
+    }
+    
+    /**
+     * Reads all the remaining data from the file.
+     */
+    public IOStatus readToEnd(byte[] strReturn, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_io_channel_read_to_end(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, strReturn)).handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return IOStatus.fromValue(RESULT);
+    }
+    
+    /**
+     * Reads a Unicode character from {@code channel}.
+     * This function cannot be called on a channel with {@code null} encoding.
+     */
+    public IOStatus readUnichar(PointerInteger thechar) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_io_channel_read_unichar(handle(), thechar.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return IOStatus.fromValue(RESULT);
     }
     
     /**
@@ -328,6 +402,23 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public void unref() {
         gtk_h.g_io_channel_unref(handle());
+    }
+    
+    /**
+     * Replacement for g_io_channel_write() with the new API.
+     * <p>
+     * On seekable channels with encodings other than {@code null} or UTF-8, generic
+     * mixing of reading and writing is not allowed. A call to g_io_channel_write_chars ()
+     * may only be made on a channel from which data has been read in the
+     * cases described in the documentation for g_io_channel_set_encoding ().
+     */
+    public IOStatus writeChars(byte[] buf, long count, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_io_channel_write_chars(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), count, bytesWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return IOStatus.fromValue(RESULT);
     }
     
     /**

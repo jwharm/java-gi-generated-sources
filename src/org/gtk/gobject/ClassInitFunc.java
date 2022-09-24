@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A callback function used by the type system to initialize the class
  * of a specific type.

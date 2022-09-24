@@ -138,6 +138,35 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
+     * Finish an asynchronous call started by
+     * g_data_input_stream_read_line_async().
+     */
+    public java.lang.String readLineFinishUtf8(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_data_input_stream_read_line_finish_utf8(handle(), result.handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Reads a UTF-8 encoded line from the data input stream.
+     * <p>
+     * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
+     * triggering the cancellable object from another thread. If the operation
+     * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     */
+    public java.lang.String readLineUtf8(PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_data_input_stream_read_line_utf8(handle(), length.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * Reads an unsigned 16-bit/2-byte value from {@code stream}.
      * <p>
      * In order to get the correct byte order for this read operation,
@@ -191,6 +220,29 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
     }
     
     /**
+     * Reads a string from the data input stream, up to the first
+     * occurrence of any of the stop characters.
+     * <p>
+     * In contrast to g_data_input_stream_read_until(), this function
+     * does not consume the stop character. You have to use
+     * g_data_input_stream_read_byte() to get it before calling
+     * g_data_input_stream_read_upto() again.
+     * <p>
+     * Note that {@code stop_chars} may contain '\\0' if {@code stop_chars_len} is
+     * specified.
+     * <p>
+     * The returned string will always be nul-terminated on success.
+     */
+    public java.lang.String readUpto(java.lang.String stopChars, long stopCharsLen, PointerLong length, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_data_input_stream_read_upto(handle(), Interop.allocateNativeString(stopChars).handle(), stopCharsLen, length.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * The asynchronous version of g_data_input_stream_read_upto().
      * It is an error to have two outstanding calls to this function.
      * <p>
@@ -218,6 +270,25 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finish an asynchronous call started by
+     * g_data_input_stream_read_upto_async().
+     * <p>
+     * Note that this function does not consume the stop character. You
+     * have to use g_data_input_stream_read_byte() to get it before calling
+     * g_data_input_stream_read_upto_async() again.
+     * <p>
+     * The returned string will always be nul-terminated on success.
+     */
+    public java.lang.String readUptoFinish(AsyncResult result, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_data_input_stream_read_upto_finish(handle(), result.handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
     /**

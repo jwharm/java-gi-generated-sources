@@ -11,16 +11,10 @@ import java.lang.invoke.*;
  * Data type for holding Unicode codepoints. Also
  * used to hold glyph IDs.
  */
-public class CodepointT {
+public class CodepointT extends Alias<Integer> {
 
-    private final int value;
-    
     public CodepointT(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(CodepointT[] array) {

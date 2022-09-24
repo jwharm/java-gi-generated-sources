@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A callback function used by the type system to finalize those portions
  * of a derived types class structure that were setup from the corresponding

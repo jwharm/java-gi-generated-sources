@@ -189,6 +189,14 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
+     * Fetches the value specified for the offset marker {@code name} in {@code self}.
+     */
+    public boolean getOffsetValue(java.lang.String name, PointerDouble value) {
+        var RESULT = gtk_h.gtk_level_bar_get_offset_value(handle(), Interop.allocateNativeString(name).handle(), value.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Returns the {@code value} of the {@code GtkLevelBar}.
      */
     public double getValue() {

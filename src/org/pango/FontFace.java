@@ -66,4 +66,16 @@ public class FontFace extends org.gtk.gobject.Object {
         return (RESULT != 0);
     }
     
+    /**
+     * List the available sizes for a font.
+     * <p>
+     * This is only applicable to bitmap fonts. For scalable fonts, stores
+     * {@code null} at the location pointed to by {@code sizes} and 0 at the location pointed
+     * to by {@code n_sizes}. The sizes returned are in Pango units and are sorted
+     * in ascending order.
+     */
+    public void listSizes(int[] sizes, PointerInteger nSizes) {
+        gtk_h.pango_font_face_list_sizes(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, sizes)).handle(), nSizes.handle());
+    }
+    
 }

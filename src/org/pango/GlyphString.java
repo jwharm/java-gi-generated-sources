@@ -99,10 +99,52 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Converts from character position to x position.
+     * <p>
+     * The X position is measured from the left edge of the run.
+     * Character positions are obtained using font metrics for ligatures
+     * where available, and computed by dividing up each cluster
+     * into equal portions, otherwise.
+     * <p>
+     * &lt;picture&gt;
+     *   &lt;source srcset="glyphstring-positions-dark.png" media="(prefers-color-scheme: dark)"&gt;
+     *   &lt;img alt="Glyph positions" src="glyphstring-positions-light.png"&gt;
+     * &lt;/picture&gt;
+     */
+    public void indexToX(java.lang.String text, int length, Analysis analysis, int index, boolean trailing, PointerInteger xPos) {
+        gtk_h.pango_glyph_string_index_to_x(handle(), Interop.allocateNativeString(text).handle(), length, analysis.handle(), index, trailing ? 1 : 0, xPos.handle());
+    }
+    
+    /**
+     * Converts from character position to x position.
+     * <p>
+     * This variant of {@link GlyphString#indexToX} additionally
+     * accepts a {@code PangoLogAttr} array. The grapheme boundary information
+     * in it can be used to disambiguate positioning inside some complex
+     * clusters.
+     */
+    public void indexToXFull(java.lang.String text, int length, Analysis analysis, LogAttr attrs, int index, boolean trailing, PointerInteger xPos) {
+        gtk_h.pango_glyph_string_index_to_x_full(handle(), Interop.allocateNativeString(text).handle(), length, analysis.handle(), attrs.handle(), index, trailing ? 1 : 0, xPos.handle());
+    }
+    
+    /**
      * Resize a glyph string to the given length.
      */
     public void setSize(int newLen) {
         gtk_h.pango_glyph_string_set_size(handle(), newLen);
+    }
+    
+    /**
+     * Convert from x offset to character position.
+     * <p>
+     * Character positions are computed by dividing up each cluster into
+     * equal portions. In scripts where positioning within a cluster is
+     * not allowed (such as Thai), the returned value may not be a valid
+     * cursor position; the caller must combine the result with the logical
+     * attributes for the text to compute the valid cursor position.
+     */
+    public void xToIndex(java.lang.String text, int length, Analysis analysis, int xPos, PointerInteger index, PointerInteger trailing) {
+        gtk_h.pango_glyph_string_x_to_index(handle(), Interop.allocateNativeString(text).handle(), length, analysis.handle(), xPos, index.handle(), trailing.handle());
     }
     
 }

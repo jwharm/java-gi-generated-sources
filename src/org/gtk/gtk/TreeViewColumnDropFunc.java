@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Function type for determining whether {@code column} can be dropped in a
  * particular spot (as determined by {@code prev_column} and {@code next_column}).  In

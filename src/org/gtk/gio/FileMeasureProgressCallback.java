@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * This callback type is used by g_file_measure_disk_usage() to make
  * periodic progress reports when measuring the amount of disk spaced

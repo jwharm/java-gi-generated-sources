@@ -85,6 +85,33 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
         return RESULT;
     }
     
+    /**
+     * Attempts to write the bytes contained in the {@code n_vectors} {@code vectors} to {@code stream},
+     * as with g_output_stream_writev(). If {@code stream} is not currently writable,
+     * this will immediately return %{@code G_POLLABLE_RETURN_WOULD_BLOCK}, and you can
+     * use g_pollable_output_stream_create_source() to create a {@link org.gtk.glib.Source}
+     * that will be triggered when {@code stream} is writable. {@code error} will <strong>not</strong> be
+     * set in that case.
+     * <p>
+     * Note that since this method never blocks, you cannot actually
+     * use {@code cancellable} to cancel it. However, it will return an error
+     * if {@code cancellable} has already been cancelled when you call, which
+     * may happen if you call this method after a source triggers due
+     * to having been cancelled.
+     * <p>
+     * Also note that if {@link PollableReturn#WOULD_BLOCK} is returned some underlying
+     * transports like D/TLS require that you re-send the same {@code vectors} and
+     * {@code n_vectors} in the next write call.
+     */
+    public default PollableReturn writevNonblocking(OutputVector[] vectors, long nVectors, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_pollable_output_stream_writev_nonblocking(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, bytesWritten.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return PollableReturn.fromValue(RESULT);
+    }
+    
     class PollableOutputStreamImpl extends org.gtk.gobject.Object implements PollableOutputStream {
         public PollableOutputStreamImpl(io.github.jwharm.javagi.Reference reference) {
             super(reference);

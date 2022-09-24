@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Declares a type of function which takes no arguments
  * and has no return value. It is used to specify the type

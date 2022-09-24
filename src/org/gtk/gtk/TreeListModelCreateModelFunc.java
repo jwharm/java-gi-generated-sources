@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Prototype of the function called to create new child models when
  * gtk_tree_list_row_set_expanded() is called.

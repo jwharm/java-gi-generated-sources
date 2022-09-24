@@ -94,6 +94,16 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Retrieves the current line number and the number of the character on
+     * that line. Intended for use in error messages; there are no strict
+     * semantics for what constitutes the "current" line number other than
+     * "the best number we could come up with for error messages."
+     */
+    public void getPosition(PointerInteger lineNumber, PointerInteger charNumber) {
+        gtk_h.g_markup_parse_context_get_position(handle(), lineNumber.handle(), charNumber.handle());
+    }
+    
+    /**
      * Returns the user_data associated with {@code context}.
      * <p>
      * This will either be the user_data that was provided to

@@ -22,12 +22,26 @@ public class PadEvent extends Event {
     }
     
     /**
+     * Extracts the information from a pad strip or ring event.
+     */
+    public void getAxisValue(PointerInteger index, PointerDouble value) {
+        gtk_h.gdk_pad_event_get_axis_value(handle(), index.handle(), value.handle());
+    }
+    
+    /**
      * Extracts information about the pressed button from
      * a pad event.
      */
     public int getButton() {
         var RESULT = gtk_h.gdk_pad_event_get_button(handle());
         return RESULT;
+    }
+    
+    /**
+     * Extracts group and mode information from a pad event.
+     */
+    public void getGroupMode(PointerInteger group, PointerInteger mode) {
+        gtk_h.gdk_pad_event_get_group_mode(handle(), group.handle(), mode.handle());
     }
     
 }

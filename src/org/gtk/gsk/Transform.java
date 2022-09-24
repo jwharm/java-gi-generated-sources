@@ -148,6 +148,74 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Converts a {@code GskTransform} to a 2D transformation matrix.
+     * <p>
+     * {@code self} must be a 2D transformation. If you are not
+     * sure, use gsk_transform_get_category() >=
+     * {@link TransformCategory#_2D} to check.
+     * <p>
+     * The returned values have the following layout:
+     * <p>
+     * <pre>{@code 
+     *   | xx yx |   |  a  b  0 |
+     *   | xy yy | = |  c  d  0 |
+     *   | dx dy |   | tx ty  1 |
+     * }</pre>
+     * <p>
+     * This function can be used to convert between a {@code GskTransform}
+     * and a matrix type from other 2D drawing libraries, in particular
+     * Cairo.
+     */
+    public void to2d(PointerFloat outXx, PointerFloat outYx, PointerFloat outXy, PointerFloat outYy, PointerFloat outDx, PointerFloat outDy) {
+        gtk_h.gsk_transform_to_2d(handle(), outXx.handle(), outYx.handle(), outXy.handle(), outYy.handle(), outDx.handle(), outDy.handle());
+    }
+    
+    /**
+     * Converts a {@code GskTransform} to 2D transformation factors.
+     * <p>
+     * To recreate an equivalent transform from the factors returned
+     * by this function, use
+     * <p>
+     *     gsk_transform_skew (
+     *         gsk_transform_scale (
+     *             gsk_transform_rotate (
+     *                 gsk_transform_translate (NULL, &GRAPHENE_POINT_T (dx, dy)),
+     *                 angle),
+     *             scale_x, scale_y),
+     *         skew_x, skew_y)
+     * <p>
+     * {@code self} must be a 2D transformation. If you are not sure, use
+     * <p>
+     *     gsk_transform_get_category() >= {@link TransformCategory#_2D}
+     * <p>
+     * to check.
+     */
+    public void to2dComponents(PointerFloat outSkewX, PointerFloat outSkewY, PointerFloat outScaleX, PointerFloat outScaleY, PointerFloat outAngle, PointerFloat outDx, PointerFloat outDy) {
+        gtk_h.gsk_transform_to_2d_components(handle(), outSkewX.handle(), outSkewY.handle(), outScaleX.handle(), outScaleY.handle(), outAngle.handle(), outDx.handle(), outDy.handle());
+    }
+    
+    /**
+     * Converts a {@code GskTransform} to 2D affine transformation factors.
+     * <p>
+     * To recreate an equivalent transform from the factors returned
+     * by this function, use
+     * <p>
+     *     gsk_transform_scale (gsk_transform_translate (NULL,
+     *                                                   &GRAPHENE_POINT_T (dx, dy)),
+     *                          sx, sy)
+     * <p>
+     * {@code self} must be a 2D affine transformation. If you are not
+     * sure, use
+     * <p>
+     *     gsk_transform_get_category() >= {@link TransformCategory#_2D_AFFINE}
+     * <p>
+     * to check.
+     */
+    public void toAffine(PointerFloat outScaleX, PointerFloat outScaleY, PointerFloat outDx, PointerFloat outDy) {
+        gtk_h.gsk_transform_to_affine(handle(), outScaleX.handle(), outScaleY.handle(), outDx.handle(), outDy.handle());
+    }
+    
+    /**
      * Computes the actual value of {@code self} and stores it in {@code out_matrix}.
      * <p>
      * The previous value of {@code out_matrix} will be ignored.
@@ -166,6 +234,20 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     public java.lang.String toString() {
         var RESULT = gtk_h.gsk_transform_to_string(handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Converts a {@code GskTransform} to a translation operation.
+     * <p>
+     * {@code self} must be a 2D transformation. If you are not
+     * sure, use
+     * <p>
+     *     gsk_transform_get_category() >= {@link TransformCategory#_2D_TRANSLATE}
+     * <p>
+     * to check.
+     */
+    public void toTranslate(PointerFloat outDx, PointerFloat outDy) {
+        gtk_h.gsk_transform_to_translate(handle(), outDx.handle(), outDy.handle());
     }
     
     /**

@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Signature for function used in g_dbus_connection_add_filter().
  * <p>

@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of a function used to test two values for
  * equality. The function should return {@code true} if both values are equal

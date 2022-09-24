@@ -78,4 +78,20 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         return (RESULT != 0);
     }
     
+    /**
+     * Lists the different font faces that make up {@code family}.
+     * <p>
+     * The faces in a family share a common design, but differ in slant, weight,
+     * width and other aspects.
+     * <p>
+     * Note that the returned faces are not in any particular order, and
+     * multiple faces may have the same name or characteristics.
+     * <p>
+     * {@code PangoFontFamily} also implemented the {@code Gio.ListModel} interface
+     * for enumerating faces.
+     */
+    public void listFaces(FontFace[] faces, PointerInteger nFaces) {
+        gtk_h.pango_font_family_list_faces(handle(), Interop.allocateNativeArray(faces).handle(), nFaces.handle());
+    }
+    
 }

@@ -849,6 +849,17 @@ public final class Gio {
     }
     
     /**
+     * Guesses the content type based on example data. If the function is
+     * uncertain, {@code result_uncertain} will be set to {@code true}. Either {@code filename}
+     * or {@code data} may be {@code null}, in which case the guess will be based solely
+     * on the other argument.
+     */
+    public static java.lang.String contentTypeGuess(java.lang.String filename, byte[] data, long dataSize, PointerBoolean resultUncertain) {
+        var RESULT = gtk_h.g_content_type_guess(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, data)).handle(), dataSize, resultUncertain.handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * Determines if {@code type} is a subset of {@code supertype}.
      */
     public static boolean contentTypeIsA(java.lang.String type, java.lang.String supertype) {
@@ -1109,6 +1120,16 @@ public final class Gio {
     public static boolean dbusErrorRegisterError(org.gtk.glib.Quark errorDomain, int errorCode, java.lang.String dbusErrorName) {
         var RESULT = gtk_h.g_dbus_error_register_error(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName).handle());
         return (RESULT != 0);
+    }
+    
+    /**
+     * Helper function for associating a {@link org.gtk.glib.Error} error domain with D-Bus error names.
+     * <p>
+     * While {@code quark_volatile} has a {@code volatile} qualifier, this is a historical
+     * artifact and the argument passed to it should not be {@code volatile}.
+     */
+    public static void dbusErrorRegisterErrorDomain(java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, DBusErrorEntry[] entries, int numEntries) {
+        gtk_h.g_dbus_error_register_error_domain(Interop.allocateNativeString(errorDomainQuarkName).handle(), quarkVolatile.handle(), Interop.allocateNativeArray(entries).handle(), numEntries);
     }
     
     /**
@@ -1746,6 +1767,35 @@ public final class Gio {
     }
     
     /**
+     * Tries to write {@code count} bytes to {@code stream}, as with
+     * g_output_stream_write_all(), but using g_pollable_stream_write()
+     * rather than g_output_stream_write().
+     * <p>
+     * On a successful write of {@code count} bytes, {@code true} is returned, and
+     * {@code bytes_written} is set to {@code count}.
+     * <p>
+     * If there is an error during the operation (including
+     * {@link IOErrorEnum#WOULD_BLOCK} in the non-blocking case), {@code false} is
+     * returned and {@code error} is set to indicate the error status,
+     * {@code bytes_written} is updated to contain the number of bytes written
+     * into the stream before the error occurred.
+     * <p>
+     * As with g_pollable_stream_write(), if {@code blocking} is {@code false}, then
+     * {@code stream} must be a {@link PollableOutputStream} for which
+     * g_pollable_output_stream_can_poll() returns {@code true} or else the
+     * behavior is undefined. If {@code blocking} is {@code true}, then {@code stream} does not
+     * need to be a {@link PollableOutputStream}.
+     */
+    public static boolean pollableStreamWriteAll(OutputStream stream, byte[] buffer, long count, boolean blocking, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_pollable_stream_write_all(stream.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, blocking ? 1 : 0, bytesWritten.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Gets a reference to the default {@link PowerProfileMonitor} for the system.
      */
     public static PowerProfileMonitor powerProfileMonitorDupDefault() {
@@ -1805,6 +1855,21 @@ public final class Gio {
             throw new GErrorException(GERROR);
         }
         return new Resource(References.get(RESULT, true));
+    }
+    
+    /**
+     * Looks for a file at the specified {@code path} in the set of
+     * globally registered resources and if found returns information about it.
+     * <p>
+     * {@code lookup_flags} controls the behaviour of the lookup.
+     */
+    public static boolean resourcesGetInfo(java.lang.String path, int lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_resources_get_info(Interop.allocateNativeString(path).handle(), lookupFlags, size.handle(), flags.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**
@@ -2006,6 +2071,21 @@ public final class Gio {
     }
     
     /**
+     * Gets a {@link UnixMountEntry} for a given mount path. If {@code time_read}
+     * is set, it will be filled with a unix timestamp for checking
+     * if the mounts have changed since with g_unix_mounts_changed_since().
+     * <p>
+     * If more mounts have the same mount path, the last matching mount
+     * is returned.
+     * <p>
+     * This will return {@code null} if there is no mount point at {@code mount_path}.
+     */
+    public static UnixMountEntry unixMountAt(java.lang.String mountPath, PointerLong timeRead) {
+        var RESULT = gtk_h.g_unix_mount_at(Interop.allocateNativeString(mountPath).handle(), timeRead.handle());
+        return new UnixMountEntry(References.get(RESULT, true));
+    }
+    
+    /**
      * Compares two unix mounts.
      */
     public static int unixMountCompare(UnixMountEntry mount1, UnixMountEntry mount2) {
@@ -2018,6 +2098,22 @@ public final class Gio {
      */
     public static UnixMountEntry unixMountCopy(UnixMountEntry mountEntry) {
         var RESULT = gtk_h.g_unix_mount_copy(mountEntry.handle());
+        return new UnixMountEntry(References.get(RESULT, true));
+    }
+    
+    /**
+     * Gets a {@link UnixMountEntry} for a given file path. If {@code time_read}
+     * is set, it will be filled with a unix timestamp for checking
+     * if the mounts have changed since with g_unix_mounts_changed_since().
+     * <p>
+     * If more mounts have the same mount path, the last matching mount
+     * is returned.
+     * <p>
+     * This will return {@code null} if looking up the mount entry fails, if
+     * {@code file_path} doesn’t exist or there is an I/O error.
+     */
+    public static UnixMountEntry unixMountFor(java.lang.String filePath, PointerLong timeRead) {
+        var RESULT = gtk_h.g_unix_mount_for(Interop.allocateNativeString(filePath).handle(), timeRead.handle());
         return new UnixMountEntry(References.get(RESULT, true));
     }
     
@@ -2140,6 +2236,19 @@ public final class Gio {
     }
     
     /**
+     * Gets a {@link UnixMountPoint} for a given mount path. If {@code time_read} is set, it
+     * will be filled with a unix timestamp for checking if the mount points have
+     * changed since with g_unix_mount_points_changed_since().
+     * <p>
+     * If more mount points have the same mount path, the last matching mount point
+     * is returned.
+     */
+    public static UnixMountPoint unixMountPointAt(java.lang.String mountPath, PointerLong timeRead) {
+        var RESULT = gtk_h.g_unix_mount_point_at(Interop.allocateNativeString(mountPath).handle(), timeRead.handle());
+        return new UnixMountPoint(References.get(RESULT, true));
+    }
+    
+    /**
      * Checks if the unix mount points have changed since a given unix time.
      */
     public static boolean unixMountPointsChangedSince(long time) {
@@ -2148,11 +2257,33 @@ public final class Gio {
     }
     
     /**
+     * Gets a {@link org.gtk.glib.List} of {@link UnixMountPoint} containing the unix mount points.
+     * If {@code time_read} is set, it will be filled with the mount timestamp,
+     * allowing for checking if the mounts have changed with
+     * g_unix_mount_points_changed_since().
+     */
+    public static org.gtk.glib.List unixMountPointsGet(PointerLong timeRead) {
+        var RESULT = gtk_h.g_unix_mount_points_get(timeRead.handle());
+        return new org.gtk.glib.List(References.get(RESULT, true));
+    }
+    
+    /**
      * Checks if the unix mounts have changed since a given unix time.
      */
     public static boolean unixMountsChangedSince(long time) {
         var RESULT = gtk_h.g_unix_mounts_changed_since(time);
         return (RESULT != 0);
+    }
+    
+    /**
+     * Gets a {@link org.gtk.glib.List} of {@link UnixMountEntry} containing the unix mounts.
+     * If {@code time_read} is set, it will be filled with the mount
+     * timestamp, allowing for checking if the mounts have changed
+     * with g_unix_mounts_changed_since().
+     */
+    public static org.gtk.glib.List unixMountsGet(PointerLong timeRead) {
+        var RESULT = gtk_h.g_unix_mounts_get(timeRead.handle());
+        return new org.gtk.glib.List(References.get(RESULT, true));
     }
     
     public static void __cbBusNameVanishedCallback(MemoryAddress connection, MemoryAddress name, MemoryAddress userData) {

@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of function passed to g_timeout_add(),
  * g_timeout_add_full(), g_idle_add(), and g_idle_add_full().

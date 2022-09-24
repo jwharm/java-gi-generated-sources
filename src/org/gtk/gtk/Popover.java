@@ -153,6 +153,13 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
     }
     
     /**
+     * Gets the offset previous set with gtk_popover_set_offset().
+     */
+    public void getOffset(PointerInteger xOffset, PointerInteger yOffset) {
+        gtk_h.gtk_popover_get_offset(handle(), xOffset.handle(), yOffset.handle());
+    }
+    
+    /**
      * Gets the rectangle that the popover points to.
      * <p>
      * If a rectangle to point to has been set, this function will

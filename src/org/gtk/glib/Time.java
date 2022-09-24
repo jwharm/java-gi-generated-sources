@@ -30,16 +30,10 @@ import java.lang.invoke.*;
  * gtime = (GTime)ttime;
  * }</pre>
  */
-public class Time {
+public class Time extends Alias<Integer> {
 
-    private final int value;
-    
     public Time(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(Time[] array) {

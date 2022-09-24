@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * When doing file operations that may take a while, such as moving
  * a file or copying a file, a progress callback is used to pass how

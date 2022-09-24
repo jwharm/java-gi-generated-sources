@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A GtkTreeIterCompareFunc should return a negative integer, zero, or a positive
  * integer if @a sorts before @b, @a sorts with @b, or @a sorts after @b

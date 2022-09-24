@@ -118,6 +118,38 @@ public class IMContext extends org.gtk.gobject.Object {
     }
     
     /**
+     * Retrieve the current preedit string for the input context,
+     * and a list of attributes to apply to the string.
+     * <p>
+     * This string should be displayed inserted at the insertion point.
+     */
+    public void getPreeditString(java.lang.String[] str, org.pango.AttrList[] attrs, PointerInteger cursorPos) {
+        gtk_h.gtk_im_context_get_preedit_string(handle(), Interop.allocateNativeArray(str).handle(), Interop.allocateNativeArray(attrs).handle(), cursorPos.handle());
+    }
+    
+    /**
+     * Retrieves context around the insertion point.
+     * <p>
+     * Input methods typically want context in order to constrain input
+     * text based on existing text; this is important for languages such
+     * as Thai where only some sequences of characters are allowed.
+     * <p>
+     * This function is implemented by emitting the
+     * {@code Gtk.IMContext::retrieve-surrounding} signal on the input method;
+     * in response to this signal, a widget should provide as much context as
+     * is available, up to an entire paragraph, by calling
+     * {@link IMContext#setSurroundingWithSelection}.
+     * <p>
+     * Note that there is no obligation for a widget to respond to the
+     * {@code ::retrieve-surrounding} signal, so input methods must be prepared to
+     * function without context.
+     */
+    public boolean getSurroundingWithSelection(java.lang.String[] text, PointerInteger cursorIndex, PointerInteger anchorIndex) {
+        var RESULT = gtk_h.gtk_im_context_get_surrounding_with_selection(handle(), Interop.allocateNativeArray(text).handle(), cursorIndex.handle(), anchorIndex.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Notify the input method that a change such as a change in cursor
      * position has been made.
      * <p>

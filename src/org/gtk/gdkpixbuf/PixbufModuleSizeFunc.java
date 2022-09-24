@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Defines the type of the function that gets called once the size
  * of the loaded image is known.
@@ -17,5 +19,5 @@ package org.gtk.gdkpixbuf;
  */
 @FunctionalInterface
 public interface PixbufModuleSizeFunc {
-        void onPixbufModuleSizeFunc(int width, int height);
+        void onPixbufModuleSizeFunc(PointerInteger width, PointerInteger height);
 }

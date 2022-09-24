@@ -69,6 +69,25 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     }
     
     /**
+     * Obtains the horizontal position and size of a cell in a column.
+     * <p>
+     * If the  cell is not found in the column, {@code start_pos} and {@code width}
+     * are not changed and {@code false} is returned.
+     */
+    public boolean cellGetPosition(CellRenderer cellRenderer, PointerInteger xOffset, PointerInteger width) {
+        var RESULT = gtk_h.gtk_tree_view_column_cell_get_position(handle(), cellRenderer.handle(), xOffset.handle(), width.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Obtains the width and height needed to render the column.  This is used
+     * primarily by the {@code GtkTreeView}.
+     */
+    public void cellGetSize(PointerInteger xOffset, PointerInteger yOffset, PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_tree_view_column_cell_get_size(handle(), xOffset.handle(), yOffset.handle(), width.handle(), height.handle());
+    }
+    
+    /**
      * Returns {@code true} if any of the cells packed into the {@code tree_column} are visible.
      * For this to be meaningful, you must first initialize the cells with
      * gtk_tree_view_column_cell_set_cell_data()

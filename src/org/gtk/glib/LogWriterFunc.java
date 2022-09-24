@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Writer function for log entries. A log entry is a collection of one or more
  * {@code GLogFields}, using the standard [field names from journal

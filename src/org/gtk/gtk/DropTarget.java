@@ -176,7 +176,7 @@ public class DropTarget extends EventController {
      * Sets the supported {@code GTypes} for this drop target.
      */
     public void setGtypes(org.gtk.gobject.Type[] types, long nTypes) {
-        gtk_h.gtk_drop_target_set_gtypes(handle(), Interop.allocateNativeArray(types).handle(), nTypes);
+        gtk_h.gtk_drop_target_set_gtypes(handle(), Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle(), nTypes);
     }
     
     /**

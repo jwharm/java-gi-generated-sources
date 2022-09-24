@@ -170,6 +170,52 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
+     * Converts bin_window coordinates to coordinates for the
+     * tree (the full scrollable area of the tree).
+     */
+    public void convertBinWindowToTreeCoords(int bx, int by, PointerInteger tx, PointerInteger ty) {
+        gtk_h.gtk_tree_view_convert_bin_window_to_tree_coords(handle(), bx, by, tx.handle(), ty.handle());
+    }
+    
+    /**
+     * Converts bin_window coordinates to widget relative coordinates.
+     */
+    public void convertBinWindowToWidgetCoords(int bx, int by, PointerInteger wx, PointerInteger wy) {
+        gtk_h.gtk_tree_view_convert_bin_window_to_widget_coords(handle(), bx, by, wx.handle(), wy.handle());
+    }
+    
+    /**
+     * Converts tree coordinates (coordinates in full scrollable area of the tree)
+     * to bin_window coordinates.
+     */
+    public void convertTreeToBinWindowCoords(int tx, int ty, PointerInteger bx, PointerInteger by) {
+        gtk_h.gtk_tree_view_convert_tree_to_bin_window_coords(handle(), tx, ty, bx.handle(), by.handle());
+    }
+    
+    /**
+     * Converts tree coordinates (coordinates in full scrollable area of the tree)
+     * to widget coordinates.
+     */
+    public void convertTreeToWidgetCoords(int tx, int ty, PointerInteger wx, PointerInteger wy) {
+        gtk_h.gtk_tree_view_convert_tree_to_widget_coords(handle(), tx, ty, wx.handle(), wy.handle());
+    }
+    
+    /**
+     * Converts widget coordinates to coordinates for the bin_window.
+     */
+    public void convertWidgetToBinWindowCoords(int wx, int wy, PointerInteger bx, PointerInteger by) {
+        gtk_h.gtk_tree_view_convert_widget_to_bin_window_coords(handle(), wx, wy, bx.handle(), by.handle());
+    }
+    
+    /**
+     * Converts widget coordinates to coordinates for the
+     * tree (the full scrollable area of the tree).
+     */
+    public void convertWidgetToTreeCoords(int wx, int wy, PointerInteger tx, PointerInteger ty) {
+        gtk_h.gtk_tree_view_convert_widget_to_tree_coords(handle(), wx, wy, tx.handle(), ty.handle());
+    }
+    
+    /**
      * Creates a {@code cairo_surface_t} representation of the row at {@code path}.
      * This image is used for a drag icon.
      */
@@ -386,6 +432,29 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     }
     
     /**
+     * Finds the path at the point (@x, @y), relative to bin_window coordinates.
+     * That is, @x and @y are relative to an events coordinates. Widget-relative
+     * coordinates must be converted using
+     * gtk_tree_view_convert_widget_to_bin_window_coords(). It is primarily for
+     * things like popup menus. If {@code path} is non-{@code null}, then it will be filled
+     * with the {@code GtkTreePath} at that point.  This path should be freed with
+     * gtk_tree_path_free().  If {@code column} is non-{@code null}, then it will be filled
+     * with the column at that point.  {@code cell_x} and {@code cell_y} return the coordinates
+     * relative to the cell background (i.e. the {@code background_area} passed to
+     * gtk_cell_renderer_render()).  This function is only meaningful if
+     * {@code tree_view} is realized.  Therefore this function will always return {@code false}
+     * if {@code tree_view} is not realized or does not have a model.
+     * <p>
+     * For converting widget coordinates (eg. the ones you get from
+     * GtkWidget::query-tooltip), please see
+     * gtk_tree_view_convert_widget_to_bin_window_coords().
+     */
+    public boolean getPathAtPos(int x, int y, TreePath[] path, TreeViewColumn[] column, PointerInteger cellX, PointerInteger cellY) {
+        var RESULT = gtk_h.gtk_tree_view_get_path_at_pos(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Retrieves whether the user can reorder the tree via drag-and-drop. See
      * gtk_tree_view_set_reorderable().
      */
@@ -520,6 +589,30 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Determine whether the point (@x, @y) in {@code tree_view} is blank, that is no
+     * cell content nor an expander arrow is drawn at the location. If so, the
+     * location can be considered as the background. You might wish to take
+     * special action on clicks on the background, such as clearing a current
+     * selection, having a custom context menu or starting rubber banding.
+     * <p>
+     * The @x and @y coordinate that are provided must be relative to bin_window
+     * coordinates.  Widget-relative coordinates must be converted using
+     * gtk_tree_view_convert_widget_to_bin_window_coords().
+     * <p>
+     * For converting widget coordinates (eg. the ones you get from
+     * GtkWidget::query-tooltip), please see
+     * gtk_tree_view_convert_widget_to_bin_window_coords().
+     * <p>
+     * The {@code path}, {@code column}, {@code cell_x} and {@code cell_y} arguments will be filled in
+     * likewise as for gtk_tree_view_get_path_at_pos().  Please see
+     * gtk_tree_view_get_path_at_pos() for more information.
+     */
+    public boolean isBlankAtPos(int x, int y, TreePath[] path, TreeViewColumn[] column, PointerInteger cellX, PointerInteger cellY) {
+        var RESULT = gtk_h.gtk_tree_view_is_blank_at_pos(handle(), x, y, Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(column).handle(), cellX.handle(), cellY.handle());
+        return (RESULT != 0);
     }
     
     /**

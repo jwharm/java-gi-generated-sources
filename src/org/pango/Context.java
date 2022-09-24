@@ -188,6 +188,13 @@ public class Context extends org.gtk.gobject.Object {
     }
     
     /**
+     * List all families for a context.
+     */
+    public void listFamilies(FontFamily[] families, PointerInteger nFamilies) {
+        gtk_h.pango_context_list_families(handle(), Interop.allocateNativeArray(families).handle(), nFamilies.handle());
+    }
+    
+    /**
      * Loads the font in one of the fontmaps in the context
      * that is the closest match for {@code desc}.
      */

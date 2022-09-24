@@ -18,6 +18,19 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Retrieves the bounds the toplevel is placed within.
+     * <p>
+     * The bounds represent the largest size a toplevel may have while still being
+     * able to fit within some type of boundary. Depending on the backend, this may
+     * be equivalent to the dimensions of the work area or the monitor on which the
+     * window is being presented on, or something else that limits the way a
+     * toplevel can be presented.
+     */
+    public void getBounds(PointerInteger boundsWidth, PointerInteger boundsHeight) {
+        gtk_h.gdk_toplevel_size_get_bounds(handle(), boundsWidth.handle(), boundsHeight.handle());
+    }
+    
+    /**
      * Sets the minimum size of the toplevel.
      * <p>
      * The minimum size corresponds to the limitations the toplevel can be shrunk

@@ -234,6 +234,13 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
     }
     
     /**
+     * Queries the attach points and spans of {@code child} inside the given {@code GtkGrid}.
+     */
+    public void queryChild(Widget child, PointerInteger column, PointerInteger row, PointerInteger width, PointerInteger height) {
+        gtk_h.gtk_grid_query_child(handle(), child.handle(), column.handle(), row.handle(), width.handle(), height.handle());
+    }
+    
+    /**
      * Removes a child from {@code grid}.
      * <p>
      * The child must have been added with

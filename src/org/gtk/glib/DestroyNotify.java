@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of function which is called when a data element
  * is destroyed. It is passed the pointer to the data element and

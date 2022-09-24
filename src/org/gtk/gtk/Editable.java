@@ -242,6 +242,20 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
+     * Retrieves the selection bound of the editable.
+     * <p>
+     * {@code start_pos} will be filled with the start of the selection and
+     * {@code end_pos} with end. If no text was selected both will be identical
+     * and {@code false} will be returned.
+     * <p>
+     * Note that positions are specified in characters, not bytes.
+     */
+    public default boolean getSelectionBounds(PointerInteger startPos, PointerInteger endPos) {
+        var RESULT = gtk_h.gtk_editable_get_selection_bounds(handle(), startPos.handle(), endPos.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Retrieves the contents of {@code editable}.
      * <p>
      * The returned string is owned by GTK and must not be modified or freed.
@@ -271,6 +285,18 @@ public interface Editable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default void initDelegate() {
         gtk_h.gtk_editable_init_delegate(handle());
+    }
+    
+    /**
+     * Inserts {@code length} bytes of {@code text} into the contents of the
+     * widget, at position {@code position}.
+     * <p>
+     * Note that the position is in characters, not in bytes.
+     * The function updates {@code position} to point after the newly
+     * inserted text.
+     */
+    public default void insertText(java.lang.String text, int length, PointerInteger position) {
+        gtk_h.gtk_editable_insert_text(handle(), Interop.allocateNativeString(text).handle(), length, position.handle());
     }
     
     /**

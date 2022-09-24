@@ -193,6 +193,20 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
     }
     
     /**
+     * Obtains the coordinates where the scale will draw the
+     * {@code PangoLayout} representing the text in the scale.
+     * <p>
+     * Remember when using the {@code PangoLayout} function you need to
+     * convert to and from pixels using {@code PANGO_PIXELS()} or {@code PANGO_SCALE}.
+     * <p>
+     * If the {@code GtkScale:draw-value} property is {@code false}, the return
+     * values are undefined.
+     */
+    public void getLayoutOffsets(PointerInteger x, PointerInteger y) {
+        gtk_h.gtk_scale_get_layout_offsets(handle(), x.handle(), y.handle());
+    }
+    
+    /**
      * Gets the position in which the current value is displayed.
      */
     public PositionType getValuePos() {

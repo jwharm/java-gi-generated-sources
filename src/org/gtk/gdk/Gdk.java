@@ -4759,6 +4759,43 @@ public final class Gdk {
         return (RESULT != 0);
     }
     
+    /**
+     * Returns the relative angle from {@code event1} to {@code event2}.
+     * <p>
+     * The relative angle is the angle between the X axis and the line
+     * through both events' positions. The rotation direction for positive
+     * angles is from the positive X axis towards the positive Y axis.
+     * <p>
+     * This assumes that both events have X/Y information.
+     * If not, this function returns {@code false}.
+     */
+    public static boolean eventsGetAngle(Event event1, Event event2, PointerDouble angle) {
+        var RESULT = gtk_h.gdk_events_get_angle(event1.handle(), event2.handle(), angle.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns the point halfway between the events' positions.
+     * <p>
+     * This assumes that both events have X/Y information.
+     * If not, this function returns {@code false}.
+     */
+    public static boolean eventsGetCenter(Event event1, Event event2, PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gdk_events_get_center(event1.handle(), event2.handle(), x.handle(), y.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns the distance between the event locations.
+     * <p>
+     * This assumes that both events have X/Y information.
+     * If not, this function returns {@code false}.
+     */
+    public static boolean eventsGetDistance(Event event1, Event event2, PointerDouble distance) {
+        var RESULT = gtk_h.gdk_events_get_distance(event1.handle(), event2.handle(), distance.handle());
+        return (RESULT != 0);
+    }
+    
     public static org.gtk.glib.Quark glErrorQuark() {
         var RESULT = gtk_h.gdk_gl_error_quark();
         return new org.gtk.glib.Quark(RESULT);
@@ -4773,6 +4810,15 @@ public final class Gdk {
     public static java.lang.String internMimeType(java.lang.String string) {
         var RESULT = gtk_h.gdk_intern_mime_type(Interop.allocateNativeString(string).handle());
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Obtains the upper- and lower-case versions of the keyval {@code symbol}.
+     * <p>
+     * Examples of keyvals are {@code GDK_KEY_a}, {@code GDK_KEY_Enter}, {@code GDK_KEY_F1}, etc.
+     */
+    public static void keyvalConvertCase(int symbol, PointerInteger lower, PointerInteger upper) {
+        gtk_h.gdk_keyval_convert_case(symbol, lower.handle(), upper.handle());
     }
     
     /**
@@ -4855,6 +4901,23 @@ public final class Gdk {
     public static Paintable paintableNewEmpty(int intrinsicWidth, int intrinsicHeight) {
         var RESULT = gtk_h.gdk_paintable_new_empty(intrinsicWidth, intrinsicHeight);
         return new Paintable.PaintableImpl(References.get(RESULT, true));
+    }
+    
+    /**
+     * Obtains a clip region which contains the areas where the given ranges
+     * of text would be drawn.
+     * <p>
+     * {@code x_origin} and {@code y_origin} are the top left point to center the layout.
+     * {@code index_ranges} should contain ranges of bytes in the layout’s text.
+     * <p>
+     * Note that the regions returned correspond to logical extents of the text
+     * ranges, not ink extents. So the drawn layout may in fact touch areas out of
+     * the clip region.  The clip region is mainly useful for highlightling parts
+     * of text, such as when text is selected.
+     */
+    public static org.cairographics.Region pangoLayoutGetClipRegion(org.pango.Layout layout, int xOrigin, int yOrigin, PointerInteger indexRanges, int nRanges) {
+        var RESULT = gtk_h.gdk_pango_layout_get_clip_region(layout.handle(), xOrigin, yOrigin, indexRanges.handle(), nRanges);
+        return new org.cairographics.Region(References.get(RESULT, true));
     }
     
     /**

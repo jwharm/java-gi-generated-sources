@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of function that is passed to
  * gtk_print_run_page_setup_dialog_async().

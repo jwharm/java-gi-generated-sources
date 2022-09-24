@@ -75,6 +75,10 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         gtk_h.g_type_class_unref_uncached(handle());
     }
     
+    public static void adjustPrivateOffset(java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
+        gtk_h.g_type_class_adjust_private_offset(gClass, privateSizeOrOffset.handle());
+    }
+    
     /**
      * This function is essentially the same as g_type_class_ref(),
      * except that the classes reference count isn't incremented.

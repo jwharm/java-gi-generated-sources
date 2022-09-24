@@ -1,5 +1,7 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A virtual method for the {@link font_funcs_t} of an {@link font_t} object.
  * <p>

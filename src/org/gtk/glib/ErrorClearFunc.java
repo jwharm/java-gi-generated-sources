@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of function which is called when an extended
  * error instance is freed. It is passed the error pointer about to be

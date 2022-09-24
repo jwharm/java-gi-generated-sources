@@ -118,4 +118,15 @@ public class LayoutManager extends org.gtk.gobject.Object {
         gtk_h.gtk_layout_manager_layout_changed(handle());
     }
     
+    /**
+     * Measures the size of the {@code widget} using {@code manager}, for the
+     * given {@code orientation} and size.
+     * <p>
+     * See the {@link Widget} documentation on layout management for
+     * more details.
+     */
+    public void measure(Widget widget, Orientation orientation, int forSize, PointerInteger minimum, PointerInteger natural, PointerInteger minimumBaseline, PointerInteger naturalBaseline) {
+        gtk_h.gtk_layout_manager_measure(handle(), widget.handle(), orientation.getValue(), forSize, minimum.handle(), natural.handle(), minimumBaseline.handle(), naturalBaseline.handle());
+    }
+    
 }

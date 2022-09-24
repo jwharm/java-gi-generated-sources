@@ -848,6 +848,19 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Similar to g_variant_get_string() except that instead of returning
+     * a constant string, the string is duplicated.
+     * <p>
+     * The string will always be UTF-8 encoded.
+     * <p>
+     * The return value must be freed using g_free().
+     */
+    public java.lang.String dupString(PointerLong length) {
+        var RESULT = gtk_h.g_variant_dup_string(handle(), length.handle());
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * Checks if {@code one} and {@code two} have the same type and value.
      * <p>
      * The types of {@code one} and {@code two} are {@code gconstpointer} only to allow use of
@@ -1067,6 +1080,31 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
     public long getSize() {
         var RESULT = gtk_h.g_variant_get_size(handle());
         return RESULT;
+    }
+    
+    /**
+     * Returns the string value of a {@link Variant} instance with a string
+     * type.  This includes the types {@code G_VARIANT_TYPE_STRING},
+     * {@code G_VARIANT_TYPE_OBJECT_PATH} and {@code G_VARIANT_TYPE_SIGNATURE}.
+     * <p>
+     * The string will always be UTF-8 encoded, will never be {@code null}, and will never
+     * contain nul bytes.
+     * <p>
+     * If {@code length} is non-{@code null} then the length of the string (in bytes) is
+     * returned there.  For trusted values, this information is already
+     * known.  Untrusted values will be validated and, if valid, a strlen() will be
+     * performed. If invalid, a default value will be returned — for
+     * {@code G_VARIANT_TYPE_OBJECT_PATH}, this is {@code "/"}, and for other types it is the
+     * empty string.
+     * <p>
+     * It is an error to call this function with a {@code value} of any type
+     * other than those three.
+     * <p>
+     * The return value remains valid as long as {@code value} exists.
+     */
+    public java.lang.String getString(PointerLong length) {
+        var RESULT = gtk_h.g_variant_get_string(handle(), length.handle());
+        return RESULT.getUtf8String(0);
     }
     
     /**

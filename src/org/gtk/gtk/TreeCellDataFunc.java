@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function to set the properties of a cell instead of just using the
  * straight mapping between the cell and the model.

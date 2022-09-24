@@ -99,28 +99,24 @@ public class Interop {
         );
     }
 
-    public static MemorySegmentReference allocateNativeArray(boolean[] array) {
-        int[] intArray = new int[array.length];
-        for (int i = 0; i < array.length; i++) {
-            intArray[i] = array[i] ? 1 : 0;
-        }
-        return allocateNativeArray(intArray);
-    }
-
-    public static MemorySegmentReference allocateNativeArray(org.gtk.gobject.Type[] array) {
+    public static MemorySegmentReference allocateNativeArray(long[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        long[] longArray = new long[array.length];
-        for (int i = 0; i < array.length; i++) {
-            longArray[i] = array[i].getValue();
-        }
         return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_LONG, longArray)
+                allocator.allocateArray(ValueLayout.JAVA_LONG, array)
         );
+    }
+
+    public static MemorySegmentReference allocateNativeArray(boolean[] array) {
+        int[] intArray = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            intArray[i] = array[i] ? 1 : 0;
+        }
+        return allocateNativeArray(intArray);
     }
 
     public static MemorySegmentReference allocateNativeArray(org.gtk.gobject.Value[] array) {

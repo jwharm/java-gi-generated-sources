@@ -507,6 +507,18 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * This should be called by models when their rows have been
      * reordered.
      */
+    public default void rowsReordered(TreePath path, TreeIter iter, PointerInteger newOrder) {
+        gtk_h.gtk_tree_model_rows_reordered(handle(), path.handle(), iter.handle(), newOrder.handle());
+    }
+    
+    /**
+     * Emits the ::rows-reordered signal on {@code tree_model}.
+     * <p>
+     * See {@code Gtk.TreeModel::rows-reordered}.
+     * <p>
+     * This should be called by models when their rows have been
+     * reordered.
+     */
     public default void rowsReorderedWithLength(TreePath path, TreeIter iter, int[] newOrder, int length) {
         gtk_h.gtk_tree_model_rows_reordered_with_length(handle(), path.handle(), iter.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, newOrder)).handle(), length);
     }

@@ -41,6 +41,30 @@ public class GestureDrag extends GestureSingle {
         super(constructNew());
     }
     
+    /**
+     * Gets the offset from the start point.
+     * <p>
+     * If the {@code gesture} is active, this function returns {@code true} and
+     * fills in @x and @y with the coordinates of the current point,
+     * as an offset to the starting drag point.
+     */
+    public boolean getOffset(PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gtk_gesture_drag_get_offset(handle(), x.handle(), y.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Gets the point where the drag started.
+     * <p>
+     * If the {@code gesture} is active, this function returns {@code true}
+     * and fills in @x and @y with the drag start coordinates,
+     * in surface-relative coordinates.
+     */
+    public boolean getStartPoint(PointerDouble x, PointerDouble y) {
+        var RESULT = gtk_h.gtk_gesture_drag_get_start_point(handle(), x.handle(), y.handle());
+        return (RESULT != 0);
+    }
+    
     @FunctionalInterface
     public interface DragBeginHandler {
         void signalReceived(GestureDrag source, double startX, double startY);

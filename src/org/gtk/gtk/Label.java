@@ -324,6 +324,19 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     }
     
     /**
+     * Obtains the coordinates where the label will draw its {@code PangoLayout}.
+     * <p>
+     * The coordinates are useful to convert mouse events into coordinates
+     * inside the {@link org.pango.Layout}, e.g. to take some action if some part
+     * of the label is clicked. Remember when using the {@link org.pango.Layout}
+     * functions you need to convert to and from pixels using PANGO_PIXELS()
+     * or {@code Pango.SCALE}.
+     */
+    public void getLayoutOffsets(PointerInteger x, PointerInteger y) {
+        gtk_h.gtk_label_get_layout_offsets(handle(), x.handle(), y.handle());
+    }
+    
+    /**
      * Gets the number of lines to which an ellipsized, wrapping
      * label should be limited.
      * <p>
@@ -382,6 +395,14 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public boolean getSelectable() {
         var RESULT = gtk_h.gtk_label_get_selectable(handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Gets the selected range of characters in the label.
+     */
+    public boolean getSelectionBounds(PointerInteger start, PointerInteger end) {
+        var RESULT = gtk_h.gtk_label_get_selection_bounds(handle(), start.handle(), end.handle());
         return (RESULT != 0);
     }
     

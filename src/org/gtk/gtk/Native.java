@@ -43,6 +43,16 @@ public interface Native extends io.github.jwharm.javagi.NativeAddress {
     }
     
     /**
+     * Retrieves the surface transform of {@code self}.
+     * <p>
+     * This is the translation from {@code self}'s surface coordinates into
+     * {@code self}'s widget coordinates.
+     */
+    public default void getSurfaceTransform(PointerDouble x, PointerDouble y) {
+        gtk_h.gtk_native_get_surface_transform(handle(), x.handle(), y.handle());
+    }
+    
+    /**
      * Realizes a {@code GtkNative}.
      * <p>
      * This should only be used by subclasses.

@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Save functions used by {@link Pixbuf#saveToCallback}.
  * <p>

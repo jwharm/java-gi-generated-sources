@@ -20,16 +20,10 @@ import java.lang.invoke.*;
  * The PANGO_PIXELS() macro can be used to convert from glyph units
  * into device units with correct rounding.
  */
-public class GlyphUnit {
+public class GlyphUnit extends Alias<Integer> {
 
-    private final int value;
-    
     public GlyphUnit(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(GlyphUnit[] array) {

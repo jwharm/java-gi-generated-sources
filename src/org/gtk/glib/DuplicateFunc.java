@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of functions that are used to 'duplicate' an object.
  * What this means depends on the context, it could just be

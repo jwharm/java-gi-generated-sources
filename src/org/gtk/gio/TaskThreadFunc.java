@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The prototype for a task function to be run in a thread via
  * g_task_run_in_thread() or g_task_run_in_thread_sync().

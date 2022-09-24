@@ -51,6 +51,19 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     }
     
     /**
+     * Looks up the given {@code item} in the list store by looping over the items until
+     * the first occurrence of {@code item}. If {@code item} was not found, then {@code position} will
+     * not be set, and this method will return {@code false}.
+     * <p>
+     * If you need to compare the two items with a custom comparison function, use
+     * g_list_store_find_with_equal_func() with a custom {@link org.gtk.glib.EqualFunc} instead.
+     */
+    public boolean find(org.gtk.gobject.Object item, PointerInteger position) {
+        var RESULT = gtk_h.g_list_store_find(handle(), item.handle(), position.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Inserts {@code item} into {@code store} at {@code position}. {@code item} must be of type
      * {@link ListStore}:item-type or derived from it. {@code position} must be smaller
      * than the length of the list, or equal to it to append.

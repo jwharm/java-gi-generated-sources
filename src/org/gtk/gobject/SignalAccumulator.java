@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The signal accumulator is a special callback function that can be used
  * to collect return values of the various callbacks that are called

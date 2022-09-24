@@ -129,6 +129,33 @@ public class Ray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Intersects the given {@link Ray} @r with the given
+     * {@link Box} @b.
+     */
+    public RayIntersectionKind intersectBox(Box b, PointerFloat tOut) {
+        var RESULT = gtk_h.graphene_ray_intersect_box(handle(), b.handle(), tOut.handle());
+        return RayIntersectionKind.fromValue(RESULT);
+    }
+    
+    /**
+     * Intersects the given {@link Ray} @r with the given
+     * {@link Sphere} @s.
+     */
+    public RayIntersectionKind intersectSphere(Sphere s, PointerFloat tOut) {
+        var RESULT = gtk_h.graphene_ray_intersect_sphere(handle(), s.handle(), tOut.handle());
+        return RayIntersectionKind.fromValue(RESULT);
+    }
+    
+    /**
+     * Intersects the given {@link Ray} @r with the given
+     * {@link Triangle} @t.
+     */
+    public RayIntersectionKind intersectTriangle(Triangle t, PointerFloat tOut) {
+        var RESULT = gtk_h.graphene_ray_intersect_triangle(handle(), t.handle(), tOut.handle());
+        return RayIntersectionKind.fromValue(RESULT);
+    }
+    
+    /**
      * Checks whether the given {@link Ray} @r intersects the
      * given {@link Box} @b.
      * <p>

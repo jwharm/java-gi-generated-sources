@@ -131,6 +131,19 @@ public class FrameClock extends org.gtk.gobject.Object {
     }
     
     /**
+     * Predicts a presentation time, based on history.
+     * <p>
+     * Using the frame history stored in the frame clock, finds the last
+     * known presentation time and refresh interval, and assuming that
+     * presentation times are separated by the refresh interval,
+     * predicts a presentation time that is a multiple of the refresh
+     * interval after the last presentation time, and later than {@code base_time}.
+     */
+    public void getRefreshInfo(long baseTime, PointerLong refreshIntervalReturn, PointerLong presentationTimeReturn) {
+        gtk_h.gdk_frame_clock_get_refresh_info(handle(), baseTime, refreshIntervalReturn.handle(), presentationTimeReturn.handle());
+    }
+    
+    /**
      * Retrieves a {@code GdkFrameTimings} object holding timing information
      * for the current frame or a recent frame.
      * <p>

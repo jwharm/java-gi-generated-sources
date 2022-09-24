@@ -196,6 +196,21 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     
     /**
      * Looks for a file at the specified {@code path} in the resource and
+     * if found returns information about it.
+     * <p>
+     * {@code lookup_flags} controls the behaviour of the lookup.
+     */
+    public boolean getInfo(java.lang.String path, int lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_resource_get_info(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, size.handle(), flags.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Looks for a file at the specified {@code path} in the resource and
      * returns a {@link org.gtk.glib.Bytes} that lets you directly access the data in
      * memory.
      * <p>

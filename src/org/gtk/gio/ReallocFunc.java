@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Changes the size of the memory block pointed to by {@code data} to
  * {@code size} bytes.

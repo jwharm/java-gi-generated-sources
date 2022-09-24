@@ -61,6 +61,19 @@ public class Font extends org.gtk.gobject.Object {
     }
     
     /**
+     * Obtain the OpenType features that are provided by the font.
+     * <p>
+     * These are passed to the rendering system, together with features
+     * that have been explicitly set via attributes.
+     * <p>
+     * Note that this does not include OpenType features which the
+     * rendering system enables by default.
+     */
+    public void getFeatures(org.harfbuzz.FeatureT[] features, int len, PointerInteger numFeatures) {
+        gtk_h.pango_font_get_features(handle(), Interop.allocateNativeArray(features).handle(), len, numFeatures.handle());
+    }
+    
+    /**
      * Gets the font map for which the font was created.
      * <p>
      * Note that the font maintains a <strong>weak</strong> reference to

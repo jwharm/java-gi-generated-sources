@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Called for list boxes that are bound to a {@code GListModel} with
  * gtk_list_box_bind_model() for each item that gets added to the model.

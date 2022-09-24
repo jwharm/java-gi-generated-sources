@@ -546,6 +546,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * This function outputs {@code key_file} as a string.
+     * <p>
+     * Note that this function never reports an error,
+     * so it is safe to pass {@code null} as {@code error}.
+     */
+    public java.lang.String toData(PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_key_file_to_data(handle(), length.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
      * Decreases the reference count of {@code key_file} by 1. If the reference count
      * reaches zero, frees the key file and all its allocated memory.
      */

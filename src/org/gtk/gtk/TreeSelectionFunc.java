@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function used by gtk_tree_selection_set_select_function() to filter
  * whether or not a row may be selected. It is called whenever a row's

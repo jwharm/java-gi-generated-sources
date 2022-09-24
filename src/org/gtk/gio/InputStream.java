@@ -159,6 +159,36 @@ public class InputStream extends org.gtk.gobject.Object {
     }
     
     /**
+     * Tries to read {@code count} bytes from the stream into the buffer starting at
+     * {@code buffer}. Will block during this read.
+     * <p>
+     * This function is similar to g_input_stream_read(), except it tries to
+     * read as many bytes as requested, only stopping on an error or end of stream.
+     * <p>
+     * On a successful read of {@code count} bytes, or if we reached the end of the
+     * stream,  {@code true} is returned, and {@code bytes_read} is set to the number of bytes
+     * read into {@code buffer}.
+     * <p>
+     * If there is an error during the operation {@code false} is returned and {@code error}
+     * is set to indicate the error status.
+     * <p>
+     * As a special exception to the normal conventions for functions that
+     * use {@link org.gtk.glib.Error}, if this function returns {@code false} (and sets {@code error}) then
+     * {@code bytes_read} will be set to the number of bytes that were successfully
+     * read before the error was encountered.  This functionality is only
+     * available from C.  If you need it from another language then you must
+     * write your own loop around g_input_stream_read().
+     */
+    public boolean readAll(byte[] buffer, long count, PointerLong bytesRead, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_input_stream_read_all(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buffer)).handle(), count, bytesRead.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Request an asynchronous read of {@code count} bytes from the stream into the
      * buffer starting at {@code buffer}.
      * <p>
@@ -182,6 +212,26 @@ public class InputStream extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Finishes an asynchronous stream read operation started with
+     * g_input_stream_read_all_async().
+     * <p>
+     * As a special exception to the normal conventions for functions that
+     * use {@link org.gtk.glib.Error}, if this function returns {@code false} (and sets {@code error}) then
+     * {@code bytes_read} will be set to the number of bytes that were successfully
+     * read before the error was encountered.  This functionality is only
+     * available from C.  If you need it from another language then you must
+     * write your own loop around g_input_stream_read_async().
+     */
+    public boolean readAllFinish(AsyncResult result, PointerLong bytesRead) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_input_stream_read_all_finish(handle(), result.handle(), bytesRead.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
     }
     
     /**

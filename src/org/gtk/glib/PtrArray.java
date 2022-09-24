@@ -70,6 +70,20 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Checks whether {@code needle} exists in {@code haystack}. If the element is found, {@code true} is
+     * returned and the element’s index is returned in {@code index_} (if non-{@code null}).
+     * Otherwise, {@code false} is returned and {@code index_} is undefined. If {@code needle} exists
+     * multiple times in {@code haystack}, the index of the first instance is returned.
+     * <p>
+     * This does pointer comparisons only. If you want to use more complex equality
+     * checks, such as string comparisons, use g_ptr_array_find_with_equal_func().
+     */
+    public static boolean find(java.lang.foreign.MemoryAddress[] haystack, java.lang.foreign.MemoryAddress needle, PointerInteger index) {
+        var RESULT = gtk_h.g_ptr_array_find(Interop.allocateNativeArray(haystack).handle(), needle, index.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Calls a function for each element of a {@link PtrArray}. {@code func} must not
      * add elements to or remove elements from the array.
      */
@@ -248,6 +262,53 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Frees the data in the array and resets the size to zero, while
+     * the underlying array is preserved for use elsewhere and returned
+     * to the caller.
+     * <p>
+     * Even if set, the {@link DestroyNotify} function will never be called
+     * on the current contents of the array and the caller is
+     * responsible for freeing the array elements.
+     * <p>
+     * An example of use:
+     * <pre>{@code <!-- language="C" -->
+     * g_autoptr(GPtrArray) chunk_buffer = g_ptr_array_new_with_free_func (g_bytes_unref);
+     * 
+     * // Some part of your application appends a number of chunks to the pointer array.
+     * g_ptr_array_add (chunk_buffer, g_bytes_new_static ("hello", 5));
+     * g_ptr_array_add (chunk_buffer, g_bytes_new_static ("world", 5));
+     * 
+     * …
+     * 
+     * // Periodically, the chunks need to be sent as an array-and-length to some
+     * // other part of the program.
+     * GBytes **chunks;
+     * gsize n_chunks;
+     * 
+     * chunks = g_ptr_array_steal (chunk_buffer, &n_chunks);
+     * for (gsize i = 0; i < n_chunks; i++)
+     *   {
+     *     // Do something with each chunk here, and then free them, since
+     *     // g_ptr_array_steal() transfers ownership of all the elements and the
+     *     // array to the caller.
+     *     …
+     * 
+     *     g_bytes_unref (chunks[i]);
+     *   }
+     * 
+     * g_free (chunks);
+     * 
+     * // After calling g_ptr_array_steal(), the pointer array can be reused for the
+     * // next set of chunks.
+     * g_assert (chunk_buffer->len == 0);
+     * }</pre>
+     */
+    public static java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, PointerLong len) {
+        var RESULT = gtk_h.g_ptr_array_steal(Interop.allocateNativeArray(array).handle(), len.handle());
+        return RESULT;
     }
     
     /**

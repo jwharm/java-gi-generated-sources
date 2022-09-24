@@ -33,6 +33,19 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * If {@code timer} has been started but not stopped, obtains the time since
+     * the timer was started. If {@code timer} has been stopped, obtains the
+     * elapsed time between the time it was started and the time it was
+     * stopped. The return value is the number of seconds elapsed,
+     * including any fractional part. The {@code microseconds} out parameter is
+     * essentially useless.
+     */
+    public double elapsed(PointerLong microseconds) {
+        var RESULT = gtk_h.g_timer_elapsed(handle(), microseconds.handle());
+        return RESULT;
+    }
+    
+    /**
      * Exposes whether the timer is currently active.
      */
     public boolean isActive() {

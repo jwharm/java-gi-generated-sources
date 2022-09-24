@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of function passed to g_clear_handle_id().
  * The implementation is expected to free the resource identified

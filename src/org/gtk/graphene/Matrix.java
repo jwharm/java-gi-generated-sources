@@ -516,6 +516,26 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Converts a {@link Matrix} to an affine transformation
+     * matrix, if the given matrix is compatible.
+     * <p>
+     * The returned values have the following layout:
+     * <p>
+     * <pre>{@code <!-- language="plain" -->
+     *   ⎛ xx  yx ⎞   ⎛  a   b  0 ⎞
+     *   ⎜ xy  yy ⎟ = ⎜  c   d  0 ⎟
+     *   ⎝ x0  y0 ⎠   ⎝ tx  ty  1 ⎠
+     * }</pre>
+     * <p>
+     * This function can be used to convert between a {@link Matrix}
+     * and an affine matrix type from other libraries.
+     */
+    public boolean to2d(PointerDouble xx, PointerDouble yx, PointerDouble xy, PointerDouble yy, PointerDouble x0, PointerDouble y0) {
+        var RESULT = gtk_h.graphene_matrix_to_2d(handle(), xx.handle(), yx.handle(), xy.handle(), yy.handle(), x0.handle(), y0.handle());
+        return RESULT;
+    }
+    
+    /**
      * Converts a {@link Matrix} to an array of floating point
      * values.
      */

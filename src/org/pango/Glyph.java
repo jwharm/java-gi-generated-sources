@@ -10,16 +10,10 @@ import java.lang.invoke.*;
 /**
  * A {@code PangoGlyph} represents a single glyph in the output form of a string.
  */
-public class Glyph {
+public class Glyph extends Alias<Integer> {
 
-    private final int value;
-    
     public Glyph(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(Glyph[] array) {

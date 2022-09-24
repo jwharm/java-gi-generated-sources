@@ -16,16 +16,10 @@ import java.lang.invoke.*;
  * <p>
  * The year is represented with four digits.
  */
-public class DateYear {
+public class DateYear extends Alias<Short> {
 
-    private final short value;
-    
     public DateYear(short value) {
         this.value = value;
-    }
-    
-    public short getValue() {
-        return this.value;
     }
     
     public static short[] getValues(DateYear[] array) {

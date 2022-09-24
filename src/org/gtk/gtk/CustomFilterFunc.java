@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * User function that is called to determine if the {@code item} should be matched.
  * <p>

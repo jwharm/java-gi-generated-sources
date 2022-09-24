@@ -514,6 +514,30 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
+     * Gets the value of an integer-valued option on {@code socket}, as with
+     * getsockopt(). (If you need to fetch a  non-integer-valued option,
+     * you will need to call getsockopt() directly.)
+     * <p>
+     * The [&lt;gio/gnetworking.h&gt;][gio-gnetworking.h]
+     * header pulls in system headers that will define most of the
+     * standard/portable socket options. For unusual socket protocols or
+     * platform-dependent options, you may need to include additional
+     * headers.
+     * <p>
+     * Note that even for socket options that are a single byte in size,
+     * {@code value} is still a pointer to a {@code gint} variable, not a {@code guchar};
+     * g_socket_get_option() will handle the conversion internally.
+     */
+    public boolean getOption(int level, int optname, PointerInteger value) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_socket_get_option(handle(), level, optname, value.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Gets the socket protocol id the socket was created with.
      * In case the protocol is unknown, -1 is returned.
      */
@@ -743,6 +767,76 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
     }
     
     /**
+     * Receive data from a socket.  For receiving multiple messages, see
+     * g_socket_receive_messages(); for easier use, see
+     * g_socket_receive() and g_socket_receive_from().
+     * <p>
+     * If {@code address} is non-{@code null} then {@code address} will be set equal to the
+     * source address of the received packet.
+     * {@code address} is owned by the caller.
+     * <p>
+     * {@code vector} must point to an array of {@link InputVector} structs and
+     * {@code num_vectors} must be the length of this array.  These structs
+     * describe the buffers that received data will be scattered into.
+     * If {@code num_vectors} is -1, then {@code vectors} is assumed to be terminated
+     * by a {@link InputVector} with a {@code null} buffer pointer.
+     * <p>
+     * As a special case, if {@code num_vectors} is 0 (in which case, {@code vectors}
+     * may of course be {@code null}), then a single byte is received and
+     * discarded. This is to facilitate the common practice of sending a
+     * single '\\0' byte for the purposes of transferring ancillary data.
+     * <p>
+     * {@code messages}, if non-{@code null}, will be set to point to a newly-allocated
+     * array of {@link SocketControlMessage} instances or {@code null} if no such
+     * messages was received. These correspond to the control messages
+     * received from the kernel, one {@link SocketControlMessage} per message
+     * from the kernel. This array is {@code null}-terminated and must be freed
+     * by the caller using g_free() after calling g_object_unref() on each
+     * element. If {@code messages} is {@code null}, any control messages received will
+     * be discarded.
+     * <p>
+     * {@code num_messages}, if non-{@code null}, will be set to the number of control
+     * messages received.
+     * <p>
+     * If both {@code messages} and {@code num_messages} are non-{@code null}, then
+     * {@code num_messages} gives the number of {@link SocketControlMessage} instances
+     * in {@code messages} (ie: not including the {@code null} terminator).
+     * <p>
+     * {@code flags} is an in/out parameter. The commonly available arguments
+     * for this are available in the {@link SocketMsgFlags} enum, but the
+     * values there are the same as the system values, and the flags
+     * are passed in as-is, so you can pass in system-specific flags too
+     * (and g_socket_receive_message() may pass system-specific flags out).
+     * Flags passed in to the parameter affect the receive operation; flags returned
+     * out of it are relevant to the specific returned message.
+     * <p>
+     * As with g_socket_receive(), data may be discarded if {@code socket} is
+     * {@link SocketType#DATAGRAM} or {@link SocketType#SEQPACKET} and you do not
+     * provide enough buffer space to read a complete message. You can pass
+     * {@link SocketMsgFlags#PEEK} in {@code flags} to peek at the current message without
+     * removing it from the receive queue, but there is no portable way to find
+     * out the length of the message other than by reading it into a
+     * sufficiently-large buffer.
+     * <p>
+     * If the socket is in blocking mode the call will block until there
+     * is some data to receive, the connection is closed, or there is an
+     * error. If there is no data available and the socket is in
+     * non-blocking mode, a {@link IOErrorEnum#WOULD_BLOCK} error will be
+     * returned. To be notified when data is available, wait for the
+     * {@link org.gtk.glib.IOCondition#IN} condition.
+     * <p>
+     * On error -1 is returned and {@code error} is set accordingly.
+     */
+    public long receiveMessage(SocketAddress[] address, InputVector[] vectors, int numVectors, SocketControlMessage[] messages, PointerInteger numMessages, PointerInteger flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_socket_receive_message(handle(), Interop.allocateNativeArray(address).handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages.handle(), flags.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
+    }
+    
+    /**
      * Receive multiple data messages from {@code socket} in one go.  This is the most
      * complicated and fully-featured version of this call. For easier use, see
      * g_socket_receive(), g_socket_receive_from(), and g_socket_receive_message().
@@ -891,6 +985,24 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
             throw new GErrorException(GERROR);
         }
         return RESULT;
+    }
+    
+    /**
+     * This behaves exactly the same as g_socket_send_message(), except that
+     * the choice of timeout behavior is determined by the {@code timeout_us} argument
+     * rather than by {@code socket}'s properties.
+     * <p>
+     * On error {@link PollableReturn#FAILED} is returned and {@code error} is set accordingly, or
+     * if the socket is currently not writable {@link PollableReturn#WOULD_BLOCK} is
+     * returned. {@code bytes_written} will contain 0 in both cases.
+     */
+    public PollableReturn sendMessageWithTimeout(SocketAddress address, OutputVector[] vectors, int numVectors, SocketControlMessage[] messages, int numMessages, int flags, long timeoutUs, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_socket_send_message_with_timeout(handle(), address.handle(), Interop.allocateNativeArray(vectors).handle(), numVectors, Interop.allocateNativeArray(messages).handle(), numMessages, flags, timeoutUs, bytesWritten.handle(), cancellable.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return PollableReturn.fromValue(RESULT);
     }
     
     /**

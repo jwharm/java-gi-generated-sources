@@ -190,6 +190,15 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
     }
     
     /**
+     * Retrieves the required version of OpenGL.
+     * <p>
+     * See {@link GLArea#setRequiredVersion}.
+     */
+    public void getRequiredVersion(PointerInteger major, PointerInteger minor) {
+        gtk_h.gtk_gl_area_get_required_version(handle(), major.handle(), minor.handle());
+    }
+    
+    /**
      * Returns whether the {@code GtkGLArea} should use OpenGL ES.
      * <p>
      * See {@link GLArea#setUseEs}.

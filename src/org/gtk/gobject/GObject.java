@@ -313,6 +313,20 @@ public final class GObject {
     }
     
     /**
+     * Disconnects a handler from {@code instance} so it will not be called during
+     * any future or currently ongoing emissions of the signal it has been
+     * connected to. The {@code handler_id_ptr} is then set to zero, which is never a valid handler ID value (see g_signal_connect()).
+     * <p>
+     * If the handler ID is 0 then this function does nothing.
+     * <p>
+     * There is also a macro version of this function so that the code
+     * will be inlined.
+     */
+    public static void clearSignalHandler(PointerLong handlerIdPtr, Object instance) {
+        gtk_h.g_clear_signal_handler(handlerIdPtr.handle(), instance.handle());
+    }
+    
+    /**
      * This function is meant to be called from the {@code complete_type_info}
      * function of a {@link TypePlugin} implementation, as in the following
      * example:
@@ -1101,6 +1115,17 @@ public final class GObject {
     }
     
     /**
+     * Internal function to parse a signal name into its {@code signal_id}
+     * and {@code detail} quark.
+     */
+    public static boolean signalParseName(java.lang.String detailedSignal, Type itype, PointerInteger signalIdP, org.gtk.glib.Quark detailP, boolean forceDetailQuark) {
+        PointerInteger detailPPOINTER = new PointerInteger(detailP.getValue());
+        var RESULT = gtk_h.g_signal_parse_name(Interop.allocateNativeString(detailedSignal).handle(), itype.getValue(), signalIdP.handle(), detailPPOINTER.handle(), forceDetailQuark ? 1 : 0);
+        detailP.setValue(detailPPOINTER.get());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Queries the signal system for in-depth information about a
      * specific signal. This function will fill in a user-provided
      * structure to hold signal-specific information. If an invalid
@@ -1324,6 +1349,10 @@ public final class GObject {
     public static boolean typeCheckValueHolds(Value value, Type type) {
         var RESULT = gtk_h.g_type_check_value_holds(value.handle(), type.getValue());
         return (RESULT != 0);
+    }
+    
+    public static void typeClassAdjustPrivateOffset(java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
+        gtk_h.g_type_class_adjust_private_offset(gClass, privateSizeOrOffset.handle());
     }
     
     /**

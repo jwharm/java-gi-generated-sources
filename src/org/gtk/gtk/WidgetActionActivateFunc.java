@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of the callback functions used for activating
  * actions installed with gtk_widget_class_install_action().

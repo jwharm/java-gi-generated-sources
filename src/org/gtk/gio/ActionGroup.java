@@ -250,6 +250,40 @@ public interface ActionGroup extends io.github.jwharm.javagi.NativeAddress {
         return (RESULT != 0);
     }
     
+    /**
+     * Queries all aspects of the named action within an {@code action_group}.
+     * <p>
+     * This function acquires the information available from
+     * g_action_group_has_action(), g_action_group_get_action_enabled(),
+     * g_action_group_get_action_parameter_type(),
+     * g_action_group_get_action_state_type(),
+     * g_action_group_get_action_state_hint() and
+     * g_action_group_get_action_state() with a single function call.
+     * <p>
+     * This provides two main benefits.
+     * <p>
+     * The first is the improvement in efficiency that comes with not having
+     * to perform repeated lookups of the action in order to discover
+     * different things about it.  The second is that implementing
+     * {@link ActionGroup} can now be done by only overriding this one virtual
+     * function.
+     * <p>
+     * The interface provides a default implementation of this function that
+     * calls the individual functions, as required, to fetch the
+     * information.  The interface also provides default implementations of
+     * those functions that call this function.  All implementations,
+     * therefore, must override either this function or all of the others.
+     * <p>
+     * If the action exists, {@code true} is returned and any of the requested
+     * fields (as indicated by having a non-{@code null} reference passed in) are
+     * filled.  If the action doesn't exist, {@code false} is returned and the
+     * fields may or may not have been modified.
+     */
+    public default boolean queryAction(java.lang.String actionName, PointerBoolean enabled, org.gtk.glib.VariantType[] parameterType, org.gtk.glib.VariantType[] stateType, org.gtk.glib.Variant[] stateHint, org.gtk.glib.Variant[] state) {
+        var RESULT = gtk_h.g_action_group_query_action(handle(), Interop.allocateNativeString(actionName).handle(), enabled.handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(stateType).handle(), Interop.allocateNativeArray(stateHint).handle(), Interop.allocateNativeArray(state).handle());
+        return (RESULT != 0);
+    }
+    
     @FunctionalInterface
     public interface ActionAddedHandler {
         void signalReceived(ActionGroup source, java.lang.String actionName);

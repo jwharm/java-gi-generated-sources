@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Specifies the type of a comparison function used to compare two
  * values.  The function should return a negative integer if the first

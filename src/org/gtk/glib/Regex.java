@@ -489,6 +489,26 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         gtk_h.g_regex_unref(handle());
     }
     
+    /**
+     * Checks whether {@code replacement} is a valid replacement string
+     * (see g_regex_replace()), i.e. that all escape sequences in
+     * it are valid.
+     * <p>
+     * If {@code has_references} is not {@code null} then {@code replacement} is checked
+     * for pattern references. For instance, replacement text 'foo\\n'
+     * does not contain references and may be evaluated without information
+     * about actual match, but '\\0\\1' (whole match followed by first
+     * subpattern) requires valid {@link MatchInfo} object.
+     */
+    public static boolean checkReplacement(java.lang.String replacement, PointerBoolean hasReferences) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_regex_check_replacement(Interop.allocateNativeString(replacement).handle(), hasReferences.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
     public static Quark errorQuark() {
         var RESULT = gtk_h.g_regex_error_quark();
         return new Quark(RESULT);

@@ -1,5 +1,7 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Saves a {@code GdkPixbuf} into a standard C file stream.
  * <p>

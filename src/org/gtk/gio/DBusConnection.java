@@ -812,6 +812,83 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     }
     
     /**
+     * Asynchronously sends {@code message} to the peer represented by {@code connection}.
+     * <p>
+     * Unless {@code flags} contain the
+     * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag, the serial number
+     * will be assigned by {@code connection} and set on {@code message} via
+     * g_dbus_message_set_serial(). If {@code out_serial} is not {@code null}, then the
+     * serial number used will be written to this location prior to
+     * submitting the message to the underlying transport. While it has a {@code volatile}
+     * qualifier, this is a historical artifact and the argument passed to it should
+     * not be {@code volatile}.
+     * <p>
+     * If {@code connection} is closed then the operation will fail with
+     * {@link IOErrorEnum#CLOSED}. If {@code message} is not well-formed,
+     * the operation fails with {@link IOErrorEnum#INVALID_ARGUMENT}.
+     * <p>
+     * See this [server][gdbus-server] and [client][gdbus-unix-fd-client]
+     * for an example of how to use this low-level API to send and receive
+     * UNIX file descriptors.
+     * <p>
+     * Note that {@code message} must be unlocked, unless {@code flags} contain the
+     * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag.
+     */
+    public boolean sendMessage(DBusMessage message, int flags, PointerInteger outSerial) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dbus_connection_send_message(handle(), message.handle(), flags, outSerial.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Asynchronously sends {@code message} to the peer represented by {@code connection}.
+     * <p>
+     * Unless {@code flags} contain the
+     * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag, the serial number
+     * will be assigned by {@code connection} and set on {@code message} via
+     * g_dbus_message_set_serial(). If {@code out_serial} is not {@code null}, then the
+     * serial number used will be written to this location prior to
+     * submitting the message to the underlying transport. While it has a {@code volatile}
+     * qualifier, this is a historical artifact and the argument passed to it should
+     * not be {@code volatile}.
+     * <p>
+     * If {@code connection} is closed then the operation will fail with
+     * {@link IOErrorEnum#CLOSED}. If {@code cancellable} is canceled, the operation will
+     * fail with {@link IOErrorEnum#CANCELLED}. If {@code message} is not well-formed,
+     * the operation fails with {@link IOErrorEnum#INVALID_ARGUMENT}.
+     * <p>
+     * This is an asynchronous method. When the operation is finished, {@code callback}
+     * will be invoked in the
+     * [thread-default main context][g-main-context-push-thread-default]
+     * of the thread you are calling this method from. You can then call
+     * g_dbus_connection_send_message_with_reply_finish() to get the result of the operation.
+     * See g_dbus_connection_send_message_with_reply_sync() for the synchronous version.
+     * <p>
+     * Note that {@code message} must be unlocked, unless {@code flags} contain the
+     * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag.
+     * <p>
+     * See this [server][gdbus-server] and [client][gdbus-unix-fd-client]
+     * for an example of how to use this low-level API to send and receive
+     * UNIX file descriptors.
+     */
+    public void sendMessageWithReply(DBusMessage message, int flags, int timeoutMsec, PointerInteger outSerial, Cancellable cancellable, AsyncReadyCallback callback) {
+        try {
+            gtk_h.g_dbus_connection_send_message_with_reply(handle(), message.handle(), flags, timeoutMsec, outSerial.handle(), cancellable.handle(), 
+                    Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)));
+        } catch (IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
      * Finishes an operation started with g_dbus_connection_send_message_with_reply().
      * <p>
      * Note that {@code error} is only set if a local in-process error
@@ -826,6 +903,47 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     public DBusMessage sendMessageWithReplyFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_dbus_connection_send_message_with_reply_finish(handle(), res.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new DBusMessage(References.get(RESULT, true));
+    }
+    
+    /**
+     * Synchronously sends {@code message} to the peer represented by {@code connection}
+     * and blocks the calling thread until a reply is received or the
+     * timeout is reached. See g_dbus_connection_send_message_with_reply()
+     * for the asynchronous version of this method.
+     * <p>
+     * Unless {@code flags} contain the
+     * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag, the serial number
+     * will be assigned by {@code connection} and set on {@code message} via
+     * g_dbus_message_set_serial(). If {@code out_serial} is not {@code null}, then the
+     * serial number used will be written to this location prior to
+     * submitting the message to the underlying transport. While it has a {@code volatile}
+     * qualifier, this is a historical artifact and the argument passed to it should
+     * not be {@code volatile}.
+     * <p>
+     * If {@code connection} is closed then the operation will fail with
+     * {@link IOErrorEnum#CLOSED}. If {@code cancellable} is canceled, the operation will
+     * fail with {@link IOErrorEnum#CANCELLED}. If {@code message} is not well-formed,
+     * the operation fails with {@link IOErrorEnum#INVALID_ARGUMENT}.
+     * <p>
+     * Note that {@code error} is only set if a local in-process error
+     * occurred. That is to say that the returned {@link DBusMessage} object may
+     * be of type {@link DBusMessageType#ERROR}. Use
+     * g_dbus_message_to_gerror() to transcode this to a {@link org.gtk.glib.Error}.
+     * <p>
+     * See this [server][gdbus-server] and [client][gdbus-unix-fd-client]
+     * for an example of how to use this low-level API to send and receive
+     * UNIX file descriptors.
+     * <p>
+     * Note that {@code message} must be unlocked, unless {@code flags} contain the
+     * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag.
+     */
+    public DBusMessage sendMessageWithReplySync(DBusMessage message, int flags, int timeoutMsec, PointerInteger outSerial, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_dbus_connection_send_message_with_reply_sync(handle(), message.handle(), flags, timeoutMsec, outSerial.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

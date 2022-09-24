@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of the callback functions used for iterating over the
  * cell renderers and their allocated areas inside a {@code GtkCellArea},

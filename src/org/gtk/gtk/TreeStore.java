@@ -48,7 +48,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
     }
     
     private static Reference constructNewv(int nColumns, org.gtk.gobject.Type[] types) {
-        Reference RESULT = References.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(types).handle()), true);
+        Reference RESULT = References.get(gtk_h.gtk_tree_store_newv(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle()), true);
         return RESULT;
     }
     
@@ -215,7 +215,7 @@ public class TreeStore extends org.gtk.gobject.Object implements Buildable, Tree
      * or a method on the {@code GtkTreeModel} interface is called.
      */
     public void setColumnTypes(int nColumns, org.gtk.gobject.Type[] types) {
-        gtk_h.gtk_tree_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(types).handle());
+        gtk_h.gtk_tree_store_set_column_types(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle());
     }
     
     /**

@@ -239,6 +239,44 @@ public class Display extends org.gtk.gobject.Object {
     }
     
     /**
+     * Returns the keyvals bound to {@code keycode}.
+     * <p>
+     * The Nth {@code GdkKeymapKey} in {@code keys} is bound to the Nth keyval in {@code keyvals}.
+     * <p>
+     * When a keycode is pressed by the user, the keyval from
+     * this list of entries is selected by considering the effective
+     * keyboard group and level.
+     * <p>
+     * Free the returned arrays with g_free().
+     */
+    public boolean mapKeycode(int keycode, KeymapKey[] keys, int[] keyvals, PointerInteger nEntries) {
+        var RESULT = gtk_h.gdk_display_map_keycode(handle(), keycode, Interop.allocateNativeArray(keys).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, keyvals)).handle(), nEntries.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Obtains a list of keycode/group/level combinations that will
+     * generate {@code keyval}.
+     * <p>
+     * Groups and levels are two kinds of keyboard mode; in general, the level
+     * determines whether the top or bottom symbol on a key is used, and the
+     * group determines whether the left or right symbol is used.
+     * <p>
+     * On US keyboards, the shift key changes the keyboard level, and there
+     * are no groups. A group switch key might convert a keyboard between
+     * Hebrew to English modes, for example.
+     * <p>
+     * {@code GdkEventKey} contains a {@code group} field that indicates the active
+     * keyboard group. The level is computed from the modifier mask.
+     * <p>
+     * The returned array should be freed with g_free().
+     */
+    public boolean mapKeyval(int keyval, KeymapKey[] keys, PointerInteger nKeys) {
+        var RESULT = gtk_h.gdk_display_map_keyval(handle(), keyval, Interop.allocateNativeArray(keys).handle(), nKeys.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Indicates to the GUI environment that the application has
      * finished loading, using a given identifier.
      * <p>
@@ -314,6 +352,32 @@ public class Display extends org.gtk.gobject.Object {
      */
     public void sync() {
         gtk_h.gdk_display_sync(handle());
+    }
+    
+    /**
+     * Translates the contents of a {@code GdkEventKey} into a keyval, effective group,
+     * and level.
+     * <p>
+     * Modifiers that affected the translation and are thus unavailable for
+     * application use are returned in {@code consumed_modifiers}.
+     * <p>
+     * The {@code effective_group} is the group that was actually used for the
+     * translation; some keys such as Enter are not affected by the active
+     * keyboard group. The {@code level} is derived from {@code state}.
+     * <p>
+     * {@code consumed_modifiers} gives modifiers that should be masked out
+     * from {@code state} when comparing this key press to a keyboard shortcut.
+     * For instance, on a US keyboard, the {@code plus} symbol is shifted, so
+     * when comparing a key press to a {@code <Control>plus} accelerator {@code <Shift>}
+     * should be masked out.
+     * <p>
+     * This function should rarely be needed, since {@code GdkEventKey} already
+     * contains the translated keyval. It is exported for the benefit of
+     * virtualized test environments.
+     */
+    public boolean translateKey(int keycode, int state, int group, PointerInteger keyval, PointerInteger effectiveGroup, PointerInteger level, PointerInteger consumed) {
+        var RESULT = gtk_h.gdk_display_translate_key(handle(), keycode, state, group, keyval.handle(), effectiveGroup.handle(), level.handle(), consumed.handle());
+        return (RESULT != 0);
     }
     
     /**

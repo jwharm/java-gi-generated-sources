@@ -203,11 +203,30 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     }
     
     /**
+     * Gets the current step and page the increments
+     * used by {@code spin_button}.
+     * <p>
+     * See {@link SpinButton#setIncrements}.
+     */
+    public void getIncrements(PointerDouble step, PointerDouble page) {
+        gtk_h.gtk_spin_button_get_increments(handle(), step.handle(), page.handle());
+    }
+    
+    /**
      * Returns whether non-numeric text can be typed into the spin button.
      */
     public boolean getNumeric() {
         var RESULT = gtk_h.gtk_spin_button_get_numeric(handle());
         return (RESULT != 0);
+    }
+    
+    /**
+     * Gets the range allowed for {@code spin_button}.
+     * <p>
+     * See {@link SpinButton#setRange}.
+     */
+    public void getRange(PointerDouble min, PointerDouble max) {
+        gtk_h.gtk_spin_button_get_range(handle(), min.handle(), max.handle());
     }
     
     /**

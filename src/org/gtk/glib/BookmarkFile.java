@@ -77,6 +77,30 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Gets the registration information of {@code app_name} for the bookmark for
+     * {@code uri}.  See g_bookmark_file_set_application_info() for more information about
+     * the returned data.
+     * <p>
+     * The string returned in {@code app_exec} must be freed.
+     * <p>
+     * In the event the URI cannot be found, {@code false} is returned and
+     * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.  In the
+     * event that no application with name {@code app_name} has registered a bookmark
+     * for {@code uri},  {@code false} is returned and error is set to
+     * {@link BookmarkFileError#APP_NOT_REGISTERED}. In the event that unquoting
+     * the command line fails, an error of the {@code G_SHELL_ERROR} domain is
+     * set and {@code false} is returned.
+     */
+    public boolean getApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String[] exec, PointerInteger count, DateTime[] stamp) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_bookmark_file_get_application_info(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeArray(exec).handle(), count.handle(), Interop.allocateNativeArray(stamp).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Retrieves the description of the bookmark for {@code uri}.
      * <p>
      * In the event the URI cannot be found, {@code null} is returned and

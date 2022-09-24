@@ -240,6 +240,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Prepares to poll sources within a main loop. The resulting information
+     * for polling is determined by calling g_main_context_query ().
+     * <p>
+     * You must have successfully acquired the context with
+     * g_main_context_acquire() before you may call this function.
+     */
+    public boolean prepare(PointerInteger priority) {
+        var RESULT = gtk_h.g_main_context_prepare(handle(), priority.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Acquires {@code context} and sets it as the thread-default context for the
      * current thread. This will cause certain asynchronous operations
      * (such as most [gio][gio]-based I/O) which are
@@ -281,6 +293,20 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      */
     public void pushThreadDefault() {
         gtk_h.g_main_context_push_thread_default(handle());
+    }
+    
+    /**
+     * Determines information necessary to poll this main loop. You should
+     * be careful to pass the resulting {@code fds} array and its length {@code n_fds}
+     * as is when calling g_main_context_check(), as this function relies
+     * on assumptions made when the array is filled.
+     * <p>
+     * You must have successfully acquired the context with
+     * g_main_context_acquire() before you may call this function.
+     */
+    public int query(int maxPriority, PointerInteger timeout, PollFD[] fds, int nFds) {
+        var RESULT = gtk_h.g_main_context_query(handle(), maxPriority, timeout.handle(), Interop.allocateNativeArray(fds).handle(), nFds);
+        return RESULT;
     }
     
     /**

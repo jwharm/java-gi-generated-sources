@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * Whenever {@code drawing_area} needs to redraw, this function will be called.
  * <p>

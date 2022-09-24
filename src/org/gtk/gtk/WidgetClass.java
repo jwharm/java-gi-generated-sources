@@ -134,6 +134,24 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns details about the {@code index_}-th action that has been
+     * installed for {@code widget_class} during class initialization.
+     * <p>
+     * See {@link WidgetClass#installAction} for details on
+     * how to install actions.
+     * <p>
+     * Note that this function will also return actions defined
+     * by parent classes. You can identify those by looking
+     * at {@code owner}.
+     */
+    public boolean queryAction(int index, Type owner, java.lang.String[] actionName, org.gtk.glib.VariantType[] parameterType, java.lang.String[] propertyName) {
+        PointerLong ownerPOINTER = new PointerLong(owner.getValue());
+        var RESULT = gtk_h.gtk_widget_class_query_action(handle(), index, ownerPOINTER.handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(propertyName).handle());
+        owner.setValue(ownerPOINTER.get());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Sets the accessible role used by the given {@code GtkWidget} class.
      * <p>
      * Different accessible roles have different states, and are

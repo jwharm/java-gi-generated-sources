@@ -135,6 +135,15 @@ public class PrintContext extends org.gtk.gobject.Object {
     }
     
     /**
+     * Obtains the hardware printer margins of the {@code GtkPrintContext},
+     * in units.
+     */
+    public boolean getHardMargins(PointerDouble top, PointerDouble bottom, PointerDouble left, PointerDouble right) {
+        var RESULT = gtk_h.gtk_print_context_get_hard_margins(handle(), top.handle(), bottom.handle(), left.handle(), right.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Obtains the height of the {@code GtkPrintContext}, in pixels.
      */
     public double getHeight() {

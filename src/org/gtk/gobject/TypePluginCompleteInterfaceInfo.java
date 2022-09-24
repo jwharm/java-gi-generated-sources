@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of the {@code complete_interface_info} function of {@link TypePluginClass}.
  */

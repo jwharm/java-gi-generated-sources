@@ -1,5 +1,7 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A {@link WeakNotify} function can be added to an object as a callback that gets
  * triggered when the object is finalized.

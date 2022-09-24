@@ -518,6 +518,72 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Parses {@code uri_ref} (which can be an
+     * [absolute or relative URI][relative-absolute-uris]) according to {@code flags}, and
+     * returns the pieces. Any component that doesn't appear in {@code uri_ref} will be
+     * returned as {@code null} (but note that all URIs always have a path component,
+     * though it may be the empty string).
+     * <p>
+     * If {@code flags} contains {@link UriFlags#ENCODED}, then {@code %}-encoded characters in
+     * {@code uri_ref} will remain encoded in the output strings. (If not,
+     * then all such characters will be decoded.) Note that decoding will
+     * only work if the URI components are ASCII or UTF-8, so you will
+     * need to use {@link UriFlags#ENCODED} if they are not.
+     * <p>
+     * Note that the {@link UriFlags#HAS_PASSWORD} and
+     * {@link UriFlags#HAS_AUTH_PARAMS} {@code flags} are ignored by g_uri_split(),
+     * since it always returns only the full userinfo; use
+     * g_uri_split_with_user() if you want it split up.
+     */
+    public static boolean split(java.lang.String uriRef, int flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_split(Interop.allocateNativeString(uriRef).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Parses {@code uri_string} (which must be an [absolute URI][relative-absolute-uris])
+     * according to {@code flags}, and returns the pieces relevant to connecting to a host.
+     * See the documentation for g_uri_split() for more details; this is
+     * mostly a wrapper around that function with simpler arguments.
+     * However, it will return an error if {@code uri_string} is a relative URI,
+     * or does not contain a hostname component.
+     */
+    public static boolean splitNetwork(java.lang.String uriString, int flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_split_network(Interop.allocateNativeString(uriString).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Parses {@code uri_ref} (which can be an
+     * [absolute or relative URI][relative-absolute-uris]) according to {@code flags}, and
+     * returns the pieces. Any component that doesn't appear in {@code uri_ref} will be
+     * returned as {@code null} (but note that all URIs always have a path component,
+     * though it may be the empty string).
+     * <p>
+     * See g_uri_split(), and the definition of {@link UriFlags}, for more
+     * information on the effect of {@code flags}. Note that {@code password} will only
+     * be parsed out if {@code flags} contains {@link UriFlags#HAS_PASSWORD}, and
+     * {@code auth_params} will only be parsed out if {@code flags} contains
+     * {@link UriFlags#HAS_AUTH_PARAMS}.
+     */
+    public static boolean splitWithUser(java.lang.String uriRef, int flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_uri_split_with_user(Interop.allocateNativeString(uriRef).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return (RESULT != 0);
+    }
+    
+    /**
      * Unescapes a segment of an escaped string as binary data.
      * <p>
      * Note that in contrast to g_uri_unescape_string(), this does allow

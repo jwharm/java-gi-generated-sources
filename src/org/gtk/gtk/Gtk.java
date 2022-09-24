@@ -197,6 +197,59 @@ public final class Gtk {
     }
     
     /**
+     * Parses a string representing an accelerator.
+     * <p>
+     * The format looks like “{@code <Control>a}” or “{@code <Shift><Alt>F1}”.
+     * <p>
+     * The parser is fairly liberal and allows lower or upper case, and also
+     * abbreviations such as “{@code <Ctl>}” and “{@code <Ctrl>}”.
+     * <p>
+     * Key names are parsed using {@link Gdk#keyvalFromName}. For character keys
+     * the name is not the symbol, but the lowercase name, e.g. one would use
+     * “{@code <Ctrl>minus}” instead of “{@code <Ctrl>-}”.
+     * <p>
+     * Modifiers are enclosed in angular brackets {@code <>}, and match the
+     * {@code Gdk.ModifierType} mask:
+     * <p>
+     * <ul>
+     * <li>{@code <Shift>} for {@code GDK_SHIFT_MASK}
+     * <li>{@code <Ctrl>} for {@code GDK_CONTROL_MASK}
+     * <li>{@code <Alt>} for {@code GDK_ALT_MASK}
+     * <li>{@code <Meta>} for {@code GDK_META_MASK}
+     * <li>{@code <Super>} for {@code GDK_SUPER_MASK}
+     * <li>{@code <Hyper>} for {@code GDK_HYPER_MASK}
+     * </ul>
+     * <p>
+     * If the parse operation fails, {@code accelerator_key} and {@code accelerator_mods} will
+     * be set to 0 (zero).
+     */
+    public static boolean acceleratorParse(java.lang.String accelerator, PointerInteger acceleratorKey, PointerInteger acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_parse(Interop.allocateNativeString(accelerator).handle(), acceleratorKey.handle(), acceleratorMods.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Parses a string representing an accelerator.
+     * <p>
+     * This is similar to {@link Gtk#acceleratorParse} but handles keycodes as
+     * well. This is only useful for system-level components, applications should
+     * use {@link Gtk#acceleratorParse} instead.
+     * <p>
+     * If {@code accelerator_codes} is given and the result stored in it is non-{@code null},
+     * the result must be freed with g_free().
+     * <p>
+     * If a keycode is present in the accelerator and no {@code accelerator_codes}
+     * is given, the parse will fail.
+     * <p>
+     * If the parse fails, {@code accelerator_key}, {@code accelerator_mods} and
+     * {@code accelerator_codes} will be set to 0 (zero).
+     */
+    public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, org.gtk.gdk.Display display, PointerInteger acceleratorKey, int[] acceleratorCodes, PointerInteger acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_parse_with_keycode(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, acceleratorCodes)).handle(), acceleratorMods.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Determines whether a given keyval and modifier mask constitute
      * a valid keyboard accelerator.
      * <p>
@@ -219,6 +272,39 @@ public final class Gtk {
     
     public static void accessibleStateInitValue(AccessibleState state, org.gtk.gobject.Value value) {
         gtk_h.gtk_accessible_state_init_value(state.getValue(), value.handle());
+    }
+    
+    /**
+     * Initializes {@code iter} to point to {@code target}.
+     * <p>
+     * If {@code target} is not found, finds the next value after it.
+     * If no value >= {@code target} exists in {@code set}, this function returns {@code false}.
+     */
+    public static boolean bitsetIterInitAt(BitsetIter iter, Bitset set, int target, PointerInteger value) {
+        var RESULT = gtk_h.gtk_bitset_iter_init_at(iter.handle(), set.handle(), target, value.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Initializes an iterator for {@code set} and points it to the first
+     * value in {@code set}.
+     * <p>
+     * If {@code set} is empty, {@code false} is returned and {@code value} is set to {@code G_MAXUINT}.
+     */
+    public static boolean bitsetIterInitFirst(BitsetIter iter, Bitset set, PointerInteger value) {
+        var RESULT = gtk_h.gtk_bitset_iter_init_first(iter.handle(), set.handle(), value.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Initializes an iterator for {@code set} and points it to the last
+     * value in {@code set}.
+     * <p>
+     * If {@code set} is empty, {@code false} is returned.
+     */
+    public static boolean bitsetIterInitLast(BitsetIter iter, Bitset set, PointerInteger value) {
+        var RESULT = gtk_h.gtk_bitset_iter_init_last(iter.handle(), set.handle(), value.handle());
+        return (RESULT != 0);
     }
     
     public static org.gtk.glib.Quark builderErrorQuark() {
@@ -502,6 +588,16 @@ public final class Gtk {
         return RESULT;
     }
     
+    /**
+     * Converts a color from HSV space to RGB.
+     * <p>
+     * Input values must be in the [0.0, 1.0] range;
+     * output values will be in the same range.
+     */
+    public static void hsvToRgb(float h, float s, float v, PointerFloat r, PointerFloat g, PointerFloat b) {
+        gtk_h.gtk_hsv_to_rgb(h, s, v, r.handle(), g.handle(), b.handle());
+    }
+    
     public static org.gtk.glib.Quark iconThemeErrorQuark() {
         var RESULT = gtk_h.gtk_icon_theme_error_quark();
         return new org.gtk.glib.Quark(RESULT);
@@ -779,6 +875,16 @@ public final class Gtk {
      */
     public static void renderOption(StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         gtk_h.gtk_render_option(context.handle(), cr.handle(), x, y, width, height);
+    }
+    
+    /**
+     * Converts a color from RGB space to HSV.
+     * <p>
+     * Input values must be in the [0.0, 1.0] range;
+     * output values will be in the same range.
+     */
+    public static void rgbToHsv(float r, float g, float b, PointerFloat h, PointerFloat s, PointerFloat v) {
+        gtk_h.gtk_rgb_to_hsv(r, g, b, h.handle(), s.handle(), v.handle());
     }
     
     /**

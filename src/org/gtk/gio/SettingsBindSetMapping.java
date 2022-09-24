@@ -1,5 +1,7 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type for the function that is used to convert an object property
  * value to a {@link org.gtk.glib.Variant} for storing it in {@link Settings}.

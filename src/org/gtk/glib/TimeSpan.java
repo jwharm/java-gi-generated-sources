@@ -10,16 +10,10 @@ import java.lang.invoke.*;
 /**
  * A value representing an interval of time, in microseconds.
  */
-public class TimeSpan {
+public class TimeSpan extends Alias<Long> {
 
-    private final long value;
-    
     public TimeSpan(long value) {
         this.value = value;
-    }
-    
-    public long getValue() {
-        return this.value;
     }
     
     public static long[] getValues(TimeSpan[] array) {

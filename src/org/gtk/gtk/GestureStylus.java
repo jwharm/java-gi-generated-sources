@@ -37,6 +37,39 @@ public class GestureStylus extends GestureSingle {
     }
     
     /**
+     * Returns the current value for the requested {@code axis}.
+     * <p>
+     * This function must be called from the handler of one of the
+     * {@code Gtk.GestureStylus::motion},
+     * {@code Gtk.GestureStylus::proximity}
+     * signals.
+     */
+    public boolean getAxis(org.gtk.gdk.AxisUse axis, PointerDouble value) {
+        var RESULT = gtk_h.gtk_gesture_stylus_get_axis(handle(), axis.getValue(), value.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
+     * Returns the accumulated backlog of tracking information.
+     * <p>
+     * By default, GTK will limit rate of input events. On stylus input
+     * where accuracy of strokes is paramount, this function returns the
+     * accumulated coordinate/timing state before the emission of the
+     * current [Gtk.GestureStylus::motion] signal.
+     * <p>
+     * This function may only be called within a {@code Gtk.GestureStylus::motion}
+     * signal handler, the state given in this signal and obtainable through
+     * {@link GestureStylus#getAxis} express the latest (most up-to-date)
+     * state in motion history.
+     * <p>
+     * The {@code backlog} is provided in chronological order.
+     */
+    public boolean getBacklog(org.gtk.gdk.TimeCoord[] backlog, PointerInteger nElems) {
+        var RESULT = gtk_h.gtk_gesture_stylus_get_backlog(handle(), Interop.allocateNativeArray(backlog).handle(), nElems.handle());
+        return (RESULT != 0);
+    }
+    
+    /**
      * Returns the {@code GdkDeviceTool} currently driving input through this gesture.
      * <p>
      * This function must be called from the handler of one of the

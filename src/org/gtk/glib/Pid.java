@@ -16,16 +16,10 @@ import java.lang.invoke.*;
  * GPid is used in GLib only for descendant processes spawned with
  * the g_spawn functions.
  */
-public class Pid {
+public class Pid extends Alias<Integer> {
 
-    private final int value;
-    
     public Pid(int value) {
         this.value = value;
-    }
-    
-    public int getValue() {
-        return this.value;
     }
     
     public static int[] getValues(Pid[] array) {

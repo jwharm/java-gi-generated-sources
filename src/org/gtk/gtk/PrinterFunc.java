@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type of function passed to gtk_enumerate_printers().
  * <p>

@@ -1,5 +1,7 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * A function which calculates display values from raw values in the model.
  * It must fill {@code value} with the display value for the column {@code column} in the

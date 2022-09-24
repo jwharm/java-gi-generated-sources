@@ -1,5 +1,7 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+
 /**
  * The type used for functions that operate on test fixtures.  This is
  * used for the fixture setup and teardown functions as well as for the
