@@ -991,6 +991,15 @@ public final class GLib {
     }
     
     /**
+     * Decode a sequence of Base-64 encoded text into binary data
+     * by overwriting the input data.
+     */
+    public static PointerByte base64DecodeInplace(byte[] text, PointerLong outLen) {
+        var RESULT = gtk_h.g_base64_decode_inplace(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, text)).handle(), outLen.handle());
+        return new PointerByte(RESULT);
+    }
+    
+    /**
      * Incrementally decode a sequence of binary data from its Base-64 stringified
      * representation. By calling this function multiple times you can convert
      * data in chunks to avoid having to have the full encoded data in memory.
@@ -1175,6 +1184,17 @@ public final class GLib {
     }
     
     /**
+     * Frees the memory allocated by the {@link ByteArray}. If {@code free_segment} is
+     * {@code true} it frees the actual byte data. If the reference count of
+     * {@code array} is greater than one, the {@link ByteArray} wrapper is preserved but
+     * the size of {@code array} will be set to zero.
+     */
+    public static PointerByte byteArrayFree(byte[] array, boolean freeSegment) {
+        var RESULT = gtk_h.g_byte_array_free(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle(), freeSegment ? 1 : 0);
+        return new PointerByte(RESULT);
+    }
+    
+    /**
      * Transfers the data from the {@link ByteArray} into a new immutable {@link Bytes}.
      * <p>
      * The {@link ByteArray} is freed unless the reference count of {@code array} is greater
@@ -1187,6 +1207,16 @@ public final class GLib {
     public static Bytes byteArrayFreeToBytes(byte[] array) {
         var RESULT = gtk_h.g_byte_array_free_to_bytes(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle());
         return new Bytes(References.get(RESULT, true));
+    }
+    
+    /**
+     * Frees the data in the array and resets the size to zero, while
+     * the underlying array is preserved for use elsewhere and returned
+     * to the caller.
+     */
+    public static PointerByte byteArraySteal(byte[] array, PointerLong len) {
+        var RESULT = gtk_h.g_byte_array_steal(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle(), len.handle());
+        return new PointerByte(RESULT);
     }
     
     /**
@@ -5264,6 +5294,11 @@ public final class GLib {
         return RESULT;
     }
     
+    public static PointerLong sliceGetConfigState(SliceConfig ckey, long address, PointerInteger nValues) {
+        var RESULT = gtk_h.g_slice_get_config_state(ckey.getValue(), address, nValues.handle());
+        return new PointerLong(RESULT);
+    }
+    
     public static void sliceSetConfig(SliceConfig ckey, long value) {
         gtk_h.g_slice_set_config(ckey.getValue(), value);
     }
@@ -7351,6 +7386,19 @@ public final class GLib {
     }
     
     /**
+     * Convert a string from UCS-4 to UTF-16. A 0 character will be
+     * added to the result after the converted text.
+     */
+    public static PointerShort ucs4ToUtf16(PointerInteger str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_ucs4_to_utf16(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerShort(RESULT);
+    }
+    
+    /**
      * Convert a string from a 32-bit fixed width representation as UCS-4.
      * to UTF-8. The result will be terminated with a 0 byte.
      */
@@ -8379,6 +8427,19 @@ public final class GLib {
     }
     
     /**
+     * Convert a string from UTF-16 to UCS-4. The result will be
+     * nul-terminated.
+     */
+    public static PointerInteger utf16ToUcs4(PointerShort str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_utf16_to_ucs4(str.handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerInteger(RESULT);
+    }
+    
+    /**
      * Convert a string from UTF-16 to UTF-8. The result will be
      * terminated with a 0 byte.
      * <p>
@@ -8720,6 +8781,45 @@ public final class GLib {
     public static java.lang.String utf8Substring(java.lang.String str, long startPos, long endPos) {
         var RESULT = gtk_h.g_utf8_substring(Interop.allocateNativeString(str).handle(), startPos, endPos);
         return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Convert a string from UTF-8 to a 32-bit fixed width
+     * representation as UCS-4. A trailing 0 character will be added to the
+     * string after the converted text.
+     */
+    public static PointerInteger utf8ToUcs4(java.lang.String str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_utf8_to_ucs4(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerInteger(RESULT);
+    }
+    
+    /**
+     * Convert a string from UTF-8 to a 32-bit fixed width
+     * representation as UCS-4, assuming valid UTF-8 input.
+     * This function is roughly twice as fast as g_utf8_to_ucs4()
+     * but does no error checking on the input. A trailing 0 character
+     * will be added to the string after the converted text.
+     */
+    public static PointerInteger utf8ToUcs4Fast(java.lang.String str, long len, PointerLong itemsWritten) {
+        var RESULT = gtk_h.g_utf8_to_ucs4_fast(Interop.allocateNativeString(str).handle(), len, itemsWritten.handle());
+        return new PointerInteger(RESULT);
+    }
+    
+    /**
+     * Convert a string from UTF-8 to UTF-16. A 0 character will be
+     * added to the result after the converted text.
+     */
+    public static PointerShort utf8ToUtf16(java.lang.String str, long len, PointerLong itemsRead, PointerLong itemsWritten) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        var RESULT = gtk_h.g_utf8_to_utf16(Interop.allocateNativeString(str).handle(), len, itemsRead.handle(), itemsWritten.handle(), GERROR);
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerShort(RESULT);
     }
     
     /**

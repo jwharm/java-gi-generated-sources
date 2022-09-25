@@ -15,12 +15,18 @@ public abstract class Pointer {
     protected final MemoryAddress address;
     private MemorySegmentReference reference;
     
+    /**
+     * Allocate a new memory segment with the provided memory layout.
+     */
     protected Pointer(ValueLayout layout) {
         MemorySegment segment = Interop.getAllocator().allocate(layout);
         reference = new MemorySegmentReference(segment);
         this.address = segment.address();
     }
     
+    /**
+     * Instantiate a Pointer object that points to the provided address.
+     */
     public Pointer(MemoryAddress address) {
         this.address = address;
     }

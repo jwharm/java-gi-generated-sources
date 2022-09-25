@@ -44,7 +44,18 @@ public class PointerInteger extends Pointer {
      * function call that set the value, has been executed.
      */
     public int get() {
-        return address.get(ValueLayout.JAVA_INT, 0);
+        return get(0);
     }
     
+    /**
+     * Treat the pointer as an array, and return the given element.
+     * @param index The array index
+     * @return The value stored at the given index
+     */
+    public int get(int index) {
+        return address.get(
+                ValueLayout.JAVA_INT, 
+                ValueLayout.JAVA_INT.byteSize() * index
+        );
+    }
 }

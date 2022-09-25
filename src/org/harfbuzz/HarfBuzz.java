@@ -1644,6 +1644,37 @@ public final class HarfBuzz {
     }
     
     /**
+     * Fetches the list of variation coordinates (in design-space units) currently
+     * set on a font.
+     * <p>
+     * Note that this returned array may only contain values for some
+     * (or none) of the axes; omitted axes effectively have their default
+     * values.
+     * <p>
+     * Return value is valid as long as variation coordinates of the font
+     * are not modified.
+     */
+    public static PointerFloat fontGetVarCoordsDesign(FontT font, PointerInteger length) {
+        var RESULT = gtk_h.hb_font_get_var_coords_design(font.handle(), length.handle());
+        return new PointerFloat(RESULT);
+    }
+    
+    /**
+     * Fetches the list of normalized variation coordinates currently
+     * set on a font.
+     * <p>
+     * Note that this returned array may only contain values for some
+     * (or none) of the axes; omitted axes effectively have zero values.
+     * <p>
+     * Return value is valid as long as variation coordinates of the font
+     * are not modified.
+     */
+    public static PointerInteger fontGetVarCoordsNormalized(FontT font, PointerInteger length) {
+        var RESULT = gtk_h.hb_font_get_var_coords_normalized(font.handle(), length.handle());
+        return new PointerInteger(RESULT);
+    }
+    
+    /**
      * Fetches the glyph ID for a Unicode code point when followed by
      * by the specified variation-selector code point, in the specified
      * font.

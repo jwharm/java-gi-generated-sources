@@ -43,8 +43,19 @@ public class PointerByte extends Pointer {
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
      */
-    public int get() {
-        return address.get(ValueLayout.JAVA_BYTE, 0);
+    public byte get() {
+        return get(0);
     }
     
+    /**
+     * Treat the pointer as an array, and return the given element.
+     * @param index The array index
+     * @return The value stored at the given index
+     */
+    public byte get(int index) {
+        return address.get(
+                ValueLayout.JAVA_BYTE, 
+                ValueLayout.JAVA_BYTE.byteSize() * index
+        );
+    }
 }

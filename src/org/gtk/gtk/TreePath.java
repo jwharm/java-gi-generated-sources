@@ -125,6 +125,19 @@ public class TreePath extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Returns the current indices of {@code path}.
+     * <p>
+     * This is an array of integers, each representing a node in a tree.
+     * This value should not be freed.
+     * <p>
+     * The length of the array can be obtained with gtk_tree_path_get_depth().
+     */
+    public PointerInteger getIndices() {
+        var RESULT = gtk_h.gtk_tree_path_get_indices(handle());
+        return new PointerInteger(RESULT);
+    }
+    
+    /**
      * Returns {@code true} if {@code descendant} is a descendant of {@code path}.
      */
     public boolean isAncestor(TreePath descendant) {

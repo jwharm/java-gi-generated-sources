@@ -778,14 +778,28 @@ public final class Pango {
      * you should first try the default language, followed by the
      * languages returned by this function.
      */
-    public static Language languageGetPreferred() {
+    public static PointerResource<Language> languageGetPreferred() {
         var RESULT = gtk_h.pango_language_get_preferred();
-        return new Language(References.get(RESULT, false));
+        return new PointerResource<Language>(RESULT, Language.class);
     }
     
     public static org.gtk.glib.Quark layoutDeserializeErrorQuark() {
         var RESULT = gtk_h.pango_layout_deserialize_error_quark();
         return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    /**
+     * Return the bidirectional embedding levels of the input paragraph.
+     * <p>
+     * The bidirectional embedding levels are defined by the [Unicode Bidirectional
+     * Algorithm](http://www.unicode.org/reports/tr9/).
+     * <p>
+     * If the input base direction is a weak direction, the direction of the
+     * characters in the text will determine the final resolved direction.
+     */
+    public static PointerByte log2visGetEmbeddingLevels(java.lang.String text, int length, Direction pbaseDir) {
+        var RESULT = gtk_h.pango_log2vis_get_embedding_levels(Interop.allocateNativeString(text).handle(), length, new PointerInteger(pbaseDir.getValue()).handle());
+        return new PointerByte(RESULT);
     }
     
     /**

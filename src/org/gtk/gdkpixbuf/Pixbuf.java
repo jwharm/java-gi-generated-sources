@@ -782,6 +782,17 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
     }
     
     /**
+     * Provides a read-only pointer to the raw pixel data.
+     * <p>
+     * This function allows skipping the implicit copy that must be made
+     * if gdk_pixbuf_get_pixels() is called on a read-only pixbuf.
+     */
+    public PointerByte readPixels() {
+        var RESULT = gtk_h.gdk_pixbuf_read_pixels(handle());
+        return new PointerByte(RESULT);
+    }
+    
+    /**
      * Removes the key/value pair option attached to a {@code GdkPixbuf}.
      */
     public boolean removeOption(java.lang.String key) {

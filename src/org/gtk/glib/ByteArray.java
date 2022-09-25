@@ -21,6 +21,17 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
     }
     
     /**
+     * Frees the memory allocated by the {@link ByteArray}. If {@code free_segment} is
+     * {@code true} it frees the actual byte data. If the reference count of
+     * {@code array} is greater than one, the {@link ByteArray} wrapper is preserved but
+     * the size of {@code array} will be set to zero.
+     */
+    public static PointerByte free(byte[] array, boolean freeSegment) {
+        var RESULT = gtk_h.g_byte_array_free(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle(), freeSegment ? 1 : 0);
+        return new PointerByte(RESULT);
+    }
+    
+    /**
      * Transfers the data from the {@link ByteArray} into a new immutable {@link Bytes}.
      * <p>
      * The {@link ByteArray} is freed unless the reference count of {@code array} is greater
@@ -51,6 +62,16 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * Frees the data in the array and resets the size to zero, while
+     * the underlying array is preserved for use elsewhere and returned
+     * to the caller.
+     */
+    public static PointerByte steal(byte[] array, PointerLong len) {
+        var RESULT = gtk_h.g_byte_array_steal(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, array)).handle(), len.handle());
+        return new PointerByte(RESULT);
     }
     
     /**

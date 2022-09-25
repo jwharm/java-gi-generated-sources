@@ -192,6 +192,14 @@ public class InetAddress extends org.gtk.gobject.Object {
     }
     
     /**
+     * Gets the raw binary address data from {@code address}.
+     */
+    public PointerByte toBytes() {
+        var RESULT = gtk_h.g_inet_address_to_bytes(handle());
+        return new PointerByte(RESULT);
+    }
+    
+    /**
      * Converts {@code address} to string form.
      */
     public java.lang.String toString() {

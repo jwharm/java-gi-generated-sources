@@ -44,7 +44,18 @@ public class PointerDouble extends Pointer {
      * function call that set the value, has been executed.
      */
     public double get() {
-        return address.get(ValueLayout.JAVA_DOUBLE, 0);
+        return get(0);
     }
     
+    /**
+     * Treat the pointer as an array, and return the given element.
+     * @param index The array index
+     * @return The value stored at the given index
+     */
+    public double get(int index) {
+        return address.get(
+                ValueLayout.JAVA_DOUBLE, 
+                ValueLayout.JAVA_DOUBLE.byteSize() * index
+        );
+    }
 }

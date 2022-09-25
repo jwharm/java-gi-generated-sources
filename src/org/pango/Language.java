@@ -159,9 +159,9 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * you should first try the default language, followed by the
      * languages returned by this function.
      */
-    public static Language getPreferred() {
+    public static PointerResource<Language> getPreferred() {
         var RESULT = gtk_h.pango_language_get_preferred();
-        return new Language(References.get(RESULT, false));
+        return new PointerResource<Language>(RESULT, Language.class);
     }
     
 }
