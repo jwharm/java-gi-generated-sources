@@ -3,33 +3,40 @@ package org.gtk.gio;
 /**
  * Flags for use with g_io_module_scope_new().
  */
-public enum IOModuleScopeFlags {
+public class IOModuleScopeFlags {
 
     /**
      * No module scan flags
      */
-    NONE,
+    public static final IOModuleScopeFlags NONE = new IOModuleScopeFlags(0);
     
     /**
      * When using this scope to load or
      *     scan modules, automatically block a modules which has the same base
      *     basename as previously loaded module.
      */
-    BLOCK_DUPLICATES;
+    public static final IOModuleScopeFlags BLOCK_DUPLICATES = new IOModuleScopeFlags(1);
     
-    public static IOModuleScopeFlags fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> BLOCK_DUPLICATES;
-            default -> null;
-        };
+    private int value;
+    
+    public IOModuleScopeFlags(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case BLOCK_DUPLICATES -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(IOModuleScopeFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -62,8 +62,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * Some cell renderers may use events; for example, {@code GtkCellRendererToggle}
      * toggles when it gets a mouse click.
      */
-    public boolean activate(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = gtk_h.gtk_cell_renderer_activate(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags);
+    public boolean activate(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
+        var RESULT = gtk_h.gtk_cell_renderer_activate(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
         return (RESULT != 0);
     }
     
@@ -71,8 +71,8 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * Gets the aligned area used by {@code cell} inside {@code cell_area}. Used for finding
      * the appropriate edit and focus rectangle.
      */
-    public void getAlignedArea(Widget widget, int flags, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle alignedArea) {
-        gtk_h.gtk_cell_renderer_get_aligned_area(handle(), widget.handle(), flags, cellArea.handle(), alignedArea.handle());
+    public void getAlignedArea(Widget widget, CellRendererState flags, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle alignedArea) {
+        gtk_h.gtk_cell_renderer_get_aligned_area(handle(), widget.handle(), flags.getValue(), cellArea.handle(), alignedArea.handle());
     }
     
     /**
@@ -156,7 +156,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      */
     public SizeRequestMode getRequestMode() {
         var RESULT = gtk_h.gtk_cell_renderer_get_request_mode(handle());
-        return SizeRequestMode.fromValue(RESULT);
+        return new SizeRequestMode(RESULT);
     }
     
     /**
@@ -172,9 +172,9 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * based on the cell renderer and widget sensitivity, and
      * the given {@code GtkCellRenderer}State.
      */
-    public int getState(Widget widget, int cellState) {
-        var RESULT = gtk_h.gtk_cell_renderer_get_state(handle(), widget.handle(), cellState);
-        return RESULT;
+    public StateFlags getState(Widget widget, CellRendererState cellState) {
+        var RESULT = gtk_h.gtk_cell_renderer_get_state(handle(), widget.handle(), cellState.getValue());
+        return new StateFlags(RESULT);
     }
     
     /**
@@ -251,16 +251,16 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
      * so the {@code background_area} rectangles for all cells tile to cover the entire
      * {@code window}.
      */
-    public void snapshot(Snapshot snapshot, Widget widget, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        gtk_h.gtk_cell_renderer_snapshot(handle(), snapshot.handle(), widget.handle(), backgroundArea.handle(), cellArea.handle(), flags);
+    public void snapshot(Snapshot snapshot, Widget widget, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
+        gtk_h.gtk_cell_renderer_snapshot(handle(), snapshot.handle(), widget.handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
     }
     
     /**
      * Starts editing the contents of this {@code cell}, through a new {@code GtkCellEditable}
      * widget created by the {@code GtkCellRenderer}Class.start_editing virtual function.
      */
-    public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = gtk_h.gtk_cell_renderer_start_editing(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags);
+    public CellEditable startEditing(org.gtk.gdk.Event event, Widget widget, java.lang.String path, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
+        var RESULT = gtk_h.gtk_cell_renderer_start_editing(handle(), event.handle(), widget.handle(), Interop.allocateNativeString(path).handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue());
         return new CellEditable.CellEditableImpl(References.get(RESULT, false));
     }
     

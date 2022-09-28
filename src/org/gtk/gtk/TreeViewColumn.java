@@ -219,7 +219,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public TreeViewColumnSizing getSizing() {
         var RESULT = gtk_h.gtk_tree_view_column_get_sizing(handle());
-        return TreeViewColumnSizing.fromValue(RESULT);
+        return new TreeViewColumnSizing(RESULT);
     }
     
     /**
@@ -246,7 +246,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      */
     public SortType getSortOrder() {
         var RESULT = gtk_h.gtk_tree_view_column_get_sort_order(handle());
-        return SortType.fromValue(RESULT);
+        return new SortType(RESULT);
     }
     
     /**

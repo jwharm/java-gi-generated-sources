@@ -149,7 +149,7 @@ public class SocketConnection extends IOStream {
      * <p>
      * If no type is registered, the {@link SocketConnection} base type is returned.
      */
-    public static void factoryRegisterType(Type gType, SocketFamily family, SocketType type, int protocol) {
+    public static void factoryRegisterType(org.gtk.gobject.Type gType, SocketFamily family, SocketType type, int protocol) {
         gtk_h.g_socket_connection_factory_register_type(gType.getValue(), family.getValue(), type.getValue(), protocol);
     }
     

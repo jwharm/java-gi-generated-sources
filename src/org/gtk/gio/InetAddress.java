@@ -94,7 +94,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_get_family(handle());
-        return SocketFamily.fromValue(RESULT);
+        return new SocketFamily(RESULT);
     }
     
     /**

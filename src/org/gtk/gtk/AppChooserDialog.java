@@ -32,8 +32,8 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
         return new AppChooserDialog(gobject.getReference());
     }
     
-    private static Reference constructNew(Window parent, int flags, org.gtk.gio.File file) {
-        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new(parent.handle(), flags, file.handle()), false);
+    private static Reference constructNew(Window parent, DialogFlags flags, org.gtk.gio.File file) {
+        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new(parent.handle(), flags.getValue(), file.handle()), false);
         return RESULT;
     }
     
@@ -42,12 +42,12 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * <p>
      * The dialog will show applications that can open the file.
      */
-    public AppChooserDialog(Window parent, int flags, org.gtk.gio.File file) {
+    public AppChooserDialog(Window parent, DialogFlags flags, org.gtk.gio.File file) {
         super(constructNew(parent, flags, file));
     }
     
-    private static Reference constructNewForContentType(Window parent, int flags, java.lang.String contentType) {
-        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags, Interop.allocateNativeString(contentType).handle()), false);
+    private static Reference constructNewForContentType(Window parent, DialogFlags flags, java.lang.String contentType) {
+        Reference RESULT = References.get(gtk_h.gtk_app_chooser_dialog_new_for_content_type(parent.handle(), flags.getValue(), Interop.allocateNativeString(contentType).handle()), false);
         return RESULT;
     }
     
@@ -56,7 +56,7 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * <p>
      * The dialog will show applications that can open the content type.
      */
-    public static AppChooserDialog newForContentType(Window parent, int flags, java.lang.String contentType) {
+    public static AppChooserDialog newForContentType(Window parent, DialogFlags flags, java.lang.String contentType) {
         return new AppChooserDialog(constructNewForContentType(parent, flags, contentType));
     }
     

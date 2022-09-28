@@ -171,8 +171,8 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * <p>
      * The {@code TabBar::extra-drag-drop} signal can be used to handle the drop.
      */
-    public void setupExtraDropTarget(int actions, org.gtk.gobject.Type[] types, long nTypes) {
-        gtk_h.adw_tab_bar_setup_extra_drop_target(handle(), actions, Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle(), nTypes);
+    public void setupExtraDropTarget(org.gtk.gdk.DragAction actions, org.gtk.gobject.Type[] types, long nTypes) {
+        gtk_h.adw_tab_bar_setup_extra_drop_target(handle(), actions.getValue(), Interop.allocateNativeArray(org.gtk.gobject.Type.getValues(types)).handle(), nTypes);
     }
     
     @FunctionalInterface

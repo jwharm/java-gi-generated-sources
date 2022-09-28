@@ -176,8 +176,8 @@ public class Surface extends org.gtk.gobject.Object {
      * The position is given in coordinates relative to the upper
      * left corner of {@code surface}.
      */
-    public boolean getDevicePosition(Device device, PointerDouble x, PointerDouble y, PointerInteger mask) {
-        var RESULT = gtk_h.gdk_surface_get_device_position(handle(), device.handle(), x.handle(), y.handle(), mask.handle());
+    public boolean getDevicePosition(Device device, PointerDouble x, PointerDouble y, ModifierType mask) {
+        var RESULT = gtk_h.gdk_surface_get_device_position(handle(), device.handle(), x.handle(), y.handle(), new PointerInteger(mask.getValue()).handle());
         return (RESULT != 0);
     }
     

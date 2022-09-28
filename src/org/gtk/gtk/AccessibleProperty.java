@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * The possible accessible properties of a {@code Accessible}.
  */
-public enum AccessibleProperty {
+public class AccessibleProperty {
 
     /**
      * Indicates whether inputting text
@@ -11,65 +11,65 @@ public enum AccessibleProperty {
      *    value for a combobox, searchbox, or textbox and specifies how predictions
      *    would be presented if they were made. Value type: {@code AccessibleAutocomplete}
      */
-    AUTOCOMPLETE,
+    public static final AccessibleProperty AUTOCOMPLETE = new AccessibleProperty(0);
     
     /**
      * Defines a string value that describes
      *    or annotates the current element. Value type: string
      */
-    DESCRIPTION,
+    public static final AccessibleProperty DESCRIPTION = new AccessibleProperty(1);
     
     /**
      * Indicates the availability and type of
      *    interactive popup element, such as menu or dialog, that can be triggered
      *    by an element.
      */
-    HAS_POPUP,
+    public static final AccessibleProperty HAS_POPUP = new AccessibleProperty(2);
     
     /**
      * Indicates keyboard shortcuts that an
      *    author has implemented to activate or give focus to an element. Value type:
      *    string
      */
-    KEY_SHORTCUTS,
+    public static final AccessibleProperty KEY_SHORTCUTS = new AccessibleProperty(3);
     
     /**
      * Defines a string value that labels the current
      *    element. Value type: string
      */
-    LABEL,
+    public static final AccessibleProperty LABEL = new AccessibleProperty(4);
     
     /**
      * Defines the hierarchical level of an element
      *    within a structure. Value type: integer
      */
-    LEVEL,
+    public static final AccessibleProperty LEVEL = new AccessibleProperty(5);
     
     /**
      * Indicates whether an element is modal when
      *    displayed. Value type: boolean
      */
-    MODAL,
+    public static final AccessibleProperty MODAL = new AccessibleProperty(6);
     
     /**
      * Indicates whether a text box accepts
      *    multiple lines of input or only a single line. Value type: boolean
      */
-    MULTI_LINE,
+    public static final AccessibleProperty MULTI_LINE = new AccessibleProperty(7);
     
     /**
      * Indicates that the user may select
      *    more than one item from the current selectable descendants. Value type:
      *    boolean
      */
-    MULTI_SELECTABLE,
+    public static final AccessibleProperty MULTI_SELECTABLE = new AccessibleProperty(8);
     
     /**
      * Indicates whether the element's
      *    orientation is horizontal, vertical, or unknown/ambiguous. Value type:
      *    {@code Orientation}
      */
-    ORIENTATION,
+    public static final AccessibleProperty ORIENTATION = new AccessibleProperty(9);
     
     /**
      * Defines a short hint (a word or short
@@ -77,103 +77,76 @@ public enum AccessibleProperty {
      *    value. A hint could be a sample value or a brief description of the expected
      *    format. Value type: string
      */
-    PLACEHOLDER,
+    public static final AccessibleProperty PLACEHOLDER = new AccessibleProperty(10);
     
     /**
      * Indicates that the element is not editable,
      *    but is otherwise operable. Value type: boolean
      */
-    READ_ONLY,
+    public static final AccessibleProperty READ_ONLY = new AccessibleProperty(11);
     
     /**
      * Indicates that user input is required on
      *    the element before a form may be submitted. Value type: boolean
      */
-    REQUIRED,
+    public static final AccessibleProperty REQUIRED = new AccessibleProperty(12);
     
     /**
      * Defines a human-readable,
      *    author-localized description for the role of an element. Value type: string
      */
-    ROLE_DESCRIPTION,
+    public static final AccessibleProperty ROLE_DESCRIPTION = new AccessibleProperty(13);
     
     /**
      * Indicates if items in a table or grid are
      *    sorted in ascending or descending order. Value type: {@code AccessibleSort}
      */
-    SORT,
+    public static final AccessibleProperty SORT = new AccessibleProperty(14);
     
     /**
      * Defines the maximum allowed value for a
      *    range widget. Value type: double
      */
-    VALUE_MAX,
+    public static final AccessibleProperty VALUE_MAX = new AccessibleProperty(15);
     
     /**
      * Defines the minimum allowed value for a
      *    range widget. Value type: double
      */
-    VALUE_MIN,
+    public static final AccessibleProperty VALUE_MIN = new AccessibleProperty(16);
     
     /**
      * Defines the current value for a range widget.
      *    Value type: double
      */
-    VALUE_NOW,
+    public static final AccessibleProperty VALUE_NOW = new AccessibleProperty(17);
     
     /**
      * Defines the human readable text alternative
      *    of aria-valuenow for a range widget. Value type: string
      */
-    VALUE_TEXT;
+    public static final AccessibleProperty VALUE_TEXT = new AccessibleProperty(18);
     
-    public static AccessibleProperty fromValue(int value) {
-        return switch(value) {
-            case 0 -> AUTOCOMPLETE;
-            case 1 -> DESCRIPTION;
-            case 2 -> HAS_POPUP;
-            case 3 -> KEY_SHORTCUTS;
-            case 4 -> LABEL;
-            case 5 -> LEVEL;
-            case 6 -> MODAL;
-            case 7 -> MULTI_LINE;
-            case 8 -> MULTI_SELECTABLE;
-            case 9 -> ORIENTATION;
-            case 10 -> PLACEHOLDER;
-            case 11 -> READ_ONLY;
-            case 12 -> REQUIRED;
-            case 13 -> ROLE_DESCRIPTION;
-            case 14 -> SORT;
-            case 15 -> VALUE_MAX;
-            case 16 -> VALUE_MIN;
-            case 17 -> VALUE_NOW;
-            case 18 -> VALUE_TEXT;
-            default -> null;
-        };
+    private int value;
+    
+    public AccessibleProperty(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case AUTOCOMPLETE -> 0;
-            case DESCRIPTION -> 1;
-            case HAS_POPUP -> 2;
-            case KEY_SHORTCUTS -> 3;
-            case LABEL -> 4;
-            case LEVEL -> 5;
-            case MODAL -> 6;
-            case MULTI_LINE -> 7;
-            case MULTI_SELECTABLE -> 8;
-            case ORIENTATION -> 9;
-            case PLACEHOLDER -> 10;
-            case READ_ONLY -> 11;
-            case REQUIRED -> 12;
-            case ROLE_DESCRIPTION -> 13;
-            case SORT -> 14;
-            case VALUE_MAX -> 15;
-            case VALUE_MIN -> 16;
-            case VALUE_NOW -> 17;
-            case VALUE_TEXT -> 18;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AccessibleProperty[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -11,38 +11,43 @@ package org.gtk.gio;
  * In case of {@link PollableReturn#FAILED} a {@link org.gtk.glib.Error} should be set for the
  * operation to give details about the error that happened.
  */
-public enum PollableReturn {
+public class PollableReturn {
 
     /**
      * Generic error condition for when an operation fails.
      */
-    FAILED,
+    public static final PollableReturn FAILED = new PollableReturn(0);
     
     /**
      * The operation was successfully finished.
      */
-    OK,
+    public static final PollableReturn OK = new PollableReturn(1);
     
     /**
      * The operation would block.
      */
-    WOULD_BLOCK;
+    public static final PollableReturn WOULD_BLOCK = new PollableReturn(-27);
     
-    public static PollableReturn fromValue(int value) {
-        return switch(value) {
-            case 0 -> FAILED;
-            case 1 -> OK;
-            case -27 -> WOULD_BLOCK;
-            default -> null;
-        };
+    private int value;
+    
+    public PollableReturn(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FAILED -> 0;
-            case OK -> 1;
-            case WOULD_BLOCK -> -27;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PollableReturn[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

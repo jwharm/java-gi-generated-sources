@@ -260,9 +260,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Loads a key file from the data in {@code bytes} into an empty {@link KeyFile} structure.
      * If the object cannot be created then {@code error} is set to a {@link KeyFileError}.
      */
-    public boolean loadFromBytes(Bytes bytes, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromBytes(Bytes bytes, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_key_file_load_from_bytes(handle(), bytes.handle(), flags, GERROR);
+        var RESULT = gtk_h.g_key_file_load_from_bytes(handle(), bytes.handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -273,9 +273,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Loads a key file from memory into an empty {@link KeyFile} structure.
      * If the object cannot be created then {@code error} is set to a {@link KeyFileError}.
      */
-    public boolean loadFromData(java.lang.String data, long length, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromData(java.lang.String data, long length, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_key_file_load_from_data(handle(), Interop.allocateNativeString(data).handle(), length, flags, GERROR);
+        var RESULT = gtk_h.g_key_file_load_from_data(handle(), Interop.allocateNativeString(data).handle(), length, flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -289,9 +289,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code full_path}.  If the file could not be loaded then an {@code error} is
      * set to either a {@link FileError} or {@link KeyFileError}.
      */
-    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDataDirs(java.lang.String file, java.lang.String[] fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_key_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_key_file_load_from_data_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(fullPath).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -309,9 +309,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * file, a {@code G_FILE_ERROR} is returned. If there is a problem parsing the file, a
      * {@code G_KEY_FILE_ERROR} is returned.
      */
-    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, java.lang.String[] fullPath, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, java.lang.String[] fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_key_file_load_from_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs).handle(), Interop.allocateNativeArray(fullPath).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_key_file_load_from_dirs(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs).handle(), Interop.allocateNativeArray(fullPath).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -328,9 +328,9 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * This function will never return a {@link KeyFileError#NOT_FOUND} error. If the
      * {@code file} is not found, {@link FileError#NOENT} is returned.
      */
-    public boolean loadFromFile(java.lang.String file, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromFile(java.lang.String file, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_key_file_load_from_file(handle(), Interop.allocateNativeString(file).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_key_file_load_from_file(handle(), Interop.allocateNativeString(file).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

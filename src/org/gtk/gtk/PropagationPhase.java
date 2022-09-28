@@ -3,12 +3,12 @@ package org.gtk.gtk;
 /**
  * Describes the stage at which events are fed into a {@link EventController}.
  */
-public enum PropagationPhase {
+public class PropagationPhase {
 
     /**
      * Events are not delivered.
      */
-    NONE,
+    public static final PropagationPhase NONE = new PropagationPhase(0);
     
     /**
      * Events are delivered in the capture phase. The
@@ -16,39 +16,42 @@ public enum PropagationPhase {
      *   to the event widget. This option should only be used on containers that
      *   might possibly handle events before their children do.
      */
-    CAPTURE,
+    public static final PropagationPhase CAPTURE = new PropagationPhase(1);
     
     /**
      * Events are delivered in the bubble phase. The bubble
      *   phase happens after the capture phase, and before the default handlers
      *   are run. This phase runs from the event widget, up to the toplevel.
      */
-    BUBBLE,
+    public static final PropagationPhase BUBBLE = new PropagationPhase(2);
     
     /**
      * Events are delivered in the default widget event handlers,
      *   note that widget implementations must chain up on button, motion, touch and
      *   grab broken handlers for controllers in this phase to be run.
      */
-    TARGET;
+    public static final PropagationPhase TARGET = new PropagationPhase(3);
     
-    public static PropagationPhase fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> CAPTURE;
-            case 2 -> BUBBLE;
-            case 3 -> TARGET;
-            default -> null;
-        };
+    private int value;
+    
+    public PropagationPhase(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case CAPTURE -> 1;
-            case BUBBLE -> 2;
-            case TARGET -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PropagationPhase[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

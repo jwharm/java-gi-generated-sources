@@ -1,132 +1,85 @@
 package org.cairographics;
 
-public enum Operator {
+public class Operator {
 
-    CLEAR,
+    public static final Operator CLEAR = new Operator(0);
     
-    SOURCE,
+    public static final Operator SOURCE = new Operator(1);
     
-    OVER,
+    public static final Operator OVER = new Operator(2);
     
-    IN,
+    public static final Operator IN = new Operator(3);
     
-    OUT,
+    public static final Operator OUT = new Operator(4);
     
-    ATOP,
+    public static final Operator ATOP = new Operator(5);
     
-    DEST,
+    public static final Operator DEST = new Operator(6);
     
-    DEST_OVER,
+    public static final Operator DEST_OVER = new Operator(7);
     
-    DEST_IN,
+    public static final Operator DEST_IN = new Operator(8);
     
-    DEST_OUT,
+    public static final Operator DEST_OUT = new Operator(9);
     
-    DEST_ATOP,
+    public static final Operator DEST_ATOP = new Operator(10);
     
-    XOR,
+    public static final Operator XOR = new Operator(11);
     
-    ADD,
+    public static final Operator ADD = new Operator(12);
     
-    SATURATE,
+    public static final Operator SATURATE = new Operator(13);
     
-    MULTIPLY,
+    public static final Operator MULTIPLY = new Operator(14);
     
-    SCREEN,
+    public static final Operator SCREEN = new Operator(15);
     
-    OVERLAY,
+    public static final Operator OVERLAY = new Operator(16);
     
-    DARKEN,
+    public static final Operator DARKEN = new Operator(17);
     
-    LIGHTEN,
+    public static final Operator LIGHTEN = new Operator(18);
     
-    COLOR_DODGE,
+    public static final Operator COLOR_DODGE = new Operator(19);
     
-    COLOR_BURN,
+    public static final Operator COLOR_BURN = new Operator(20);
     
-    HARD_LIGHT,
+    public static final Operator HARD_LIGHT = new Operator(21);
     
-    SOFT_LIGHT,
+    public static final Operator SOFT_LIGHT = new Operator(22);
     
-    DIFFERENCE,
+    public static final Operator DIFFERENCE = new Operator(23);
     
-    EXCLUSION,
+    public static final Operator EXCLUSION = new Operator(24);
     
-    HSL_HUE,
+    public static final Operator HSL_HUE = new Operator(25);
     
-    HSL_SATURATION,
+    public static final Operator HSL_SATURATION = new Operator(26);
     
-    HSL_COLOR,
+    public static final Operator HSL_COLOR = new Operator(27);
     
-    HSL_LUMINOSITY;
+    public static final Operator HSL_LUMINOSITY = new Operator(28);
     
-    public static Operator fromValue(int value) {
-        return switch(value) {
-            case 0 -> CLEAR;
-            case 1 -> SOURCE;
-            case 2 -> OVER;
-            case 3 -> IN;
-            case 4 -> OUT;
-            case 5 -> ATOP;
-            case 6 -> DEST;
-            case 7 -> DEST_OVER;
-            case 8 -> DEST_IN;
-            case 9 -> DEST_OUT;
-            case 10 -> DEST_ATOP;
-            case 11 -> XOR;
-            case 12 -> ADD;
-            case 13 -> SATURATE;
-            case 14 -> MULTIPLY;
-            case 15 -> SCREEN;
-            case 16 -> OVERLAY;
-            case 17 -> DARKEN;
-            case 18 -> LIGHTEN;
-            case 19 -> COLOR_DODGE;
-            case 20 -> COLOR_BURN;
-            case 21 -> HARD_LIGHT;
-            case 22 -> SOFT_LIGHT;
-            case 23 -> DIFFERENCE;
-            case 24 -> EXCLUSION;
-            case 25 -> HSL_HUE;
-            case 26 -> HSL_SATURATION;
-            case 27 -> HSL_COLOR;
-            case 28 -> HSL_LUMINOSITY;
-            default -> null;
-        };
+    private int value;
+    
+    public Operator(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case CLEAR -> 0;
-            case SOURCE -> 1;
-            case OVER -> 2;
-            case IN -> 3;
-            case OUT -> 4;
-            case ATOP -> 5;
-            case DEST -> 6;
-            case DEST_OVER -> 7;
-            case DEST_IN -> 8;
-            case DEST_OUT -> 9;
-            case DEST_ATOP -> 10;
-            case XOR -> 11;
-            case ADD -> 12;
-            case SATURATE -> 13;
-            case MULTIPLY -> 14;
-            case SCREEN -> 15;
-            case OVERLAY -> 16;
-            case DARKEN -> 17;
-            case LIGHTEN -> 18;
-            case COLOR_DODGE -> 19;
-            case COLOR_BURN -> 20;
-            case HARD_LIGHT -> 21;
-            case SOFT_LIGHT -> 22;
-            case DIFFERENCE -> 23;
-            case EXCLUSION -> 24;
-            case HSL_HUE -> 25;
-            case HSL_SATURATION -> 26;
-            case HSL_COLOR -> 27;
-            case HSL_LUMINOSITY -> 28;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Operator[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

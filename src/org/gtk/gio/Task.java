@@ -755,7 +755,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * See also g_task_return_new_error().
      */
     public void returnError(org.gtk.glib.Error error) {
-        gtk_h.g_task_return_error(handle(), error.handle());
+        gtk_h.g_task_return_error(handle(), error.getReference().unowned().handle());
     }
     
     /**
@@ -930,7 +930,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.handle());
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.getReference().unowned().handle());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

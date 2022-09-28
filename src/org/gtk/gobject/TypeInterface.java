@@ -38,7 +38,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * interface derivation (which GType doesn't support). An interface can have
      * at most one instantiatable prerequisite type.
      */
-    public static void addPrerequisite(Type interfaceType, Type prerequisiteType) {
+    public static void addPrerequisite(org.gtk.gobject.Type interfaceType, org.gtk.gobject.Type prerequisiteType) {
         gtk_h.g_type_interface_add_prerequisite(interfaceType.getValue(), prerequisiteType.getValue());
     }
     
@@ -48,7 +48,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * if {@code interface_type} has not been added to {@code instance_type} or does
      * not have a {@link TypePlugin} structure. See g_type_add_interface_dynamic().
      */
-    public static TypePlugin getPlugin(Type instanceType, Type interfaceType) {
+    public static TypePlugin getPlugin(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_get_plugin(instanceType.getValue(), interfaceType.getValue());
         return new TypePlugin.TypePluginImpl(References.get(RESULT, false));
     }
@@ -61,7 +61,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * See g_type_interface_add_prerequisite() for more information
      * about prerequisites.
      */
-    public static org.gtk.gobject.Type instantiatablePrerequisite(Type interfaceType) {
+    public static org.gtk.gobject.Type instantiatablePrerequisite(org.gtk.gobject.Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_instantiatable_prerequisite(interfaceType.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
@@ -70,7 +70,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * Returns the {@link TypeInterface} structure of an interface to which the
      * passed in class conforms.
      */
-    public static TypeInterface peek(TypeClass instanceClass, Type ifaceType) {
+    public static TypeInterface peek(TypeClass instanceClass, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_interface_peek(instanceClass.handle(), ifaceType.getValue());
         return new TypeInterface(References.get(RESULT, false));
     }

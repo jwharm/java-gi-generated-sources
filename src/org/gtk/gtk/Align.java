@@ -17,54 +17,55 @@ package org.gtk.gtk;
  * it is only supported for vertical alignment.  When it's not supported by
  * a child or a container it is treated as {@link Align#FILL}.
  */
-public enum Align {
+public class Align {
 
     /**
      * stretch to fill all space if possible, center if
      *   no meaningful way to stretch
      */
-    FILL,
+    public static final Align FILL = new Align(0);
     
     /**
      * snap to left or top side, leaving space on right or bottom
      */
-    START,
+    public static final Align START = new Align(1);
     
     /**
      * snap to right or bottom side, leaving space on left or top
      */
-    END,
+    public static final Align END = new Align(2);
     
     /**
      * center natural width of widget inside the allocation
      */
-    CENTER,
+    public static final Align CENTER = new Align(3);
     
     /**
      * align the widget according to the baseline.
      *   See {@link Widget}.
      */
-    BASELINE;
+    public static final Align BASELINE = new Align(4);
     
-    public static Align fromValue(int value) {
-        return switch(value) {
-            case 0 -> FILL;
-            case 1 -> START;
-            case 2 -> END;
-            case 3 -> CENTER;
-            case 4 -> BASELINE;
-            default -> null;
-        };
+    private int value;
+    
+    public Align(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FILL -> 0;
-            case START -> 1;
-            case END -> 2;
-            case CENTER -> 3;
-            case BASELINE -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Align[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

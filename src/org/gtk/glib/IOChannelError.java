@@ -3,80 +3,73 @@ package org.gtk.glib;
 /**
  * Error codes returned by {@link IOChannel} operations.
  */
-public enum IOChannelError {
+public class IOChannelError {
 
     /**
      * File too large.
      */
-    FBIG,
+    public static final IOChannelError FBIG = new IOChannelError(0);
     
     /**
      * Invalid argument.
      */
-    INVAL,
+    public static final IOChannelError INVAL = new IOChannelError(1);
     
     /**
      * IO error.
      */
-    IO,
+    public static final IOChannelError IO = new IOChannelError(2);
     
     /**
      * File is a directory.
      */
-    ISDIR,
+    public static final IOChannelError ISDIR = new IOChannelError(3);
     
     /**
      * No space left on device.
      */
-    NOSPC,
+    public static final IOChannelError NOSPC = new IOChannelError(4);
     
     /**
      * No such device or address.
      */
-    NXIO,
+    public static final IOChannelError NXIO = new IOChannelError(5);
     
     /**
      * Value too large for defined datatype.
      */
-    OVERFLOW,
+    public static final IOChannelError OVERFLOW = new IOChannelError(6);
     
     /**
      * Broken pipe.
      */
-    PIPE,
+    public static final IOChannelError PIPE = new IOChannelError(7);
     
     /**
      * Some other error.
      */
-    FAILED;
+    public static final IOChannelError FAILED = new IOChannelError(8);
     
-    public static IOChannelError fromValue(int value) {
-        return switch(value) {
-            case 0 -> FBIG;
-            case 1 -> INVAL;
-            case 2 -> IO;
-            case 3 -> ISDIR;
-            case 4 -> NOSPC;
-            case 5 -> NXIO;
-            case 6 -> OVERFLOW;
-            case 7 -> PIPE;
-            case 8 -> FAILED;
-            default -> null;
-        };
+    private int value;
+    
+    public IOChannelError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FBIG -> 0;
-            case INVAL -> 1;
-            case IO -> 2;
-            case ISDIR -> 3;
-            case NOSPC -> 4;
-            case NXIO -> 5;
-            case OVERFLOW -> 6;
-            case PIPE -> 7;
-            case FAILED -> 8;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(IOChannelError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

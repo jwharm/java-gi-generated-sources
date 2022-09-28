@@ -6,241 +6,190 @@ package org.gtk.graphene;
  * The {@link EulerOrder#DEFAULT} value is special, and is used
  * as an alias for one of the other orders.
  */
-public enum EulerOrder {
+public class EulerOrder {
 
     /**
      * Rotate in the default order; the
      *   default order is one of the following enumeration values
      */
-    DEFAULT,
+    public static final EulerOrder DEFAULT = new EulerOrder(-1);
     
     /**
      * Rotate in the X, Y, and Z order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SXYZ}
      */
-    XYZ,
+    public static final EulerOrder XYZ = new EulerOrder(0);
     
     /**
      * Rotate in the Y, Z, and X order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SYZX}
      */
-    YZX,
+    public static final EulerOrder YZX = new EulerOrder(1);
     
     /**
      * Rotate in the Z, X, and Y order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SZXY}
      */
-    ZXY,
+    public static final EulerOrder ZXY = new EulerOrder(2);
     
     /**
      * Rotate in the X, Z, and Y order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SXZY}
      */
-    XZY,
+    public static final EulerOrder XZY = new EulerOrder(3);
     
     /**
      * Rotate in the Y, X, and Z order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SYXZ}
      */
-    YXZ,
+    public static final EulerOrder YXZ = new EulerOrder(4);
     
     /**
      * Rotate in the Z, Y, and X order. Deprecated in
      *   Graphene 1.10, it's an alias for {@link EulerOrder#SZYX}
      */
-    ZYX,
+    public static final EulerOrder ZYX = new EulerOrder(5);
     
     /**
      * Defines a static rotation along the X, Y, and Z axes (Since: 1.10)
      */
-    SXYZ,
+    public static final EulerOrder SXYZ = new EulerOrder(6);
     
     /**
      * Defines a static rotation along the X, Y, and X axes (Since: 1.10)
      */
-    SXYX,
+    public static final EulerOrder SXYX = new EulerOrder(7);
     
     /**
      * Defines a static rotation along the X, Z, and Y axes (Since: 1.10)
      */
-    SXZY,
+    public static final EulerOrder SXZY = new EulerOrder(8);
     
     /**
      * Defines a static rotation along the X, Z, and X axes (Since: 1.10)
      */
-    SXZX,
+    public static final EulerOrder SXZX = new EulerOrder(9);
     
     /**
      * Defines a static rotation along the Y, Z, and X axes (Since: 1.10)
      */
-    SYZX,
+    public static final EulerOrder SYZX = new EulerOrder(10);
     
     /**
      * Defines a static rotation along the Y, Z, and Y axes (Since: 1.10)
      */
-    SYZY,
+    public static final EulerOrder SYZY = new EulerOrder(11);
     
     /**
      * Defines a static rotation along the Y, X, and Z axes (Since: 1.10)
      */
-    SYXZ,
+    public static final EulerOrder SYXZ = new EulerOrder(12);
     
     /**
      * Defines a static rotation along the Y, X, and Y axes (Since: 1.10)
      */
-    SYXY,
+    public static final EulerOrder SYXY = new EulerOrder(13);
     
     /**
      * Defines a static rotation along the Z, X, and Y axes (Since: 1.10)
      */
-    SZXY,
+    public static final EulerOrder SZXY = new EulerOrder(14);
     
     /**
      * Defines a static rotation along the Z, X, and Z axes (Since: 1.10)
      */
-    SZXZ,
+    public static final EulerOrder SZXZ = new EulerOrder(15);
     
     /**
      * Defines a static rotation along the Z, Y, and X axes (Since: 1.10)
      */
-    SZYX,
+    public static final EulerOrder SZYX = new EulerOrder(16);
     
     /**
      * Defines a static rotation along the Z, Y, and Z axes (Since: 1.10)
      */
-    SZYZ,
+    public static final EulerOrder SZYZ = new EulerOrder(17);
     
     /**
      * Defines a relative rotation along the Z, Y, and X axes (Since: 1.10)
      */
-    RZYX,
+    public static final EulerOrder RZYX = new EulerOrder(18);
     
     /**
      * Defines a relative rotation along the X, Y, and X axes (Since: 1.10)
      */
-    RXYX,
+    public static final EulerOrder RXYX = new EulerOrder(19);
     
     /**
      * Defines a relative rotation along the Y, Z, and X axes (Since: 1.10)
      */
-    RYZX,
+    public static final EulerOrder RYZX = new EulerOrder(20);
     
     /**
      * Defines a relative rotation along the X, Z, and X axes (Since: 1.10)
      */
-    RXZX,
+    public static final EulerOrder RXZX = new EulerOrder(21);
     
     /**
      * Defines a relative rotation along the X, Z, and Y axes (Since: 1.10)
      */
-    RXZY,
+    public static final EulerOrder RXZY = new EulerOrder(22);
     
     /**
      * Defines a relative rotation along the Y, Z, and Y axes (Since: 1.10)
      */
-    RYZY,
+    public static final EulerOrder RYZY = new EulerOrder(23);
     
     /**
      * Defines a relative rotation along the Z, X, and Y axes (Since: 1.10)
      */
-    RZXY,
+    public static final EulerOrder RZXY = new EulerOrder(24);
     
     /**
      * Defines a relative rotation along the Y, X, and Y axes (Since: 1.10)
      */
-    RYXY,
+    public static final EulerOrder RYXY = new EulerOrder(25);
     
     /**
      * Defines a relative rotation along the Y, X, and Z axes (Since: 1.10)
      */
-    RYXZ,
+    public static final EulerOrder RYXZ = new EulerOrder(26);
     
     /**
      * Defines a relative rotation along the Z, X, and Z axes (Since: 1.10)
      */
-    RZXZ,
+    public static final EulerOrder RZXZ = new EulerOrder(27);
     
     /**
      * Defines a relative rotation along the X, Y, and Z axes (Since: 1.10)
      */
-    RXYZ,
+    public static final EulerOrder RXYZ = new EulerOrder(28);
     
     /**
      * Defines a relative rotation along the Z, Y, and Z axes (Since: 1.10)
      */
-    RZYZ;
+    public static final EulerOrder RZYZ = new EulerOrder(29);
     
-    public static EulerOrder fromValue(int value) {
-        return switch(value) {
-            case -1 -> DEFAULT;
-            case 0 -> XYZ;
-            case 1 -> YZX;
-            case 2 -> ZXY;
-            case 3 -> XZY;
-            case 4 -> YXZ;
-            case 5 -> ZYX;
-            case 6 -> SXYZ;
-            case 7 -> SXYX;
-            case 8 -> SXZY;
-            case 9 -> SXZX;
-            case 10 -> SYZX;
-            case 11 -> SYZY;
-            case 12 -> SYXZ;
-            case 13 -> SYXY;
-            case 14 -> SZXY;
-            case 15 -> SZXZ;
-            case 16 -> SZYX;
-            case 17 -> SZYZ;
-            case 18 -> RZYX;
-            case 19 -> RXYX;
-            case 20 -> RYZX;
-            case 21 -> RXZX;
-            case 22 -> RXZY;
-            case 23 -> RYZY;
-            case 24 -> RZXY;
-            case 25 -> RYXY;
-            case 26 -> RYXZ;
-            case 27 -> RZXZ;
-            case 28 -> RXYZ;
-            case 29 -> RZYZ;
-            default -> null;
-        };
+    private int value;
+    
+    public EulerOrder(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DEFAULT -> -1;
-            case XYZ -> 0;
-            case YZX -> 1;
-            case ZXY -> 2;
-            case XZY -> 3;
-            case YXZ -> 4;
-            case ZYX -> 5;
-            case SXYZ -> 6;
-            case SXYX -> 7;
-            case SXZY -> 8;
-            case SXZX -> 9;
-            case SYZX -> 10;
-            case SYZY -> 11;
-            case SYXZ -> 12;
-            case SYXY -> 13;
-            case SZXY -> 14;
-            case SZXZ -> 15;
-            case SZYX -> 16;
-            case SZYZ -> 17;
-            case RZYX -> 18;
-            case RXYX -> 19;
-            case RYZX -> 20;
-            case RXZX -> 21;
-            case RXZY -> 22;
-            case RYZY -> 23;
-            case RZXY -> 24;
-            case RYXY -> 25;
-            case RYXZ -> 26;
-            case RZXZ -> 27;
-            case RXYZ -> 28;
-            case RZYZ -> 29;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(EulerOrder[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

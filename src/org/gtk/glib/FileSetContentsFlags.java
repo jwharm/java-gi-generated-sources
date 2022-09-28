@@ -10,7 +10,7 @@ public class FileSetContentsFlags {
      * No guarantees about file consistency or durability.
      *   The most dangerous setting, which is slightly faster than other settings.
      */
-    public static final int NONE = 0;
+    public static final FileSetContentsFlags NONE = new FileSetContentsFlags(0);
     
     /**
      * Guarantee file consistency: after a crash,
@@ -19,7 +19,7 @@ public class FileSetContentsFlags {
      *   on the file and use of an atomic {@code rename()} of the new version of the file
      *   over the old.
      */
-    public static final int CONSISTENT = 1;
+    public static final FileSetContentsFlags CONSISTENT = new FileSetContentsFlags(1);
     
     /**
      * Guarantee file durability: after a crash, the
@@ -28,7 +28,7 @@ public class FileSetContentsFlags {
      *   the effects of {@link FileSetContentsFlags#CONSISTENT} plus an {@code fsync()} on the
      *   directory containing the file after calling {@code rename()}.
      */
-    public static final int DURABLE = 2;
+    public static final FileSetContentsFlags DURABLE = new FileSetContentsFlags(2);
     
     /**
      * Only apply consistency and durability
@@ -36,6 +36,40 @@ public class FileSetContentsFlags {
      *   if the file doesn’t currently exist, but may result in a corrupted version
      *   of the new file if the system crashes while writing it.
      */
-    public static final int ONLY_EXISTING = 4;
+    public static final FileSetContentsFlags ONLY_EXISTING = new FileSetContentsFlags(4);
+    
+    private int value;
+    
+    public FileSetContentsFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileSetContentsFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public FileSetContentsFlags combined(FileSetContentsFlags mask) {
+        return new FileSetContentsFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static FileSetContentsFlags combined(FileSetContentsFlags mask, FileSetContentsFlags... masks) {
+        int value = mask.getValue();
+        for (FileSetContentsFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileSetContentsFlags(value);
+    }
     
 }

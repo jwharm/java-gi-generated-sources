@@ -3,40 +3,45 @@ package org.gnome.adw;
 /**
  * Describes the possible folding behavior of a {@link Flap} widget.
  */
-public enum FlapFoldPolicy {
+public class FlapFoldPolicy {
 
     /**
      * Disable folding, the flap cannot reach narrow
      *   sizes.
      */
-    NEVER,
+    public static final FlapFoldPolicy NEVER = new FlapFoldPolicy(0);
     
     /**
      * Keep the flap always folded.
      */
-    ALWAYS,
+    public static final FlapFoldPolicy ALWAYS = new FlapFoldPolicy(1);
     
     /**
      * Fold and unfold the flap based on available
      *   space.
      */
-    AUTO;
+    public static final FlapFoldPolicy AUTO = new FlapFoldPolicy(2);
     
-    public static FlapFoldPolicy fromValue(int value) {
-        return switch(value) {
-            case 0 -> NEVER;
-            case 1 -> ALWAYS;
-            case 2 -> AUTO;
-            default -> null;
-        };
+    private int value;
+    
+    public FlapFoldPolicy(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NEVER -> 0;
-            case ALWAYS -> 1;
-            case AUTO -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FlapFoldPolicy[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

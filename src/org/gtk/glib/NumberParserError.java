@@ -3,31 +3,38 @@ package org.gtk.glib;
 /**
  * Error codes returned by functions converting a string to a number.
  */
-public enum NumberParserError {
+public class NumberParserError {
 
     /**
      * String was not a valid number.
      */
-    INVALID,
+    public static final NumberParserError INVALID = new NumberParserError(0);
     
     /**
      * String was a number, but out of bounds.
      */
-    OUT_OF_BOUNDS;
+    public static final NumberParserError OUT_OF_BOUNDS = new NumberParserError(1);
     
-    public static NumberParserError fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> OUT_OF_BOUNDS;
-            default -> null;
-        };
+    private int value;
+    
+    public NumberParserError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case OUT_OF_BOUNDS -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(NumberParserError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

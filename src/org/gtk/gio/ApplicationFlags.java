@@ -8,7 +8,7 @@ public class ApplicationFlags {
     /**
      * Default
      */
-    public static final int FLAGS_NONE = 0;
+    public static final ApplicationFlags FLAGS_NONE = new ApplicationFlags(0);
     
     /**
      * Run as a service. In this mode, registration
@@ -16,12 +16,12 @@ public class ApplicationFlags {
      *      will initially wait up to 10 seconds for an initial activation
      *      message to arrive.
      */
-    public static final int IS_SERVICE = 1;
+    public static final ApplicationFlags IS_SERVICE = new ApplicationFlags(1);
     
     /**
      * Don't try to become the primary instance.
      */
-    public static final int IS_LAUNCHER = 2;
+    public static final ApplicationFlags IS_LAUNCHER = new ApplicationFlags(2);
     
     /**
      * This application handles opening files (in
@@ -30,7 +30,7 @@ public class ApplicationFlags {
      *     {@link ApplicationFlags#HANDLES_COMMAND_LINE} is given.
      *     See g_application_run() for details.
      */
-    public static final int HANDLES_OPEN = 4;
+    public static final ApplicationFlags HANDLES_OPEN = new ApplicationFlags(4);
     
     /**
      * This application handles command line
@@ -38,7 +38,7 @@ public class ApplicationFlags {
      *     the default implementation of local_command_line().
      *     See g_application_run() for details.
      */
-    public static final int HANDLES_COMMAND_LINE = 8;
+    public static final ApplicationFlags HANDLES_COMMAND_LINE = new ApplicationFlags(8);
     
     /**
      * Send the environment of the
@@ -50,7 +50,7 @@ public class ApplicationFlags {
      *     to the {@link Application}::command-line signal handler, via
      *     g_application_command_line_getenv().
      */
-    public static final int SEND_ENVIRONMENT = 16;
+    public static final ApplicationFlags SEND_ENVIRONMENT = new ApplicationFlags(16);
     
     /**
      * Make no attempts to do any of the typical
@@ -60,26 +60,60 @@ public class ApplicationFlags {
      *     owner already exists.  Everything occurs in the local process.
      *     Since: 2.30.
      */
-    public static final int NON_UNIQUE = 32;
+    public static final ApplicationFlags NON_UNIQUE = new ApplicationFlags(32);
     
     /**
      * Allow users to override the
      *     application ID from the command line with {@code --gapplication-app-id}.
      *     Since: 2.48
      */
-    public static final int CAN_OVERRIDE_APP_ID = 64;
+    public static final ApplicationFlags CAN_OVERRIDE_APP_ID = new ApplicationFlags(64);
     
     /**
      * Allow another instance to take over
      *     the bus name. Since: 2.60
      */
-    public static final int ALLOW_REPLACEMENT = 128;
+    public static final ApplicationFlags ALLOW_REPLACEMENT = new ApplicationFlags(128);
     
     /**
      * Take over from another instance. This flag is
      *     usually set by passing {@code --gapplication-replace} on the commandline.
      *     Since: 2.60
      */
-    public static final int REPLACE = 256;
+    public static final ApplicationFlags REPLACE = new ApplicationFlags(256);
+    
+    private int value;
+    
+    public ApplicationFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ApplicationFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public ApplicationFlags combined(ApplicationFlags mask) {
+        return new ApplicationFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static ApplicationFlags combined(ApplicationFlags mask, ApplicationFlags... masks) {
+        int value = mask.getValue();
+        for (ApplicationFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ApplicationFlags(value);
+    }
     
 }

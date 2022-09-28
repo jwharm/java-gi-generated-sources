@@ -1,12 +1,5 @@
 package org.harfbuzz;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * An integral type representing an OpenType 'name' table name identifier.
  * There are predefined name IDs, as well as name IDs return from other
@@ -15,9 +8,18 @@ import java.lang.invoke.*;
  * For more information on these fields, see the
  * <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/name#name-ids">OpenType spec</a>.
  */
-public class OtNameIdT extends Alias<Integer> {
-
+public class OtNameIdT {
+    private int value;
+    
     public OtNameIdT(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
         this.value = value;
     }
     

@@ -3,45 +3,48 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_settings_set_paper_width().
  */
-public enum Unit {
+public class Unit {
 
     /**
      * No units.
      */
-    NONE,
+    public static final Unit NONE = new Unit(0);
     
     /**
      * Dimensions in points.
      */
-    POINTS,
+    public static final Unit POINTS = new Unit(1);
     
     /**
      * Dimensions in inches.
      */
-    INCH,
+    public static final Unit INCH = new Unit(2);
     
     /**
      * Dimensions in millimeters
      */
-    MM;
+    public static final Unit MM = new Unit(3);
     
-    public static Unit fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> POINTS;
-            case 2 -> INCH;
-            case 3 -> MM;
-            default -> null;
-        };
+    private int value;
+    
+    public Unit(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case POINTS -> 1;
-            case INCH -> 2;
-            case MM -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Unit[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -20,8 +20,8 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
-    private static Reference constructNew(MarkupParser parser, int flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
-        Reference RESULT = References.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags, userData, 
+    private static Reference constructNew(MarkupParser parser, MarkupParseFlags flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
+        Reference RESULT = References.get(gtk_h.g_markup_parse_context_new(parser.handle(), flags.getValue(), userData, 
                     Interop.cbDestroyNotifySymbol()), true);
         return RESULT;
     }
@@ -33,7 +33,7 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * the parse context can't continue to parse text (you have to
      * free it and create a new parse context).
      */
-    public MarkupParseContext(MarkupParser parser, int flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
+    public MarkupParseContext(MarkupParser parser, MarkupParseFlags flags, java.lang.foreign.MemoryAddress userData, DestroyNotify userDataDnotify) {
         super(constructNew(parser, flags, userData, userDataDnotify));
     }
     

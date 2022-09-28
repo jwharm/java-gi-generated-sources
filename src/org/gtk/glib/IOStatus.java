@@ -3,45 +3,48 @@ package org.gtk.glib;
 /**
  * Statuses returned by most of the {@link IOFuncs} functions.
  */
-public enum IOStatus {
+public class IOStatus {
 
     /**
      * An error occurred.
      */
-    ERROR,
+    public static final IOStatus ERROR = new IOStatus(0);
     
     /**
      * Success.
      */
-    NORMAL,
+    public static final IOStatus NORMAL = new IOStatus(1);
     
     /**
      * End of file.
      */
-    EOF,
+    public static final IOStatus EOF = new IOStatus(2);
     
     /**
      * Resource temporarily unavailable.
      */
-    AGAIN;
+    public static final IOStatus AGAIN = new IOStatus(3);
     
-    public static IOStatus fromValue(int value) {
-        return switch(value) {
-            case 0 -> ERROR;
-            case 1 -> NORMAL;
-            case 2 -> EOF;
-            case 3 -> AGAIN;
-            default -> null;
-        };
+    private int value;
+    
+    public IOStatus(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ERROR -> 0;
-            case NORMAL -> 1;
-            case EOF -> 2;
-            case AGAIN -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(IOStatus[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

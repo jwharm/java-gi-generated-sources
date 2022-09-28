@@ -24,9 +24,9 @@ public class DeviceTool extends org.gtk.gobject.Object {
     /**
      * Gets the axes of the tool.
      */
-    public int getAxes() {
+    public AxisFlags getAxes() {
         var RESULT = gtk_h.gdk_device_tool_get_axes(handle());
-        return RESULT;
+        return new AxisFlags(RESULT);
     }
     
     /**
@@ -63,7 +63,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      */
     public DeviceToolType getToolType() {
         var RESULT = gtk_h.gdk_device_tool_get_tool_type(handle());
-        return DeviceToolType.fromValue(RESULT);
+        return new DeviceToolType(RESULT);
     }
     
 }

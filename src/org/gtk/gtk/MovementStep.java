@@ -4,87 +4,78 @@ package org.gtk.gtk;
  * Passed as argument to various keybinding signals for moving the
  * cursor position.
  */
-public enum MovementStep {
+public class MovementStep {
 
     /**
      * Move forward or back by graphemes
      */
-    LOGICAL_POSITIONS,
+    public static final MovementStep LOGICAL_POSITIONS = new MovementStep(0);
     
     /**
      * Move left or right by graphemes
      */
-    VISUAL_POSITIONS,
+    public static final MovementStep VISUAL_POSITIONS = new MovementStep(1);
     
     /**
      * Move forward or back by words
      */
-    WORDS,
+    public static final MovementStep WORDS = new MovementStep(2);
     
     /**
      * Move up or down lines (wrapped lines)
      */
-    DISPLAY_LINES,
+    public static final MovementStep DISPLAY_LINES = new MovementStep(3);
     
     /**
      * Move to either end of a line
      */
-    DISPLAY_LINE_ENDS,
+    public static final MovementStep DISPLAY_LINE_ENDS = new MovementStep(4);
     
     /**
      * Move up or down paragraphs (newline-ended lines)
      */
-    PARAGRAPHS,
+    public static final MovementStep PARAGRAPHS = new MovementStep(5);
     
     /**
      * Move to either end of a paragraph
      */
-    PARAGRAPH_ENDS,
+    public static final MovementStep PARAGRAPH_ENDS = new MovementStep(6);
     
     /**
      * Move by pages
      */
-    PAGES,
+    public static final MovementStep PAGES = new MovementStep(7);
     
     /**
      * Move to ends of the buffer
      */
-    BUFFER_ENDS,
+    public static final MovementStep BUFFER_ENDS = new MovementStep(8);
     
     /**
      * Move horizontally by pages
      */
-    HORIZONTAL_PAGES;
+    public static final MovementStep HORIZONTAL_PAGES = new MovementStep(9);
     
-    public static MovementStep fromValue(int value) {
-        return switch(value) {
-            case 0 -> LOGICAL_POSITIONS;
-            case 1 -> VISUAL_POSITIONS;
-            case 2 -> WORDS;
-            case 3 -> DISPLAY_LINES;
-            case 4 -> DISPLAY_LINE_ENDS;
-            case 5 -> PARAGRAPHS;
-            case 6 -> PARAGRAPH_ENDS;
-            case 7 -> PAGES;
-            case 8 -> BUFFER_ENDS;
-            case 9 -> HORIZONTAL_PAGES;
-            default -> null;
-        };
+    private int value;
+    
+    public MovementStep(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LOGICAL_POSITIONS -> 0;
-            case VISUAL_POSITIONS -> 1;
-            case WORDS -> 2;
-            case DISPLAY_LINES -> 3;
-            case DISPLAY_LINE_ENDS -> 4;
-            case PARAGRAPHS -> 5;
-            case PARAGRAPH_ENDS -> 6;
-            case PAGES -> 7;
-            case BUFFER_ENDS -> 8;
-            case HORIZONTAL_PAGES -> 9;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(MovementStep[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

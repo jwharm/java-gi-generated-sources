@@ -177,7 +177,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
      */
     public PositionType getPosition() {
         var RESULT = gtk_h.gtk_popover_get_position(handle());
-        return PositionType.fromValue(RESULT);
+        return new PositionType(RESULT);
     }
     
     /**

@@ -1,40 +1,39 @@
 package org.cairographics;
 
-public enum PatternType {
+public class PatternType {
 
-    SOLID,
+    public static final PatternType SOLID = new PatternType(0);
     
-    SURFACE,
+    public static final PatternType SURFACE = new PatternType(1);
     
-    LINEAR,
+    public static final PatternType LINEAR = new PatternType(2);
     
-    RADIAL,
+    public static final PatternType RADIAL = new PatternType(3);
     
-    MESH,
+    public static final PatternType MESH = new PatternType(4);
     
-    RASTER_SOURCE;
+    public static final PatternType RASTER_SOURCE = new PatternType(5);
     
-    public static PatternType fromValue(int value) {
-        return switch(value) {
-            case 0 -> SOLID;
-            case 1 -> SURFACE;
-            case 2 -> LINEAR;
-            case 3 -> RADIAL;
-            case 4 -> MESH;
-            case 5 -> RASTER_SOURCE;
-            default -> null;
-        };
+    private int value;
+    
+    public PatternType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SOLID -> 0;
-            case SURFACE -> 1;
-            case LINEAR -> 2;
-            case RADIAL -> 3;
-            case MESH -> 4;
-            case RASTER_SOURCE -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PatternType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

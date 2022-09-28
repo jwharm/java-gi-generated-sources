@@ -52,7 +52,7 @@ public class SpringAnimation extends Animation {
     }
     
     private static Reference constructNew(org.gtk.gtk.Widget widget, double from, double to, SpringParams springParams, AnimationTarget target) {
-        Reference RESULT = References.get(gtk_h.adw_spring_animation_new(widget.handle(), from, to, springParams.handle(), target.getReference().unowned().handle()), false);
+        Reference RESULT = References.get(gtk_h.adw_spring_animation_new(widget.handle(), from, to, springParams.getReference().unowned().handle(), target.getReference().unowned().handle()), false);
         return RESULT;
     }
     

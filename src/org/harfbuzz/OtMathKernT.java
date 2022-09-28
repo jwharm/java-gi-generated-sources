@@ -4,45 +4,48 @@ package org.harfbuzz;
  * The math kerning-table types defined for the four corners
  * of a glyph.
  */
-public enum OtMathKernT {
+public class OtMathKernT {
 
     /**
      * The top right corner of the glyph.
      */
-    TOP_RIGHT,
+    public static final OtMathKernT TOP_RIGHT = new OtMathKernT(0);
     
     /**
      * The top left corner of the glyph.
      */
-    TOP_LEFT,
+    public static final OtMathKernT TOP_LEFT = new OtMathKernT(1);
     
     /**
      * The bottom right corner of the glyph.
      */
-    BOTTOM_RIGHT,
+    public static final OtMathKernT BOTTOM_RIGHT = new OtMathKernT(2);
     
     /**
      * The bottom left corner of the glyph.
      */
-    BOTTOM_LEFT;
+    public static final OtMathKernT BOTTOM_LEFT = new OtMathKernT(3);
     
-    public static OtMathKernT fromValue(int value) {
-        return switch(value) {
-            case 0 -> TOP_RIGHT;
-            case 1 -> TOP_LEFT;
-            case 2 -> BOTTOM_RIGHT;
-            case 3 -> BOTTOM_LEFT;
-            default -> null;
-        };
+    private int value;
+    
+    public OtMathKernT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case TOP_RIGHT -> 0;
-            case TOP_LEFT -> 1;
-            case BOTTOM_RIGHT -> 2;
-            case BOTTOM_LEFT -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(OtMathKernT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

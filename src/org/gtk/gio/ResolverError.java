@@ -4,40 +4,45 @@ package org.gtk.gio;
  * An error code used with {@code G_RESOLVER_ERROR} in a {@link org.gtk.glib.Error} returned
  * from a {@link Resolver} routine.
  */
-public enum ResolverError {
+public class ResolverError {
 
     /**
      * the requested name/address/service was not
      *     found
      */
-    NOT_FOUND,
+    public static final ResolverError NOT_FOUND = new ResolverError(0);
     
     /**
      * the requested information could not
      *     be looked up due to a network error or similar problem
      */
-    TEMPORARY_FAILURE,
+    public static final ResolverError TEMPORARY_FAILURE = new ResolverError(1);
     
     /**
      * unknown error
      */
-    INTERNAL;
+    public static final ResolverError INTERNAL = new ResolverError(2);
     
-    public static ResolverError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NOT_FOUND;
-            case 1 -> TEMPORARY_FAILURE;
-            case 2 -> INTERNAL;
-            default -> null;
-        };
+    private int value;
+    
+    public ResolverError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NOT_FOUND -> 0;
-            case TEMPORARY_FAILURE -> 1;
-            case INTERNAL -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ResolverError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

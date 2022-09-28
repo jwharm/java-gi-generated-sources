@@ -83,8 +83,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         return new Application(gobject.getReference());
     }
     
-    private static Reference constructNew(java.lang.String applicationId, int flags) {
-        Reference RESULT = References.get(gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).handle(), flags), true);
+    private static Reference constructNew(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
+        Reference RESULT = References.get(gtk_h.gtk_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
         return RESULT;
     }
     
@@ -108,7 +108,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * If no application ID is given then some features (most notably application
      * uniqueness) will be disabled.
      */
-    public Application(java.lang.String applicationId, int flags) {
+    public Application(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
         super(constructNew(applicationId, flags));
     }
     
@@ -218,8 +218,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * If {@code window} is given, the session manager may point the user to
      * this window to find out more about why the action is inhibited.
      */
-    public int inhibit(Window window, int flags, java.lang.String reason) {
-        var RESULT = gtk_h.gtk_application_inhibit(handle(), window.handle(), flags, Interop.allocateNativeString(reason).handle());
+    public int inhibit(Window window, ApplicationInhibitFlags flags, java.lang.String reason) {
+        var RESULT = gtk_h.gtk_application_inhibit(handle(), window.handle(), flags.getValue(), Interop.allocateNativeString(reason).handle());
         return RESULT;
     }
     

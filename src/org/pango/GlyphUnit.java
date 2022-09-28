@@ -1,12 +1,5 @@
 package org.pango;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * The {@code PangoGlyphUnit} type is used to store dimensions within
  * Pango.
@@ -20,9 +13,18 @@ import java.lang.invoke.*;
  * The PANGO_PIXELS() macro can be used to convert from glyph units
  * into device units with correct rounding.
  */
-public class GlyphUnit extends Alias<Integer> {
-
+public class GlyphUnit {
+    private int value;
+    
     public GlyphUnit(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
         this.value = value;
     }
     

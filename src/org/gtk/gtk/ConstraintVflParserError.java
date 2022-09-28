@@ -3,59 +3,58 @@ package org.gtk.gtk;
 /**
  * Domain for VFL parsing errors.
  */
-public enum ConstraintVflParserError {
+public class ConstraintVflParserError {
 
     /**
      * Invalid or unknown symbol
      */
-    SYMBOL,
+    public static final ConstraintVflParserError SYMBOL = new ConstraintVflParserError(0);
     
     /**
      * Invalid or unknown attribute
      */
-    ATTRIBUTE,
+    public static final ConstraintVflParserError ATTRIBUTE = new ConstraintVflParserError(1);
     
     /**
      * Invalid or unknown view
      */
-    VIEW,
+    public static final ConstraintVflParserError VIEW = new ConstraintVflParserError(2);
     
     /**
      * Invalid or unknown metric
      */
-    METRIC,
+    public static final ConstraintVflParserError METRIC = new ConstraintVflParserError(3);
     
     /**
      * Invalid or unknown priority
      */
-    PRIORITY,
+    public static final ConstraintVflParserError PRIORITY = new ConstraintVflParserError(4);
     
     /**
      * Invalid or unknown relation
      */
-    RELATION;
+    public static final ConstraintVflParserError RELATION = new ConstraintVflParserError(5);
     
-    public static ConstraintVflParserError fromValue(int value) {
-        return switch(value) {
-            case 0 -> SYMBOL;
-            case 1 -> ATTRIBUTE;
-            case 2 -> VIEW;
-            case 3 -> METRIC;
-            case 4 -> PRIORITY;
-            case 5 -> RELATION;
-            default -> null;
-        };
+    private int value;
+    
+    public ConstraintVflParserError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SYMBOL -> 0;
-            case ATTRIBUTE -> 1;
-            case VIEW -> 2;
-            case METRIC -> 3;
-            case PRIORITY -> 4;
-            case RELATION -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ConstraintVflParserError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

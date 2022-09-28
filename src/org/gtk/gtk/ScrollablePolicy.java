@@ -4,31 +4,38 @@ package org.gtk.gtk;
  * Defines the policy to be used in a scrollable widget when updating
  * the scrolled window adjustments in a given orientation.
  */
-public enum ScrollablePolicy {
+public class ScrollablePolicy {
 
     /**
      * Scrollable adjustments are based on the minimum size
      */
-    MINIMUM,
+    public static final ScrollablePolicy MINIMUM = new ScrollablePolicy(0);
     
     /**
      * Scrollable adjustments are based on the natural size
      */
-    NATURAL;
+    public static final ScrollablePolicy NATURAL = new ScrollablePolicy(1);
     
-    public static ScrollablePolicy fromValue(int value) {
-        return switch(value) {
-            case 0 -> MINIMUM;
-            case 1 -> NATURAL;
-            default -> null;
-        };
+    private int value;
+    
+    public ScrollablePolicy(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case MINIMUM -> 0;
-            case NATURAL -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ScrollablePolicy[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

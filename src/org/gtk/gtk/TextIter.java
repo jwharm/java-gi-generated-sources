@@ -141,8 +141,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code match_end} will never be set to a {@code GtkTextIter} located after {@code iter},
      * even if there is a possible {@code match_start} before or at {@code iter}.
      */
-    public boolean backwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = gtk_h.gtk_text_iter_backward_search(handle(), Interop.allocateNativeString(str).handle(), flags, matchStart.handle(), matchEnd.handle(), limit.handle());
+    public boolean backwardSearch(java.lang.String str, TextSearchFlags flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
+        var RESULT = gtk_h.gtk_text_iter_backward_search(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
         return (RESULT != 0);
     }
     
@@ -541,8 +541,8 @@ public class TextIter extends io.github.jwharm.javagi.ResourceBase {
      * {@code match_start} will never be set to a {@code GtkTextIter} located before {@code iter},
      * even if there is a possible {@code match_end} after or at {@code iter}.
      */
-    public boolean forwardSearch(java.lang.String str, int flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
-        var RESULT = gtk_h.gtk_text_iter_forward_search(handle(), Interop.allocateNativeString(str).handle(), flags, matchStart.handle(), matchEnd.handle(), limit.handle());
+    public boolean forwardSearch(java.lang.String str, TextSearchFlags flags, TextIter matchStart, TextIter matchEnd, TextIter limit) {
+        var RESULT = gtk_h.gtk_text_iter_forward_search(handle(), Interop.allocateNativeString(str).handle(), flags.getValue(), matchStart.handle(), matchEnd.handle(), limit.handle());
         return (RESULT != 0);
     }
     

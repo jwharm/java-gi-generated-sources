@@ -338,8 +338,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * cell, however some subclasses which embed widgets in the area
      * can also activate a widget if it currently has the focus.
      */
-    public boolean activate(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, int flags, boolean editOnly) {
-        var RESULT = gtk_h.gtk_cell_area_activate(handle(), context.handle(), widget.handle(), cellArea.handle(), flags, editOnly ? 1 : 0);
+    public boolean activate(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, CellRendererState flags, boolean editOnly) {
+        var RESULT = gtk_h.gtk_cell_area_activate(handle(), context.handle(), widget.handle(), cellArea.handle(), flags.getValue(), editOnly ? 1 : 0);
         return (RESULT != 0);
     }
     
@@ -349,8 +349,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * for keyboard events for free in its own GtkCellArea->activate()
      * implementation.
      */
-    public boolean activateCell(Widget widget, CellRenderer renderer, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = gtk_h.gtk_cell_area_activate_cell(handle(), widget.handle(), renderer.handle(), event.handle(), cellArea.handle(), flags);
+    public boolean activateCell(Widget widget, CellRenderer renderer, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
+        var RESULT = gtk_h.gtk_cell_area_activate_cell(handle(), widget.handle(), renderer.handle(), event.handle(), cellArea.handle(), flags.getValue());
         return (RESULT != 0);
     }
     
@@ -469,8 +469,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Delegates event handling to a {@code GtkCellArea}.
      */
-    public int event(CellAreaContext context, Widget widget, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, int flags) {
-        var RESULT = gtk_h.gtk_cell_area_event(handle(), context.handle(), widget.handle(), event.handle(), cellArea.handle(), flags);
+    public int event(CellAreaContext context, Widget widget, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
+        var RESULT = gtk_h.gtk_cell_area_event(handle(), context.handle(), widget.handle(), event.handle(), cellArea.handle(), flags.getValue());
         return RESULT;
     }
     
@@ -672,7 +672,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      */
     public SizeRequestMode getRequestMode() {
         var RESULT = gtk_h.gtk_cell_area_get_request_mode(handle());
-        return SizeRequestMode.fromValue(RESULT);
+        return new SizeRequestMode(RESULT);
     }
     
     /**
@@ -752,8 +752,8 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Snapshots {@code area}’s cells according to {@code area}’s layout onto at
      * the given coordinates.
      */
-    public void snapshot(CellAreaContext context, Widget widget, Snapshot snapshot, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, int flags, boolean paintFocus) {
-        gtk_h.gtk_cell_area_snapshot(handle(), context.handle(), widget.handle(), snapshot.handle(), backgroundArea.handle(), cellArea.handle(), flags, paintFocus ? 1 : 0);
+    public void snapshot(CellAreaContext context, Widget widget, Snapshot snapshot, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags, boolean paintFocus) {
+        gtk_h.gtk_cell_area_snapshot(handle(), context.handle(), widget.handle(), snapshot.handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue(), paintFocus ? 1 : 0);
     }
     
     /**

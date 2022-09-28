@@ -1,28 +1,33 @@
 package org.cairographics;
 
-public enum HintMetrics {
+public class HintMetrics {
 
-    DEFAULT,
+    public static final HintMetrics DEFAULT = new HintMetrics(0);
     
-    OFF,
+    public static final HintMetrics OFF = new HintMetrics(1);
     
-    ON;
+    public static final HintMetrics ON = new HintMetrics(2);
     
-    public static HintMetrics fromValue(int value) {
-        return switch(value) {
-            case 0 -> DEFAULT;
-            case 1 -> OFF;
-            case 2 -> ON;
-            default -> null;
-        };
+    private int value;
+    
+    public HintMetrics(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DEFAULT -> 0;
-            case OFF -> 1;
-            case ON -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(HintMetrics[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

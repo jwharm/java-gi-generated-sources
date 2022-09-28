@@ -4,41 +4,46 @@ package org.gtk.gio;
  * {@link TlsInteractionResult} is returned by various functions in {@link TlsInteraction}
  * when finishing an interaction request.
  */
-public enum TlsInteractionResult {
+public class TlsInteractionResult {
 
     /**
      * The interaction was unhandled (i.e. not
      *     implemented).
      */
-    UNHANDLED,
+    public static final TlsInteractionResult UNHANDLED = new TlsInteractionResult(0);
     
     /**
      * The interaction completed, and resulting data
      *     is available.
      */
-    HANDLED,
+    public static final TlsInteractionResult HANDLED = new TlsInteractionResult(1);
     
     /**
      * The interaction has failed, or was cancelled.
      *     and the operation should be aborted.
      */
-    FAILED;
+    public static final TlsInteractionResult FAILED = new TlsInteractionResult(2);
     
-    public static TlsInteractionResult fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNHANDLED;
-            case 1 -> HANDLED;
-            case 2 -> FAILED;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsInteractionResult(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNHANDLED -> 0;
-            case HANDLED -> 1;
-            case FAILED -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsInteractionResult[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

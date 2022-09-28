@@ -102,9 +102,9 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
     /**
      * Gets the mnemonics modifiers for when this controller activates its shortcuts.
      */
-    public int getMnemonicsModifiers() {
+    public org.gtk.gdk.ModifierType getMnemonicsModifiers() {
         var RESULT = gtk_h.gtk_shortcut_controller_get_mnemonics_modifiers(handle());
-        return RESULT;
+        return new org.gtk.gdk.ModifierType(RESULT);
     }
     
     /**
@@ -114,7 +114,7 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      */
     public ShortcutScope getScope() {
         var RESULT = gtk_h.gtk_shortcut_controller_get_scope(handle());
-        return ShortcutScope.fromValue(RESULT);
+        return new ShortcutScope(RESULT);
     }
     
     /**
@@ -142,8 +142,8 @@ public class ShortcutController extends EventController implements org.gtk.gio.L
      * shortcut controllers will have their shortcuts activated from other places which
      * have their own modifiers for activating mnemonics.
      */
-    public void setMnemonicsModifiers(int modifiers) {
-        gtk_h.gtk_shortcut_controller_set_mnemonics_modifiers(handle(), modifiers);
+    public void setMnemonicsModifiers(org.gtk.gdk.ModifierType modifiers) {
+        gtk_h.gtk_shortcut_controller_set_mnemonics_modifiers(handle(), modifiers.getValue());
     }
     
     /**

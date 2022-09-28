@@ -73,9 +73,9 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
      * Gets the {@link DBusInterfaceSkeletonFlags} that describes what the behavior
      * of {@code interface_}
      */
-    public int getFlags() {
+    public DBusInterfaceSkeletonFlags getFlags() {
         var RESULT = gtk_h.g_dbus_interface_skeleton_get_flags(handle());
-        return RESULT;
+        return new DBusInterfaceSkeletonFlags(RESULT);
     }
     
     /**
@@ -124,8 +124,8 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
     /**
      * Sets flags describing what the behavior of {@code skeleton} should be.
      */
-    public void setFlags(int flags) {
-        gtk_h.g_dbus_interface_skeleton_set_flags(handle(), flags);
+    public void setFlags(DBusInterfaceSkeletonFlags flags) {
+        gtk_h.g_dbus_interface_skeleton_set_flags(handle(), flags.getValue());
     }
     
     /**

@@ -99,7 +99,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public Alignment getAlignment() {
         var RESULT = gtk_h.pango_layout_get_alignment(handle());
-        return Alignment.fromValue(RESULT);
+        return new Alignment(RESULT);
     }
     
     /**
@@ -201,7 +201,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public Direction getDirection(int index) {
         var RESULT = gtk_h.pango_layout_get_direction(handle(), index);
-        return Direction.fromValue(RESULT);
+        return new Direction(RESULT);
     }
     
     /**
@@ -214,7 +214,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public EllipsizeMode getEllipsize() {
         var RESULT = gtk_h.pango_layout_get_ellipsize(handle());
-        return EllipsizeMode.fromValue(RESULT);
+        return new EllipsizeMode(RESULT);
     }
     
     /**
@@ -482,7 +482,7 @@ public class Layout extends org.gtk.gobject.Object {
      */
     public WrapMode getWrap() {
         var RESULT = gtk_h.pango_layout_get_wrap(handle());
-        return WrapMode.fromValue(RESULT);
+        return new WrapMode(RESULT);
     }
     
     /**
@@ -564,8 +564,8 @@ public class Layout extends org.gtk.gobject.Object {
      * The intended use of this function is testing, benchmarking and debugging.
      * The format is not meant as a permanent storage format.
      */
-    public org.gtk.glib.Bytes serialize(int flags) {
-        var RESULT = gtk_h.pango_layout_serialize(handle(), flags);
+    public org.gtk.glib.Bytes serialize(LayoutSerializeFlags flags) {
+        var RESULT = gtk_h.pango_layout_serialize(handle(), flags.getValue());
         return new org.gtk.glib.Bytes(References.get(RESULT, true));
     }
     
@@ -884,9 +884,9 @@ public class Layout extends org.gtk.gobject.Object {
      * It is mostly intended for use inside a debugger to quickly dump
      * a layout to a file for later inspection.
      */
-    public boolean writeToFile(int flags, java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writeToFile(LayoutSerializeFlags flags, java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.pango_layout_write_to_file(handle(), flags, Interop.allocateNativeString(filename).handle(), GERROR);
+        var RESULT = gtk_h.pango_layout_write_to_file(handle(), flags.getValue(), Interop.allocateNativeString(filename).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -918,9 +918,9 @@ public class Layout extends org.gtk.gobject.Object {
      * the one that was serialized, you can compare {@code bytes} to the
      * result of serializing the layout again.
      */
-    public static Layout deserialize(Context context, org.gtk.glib.Bytes bytes, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static Layout deserialize(Context context, org.gtk.glib.Bytes bytes, LayoutDeserializeFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.pango_layout_deserialize(context.handle(), bytes.handle(), flags, GERROR);
+        var RESULT = gtk_h.pango_layout_deserialize(context.handle(), bytes.handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

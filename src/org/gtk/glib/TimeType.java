@@ -10,38 +10,43 @@ package org.gtk.glib;
  * where the same local time occurs twice (during daylight savings time
  * transitions, for example).
  */
-public enum TimeType {
+public class TimeType {
 
     /**
      * the time is in local standard time
      */
-    STANDARD,
+    public static final TimeType STANDARD = new TimeType(0);
     
     /**
      * the time is in local daylight time
      */
-    DAYLIGHT,
+    public static final TimeType DAYLIGHT = new TimeType(1);
     
     /**
      * the time is in UTC
      */
-    UNIVERSAL;
+    public static final TimeType UNIVERSAL = new TimeType(2);
     
-    public static TimeType fromValue(int value) {
-        return switch(value) {
-            case 0 -> STANDARD;
-            case 1 -> DAYLIGHT;
-            case 2 -> UNIVERSAL;
-            default -> null;
-        };
+    private int value;
+    
+    public TimeType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case STANDARD -> 0;
-            case DAYLIGHT -> 1;
-            case UNIVERSAL -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TimeType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

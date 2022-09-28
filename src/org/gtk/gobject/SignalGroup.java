@@ -40,7 +40,7 @@ public class SignalGroup extends Object {
         return new SignalGroup(gobject.getReference());
     }
     
-    private static Reference constructNew(Type targetType) {
+    private static Reference constructNew(org.gtk.gobject.Type targetType) {
         Reference RESULT = References.get(gtk_h.g_signal_group_new(targetType.getValue()), true);
         return RESULT;
     }
@@ -48,7 +48,7 @@ public class SignalGroup extends Object {
     /**
      * Creates a new {@link SignalGroup} for target instances of {@code target_type}.
      */
-    public SignalGroup(Type targetType) {
+    public SignalGroup(org.gtk.gobject.Type targetType) {
         super(constructNew(targetType));
     }
     
@@ -111,7 +111,7 @@ public class SignalGroup extends Object {
      * <p>
      * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
-    public void connectData(java.lang.String detailedSignal, Callback cHandler, ClosureNotify notify, int flags) {
+    public void connectData(java.lang.String detailedSignal, Callback cHandler, ClosureNotify notify, ConnectFlags flags) {
         try {
             gtk_h.g_signal_group_connect_data(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
                     Linker.nativeLinker().upcallStub(
@@ -124,7 +124,7 @@ public class SignalGroup extends Object {
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), flags);
+                        Interop.getScope()), flags.getValue());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }

@@ -3,41 +3,46 @@ package org.gtk.gtk;
 /**
  * Specifies how search strings are matched inside text.
  */
-public enum StringFilterMatchMode {
+public class StringFilterMatchMode {
 
     /**
      * The search string and
      *   text must match exactly.
      */
-    EXACT,
+    public static final StringFilterMatchMode EXACT = new StringFilterMatchMode(0);
     
     /**
      * The search string
      *   must be contained as a substring inside the text.
      */
-    SUBSTRING,
+    public static final StringFilterMatchMode SUBSTRING = new StringFilterMatchMode(1);
     
     /**
      * The text must begin
      *   with the search string.
      */
-    PREFIX;
+    public static final StringFilterMatchMode PREFIX = new StringFilterMatchMode(2);
     
-    public static StringFilterMatchMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> EXACT;
-            case 1 -> SUBSTRING;
-            case 2 -> PREFIX;
-            default -> null;
-        };
+    private int value;
+    
+    public StringFilterMatchMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case EXACT -> 0;
-            case SUBSTRING -> 1;
-            case PREFIX -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(StringFilterMatchMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

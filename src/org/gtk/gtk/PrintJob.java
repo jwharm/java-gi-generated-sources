@@ -63,7 +63,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public NumberUpLayout getNUpLayout() {
         var RESULT = gtk_h.gtk_print_job_get_n_up_layout(handle());
-        return NumberUpLayout.fromValue(RESULT);
+        return new NumberUpLayout(RESULT);
     }
     
     /**
@@ -79,7 +79,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public PageSet getPageSet() {
         var RESULT = gtk_h.gtk_print_job_get_page_set(handle());
-        return PageSet.fromValue(RESULT);
+        return new PageSet(RESULT);
     }
     
     /**
@@ -87,7 +87,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public PrintPages getPages() {
         var RESULT = gtk_h.gtk_print_job_get_pages(handle());
-        return PrintPages.fromValue(RESULT);
+        return new PrintPages(RESULT);
     }
     
     /**
@@ -135,7 +135,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      */
     public PrintStatus getStatus() {
         var RESULT = gtk_h.gtk_print_job_get_status(handle());
-        return PrintStatus.fromValue(RESULT);
+        return new PrintStatus(RESULT);
     }
     
     /**

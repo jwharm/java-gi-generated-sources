@@ -8,19 +8,19 @@ package org.pango;
  * <p>
  * See also {@code Pango.Gravity}
  */
-public enum GravityHint {
+public class GravityHint {
 
     /**
      * scripts will take their natural gravity based
      *   on the base gravity and the script.  This is the default.
      */
-    NATURAL,
+    public static final GravityHint NATURAL = new GravityHint(0);
     
     /**
      * always use the base gravity set, regardless of
      *   the script.
      */
-    STRONG,
+    public static final GravityHint STRONG = new GravityHint(1);
     
     /**
      * for scripts not in their natural direction (eg.
@@ -28,23 +28,28 @@ public enum GravityHint {
      *   respects the line progression. This means, Latin and Arabic will take
      *   opposite gravities and both flow top-to-bottom for example.
      */
-    LINE;
+    public static final GravityHint LINE = new GravityHint(2);
     
-    public static GravityHint fromValue(int value) {
-        return switch(value) {
-            case 0 -> NATURAL;
-            case 1 -> STRONG;
-            case 2 -> LINE;
-            default -> null;
-        };
+    private int value;
+    
+    public GravityHint(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NATURAL -> 0;
-            case STRONG -> 1;
-            case LINE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(GravityHint[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

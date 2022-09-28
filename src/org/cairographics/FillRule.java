@@ -1,24 +1,31 @@
 package org.cairographics;
 
-public enum FillRule {
+public class FillRule {
 
-    WINDING,
+    public static final FillRule WINDING = new FillRule(0);
     
-    EVEN_ODD;
+    public static final FillRule EVEN_ODD = new FillRule(1);
     
-    public static FillRule fromValue(int value) {
-        return switch(value) {
-            case 0 -> WINDING;
-            case 1 -> EVEN_ODD;
-            default -> null;
-        };
+    private int value;
+    
+    public FillRule(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case WINDING -> 0;
-            case EVEN_ODD -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FillRule[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

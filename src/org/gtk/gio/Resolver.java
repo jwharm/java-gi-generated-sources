@@ -160,9 +160,9 @@ public class Resolver extends org.gtk.gobject.Object {
      * the lookup behavior with {@code flags}. For example this can be used to limit
      * results with {@link ResolverNameLookupFlags#IPV4_ONLY}.
      */
-    public org.gtk.glib.List lookupByNameWithFlags(java.lang.String hostname, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.List lookupByNameWithFlags(java.lang.String hostname, ResolverNameLookupFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resolver_lookup_by_name_with_flags(handle(), Interop.allocateNativeString(hostname).handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_resolver_lookup_by_name_with_flags(handle(), Interop.allocateNativeString(hostname).handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -175,9 +175,9 @@ public class Resolver extends org.gtk.gobject.Object {
      * must call g_resolver_lookup_by_name_with_flags_finish() to get the result.
      * See g_resolver_lookup_by_name() for more details.
      */
-    public void lookupByNameWithFlagsAsync(java.lang.String hostname, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void lookupByNameWithFlagsAsync(java.lang.String hostname, ResolverNameLookupFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_resolver_lookup_by_name_with_flags_async(handle(), Interop.allocateNativeString(hostname).handle(), flags, cancellable.handle(), 
+            gtk_h.g_resolver_lookup_by_name_with_flags_async(handle(), Interop.allocateNativeString(hostname).handle(), flags.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

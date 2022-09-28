@@ -1,36 +1,37 @@
 package org.cairographics;
 
-public enum FontType {
+public class FontType {
 
-    TOY,
+    public static final FontType TOY = new FontType(0);
     
-    FT,
+    public static final FontType FT = new FontType(1);
     
-    WIN32,
+    public static final FontType WIN32 = new FontType(2);
     
-    QUARTZ,
+    public static final FontType QUARTZ = new FontType(3);
     
-    USER;
+    public static final FontType USER = new FontType(4);
     
-    public static FontType fromValue(int value) {
-        return switch(value) {
-            case 0 -> TOY;
-            case 1 -> FT;
-            case 2 -> WIN32;
-            case 3 -> QUARTZ;
-            case 4 -> USER;
-            default -> null;
-        };
+    private int value;
+    
+    public FontType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case TOY -> 0;
-            case FT -> 1;
-            case WIN32 -> 2;
-            case QUARTZ -> 3;
-            case USER -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FontType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

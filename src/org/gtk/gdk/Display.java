@@ -375,8 +375,8 @@ public class Display extends org.gtk.gobject.Object {
      * contains the translated keyval. It is exported for the benefit of
      * virtualized test environments.
      */
-    public boolean translateKey(int keycode, int state, int group, PointerInteger keyval, PointerInteger effectiveGroup, PointerInteger level, PointerInteger consumed) {
-        var RESULT = gtk_h.gdk_display_translate_key(handle(), keycode, state, group, keyval.handle(), effectiveGroup.handle(), level.handle(), consumed.handle());
+    public boolean translateKey(int keycode, ModifierType state, int group, PointerInteger keyval, PointerInteger effectiveGroup, PointerInteger level, ModifierType consumed) {
+        var RESULT = gtk_h.gdk_display_translate_key(handle(), keycode, state.getValue(), group, keyval.handle(), effectiveGroup.handle(), level.handle(), new PointerInteger(consumed.getValue()).handle());
         return (RESULT != 0);
     }
     

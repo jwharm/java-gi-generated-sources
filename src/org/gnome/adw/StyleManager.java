@@ -33,7 +33,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      */
     public ColorScheme getColorScheme() {
         var RESULT = gtk_h.adw_style_manager_get_color_scheme(handle());
-        return ColorScheme.fromValue(RESULT);
+        return new ColorScheme(RESULT);
     }
     
     /**

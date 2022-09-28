@@ -110,7 +110,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public org.gtk.gtk.PackType getFlapPosition() {
         var RESULT = gtk_h.adw_flap_get_flap_position(handle());
-        return org.gtk.gtk.PackType.fromValue(RESULT);
+        return new org.gtk.gtk.PackType(RESULT);
     }
     
     /**
@@ -126,7 +126,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public FlapFoldPolicy getFoldPolicy() {
         var RESULT = gtk_h.adw_flap_get_fold_policy(handle());
-        return FlapFoldPolicy.fromValue(RESULT);
+        return new FlapFoldPolicy(RESULT);
     }
     
     /**
@@ -134,7 +134,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public FoldThresholdPolicy getFoldThresholdPolicy() {
         var RESULT = gtk_h.adw_flap_get_fold_threshold_policy(handle());
-        return FoldThresholdPolicy.fromValue(RESULT);
+        return new FoldThresholdPolicy(RESULT);
     }
     
     /**
@@ -214,7 +214,7 @@ public class Flap extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.A
      */
     public FlapTransitionType getTransitionType() {
         var RESULT = gtk_h.adw_flap_get_transition_type(handle());
-        return FlapTransitionType.fromValue(RESULT);
+        return new FlapTransitionType(RESULT);
     }
     
     /**

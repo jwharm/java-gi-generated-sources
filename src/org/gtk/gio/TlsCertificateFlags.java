@@ -19,47 +19,81 @@ public class TlsCertificateFlags {
      * The signing certificate authority is
      *   not known.
      */
-    public static final int UNKNOWN_CA = 1;
+    public static final TlsCertificateFlags UNKNOWN_CA = new TlsCertificateFlags(1);
     
     /**
      * The certificate does not match the
      *   expected identity of the site that it was retrieved from.
      */
-    public static final int BAD_IDENTITY = 2;
+    public static final TlsCertificateFlags BAD_IDENTITY = new TlsCertificateFlags(2);
     
     /**
      * The certificate's activation time
      *   is still in the future
      */
-    public static final int NOT_ACTIVATED = 4;
+    public static final TlsCertificateFlags NOT_ACTIVATED = new TlsCertificateFlags(4);
     
     /**
      * The certificate has expired
      */
-    public static final int EXPIRED = 8;
+    public static final TlsCertificateFlags EXPIRED = new TlsCertificateFlags(8);
     
     /**
      * The certificate has been revoked
      *   according to the {@link TlsConnection}'s certificate revocation list.
      */
-    public static final int REVOKED = 16;
+    public static final TlsCertificateFlags REVOKED = new TlsCertificateFlags(16);
     
     /**
      * The certificate's algorithm is
      *   considered insecure.
      */
-    public static final int INSECURE = 32;
+    public static final TlsCertificateFlags INSECURE = new TlsCertificateFlags(32);
     
     /**
      * Some other error occurred validating
      *   the certificate
      */
-    public static final int GENERIC_ERROR = 64;
+    public static final TlsCertificateFlags GENERIC_ERROR = new TlsCertificateFlags(64);
     
     /**
      * the combination of all of the above
      *   flags
      */
-    public static final int VALIDATE_ALL = 127;
+    public static final TlsCertificateFlags VALIDATE_ALL = new TlsCertificateFlags(127);
+    
+    private int value;
+    
+    public TlsCertificateFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsCertificateFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public TlsCertificateFlags combined(TlsCertificateFlags mask) {
+        return new TlsCertificateFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static TlsCertificateFlags combined(TlsCertificateFlags mask, TlsCertificateFlags... masks) {
+        int value = mask.getValue();
+        for (TlsCertificateFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TlsCertificateFlags(value);
+    }
     
 }

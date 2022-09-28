@@ -115,7 +115,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      */
     public License getLicenseType() {
         var RESULT = gtk_h.gtk_about_dialog_get_license_type(handle());
-        return License.fromValue(RESULT);
+        return new License(RESULT);
     }
     
     /**

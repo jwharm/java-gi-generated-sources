@@ -7,52 +7,53 @@ package org.gtk.glib;
  * Note that the {@link ChecksumType} enumeration may be extended at a later
  * date to include new hashing algorithm types.
  */
-public enum ChecksumType {
+public class ChecksumType {
 
     /**
      * Use the MD5 hashing algorithm
      */
-    MD5,
+    public static final ChecksumType MD5 = new ChecksumType(0);
     
     /**
      * Use the SHA-1 hashing algorithm
      */
-    SHA1,
+    public static final ChecksumType SHA1 = new ChecksumType(1);
     
     /**
      * Use the SHA-256 hashing algorithm
      */
-    SHA256,
+    public static final ChecksumType SHA256 = new ChecksumType(2);
     
     /**
      * Use the SHA-512 hashing algorithm (Since: 2.36)
      */
-    SHA512,
+    public static final ChecksumType SHA512 = new ChecksumType(3);
     
     /**
      * Use the SHA-384 hashing algorithm (Since: 2.51)
      */
-    SHA384;
+    public static final ChecksumType SHA384 = new ChecksumType(4);
     
-    public static ChecksumType fromValue(int value) {
-        return switch(value) {
-            case 0 -> MD5;
-            case 1 -> SHA1;
-            case 2 -> SHA256;
-            case 3 -> SHA512;
-            case 4 -> SHA384;
-            default -> null;
-        };
+    private int value;
+    
+    public ChecksumType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case MD5 -> 0;
-            case SHA1 -> 1;
-            case SHA256 -> 2;
-            case SHA512 -> 3;
-            case SHA384 -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ChecksumType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

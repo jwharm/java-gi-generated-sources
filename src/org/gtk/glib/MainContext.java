@@ -29,15 +29,15 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static Reference constructNewWithFlags(int flags) {
-        Reference RESULT = References.get(gtk_h.g_main_context_new_with_flags(flags), true);
+    private static Reference constructNewWithFlags(MainContextFlags flags) {
+        Reference RESULT = References.get(gtk_h.g_main_context_new_with_flags(flags.getValue()), true);
         return RESULT;
     }
     
     /**
      * Creates a new {@link MainContext} structure.
      */
-    public static MainContext newWithFlags(int flags) {
+    public static MainContext newWithFlags(MainContextFlags flags) {
         return new MainContext(constructNewWithFlags(flags));
     }
     

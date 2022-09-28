@@ -39,7 +39,7 @@ public class DataOutputStream extends FilterOutputStream implements Seekable {
      */
     public DataStreamByteOrder getByteOrder() {
         var RESULT = gtk_h.g_data_output_stream_get_byte_order(handle());
-        return DataStreamByteOrder.fromValue(RESULT);
+        return new DataStreamByteOrder(RESULT);
     }
     
     /**

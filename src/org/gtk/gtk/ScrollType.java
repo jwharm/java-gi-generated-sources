@@ -3,129 +3,108 @@ package org.gtk.gtk;
 /**
  * Scrolling types.
  */
-public enum ScrollType {
+public class ScrollType {
 
     /**
      * No scrolling.
      */
-    NONE,
+    public static final ScrollType NONE = new ScrollType(0);
     
     /**
      * Jump to new location.
      */
-    JUMP,
+    public static final ScrollType JUMP = new ScrollType(1);
     
     /**
      * Step backward.
      */
-    STEP_BACKWARD,
+    public static final ScrollType STEP_BACKWARD = new ScrollType(2);
     
     /**
      * Step forward.
      */
-    STEP_FORWARD,
+    public static final ScrollType STEP_FORWARD = new ScrollType(3);
     
     /**
      * Page backward.
      */
-    PAGE_BACKWARD,
+    public static final ScrollType PAGE_BACKWARD = new ScrollType(4);
     
     /**
      * Page forward.
      */
-    PAGE_FORWARD,
+    public static final ScrollType PAGE_FORWARD = new ScrollType(5);
     
     /**
      * Step up.
      */
-    STEP_UP,
+    public static final ScrollType STEP_UP = new ScrollType(6);
     
     /**
      * Step down.
      */
-    STEP_DOWN,
+    public static final ScrollType STEP_DOWN = new ScrollType(7);
     
     /**
      * Page up.
      */
-    PAGE_UP,
+    public static final ScrollType PAGE_UP = new ScrollType(8);
     
     /**
      * Page down.
      */
-    PAGE_DOWN,
+    public static final ScrollType PAGE_DOWN = new ScrollType(9);
     
     /**
      * Step to the left.
      */
-    STEP_LEFT,
+    public static final ScrollType STEP_LEFT = new ScrollType(10);
     
     /**
      * Step to the right.
      */
-    STEP_RIGHT,
+    public static final ScrollType STEP_RIGHT = new ScrollType(11);
     
     /**
      * Page to the left.
      */
-    PAGE_LEFT,
+    public static final ScrollType PAGE_LEFT = new ScrollType(12);
     
     /**
      * Page to the right.
      */
-    PAGE_RIGHT,
+    public static final ScrollType PAGE_RIGHT = new ScrollType(13);
     
     /**
      * Scroll to start.
      */
-    START,
+    public static final ScrollType START = new ScrollType(14);
     
     /**
      * Scroll to end.
      */
-    END;
+    public static final ScrollType END = new ScrollType(15);
     
-    public static ScrollType fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> JUMP;
-            case 2 -> STEP_BACKWARD;
-            case 3 -> STEP_FORWARD;
-            case 4 -> PAGE_BACKWARD;
-            case 5 -> PAGE_FORWARD;
-            case 6 -> STEP_UP;
-            case 7 -> STEP_DOWN;
-            case 8 -> PAGE_UP;
-            case 9 -> PAGE_DOWN;
-            case 10 -> STEP_LEFT;
-            case 11 -> STEP_RIGHT;
-            case 12 -> PAGE_LEFT;
-            case 13 -> PAGE_RIGHT;
-            case 14 -> START;
-            case 15 -> END;
-            default -> null;
-        };
+    private int value;
+    
+    public ScrollType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case JUMP -> 1;
-            case STEP_BACKWARD -> 2;
-            case STEP_FORWARD -> 3;
-            case PAGE_BACKWARD -> 4;
-            case PAGE_FORWARD -> 5;
-            case STEP_UP -> 6;
-            case STEP_DOWN -> 7;
-            case PAGE_UP -> 8;
-            case PAGE_DOWN -> 9;
-            case STEP_LEFT -> 10;
-            case STEP_RIGHT -> 11;
-            case PAGE_LEFT -> 12;
-            case PAGE_RIGHT -> 13;
-            case START -> 14;
-            case END -> 15;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ScrollType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

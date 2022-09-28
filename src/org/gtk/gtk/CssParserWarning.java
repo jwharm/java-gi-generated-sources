@@ -6,40 +6,45 @@ package org.gtk.gtk;
  * Unlike {@code GtkCssParserError}s, warnings do not cause the parser to
  * skip any input, but they indicate issues that should be fixed.
  */
-public enum CssParserWarning {
+public class CssParserWarning {
 
     /**
      * The given construct is
      *   deprecated and will be removed in a future version
      */
-    DEPRECATED,
+    public static final CssParserWarning DEPRECATED = new CssParserWarning(0);
     
     /**
      * A syntax construct was used
      *   that should be avoided
      */
-    SYNTAX,
+    public static final CssParserWarning SYNTAX = new CssParserWarning(1);
     
     /**
      * A feature is not implemented
      */
-    UNIMPLEMENTED;
+    public static final CssParserWarning UNIMPLEMENTED = new CssParserWarning(2);
     
-    public static CssParserWarning fromValue(int value) {
-        return switch(value) {
-            case 0 -> DEPRECATED;
-            case 1 -> SYNTAX;
-            case 2 -> UNIMPLEMENTED;
-            default -> null;
-        };
+    private int value;
+    
+    public CssParserWarning(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DEPRECATED -> 0;
-            case SYNTAX -> 1;
-            case UNIMPLEMENTED -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CssParserWarning[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

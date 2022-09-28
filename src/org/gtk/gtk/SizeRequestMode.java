@@ -4,38 +4,43 @@ package org.gtk.gtk;
  * Specifies a preference for height-for-width or
  * width-for-height geometry management.
  */
-public enum SizeRequestMode {
+public class SizeRequestMode {
 
     /**
      * Prefer height-for-width geometry management
      */
-    HEIGHT_FOR_WIDTH,
+    public static final SizeRequestMode HEIGHT_FOR_WIDTH = new SizeRequestMode(0);
     
     /**
      * Prefer width-for-height geometry management
      */
-    WIDTH_FOR_HEIGHT,
+    public static final SizeRequestMode WIDTH_FOR_HEIGHT = new SizeRequestMode(1);
     
     /**
      * Don’t trade height-for-width or width-for-height
      */
-    CONSTANT_SIZE;
+    public static final SizeRequestMode CONSTANT_SIZE = new SizeRequestMode(2);
     
-    public static SizeRequestMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> HEIGHT_FOR_WIDTH;
-            case 1 -> WIDTH_FOR_HEIGHT;
-            case 2 -> CONSTANT_SIZE;
-            default -> null;
-        };
+    private int value;
+    
+    public SizeRequestMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case HEIGHT_FOR_WIDTH -> 0;
-            case WIDTH_FOR_HEIGHT -> 1;
-            case CONSTANT_SIZE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SizeRequestMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

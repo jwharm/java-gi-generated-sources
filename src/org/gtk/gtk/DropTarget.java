@@ -91,8 +91,8 @@ public class DropTarget extends EventController {
         return new DropTarget(gobject.getReference());
     }
     
-    private static Reference constructNew(Type type, int actions) {
-        Reference RESULT = References.get(gtk_h.gtk_drop_target_new(type.getValue(), actions), true);
+    private static Reference constructNew(org.gtk.gobject.Type type, org.gtk.gdk.DragAction actions) {
+        Reference RESULT = References.get(gtk_h.gtk_drop_target_new(type.getValue(), actions.getValue()), true);
         return RESULT;
     }
     
@@ -103,16 +103,16 @@ public class DropTarget extends EventController {
      * {@code G_TYPE_INVALID} for {@code type} and then call
      * {@link DropTarget#setGtypes}.
      */
-    public DropTarget(Type type, int actions) {
+    public DropTarget(org.gtk.gobject.Type type, org.gtk.gdk.DragAction actions) {
         super(constructNew(type, actions));
     }
     
     /**
      * Gets the actions that this drop target supports.
      */
-    public int getActions() {
+    public org.gtk.gdk.DragAction getActions() {
         var RESULT = gtk_h.gtk_drop_target_get_actions(handle());
-        return RESULT;
+        return new org.gtk.gdk.DragAction(RESULT);
     }
     
     /**
@@ -168,8 +168,8 @@ public class DropTarget extends EventController {
     /**
      * Sets the actions that this drop target supports.
      */
-    public void setActions(int actions) {
-        gtk_h.gtk_drop_target_set_actions(handle(), actions);
+    public void setActions(org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_drop_target_set_actions(handle(), actions.getValue());
     }
     
     /**

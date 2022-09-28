@@ -6,31 +6,38 @@ package org.gtk.gtk;
  * Note that this enumeration could be extended with additional modes
  * in the future.
  */
-public enum LevelBarMode {
+public class LevelBarMode {
 
     /**
      * the bar has a continuous mode
      */
-    CONTINUOUS,
+    public static final LevelBarMode CONTINUOUS = new LevelBarMode(0);
     
     /**
      * the bar has a discrete mode
      */
-    DISCRETE;
+    public static final LevelBarMode DISCRETE = new LevelBarMode(1);
     
-    public static LevelBarMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> CONTINUOUS;
-            case 1 -> DISCRETE;
-            default -> null;
-        };
+    private int value;
+    
+    public LevelBarMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case CONTINUOUS -> 0;
-            case DISCRETE -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(LevelBarMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

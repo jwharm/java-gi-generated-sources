@@ -90,9 +90,9 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Get the {@code GdkAnchorHints}.
      */
-    public int getAnchorHints() {
+    public AnchorHints getAnchorHints() {
         var RESULT = gtk_h.gdk_popup_layout_get_anchor_hints(handle());
-        return RESULT;
+        return new AnchorHints(RESULT);
     }
     
     /**
@@ -115,7 +115,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public Gravity getRectAnchor() {
         var RESULT = gtk_h.gdk_popup_layout_get_rect_anchor(handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -130,7 +130,7 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      */
     public Gravity getSurfaceAnchor() {
         var RESULT = gtk_h.gdk_popup_layout_get_surface_anchor(handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -150,8 +150,8 @@ public class PopupLayout extends io.github.jwharm.javagi.ResourceBase {
      * {@link Gravity#NORTH_EAST} and vice versa if {@code surface} extends
      * beyond the left or right edges of the monitor.
      */
-    public void setAnchorHints(int anchorHints) {
-        gtk_h.gdk_popup_layout_set_anchor_hints(handle(), anchorHints);
+    public void setAnchorHints(AnchorHints anchorHints) {
+        gtk_h.gdk_popup_layout_set_anchor_hints(handle(), anchorHints.getValue());
     }
     
     /**

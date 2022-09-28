@@ -1,24 +1,31 @@
 package org.cairographics;
 
-public enum FontWeight {
+public class FontWeight {
 
-    NORMAL,
+    public static final FontWeight NORMAL = new FontWeight(0);
     
-    BOLD;
+    public static final FontWeight BOLD = new FontWeight(1);
     
-    public static FontWeight fromValue(int value) {
-        return switch(value) {
-            case 0 -> NORMAL;
-            case 1 -> BOLD;
-            default -> null;
-        };
+    private int value;
+    
+    public FontWeight(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORMAL -> 0;
-            case BOLD -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FontWeight[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -109,7 +109,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This function consumes {@code error}.
      */
     public void returnError(org.gtk.glib.Error error) {
-        gtk_h.gdk_content_deserializer_return_error(handle(), error.handle());
+        gtk_h.gdk_content_deserializer_return_error(handle(), error.getReference().unowned().handle());
     }
     
     /**

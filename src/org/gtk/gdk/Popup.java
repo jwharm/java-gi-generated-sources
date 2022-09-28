@@ -58,7 +58,7 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
      */
     public default Gravity getRectAnchor() {
         var RESULT = gtk_h.gdk_popup_get_rect_anchor(handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -69,7 +69,7 @@ public interface Popup extends io.github.jwharm.javagi.NativeAddress {
      */
     public default Gravity getSurfaceAnchor() {
         var RESULT = gtk_h.gdk_popup_get_surface_anchor(handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**

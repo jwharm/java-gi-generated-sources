@@ -3,164 +3,134 @@ package org.gtk.glib;
 /**
  * Error codes returned by spawning processes.
  */
-public enum SpawnError {
+public class SpawnError {
 
     /**
      * Fork failed due to lack of memory.
      */
-    FORK,
+    public static final SpawnError FORK = new SpawnError(0);
     
     /**
      * Read or select on pipes failed.
      */
-    READ,
+    public static final SpawnError READ = new SpawnError(1);
     
     /**
      * Changing to working directory failed.
      */
-    CHDIR,
+    public static final SpawnError CHDIR = new SpawnError(2);
     
     /**
      * execv() returned {@code EACCES}
      */
-    ACCES,
+    public static final SpawnError ACCES = new SpawnError(3);
     
     /**
      * execv() returned {@code EPERM}
      */
-    PERM,
+    public static final SpawnError PERM = new SpawnError(4);
     
     /**
      * execv() returned {@code E2BIG}
      */
-    TOO_BIG,
+    public static final SpawnError TOO_BIG = new SpawnError(5);
     
     /**
      * deprecated alias for {@link SpawnError#TOO_BIG} (deprecated since GLib 2.32)
      */
-    _2BIG,
+    public static final SpawnError _2BIG = new SpawnError(5);
     
     /**
      * execv() returned {@code ENOEXEC}
      */
-    NOEXEC,
+    public static final SpawnError NOEXEC = new SpawnError(6);
     
     /**
      * execv() returned {@code ENAMETOOLONG}
      */
-    NAMETOOLONG,
+    public static final SpawnError NAMETOOLONG = new SpawnError(7);
     
     /**
      * execv() returned {@code ENOENT}
      */
-    NOENT,
+    public static final SpawnError NOENT = new SpawnError(8);
     
     /**
      * execv() returned {@code ENOMEM}
      */
-    NOMEM,
+    public static final SpawnError NOMEM = new SpawnError(9);
     
     /**
      * execv() returned {@code ENOTDIR}
      */
-    NOTDIR,
+    public static final SpawnError NOTDIR = new SpawnError(10);
     
     /**
      * execv() returned {@code ELOOP}
      */
-    LOOP,
+    public static final SpawnError LOOP = new SpawnError(11);
     
     /**
      * execv() returned {@code ETXTBUSY}
      */
-    TXTBUSY,
+    public static final SpawnError TXTBUSY = new SpawnError(12);
     
     /**
      * execv() returned {@code EIO}
      */
-    IO,
+    public static final SpawnError IO = new SpawnError(13);
     
     /**
      * execv() returned {@code ENFILE}
      */
-    NFILE,
+    public static final SpawnError NFILE = new SpawnError(14);
     
     /**
      * execv() returned {@code EMFILE}
      */
-    MFILE,
+    public static final SpawnError MFILE = new SpawnError(15);
     
     /**
      * execv() returned {@code EINVAL}
      */
-    INVAL,
+    public static final SpawnError INVAL = new SpawnError(16);
     
     /**
      * execv() returned {@code EISDIR}
      */
-    ISDIR,
+    public static final SpawnError ISDIR = new SpawnError(17);
     
     /**
      * execv() returned {@code ELIBBAD}
      */
-    LIBBAD,
+    public static final SpawnError LIBBAD = new SpawnError(18);
     
     /**
      * Some other fatal failure,
      *   {@code error->message} should explain.
      */
-    FAILED;
+    public static final SpawnError FAILED = new SpawnError(19);
     
-    public static SpawnError fromValue(int value) {
-        return switch(value) {
-            case 0 -> FORK;
-            case 1 -> READ;
-            case 2 -> CHDIR;
-            case 3 -> ACCES;
-            case 4 -> PERM;
-            case 5 -> TOO_BIG;
-            case 6 -> NOEXEC;
-            case 7 -> NAMETOOLONG;
-            case 8 -> NOENT;
-            case 9 -> NOMEM;
-            case 10 -> NOTDIR;
-            case 11 -> LOOP;
-            case 12 -> TXTBUSY;
-            case 13 -> IO;
-            case 14 -> NFILE;
-            case 15 -> MFILE;
-            case 16 -> INVAL;
-            case 17 -> ISDIR;
-            case 18 -> LIBBAD;
-            case 19 -> FAILED;
-            default -> null;
-        };
+    private int value;
+    
+    public SpawnError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FORK -> 0;
-            case READ -> 1;
-            case CHDIR -> 2;
-            case ACCES -> 3;
-            case PERM -> 4;
-            case TOO_BIG -> 5;
-            case _2BIG -> 5;
-            case NOEXEC -> 6;
-            case NAMETOOLONG -> 7;
-            case NOENT -> 8;
-            case NOMEM -> 9;
-            case NOTDIR -> 10;
-            case LOOP -> 11;
-            case TXTBUSY -> 12;
-            case IO -> 13;
-            case NFILE -> 14;
-            case MFILE -> 15;
-            case INVAL -> 16;
-            case ISDIR -> 17;
-            case LIBBAD -> 18;
-            case FAILED -> 19;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SpawnError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

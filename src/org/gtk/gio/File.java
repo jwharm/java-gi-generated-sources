@@ -115,9 +115,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@link IOErrorEnum#IS_DIRECTORY} error will be returned. Other errors are
      * possible too, and depend on what kind of filesystem the file is on.
      */
-    public default FileOutputStream appendTo(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileOutputStream appendTo(FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_append_to(handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_append_to(handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -134,9 +134,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_append_to_finish() to get the result
      * of the operation.
      */
-    public default void appendToAsync(int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void appendToAsync(FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_append_to_async(handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_append_to_async(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -172,9 +172,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * when one needs to query and set the attributes in two
      * stages (e.g., for recursive move of a directory).
      */
-    public default java.lang.String buildAttributeListForCopy(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default java.lang.String buildAttributeListForCopy(FileCopyFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_build_attribute_list_for_copy(handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_build_attribute_list_for_copy(handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -223,10 +223,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * If you are interested in copying the {@link File} object itself (not the on-disk
      * file), see g_file_dup().
      */
-    public default boolean copy(File destination, int flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean copy(File destination, FileCopyFlags flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = gtk_h.g_file_copy(handle(), destination.handle(), flags, cancellable.handle(), 
+            var RESULT = gtk_h.g_file_copy(handle(), destination.handle(), flags.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
@@ -254,9 +254,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * When the operation is finished, {@code callback} will be called. You can then call
      * g_file_copy_finish() to get the result of the operation.
      */
-    public default void copyAsync(File destination, int flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
+    public default void copyAsync(File destination, FileCopyFlags flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_copy_async(handle(), destination.handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_copy_async(handle(), destination.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
@@ -284,9 +284,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * all the metadata that is possible to copy is copied. This
      * is useful when implementing move by copy + delete source.
      */
-    public default boolean copyAttributes(File destination, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean copyAttributes(File destination, FileCopyFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_copy_attributes(handle(), destination.handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_copy_attributes(handle(), destination.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -326,9 +326,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * be returned. Other errors are possible too, and depend on what kind
      * of filesystem the file is on.
      */
-    public default FileOutputStream create(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileOutputStream create(FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_create(handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_create(handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -346,9 +346,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_create_finish() to get the result
      * of the operation.
      */
-    public default void createAsync(int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void createAsync(FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_create_async(handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_create_async(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -398,9 +398,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * not supported, so make sure you really need to do read and write
      * streaming, rather than just opening for reading or writing.
      */
-    public default FileIOStream createReadwrite(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileIOStream createReadwrite(FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_create_readwrite(handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_create_readwrite(handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -418,9 +418,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_create_readwrite_finish() to get
      * the result of the operation.
      */
-    public default void createReadwriteAsync(int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void createReadwriteAsync(FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_create_readwrite_async(handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_create_readwrite_async(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -535,9 +535,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default void ejectMountableWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void ejectMountableWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_eject_mountable_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_file_eject_mountable_with_operation(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -589,9 +589,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * be returned. If the file is not a directory, the {@link IOErrorEnum#NOT_DIRECTORY}
      * error will be returned. Other errors are possible too.
      */
-    public default FileEnumerator enumerateChildren(java.lang.String attributes, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileEnumerator enumerateChildren(java.lang.String attributes, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_enumerate_children(handle(), Interop.allocateNativeString(attributes).handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_enumerate_children(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -610,9 +610,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * then call g_file_enumerate_children_finish() to get the result of
      * the operation.
      */
-    public default void enumerateChildrenAsync(java.lang.String attributes, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void enumerateChildrenAsync(java.lang.String attributes, FileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_enumerate_children_async(handle(), Interop.allocateNativeString(attributes).handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_enumerate_children_async(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -1210,10 +1210,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@link FileMeasureProgressCallback} for information about when and how the
      * callback will be invoked.
      */
-    public default boolean measureDiskUsage(int flags, Cancellable cancellable, FileMeasureProgressCallback progressCallback, PointerLong diskUsage, PointerLong numDirs, PointerLong numFiles) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean measureDiskUsage(FileMeasureFlags flags, Cancellable cancellable, FileMeasureProgressCallback progressCallback, PointerLong diskUsage, PointerLong numDirs, PointerLong numFiles) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = gtk_h.g_file_measure_disk_usage(handle(), flags, cancellable.handle(), 
+            var RESULT = gtk_h.g_file_measure_disk_usage(handle(), flags.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileMeasureProgressCallback",
                             MethodType.methodType(void.class, boolean.class, long.class, long.class, long.class, MemoryAddress.class)),
@@ -1235,9 +1235,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * This is the asynchronous version of g_file_measure_disk_usage().  See
      * there for more information.
      */
-    public default void measureDiskUsageAsync(int flags, int ioPriority, Cancellable cancellable, FileMeasureProgressCallback progressCallback, AsyncReadyCallback callback) {
+    public default void measureDiskUsageAsync(FileMeasureFlags flags, int ioPriority, Cancellable cancellable, FileMeasureProgressCallback progressCallback, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_measure_disk_usage_async(handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_measure_disk_usage_async(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileMeasureProgressCallback",
                             MethodType.methodType(void.class, boolean.class, long.class, long.class, long.class, MemoryAddress.class)),
@@ -1277,9 +1277,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default FileMonitor monitor(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileMonitor monitor(FileMonitorFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_monitor(handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_monitor(handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1300,9 +1300,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * directory for changes made via hard links; if you want to do this then
      * you must register individual watches with g_file_monitor().
      */
-    public default FileMonitor monitorDirectory(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileMonitor monitorDirectory(FileMonitorFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_monitor_directory(handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_monitor_directory(handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1325,9 +1325,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * usage, and may not have any effect depending on the {@link FileMonitor}
      * backend and/or filesystem type.
      */
-    public default FileMonitor monitorFile(int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileMonitor monitorFile(FileMonitorFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_monitor_file(handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_monitor_file(handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1346,9 +1346,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default void mountEnclosingVolume(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void mountEnclosingVolume(MountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_mount_enclosing_volume(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_file_mount_enclosing_volume(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -1385,9 +1385,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
-    public default void mountMountable(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void mountMountable(MountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_mount_mountable(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_file_mount_mountable(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -1449,10 +1449,10 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * the {@link IOErrorEnum#WOULD_RECURSE} error may be returned (if the native
      * move operation isn't available).
      */
-    public default boolean move(File destination, int flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean move(File destination, FileCopyFlags flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = gtk_h.g_file_move(handle(), destination.handle(), flags, cancellable.handle(), 
+            var RESULT = gtk_h.g_file_move(handle(), destination.handle(), flags.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
@@ -1479,9 +1479,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * When the operation is finished, {@code callback} will be called. You can then call
      * g_file_move_finish() to get the result of the operation.
      */
-    public default void moveAsync(File destination, int flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
+    public default void moveAsync(File destination, FileCopyFlags flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_move_async(handle(), destination.handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_move_async(handle(), destination.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
@@ -1712,9 +1712,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * The primary use case of this method is to check if a file is
      * a regular file, directory, or symlink.
      */
-    public default FileType queryFileType(int flags, Cancellable cancellable) {
-        var RESULT = gtk_h.g_file_query_file_type(handle(), flags, cancellable.handle());
-        return FileType.fromValue(RESULT);
+    public default FileType queryFileType(FileQueryInfoFlags flags, Cancellable cancellable) {
+        var RESULT = gtk_h.g_file_query_file_type(handle(), flags.getValue(), cancellable.handle());
+        return new FileType(RESULT);
     }
     
     /**
@@ -1825,9 +1825,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * returned. Other errors are possible too, and depend on what kind of
      * filesystem the file is on.
      */
-    public default FileInfo queryInfo(java.lang.String attributes, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileInfo queryInfo(java.lang.String attributes, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_query_info(handle(), Interop.allocateNativeString(attributes).handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_query_info(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1845,9 +1845,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * When the operation is finished, {@code callback} will be called. You can
      * then call g_file_query_info_finish() to get the result of the operation.
      */
-    public default void queryInfoAsync(java.lang.String attributes, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void queryInfoAsync(java.lang.String attributes, FileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_query_info_async(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2013,9 +2013,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@link IOErrorEnum#FILENAME_TOO_LONG} will be returned. Other errors are
      * possible too, and depend on what kind of filesystem the file is on.
      */
-    public default FileOutputStream replace(java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileOutputStream replace(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_replace(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_replace(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2033,9 +2033,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_replace_finish() to get the result
      * of the operation.
      */
-    public default void replaceAsync(java.lang.String etag, boolean makeBackup, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void replaceAsync(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_replace_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_replace_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2065,9 +2065,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * The returned {@code new_etag} can be used to verify that the file hasn't
      * changed the next time it is saved over.
      */
-    public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, int flags, java.lang.String[] newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, java.lang.String[] newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_replace_contents(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, Interop.allocateNativeArray(newEtag).handle(), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_replace_contents(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), Interop.allocateNativeArray(newEtag).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2095,9 +2095,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * for a {@link org.gtk.glib.Bytes} version that will automatically hold a reference to the
      * contents (without copying) for the duration of the call.
      */
-    public default void replaceContentsAsync(byte[] contents, long length, java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void replaceContentsAsync(byte[] contents, long length, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_replace_contents_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), 
+            gtk_h.g_file_replace_contents_async(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2119,9 +2119,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * {@code user_user} data, and the operation can be finalized with
      * g_file_replace_contents_finish().
      */
-    public default void replaceContentsBytesAsync(org.gtk.glib.Bytes contents, java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void replaceContentsBytesAsync(org.gtk.glib.Bytes contents, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_replace_contents_bytes_async(handle(), contents.handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), 
+            gtk_h.g_file_replace_contents_bytes_async(handle(), contents.handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2172,9 +2172,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * supported, so make sure you really need to do read and write streaming,
      * rather than just opening for reading or writing.
      */
-    public default FileIOStream replaceReadwrite(java.lang.String etag, boolean makeBackup, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default FileIOStream replaceReadwrite(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_replace_readwrite(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_replace_readwrite(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2193,9 +2193,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_replace_readwrite_finish() to get
      * the result of the operation.
      */
-    public default void replaceReadwriteAsync(java.lang.String etag, boolean makeBackup, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void replaceReadwriteAsync(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_replace_readwrite_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_replace_readwrite_async(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2243,9 +2243,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttribute(java.lang.String attribute, FileAttributeType type, java.lang.foreign.MemoryAddress valueP, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttribute(java.lang.String attribute, FileAttributeType type, java.lang.foreign.MemoryAddress valueP, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attribute(handle(), Interop.allocateNativeString(attribute).handle(), type.getValue(), valueP, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attribute(handle(), Interop.allocateNativeString(attribute).handle(), type.getValue(), valueP, flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2261,9 +2261,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeByteString(java.lang.String attribute, java.lang.String value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributeByteString(java.lang.String attribute, java.lang.String value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attribute_byte_string(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeString(value).handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attribute_byte_string(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeString(value).handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2278,9 +2278,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeInt32(java.lang.String attribute, int value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributeInt32(java.lang.String attribute, int value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attribute_int32(handle(), Interop.allocateNativeString(attribute).handle(), value, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attribute_int32(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2295,9 +2295,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeInt64(java.lang.String attribute, long value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributeInt64(java.lang.String attribute, long value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attribute_int64(handle(), Interop.allocateNativeString(attribute).handle(), value, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attribute_int64(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2312,9 +2312,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeString(java.lang.String attribute, java.lang.String value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributeString(java.lang.String attribute, java.lang.String value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attribute_string(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeString(value).handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attribute_string(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeString(value).handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2329,9 +2329,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeUint32(java.lang.String attribute, int value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributeUint32(java.lang.String attribute, int value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attribute_uint32(handle(), Interop.allocateNativeString(attribute).handle(), value, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attribute_uint32(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2346,9 +2346,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeUint64(java.lang.String attribute, long value, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributeUint64(java.lang.String attribute, long value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attribute_uint64(handle(), Interop.allocateNativeString(attribute).handle(), value, flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attribute_uint64(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2365,9 +2365,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_set_attributes_finish() to get
      * the result of the operation.
      */
-    public default void setAttributesAsync(FileInfo info, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void setAttributesAsync(FileInfo info, FileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_set_attributes_async(handle(), info.handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_file_set_attributes_async(handle(), info.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2405,9 +2405,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributesFromInfo(FileInfo info, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean setAttributesFromInfo(FileInfo info, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_attributes_from_info(handle(), info.handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_file_set_attributes_from_info(handle(), info.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2490,9 +2490,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
-    public default void startMountable(int flags, MountOperation startOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void startMountable(DriveStartFlags flags, MountOperation startOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_start_mountable(handle(), flags, startOperation.handle(), cancellable.handle(), 
+            gtk_h.g_file_start_mountable(handle(), flags.getValue(), startOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2530,9 +2530,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_stop_mountable_finish() to get
      * the result of the operation.
      */
-    public default void stopMountable(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void stopMountable(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_stop_mountable(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_file_stop_mountable(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2632,9 +2632,9 @@ public interface File extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_file_unmount_mountable_finish() to get
      * the result of the operation.
      */
-    public default void unmountMountableWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void unmountMountableWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_file_unmount_mountable_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_file_unmount_mountable_with_operation(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

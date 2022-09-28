@@ -15,52 +15,53 @@ package org.pango;
  * <p>
  * See also: {@code Pango.GravityHint}
  */
-public enum Gravity {
+public class Gravity {
 
     /**
      * Glyphs stand upright (default) &lt;img align="right" valign="center" src="m-south.png"&gt;
      */
-    SOUTH,
+    public static final Gravity SOUTH = new Gravity(0);
     
     /**
      * Glyphs are rotated 90 degrees counter-clockwise. &lt;img align="right" valign="center" src="m-east.png"&gt;
      */
-    EAST,
+    public static final Gravity EAST = new Gravity(1);
     
     /**
      * Glyphs are upside-down. &lt;img align="right" valign="cener" src="m-north.png"&gt;
      */
-    NORTH,
+    public static final Gravity NORTH = new Gravity(2);
     
     /**
      * Glyphs are rotated 90 degrees clockwise. &lt;img align="right" valign="center" src="m-west.png"&gt;
      */
-    WEST,
+    public static final Gravity WEST = new Gravity(3);
     
     /**
      * Gravity is resolved from the context matrix
      */
-    AUTO;
+    public static final Gravity AUTO = new Gravity(4);
     
-    public static Gravity fromValue(int value) {
-        return switch(value) {
-            case 0 -> SOUTH;
-            case 1 -> EAST;
-            case 2 -> NORTH;
-            case 3 -> WEST;
-            case 4 -> AUTO;
-            default -> null;
-        };
+    private int value;
+    
+    public Gravity(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SOUTH -> 0;
-            case EAST -> 1;
-            case NORTH -> 2;
-            case WEST -> 3;
-            case AUTO -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Gravity[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

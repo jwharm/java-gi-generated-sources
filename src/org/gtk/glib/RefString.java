@@ -1,12 +1,5 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * A typedef for a reference-counted string. A pointer to a {@link RefString} can be
  * treated like a standard {@code char*} array by all code, but can additionally have
@@ -16,9 +9,18 @@ import java.lang.invoke.*;
  * If using {@link RefString} with autocleanups, g_autoptr() must be used rather than
  * g_autofree(), so that the reference counting metadata is also freed.
  */
-public class RefString extends Alias<Byte> {
-
+public class RefString {
+    private byte value;
+    
     public RefString(byte value) {
+        this.value = value;
+    }
+    
+    public byte getValue() {
+        return this.value;
+    }
+    
+    public void setValue(byte value) {
         this.value = value;
     }
     

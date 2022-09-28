@@ -62,7 +62,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * {@link MediaStream#unprepared}.
      */
     public void gerror(org.gtk.glib.Error error) {
-        gtk_h.gtk_media_stream_gerror(handle(), error.handle());
+        gtk_h.gtk_media_stream_gerror(handle(), error.getReference().unowned().handle());
     }
     
     /**

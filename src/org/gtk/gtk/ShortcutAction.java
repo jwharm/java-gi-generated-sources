@@ -81,8 +81,8 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * is not supported by the {@code widget}, if the {@code args} don't match the action
      * or if the activation otherwise had no effect, {@code false} will be returned.
      */
-    public boolean activate(int flags, Widget widget, org.gtk.glib.Variant args) {
-        var RESULT = gtk_h.gtk_shortcut_action_activate(handle(), flags, widget.handle(), args.handle());
+    public boolean activate(ShortcutActionFlags flags, Widget widget, org.gtk.glib.Variant args) {
+        var RESULT = gtk_h.gtk_shortcut_action_activate(handle(), flags.getValue(), widget.handle(), args.handle());
         return (RESULT != 0);
     }
     

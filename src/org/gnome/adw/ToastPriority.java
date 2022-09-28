@@ -3,33 +3,40 @@ package org.gnome.adw;
 /**
  * {@link Toast} behavior when another toast is already displayed.
  */
-public enum ToastPriority {
+public class ToastPriority {
 
     /**
      * the toast will be queued if another toast is
      *   already displayed.
      */
-    NORMAL,
+    public static final ToastPriority NORMAL = new ToastPriority(0);
     
     /**
      * the toast will be displayed immediately, pushing
      *   the previous toast into the queue instead.
      */
-    HIGH;
+    public static final ToastPriority HIGH = new ToastPriority(1);
     
-    public static ToastPriority fromValue(int value) {
-        return switch(value) {
-            case 0 -> NORMAL;
-            case 1 -> HIGH;
-            default -> null;
-        };
+    private int value;
+    
+    public ToastPriority(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORMAL -> 0;
-            case HIGH -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ToastPriority[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

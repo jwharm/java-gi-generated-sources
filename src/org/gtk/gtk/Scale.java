@@ -211,7 +211,7 @@ public class Scale extends Range implements Accessible, Buildable, ConstraintTar
      */
     public PositionType getValuePos() {
         var RESULT = gtk_h.gtk_scale_get_value_pos(handle());
-        return PositionType.fromValue(RESULT);
+        return new PositionType(RESULT);
     }
     
     /**

@@ -255,9 +255,9 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * This call never blocks.
      */
-    public int conditionCheck(int condition) {
-        var RESULT = gtk_h.g_socket_condition_check(handle(), condition);
-        return RESULT;
+    public org.gtk.glib.IOCondition conditionCheck(org.gtk.glib.IOCondition condition) {
+        var RESULT = gtk_h.g_socket_condition_check(handle(), condition.getValue());
+        return new org.gtk.glib.IOCondition(RESULT);
     }
     
     /**
@@ -278,9 +278,9 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * resolution, and the behavior is undefined if {@code timeout_us} is not an
      * exact number of milliseconds.
      */
-    public boolean conditionTimedWait(int condition, long timeoutUs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean conditionTimedWait(org.gtk.glib.IOCondition condition, long timeoutUs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_socket_condition_timed_wait(handle(), condition, timeoutUs, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_condition_timed_wait(handle(), condition.getValue(), timeoutUs, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -299,9 +299,9 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * See also g_socket_condition_timed_wait().
      */
-    public boolean conditionWait(int condition, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean conditionWait(org.gtk.glib.IOCondition condition, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_socket_condition_wait(handle(), condition, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_socket_condition_wait(handle(), condition.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -366,8 +366,8 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * marked as having had a timeout, and so the next {@link Socket} I/O method
      * you call will then fail with a {@link IOErrorEnum#TIMED_OUT}.
      */
-    public org.gtk.glib.Source createSource(int condition, Cancellable cancellable) {
-        var RESULT = gtk_h.g_socket_create_source(handle(), condition, cancellable.handle());
+    public org.gtk.glib.Source createSource(org.gtk.glib.IOCondition condition, Cancellable cancellable) {
+        var RESULT = gtk_h.g_socket_create_source(handle(), condition.getValue(), cancellable.handle());
         return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     
@@ -447,7 +447,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_socket_get_family(handle());
-        return SocketFamily.fromValue(RESULT);
+        return new SocketFamily(RESULT);
     }
     
     /**
@@ -543,7 +543,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public SocketProtocol getProtocol() {
         var RESULT = gtk_h.g_socket_get_protocol(handle());
-        return SocketProtocol.fromValue(RESULT);
+        return new SocketProtocol(RESULT);
     }
     
     /**
@@ -564,7 +564,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      */
     public SocketType getSocketType() {
         var RESULT = gtk_h.g_socket_get_socket_type(handle());
-        return SocketType.fromValue(RESULT);
+        return new SocketType(RESULT);
     }
     
     /**
@@ -1002,7 +1002,7 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return PollableReturn.fromValue(RESULT);
+        return new PollableReturn(RESULT);
     }
     
     /**

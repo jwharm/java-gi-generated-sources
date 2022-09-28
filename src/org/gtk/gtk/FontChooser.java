@@ -110,9 +110,9 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Returns the current level of granularity for selecting fonts.
      */
-    public default int getLevel() {
+    public default FontChooserLevel getLevel() {
         var RESULT = gtk_h.gtk_font_chooser_get_level(handle());
-        return RESULT;
+        return new FontChooserLevel(RESULT);
     }
     
     /**
@@ -205,8 +205,8 @@ public interface FontChooser extends io.github.jwharm.javagi.NativeAddress {
     /**
      * Sets the desired level of granularity for selecting fonts.
      */
-    public default void setLevel(int level) {
-        gtk_h.gtk_font_chooser_set_level(handle(), level);
+    public default void setLevel(FontChooserLevel level) {
+        gtk_h.gtk_font_chooser_set_level(handle(), level.getValue());
     }
     
     /**

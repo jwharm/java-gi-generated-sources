@@ -4,38 +4,43 @@ package org.harfbuzz;
  * The buffer serialization and de-serialization format used in
  * hb_buffer_serialize_glyphs() and hb_buffer_deserialize_glyphs().
  */
-public enum BufferSerializeFormatT {
+public class BufferSerializeFormatT {
 
     /**
      * a human-readable, plain text format.
      */
-    TEXT,
+    public static final BufferSerializeFormatT TEXT = new BufferSerializeFormatT(1413830740);
     
     /**
      * a machine-readable JSON format.
      */
-    JSON,
+    public static final BufferSerializeFormatT JSON = new BufferSerializeFormatT(1246973774);
     
     /**
      * invalid format.
      */
-    INVALID;
+    public static final BufferSerializeFormatT INVALID = new BufferSerializeFormatT(0);
     
-    public static BufferSerializeFormatT fromValue(int value) {
-        return switch(value) {
-            case 1413830740 -> TEXT;
-            case 1246973774 -> JSON;
-            case 0 -> INVALID;
-            default -> null;
-        };
+    private int value;
+    
+    public BufferSerializeFormatT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case TEXT -> 1413830740;
-            case JSON -> 1246973774;
-            case INVALID -> 0;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BufferSerializeFormatT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

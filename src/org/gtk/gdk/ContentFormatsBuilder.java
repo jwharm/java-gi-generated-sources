@@ -43,7 +43,7 @@ public class ContentFormatsBuilder extends io.github.jwharm.javagi.ResourceBase 
     /**
      * Appends {@code type} to {@code builder} if it has not already been added.
      */
-    public void addGtype(Type type) {
+    public void addGtype(org.gtk.gobject.Type type) {
         gtk_h.gdk_content_formats_builder_add_gtype(handle(), type.getValue());
     }
     

@@ -3,38 +3,43 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_job_set_page_set().
  */
-public enum PageSet {
+public class PageSet {
 
     /**
      * All pages.
      */
-    ALL,
+    public static final PageSet ALL = new PageSet(0);
     
     /**
      * Even pages.
      */
-    EVEN,
+    public static final PageSet EVEN = new PageSet(1);
     
     /**
      * Odd pages.
      */
-    ODD;
+    public static final PageSet ODD = new PageSet(2);
     
-    public static PageSet fromValue(int value) {
-        return switch(value) {
-            case 0 -> ALL;
-            case 1 -> EVEN;
-            case 2 -> ODD;
-            default -> null;
-        };
+    private int value;
+    
+    public PageSet(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ALL -> 0;
-            case EVEN -> 1;
-            case ODD -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PageSet[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

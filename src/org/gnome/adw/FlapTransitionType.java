@@ -9,42 +9,47 @@ package org.gnome.adw;
  * <p>
  * New values may be added to this enum over time.
  */
-public enum FlapTransitionType {
+public class FlapTransitionType {
 
     /**
      * The flap slides over the content, which is
      *   dimmed. When folded, only the flap can be swiped.
      */
-    OVER,
+    public static final FlapTransitionType OVER = new FlapTransitionType(0);
     
     /**
      * The content slides over the flap. Only the
      *   content can be swiped.
      */
-    UNDER,
+    public static final FlapTransitionType UNDER = new FlapTransitionType(1);
     
     /**
      * The flap slides offscreen when hidden,
      *   neither the flap nor content overlap each other. Both widgets can be
      *   swiped.
      */
-    SLIDE;
+    public static final FlapTransitionType SLIDE = new FlapTransitionType(2);
     
-    public static FlapTransitionType fromValue(int value) {
-        return switch(value) {
-            case 0 -> OVER;
-            case 1 -> UNDER;
-            case 2 -> SLIDE;
-            default -> null;
-        };
+    private int value;
+    
+    public FlapTransitionType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case OVER -> 0;
-            case UNDER -> 1;
-            case SLIDE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FlapTransitionType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

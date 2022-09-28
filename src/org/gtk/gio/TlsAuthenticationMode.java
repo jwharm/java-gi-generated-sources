@@ -3,38 +3,43 @@ package org.gtk.gio;
 /**
  * The client authentication mode for a {@link TlsServerConnection}.
  */
-public enum TlsAuthenticationMode {
+public class TlsAuthenticationMode {
 
     /**
      * client authentication not required
      */
-    NONE,
+    public static final TlsAuthenticationMode NONE = new TlsAuthenticationMode(0);
     
     /**
      * client authentication is requested
      */
-    REQUESTED,
+    public static final TlsAuthenticationMode REQUESTED = new TlsAuthenticationMode(1);
     
     /**
      * client authentication is required
      */
-    REQUIRED;
+    public static final TlsAuthenticationMode REQUIRED = new TlsAuthenticationMode(2);
     
-    public static TlsAuthenticationMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> REQUESTED;
-            case 2 -> REQUIRED;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsAuthenticationMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case REQUESTED -> 1;
-            case REQUIRED -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsAuthenticationMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

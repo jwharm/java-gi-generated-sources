@@ -14,7 +14,7 @@ package org.gtk.glib;
  * <li>Level order: F, B, G, A, D, I, C, E, H
  *   ![](Sorted_binary_tree_breadth-first_traversal.svg)
  */
-public enum TraverseType {
+public class TraverseType {
 
     /**
      * vists a node's left child first, then the node itself,
@@ -22,17 +22,17 @@ public enum TraverseType {
      *              want the output sorted according to the compare
      *              function.
      */
-    IN_ORDER,
+    public static final TraverseType IN_ORDER = new TraverseType(0);
     
     /**
      * visits a node, then its children.
      */
-    PRE_ORDER,
+    public static final TraverseType PRE_ORDER = new TraverseType(1);
     
     /**
      * visits the node's children, then the node itself.
      */
-    POST_ORDER,
+    public static final TraverseType POST_ORDER = new TraverseType(2);
     
     /**
      * is not implemented for
@@ -42,25 +42,28 @@ public enum TraverseType {
      *              its grandchildren, and so on. Note that this is less
      *              efficient than the other orders.
      */
-    LEVEL_ORDER;
+    public static final TraverseType LEVEL_ORDER = new TraverseType(3);
     
-    public static TraverseType fromValue(int value) {
-        return switch(value) {
-            case 0 -> IN_ORDER;
-            case 1 -> PRE_ORDER;
-            case 2 -> POST_ORDER;
-            case 3 -> LEVEL_ORDER;
-            default -> null;
-        };
+    private int value;
+    
+    public TraverseType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case IN_ORDER -> 0;
-            case PRE_ORDER -> 1;
-            case POST_ORDER -> 2;
-            case LEVEL_ORDER -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TraverseType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

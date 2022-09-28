@@ -2026,7 +2026,7 @@ public final class GLib {
      */
     public static FileError fileErrorFromErrno(int errNo) {
         var RESULT = gtk_h.g_file_error_from_errno(errNo);
-        return FileError.fromValue(RESULT);
+        return new FileError(RESULT);
     }
     
     public static Quark fileErrorQuark() {
@@ -2177,9 +2177,9 @@ public final class GLib {
      * permissions from {@code mode}. Otherwise, the permissions of the existing file may
      * be changed to {@code mode} depending on {@code flags}, or they may remain unchanged.
      */
-    public static boolean fileSetContentsFull(java.lang.String filename, byte[] contents, long length, int flags, int mode) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean fileSetContentsFull(java.lang.String filename, byte[] contents, long length, FileSetContentsFlags flags, int mode) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_file_set_contents_full(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, flags, mode, GERROR);
+        var RESULT = gtk_h.g_file_set_contents_full(Interop.allocateNativeString(filename).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, contents)).handle(), length, flags.getValue(), mode, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2229,8 +2229,8 @@ public final class GLib {
      * its name indicates that it is executable, checking for well-known
      * extensions and those listed in the {@code PATHEXT} environment variable.
      */
-    public static boolean fileTest(java.lang.String filename, int test) {
-        var RESULT = gtk_h.g_file_test(Interop.allocateNativeString(filename).handle(), test);
+    public static boolean fileTest(java.lang.String filename, FileTest test) {
+        var RESULT = gtk_h.g_file_test(Interop.allocateNativeString(filename).handle(), test.getValue());
         return (RESULT != 0);
     }
     
@@ -2399,8 +2399,8 @@ public final class GLib {
      * This function is similar to g_format_size() but allows for flags
      * that modify the output. See {@link FormatSizeFlags}.
      */
-    public static java.lang.String formatSizeFull(long size, int flags) {
-        var RESULT = gtk_h.g_format_size_full(size, flags);
+    public static java.lang.String formatSizeFull(long size, FormatSizeFlags flags) {
+        var RESULT = gtk_h.g_format_size_full(size, flags.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -3360,9 +3360,9 @@ public final class GLib {
      * Adds the {@link IOChannel} into the default main loop context
      * with the default priority.
      */
-    public static int ioAddWatch(IOChannel channel, int condition, IOFunc func) {
+    public static int ioAddWatch(IOChannel channel, IOCondition condition, IOFunc func) {
         try {
-            var RESULT = gtk_h.g_io_add_watch(channel.handle(), condition, 
+            var RESULT = gtk_h.g_io_add_watch(channel.handle(), condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
@@ -3383,9 +3383,9 @@ public final class GLib {
      * and attaches it to the main loop context with g_source_attach().
      * You can do these steps manually if you need greater control.
      */
-    public static int ioAddWatchFull(IOChannel channel, int priority, int condition, IOFunc func) {
+    public static int ioAddWatchFull(IOChannel channel, int priority, IOCondition condition, IOFunc func) {
         try {
-            var RESULT = gtk_h.g_io_add_watch_full(channel.handle(), priority, condition, 
+            var RESULT = gtk_h.g_io_add_watch_full(channel.handle(), priority, condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbIOFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
@@ -3404,7 +3404,7 @@ public final class GLib {
      */
     public static IOChannelError ioChannelErrorFromErrno(int en) {
         var RESULT = gtk_h.g_io_channel_error_from_errno(en);
-        return IOChannelError.fromValue(RESULT);
+        return new IOChannelError(RESULT);
     }
     
     public static Quark ioChannelErrorQuark() {
@@ -3428,8 +3428,8 @@ public final class GLib {
      * puts the socket in non-blocking mode. This is a side-effect of the
      * implementation and unavoidable.
      */
-    public static Source ioCreateWatch(IOChannel channel, int condition) {
-        var RESULT = gtk_h.g_io_create_watch(channel.handle(), condition);
+    public static Source ioCreateWatch(IOChannel channel, IOCondition condition) {
+        var RESULT = gtk_h.g_io_create_watch(channel.handle(), condition.getValue());
         return new Source(References.get(RESULT, true));
     }
     
@@ -3492,8 +3492,8 @@ public final class GLib {
      * This has no effect if structured logging is enabled; see
      * [Using Structured Logging][using-structured-logging].
      */
-    public static void logDefaultHandler(java.lang.String logDomain, int logLevel, java.lang.String message, java.lang.foreign.MemoryAddress unusedData) {
-        gtk_h.g_log_default_handler(Interop.allocateNativeString(logDomain).handle(), logLevel, Interop.allocateNativeString(message).handle(), unusedData);
+    public static void logDefaultHandler(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String message, java.lang.foreign.MemoryAddress unusedData) {
+        gtk_h.g_log_default_handler(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(message).handle(), unusedData);
     }
     
     /**
@@ -3539,9 +3539,9 @@ public final class GLib {
      * otherwise it is up to the writer function to determine which log messages
      * are fatal. See [Using Structured Logging][using-structured-logging].
      */
-    public static int logSetAlwaysFatal(int fatalMask) {
-        var RESULT = gtk_h.g_log_set_always_fatal(fatalMask);
-        return RESULT;
+    public static LogLevelFlags logSetAlwaysFatal(LogLevelFlags fatalMask) {
+        var RESULT = gtk_h.g_log_set_always_fatal(fatalMask.getValue());
+        return new LogLevelFlags(RESULT);
     }
     
     /**
@@ -3571,9 +3571,9 @@ public final class GLib {
      * {@link LogLevelFlags#LEVEL_WARNING}, {@link LogLevelFlags#LEVEL_MESSAGE}, {@link LogLevelFlags#LEVEL_INFO} or
      * {@link LogLevelFlags#LEVEL_DEBUG} as fatal except inside of test programs.
      */
-    public static int logSetFatalMask(java.lang.String logDomain, int fatalMask) {
-        var RESULT = gtk_h.g_log_set_fatal_mask(Interop.allocateNativeString(logDomain).handle(), fatalMask);
-        return RESULT;
+    public static LogLevelFlags logSetFatalMask(java.lang.String logDomain, LogLevelFlags fatalMask) {
+        var RESULT = gtk_h.g_log_set_fatal_mask(Interop.allocateNativeString(logDomain).handle(), fatalMask.getValue());
+        return new LogLevelFlags(RESULT);
     }
     
     /**
@@ -3612,9 +3612,9 @@ public final class GLib {
      *                    | G_LOG_FLAG_RECURSION, my_log_handler, NULL);
      * }</pre>
      */
-    public static int logSetHandler(java.lang.String logDomain, int logLevels, LogFunc logFunc) {
+    public static int logSetHandler(java.lang.String logDomain, LogLevelFlags logLevels, LogFunc logFunc) {
         try {
-            var RESULT = gtk_h.g_log_set_handler(Interop.allocateNativeString(logDomain).handle(), logLevels, 
+            var RESULT = gtk_h.g_log_set_handler(Interop.allocateNativeString(logDomain).handle(), logLevels.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -3633,9 +3633,9 @@ public final class GLib {
      * This has no effect if structured logging is enabled; see
      * [Using Structured Logging][using-structured-logging].
      */
-    public static int logSetHandlerFull(java.lang.String logDomain, int logLevels, LogFunc logFunc) {
+    public static int logSetHandlerFull(java.lang.String logDomain, LogLevelFlags logLevels, LogFunc logFunc) {
         try {
-            var RESULT = gtk_h.g_log_set_handler_full(Interop.allocateNativeString(logDomain).handle(), logLevels, 
+            var RESULT = gtk_h.g_log_set_handler_full(Interop.allocateNativeString(logDomain).handle(), logLevels.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbLogFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -3686,8 +3686,8 @@ public final class GLib {
      * This assumes that {@code log_level} is already present in {@code fields} (typically as the
      * {@code PRIORITY} field).
      */
-    public static void logStructuredArray(int logLevel, LogField[] fields, long nFields) {
-        gtk_h.g_log_structured_array(logLevel, Interop.allocateNativeArray(fields).handle(), nFields);
+    public static void logStructuredArray(LogLevelFlags logLevel, LogField[] fields, long nFields) {
+        gtk_h.g_log_structured_array(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields);
     }
     
     /**
@@ -3706,8 +3706,8 @@ public final class GLib {
      * <p>
      * For more details on its usage and about the parameters, see g_log_structured().
      */
-    public static void logVariant(java.lang.String logDomain, int logLevel, Variant fields) {
-        gtk_h.g_log_variant(Interop.allocateNativeString(logDomain).handle(), logLevel, fields.handle());
+    public static void logVariant(java.lang.String logDomain, LogLevelFlags logLevel, Variant fields) {
+        gtk_h.g_log_variant(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), fields.handle());
     }
     
     /**
@@ -3731,9 +3731,9 @@ public final class GLib {
      * determine which messages are fatal. When using a custom writer func instead it is
      * up to the writer function to determine which log messages are fatal.
      */
-    public static LogWriterOutput logWriterDefault(int logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_log_writer_default(logLevel, Interop.allocateNativeArray(fields).handle(), nFields, userData);
-        return LogWriterOutput.fromValue(RESULT);
+    public static LogWriterOutput logWriterDefault(LogLevelFlags logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
+        var RESULT = gtk_h.g_log_writer_default(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
+        return new LogWriterOutput(RESULT);
     }
     
     /**
@@ -3784,8 +3784,8 @@ public final class GLib {
      *     }
      * }</pre>
      */
-    public static boolean logWriterDefaultWouldDrop(int logLevel, java.lang.String logDomain) {
-        var RESULT = gtk_h.g_log_writer_default_would_drop(logLevel, Interop.allocateNativeString(logDomain).handle());
+    public static boolean logWriterDefaultWouldDrop(LogLevelFlags logLevel, java.lang.String logDomain) {
+        var RESULT = gtk_h.g_log_writer_default_would_drop(logLevel.getValue(), Interop.allocateNativeString(logDomain).handle());
         return (RESULT != 0);
     }
     
@@ -3800,8 +3800,8 @@ public final class GLib {
      * encoded in the character set of the current locale, which is not necessarily
      * UTF-8.
      */
-    public static java.lang.String logWriterFormatFields(int logLevel, LogField[] fields, long nFields, boolean useColor) {
-        var RESULT = gtk_h.g_log_writer_format_fields(logLevel, Interop.allocateNativeArray(fields).handle(), nFields, useColor ? 1 : 0);
+    public static java.lang.String logWriterFormatFields(LogLevelFlags logLevel, LogField[] fields, long nFields, boolean useColor) {
+        var RESULT = gtk_h.g_log_writer_format_fields(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, useColor ? 1 : 0);
         return RESULT.getUtf8String(0);
     }
     
@@ -3832,9 +3832,9 @@ public final class GLib {
      * If GLib has been compiled without systemd support, this function is still
      * defined, but will always return {@link LogWriterOutput#UNHANDLED}.
      */
-    public static LogWriterOutput logWriterJournald(int logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_log_writer_journald(logLevel, Interop.allocateNativeArray(fields).handle(), nFields, userData);
-        return LogWriterOutput.fromValue(RESULT);
+    public static LogWriterOutput logWriterJournald(LogLevelFlags logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
+        var RESULT = gtk_h.g_log_writer_journald(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
+        return new LogWriterOutput(RESULT);
     }
     
     /**
@@ -3853,9 +3853,9 @@ public final class GLib {
      * <p>
      * This is suitable for use as a {@link LogWriterFunc}.
      */
-    public static LogWriterOutput logWriterStandardStreams(int logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
-        var RESULT = gtk_h.g_log_writer_standard_streams(logLevel, Interop.allocateNativeArray(fields).handle(), nFields, userData);
-        return LogWriterOutput.fromValue(RESULT);
+    public static LogWriterOutput logWriterStandardStreams(LogLevelFlags logLevel, LogField[] fields, long nFields, java.lang.foreign.MemoryAddress userData) {
+        var RESULT = gtk_h.g_log_writer_standard_streams(logLevel.getValue(), Interop.allocateNativeArray(fields).handle(), nFields, userData);
+        return new LogWriterOutput(RESULT);
     }
     
     /**
@@ -3882,8 +3882,8 @@ public final class GLib {
      * If [structured logging is enabled][using-structured-logging] this will
      * output via the structured log writer function (see g_log_set_writer_func()).
      */
-    public static void logv(java.lang.String logDomain, int logLevel, java.lang.String format, VaList args) {
-        gtk_h.g_logv(Interop.allocateNativeString(logDomain).handle(), logLevel, Interop.allocateNativeString(format).handle(), args);
+    public static void logv(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String format, VaList args) {
+        gtk_h.g_logv(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(format).handle(), args);
     }
     
     /**
@@ -4542,7 +4542,7 @@ public final class GLib {
      * after calling this function on it.
      */
     public static void propagateError(Error[] dest, Error src) {
-        gtk_h.g_propagate_error(Interop.allocateNativeArray(dest).handle(), src.handle());
+        gtk_h.g_propagate_error(Interop.allocateNativeArray(dest).handle(), src.getReference().unowned().handle());
     }
     
     /**
@@ -4926,8 +4926,8 @@ public final class GLib {
      * once, it's more efficient to compile the pattern once with
      * g_regex_new() and then use g_regex_match().
      */
-    public static boolean regexMatchSimple(java.lang.String pattern, java.lang.String string, int compileOptions, int matchOptions) {
-        var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions, matchOptions);
+    public static boolean regexMatchSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
+        var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
         return (RESULT != 0);
     }
     
@@ -5402,17 +5402,17 @@ public final class GLib {
      * process and not its identifier. Process handles and process identifiers
      * are different concepts on Windows.
      */
-    public static boolean spawnAsync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spawnAsync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, Pid childPid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+            var RESULT = gtk_h.g_spawn_async(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPidPOINTER.handle(), GERROR);
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -5429,17 +5429,17 @@ public final class GLib {
      * Identical to g_spawn_async_with_pipes_and_fds() but with {@code n_fds} set to zero,
      * so no FD assignments are used.
      */
-    public static boolean spawnAsyncWithFds(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spawnAsyncWithFds(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, Pid childPid, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async_with_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+            var RESULT = gtk_h.g_spawn_async_with_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPidPOINTER.handle(), stdinFd, stdoutFd, stderrFd, GERROR);
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), stdinFd, stdoutFd, stderrFd, GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -5454,17 +5454,17 @@ public final class GLib {
      * Identical to g_spawn_async_with_pipes_and_fds() but with {@code n_fds} set to zero,
      * so no FD assignments are used.
      */
-    public static boolean spawnAsyncWithPipes(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, Pid childPid, PointerInteger standardInput, PointerInteger standardOutput, PointerInteger standardError) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spawnAsyncWithPipes(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, Pid childPid, PointerInteger standardInput, PointerInteger standardOutput, PointerInteger standardError) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidPOINTER = new PointerInteger(childPid.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async_with_pipes(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+            var RESULT = gtk_h.g_spawn_async_with_pipes(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), childPidPOINTER.handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), new PointerInteger(childPid.getValue()).handle(), standardInput.handle(), standardOutput.handle(), standardError.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -5665,17 +5665,17 @@ public final class GLib {
      * windows on the right screen, you may want to use {@link org.gtk.gdk.AppLaunchContext},
      * {@link org.gtk.gio.AppLaunchContext}, or set the {@code DISPLAY} environment variable.
      */
-    public static boolean spawnAsyncWithPipesAndFds(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, int stdinFd, int stdoutFd, int stderrFd, int[] sourceFds, int[] targetFds, long nFds, Pid childPidOut, PointerInteger stdinPipeOut, PointerInteger stdoutPipeOut, PointerInteger stderrPipeOut) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spawnAsyncWithPipesAndFds(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, int stdinFd, int stdoutFd, int stderrFd, int[] sourceFds, int[] targetFds, long nFds, Pid childPidOut, PointerInteger stdinPipeOut, PointerInteger stdoutPipeOut, PointerInteger stderrPipeOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         PointerInteger childPidOutPOINTER = new PointerInteger(childPidOut.getValue());
         try {
-            var RESULT = gtk_h.g_spawn_async_with_pipes_and_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+            var RESULT = gtk_h.g_spawn_async_with_pipes_and_fds(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, sourceFds)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, targetFds)).handle(), nFds, childPidOutPOINTER.handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
+                    Interop.getAllocator().allocate(C_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), stdinFd, stdoutFd, stderrFd, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, sourceFds)).handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, targetFds)).handle(), nFds, new PointerInteger(childPidOut.getValue()).handle(), stdinPipeOut.handle(), stdoutPipeOut.handle(), stderrPipeOut.handle(), GERROR);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -5842,10 +5842,10 @@ public final class GLib {
      * function for full details on the other parameters and details on
      * how these functions work on Windows.
      */
-    public static boolean spawnSync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, int flags, SpawnChildSetupFunc childSetup, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spawnSync(java.lang.String workingDirectory, java.lang.String[] argv, java.lang.String[] envp, SpawnFlags flags, SpawnChildSetupFunc childSetup, byte[] standardOutput, byte[] standardError, PointerInteger waitStatus) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = gtk_h.g_spawn_sync(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags, 
+            var RESULT = gtk_h.g_spawn_sync(Interop.allocateNativeString(workingDirectory).handle(), Interop.allocateNativeArray(argv).handle(), Interop.allocateNativeArray(envp).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
@@ -6561,8 +6561,8 @@ public final class GLib {
      * If messages at {@link LogLevelFlags#LEVEL_DEBUG} are emitted, but not explicitly
      * expected via g_test_expect_message() then they will be ignored.
      */
-    public static void testExpectMessage(java.lang.String logDomain, int logLevel, java.lang.String pattern) {
-        gtk_h.g_test_expect_message(Interop.allocateNativeString(logDomain).handle(), logLevel, Interop.allocateNativeString(pattern).handle());
+    public static void testExpectMessage(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String pattern) {
+        gtk_h.g_test_expect_message(Interop.allocateNativeString(logDomain).handle(), logLevel.getValue(), Interop.allocateNativeString(pattern).handle());
     }
     
     /**
@@ -6989,8 +6989,8 @@ public final class GLib {
      *   }
      * }</pre>
      */
-    public static void testTrapSubprocess(java.lang.String testPath, long usecTimeout, int testFlags) {
-        gtk_h.g_test_trap_subprocess(Interop.allocateNativeString(testPath).handle(), usecTimeout, testFlags);
+    public static void testTrapSubprocess(java.lang.String testPath, long usecTimeout, TestSubprocessFlags testFlags) {
+        gtk_h.g_test_trap_subprocess(Interop.allocateNativeString(testPath).handle(), usecTimeout, testFlags.getValue());
     }
     
     public static Quark threadErrorQuark() {
@@ -7421,7 +7421,7 @@ public final class GLib {
      */
     public static UnicodeBreakType unicharBreakType(int c) {
         var RESULT = gtk_h.g_unichar_break_type(c);
-        return UnicodeBreakType.fromValue(RESULT);
+        return new UnicodeBreakType(RESULT);
     }
     
     /**
@@ -7547,7 +7547,7 @@ public final class GLib {
      */
     public static UnicodeScript unicharGetScript(int ch) {
         var RESULT = gtk_h.g_unichar_get_script(ch);
-        return UnicodeScript.fromValue(RESULT);
+        return new UnicodeScript(RESULT);
     }
     
     /**
@@ -7780,7 +7780,7 @@ public final class GLib {
      */
     public static UnicodeType unicharType(int c) {
         var RESULT = gtk_h.g_unichar_type(c);
-        return UnicodeType.fromValue(RESULT);
+        return new UnicodeType(RESULT);
     }
     
     /**
@@ -7825,7 +7825,7 @@ public final class GLib {
      */
     public static UnicodeScript unicodeScriptFromIso15924(int iso15924) {
         var RESULT = gtk_h.g_unicode_script_from_iso15924(iso15924);
-        return UnicodeScript.fromValue(RESULT);
+        return new UnicodeScript(RESULT);
     }
     
     /**
@@ -7864,9 +7864,9 @@ public final class GLib {
      * <p>
      * The source will never close the fd -- you must do it yourself.
      */
-    public static int unixFdAdd(int fd, int condition, UnixFDSourceFunc function) {
+    public static int unixFdAdd(int fd, IOCondition condition, UnixFDSourceFunc function) {
         try {
-            var RESULT = gtk_h.g_unix_fd_add(fd, condition, 
+            var RESULT = gtk_h.g_unix_fd_add(fd, condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
                             MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
@@ -7887,9 +7887,9 @@ public final class GLib {
      * specify a non-default priority and a provide a {@link DestroyNotify} for
      * {@code user_data}.
      */
-    public static int unixFdAddFull(int priority, int fd, int condition, UnixFDSourceFunc function) {
+    public static int unixFdAddFull(int priority, int fd, IOCondition condition, UnixFDSourceFunc function) {
         try {
-            var RESULT = gtk_h.g_unix_fd_add_full(priority, fd, condition, 
+            var RESULT = gtk_h.g_unix_fd_add_full(priority, fd, condition.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbUnixFDSourceFunc",
                             MethodType.methodType(boolean.class, int.class, int.class, MemoryAddress.class)),
@@ -7909,8 +7909,8 @@ public final class GLib {
      * <p>
      * The source will never close the fd -- you must do it yourself.
      */
-    public static Source unixFdSourceNew(int fd, int condition) {
-        var RESULT = gtk_h.g_unix_fd_source_new(fd, condition);
+    public static Source unixFdSourceNew(int fd, IOCondition condition) {
+        var RESULT = gtk_h.g_unix_fd_source_new(fd, condition.getValue());
         return new Source(References.get(RESULT, true));
     }
     
@@ -8084,8 +8084,8 @@ public final class GLib {
      * See also g_uri_build_with_user(), which allows specifying the
      * components of the "userinfo" separately.
      */
-    public static Uri uriBuild(int flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_build(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+    public static Uri uriBuild(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_build(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
         return new Uri(References.get(RESULT, true));
     }
     
@@ -8099,8 +8099,8 @@ public final class GLib {
      * of the ‘userinfo’ field separately. Note that {@code user} must be non-{@code null}
      * if either {@code password} or {@code auth_params} is non-{@code null}.
      */
-    public static Uri uriBuildWithUser(int flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_build_with_user(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+    public static Uri uriBuildWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_build_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
         return new Uri(References.get(RESULT, true));
     }
     
@@ -8152,9 +8152,9 @@ public final class GLib {
      * See g_uri_split(), and the definition of {@link UriFlags}, for more
      * information on the effect of {@code flags}.
      */
-    public static boolean uriIsValid(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean uriIsValid(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_is_valid(Interop.allocateNativeString(uriString).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_uri_is_valid(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -8177,8 +8177,8 @@ public final class GLib {
      * {@link UriFlags#HAS_PASSWORD} and {@link UriFlags#HAS_AUTH_PARAMS} are ignored if set
      * in {@code flags}.
      */
-    public static java.lang.String uriJoin(int flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_join(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+    public static java.lang.String uriJoin(UriFlags flags, java.lang.String scheme, java.lang.String userinfo, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_join(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(userinfo).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -8193,8 +8193,8 @@ public final class GLib {
      * {@link UriFlags#HAS_PASSWORD} and {@link UriFlags#HAS_AUTH_PARAMS} are ignored if set
      * in {@code flags}.
      */
-    public static java.lang.String uriJoinWithUser(int flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
-        var RESULT = gtk_h.g_uri_join_with_user(flags, Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
+    public static java.lang.String uriJoinWithUser(UriFlags flags, java.lang.String scheme, java.lang.String user, java.lang.String password, java.lang.String authParams, java.lang.String host, int port, java.lang.String path, java.lang.String query, java.lang.String fragment) {
+        var RESULT = gtk_h.g_uri_join_with_user(flags.getValue(), Interop.allocateNativeString(scheme).handle(), Interop.allocateNativeString(user).handle(), Interop.allocateNativeString(password).handle(), Interop.allocateNativeString(authParams).handle(), Interop.allocateNativeString(host).handle(), port, Interop.allocateNativeString(path).handle(), Interop.allocateNativeString(query).handle(), Interop.allocateNativeString(fragment).handle());
         return RESULT.getUtf8String(0);
     }
     
@@ -8203,9 +8203,9 @@ public final class GLib {
      * valid [absolute URI][relative-absolute-uris], it will be discarded, and an
      * error returned.
      */
-    public static Uri uriParse(java.lang.String uriString, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static Uri uriParse(java.lang.String uriString, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_parse(Interop.allocateNativeString(uriString).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_uri_parse(Interop.allocateNativeString(uriString).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -8238,9 +8238,9 @@ public final class GLib {
      * If {@code params} cannot be parsed (for example, it contains two {@code separators}
      * characters in a row), then {@code error} is set and {@code null} is returned.
      */
-    public static org.gtk.glib.HashTable uriParseParams(java.lang.String params, long length, java.lang.String separators, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static org.gtk.glib.HashTable uriParseParams(java.lang.String params, long length, java.lang.String separators, UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_parse_params(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_uri_parse_params(Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -8287,9 +8287,9 @@ public final class GLib {
      * (If {@code base_uri_string} is {@code null}, this just returns {@code uri_ref}, or
      * {@code null} if {@code uri_ref} is invalid or not absolute.)
      */
-    public static java.lang.String uriResolveRelative(java.lang.String baseUriString, java.lang.String uriRef, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static java.lang.String uriResolveRelative(java.lang.String baseUriString, java.lang.String uriRef, UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_resolve_relative(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_uri_resolve_relative(Interop.allocateNativeString(baseUriString).handle(), Interop.allocateNativeString(uriRef).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -8314,9 +8314,9 @@ public final class GLib {
      * since it always returns only the full userinfo; use
      * g_uri_split_with_user() if you want it split up.
      */
-    public static boolean uriSplit(java.lang.String uriRef, int flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean uriSplit(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] userinfo, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split(Interop.allocateNativeString(uriRef).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+        var RESULT = gtk_h.g_uri_split(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(userinfo).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -8331,9 +8331,9 @@ public final class GLib {
      * However, it will return an error if {@code uri_string} is a relative URI,
      * or does not contain a hostname component.
      */
-    public static boolean uriSplitNetwork(java.lang.String uriString, int flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean uriSplitNetwork(java.lang.String uriString, UriFlags flags, java.lang.String[] scheme, java.lang.String[] host, PointerInteger port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split_network(Interop.allocateNativeString(uriString).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
+        var RESULT = gtk_h.g_uri_split_network(Interop.allocateNativeString(uriString).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -8353,9 +8353,9 @@ public final class GLib {
      * {@code auth_params} will only be parsed out if {@code flags} contains
      * {@link UriFlags#HAS_AUTH_PARAMS}.
      */
-    public static boolean uriSplitWithUser(java.lang.String uriRef, int flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean uriSplitWithUser(java.lang.String uriRef, UriFlags flags, java.lang.String[] scheme, java.lang.String[] user, java.lang.String[] password, java.lang.String[] authParams, java.lang.String[] host, PointerInteger port, java.lang.String[] path, java.lang.String[] query, java.lang.String[] fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_uri_split_with_user(Interop.allocateNativeString(uriRef).handle(), flags, Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
+        var RESULT = gtk_h.g_uri_split_with_user(Interop.allocateNativeString(uriRef).handle(), flags.getValue(), Interop.allocateNativeArray(scheme).handle(), Interop.allocateNativeArray(user).handle(), Interop.allocateNativeArray(password).handle(), Interop.allocateNativeArray(authParams).handle(), Interop.allocateNativeArray(host).handle(), port.handle(), Interop.allocateNativeArray(path).handle(), Interop.allocateNativeArray(query).handle(), Interop.allocateNativeArray(fragment).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -9134,7 +9134,7 @@ public final class GLib {
     public static boolean __cbIOFunc(MemoryAddress source, int condition, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (IOFunc) Interop.signalRegistry.get(hash);
-        return handler.onIOFunc(new IOChannel(References.get(source, false)), condition);
+        return handler.onIOFunc(new IOChannel(References.get(source, false)), new IOCondition(condition));
     }
     
     public static java.lang.foreign.MemoryAddress __cbThreadFunc(MemoryAddress data) {
@@ -9188,7 +9188,7 @@ public final class GLib {
     public static boolean __cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (UnixFDSourceFunc) Interop.signalRegistry.get(hash);
-        return handler.onUnixFDSourceFunc(fd, condition);
+        return handler.onUnixFDSourceFunc(fd, new IOCondition(condition));
     }
     
     public static void __cbSpawnChildSetupFunc(MemoryAddress userData) {
@@ -9236,7 +9236,7 @@ public final class GLib {
     public static LogWriterOutput __cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (LogWriterFunc) Interop.signalRegistry.get(hash);
-        return handler.onLogWriterFunc(logLevel, null, nFields);
+        return handler.onLogWriterFunc(new LogLevelFlags(logLevel), null, nFields);
     }
     
     public static int __cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress data) {
@@ -9266,7 +9266,7 @@ public final class GLib {
     public static boolean __cbTestLogFatalFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (TestLogFatalFunc) Interop.signalRegistry.get(hash);
-        return handler.onTestLogFatalFunc(logDomain.getUtf8String(0), logLevel, message.getUtf8String(0));
+        return handler.onTestLogFatalFunc(logDomain.getUtf8String(0), new LogLevelFlags(logLevel), message.getUtf8String(0));
     }
     
     public static boolean __cbSourceFunc(MemoryAddress userData) {
@@ -9314,7 +9314,7 @@ public final class GLib {
     public static void __cbLogFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (LogFunc) Interop.signalRegistry.get(hash);
-        handler.onLogFunc(logDomain.getUtf8String(0), logLevel, message.getUtf8String(0));
+        handler.onLogFunc(logDomain.getUtf8String(0), new LogLevelFlags(logLevel), message.getUtf8String(0));
     }
     
     public static void __cbNodeForeachFunc(MemoryAddress node, MemoryAddress data) {

@@ -3,7 +3,7 @@ package org.gtk.gtk;
 /**
  * Identifies how the user can interact with a particular cell.
  */
-public enum CellRendererMode {
+public class CellRendererMode {
 
     /**
      * The cell is just for display
@@ -11,33 +11,38 @@ public enum CellRendererMode {
      *  row being drawn can’t be selected -- just that a particular element of
      *  it cannot be individually modified.
      */
-    INERT,
+    public static final CellRendererMode INERT = new CellRendererMode(0);
     
     /**
      * The cell can be clicked.
      */
-    ACTIVATABLE,
+    public static final CellRendererMode ACTIVATABLE = new CellRendererMode(1);
     
     /**
      * The cell can be edited or otherwise modified.
      */
-    EDITABLE;
+    public static final CellRendererMode EDITABLE = new CellRendererMode(2);
     
-    public static CellRendererMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> INERT;
-            case 1 -> ACTIVATABLE;
-            case 2 -> EDITABLE;
-            default -> null;
-        };
+    private int value;
+    
+    public CellRendererMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INERT -> 0;
-            case ACTIVATABLE -> 1;
-            case EDITABLE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CellRendererMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

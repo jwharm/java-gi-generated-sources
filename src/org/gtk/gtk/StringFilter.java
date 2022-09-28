@@ -70,7 +70,7 @@ public class StringFilter extends Filter {
      */
     public StringFilterMatchMode getMatchMode() {
         var RESULT = gtk_h.gtk_string_filter_get_match_mode(handle());
-        return StringFilterMatchMode.fromValue(RESULT);
+        return new StringFilterMatchMode(RESULT);
     }
     
     /**

@@ -3,45 +3,48 @@ package org.gtk.gsk;
 /**
  * The corner indices used by {@code GskRoundedRect}.
  */
-public enum Corner {
+public class Corner {
 
     /**
      * The top left corner
      */
-    TOP_LEFT,
+    public static final Corner TOP_LEFT = new Corner(0);
     
     /**
      * The top right corner
      */
-    TOP_RIGHT,
+    public static final Corner TOP_RIGHT = new Corner(1);
     
     /**
      * The bottom right corner
      */
-    BOTTOM_RIGHT,
+    public static final Corner BOTTOM_RIGHT = new Corner(2);
     
     /**
      * The bottom left corner
      */
-    BOTTOM_LEFT;
+    public static final Corner BOTTOM_LEFT = new Corner(3);
     
-    public static Corner fromValue(int value) {
-        return switch(value) {
-            case 0 -> TOP_LEFT;
-            case 1 -> TOP_RIGHT;
-            case 2 -> BOTTOM_RIGHT;
-            case 3 -> BOTTOM_LEFT;
-            default -> null;
-        };
+    private int value;
+    
+    public Corner(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case TOP_LEFT -> 0;
-            case TOP_RIGHT -> 1;
-            case BOTTOM_RIGHT -> 2;
-            case BOTTOM_LEFT -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Corner[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

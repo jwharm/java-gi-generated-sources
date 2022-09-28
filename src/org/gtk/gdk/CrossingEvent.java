@@ -26,7 +26,7 @@ public class CrossingEvent extends Event {
      */
     public NotifyType getDetail() {
         var RESULT = gtk_h.gdk_crossing_event_get_detail(handle());
-        return NotifyType.fromValue(RESULT);
+        return new NotifyType(RESULT);
     }
     
     /**
@@ -42,7 +42,7 @@ public class CrossingEvent extends Event {
      */
     public CrossingMode getMode() {
         var RESULT = gtk_h.gdk_crossing_event_get_mode(handle());
-        return CrossingMode.fromValue(RESULT);
+        return new CrossingMode(RESULT);
     }
     
 }

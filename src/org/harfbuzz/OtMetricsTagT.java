@@ -4,213 +4,168 @@ package org.harfbuzz;
  * Metric tags corresponding to [MVAR Value
  * Tags](https://docs.microsoft.com/en-us/typography/opentype/spec/mvar{@code value}-tags)
  */
-public enum OtMetricsTagT {
+public class OtMetricsTagT {
 
     /**
      * horizontal ascender.
      */
-    HORIZONTAL_ASCENDER,
+    public static final OtMetricsTagT HORIZONTAL_ASCENDER = new OtMetricsTagT(1751216995);
     
     /**
      * horizontal descender.
      */
-    HORIZONTAL_DESCENDER,
+    public static final OtMetricsTagT HORIZONTAL_DESCENDER = new OtMetricsTagT(1751413603);
     
     /**
      * horizontal line gap.
      */
-    HORIZONTAL_LINE_GAP,
+    public static final OtMetricsTagT HORIZONTAL_LINE_GAP = new OtMetricsTagT(1751934832);
     
     /**
      * horizontal clipping ascent.
      */
-    HORIZONTAL_CLIPPING_ASCENT,
+    public static final OtMetricsTagT HORIZONTAL_CLIPPING_ASCENT = new OtMetricsTagT(1751346273);
     
     /**
      * horizontal clipping descent.
      */
-    HORIZONTAL_CLIPPING_DESCENT,
+    public static final OtMetricsTagT HORIZONTAL_CLIPPING_DESCENT = new OtMetricsTagT(1751346276);
     
     /**
      * vertical ascender.
      */
-    VERTICAL_ASCENDER,
+    public static final OtMetricsTagT VERTICAL_ASCENDER = new OtMetricsTagT(1986098019);
     
     /**
      * vertical descender.
      */
-    VERTICAL_DESCENDER,
+    public static final OtMetricsTagT VERTICAL_DESCENDER = new OtMetricsTagT(1986294627);
     
     /**
      * vertical line gap.
      */
-    VERTICAL_LINE_GAP,
+    public static final OtMetricsTagT VERTICAL_LINE_GAP = new OtMetricsTagT(1986815856);
     
     /**
      * horizontal caret rise.
      */
-    HORIZONTAL_CARET_RISE,
+    public static final OtMetricsTagT HORIZONTAL_CARET_RISE = new OtMetricsTagT(1751347827);
     
     /**
      * horizontal caret run.
      */
-    HORIZONTAL_CARET_RUN,
+    public static final OtMetricsTagT HORIZONTAL_CARET_RUN = new OtMetricsTagT(1751347822);
     
     /**
      * horizontal caret offset.
      */
-    HORIZONTAL_CARET_OFFSET,
+    public static final OtMetricsTagT HORIZONTAL_CARET_OFFSET = new OtMetricsTagT(1751347046);
     
     /**
      * vertical caret rise.
      */
-    VERTICAL_CARET_RISE,
+    public static final OtMetricsTagT VERTICAL_CARET_RISE = new OtMetricsTagT(1986228851);
     
     /**
      * vertical caret run.
      */
-    VERTICAL_CARET_RUN,
+    public static final OtMetricsTagT VERTICAL_CARET_RUN = new OtMetricsTagT(1986228846);
     
     /**
      * vertical caret offset.
      */
-    VERTICAL_CARET_OFFSET,
+    public static final OtMetricsTagT VERTICAL_CARET_OFFSET = new OtMetricsTagT(1986228070);
     
     /**
      * x height.
      */
-    X_HEIGHT,
+    public static final OtMetricsTagT X_HEIGHT = new OtMetricsTagT(2020108148);
     
     /**
      * cap height.
      */
-    CAP_HEIGHT,
+    public static final OtMetricsTagT CAP_HEIGHT = new OtMetricsTagT(1668311156);
     
     /**
      * subscript em x size.
      */
-    SUBSCRIPT_EM_X_SIZE,
+    public static final OtMetricsTagT SUBSCRIPT_EM_X_SIZE = new OtMetricsTagT(1935833203);
     
     /**
      * subscript em y size.
      */
-    SUBSCRIPT_EM_Y_SIZE,
+    public static final OtMetricsTagT SUBSCRIPT_EM_Y_SIZE = new OtMetricsTagT(1935833459);
     
     /**
      * subscript em x offset.
      */
-    SUBSCRIPT_EM_X_OFFSET,
+    public static final OtMetricsTagT SUBSCRIPT_EM_X_OFFSET = new OtMetricsTagT(1935833199);
     
     /**
      * subscript em y offset.
      */
-    SUBSCRIPT_EM_Y_OFFSET,
+    public static final OtMetricsTagT SUBSCRIPT_EM_Y_OFFSET = new OtMetricsTagT(1935833455);
     
     /**
      * superscript em x size.
      */
-    SUPERSCRIPT_EM_X_SIZE,
+    public static final OtMetricsTagT SUPERSCRIPT_EM_X_SIZE = new OtMetricsTagT(1936750707);
     
     /**
      * superscript em y size.
      */
-    SUPERSCRIPT_EM_Y_SIZE,
+    public static final OtMetricsTagT SUPERSCRIPT_EM_Y_SIZE = new OtMetricsTagT(1936750963);
     
     /**
      * superscript em x offset.
      */
-    SUPERSCRIPT_EM_X_OFFSET,
+    public static final OtMetricsTagT SUPERSCRIPT_EM_X_OFFSET = new OtMetricsTagT(1936750703);
     
     /**
      * superscript em y offset.
      */
-    SUPERSCRIPT_EM_Y_OFFSET,
+    public static final OtMetricsTagT SUPERSCRIPT_EM_Y_OFFSET = new OtMetricsTagT(1936750959);
     
     /**
      * strikeout size.
      */
-    STRIKEOUT_SIZE,
+    public static final OtMetricsTagT STRIKEOUT_SIZE = new OtMetricsTagT(1937011315);
     
     /**
      * strikeout offset.
      */
-    STRIKEOUT_OFFSET,
+    public static final OtMetricsTagT STRIKEOUT_OFFSET = new OtMetricsTagT(1937011311);
     
     /**
      * underline size.
      */
-    UNDERLINE_SIZE,
+    public static final OtMetricsTagT UNDERLINE_SIZE = new OtMetricsTagT(1970168947);
     
     /**
      * underline offset.
      */
-    UNDERLINE_OFFSET;
+    public static final OtMetricsTagT UNDERLINE_OFFSET = new OtMetricsTagT(1970168943);
     
-    public static OtMetricsTagT fromValue(int value) {
-        return switch(value) {
-            case 1751216995 -> HORIZONTAL_ASCENDER;
-            case 1751413603 -> HORIZONTAL_DESCENDER;
-            case 1751934832 -> HORIZONTAL_LINE_GAP;
-            case 1751346273 -> HORIZONTAL_CLIPPING_ASCENT;
-            case 1751346276 -> HORIZONTAL_CLIPPING_DESCENT;
-            case 1986098019 -> VERTICAL_ASCENDER;
-            case 1986294627 -> VERTICAL_DESCENDER;
-            case 1986815856 -> VERTICAL_LINE_GAP;
-            case 1751347827 -> HORIZONTAL_CARET_RISE;
-            case 1751347822 -> HORIZONTAL_CARET_RUN;
-            case 1751347046 -> HORIZONTAL_CARET_OFFSET;
-            case 1986228851 -> VERTICAL_CARET_RISE;
-            case 1986228846 -> VERTICAL_CARET_RUN;
-            case 1986228070 -> VERTICAL_CARET_OFFSET;
-            case 2020108148 -> X_HEIGHT;
-            case 1668311156 -> CAP_HEIGHT;
-            case 1935833203 -> SUBSCRIPT_EM_X_SIZE;
-            case 1935833459 -> SUBSCRIPT_EM_Y_SIZE;
-            case 1935833199 -> SUBSCRIPT_EM_X_OFFSET;
-            case 1935833455 -> SUBSCRIPT_EM_Y_OFFSET;
-            case 1936750707 -> SUPERSCRIPT_EM_X_SIZE;
-            case 1936750963 -> SUPERSCRIPT_EM_Y_SIZE;
-            case 1936750703 -> SUPERSCRIPT_EM_X_OFFSET;
-            case 1936750959 -> SUPERSCRIPT_EM_Y_OFFSET;
-            case 1937011315 -> STRIKEOUT_SIZE;
-            case 1937011311 -> STRIKEOUT_OFFSET;
-            case 1970168947 -> UNDERLINE_SIZE;
-            case 1970168943 -> UNDERLINE_OFFSET;
-            default -> null;
-        };
+    private int value;
+    
+    public OtMetricsTagT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case HORIZONTAL_ASCENDER -> 1751216995;
-            case HORIZONTAL_DESCENDER -> 1751413603;
-            case HORIZONTAL_LINE_GAP -> 1751934832;
-            case HORIZONTAL_CLIPPING_ASCENT -> 1751346273;
-            case HORIZONTAL_CLIPPING_DESCENT -> 1751346276;
-            case VERTICAL_ASCENDER -> 1986098019;
-            case VERTICAL_DESCENDER -> 1986294627;
-            case VERTICAL_LINE_GAP -> 1986815856;
-            case HORIZONTAL_CARET_RISE -> 1751347827;
-            case HORIZONTAL_CARET_RUN -> 1751347822;
-            case HORIZONTAL_CARET_OFFSET -> 1751347046;
-            case VERTICAL_CARET_RISE -> 1986228851;
-            case VERTICAL_CARET_RUN -> 1986228846;
-            case VERTICAL_CARET_OFFSET -> 1986228070;
-            case X_HEIGHT -> 2020108148;
-            case CAP_HEIGHT -> 1668311156;
-            case SUBSCRIPT_EM_X_SIZE -> 1935833203;
-            case SUBSCRIPT_EM_Y_SIZE -> 1935833459;
-            case SUBSCRIPT_EM_X_OFFSET -> 1935833199;
-            case SUBSCRIPT_EM_Y_OFFSET -> 1935833455;
-            case SUPERSCRIPT_EM_X_SIZE -> 1936750707;
-            case SUPERSCRIPT_EM_Y_SIZE -> 1936750963;
-            case SUPERSCRIPT_EM_X_OFFSET -> 1936750703;
-            case SUPERSCRIPT_EM_Y_OFFSET -> 1936750959;
-            case STRIKEOUT_SIZE -> 1937011315;
-            case STRIKEOUT_OFFSET -> 1937011311;
-            case UNDERLINE_SIZE -> 1970168947;
-            case UNDERLINE_OFFSET -> 1970168943;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(OtMetricsTagT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

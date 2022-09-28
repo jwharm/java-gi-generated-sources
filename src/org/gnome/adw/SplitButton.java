@@ -81,7 +81,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      */
     public org.gtk.gtk.ArrowType getArrowDirection() {
         var RESULT = gtk_h.adw_split_button_get_direction(handle());
-        return org.gtk.gtk.ArrowType.fromValue(RESULT);
+        return new org.gtk.gtk.ArrowType(RESULT);
     }
     
     /**

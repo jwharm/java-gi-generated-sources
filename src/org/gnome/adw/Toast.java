@@ -186,7 +186,7 @@ public class Toast extends org.gtk.gobject.Object {
      */
     public ToastPriority getPriority() {
         var RESULT = gtk_h.adw_toast_get_priority(handle());
-        return ToastPriority.fromValue(RESULT);
+        return new ToastPriority(RESULT);
     }
     
     /**

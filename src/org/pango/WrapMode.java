@@ -9,39 +9,44 @@ package org.pango;
  * breaking at grapheme boundaries that are determined by the Unicode text
  * segmentation algorithm.
  */
-public enum WrapMode {
+public class WrapMode {
 
     /**
      * wrap lines at word boundaries.
      */
-    WORD,
+    public static final WrapMode WORD = new WrapMode(0);
     
     /**
      * wrap lines at character boundaries.
      */
-    CHAR,
+    public static final WrapMode CHAR = new WrapMode(1);
     
     /**
      * wrap lines at word boundaries, but fall back to
      *   character boundaries if there is not enough space for a full word.
      */
-    WORD_CHAR;
+    public static final WrapMode WORD_CHAR = new WrapMode(2);
     
-    public static WrapMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> WORD;
-            case 1 -> CHAR;
-            case 2 -> WORD_CHAR;
-            default -> null;
-        };
+    private int value;
+    
+    public WrapMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case WORD -> 0;
-            case CHAR -> 1;
-            case WORD_CHAR -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(WrapMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -1,28 +1,33 @@
 package org.cairographics;
 
-public enum Content {
+public class Content {
 
-    COLOR,
+    public static final Content COLOR = new Content(4096);
     
-    ALPHA,
+    public static final Content ALPHA = new Content(8192);
     
-    COLOR_ALPHA;
+    public static final Content COLOR_ALPHA = new Content(12288);
     
-    public static Content fromValue(int value) {
-        return switch(value) {
-            case 4096 -> COLOR;
-            case 8192 -> ALPHA;
-            case 12288 -> COLOR_ALPHA;
-            default -> null;
-        };
+    private int value;
+    
+    public Content(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case COLOR -> 4096;
-            case ALPHA -> 8192;
-            case COLOR_ALPHA -> 12288;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Content[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

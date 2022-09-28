@@ -8,38 +8,43 @@ package org.gtk.gtk;
  * For converting such a value to a {@code GtkOrdering} value, use
  * {@link Gtk#Ordering}.
  */
-public enum Ordering {
+public class Ordering {
 
     /**
      * the first value is smaller than the second
      */
-    SMALLER,
+    public static final Ordering SMALLER = new Ordering(-1);
     
     /**
      * the two values are equal
      */
-    EQUAL,
+    public static final Ordering EQUAL = new Ordering(0);
     
     /**
      * the first value is larger than the second
      */
-    LARGER;
+    public static final Ordering LARGER = new Ordering(1);
     
-    public static Ordering fromValue(int value) {
-        return switch(value) {
-            case -1 -> SMALLER;
-            case 0 -> EQUAL;
-            case 1 -> LARGER;
-            default -> null;
-        };
+    private int value;
+    
+    public Ordering(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SMALLER -> -1;
-            case EQUAL -> 0;
-            case LARGER -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Ordering[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

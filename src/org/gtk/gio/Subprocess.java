@@ -77,9 +77,9 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
         return new Subprocess(gobject.getReference());
     }
     
-    private static Reference constructNewv(java.lang.String[] argv, int flags) throws GErrorException {
+    private static Reference constructNewv(java.lang.String[] argv, SubprocessFlags flags) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_subprocess_newv(Interop.allocateNativeArray(argv).handle(), flags, GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_subprocess_newv(Interop.allocateNativeArray(argv).handle(), flags.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -91,7 +91,7 @@ public class Subprocess extends org.gtk.gobject.Object implements Initable {
      * <p>
      * The argument list is expected to be {@code null}-terminated.
      */
-    public static Subprocess newv(java.lang.String[] argv, int flags) throws GErrorException {
+    public static Subprocess newv(java.lang.String[] argv, SubprocessFlags flags) throws GErrorException {
         return new Subprocess(constructNewv(argv, flags));
     }
     

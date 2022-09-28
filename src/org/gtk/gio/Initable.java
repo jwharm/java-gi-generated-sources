@@ -89,7 +89,7 @@ public interface Initable extends io.github.jwharm.javagi.NativeAddress {
      * similar to g_object_new_valist() but also initializes the object
      * and returns {@code null}, setting an error on failure.
      */
-    public static org.gtk.gobject.Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static org.gtk.gobject.Object newValist(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_initable_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

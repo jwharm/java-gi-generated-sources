@@ -4,31 +4,38 @@ package org.gtk.gio;
  * An error code used with {@code G_RESOURCE_ERROR} in a {@link org.gtk.glib.Error} returned
  * from a {@link Resource} routine.
  */
-public enum ResourceError {
+public class ResourceError {
 
     /**
      * no file was found at the requested path
      */
-    NOT_FOUND,
+    public static final ResourceError NOT_FOUND = new ResourceError(0);
     
     /**
      * unknown error
      */
-    INTERNAL;
+    public static final ResourceError INTERNAL = new ResourceError(1);
     
-    public static ResourceError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NOT_FOUND;
-            case 1 -> INTERNAL;
-            default -> null;
-        };
+    private int value;
+    
+    public ResourceError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NOT_FOUND -> 0;
-            case INTERNAL -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ResourceError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

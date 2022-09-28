@@ -180,7 +180,7 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public BaselinePosition getRowBaselinePosition(int row) {
         var RESULT = gtk_h.gtk_grid_get_row_baseline_position(handle(), row);
-        return BaselinePosition.fromValue(RESULT);
+        return new BaselinePosition(RESULT);
     }
     
     /**

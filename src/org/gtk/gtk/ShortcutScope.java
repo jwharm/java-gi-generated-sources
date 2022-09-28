@@ -4,41 +4,46 @@ package org.gtk.gtk;
  * Describes where {@link Shortcut}s added to a
  * {@link ShortcutController} get handled.
  */
-public enum ShortcutScope {
+public class ShortcutScope {
 
     /**
      * Shortcuts are handled inside
      *   the widget the controller belongs to.
      */
-    LOCAL,
+    public static final ShortcutScope LOCAL = new ShortcutScope(0);
     
     /**
      * Shortcuts are handled by
      *   the first ancestor that is a {@code ShortcutManager}
      */
-    MANAGED,
+    public static final ShortcutScope MANAGED = new ShortcutScope(1);
     
     /**
      * Shortcuts are handled by
      *   the root widget.
      */
-    GLOBAL;
+    public static final ShortcutScope GLOBAL = new ShortcutScope(2);
     
-    public static ShortcutScope fromValue(int value) {
-        return switch(value) {
-            case 0 -> LOCAL;
-            case 1 -> MANAGED;
-            case 2 -> GLOBAL;
-            default -> null;
-        };
+    private int value;
+    
+    public ShortcutScope(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LOCAL -> 0;
-            case MANAGED -> 1;
-            case GLOBAL -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ShortcutScope[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

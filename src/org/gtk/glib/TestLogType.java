@@ -1,64 +1,51 @@
 package org.gtk.glib;
 
-public enum TestLogType {
+public class TestLogType {
 
-    NONE,
+    public static final TestLogType NONE = new TestLogType(0);
     
-    ERROR,
+    public static final TestLogType ERROR = new TestLogType(1);
     
-    START_BINARY,
+    public static final TestLogType START_BINARY = new TestLogType(2);
     
-    LIST_CASE,
+    public static final TestLogType LIST_CASE = new TestLogType(3);
     
-    SKIP_CASE,
+    public static final TestLogType SKIP_CASE = new TestLogType(4);
     
-    START_CASE,
+    public static final TestLogType START_CASE = new TestLogType(5);
     
-    STOP_CASE,
+    public static final TestLogType STOP_CASE = new TestLogType(6);
     
-    MIN_RESULT,
+    public static final TestLogType MIN_RESULT = new TestLogType(7);
     
-    MAX_RESULT,
+    public static final TestLogType MAX_RESULT = new TestLogType(8);
     
-    MESSAGE,
+    public static final TestLogType MESSAGE = new TestLogType(9);
     
-    START_SUITE,
+    public static final TestLogType START_SUITE = new TestLogType(10);
     
-    STOP_SUITE;
+    public static final TestLogType STOP_SUITE = new TestLogType(11);
     
-    public static TestLogType fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> ERROR;
-            case 2 -> START_BINARY;
-            case 3 -> LIST_CASE;
-            case 4 -> SKIP_CASE;
-            case 5 -> START_CASE;
-            case 6 -> STOP_CASE;
-            case 7 -> MIN_RESULT;
-            case 8 -> MAX_RESULT;
-            case 9 -> MESSAGE;
-            case 10 -> START_SUITE;
-            case 11 -> STOP_SUITE;
-            default -> null;
-        };
+    private int value;
+    
+    public TestLogType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case ERROR -> 1;
-            case START_BINARY -> 2;
-            case LIST_CASE -> 3;
-            case SKIP_CASE -> 4;
-            case START_CASE -> 5;
-            case STOP_CASE -> 6;
-            case MIN_RESULT -> 7;
-            case MAX_RESULT -> 8;
-            case MESSAGE -> 9;
-            case START_SUITE -> 10;
-            case STOP_SUITE -> 11;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TestLogType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

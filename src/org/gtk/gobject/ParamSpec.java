@@ -184,8 +184,8 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * {@code blurb}, which should be a somewhat longer description, suitable for
      * e.g. a tooltip. The {@code nick} and {@code blurb} should ideally be localized.
      */
-    public static ParamSpec internal(Type paramType, java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
-        var RESULT = gtk_h.g_param_spec_internal(paramType.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags);
+    public static ParamSpec internal(org.gtk.gobject.Type paramType, java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_internal(paramType.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
         return new ParamSpec(References.get(RESULT, false));
     }
     

@@ -182,7 +182,7 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public StackTransitionType getTransitionType() {
         var RESULT = gtk_h.gtk_stack_get_transition_type(handle());
-        return StackTransitionType.fromValue(RESULT);
+        return new StackTransitionType(RESULT);
     }
     
     /**

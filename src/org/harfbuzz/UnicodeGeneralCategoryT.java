@@ -4,227 +4,178 @@ package org.harfbuzz;
  * Data type for the "General_Category" (gc) property from
  * the Unicode Character Database.
  */
-public enum UnicodeGeneralCategoryT {
+public class UnicodeGeneralCategoryT {
 
     /**
      * [Cc]
      */
-    CONTROL,
+    public static final UnicodeGeneralCategoryT CONTROL = new UnicodeGeneralCategoryT(0);
     
     /**
      * [Cf]
      */
-    FORMAT,
+    public static final UnicodeGeneralCategoryT FORMAT = new UnicodeGeneralCategoryT(1);
     
     /**
      * [Cn]
      */
-    UNASSIGNED,
+    public static final UnicodeGeneralCategoryT UNASSIGNED = new UnicodeGeneralCategoryT(2);
     
     /**
      * [Co]
      */
-    PRIVATE_USE,
+    public static final UnicodeGeneralCategoryT PRIVATE_USE = new UnicodeGeneralCategoryT(3);
     
     /**
      * [Cs]
      */
-    SURROGATE,
+    public static final UnicodeGeneralCategoryT SURROGATE = new UnicodeGeneralCategoryT(4);
     
     /**
      * [Ll]
      */
-    LOWERCASE_LETTER,
+    public static final UnicodeGeneralCategoryT LOWERCASE_LETTER = new UnicodeGeneralCategoryT(5);
     
     /**
      * [Lm]
      */
-    MODIFIER_LETTER,
+    public static final UnicodeGeneralCategoryT MODIFIER_LETTER = new UnicodeGeneralCategoryT(6);
     
     /**
      * [Lo]
      */
-    OTHER_LETTER,
+    public static final UnicodeGeneralCategoryT OTHER_LETTER = new UnicodeGeneralCategoryT(7);
     
     /**
      * [Lt]
      */
-    TITLECASE_LETTER,
+    public static final UnicodeGeneralCategoryT TITLECASE_LETTER = new UnicodeGeneralCategoryT(8);
     
     /**
      * [Lu]
      */
-    UPPERCASE_LETTER,
+    public static final UnicodeGeneralCategoryT UPPERCASE_LETTER = new UnicodeGeneralCategoryT(9);
     
     /**
      * [Mc]
      */
-    SPACING_MARK,
+    public static final UnicodeGeneralCategoryT SPACING_MARK = new UnicodeGeneralCategoryT(10);
     
     /**
      * [Me]
      */
-    ENCLOSING_MARK,
+    public static final UnicodeGeneralCategoryT ENCLOSING_MARK = new UnicodeGeneralCategoryT(11);
     
     /**
      * [Mn]
      */
-    NON_SPACING_MARK,
+    public static final UnicodeGeneralCategoryT NON_SPACING_MARK = new UnicodeGeneralCategoryT(12);
     
     /**
      * [Nd]
      */
-    DECIMAL_NUMBER,
+    public static final UnicodeGeneralCategoryT DECIMAL_NUMBER = new UnicodeGeneralCategoryT(13);
     
     /**
      * [Nl]
      */
-    LETTER_NUMBER,
+    public static final UnicodeGeneralCategoryT LETTER_NUMBER = new UnicodeGeneralCategoryT(14);
     
     /**
      * [No]
      */
-    OTHER_NUMBER,
+    public static final UnicodeGeneralCategoryT OTHER_NUMBER = new UnicodeGeneralCategoryT(15);
     
     /**
      * [Pc]
      */
-    CONNECT_PUNCTUATION,
+    public static final UnicodeGeneralCategoryT CONNECT_PUNCTUATION = new UnicodeGeneralCategoryT(16);
     
     /**
      * [Pd]
      */
-    DASH_PUNCTUATION,
+    public static final UnicodeGeneralCategoryT DASH_PUNCTUATION = new UnicodeGeneralCategoryT(17);
     
     /**
      * [Pe]
      */
-    CLOSE_PUNCTUATION,
+    public static final UnicodeGeneralCategoryT CLOSE_PUNCTUATION = new UnicodeGeneralCategoryT(18);
     
     /**
      * [Pf]
      */
-    FINAL_PUNCTUATION,
+    public static final UnicodeGeneralCategoryT FINAL_PUNCTUATION = new UnicodeGeneralCategoryT(19);
     
     /**
      * [Pi]
      */
-    INITIAL_PUNCTUATION,
+    public static final UnicodeGeneralCategoryT INITIAL_PUNCTUATION = new UnicodeGeneralCategoryT(20);
     
     /**
      * [Po]
      */
-    OTHER_PUNCTUATION,
+    public static final UnicodeGeneralCategoryT OTHER_PUNCTUATION = new UnicodeGeneralCategoryT(21);
     
     /**
      * [Ps]
      */
-    OPEN_PUNCTUATION,
+    public static final UnicodeGeneralCategoryT OPEN_PUNCTUATION = new UnicodeGeneralCategoryT(22);
     
     /**
      * [Sc]
      */
-    CURRENCY_SYMBOL,
+    public static final UnicodeGeneralCategoryT CURRENCY_SYMBOL = new UnicodeGeneralCategoryT(23);
     
     /**
      * [Sk]
      */
-    MODIFIER_SYMBOL,
+    public static final UnicodeGeneralCategoryT MODIFIER_SYMBOL = new UnicodeGeneralCategoryT(24);
     
     /**
      * [Sm]
      */
-    MATH_SYMBOL,
+    public static final UnicodeGeneralCategoryT MATH_SYMBOL = new UnicodeGeneralCategoryT(25);
     
     /**
      * [So]
      */
-    OTHER_SYMBOL,
+    public static final UnicodeGeneralCategoryT OTHER_SYMBOL = new UnicodeGeneralCategoryT(26);
     
     /**
      * [Zl]
      */
-    LINE_SEPARATOR,
+    public static final UnicodeGeneralCategoryT LINE_SEPARATOR = new UnicodeGeneralCategoryT(27);
     
     /**
      * [Zp]
      */
-    PARAGRAPH_SEPARATOR,
+    public static final UnicodeGeneralCategoryT PARAGRAPH_SEPARATOR = new UnicodeGeneralCategoryT(28);
     
     /**
      * [Zs]
      */
-    SPACE_SEPARATOR;
+    public static final UnicodeGeneralCategoryT SPACE_SEPARATOR = new UnicodeGeneralCategoryT(29);
     
-    public static UnicodeGeneralCategoryT fromValue(int value) {
-        return switch(value) {
-            case 0 -> CONTROL;
-            case 1 -> FORMAT;
-            case 2 -> UNASSIGNED;
-            case 3 -> PRIVATE_USE;
-            case 4 -> SURROGATE;
-            case 5 -> LOWERCASE_LETTER;
-            case 6 -> MODIFIER_LETTER;
-            case 7 -> OTHER_LETTER;
-            case 8 -> TITLECASE_LETTER;
-            case 9 -> UPPERCASE_LETTER;
-            case 10 -> SPACING_MARK;
-            case 11 -> ENCLOSING_MARK;
-            case 12 -> NON_SPACING_MARK;
-            case 13 -> DECIMAL_NUMBER;
-            case 14 -> LETTER_NUMBER;
-            case 15 -> OTHER_NUMBER;
-            case 16 -> CONNECT_PUNCTUATION;
-            case 17 -> DASH_PUNCTUATION;
-            case 18 -> CLOSE_PUNCTUATION;
-            case 19 -> FINAL_PUNCTUATION;
-            case 20 -> INITIAL_PUNCTUATION;
-            case 21 -> OTHER_PUNCTUATION;
-            case 22 -> OPEN_PUNCTUATION;
-            case 23 -> CURRENCY_SYMBOL;
-            case 24 -> MODIFIER_SYMBOL;
-            case 25 -> MATH_SYMBOL;
-            case 26 -> OTHER_SYMBOL;
-            case 27 -> LINE_SEPARATOR;
-            case 28 -> PARAGRAPH_SEPARATOR;
-            case 29 -> SPACE_SEPARATOR;
-            default -> null;
-        };
+    private int value;
+    
+    public UnicodeGeneralCategoryT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case CONTROL -> 0;
-            case FORMAT -> 1;
-            case UNASSIGNED -> 2;
-            case PRIVATE_USE -> 3;
-            case SURROGATE -> 4;
-            case LOWERCASE_LETTER -> 5;
-            case MODIFIER_LETTER -> 6;
-            case OTHER_LETTER -> 7;
-            case TITLECASE_LETTER -> 8;
-            case UPPERCASE_LETTER -> 9;
-            case SPACING_MARK -> 10;
-            case ENCLOSING_MARK -> 11;
-            case NON_SPACING_MARK -> 12;
-            case DECIMAL_NUMBER -> 13;
-            case LETTER_NUMBER -> 14;
-            case OTHER_NUMBER -> 15;
-            case CONNECT_PUNCTUATION -> 16;
-            case DASH_PUNCTUATION -> 17;
-            case CLOSE_PUNCTUATION -> 18;
-            case FINAL_PUNCTUATION -> 19;
-            case INITIAL_PUNCTUATION -> 20;
-            case OTHER_PUNCTUATION -> 21;
-            case OPEN_PUNCTUATION -> 22;
-            case CURRENCY_SYMBOL -> 23;
-            case MODIFIER_SYMBOL -> 24;
-            case MATH_SYMBOL -> 25;
-            case OTHER_SYMBOL -> 26;
-            case LINE_SEPARATOR -> 27;
-            case PARAGRAPH_SEPARATOR -> 28;
-            case SPACE_SEPARATOR -> 29;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(UnicodeGeneralCategoryT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -135,15 +135,15 @@ public class Event extends org.gtk.gobject.Object {
      */
     public EventType getEventType() {
         var RESULT = gtk_h.gdk_event_get_event_type(handle());
-        return EventType.fromValue(RESULT);
+        return new EventType(RESULT);
     }
     
     /**
      * Returns the modifier state field of an event.
      */
-    public int getModifierState() {
+    public ModifierType getModifierState() {
         var RESULT = gtk_h.gdk_event_get_modifier_state(handle());
-        return RESULT;
+        return new ModifierType(RESULT);
     }
     
     /**

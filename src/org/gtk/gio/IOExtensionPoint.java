@@ -46,7 +46,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      * Sets the required type for {@code extension_point} to {@code type}.
      * All implementations must henceforth have this type.
      */
-    public void setRequiredType(Type type) {
+    public void setRequiredType(org.gtk.gobject.Type type) {
         gtk_h.g_io_extension_point_set_required_type(handle(), type.getValue());
     }
     
@@ -57,7 +57,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      * If {@code type} has already been registered as an extension for this
      * extension point, the existing {@link IOExtension} object is returned.
      */
-    public static IOExtension implement(java.lang.String extensionPointName, Type type, java.lang.String extensionName, int priority) {
+    public static IOExtension implement(java.lang.String extensionPointName, org.gtk.gobject.Type type, java.lang.String extensionName, int priority) {
         var RESULT = gtk_h.g_io_extension_point_implement(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);
         return new IOExtension(References.get(RESULT, false));
     }

@@ -4,38 +4,43 @@ package org.gtk.gio;
  * Used to select the type of data format to use for {@link ZlibDecompressor}
  * and {@link ZlibCompressor}.
  */
-public enum ZlibCompressorFormat {
+public class ZlibCompressorFormat {
 
     /**
      * deflate compression with zlib header
      */
-    ZLIB,
+    public static final ZlibCompressorFormat ZLIB = new ZlibCompressorFormat(0);
     
     /**
      * gzip file format
      */
-    GZIP,
+    public static final ZlibCompressorFormat GZIP = new ZlibCompressorFormat(1);
     
     /**
      * deflate compression with no header
      */
-    RAW;
+    public static final ZlibCompressorFormat RAW = new ZlibCompressorFormat(2);
     
-    public static ZlibCompressorFormat fromValue(int value) {
-        return switch(value) {
-            case 0 -> ZLIB;
-            case 1 -> GZIP;
-            case 2 -> RAW;
-            default -> null;
-        };
+    private int value;
+    
+    public ZlibCompressorFormat(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ZLIB -> 0;
-            case GZIP -> 1;
-            case RAW -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ZlibCompressorFormat[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

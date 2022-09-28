@@ -185,7 +185,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      */
     public LevelBarMode getMode() {
         var RESULT = gtk_h.gtk_level_bar_get_mode(handle());
-        return LevelBarMode.fromValue(RESULT);
+        return new LevelBarMode(RESULT);
     }
     
     /**

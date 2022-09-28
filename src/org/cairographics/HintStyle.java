@@ -1,36 +1,37 @@
 package org.cairographics;
 
-public enum HintStyle {
+public class HintStyle {
 
-    DEFAULT,
+    public static final HintStyle DEFAULT = new HintStyle(0);
     
-    NONE,
+    public static final HintStyle NONE = new HintStyle(1);
     
-    SLIGHT,
+    public static final HintStyle SLIGHT = new HintStyle(2);
     
-    MEDIUM,
+    public static final HintStyle MEDIUM = new HintStyle(3);
     
-    FULL;
+    public static final HintStyle FULL = new HintStyle(4);
     
-    public static HintStyle fromValue(int value) {
-        return switch(value) {
-            case 0 -> DEFAULT;
-            case 1 -> NONE;
-            case 2 -> SLIGHT;
-            case 3 -> MEDIUM;
-            case 4 -> FULL;
-            default -> null;
-        };
+    private int value;
+    
+    public HintStyle(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DEFAULT -> 0;
-            case NONE -> 1;
-            case SLIGHT -> 2;
-            case MEDIUM -> 3;
-            case FULL -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(HintStyle[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

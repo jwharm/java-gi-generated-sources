@@ -33,8 +33,8 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      * Adds a new attribute with {@code name} to the {@code list}, setting
      * its {@code type} and {@code flags}.
      */
-    public void add(java.lang.String name, FileAttributeType type, int flags) {
-        gtk_h.g_file_attribute_info_list_add(handle(), Interop.allocateNativeString(name).handle(), type.getValue(), flags);
+    public void add(java.lang.String name, FileAttributeType type, FileAttributeInfoFlags flags) {
+        gtk_h.g_file_attribute_info_list_add(handle(), Interop.allocateNativeString(name).handle(), type.getValue(), flags.getValue());
     }
     
     /**

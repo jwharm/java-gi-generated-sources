@@ -3,52 +3,53 @@ package org.gtk.gtk;
 /**
  * The type of message being displayed in a {@link MessageDialog}.
  */
-public enum MessageType {
+public class MessageType {
 
     /**
      * Informational message
      */
-    INFO,
+    public static final MessageType INFO = new MessageType(0);
     
     /**
      * Non-fatal warning message
      */
-    WARNING,
+    public static final MessageType WARNING = new MessageType(1);
     
     /**
      * Question requiring a choice
      */
-    QUESTION,
+    public static final MessageType QUESTION = new MessageType(2);
     
     /**
      * Fatal error message
      */
-    ERROR,
+    public static final MessageType ERROR = new MessageType(3);
     
     /**
      * None of the above
      */
-    OTHER;
+    public static final MessageType OTHER = new MessageType(4);
     
-    public static MessageType fromValue(int value) {
-        return switch(value) {
-            case 0 -> INFO;
-            case 1 -> WARNING;
-            case 2 -> QUESTION;
-            case 3 -> ERROR;
-            case 4 -> OTHER;
-            default -> null;
-        };
+    private int value;
+    
+    public MessageType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INFO -> 0;
-            case WARNING -> 1;
-            case QUESTION -> 2;
-            case ERROR -> 3;
-            case OTHER -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(MessageType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -6,33 +6,40 @@ package org.gtk.gio;
  * <a href="https://tools.ietf.org/html/rfc5929#section-5">`tls-unique-for-telnet`</a>
  * binding type is not currently implemented.
  */
-public enum TlsChannelBindingType {
+public class TlsChannelBindingType {
 
     /**
      * <a href="https://tools.ietf.org/html/rfc5929#section-3">`tls-unique`</a> binding
      *    type
      */
-    UNIQUE,
+    public static final TlsChannelBindingType UNIQUE = new TlsChannelBindingType(0);
     
     /**
      * <a href="https://tools.ietf.org/html/rfc5929#section-4">`tls-server-end-point`</a>
      *    binding type
      */
-    SERVER_END_POINT;
+    public static final TlsChannelBindingType SERVER_END_POINT = new TlsChannelBindingType(1);
     
-    public static TlsChannelBindingType fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNIQUE;
-            case 1 -> SERVER_END_POINT;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsChannelBindingType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNIQUE -> 0;
-            case SERVER_END_POINT -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsChannelBindingType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

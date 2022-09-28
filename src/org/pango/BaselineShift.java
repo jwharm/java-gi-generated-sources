@@ -3,40 +3,45 @@ package org.pango;
 /**
  * An enumeration that affects baseline shifts between runs.
  */
-public enum BaselineShift {
+public class BaselineShift {
 
     /**
      * Leave the baseline unchanged
      */
-    NONE,
+    public static final BaselineShift NONE = new BaselineShift(0);
     
     /**
      * Shift the baseline to the superscript position,
      *   relative to the previous run
      */
-    SUPERSCRIPT,
+    public static final BaselineShift SUPERSCRIPT = new BaselineShift(1);
     
     /**
      * Shift the baseline to the subscript position,
      *   relative to the previous run
      */
-    SUBSCRIPT;
+    public static final BaselineShift SUBSCRIPT = new BaselineShift(2);
     
-    public static BaselineShift fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> SUPERSCRIPT;
-            case 2 -> SUBSCRIPT;
-            default -> null;
-        };
+    private int value;
+    
+    public BaselineShift(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case SUPERSCRIPT -> 1;
-            case SUBSCRIPT -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BaselineShift[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -183,7 +183,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      */
     public SensitivityType getButtonSensitivity() {
         var RESULT = gtk_h.gtk_combo_box_get_button_sensitivity(handle());
-        return SensitivityType.fromValue(RESULT);
+        return new SensitivityType(RESULT);
     }
     
     /**
@@ -555,7 +555,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     public static void __signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ComboBox.MoveActiveHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ComboBox(References.get(source)), ScrollType.fromValue(scrollType));
+        handler.signalReceived(new ComboBox(References.get(source)), new ScrollType(scrollType));
     }
     
     @FunctionalInterface

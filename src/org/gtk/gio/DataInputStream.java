@@ -39,7 +39,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public DataStreamByteOrder getByteOrder() {
         var RESULT = gtk_h.g_data_input_stream_get_byte_order(handle());
-        return DataStreamByteOrder.fromValue(RESULT);
+        return new DataStreamByteOrder(RESULT);
     }
     
     /**
@@ -47,7 +47,7 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      */
     public DataStreamNewlineType getNewlineType() {
         var RESULT = gtk_h.g_data_input_stream_get_newline_type(handle());
-        return DataStreamNewlineType.fromValue(RESULT);
+        return new DataStreamNewlineType(RESULT);
     }
     
     /**

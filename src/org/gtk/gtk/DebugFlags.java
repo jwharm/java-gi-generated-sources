@@ -12,96 +12,130 @@ public class DebugFlags {
     /**
      * Information about GtkTextView
      */
-    public static final int TEXT = 1;
+    public static final DebugFlags TEXT = new DebugFlags(1);
     
     /**
      * Information about GtkTreeView
      */
-    public static final int TREE = 2;
+    public static final DebugFlags TREE = new DebugFlags(2);
     
     /**
      * Information about keyboard shortcuts
      */
-    public static final int KEYBINDINGS = 4;
+    public static final DebugFlags KEYBINDINGS = new DebugFlags(4);
     
     /**
      * Information about modules and extensions
      */
-    public static final int MODULES = 8;
+    public static final DebugFlags MODULES = new DebugFlags(8);
     
     /**
      * Information about size allocation
      */
-    public static final int GEOMETRY = 16;
+    public static final DebugFlags GEOMETRY = new DebugFlags(16);
     
     /**
      * Information about icon themes
      */
-    public static final int ICONTHEME = 32;
+    public static final DebugFlags ICONTHEME = new DebugFlags(32);
     
     /**
      * Information about printing
      */
-    public static final int PRINTING = 64;
+    public static final DebugFlags PRINTING = new DebugFlags(64);
     
     /**
      * Trace GtkBuilder operation
      */
-    public static final int BUILDER = 128;
+    public static final DebugFlags BUILDER = new DebugFlags(128);
     
     /**
      * Information about size requests
      */
-    public static final int SIZE_REQUEST = 256;
+    public static final DebugFlags SIZE_REQUEST = new DebugFlags(256);
     
     /**
      * Disable the style property cache
      */
-    public static final int NO_CSS_CACHE = 512;
+    public static final DebugFlags NO_CSS_CACHE = new DebugFlags(512);
     
     /**
      * Open the GTK inspector
      */
-    public static final int INTERACTIVE = 1024;
+    public static final DebugFlags INTERACTIVE = new DebugFlags(1024);
     
     /**
      * Pretend the pointer is a touchscreen
      */
-    public static final int TOUCHSCREEN = 2048;
+    public static final DebugFlags TOUCHSCREEN = new DebugFlags(2048);
     
     /**
      * Information about actions and menu models
      */
-    public static final int ACTIONS = 4096;
+    public static final DebugFlags ACTIONS = new DebugFlags(4096);
     
     /**
      * Information from layout managers
      */
-    public static final int LAYOUT = 8192;
+    public static final DebugFlags LAYOUT = new DebugFlags(8192);
     
     /**
      * Include debug render nodes in the generated snapshots
      */
-    public static final int SNAPSHOT = 16384;
+    public static final DebugFlags SNAPSHOT = new DebugFlags(16384);
     
     /**
      * Information from the constraints solver
      */
-    public static final int CONSTRAINTS = 32768;
+    public static final DebugFlags CONSTRAINTS = new DebugFlags(32768);
     
     /**
      * Log unused GtkBuilder objects
      */
-    public static final int BUILDER_OBJECTS = 65536;
+    public static final DebugFlags BUILDER_OBJECTS = new DebugFlags(65536);
     
     /**
      * Information about accessibility state changes
      */
-    public static final int A11Y = 131072;
+    public static final DebugFlags A11Y = new DebugFlags(131072);
     
     /**
      * Information about icon fallback. Since: 4.2
      */
-    public static final int ICONFALLBACK = 262144;
+    public static final DebugFlags ICONFALLBACK = new DebugFlags(262144);
+    
+    private int value;
+    
+    public DebugFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DebugFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public DebugFlags combined(DebugFlags mask) {
+        return new DebugFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static DebugFlags combined(DebugFlags mask, DebugFlags... masks) {
+        int value = mask.getValue();
+        for (DebugFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DebugFlags(value);
+    }
     
 }

@@ -38,7 +38,7 @@ public class TouchpadEvent extends Event {
      */
     public TouchpadGesturePhase getGesturePhase() {
         var RESULT = gtk_h.gdk_touchpad_event_get_gesture_phase(handle());
-        return TouchpadGesturePhase.fromValue(RESULT);
+        return new TouchpadGesturePhase(RESULT);
     }
     
     /**

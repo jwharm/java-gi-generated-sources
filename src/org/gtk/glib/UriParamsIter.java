@@ -63,8 +63,8 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      *   // handle parsing error
      * }</pre>
      */
-    public void init(java.lang.String params, long length, java.lang.String separators, int flags) {
-        gtk_h.g_uri_params_iter_init(handle(), Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags);
+    public void init(java.lang.String params, long length, java.lang.String separators, UriParamsFlags flags) {
+        gtk_h.g_uri_params_iter_init(handle(), Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue());
     }
     
     /**

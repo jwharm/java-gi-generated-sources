@@ -3,52 +3,53 @@ package org.gtk.gdk;
 /**
  * Error enumeration for {@code GdkGLContext}.
  */
-public enum GLError {
+public class GLError {
 
     /**
      * OpenGL support is not available
      */
-    NOT_AVAILABLE,
+    public static final GLError NOT_AVAILABLE = new GLError(0);
     
     /**
      * The requested visual format is not supported
      */
-    UNSUPPORTED_FORMAT,
+    public static final GLError UNSUPPORTED_FORMAT = new GLError(1);
     
     /**
      * The requested profile is not supported
      */
-    UNSUPPORTED_PROFILE,
+    public static final GLError UNSUPPORTED_PROFILE = new GLError(2);
     
     /**
      * The shader compilation failed
      */
-    COMPILATION_FAILED,
+    public static final GLError COMPILATION_FAILED = new GLError(3);
     
     /**
      * The shader linking failed
      */
-    LINK_FAILED;
+    public static final GLError LINK_FAILED = new GLError(4);
     
-    public static GLError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NOT_AVAILABLE;
-            case 1 -> UNSUPPORTED_FORMAT;
-            case 2 -> UNSUPPORTED_PROFILE;
-            case 3 -> COMPILATION_FAILED;
-            case 4 -> LINK_FAILED;
-            default -> null;
-        };
+    private int value;
+    
+    public GLError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NOT_AVAILABLE -> 0;
-            case UNSUPPORTED_FORMAT -> 1;
-            case UNSUPPORTED_PROFILE -> 2;
-            case COMPILATION_FAILED -> 3;
-            case LINK_FAILED -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(GLError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

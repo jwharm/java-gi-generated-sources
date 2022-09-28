@@ -289,7 +289,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * For details on how to write shaders, see {@link org.gtk.gsk.GLShader}.
      */
     public void pushGlShader(org.gtk.gsk.GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes takeArgs) {
-        gtk_h.gtk_snapshot_push_gl_shader(handle(), shader.handle(), bounds.handle(), takeArgs.handle());
+        gtk_h.gtk_snapshot_push_gl_shader(handle(), shader.handle(), bounds.handle(), takeArgs.getReference().unowned().handle());
     }
     
     /**

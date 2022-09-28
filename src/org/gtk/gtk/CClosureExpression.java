@@ -21,7 +21,7 @@ public class CClosureExpression extends Expression {
         return new CClosureExpression(gobject.getReference());
     }
     
-    private static Reference constructNew(Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
+    private static Reference constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
         try {
             Reference RESULT = References.get(gtk_h.gtk_cclosure_expression_new(valueType.getValue(), 
                     Linker.nativeLinker().upcallStub(
@@ -53,7 +53,7 @@ public class CClosureExpression extends Expression {
      * creates a {@code GClosure} by calling g_cclosure_new() with the given
      * {@code callback_func}, {@code user_data} and {@code user_destroy}.
      */
-    public CClosureExpression(Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
+    public CClosureExpression(org.gtk.gobject.Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
         super(constructNew(valueType, marshal, nParams, params, callbackFunc, userDestroy));
     }
     

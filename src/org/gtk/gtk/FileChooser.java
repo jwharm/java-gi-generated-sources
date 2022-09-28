@@ -102,7 +102,7 @@ public interface FileChooser extends io.github.jwharm.javagi.NativeAddress {
      */
     public default FileChooserAction getAction() {
         var RESULT = gtk_h.gtk_file_chooser_get_action(handle());
-        return FileChooserAction.fromValue(RESULT);
+        return new FileChooserAction(RESULT);
     }
     
     /**

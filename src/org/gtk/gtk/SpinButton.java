@@ -244,7 +244,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
      */
     public SpinButtonUpdatePolicy getUpdatePolicy() {
         var RESULT = gtk_h.gtk_spin_button_get_update_policy(handle());
-        return SpinButtonUpdatePolicy.fromValue(RESULT);
+        return new SpinButtonUpdatePolicy(RESULT);
     }
     
     /**
@@ -412,7 +412,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
     public static void __signalSpinButtonChangeValue(MemoryAddress source, int scroll, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SpinButton.ChangeValueHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SpinButton(References.get(source)), ScrollType.fromValue(scroll));
+        handler.signalReceived(new SpinButton(References.get(source)), new ScrollType(scroll));
     }
     
     @FunctionalInterface

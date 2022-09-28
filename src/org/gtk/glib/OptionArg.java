@@ -6,53 +6,53 @@ package org.gtk.glib;
  * be specified in several ways; with a short option: {@code -x arg}, with a long
  * option: {@code --name arg} or combined in a single argument: {@code --name=arg}.
  */
-public enum OptionArg {
+public class OptionArg {
 
     /**
      * No extra argument. This is useful for simple flags.
      */
-    NONE,
+    public static final OptionArg NONE = new OptionArg(0);
     
     /**
      * The option takes a UTF-8 string argument.
      */
-    STRING,
+    public static final OptionArg STRING = new OptionArg(1);
     
     /**
      * The option takes an integer argument.
      */
-    INT,
+    public static final OptionArg INT = new OptionArg(2);
     
     /**
      * The option provides a callback (of type
      *     {@link OptionArgFunc}) to parse the extra argument.
      */
-    CALLBACK,
+    public static final OptionArg CALLBACK = new OptionArg(3);
     
     /**
      * The option takes a filename as argument, which will
      *        be in the GLib filename encoding rather than UTF-8.
      */
-    FILENAME,
+    public static final OptionArg FILENAME = new OptionArg(4);
     
     /**
      * The option takes a string argument, multiple
      *     uses of the option are collected into an array of strings.
      */
-    STRING_ARRAY,
+    public static final OptionArg STRING_ARRAY = new OptionArg(5);
     
     /**
      * The option takes a filename as argument,
      *     multiple uses of the option are collected into an array of strings.
      */
-    FILENAME_ARRAY,
+    public static final OptionArg FILENAME_ARRAY = new OptionArg(6);
     
     /**
      * The option takes a double argument. The argument
      *     can be formatted either for the user's locale or for the "C" locale.
      *     Since 2.12
      */
-    DOUBLE,
+    public static final OptionArg DOUBLE = new OptionArg(7);
     
     /**
      * The option takes a 64-bit integer. Like
@@ -60,35 +60,28 @@ public enum OptionArg {
      *     decimal base, or in hexadecimal (when prefixed with {@code 0x}, for
      *     example, {@code 0xffffffff}). Since 2.12
      */
-    INT64;
+    public static final OptionArg INT64 = new OptionArg(8);
     
-    public static OptionArg fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> STRING;
-            case 2 -> INT;
-            case 3 -> CALLBACK;
-            case 4 -> FILENAME;
-            case 5 -> STRING_ARRAY;
-            case 6 -> FILENAME_ARRAY;
-            case 7 -> DOUBLE;
-            case 8 -> INT64;
-            default -> null;
-        };
+    private int value;
+    
+    public OptionArg(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case STRING -> 1;
-            case INT -> 2;
-            case CALLBACK -> 3;
-            case FILENAME -> 4;
-            case STRING_ARRAY -> 5;
-            case FILENAME_ARRAY -> 6;
-            case DOUBLE -> 7;
-            case INT64 -> 8;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(OptionArg[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

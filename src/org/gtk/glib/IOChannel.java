@@ -80,7 +80,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -88,9 +88,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * is data to be read/space to write data in the internal buffers in
      * the {@link IOChannel}. Only the flags {@link IOCondition#IN} and {@link IOCondition#OUT} may be set.
      */
-    public int getBufferCondition() {
+    public IOCondition getBufferCondition() {
         var RESULT = gtk_h.g_io_channel_get_buffer_condition(handle());
-        return RESULT;
+        return new IOCondition(RESULT);
     }
     
     /**
@@ -141,9 +141,9 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      * should immediately call g_io_channel_get_flags() to update
      * the internal values of these flags.
      */
-    public int getFlags() {
+    public IOFlags getFlags() {
         var RESULT = gtk_h.g_io_channel_get_flags(handle());
-        return RESULT;
+        return new IOFlags(RESULT);
     }
     
     /**
@@ -176,7 +176,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -191,7 +191,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -203,7 +203,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -215,7 +215,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -228,7 +228,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -248,7 +248,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -349,19 +349,19 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
      * Sets the (writeable) flags in {@code channel} to ({@code flags} & {@link IOFlags#SET_MASK}).
      */
-    public IOStatus setFlags(int flags) throws io.github.jwharm.javagi.GErrorException {
+    public IOStatus setFlags(IOFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_io_channel_set_flags(handle(), flags, GERROR);
+        var RESULT = gtk_h.g_io_channel_set_flags(handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -383,7 +383,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -418,7 +418,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -431,7 +431,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return IOStatus.fromValue(RESULT);
+        return new IOStatus(RESULT);
     }
     
     /**
@@ -439,7 +439,7 @@ public class IOChannel extends io.github.jwharm.javagi.ResourceBase {
      */
     public static IOChannelError errorFromErrno(int en) {
         var RESULT = gtk_h.g_io_channel_error_from_errno(en);
-        return IOChannelError.fromValue(RESULT);
+        return new IOChannelError(RESULT);
     }
     
     public static Quark errorQuark() {

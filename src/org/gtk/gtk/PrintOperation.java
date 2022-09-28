@@ -195,7 +195,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
      */
     public PrintStatus getStatus() {
         var RESULT = gtk_h.gtk_print_operation_get_status(handle());
-        return PrintStatus.fromValue(RESULT);
+        return new PrintStatus(RESULT);
     }
     
     /**
@@ -300,7 +300,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return PrintOperationResult.fromValue(RESULT);
+        return new PrintOperationResult(RESULT);
     }
     
     /**
@@ -639,7 +639,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
     public static void __signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (PrintOperation.DoneHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), PrintOperationResult.fromValue(result));
+        handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationResult(result));
     }
     
     @FunctionalInterface

@@ -83,7 +83,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public ConstraintRelation getRelation() {
         var RESULT = gtk_h.gtk_constraint_get_relation(handle());
-        return ConstraintRelation.fromValue(RESULT);
+        return new ConstraintRelation(RESULT);
     }
     
     /**
@@ -103,7 +103,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public ConstraintAttribute getSourceAttribute() {
         var RESULT = gtk_h.gtk_constraint_get_source_attribute(handle());
-        return ConstraintAttribute.fromValue(RESULT);
+        return new ConstraintAttribute(RESULT);
     }
     
     /**
@@ -131,7 +131,7 @@ public class Constraint extends org.gtk.gobject.Object {
      */
     public ConstraintAttribute getTargetAttribute() {
         var RESULT = gtk_h.gtk_constraint_get_target_attribute(handle());
-        return ConstraintAttribute.fromValue(RESULT);
+        return new ConstraintAttribute(RESULT);
     }
     
     /**

@@ -145,7 +145,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * using {@link extents_to_pixels#null}'s first argument.
      */
     public void transformPixelRectangle(Rectangle rect) {
-        gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.handle());
+        gtk_h.pango_matrix_transform_pixel_rectangle(handle(), rect.getReference().unowned().handle());
     }
     
     /**
@@ -176,7 +176,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * example).
      */
     public void transformRectangle(Rectangle rect) {
-        gtk_h.pango_matrix_transform_rectangle(handle(), rect.handle());
+        gtk_h.pango_matrix_transform_rectangle(handle(), rect.getReference().unowned().handle());
     }
     
     /**

@@ -4,47 +4,50 @@ package org.gtk.gtk;
  * These identify the various errors that can occur while calling
  * {@code GtkFileChooser} functions.
  */
-public enum FileChooserError {
+public class FileChooserError {
 
     /**
      * Indicates that a file does not exist.
      */
-    NONEXISTENT,
+    public static final FileChooserError NONEXISTENT = new FileChooserError(0);
     
     /**
      * Indicates a malformed filename.
      */
-    BAD_FILENAME,
+    public static final FileChooserError BAD_FILENAME = new FileChooserError(1);
     
     /**
      * Indicates a duplicate path (e.g. when
      *  adding a bookmark).
      */
-    ALREADY_EXISTS,
+    public static final FileChooserError ALREADY_EXISTS = new FileChooserError(2);
     
     /**
      * Indicates an incomplete hostname
      *  (e.g. "http://foo" without a slash after that).
      */
-    INCOMPLETE_HOSTNAME;
+    public static final FileChooserError INCOMPLETE_HOSTNAME = new FileChooserError(3);
     
-    public static FileChooserError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONEXISTENT;
-            case 1 -> BAD_FILENAME;
-            case 2 -> ALREADY_EXISTS;
-            case 3 -> INCOMPLETE_HOSTNAME;
-            default -> null;
-        };
+    private int value;
+    
+    public FileChooserError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONEXISTENT -> 0;
-            case BAD_FILENAME -> 1;
-            case ALREADY_EXISTS -> 2;
-            case INCOMPLETE_HOSTNAME -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileChooserError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

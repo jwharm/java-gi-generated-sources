@@ -72,9 +72,9 @@ public class GLContext extends DrawContext {
     /**
      * Gets the allowed APIs set via gdk_gl_context_set_allowed_apis().
      */
-    public int getAllowedApis() {
+    public GLAPI getAllowedApis() {
         var RESULT = gtk_h.gdk_gl_context_get_allowed_apis(handle());
-        return RESULT;
+        return new GLAPI(RESULT);
     }
     
     /**
@@ -82,9 +82,9 @@ public class GLContext extends DrawContext {
      * <p>
      * If the renderer has not been realized yet, 0 is returned.
      */
-    public int getApi() {
+    public GLAPI getApi() {
         var RESULT = gtk_h.gdk_gl_context_get_api(handle());
-        return RESULT;
+        return new GLAPI(RESULT);
     }
     
     /**
@@ -221,8 +221,8 @@ public class GLContext extends DrawContext {
      * <p>
      * By default, all APIs are allowed.
      */
-    public void setAllowedApis(int apis) {
-        gtk_h.gdk_gl_context_set_allowed_apis(handle(), apis);
+    public void setAllowedApis(GLAPI apis) {
+        gtk_h.gdk_gl_context_set_allowed_apis(handle(), apis.getValue());
     }
     
     /**

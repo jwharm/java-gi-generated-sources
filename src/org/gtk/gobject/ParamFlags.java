@@ -11,33 +11,33 @@ public class ParamFlags {
     /**
      * the parameter is readable
      */
-    public static final int READABLE = 1;
+    public static final ParamFlags READABLE = new ParamFlags(1);
     
     /**
      * the parameter is writable
      */
-    public static final int WRITABLE = 2;
+    public static final ParamFlags WRITABLE = new ParamFlags(2);
     
     /**
      * alias for {@link ParamFlags#READABLE} | {@link ParamFlags#WRITABLE}
      */
-    public static final int READWRITE = 3;
+    public static final ParamFlags READWRITE = new ParamFlags(3);
     
     /**
      * the parameter will be set upon object construction
      */
-    public static final int CONSTRUCT = 4;
+    public static final ParamFlags CONSTRUCT = new ParamFlags(4);
     
     /**
      * the parameter can only be set upon object construction
      */
-    public static final int CONSTRUCT_ONLY = 8;
+    public static final ParamFlags CONSTRUCT_ONLY = new ParamFlags(8);
     
     /**
      * upon parameter conversion (see g_param_value_convert())
      *  strict validation is not required
      */
-    public static final int LAX_VALIDATION = 16;
+    public static final ParamFlags LAX_VALIDATION = new ParamFlags(16);
     
     /**
      * the string used as name when constructing the
@@ -45,12 +45,12 @@ public class ParamFlags {
      *  unmodified for the lifetime of the parameter.
      *  Since 2.8
      */
-    public static final int STATIC_NAME = 32;
+    public static final ParamFlags STATIC_NAME = new ParamFlags(32);
     
     /**
      * internal
      */
-    public static final int PRIVATE = 32;
+    public static final ParamFlags PRIVATE = new ParamFlags(32);
     
     /**
      * the string used as nick when constructing the
@@ -58,7 +58,7 @@ public class ParamFlags {
      *  unmmodified for the lifetime of the parameter.
      *  Since 2.8
      */
-    public static final int STATIC_NICK = 64;
+    public static final ParamFlags STATIC_NICK = new ParamFlags(64);
     
     /**
      * the string used as blurb when constructing the
@@ -66,7 +66,7 @@ public class ParamFlags {
      *  unmodified for the lifetime of the parameter.
      *  Since 2.8
      */
-    public static final int STATIC_BLURB = 128;
+    public static final ParamFlags STATIC_BLURB = new ParamFlags(128);
     
     /**
      * calls to g_object_set_property() for this
@@ -74,7 +74,7 @@ public class ParamFlags {
      *   emitted: the implementation must call g_object_notify() themselves
      *   in case the property actually changes.  Since: 2.42.
      */
-    public static final int EXPLICIT_NOTIFY = 1073741824;
+    public static final ParamFlags EXPLICIT_NOTIFY = new ParamFlags(1073741824);
     
     /**
      * the parameter is deprecated and will be removed
@@ -82,6 +82,40 @@ public class ParamFlags {
      *  while running with G_ENABLE_DIAGNOSTIC=1.
      *  Since 2.26
      */
-    public static final int DEPRECATED = 0;
+    public static final ParamFlags DEPRECATED = new ParamFlags(0);
+    
+    private int value;
+    
+    public ParamFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ParamFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public ParamFlags combined(ParamFlags mask) {
+        return new ParamFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static ParamFlags combined(ParamFlags mask, ParamFlags... masks) {
+        int value = mask.getValue();
+        for (ParamFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ParamFlags(value);
+    }
     
 }

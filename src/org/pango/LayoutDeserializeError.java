@@ -3,40 +3,45 @@ package org.pango;
 /**
  * Errors that can be returned by {@link Pango#Layout}.
  */
-public enum LayoutDeserializeError {
+public class LayoutDeserializeError {
 
     /**
      * Unspecified error
      */
-    INVALID,
+    public static final LayoutDeserializeError INVALID = new LayoutDeserializeError(0);
     
     /**
      * A JSon value could not be
      *   interpreted
      */
-    INVALID_VALUE,
+    public static final LayoutDeserializeError INVALID_VALUE = new LayoutDeserializeError(1);
     
     /**
      * A required JSon member was
      *   not found
      */
-    MISSING_VALUE;
+    public static final LayoutDeserializeError MISSING_VALUE = new LayoutDeserializeError(2);
     
-    public static LayoutDeserializeError fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> INVALID_VALUE;
-            case 2 -> MISSING_VALUE;
-            default -> null;
-        };
+    private int value;
+    
+    public LayoutDeserializeError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case INVALID_VALUE -> 1;
-            case MISSING_VALUE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(LayoutDeserializeError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

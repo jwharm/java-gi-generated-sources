@@ -4,133 +4,114 @@ package org.gtk.gtk;
  * Error codes that identify various errors that can occur while using
  * {@code GtkBuilder}.
  */
-public enum BuilderError {
+public class BuilderError {
 
     /**
      * A type-func attribute didn’t name
      *  a function that returns a {@code GType}.
      */
-    INVALID_TYPE_FUNCTION,
+    public static final BuilderError INVALID_TYPE_FUNCTION = new BuilderError(0);
     
     /**
      * The input contained a tag that {@code GtkBuilder}
      *  can’t handle.
      */
-    UNHANDLED_TAG,
+    public static final BuilderError UNHANDLED_TAG = new BuilderError(1);
     
     /**
      * An attribute that is required by
      *  {@code GtkBuilder} was missing.
      */
-    MISSING_ATTRIBUTE,
+    public static final BuilderError MISSING_ATTRIBUTE = new BuilderError(2);
     
     /**
      * {@code GtkBuilder} found an attribute that
      *  it doesn’t understand.
      */
-    INVALID_ATTRIBUTE,
+    public static final BuilderError INVALID_ATTRIBUTE = new BuilderError(3);
     
     /**
      * {@code GtkBuilder} found a tag that
      *  it doesn’t understand.
      */
-    INVALID_TAG,
+    public static final BuilderError INVALID_TAG = new BuilderError(4);
     
     /**
      * A required property value was
      *  missing.
      */
-    MISSING_PROPERTY_VALUE,
+    public static final BuilderError MISSING_PROPERTY_VALUE = new BuilderError(5);
     
     /**
      * {@code GtkBuilder} couldn’t parse
      *  some attribute value.
      */
-    INVALID_VALUE,
+    public static final BuilderError INVALID_VALUE = new BuilderError(6);
     
     /**
      * The input file requires a newer version
      *  of GTK.
      */
-    VERSION_MISMATCH,
+    public static final BuilderError VERSION_MISMATCH = new BuilderError(7);
     
     /**
      * An object id occurred twice.
      */
-    DUPLICATE_ID,
+    public static final BuilderError DUPLICATE_ID = new BuilderError(8);
     
     /**
      * A specified object type is of the same type or
      *  derived from the type of the composite class being extended with builder XML.
      */
-    OBJECT_TYPE_REFUSED,
+    public static final BuilderError OBJECT_TYPE_REFUSED = new BuilderError(9);
     
     /**
      * The wrong type was specified in a composite class’s template XML
      */
-    TEMPLATE_MISMATCH,
+    public static final BuilderError TEMPLATE_MISMATCH = new BuilderError(10);
     
     /**
      * The specified property is unknown for the object class.
      */
-    INVALID_PROPERTY,
+    public static final BuilderError INVALID_PROPERTY = new BuilderError(11);
     
     /**
      * The specified signal is unknown for the object class.
      */
-    INVALID_SIGNAL,
+    public static final BuilderError INVALID_SIGNAL = new BuilderError(12);
     
     /**
      * An object id is unknown.
      */
-    INVALID_ID,
+    public static final BuilderError INVALID_ID = new BuilderError(13);
     
     /**
      * A function could not be found. This often happens
      *   when symbols are set to be kept private. Compiling code with -rdynamic or using the
      *   {@code gmodule-export-2.0} pkgconfig module can fix this problem.
      */
-    INVALID_FUNCTION;
+    public static final BuilderError INVALID_FUNCTION = new BuilderError(14);
     
-    public static BuilderError fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID_TYPE_FUNCTION;
-            case 1 -> UNHANDLED_TAG;
-            case 2 -> MISSING_ATTRIBUTE;
-            case 3 -> INVALID_ATTRIBUTE;
-            case 4 -> INVALID_TAG;
-            case 5 -> MISSING_PROPERTY_VALUE;
-            case 6 -> INVALID_VALUE;
-            case 7 -> VERSION_MISMATCH;
-            case 8 -> DUPLICATE_ID;
-            case 9 -> OBJECT_TYPE_REFUSED;
-            case 10 -> TEMPLATE_MISMATCH;
-            case 11 -> INVALID_PROPERTY;
-            case 12 -> INVALID_SIGNAL;
-            case 13 -> INVALID_ID;
-            case 14 -> INVALID_FUNCTION;
-            default -> null;
-        };
+    private int value;
+    
+    public BuilderError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID_TYPE_FUNCTION -> 0;
-            case UNHANDLED_TAG -> 1;
-            case MISSING_ATTRIBUTE -> 2;
-            case INVALID_ATTRIBUTE -> 3;
-            case INVALID_TAG -> 4;
-            case MISSING_PROPERTY_VALUE -> 5;
-            case INVALID_VALUE -> 6;
-            case VERSION_MISMATCH -> 7;
-            case DUPLICATE_ID -> 8;
-            case OBJECT_TYPE_REFUSED -> 9;
-            case TEMPLATE_MISMATCH -> 10;
-            case INVALID_PROPERTY -> 11;
-            case INVALID_SIGNAL -> 12;
-            case INVALID_ID -> 13;
-            case INVALID_FUNCTION -> 14;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BuilderError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

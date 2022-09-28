@@ -158,7 +158,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      */
     public PageOrientation getOrientation() {
         var RESULT = gtk_h.gtk_page_setup_get_orientation(handle());
-        return PageOrientation.fromValue(RESULT);
+        return new PageOrientation(RESULT);
     }
     
     /**

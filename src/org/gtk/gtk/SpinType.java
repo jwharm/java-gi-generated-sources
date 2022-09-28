@@ -4,66 +4,63 @@ package org.gtk.gtk;
  * The values of the GtkSpinType enumeration are used to specify the
  * change to make in gtk_spin_button_spin().
  */
-public enum SpinType {
+public class SpinType {
 
     /**
      * Increment by the adjustments step increment.
      */
-    STEP_FORWARD,
+    public static final SpinType STEP_FORWARD = new SpinType(0);
     
     /**
      * Decrement by the adjustments step increment.
      */
-    STEP_BACKWARD,
+    public static final SpinType STEP_BACKWARD = new SpinType(1);
     
     /**
      * Increment by the adjustments page increment.
      */
-    PAGE_FORWARD,
+    public static final SpinType PAGE_FORWARD = new SpinType(2);
     
     /**
      * Decrement by the adjustments page increment.
      */
-    PAGE_BACKWARD,
+    public static final SpinType PAGE_BACKWARD = new SpinType(3);
     
     /**
      * Go to the adjustments lower bound.
      */
-    HOME,
+    public static final SpinType HOME = new SpinType(4);
     
     /**
      * Go to the adjustments upper bound.
      */
-    END,
+    public static final SpinType END = new SpinType(5);
     
     /**
      * Change by a specified amount.
      */
-    USER_DEFINED;
+    public static final SpinType USER_DEFINED = new SpinType(6);
     
-    public static SpinType fromValue(int value) {
-        return switch(value) {
-            case 0 -> STEP_FORWARD;
-            case 1 -> STEP_BACKWARD;
-            case 2 -> PAGE_FORWARD;
-            case 3 -> PAGE_BACKWARD;
-            case 4 -> HOME;
-            case 5 -> END;
-            case 6 -> USER_DEFINED;
-            default -> null;
-        };
+    private int value;
+    
+    public SpinType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case STEP_FORWARD -> 0;
-            case STEP_BACKWARD -> 1;
-            case PAGE_FORWARD -> 2;
-            case PAGE_BACKWARD -> 3;
-            case HOME -> 4;
-            case END -> 5;
-            case USER_DEFINED -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SpinType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

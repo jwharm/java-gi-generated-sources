@@ -4,38 +4,43 @@ package org.gtk.glib;
  * The possible statuses of a one-time initialization function
  * controlled by a {@link Once} struct.
  */
-public enum OnceStatus {
+public class OnceStatus {
 
     /**
      * the function has not been called yet.
      */
-    NOTCALLED,
+    public static final OnceStatus NOTCALLED = new OnceStatus(0);
     
     /**
      * the function call is currently in progress.
      */
-    PROGRESS,
+    public static final OnceStatus PROGRESS = new OnceStatus(1);
     
     /**
      * the function has been called.
      */
-    READY;
+    public static final OnceStatus READY = new OnceStatus(2);
     
-    public static OnceStatus fromValue(int value) {
-        return switch(value) {
-            case 0 -> NOTCALLED;
-            case 1 -> PROGRESS;
-            case 2 -> READY;
-            default -> null;
-        };
+    private int value;
+    
+    public OnceStatus(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NOTCALLED -> 0;
-            case PROGRESS -> 1;
-            case READY -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(OnceStatus[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

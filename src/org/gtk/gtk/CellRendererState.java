@@ -9,36 +9,70 @@ public class CellRendererState {
      * The cell is currently selected, and
      *  probably has a selection colored background to render to.
      */
-    public static final int SELECTED = 1;
+    public static final CellRendererState SELECTED = new CellRendererState(1);
     
     /**
      * The mouse is hovering over the cell.
      */
-    public static final int PRELIT = 2;
+    public static final CellRendererState PRELIT = new CellRendererState(2);
     
     /**
      * The cell is drawn in an insensitive manner
      */
-    public static final int INSENSITIVE = 4;
+    public static final CellRendererState INSENSITIVE = new CellRendererState(4);
     
     /**
      * The cell is in a sorted row
      */
-    public static final int SORTED = 8;
+    public static final CellRendererState SORTED = new CellRendererState(8);
     
     /**
      * The cell is in the focus row.
      */
-    public static final int FOCUSED = 16;
+    public static final CellRendererState FOCUSED = new CellRendererState(16);
     
     /**
      * The cell is in a row that can be expanded
      */
-    public static final int EXPANDABLE = 32;
+    public static final CellRendererState EXPANDABLE = new CellRendererState(32);
     
     /**
      * The cell is in a row that is expanded
      */
-    public static final int EXPANDED = 64;
+    public static final CellRendererState EXPANDED = new CellRendererState(64);
+    
+    private int value;
+    
+    public CellRendererState(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CellRendererState[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public CellRendererState combined(CellRendererState mask) {
+        return new CellRendererState(this.getValue() | mask.getValue());
+    }
+    
+    public static CellRendererState combined(CellRendererState mask, CellRendererState... masks) {
+        int value = mask.getValue();
+        for (CellRendererState arg : masks) {
+            value |= arg.getValue();
+        }
+        return new CellRendererState(value);
+    }
     
 }

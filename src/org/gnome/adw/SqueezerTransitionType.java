@@ -3,31 +3,38 @@ package org.gnome.adw;
 /**
  * Describes the possible transitions in a {@link Squeezer} widget.
  */
-public enum SqueezerTransitionType {
+public class SqueezerTransitionType {
 
     /**
      * No transition
      */
-    NONE,
+    public static final SqueezerTransitionType NONE = new SqueezerTransitionType(0);
     
     /**
      * A cross-fade
      */
-    CROSSFADE;
+    public static final SqueezerTransitionType CROSSFADE = new SqueezerTransitionType(1);
     
-    public static SqueezerTransitionType fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> CROSSFADE;
-            default -> null;
-        };
+    private int value;
+    
+    public SqueezerTransitionType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case CROSSFADE -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SqueezerTransitionType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

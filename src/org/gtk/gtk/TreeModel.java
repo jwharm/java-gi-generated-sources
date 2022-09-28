@@ -256,9 +256,9 @@ public interface TreeModel extends io.github.jwharm.javagi.NativeAddress {
      * The flags supported should not change during the lifetime
      * of the {@code tree_model}.
      */
-    public default int getFlags() {
+    public default TreeModelFlags getFlags() {
         var RESULT = gtk_h.gtk_tree_model_get_flags(handle());
-        return RESULT;
+        return new TreeModelFlags(RESULT);
     }
     
     /**

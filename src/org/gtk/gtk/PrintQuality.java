@@ -3,45 +3,48 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_settings_set_quality().
  */
-public enum PrintQuality {
+public class PrintQuality {
 
     /**
      * Low quality.
      */
-    LOW,
+    public static final PrintQuality LOW = new PrintQuality(0);
     
     /**
      * Normal quality.
      */
-    NORMAL,
+    public static final PrintQuality NORMAL = new PrintQuality(1);
     
     /**
      * High quality.
      */
-    HIGH,
+    public static final PrintQuality HIGH = new PrintQuality(2);
     
     /**
      * Draft quality.
      */
-    DRAFT;
+    public static final PrintQuality DRAFT = new PrintQuality(3);
     
-    public static PrintQuality fromValue(int value) {
-        return switch(value) {
-            case 0 -> LOW;
-            case 1 -> NORMAL;
-            case 2 -> HIGH;
-            case 3 -> DRAFT;
-            default -> null;
-        };
+    private int value;
+    
+    public PrintQuality(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LOW -> 0;
-            case NORMAL -> 1;
-            case HIGH -> 2;
-            case DRAFT -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PrintQuality[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

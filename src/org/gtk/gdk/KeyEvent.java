@@ -24,9 +24,9 @@ public class KeyEvent extends Event {
     /**
      * Extracts the consumed modifiers from a key event.
      */
-    public int getConsumedModifiers() {
+    public ModifierType getConsumedModifiers() {
         var RESULT = gtk_h.gdk_key_event_get_consumed_modifiers(handle());
-        return RESULT;
+        return new ModifierType(RESULT);
     }
     
     /**
@@ -67,8 +67,8 @@ public class KeyEvent extends Event {
      * <p>
      * See {@link KeyEvent#matches}.
      */
-    public boolean getMatch(PointerInteger keyval, PointerInteger modifiers) {
-        var RESULT = gtk_h.gdk_key_event_get_match(handle(), keyval.handle(), modifiers.handle());
+    public boolean getMatch(PointerInteger keyval, ModifierType modifiers) {
+        var RESULT = gtk_h.gdk_key_event_get_match(handle(), keyval.handle(), new PointerInteger(modifiers.getValue()).handle());
         return (RESULT != 0);
     }
     
@@ -90,9 +90,9 @@ public class KeyEvent extends Event {
      * <p>
      * Note that we ignore Caps Lock for matching.
      */
-    public KeyMatch matches(int keyval, int modifiers) {
-        var RESULT = gtk_h.gdk_key_event_matches(handle(), keyval, modifiers);
-        return KeyMatch.fromValue(RESULT);
+    public KeyMatch matches(int keyval, ModifierType modifiers) {
+        var RESULT = gtk_h.gdk_key_event_matches(handle(), keyval, modifiers.getValue());
+        return new KeyMatch(RESULT);
     }
     
 }

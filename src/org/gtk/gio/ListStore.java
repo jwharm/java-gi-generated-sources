@@ -25,7 +25,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
         return new ListStore(gobject.getReference());
     }
     
-    private static Reference constructNew(Type itemType) {
+    private static Reference constructNew(org.gtk.gobject.Type itemType) {
         Reference RESULT = References.get(gtk_h.g_list_store_new(itemType.getValue()), true);
         return RESULT;
     }
@@ -34,7 +34,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * Creates a new {@link ListStore} with items of type {@code item_type}. {@code item_type}
      * must be a subclass of {@link org.gtk.gobject.Object}.
      */
-    public ListStore(Type itemType) {
+    public ListStore(org.gtk.gobject.Type itemType) {
         super(constructNew(itemType));
     }
     

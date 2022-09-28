@@ -32,7 +32,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         return new Object(gobject.getReference());
     }
     
-    private static Reference constructNewValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
+    private static Reference constructNewValist(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
         Reference RESULT = References.get(gtk_h.g_object_new_valist(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs), true);
         return RESULT;
     }
@@ -43,11 +43,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Construction parameters (see {@link ParamFlags#CONSTRUCT}, {@link ParamFlags#CONSTRUCT_ONLY})
      * which are not explicitly specified are set to their default values.
      */
-    public static Object newValist(Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
+    public static Object newValist(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs) {
         return new Object(constructNewValist(objectType, firstPropertyName, varArgs));
     }
     
-    private static Reference constructNewWithProperties(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
+    private static Reference constructNewWithProperties(org.gtk.gobject.Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
         Reference RESULT = References.get(gtk_h.g_object_new_with_properties(objectType.getValue(), nProperties, Interop.allocateNativeArray(names).handle(), Interop.allocateNativeArray(values).handle()), true);
         return RESULT;
     }
@@ -60,11 +60,11 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Construction parameters (see {@link ParamFlags#CONSTRUCT}, {@link ParamFlags#CONSTRUCT_ONLY})
      * which are not explicitly specified are set to their default values.
      */
-    public static Object newWithProperties(Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
+    public static Object newWithProperties(org.gtk.gobject.Type objectType, int nProperties, java.lang.String[] names, Value[] values) {
         return new Object(constructNewWithProperties(objectType, nProperties, names, values));
     }
     
-    private static Reference constructNewv(Type objectType, int nParameters, Parameter[] parameters) {
+    private static Reference constructNewv(org.gtk.gobject.Type objectType, int nParameters, Parameter[] parameters) {
         Reference RESULT = References.get(gtk_h.g_object_newv(objectType.getValue(), nParameters, Interop.allocateNativeArray(parameters).handle()), true);
         return RESULT;
     }
@@ -75,7 +75,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * Construction parameters (see {@link ParamFlags#CONSTRUCT}, {@link ParamFlags#CONSTRUCT_ONLY})
      * which are not explicitly specified are set to their default values.
      */
-    public static Object newv(Type objectType, int nParameters, Parameter[] parameters) {
+    public static Object newv(org.gtk.gobject.Type objectType, int nParameters, Parameter[] parameters) {
         return new Object(constructNewv(objectType, nParameters, parameters));
     }
     
@@ -171,8 +171,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * A {@link Object} can have multiple bindings.
      */
-    public Binding bindProperty(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
-        var RESULT = gtk_h.g_object_bind_property(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags);
+    public Binding bindProperty(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags) {
+        var RESULT = gtk_h.g_object_bind_property(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue());
         return new Binding(References.get(RESULT, false));
     }
     
@@ -203,9 +203,9 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * for each transformation function, please use
      * g_object_bind_property_with_closures() instead.
      */
-    public Binding bindPropertyFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
+    public Binding bindPropertyFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
         try {
-            var RESULT = gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, 
+            var RESULT = gtk_h.g_object_bind_property_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -233,8 +233,8 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
      * g_object_bind_property_full(), using {@code GClosures} instead of
      * function pointers.
      */
-    public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
-        var RESULT = gtk_h.g_object_bind_property_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, transformTo.handle(), transformFrom.handle());
+    public Binding bindPropertyWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, Closure transformTo, Closure transformFrom) {
+        var RESULT = gtk_h.g_object_bind_property_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), transformTo.handle(), transformFrom.handle());
         return new Binding(References.get(RESULT, false));
     }
     

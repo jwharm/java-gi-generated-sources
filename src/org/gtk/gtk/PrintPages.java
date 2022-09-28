@@ -3,45 +3,48 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_job_set_pages()
  */
-public enum PrintPages {
+public class PrintPages {
 
     /**
      * All pages.
      */
-    ALL,
+    public static final PrintPages ALL = new PrintPages(0);
     
     /**
      * Current page.
      */
-    CURRENT,
+    public static final PrintPages CURRENT = new PrintPages(1);
     
     /**
      * Range of pages.
      */
-    RANGES,
+    public static final PrintPages RANGES = new PrintPages(2);
     
     /**
      * Selected pages.
      */
-    SELECTION;
+    public static final PrintPages SELECTION = new PrintPages(3);
     
-    public static PrintPages fromValue(int value) {
-        return switch(value) {
-            case 0 -> ALL;
-            case 1 -> CURRENT;
-            case 2 -> RANGES;
-            case 3 -> SELECTION;
-            default -> null;
-        };
+    private int value;
+    
+    public PrintPages(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ALL -> 0;
-            case CURRENT -> 1;
-            case RANGES -> 2;
-            case SELECTION -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PrintPages[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

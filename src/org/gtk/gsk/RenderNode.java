@@ -61,7 +61,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      */
     public RenderNodeType getNodeType() {
         var RESULT = gtk_h.gsk_render_node_get_node_type(handle());
-        return RenderNodeType.fromValue(RESULT);
+        return new RenderNodeType(RESULT);
     }
     
     /**

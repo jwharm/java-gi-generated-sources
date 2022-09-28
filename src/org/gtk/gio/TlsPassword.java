@@ -21,15 +21,15 @@ public class TlsPassword extends org.gtk.gobject.Object {
         return new TlsPassword(gobject.getReference());
     }
     
-    private static Reference constructNew(int flags, java.lang.String description) {
-        Reference RESULT = References.get(gtk_h.g_tls_password_new(flags, Interop.allocateNativeString(description).handle()), true);
+    private static Reference constructNew(TlsPasswordFlags flags, java.lang.String description) {
+        Reference RESULT = References.get(gtk_h.g_tls_password_new(flags.getValue(), Interop.allocateNativeString(description).handle()), true);
         return RESULT;
     }
     
     /**
      * Create a new {@link TlsPassword} object.
      */
-    public TlsPassword(int flags, java.lang.String description) {
+    public TlsPassword(TlsPasswordFlags flags, java.lang.String description) {
         super(constructNew(flags, description));
     }
     
@@ -44,9 +44,9 @@ public class TlsPassword extends org.gtk.gobject.Object {
     /**
      * Get flags about the password.
      */
-    public int getFlags() {
+    public TlsPasswordFlags getFlags() {
         var RESULT = gtk_h.g_tls_password_get_flags(handle());
-        return RESULT;
+        return new TlsPasswordFlags(RESULT);
     }
     
     /**
@@ -69,8 +69,8 @@ public class TlsPassword extends org.gtk.gobject.Object {
     /**
      * Set flags about the password.
      */
-    public void setFlags(int flags) {
-        gtk_h.g_tls_password_set_flags(handle(), flags);
+    public void setFlags(TlsPasswordFlags flags) {
+        gtk_h.g_tls_password_set_flags(handle(), flags.getValue());
     }
     
     /**

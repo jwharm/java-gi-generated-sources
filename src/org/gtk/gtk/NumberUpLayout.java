@@ -4,73 +4,68 @@ package org.gtk.gtk;
  * Used to determine the layout of pages on a sheet when printing
  * multiple pages per sheet.
  */
-public enum NumberUpLayout {
+public class NumberUpLayout {
 
     /**
      * ![](layout-lrtb.png)
      */
-    LRTB,
+    public static final NumberUpLayout LRTB = new NumberUpLayout(0);
     
     /**
      * ![](layout-lrbt.png)
      */
-    LRBT,
+    public static final NumberUpLayout LRBT = new NumberUpLayout(1);
     
     /**
      * ![](layout-rltb.png)
      */
-    RLTB,
+    public static final NumberUpLayout RLTB = new NumberUpLayout(2);
     
     /**
      * ![](layout-rlbt.png)
      */
-    RLBT,
+    public static final NumberUpLayout RLBT = new NumberUpLayout(3);
     
     /**
      * ![](layout-tblr.png)
      */
-    TBLR,
+    public static final NumberUpLayout TBLR = new NumberUpLayout(4);
     
     /**
      * ![](layout-tbrl.png)
      */
-    TBRL,
+    public static final NumberUpLayout TBRL = new NumberUpLayout(5);
     
     /**
      * ![](layout-btlr.png)
      */
-    BTLR,
+    public static final NumberUpLayout BTLR = new NumberUpLayout(6);
     
     /**
      * ![](layout-btrl.png)
      */
-    BTRL;
+    public static final NumberUpLayout BTRL = new NumberUpLayout(7);
     
-    public static NumberUpLayout fromValue(int value) {
-        return switch(value) {
-            case 0 -> LRTB;
-            case 1 -> LRBT;
-            case 2 -> RLTB;
-            case 3 -> RLBT;
-            case 4 -> TBLR;
-            case 5 -> TBRL;
-            case 6 -> BTLR;
-            case 7 -> BTRL;
-            default -> null;
-        };
+    private int value;
+    
+    public NumberUpLayout(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LRTB -> 0;
-            case LRBT -> 1;
-            case RLTB -> 2;
-            case RLBT -> 3;
-            case TBLR -> 4;
-            case TBRL -> 5;
-            case BTLR -> 6;
-            case BTRL -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(NumberUpLayout[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

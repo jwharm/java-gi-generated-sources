@@ -4,39 +4,44 @@ package org.gtk.gtk;
  * Determines how GTK handles the sensitivity of various controls,
  * such as combo box buttons.
  */
-public enum SensitivityType {
+public class SensitivityType {
 
     /**
      * The control is made insensitive if no
      *   action can be triggered
      */
-    AUTO,
+    public static final SensitivityType AUTO = new SensitivityType(0);
     
     /**
      * The control is always sensitive
      */
-    ON,
+    public static final SensitivityType ON = new SensitivityType(1);
     
     /**
      * The control is always insensitive
      */
-    OFF;
+    public static final SensitivityType OFF = new SensitivityType(2);
     
-    public static SensitivityType fromValue(int value) {
-        return switch(value) {
-            case 0 -> AUTO;
-            case 1 -> ON;
-            case 2 -> OFF;
-            default -> null;
-        };
+    private int value;
+    
+    public SensitivityType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case AUTO -> 0;
-            case ON -> 1;
-            case OFF -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SensitivityType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

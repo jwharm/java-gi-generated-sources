@@ -78,7 +78,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements Constrain
      */
     public ConstraintStrength getStrength() {
         var RESULT = gtk_h.gtk_constraint_guide_get_strength(handle());
-        return ConstraintStrength.fromValue(RESULT);
+        return new ConstraintStrength(RESULT);
     }
     
     /**

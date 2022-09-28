@@ -6,87 +6,80 @@ package org.gtk.gio;
  * <p>
  * Additional values may be added to this type in the future.
  */
-public enum SocketClientEvent {
+public class SocketClientEvent {
 
     /**
      * The client is doing a DNS lookup.
      */
-    RESOLVING,
+    public static final SocketClientEvent RESOLVING = new SocketClientEvent(0);
     
     /**
      * The client has completed a DNS lookup.
      */
-    RESOLVED,
+    public static final SocketClientEvent RESOLVED = new SocketClientEvent(1);
     
     /**
      * The client is connecting to a remote
      *   host (either a proxy or the destination server).
      */
-    CONNECTING,
+    public static final SocketClientEvent CONNECTING = new SocketClientEvent(2);
     
     /**
      * The client has connected to a remote
      *   host.
      */
-    CONNECTED,
+    public static final SocketClientEvent CONNECTED = new SocketClientEvent(3);
     
     /**
      * The client is negotiating
      *   with a proxy to connect to the destination server.
      */
-    PROXY_NEGOTIATING,
+    public static final SocketClientEvent PROXY_NEGOTIATING = new SocketClientEvent(4);
     
     /**
      * The client has negotiated
      *   with the proxy server.
      */
-    PROXY_NEGOTIATED,
+    public static final SocketClientEvent PROXY_NEGOTIATED = new SocketClientEvent(5);
     
     /**
      * The client is performing a
      *   TLS handshake.
      */
-    TLS_HANDSHAKING,
+    public static final SocketClientEvent TLS_HANDSHAKING = new SocketClientEvent(6);
     
     /**
      * The client has performed a
      *   TLS handshake.
      */
-    TLS_HANDSHAKED,
+    public static final SocketClientEvent TLS_HANDSHAKED = new SocketClientEvent(7);
     
     /**
      * The client is done with a particular
      *   {@link SocketConnectable}.
      */
-    COMPLETE;
+    public static final SocketClientEvent COMPLETE = new SocketClientEvent(8);
     
-    public static SocketClientEvent fromValue(int value) {
-        return switch(value) {
-            case 0 -> RESOLVING;
-            case 1 -> RESOLVED;
-            case 2 -> CONNECTING;
-            case 3 -> CONNECTED;
-            case 4 -> PROXY_NEGOTIATING;
-            case 5 -> PROXY_NEGOTIATED;
-            case 6 -> TLS_HANDSHAKING;
-            case 7 -> TLS_HANDSHAKED;
-            case 8 -> COMPLETE;
-            default -> null;
-        };
+    private int value;
+    
+    public SocketClientEvent(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case RESOLVING -> 0;
-            case RESOLVED -> 1;
-            case CONNECTING -> 2;
-            case CONNECTED -> 3;
-            case PROXY_NEGOTIATING -> 4;
-            case PROXY_NEGOTIATED -> 5;
-            case TLS_HANDSHAKING -> 6;
-            case TLS_HANDSHAKED -> 7;
-            case COMPLETE -> 8;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SocketClientEvent[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

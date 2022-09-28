@@ -44,9 +44,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * doesn't descend beneath the child nodes. {@code func} must not do anything
      * that would modify the structure of the tree.
      */
-    public void childrenForeach(int flags, NodeForeachFunc func) {
+    public void childrenForeach(TraverseFlags flags, NodeForeachFunc func) {
         try {
-            gtk_h.g_node_children_foreach(handle(), flags, 
+            gtk_h.g_node_children_foreach(handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbNodeForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -107,16 +107,16 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds a {@link Node} in a tree.
      */
-    public Node find(TraverseType order, int flags, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_node_find(handle(), order.getValue(), flags, data);
+    public Node find(TraverseType order, TraverseFlags flags, java.lang.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_node_find(handle(), order.getValue(), flags.getValue(), data);
         return new Node(References.get(RESULT, false));
     }
     
     /**
      * Finds the first child of a {@link Node} with the given data.
      */
-    public Node findChild(int flags, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_node_find_child(handle(), flags, data);
+    public Node findChild(TraverseFlags flags, java.lang.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_node_find_child(handle(), flags.getValue(), data);
         return new Node(References.get(RESULT, false));
     }
     
@@ -211,8 +211,8 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the number of nodes in a tree.
      */
-    public int nNodes(int flags) {
-        var RESULT = gtk_h.g_node_n_nodes(handle(), flags);
+    public int nNodes(TraverseFlags flags) {
+        var RESULT = gtk_h.g_node_n_nodes(handle(), flags.getValue());
         return RESULT;
     }
     
@@ -248,9 +248,9 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * The traversal can be halted at any point by returning {@code true} from {@code func}.
      * {@code func} must not do anything that would modify the structure of the tree.
      */
-    public void traverse(TraverseType order, int flags, int maxDepth, NodeTraverseFunc func) {
+    public void traverse(TraverseType order, TraverseFlags flags, int maxDepth, NodeTraverseFunc func) {
         try {
-            gtk_h.g_node_traverse(handle(), order.getValue(), flags, maxDepth, 
+            gtk_h.g_node_traverse(handle(), order.getValue(), flags.getValue(), maxDepth, 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbNodeTraverseFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),

@@ -3,52 +3,53 @@ package org.gtk.gtk;
 /**
  * Used to indicate the direction in which an arrow should point.
  */
-public enum ArrowType {
+public class ArrowType {
 
     /**
      * Represents an upward pointing arrow.
      */
-    UP,
+    public static final ArrowType UP = new ArrowType(0);
     
     /**
      * Represents a downward pointing arrow.
      */
-    DOWN,
+    public static final ArrowType DOWN = new ArrowType(1);
     
     /**
      * Represents a left pointing arrow.
      */
-    LEFT,
+    public static final ArrowType LEFT = new ArrowType(2);
     
     /**
      * Represents a right pointing arrow.
      */
-    RIGHT,
+    public static final ArrowType RIGHT = new ArrowType(3);
     
     /**
      * No arrow.
      */
-    NONE;
+    public static final ArrowType NONE = new ArrowType(4);
     
-    public static ArrowType fromValue(int value) {
-        return switch(value) {
-            case 0 -> UP;
-            case 1 -> DOWN;
-            case 2 -> LEFT;
-            case 3 -> RIGHT;
-            case 4 -> NONE;
-            default -> null;
-        };
+    private int value;
+    
+    public ArrowType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UP -> 0;
-            case DOWN -> 1;
-            case LEFT -> 2;
-            case RIGHT -> 3;
-            case NONE -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ArrowType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -1,44 +1,41 @@
 package org.cairographics;
 
-public enum Antialias {
+public class Antialias {
 
-    DEFAULT,
+    public static final Antialias DEFAULT = new Antialias(0);
     
-    NONE,
+    public static final Antialias NONE = new Antialias(1);
     
-    GRAY,
+    public static final Antialias GRAY = new Antialias(2);
     
-    SUBPIXEL,
+    public static final Antialias SUBPIXEL = new Antialias(3);
     
-    FAST,
+    public static final Antialias FAST = new Antialias(4);
     
-    GOOD,
+    public static final Antialias GOOD = new Antialias(5);
     
-    BEST;
+    public static final Antialias BEST = new Antialias(6);
     
-    public static Antialias fromValue(int value) {
-        return switch(value) {
-            case 0 -> DEFAULT;
-            case 1 -> NONE;
-            case 2 -> GRAY;
-            case 3 -> SUBPIXEL;
-            case 4 -> FAST;
-            case 5 -> GOOD;
-            case 6 -> BEST;
-            default -> null;
-        };
+    private int value;
+    
+    public Antialias(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DEFAULT -> 0;
-            case NONE -> 1;
-            case GRAY -> 2;
-            case SUBPIXEL -> 3;
-            case FAST -> 4;
-            case GOOD -> 5;
-            case BEST -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Antialias[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

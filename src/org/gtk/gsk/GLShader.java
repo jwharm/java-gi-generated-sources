@@ -340,7 +340,7 @@ public class GLShader extends org.gtk.gobject.Object {
      */
     public GLUniformType getUniformType(int idx) {
         var RESULT = gtk_h.gsk_gl_shader_get_uniform_type(handle(), idx);
-        return GLUniformType.fromValue(RESULT);
+        return new GLUniformType(RESULT);
     }
     
 }

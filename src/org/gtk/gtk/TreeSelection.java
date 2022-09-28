@@ -59,7 +59,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
      */
     public SelectionMode getMode() {
         var RESULT = gtk_h.gtk_tree_selection_get_mode(handle());
-        return SelectionMode.fromValue(RESULT);
+        return new SelectionMode(RESULT);
     }
     
     /**

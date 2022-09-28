@@ -40,8 +40,8 @@ public class Drop extends org.gtk.gobject.Object {
      * The {@code action} must be a single action selected from the actions
      * available via {@link Drop#getActions}.
      */
-    public void finish(int action) {
-        gtk_h.gdk_drop_finish(handle(), action);
+    public void finish(DragAction action) {
+        gtk_h.gdk_drop_finish(handle(), action.getValue());
     }
     
     /**
@@ -60,9 +60,9 @@ public class Drop extends org.gtk.gobject.Object {
      * {@code Gdk.Drop.finish}. The source
      * side will not change this value anymore once a drop has started.
      */
-    public int getActions() {
+    public DragAction getActions() {
         var RESULT = gtk_h.gdk_drop_get_actions(handle());
-        return RESULT;
+        return new DragAction(RESULT);
     }
     
     /**
@@ -158,7 +158,7 @@ public class Drop extends org.gtk.gobject.Object {
      * {@code GType}, the value will be copied directly. Otherwise, GDK will
      * try to use {@link Gdk#contentDeserializeAsync} to convert the data.
      */
-    public void readValueAsync(Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public void readValueAsync(org.gtk.gobject.Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gtk_h.gdk_drop_read_value_async(handle(), type.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
@@ -201,8 +201,8 @@ public class Drop extends org.gtk.gobject.Object {
      * not yet know the exact actions it supports, it should set any possible
      * actions first and then later call this function again.
      */
-    public void status(int actions, int preferred) {
-        gtk_h.gdk_drop_status(handle(), actions, preferred);
+    public void status(DragAction actions, DragAction preferred) {
+        gtk_h.gdk_drop_status(handle(), actions.getValue(), preferred.getValue());
     }
     
 }

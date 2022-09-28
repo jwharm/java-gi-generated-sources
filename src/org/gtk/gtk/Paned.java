@@ -405,7 +405,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     public static boolean __signalPanedMoveHandle(MemoryAddress source, int scrollType, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Paned.MoveHandleHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Paned(References.get(source)), ScrollType.fromValue(scrollType));
+        return handler.signalReceived(new Paned(References.get(source)), new ScrollType(scrollType));
     }
     
     @FunctionalInterface

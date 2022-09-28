@@ -6,1165 +6,848 @@ package org.harfbuzz;
  * <p>
  * See also the Script (sc) property of the Unicode Character Database.
  */
-public enum ScriptT {
+public class ScriptT {
 
     /**
      * {@code Zyyy}
      */
-    COMMON,
+    public static final ScriptT COMMON = new ScriptT(1517910393);
     
     /**
      * {@code Zinh}
      */
-    INHERITED,
+    public static final ScriptT INHERITED = new ScriptT(1516858984);
     
     /**
      * {@code Zzzz}
      */
-    UNKNOWN,
+    public static final ScriptT UNKNOWN = new ScriptT(1517976186);
     
     /**
      * {@code Arab}
      */
-    ARABIC,
+    public static final ScriptT ARABIC = new ScriptT(1098015074);
     
     /**
      * {@code Armn}
      */
-    ARMENIAN,
+    public static final ScriptT ARMENIAN = new ScriptT(1098018158);
     
     /**
      * {@code Beng}
      */
-    BENGALI,
+    public static final ScriptT BENGALI = new ScriptT(1113943655);
     
     /**
      * {@code Cyrl}
      */
-    CYRILLIC,
+    public static final ScriptT CYRILLIC = new ScriptT(1132032620);
     
     /**
      * {@code Deva}
      */
-    DEVANAGARI,
+    public static final ScriptT DEVANAGARI = new ScriptT(1147500129);
     
     /**
      * {@code Geor}
      */
-    GEORGIAN,
+    public static final ScriptT GEORGIAN = new ScriptT(1197830002);
     
     /**
      * {@code Grek}
      */
-    GREEK,
+    public static final ScriptT GREEK = new ScriptT(1198679403);
     
     /**
      * {@code Gujr}
      */
-    GUJARATI,
+    public static final ScriptT GUJARATI = new ScriptT(1198877298);
     
     /**
      * {@code Guru}
      */
-    GURMUKHI,
+    public static final ScriptT GURMUKHI = new ScriptT(1198879349);
     
     /**
      * {@code Hang}
      */
-    HANGUL,
+    public static final ScriptT HANGUL = new ScriptT(1214344807);
     
     /**
      * {@code Hani}
      */
-    HAN,
+    public static final ScriptT HAN = new ScriptT(1214344809);
     
     /**
      * {@code Hebr}
      */
-    HEBREW,
+    public static final ScriptT HEBREW = new ScriptT(1214603890);
     
     /**
      * {@code Hira}
      */
-    HIRAGANA,
+    public static final ScriptT HIRAGANA = new ScriptT(1214870113);
     
     /**
      * {@code Knda}
      */
-    KANNADA,
+    public static final ScriptT KANNADA = new ScriptT(1265525857);
     
     /**
      * {@code Kana}
      */
-    KATAKANA,
+    public static final ScriptT KATAKANA = new ScriptT(1264676449);
     
     /**
      * {@code Laoo}
      */
-    LAO,
+    public static final ScriptT LAO = new ScriptT(1281453935);
     
     /**
      * {@code Latn}
      */
-    LATIN,
+    public static final ScriptT LATIN = new ScriptT(1281455214);
     
     /**
      * {@code Mlym}
      */
-    MALAYALAM,
+    public static final ScriptT MALAYALAM = new ScriptT(1298954605);
     
     /**
      * {@code Orya}
      */
-    ORIYA,
+    public static final ScriptT ORIYA = new ScriptT(1332902241);
     
     /**
      * {@code Taml}
      */
-    TAMIL,
+    public static final ScriptT TAMIL = new ScriptT(1415671148);
     
     /**
      * {@code Telu}
      */
-    TELUGU,
+    public static final ScriptT TELUGU = new ScriptT(1415933045);
     
     /**
      * {@code Thai}
      */
-    THAI,
+    public static final ScriptT THAI = new ScriptT(1416126825);
     
     /**
      * {@code Tibt}
      */
-    TIBETAN,
+    public static final ScriptT TIBETAN = new ScriptT(1416192628);
     
     /**
      * {@code Bopo}
      */
-    BOPOMOFO,
+    public static final ScriptT BOPOMOFO = new ScriptT(1114599535);
     
     /**
      * {@code Brai}
      */
-    BRAILLE,
+    public static final ScriptT BRAILLE = new ScriptT(1114792297);
     
     /**
      * {@code Cans}
      */
-    CANADIAN_SYLLABICS,
+    public static final ScriptT CANADIAN_SYLLABICS = new ScriptT(1130458739);
     
     /**
      * {@code Cher}
      */
-    CHEROKEE,
+    public static final ScriptT CHEROKEE = new ScriptT(1130915186);
     
     /**
      * {@code Ethi}
      */
-    ETHIOPIC,
+    public static final ScriptT ETHIOPIC = new ScriptT(1165256809);
     
     /**
      * {@code Khmr}
      */
-    KHMER,
+    public static final ScriptT KHMER = new ScriptT(1265134962);
     
     /**
      * {@code Mong}
      */
-    MONGOLIAN,
+    public static final ScriptT MONGOLIAN = new ScriptT(1299148391);
     
     /**
      * {@code Mymr}
      */
-    MYANMAR,
+    public static final ScriptT MYANMAR = new ScriptT(1299803506);
     
     /**
      * {@code Ogam}
      */
-    OGHAM,
+    public static final ScriptT OGHAM = new ScriptT(1332175213);
     
     /**
      * {@code Runr}
      */
-    RUNIC,
+    public static final ScriptT RUNIC = new ScriptT(1383427698);
     
     /**
      * {@code Sinh}
      */
-    SINHALA,
+    public static final ScriptT SINHALA = new ScriptT(1399418472);
     
     /**
      * {@code Syrc}
      */
-    SYRIAC,
+    public static final ScriptT SYRIAC = new ScriptT(1400468067);
     
     /**
      * {@code Thaa}
      */
-    THAANA,
+    public static final ScriptT THAANA = new ScriptT(1416126817);
     
     /**
      * {@code Yiii}
      */
-    YI,
+    public static final ScriptT YI = new ScriptT(1500080489);
     
     /**
      * {@code Dsrt}
      */
-    DESERET,
+    public static final ScriptT DESERET = new ScriptT(1148416628);
     
     /**
      * {@code Goth}
      */
-    GOTHIC,
+    public static final ScriptT GOTHIC = new ScriptT(1198486632);
     
     /**
      * {@code Ital}
      */
-    OLD_ITALIC,
+    public static final ScriptT OLD_ITALIC = new ScriptT(1232363884);
     
     /**
      * {@code Buhd}
      */
-    BUHID,
+    public static final ScriptT BUHID = new ScriptT(1114990692);
     
     /**
      * {@code Hano}
      */
-    HANUNOO,
+    public static final ScriptT HANUNOO = new ScriptT(1214344815);
     
     /**
      * {@code Tglg}
      */
-    TAGALOG,
+    public static final ScriptT TAGALOG = new ScriptT(1416064103);
     
     /**
      * {@code Tagb}
      */
-    TAGBANWA,
+    public static final ScriptT TAGBANWA = new ScriptT(1415669602);
     
     /**
      * {@code Cprt}
      */
-    CYPRIOT,
+    public static final ScriptT CYPRIOT = new ScriptT(1131442804);
     
     /**
      * {@code Limb}
      */
-    LIMBU,
+    public static final ScriptT LIMBU = new ScriptT(1281977698);
     
     /**
      * {@code Linb}
      */
-    LINEAR_B,
+    public static final ScriptT LINEAR_B = new ScriptT(1281977954);
     
     /**
      * {@code Osma}
      */
-    OSMANYA,
+    public static final ScriptT OSMANYA = new ScriptT(1332964705);
     
     /**
      * {@code Shaw}
      */
-    SHAVIAN,
+    public static final ScriptT SHAVIAN = new ScriptT(1399349623);
     
     /**
      * {@code Tale}
      */
-    TAI_LE,
+    public static final ScriptT TAI_LE = new ScriptT(1415670885);
     
     /**
      * {@code Ugar}
      */
-    UGARITIC,
+    public static final ScriptT UGARITIC = new ScriptT(1432838514);
     
     /**
      * {@code Bugi}
      */
-    BUGINESE,
+    public static final ScriptT BUGINESE = new ScriptT(1114990441);
     
     /**
      * {@code Copt}
      */
-    COPTIC,
+    public static final ScriptT COPTIC = new ScriptT(1131376756);
     
     /**
      * {@code Glag}
      */
-    GLAGOLITIC,
+    public static final ScriptT GLAGOLITIC = new ScriptT(1198285159);
     
     /**
      * {@code Khar}
      */
-    KHAROSHTHI,
+    public static final ScriptT KHAROSHTHI = new ScriptT(1265131890);
     
     /**
      * {@code Talu}
      */
-    NEW_TAI_LUE,
+    public static final ScriptT NEW_TAI_LUE = new ScriptT(1415670901);
     
     /**
      * {@code Xpeo}
      */
-    OLD_PERSIAN,
+    public static final ScriptT OLD_PERSIAN = new ScriptT(1483761007);
     
     /**
      * {@code Sylo}
      */
-    SYLOTI_NAGRI,
+    public static final ScriptT SYLOTI_NAGRI = new ScriptT(1400466543);
     
     /**
      * {@code Tfng}
      */
-    TIFINAGH,
+    public static final ScriptT TIFINAGH = new ScriptT(1415999079);
     
     /**
      * {@code Bali}
      */
-    BALINESE,
+    public static final ScriptT BALINESE = new ScriptT(1113681001);
     
     /**
      * {@code Xsux}
      */
-    CUNEIFORM,
+    public static final ScriptT CUNEIFORM = new ScriptT(1483961720);
     
     /**
      * {@code Nkoo}
      */
-    NKO,
+    public static final ScriptT NKO = new ScriptT(1315663727);
     
     /**
      * {@code Phag}
      */
-    PHAGS_PA,
+    public static final ScriptT PHAGS_PA = new ScriptT(1349017959);
     
     /**
      * {@code Phnx}
      */
-    PHOENICIAN,
+    public static final ScriptT PHOENICIAN = new ScriptT(1349021304);
     
     /**
      * {@code Cari}
      */
-    CARIAN,
+    public static final ScriptT CARIAN = new ScriptT(1130459753);
     
     /**
      * {@code Cham}
      */
-    CHAM,
+    public static final ScriptT CHAM = new ScriptT(1130914157);
     
     /**
      * {@code Kali}
      */
-    KAYAH_LI,
+    public static final ScriptT KAYAH_LI = new ScriptT(1264675945);
     
     /**
      * {@code Lepc}
      */
-    LEPCHA,
+    public static final ScriptT LEPCHA = new ScriptT(1281716323);
     
     /**
      * {@code Lyci}
      */
-    LYCIAN,
+    public static final ScriptT LYCIAN = new ScriptT(1283023721);
     
     /**
      * {@code Lydi}
      */
-    LYDIAN,
+    public static final ScriptT LYDIAN = new ScriptT(1283023977);
     
     /**
      * {@code Olck}
      */
-    OL_CHIKI,
+    public static final ScriptT OL_CHIKI = new ScriptT(1332503403);
     
     /**
      * {@code Rjng}
      */
-    REJANG,
+    public static final ScriptT REJANG = new ScriptT(1382706791);
     
     /**
      * {@code Saur}
      */
-    SAURASHTRA,
+    public static final ScriptT SAURASHTRA = new ScriptT(1398895986);
     
     /**
      * {@code Sund}
      */
-    SUNDANESE,
+    public static final ScriptT SUNDANESE = new ScriptT(1400204900);
     
     /**
      * {@code Vaii}
      */
-    VAI,
+    public static final ScriptT VAI = new ScriptT(1449224553);
     
     /**
      * {@code Avst}
      */
-    AVESTAN,
+    public static final ScriptT AVESTAN = new ScriptT(1098281844);
     
     /**
      * {@code Bamu}
      */
-    BAMUM,
+    public static final ScriptT BAMUM = new ScriptT(1113681269);
     
     /**
      * {@code Egyp}
      */
-    EGYPTIAN_HIEROGLYPHS,
+    public static final ScriptT EGYPTIAN_HIEROGLYPHS = new ScriptT(1164409200);
     
     /**
      * {@code Armi}
      */
-    IMPERIAL_ARAMAIC,
+    public static final ScriptT IMPERIAL_ARAMAIC = new ScriptT(1098018153);
     
     /**
      * {@code Phli}
      */
-    INSCRIPTIONAL_PAHLAVI,
+    public static final ScriptT INSCRIPTIONAL_PAHLAVI = new ScriptT(1349020777);
     
     /**
      * {@code Prti}
      */
-    INSCRIPTIONAL_PARTHIAN,
+    public static final ScriptT INSCRIPTIONAL_PARTHIAN = new ScriptT(1349678185);
     
     /**
      * {@code Java}
      */
-    JAVANESE,
+    public static final ScriptT JAVANESE = new ScriptT(1247901281);
     
     /**
      * {@code Kthi}
      */
-    KAITHI,
+    public static final ScriptT KAITHI = new ScriptT(1265920105);
     
     /**
      * {@code Lisu}
      */
-    LISU,
+    public static final ScriptT LISU = new ScriptT(1281979253);
     
     /**
      * {@code Mtei}
      */
-    MEETEI_MAYEK,
+    public static final ScriptT MEETEI_MAYEK = new ScriptT(1299473769);
     
     /**
      * {@code Sarb}
      */
-    OLD_SOUTH_ARABIAN,
+    public static final ScriptT OLD_SOUTH_ARABIAN = new ScriptT(1398895202);
     
     /**
      * {@code Orkh}
      */
-    OLD_TURKIC,
+    public static final ScriptT OLD_TURKIC = new ScriptT(1332898664);
     
     /**
      * {@code Samr}
      */
-    SAMARITAN,
+    public static final ScriptT SAMARITAN = new ScriptT(1398893938);
     
     /**
      * {@code Lana}
      */
-    TAI_THAM,
+    public static final ScriptT TAI_THAM = new ScriptT(1281453665);
     
     /**
      * {@code Tavt}
      */
-    TAI_VIET,
+    public static final ScriptT TAI_VIET = new ScriptT(1415673460);
     
     /**
      * {@code Batk}
      */
-    BATAK,
+    public static final ScriptT BATAK = new ScriptT(1113683051);
     
     /**
      * {@code Brah}
      */
-    BRAHMI,
+    public static final ScriptT BRAHMI = new ScriptT(1114792296);
     
     /**
      * {@code Mand}
      */
-    MANDAIC,
+    public static final ScriptT MANDAIC = new ScriptT(1298230884);
     
     /**
      * {@code Cakm}
      */
-    CHAKMA,
+    public static final ScriptT CHAKMA = new ScriptT(1130457965);
     
     /**
      * {@code Merc}
      */
-    MEROITIC_CURSIVE,
+    public static final ScriptT MEROITIC_CURSIVE = new ScriptT(1298494051);
     
     /**
      * {@code Mero}
      */
-    MEROITIC_HIEROGLYPHS,
+    public static final ScriptT MEROITIC_HIEROGLYPHS = new ScriptT(1298494063);
     
     /**
      * {@code Plrd}
      */
-    MIAO,
+    public static final ScriptT MIAO = new ScriptT(1349284452);
     
     /**
      * {@code Shrd}
      */
-    SHARADA,
+    public static final ScriptT SHARADA = new ScriptT(1399353956);
     
     /**
      * {@code Sora}
      */
-    SORA_SOMPENG,
+    public static final ScriptT SORA_SOMPENG = new ScriptT(1399812705);
     
     /**
      * {@code Takr}
      */
-    TAKRI,
+    public static final ScriptT TAKRI = new ScriptT(1415670642);
     
     /**
      * {@code Bass}, Since: 0.9.30
      */
-    BASSA_VAH,
+    public static final ScriptT BASSA_VAH = new ScriptT(1113682803);
     
     /**
      * {@code Aghb}, Since: 0.9.30
      */
-    CAUCASIAN_ALBANIAN,
+    public static final ScriptT CAUCASIAN_ALBANIAN = new ScriptT(1097295970);
     
     /**
      * {@code Dupl}, Since: 0.9.30
      */
-    DUPLOYAN,
+    public static final ScriptT DUPLOYAN = new ScriptT(1148547180);
     
     /**
      * {@code Elba}, Since: 0.9.30
      */
-    ELBASAN,
+    public static final ScriptT ELBASAN = new ScriptT(1164730977);
     
     /**
      * {@code Gran}, Since: 0.9.30
      */
-    GRANTHA,
+    public static final ScriptT GRANTHA = new ScriptT(1198678382);
     
     /**
      * {@code Khoj}, Since: 0.9.30
      */
-    KHOJKI,
+    public static final ScriptT KHOJKI = new ScriptT(1265135466);
     
     /**
      * {@code Sind}, Since: 0.9.30
      */
-    KHUDAWADI,
+    public static final ScriptT KHUDAWADI = new ScriptT(1399418468);
     
     /**
      * {@code Lina}, Since: 0.9.30
      */
-    LINEAR_A,
+    public static final ScriptT LINEAR_A = new ScriptT(1281977953);
     
     /**
      * {@code Mahj}, Since: 0.9.30
      */
-    MAHAJANI,
+    public static final ScriptT MAHAJANI = new ScriptT(1298229354);
     
     /**
      * {@code Mani}, Since: 0.9.30
      */
-    MANICHAEAN,
+    public static final ScriptT MANICHAEAN = new ScriptT(1298230889);
     
     /**
      * {@code Mend}, Since: 0.9.30
      */
-    MENDE_KIKAKUI,
+    public static final ScriptT MENDE_KIKAKUI = new ScriptT(1298493028);
     
     /**
      * {@code Modi}, Since: 0.9.30
      */
-    MODI,
+    public static final ScriptT MODI = new ScriptT(1299145833);
     
     /**
      * {@code Mroo}, Since: 0.9.30
      */
-    MRO,
+    public static final ScriptT MRO = new ScriptT(1299345263);
     
     /**
      * {@code Nbat}, Since: 0.9.30
      */
-    NABATAEAN,
+    public static final ScriptT NABATAEAN = new ScriptT(1315070324);
     
     /**
      * {@code Narb}, Since: 0.9.30
      */
-    OLD_NORTH_ARABIAN,
+    public static final ScriptT OLD_NORTH_ARABIAN = new ScriptT(1315009122);
     
     /**
      * {@code Perm}, Since: 0.9.30
      */
-    OLD_PERMIC,
+    public static final ScriptT OLD_PERMIC = new ScriptT(1348825709);
     
     /**
      * {@code Hmng}, Since: 0.9.30
      */
-    PAHAWH_HMONG,
+    public static final ScriptT PAHAWH_HMONG = new ScriptT(1215131239);
     
     /**
      * {@code Palm}, Since: 0.9.30
      */
-    PALMYRENE,
+    public static final ScriptT PALMYRENE = new ScriptT(1348562029);
     
     /**
      * {@code Pauc}, Since: 0.9.30
      */
-    PAU_CIN_HAU,
+    public static final ScriptT PAU_CIN_HAU = new ScriptT(1348564323);
     
     /**
      * {@code Phlp}, Since: 0.9.30
      */
-    PSALTER_PAHLAVI,
+    public static final ScriptT PSALTER_PAHLAVI = new ScriptT(1349020784);
     
     /**
      * {@code Sidd}, Since: 0.9.30
      */
-    SIDDHAM,
+    public static final ScriptT SIDDHAM = new ScriptT(1399415908);
     
     /**
      * {@code Tirh}, Since: 0.9.30
      */
-    TIRHUTA,
+    public static final ScriptT TIRHUTA = new ScriptT(1416196712);
     
     /**
      * {@code Wara}, Since: 0.9.30
      */
-    WARANG_CITI,
+    public static final ScriptT WARANG_CITI = new ScriptT(1466004065);
     
     /**
      * {@code Ahom}, Since: 0.9.30
      */
-    AHOM,
+    public static final ScriptT AHOM = new ScriptT(1097363309);
     
     /**
      * {@code Hluw}, Since: 0.9.30
      */
-    ANATOLIAN_HIEROGLYPHS,
+    public static final ScriptT ANATOLIAN_HIEROGLYPHS = new ScriptT(1215067511);
     
     /**
      * {@code Hatr}, Since: 0.9.30
      */
-    HATRAN,
+    public static final ScriptT HATRAN = new ScriptT(1214346354);
     
     /**
      * {@code Mult}, Since: 0.9.30
      */
-    MULTANI,
+    public static final ScriptT MULTANI = new ScriptT(1299541108);
     
     /**
      * {@code Hung}, Since: 0.9.30
      */
-    OLD_HUNGARIAN,
+    public static final ScriptT OLD_HUNGARIAN = new ScriptT(1215655527);
     
     /**
      * {@code Sgnw}, Since: 0.9.30
      */
-    SIGNWRITING,
+    public static final ScriptT SIGNWRITING = new ScriptT(1399287415);
     
     /**
      * {@code Adlm}, Since: 1.3.0
      */
-    ADLAM,
+    public static final ScriptT ADLAM = new ScriptT(1097100397);
     
     /**
      * {@code Bhks}, Since: 1.3.0
      */
-    BHAIKSUKI,
+    public static final ScriptT BHAIKSUKI = new ScriptT(1114139507);
     
     /**
      * {@code Marc}, Since: 1.3.0
      */
-    MARCHEN,
+    public static final ScriptT MARCHEN = new ScriptT(1298231907);
     
     /**
      * {@code Osge}, Since: 1.3.0
      */
-    OSAGE,
+    public static final ScriptT OSAGE = new ScriptT(1332963173);
     
     /**
      * {@code Tang}, Since: 1.3.0
      */
-    TANGUT,
+    public static final ScriptT TANGUT = new ScriptT(1415671399);
     
     /**
      * {@code Newa}, Since: 1.3.0
      */
-    NEWA,
+    public static final ScriptT NEWA = new ScriptT(1315272545);
     
     /**
      * {@code Gonm}, Since: 1.6.0
      */
-    MASARAM_GONDI,
+    public static final ScriptT MASARAM_GONDI = new ScriptT(1198485101);
     
     /**
      * {@code Nshu}, Since: 1.6.0
      */
-    NUSHU,
+    public static final ScriptT NUSHU = new ScriptT(1316186229);
     
     /**
      * {@code Soyo}, Since: 1.6.0
      */
-    SOYOMBO,
+    public static final ScriptT SOYOMBO = new ScriptT(1399814511);
     
     /**
      * {@code Zanb}, Since: 1.6.0
      */
-    ZANABAZAR_SQUARE,
+    public static final ScriptT ZANABAZAR_SQUARE = new ScriptT(1516334690);
     
     /**
      * {@code Dogr}, Since: 1.8.0
      */
-    DOGRA,
+    public static final ScriptT DOGRA = new ScriptT(1148151666);
     
     /**
      * {@code Gong}, Since: 1.8.0
      */
-    GUNJALA_GONDI,
+    public static final ScriptT GUNJALA_GONDI = new ScriptT(1198485095);
     
     /**
      * {@code Rohg}, Since: 1.8.0
      */
-    HANIFI_ROHINGYA,
+    public static final ScriptT HANIFI_ROHINGYA = new ScriptT(1383032935);
     
     /**
      * {@code Maka}, Since: 1.8.0
      */
-    MAKASAR,
+    public static final ScriptT MAKASAR = new ScriptT(1298230113);
     
     /**
      * {@code Medf}, Since: 1.8.0
      */
-    MEDEFAIDRIN,
+    public static final ScriptT MEDEFAIDRIN = new ScriptT(1298490470);
     
     /**
      * {@code Sogo}, Since: 1.8.0
      */
-    OLD_SOGDIAN,
+    public static final ScriptT OLD_SOGDIAN = new ScriptT(1399809903);
     
     /**
      * {@code Sogd}, Since: 1.8.0
      */
-    SOGDIAN,
+    public static final ScriptT SOGDIAN = new ScriptT(1399809892);
     
     /**
      * {@code Elym}, Since: 2.4.0
      */
-    ELYMAIC,
+    public static final ScriptT ELYMAIC = new ScriptT(1164736877);
     
     /**
      * {@code Nand}, Since: 2.4.0
      */
-    NANDINAGARI,
+    public static final ScriptT NANDINAGARI = new ScriptT(1315008100);
     
     /**
      * {@code Hmnp}, Since: 2.4.0
      */
-    NYIAKENG_PUACHUE_HMONG,
+    public static final ScriptT NYIAKENG_PUACHUE_HMONG = new ScriptT(1215131248);
     
     /**
      * {@code Wcho}, Since: 2.4.0
      */
-    WANCHO,
+    public static final ScriptT WANCHO = new ScriptT(1466132591);
     
     /**
      * {@code Chrs}, Since: 2.6.7
      */
-    CHORASMIAN,
+    public static final ScriptT CHORASMIAN = new ScriptT(1130918515);
     
     /**
      * {@code Diak}, Since: 2.6.7
      */
-    DIVES_AKURU,
+    public static final ScriptT DIVES_AKURU = new ScriptT(1147756907);
     
     /**
      * {@code Kits}, Since: 2.6.7
      */
-    KHITAN_SMALL_SCRIPT,
+    public static final ScriptT KHITAN_SMALL_SCRIPT = new ScriptT(1265202291);
     
     /**
      * {@code Yezi}, Since: 2.6.7
      */
-    YEZIDI,
+    public static final ScriptT YEZIDI = new ScriptT(1499822697);
     
     /**
      * {@code Cpmn}, Since: 3.0.0
      */
-    CYPRO_MINOAN,
+    public static final ScriptT CYPRO_MINOAN = new ScriptT(1131441518);
     
     /**
      * {@code Ougr}, Since: 3.0.0
      */
-    OLD_UYGHUR,
+    public static final ScriptT OLD_UYGHUR = new ScriptT(1333094258);
     
     /**
      * {@code Tnsa}, Since: 3.0.0
      */
-    TANGSA,
+    public static final ScriptT TANGSA = new ScriptT(1416524641);
     
     /**
      * {@code Toto}, Since: 3.0.0
      */
-    TOTO,
+    public static final ScriptT TOTO = new ScriptT(1416590447);
     
     /**
      * {@code Vith}, Since: 3.0.0
      */
-    VITHKUQI,
+    public static final ScriptT VITHKUQI = new ScriptT(1449751656);
     
     /**
      * {@code Zmth}, Since: 3.4.0
      */
-    MATH,
+    public static final ScriptT MATH = new ScriptT(1517122664);
     
     /**
      * No script set
      */
-    INVALID;
+    public static final ScriptT INVALID = new ScriptT(0);
     
-    public static ScriptT fromValue(int value) {
-        return switch(value) {
-            case 1517910393 -> COMMON;
-            case 1516858984 -> INHERITED;
-            case 1517976186 -> UNKNOWN;
-            case 1098015074 -> ARABIC;
-            case 1098018158 -> ARMENIAN;
-            case 1113943655 -> BENGALI;
-            case 1132032620 -> CYRILLIC;
-            case 1147500129 -> DEVANAGARI;
-            case 1197830002 -> GEORGIAN;
-            case 1198679403 -> GREEK;
-            case 1198877298 -> GUJARATI;
-            case 1198879349 -> GURMUKHI;
-            case 1214344807 -> HANGUL;
-            case 1214344809 -> HAN;
-            case 1214603890 -> HEBREW;
-            case 1214870113 -> HIRAGANA;
-            case 1265525857 -> KANNADA;
-            case 1264676449 -> KATAKANA;
-            case 1281453935 -> LAO;
-            case 1281455214 -> LATIN;
-            case 1298954605 -> MALAYALAM;
-            case 1332902241 -> ORIYA;
-            case 1415671148 -> TAMIL;
-            case 1415933045 -> TELUGU;
-            case 1416126825 -> THAI;
-            case 1416192628 -> TIBETAN;
-            case 1114599535 -> BOPOMOFO;
-            case 1114792297 -> BRAILLE;
-            case 1130458739 -> CANADIAN_SYLLABICS;
-            case 1130915186 -> CHEROKEE;
-            case 1165256809 -> ETHIOPIC;
-            case 1265134962 -> KHMER;
-            case 1299148391 -> MONGOLIAN;
-            case 1299803506 -> MYANMAR;
-            case 1332175213 -> OGHAM;
-            case 1383427698 -> RUNIC;
-            case 1399418472 -> SINHALA;
-            case 1400468067 -> SYRIAC;
-            case 1416126817 -> THAANA;
-            case 1500080489 -> YI;
-            case 1148416628 -> DESERET;
-            case 1198486632 -> GOTHIC;
-            case 1232363884 -> OLD_ITALIC;
-            case 1114990692 -> BUHID;
-            case 1214344815 -> HANUNOO;
-            case 1416064103 -> TAGALOG;
-            case 1415669602 -> TAGBANWA;
-            case 1131442804 -> CYPRIOT;
-            case 1281977698 -> LIMBU;
-            case 1281977954 -> LINEAR_B;
-            case 1332964705 -> OSMANYA;
-            case 1399349623 -> SHAVIAN;
-            case 1415670885 -> TAI_LE;
-            case 1432838514 -> UGARITIC;
-            case 1114990441 -> BUGINESE;
-            case 1131376756 -> COPTIC;
-            case 1198285159 -> GLAGOLITIC;
-            case 1265131890 -> KHAROSHTHI;
-            case 1415670901 -> NEW_TAI_LUE;
-            case 1483761007 -> OLD_PERSIAN;
-            case 1400466543 -> SYLOTI_NAGRI;
-            case 1415999079 -> TIFINAGH;
-            case 1113681001 -> BALINESE;
-            case 1483961720 -> CUNEIFORM;
-            case 1315663727 -> NKO;
-            case 1349017959 -> PHAGS_PA;
-            case 1349021304 -> PHOENICIAN;
-            case 1130459753 -> CARIAN;
-            case 1130914157 -> CHAM;
-            case 1264675945 -> KAYAH_LI;
-            case 1281716323 -> LEPCHA;
-            case 1283023721 -> LYCIAN;
-            case 1283023977 -> LYDIAN;
-            case 1332503403 -> OL_CHIKI;
-            case 1382706791 -> REJANG;
-            case 1398895986 -> SAURASHTRA;
-            case 1400204900 -> SUNDANESE;
-            case 1449224553 -> VAI;
-            case 1098281844 -> AVESTAN;
-            case 1113681269 -> BAMUM;
-            case 1164409200 -> EGYPTIAN_HIEROGLYPHS;
-            case 1098018153 -> IMPERIAL_ARAMAIC;
-            case 1349020777 -> INSCRIPTIONAL_PAHLAVI;
-            case 1349678185 -> INSCRIPTIONAL_PARTHIAN;
-            case 1247901281 -> JAVANESE;
-            case 1265920105 -> KAITHI;
-            case 1281979253 -> LISU;
-            case 1299473769 -> MEETEI_MAYEK;
-            case 1398895202 -> OLD_SOUTH_ARABIAN;
-            case 1332898664 -> OLD_TURKIC;
-            case 1398893938 -> SAMARITAN;
-            case 1281453665 -> TAI_THAM;
-            case 1415673460 -> TAI_VIET;
-            case 1113683051 -> BATAK;
-            case 1114792296 -> BRAHMI;
-            case 1298230884 -> MANDAIC;
-            case 1130457965 -> CHAKMA;
-            case 1298494051 -> MEROITIC_CURSIVE;
-            case 1298494063 -> MEROITIC_HIEROGLYPHS;
-            case 1349284452 -> MIAO;
-            case 1399353956 -> SHARADA;
-            case 1399812705 -> SORA_SOMPENG;
-            case 1415670642 -> TAKRI;
-            case 1113682803 -> BASSA_VAH;
-            case 1097295970 -> CAUCASIAN_ALBANIAN;
-            case 1148547180 -> DUPLOYAN;
-            case 1164730977 -> ELBASAN;
-            case 1198678382 -> GRANTHA;
-            case 1265135466 -> KHOJKI;
-            case 1399418468 -> KHUDAWADI;
-            case 1281977953 -> LINEAR_A;
-            case 1298229354 -> MAHAJANI;
-            case 1298230889 -> MANICHAEAN;
-            case 1298493028 -> MENDE_KIKAKUI;
-            case 1299145833 -> MODI;
-            case 1299345263 -> MRO;
-            case 1315070324 -> NABATAEAN;
-            case 1315009122 -> OLD_NORTH_ARABIAN;
-            case 1348825709 -> OLD_PERMIC;
-            case 1215131239 -> PAHAWH_HMONG;
-            case 1348562029 -> PALMYRENE;
-            case 1348564323 -> PAU_CIN_HAU;
-            case 1349020784 -> PSALTER_PAHLAVI;
-            case 1399415908 -> SIDDHAM;
-            case 1416196712 -> TIRHUTA;
-            case 1466004065 -> WARANG_CITI;
-            case 1097363309 -> AHOM;
-            case 1215067511 -> ANATOLIAN_HIEROGLYPHS;
-            case 1214346354 -> HATRAN;
-            case 1299541108 -> MULTANI;
-            case 1215655527 -> OLD_HUNGARIAN;
-            case 1399287415 -> SIGNWRITING;
-            case 1097100397 -> ADLAM;
-            case 1114139507 -> BHAIKSUKI;
-            case 1298231907 -> MARCHEN;
-            case 1332963173 -> OSAGE;
-            case 1415671399 -> TANGUT;
-            case 1315272545 -> NEWA;
-            case 1198485101 -> MASARAM_GONDI;
-            case 1316186229 -> NUSHU;
-            case 1399814511 -> SOYOMBO;
-            case 1516334690 -> ZANABAZAR_SQUARE;
-            case 1148151666 -> DOGRA;
-            case 1198485095 -> GUNJALA_GONDI;
-            case 1383032935 -> HANIFI_ROHINGYA;
-            case 1298230113 -> MAKASAR;
-            case 1298490470 -> MEDEFAIDRIN;
-            case 1399809903 -> OLD_SOGDIAN;
-            case 1399809892 -> SOGDIAN;
-            case 1164736877 -> ELYMAIC;
-            case 1315008100 -> NANDINAGARI;
-            case 1215131248 -> NYIAKENG_PUACHUE_HMONG;
-            case 1466132591 -> WANCHO;
-            case 1130918515 -> CHORASMIAN;
-            case 1147756907 -> DIVES_AKURU;
-            case 1265202291 -> KHITAN_SMALL_SCRIPT;
-            case 1499822697 -> YEZIDI;
-            case 1131441518 -> CYPRO_MINOAN;
-            case 1333094258 -> OLD_UYGHUR;
-            case 1416524641 -> TANGSA;
-            case 1416590447 -> TOTO;
-            case 1449751656 -> VITHKUQI;
-            case 1517122664 -> MATH;
-            case 0 -> INVALID;
-            default -> null;
-        };
+    private int value;
+    
+    public ScriptT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case COMMON -> 1517910393;
-            case INHERITED -> 1516858984;
-            case UNKNOWN -> 1517976186;
-            case ARABIC -> 1098015074;
-            case ARMENIAN -> 1098018158;
-            case BENGALI -> 1113943655;
-            case CYRILLIC -> 1132032620;
-            case DEVANAGARI -> 1147500129;
-            case GEORGIAN -> 1197830002;
-            case GREEK -> 1198679403;
-            case GUJARATI -> 1198877298;
-            case GURMUKHI -> 1198879349;
-            case HANGUL -> 1214344807;
-            case HAN -> 1214344809;
-            case HEBREW -> 1214603890;
-            case HIRAGANA -> 1214870113;
-            case KANNADA -> 1265525857;
-            case KATAKANA -> 1264676449;
-            case LAO -> 1281453935;
-            case LATIN -> 1281455214;
-            case MALAYALAM -> 1298954605;
-            case ORIYA -> 1332902241;
-            case TAMIL -> 1415671148;
-            case TELUGU -> 1415933045;
-            case THAI -> 1416126825;
-            case TIBETAN -> 1416192628;
-            case BOPOMOFO -> 1114599535;
-            case BRAILLE -> 1114792297;
-            case CANADIAN_SYLLABICS -> 1130458739;
-            case CHEROKEE -> 1130915186;
-            case ETHIOPIC -> 1165256809;
-            case KHMER -> 1265134962;
-            case MONGOLIAN -> 1299148391;
-            case MYANMAR -> 1299803506;
-            case OGHAM -> 1332175213;
-            case RUNIC -> 1383427698;
-            case SINHALA -> 1399418472;
-            case SYRIAC -> 1400468067;
-            case THAANA -> 1416126817;
-            case YI -> 1500080489;
-            case DESERET -> 1148416628;
-            case GOTHIC -> 1198486632;
-            case OLD_ITALIC -> 1232363884;
-            case BUHID -> 1114990692;
-            case HANUNOO -> 1214344815;
-            case TAGALOG -> 1416064103;
-            case TAGBANWA -> 1415669602;
-            case CYPRIOT -> 1131442804;
-            case LIMBU -> 1281977698;
-            case LINEAR_B -> 1281977954;
-            case OSMANYA -> 1332964705;
-            case SHAVIAN -> 1399349623;
-            case TAI_LE -> 1415670885;
-            case UGARITIC -> 1432838514;
-            case BUGINESE -> 1114990441;
-            case COPTIC -> 1131376756;
-            case GLAGOLITIC -> 1198285159;
-            case KHAROSHTHI -> 1265131890;
-            case NEW_TAI_LUE -> 1415670901;
-            case OLD_PERSIAN -> 1483761007;
-            case SYLOTI_NAGRI -> 1400466543;
-            case TIFINAGH -> 1415999079;
-            case BALINESE -> 1113681001;
-            case CUNEIFORM -> 1483961720;
-            case NKO -> 1315663727;
-            case PHAGS_PA -> 1349017959;
-            case PHOENICIAN -> 1349021304;
-            case CARIAN -> 1130459753;
-            case CHAM -> 1130914157;
-            case KAYAH_LI -> 1264675945;
-            case LEPCHA -> 1281716323;
-            case LYCIAN -> 1283023721;
-            case LYDIAN -> 1283023977;
-            case OL_CHIKI -> 1332503403;
-            case REJANG -> 1382706791;
-            case SAURASHTRA -> 1398895986;
-            case SUNDANESE -> 1400204900;
-            case VAI -> 1449224553;
-            case AVESTAN -> 1098281844;
-            case BAMUM -> 1113681269;
-            case EGYPTIAN_HIEROGLYPHS -> 1164409200;
-            case IMPERIAL_ARAMAIC -> 1098018153;
-            case INSCRIPTIONAL_PAHLAVI -> 1349020777;
-            case INSCRIPTIONAL_PARTHIAN -> 1349678185;
-            case JAVANESE -> 1247901281;
-            case KAITHI -> 1265920105;
-            case LISU -> 1281979253;
-            case MEETEI_MAYEK -> 1299473769;
-            case OLD_SOUTH_ARABIAN -> 1398895202;
-            case OLD_TURKIC -> 1332898664;
-            case SAMARITAN -> 1398893938;
-            case TAI_THAM -> 1281453665;
-            case TAI_VIET -> 1415673460;
-            case BATAK -> 1113683051;
-            case BRAHMI -> 1114792296;
-            case MANDAIC -> 1298230884;
-            case CHAKMA -> 1130457965;
-            case MEROITIC_CURSIVE -> 1298494051;
-            case MEROITIC_HIEROGLYPHS -> 1298494063;
-            case MIAO -> 1349284452;
-            case SHARADA -> 1399353956;
-            case SORA_SOMPENG -> 1399812705;
-            case TAKRI -> 1415670642;
-            case BASSA_VAH -> 1113682803;
-            case CAUCASIAN_ALBANIAN -> 1097295970;
-            case DUPLOYAN -> 1148547180;
-            case ELBASAN -> 1164730977;
-            case GRANTHA -> 1198678382;
-            case KHOJKI -> 1265135466;
-            case KHUDAWADI -> 1399418468;
-            case LINEAR_A -> 1281977953;
-            case MAHAJANI -> 1298229354;
-            case MANICHAEAN -> 1298230889;
-            case MENDE_KIKAKUI -> 1298493028;
-            case MODI -> 1299145833;
-            case MRO -> 1299345263;
-            case NABATAEAN -> 1315070324;
-            case OLD_NORTH_ARABIAN -> 1315009122;
-            case OLD_PERMIC -> 1348825709;
-            case PAHAWH_HMONG -> 1215131239;
-            case PALMYRENE -> 1348562029;
-            case PAU_CIN_HAU -> 1348564323;
-            case PSALTER_PAHLAVI -> 1349020784;
-            case SIDDHAM -> 1399415908;
-            case TIRHUTA -> 1416196712;
-            case WARANG_CITI -> 1466004065;
-            case AHOM -> 1097363309;
-            case ANATOLIAN_HIEROGLYPHS -> 1215067511;
-            case HATRAN -> 1214346354;
-            case MULTANI -> 1299541108;
-            case OLD_HUNGARIAN -> 1215655527;
-            case SIGNWRITING -> 1399287415;
-            case ADLAM -> 1097100397;
-            case BHAIKSUKI -> 1114139507;
-            case MARCHEN -> 1298231907;
-            case OSAGE -> 1332963173;
-            case TANGUT -> 1415671399;
-            case NEWA -> 1315272545;
-            case MASARAM_GONDI -> 1198485101;
-            case NUSHU -> 1316186229;
-            case SOYOMBO -> 1399814511;
-            case ZANABAZAR_SQUARE -> 1516334690;
-            case DOGRA -> 1148151666;
-            case GUNJALA_GONDI -> 1198485095;
-            case HANIFI_ROHINGYA -> 1383032935;
-            case MAKASAR -> 1298230113;
-            case MEDEFAIDRIN -> 1298490470;
-            case OLD_SOGDIAN -> 1399809903;
-            case SOGDIAN -> 1399809892;
-            case ELYMAIC -> 1164736877;
-            case NANDINAGARI -> 1315008100;
-            case NYIAKENG_PUACHUE_HMONG -> 1215131248;
-            case WANCHO -> 1466132591;
-            case CHORASMIAN -> 1130918515;
-            case DIVES_AKURU -> 1147756907;
-            case KHITAN_SMALL_SCRIPT -> 1265202291;
-            case YEZIDI -> 1499822697;
-            case CYPRO_MINOAN -> 1131441518;
-            case OLD_UYGHUR -> 1333094258;
-            case TANGSA -> 1416524641;
-            case TOTO -> 1416590447;
-            case VITHKUQI -> 1449751656;
-            case MATH -> 1517122664;
-            case INVALID -> 0;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ScriptT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

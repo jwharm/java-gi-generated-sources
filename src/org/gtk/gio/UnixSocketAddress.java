@@ -113,7 +113,7 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      */
     public UnixSocketAddressType getAddressType() {
         var RESULT = gtk_h.g_unix_socket_address_get_address_type(handle());
-        return UnixSocketAddressType.fromValue(RESULT);
+        return new UnixSocketAddressType(RESULT);
     }
     
     /**

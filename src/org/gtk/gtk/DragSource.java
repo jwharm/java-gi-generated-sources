@@ -118,9 +118,9 @@ public class DragSource extends GestureSingle {
     /**
      * Gets the actions that are currently set on the {@code GtkDragSource}.
      */
-    public int getActions() {
+    public org.gtk.gdk.DragAction getActions() {
         var RESULT = gtk_h.gtk_drag_source_get_actions(handle());
-        return RESULT;
+        return new org.gtk.gdk.DragAction(RESULT);
     }
     
     /**
@@ -150,8 +150,8 @@ public class DragSource extends GestureSingle {
      * This function can be called before a drag is started,
      * or in a handler for the {@code Gtk.DragSource::prepare} signal.
      */
-    public void setActions(int actions) {
-        gtk_h.gtk_drag_source_set_actions(handle(), actions);
+    public void setActions(org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_drag_source_set_actions(handle(), actions.getValue());
     }
     
     /**
@@ -254,7 +254,7 @@ public class DragSource extends GestureSingle {
     public static boolean __signalDragSourceDragCancel(MemoryAddress source, MemoryAddress drag, int reason, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (DragSource.DragCancelHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), org.gtk.gdk.DragCancelReason.fromValue(reason));
+        return handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), new org.gtk.gdk.DragCancelReason(reason));
     }
     
     @FunctionalInterface

@@ -7,41 +7,46 @@ package org.gtk.gtk;
  * {@link FilterMatch#SOME} is always an acceptable value,
  * even if a filter does match all or no items.
  */
-public enum FilterMatch {
+public class FilterMatch {
 
     /**
      * The filter matches some items,
      *   gtk_filter_match() may return {@code true} or {@code false}
      */
-    SOME,
+    public static final FilterMatch SOME = new FilterMatch(0);
     
     /**
      * The filter does not match any item,
      *   gtk_filter_match() will always return {@code false}.
      */
-    NONE,
+    public static final FilterMatch NONE = new FilterMatch(1);
     
     /**
      * The filter matches all items,
      *   gtk_filter_match() will alays return {@code true}.
      */
-    ALL;
+    public static final FilterMatch ALL = new FilterMatch(2);
     
-    public static FilterMatch fromValue(int value) {
-        return switch(value) {
-            case 0 -> SOME;
-            case 1 -> NONE;
-            case 2 -> ALL;
-            default -> null;
-        };
+    private int value;
+    
+    public FilterMatch(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SOME -> 0;
-            case NONE -> 1;
-            case ALL -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FilterMatch[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

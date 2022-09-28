@@ -1,20 +1,29 @@
 package org.cairographics;
 
-public enum TextClusterFlags {
+public class TextClusterFlags {
 
-    BACKWARD;
+    public static final TextClusterFlags BACKWARD = new TextClusterFlags(1);
     
-    public static TextClusterFlags fromValue(int value) {
-        return switch(value) {
-            case 1 -> BACKWARD;
-            default -> null;
-        };
+    private int value;
+    
+    public TextClusterFlags(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BACKWARD -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TextClusterFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

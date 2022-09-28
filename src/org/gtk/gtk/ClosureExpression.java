@@ -22,7 +22,7 @@ public class ClosureExpression extends Expression {
         return new ClosureExpression(gobject.getReference());
     }
     
-    private static Reference constructNew(Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
+    private static Reference constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
         Reference RESULT = References.get(gtk_h.gtk_closure_expression_new(valueType.getValue(), closure.handle(), nParams, Interop.allocateNativeArray(params).handle()), true);
         return RESULT;
     }
@@ -33,7 +33,7 @@ public class ClosureExpression extends Expression {
      * {@code closure} is called with the {@code this} object and the results of evaluating
      * the {@code params} expressions.
      */
-    public ClosureExpression(Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
+    public ClosureExpression(org.gtk.gobject.Type valueType, org.gtk.gobject.Closure closure, int nParams, Expression[] params) {
         super(constructNew(valueType, closure, nParams, params));
     }
     

@@ -5,38 +5,43 @@ package org.gtk.gtk;
  * that {@link TreeViewColumnSizing#AUTOSIZE} are inefficient for large views, and
  * can make columns appear choppy.
  */
-public enum TreeViewColumnSizing {
+public class TreeViewColumnSizing {
 
     /**
      * Columns only get bigger in reaction to changes in the model
      */
-    GROW_ONLY,
+    public static final TreeViewColumnSizing GROW_ONLY = new TreeViewColumnSizing(0);
     
     /**
      * Columns resize to be the optimal size every time the model changes.
      */
-    AUTOSIZE,
+    public static final TreeViewColumnSizing AUTOSIZE = new TreeViewColumnSizing(1);
     
     /**
      * Columns are a fixed numbers of pixels wide.
      */
-    FIXED;
+    public static final TreeViewColumnSizing FIXED = new TreeViewColumnSizing(2);
     
-    public static TreeViewColumnSizing fromValue(int value) {
-        return switch(value) {
-            case 0 -> GROW_ONLY;
-            case 1 -> AUTOSIZE;
-            case 2 -> FIXED;
-            default -> null;
-        };
+    private int value;
+    
+    public TreeViewColumnSizing(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case GROW_ONLY -> 0;
-            case AUTOSIZE -> 1;
-            case FIXED -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TreeViewColumnSizing[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -3,101 +3,90 @@ package org.gtk.gio;
 /**
  * Specifies what type of event a monitor event is.
  */
-public enum FileMonitorEvent {
+public class FileMonitorEvent {
 
     /**
      * a file changed.
      */
-    CHANGED,
+    public static final FileMonitorEvent CHANGED = new FileMonitorEvent(0);
     
     /**
      * a hint that this was probably the last change in a set of changes.
      */
-    CHANGES_DONE_HINT,
+    public static final FileMonitorEvent CHANGES_DONE_HINT = new FileMonitorEvent(1);
     
     /**
      * a file was deleted.
      */
-    DELETED,
+    public static final FileMonitorEvent DELETED = new FileMonitorEvent(2);
     
     /**
      * a file was created.
      */
-    CREATED,
+    public static final FileMonitorEvent CREATED = new FileMonitorEvent(3);
     
     /**
      * a file attribute was changed.
      */
-    ATTRIBUTE_CHANGED,
+    public static final FileMonitorEvent ATTRIBUTE_CHANGED = new FileMonitorEvent(4);
     
     /**
      * the file location will soon be unmounted.
      */
-    PRE_UNMOUNT,
+    public static final FileMonitorEvent PRE_UNMOUNT = new FileMonitorEvent(5);
     
     /**
      * the file location was unmounted.
      */
-    UNMOUNTED,
+    public static final FileMonitorEvent UNMOUNTED = new FileMonitorEvent(6);
     
     /**
      * the file was moved -- only sent if the
      *   (deprecated) {@link FileMonitorFlags#SEND_MOVED} flag is set
      */
-    MOVED,
+    public static final FileMonitorEvent MOVED = new FileMonitorEvent(7);
     
     /**
      * the file was renamed within the
      *   current directory -- only sent if the {@link FileMonitorFlags#WATCH_MOVES}
      *   flag is set.  Since: 2.46.
      */
-    RENAMED,
+    public static final FileMonitorEvent RENAMED = new FileMonitorEvent(8);
     
     /**
      * the file was moved into the
      *   monitored directory from another location -- only sent if the
      *   {@link FileMonitorFlags#WATCH_MOVES} flag is set.  Since: 2.46.
      */
-    MOVED_IN,
+    public static final FileMonitorEvent MOVED_IN = new FileMonitorEvent(9);
     
     /**
      * the file was moved out of the
      *   monitored directory to another location -- only sent if the
      *   {@link FileMonitorFlags#WATCH_MOVES} flag is set.  Since: 2.46
      */
-    MOVED_OUT;
+    public static final FileMonitorEvent MOVED_OUT = new FileMonitorEvent(10);
     
-    public static FileMonitorEvent fromValue(int value) {
-        return switch(value) {
-            case 0 -> CHANGED;
-            case 1 -> CHANGES_DONE_HINT;
-            case 2 -> DELETED;
-            case 3 -> CREATED;
-            case 4 -> ATTRIBUTE_CHANGED;
-            case 5 -> PRE_UNMOUNT;
-            case 6 -> UNMOUNTED;
-            case 7 -> MOVED;
-            case 8 -> RENAMED;
-            case 9 -> MOVED_IN;
-            case 10 -> MOVED_OUT;
-            default -> null;
-        };
+    private int value;
+    
+    public FileMonitorEvent(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case CHANGED -> 0;
-            case CHANGES_DONE_HINT -> 1;
-            case DELETED -> 2;
-            case CREATED -> 3;
-            case ATTRIBUTE_CHANGED -> 4;
-            case PRE_UNMOUNT -> 5;
-            case UNMOUNTED -> 6;
-            case MOVED -> 7;
-            case RENAMED -> 8;
-            case MOVED_IN -> 9;
-            case MOVED_OUT -> 10;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileMonitorEvent[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

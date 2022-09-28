@@ -5,38 +5,43 @@ package org.gtk.gio;
  * previewed in a file manager. Returned as the value of the key
  * {@code G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW}.
  */
-public enum FilesystemPreviewType {
+public class FilesystemPreviewType {
 
     /**
      * Only preview files if user has explicitly requested it.
      */
-    IF_ALWAYS,
+    public static final FilesystemPreviewType IF_ALWAYS = new FilesystemPreviewType(0);
     
     /**
      * Preview files if user has requested preview of "local" files.
      */
-    IF_LOCAL,
+    public static final FilesystemPreviewType IF_LOCAL = new FilesystemPreviewType(1);
     
     /**
      * Never preview files.
      */
-    NEVER;
+    public static final FilesystemPreviewType NEVER = new FilesystemPreviewType(2);
     
-    public static FilesystemPreviewType fromValue(int value) {
-        return switch(value) {
-            case 0 -> IF_ALWAYS;
-            case 1 -> IF_LOCAL;
-            case 2 -> NEVER;
-            default -> null;
-        };
+    private int value;
+    
+    public FilesystemPreviewType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case IF_ALWAYS -> 0;
-            case IF_LOCAL -> 1;
-            case NEVER -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FilesystemPreviewType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

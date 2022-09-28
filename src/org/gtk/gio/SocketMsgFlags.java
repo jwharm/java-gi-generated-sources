@@ -12,23 +12,57 @@ public class SocketMsgFlags {
     /**
      * No flags.
      */
-    public static final int NONE = 0;
+    public static final SocketMsgFlags NONE = new SocketMsgFlags(0);
     
     /**
      * Request to send/receive out of band data.
      */
-    public static final int OOB = 1;
+    public static final SocketMsgFlags OOB = new SocketMsgFlags(1);
     
     /**
      * Read data from the socket without removing it from
      *     the queue.
      */
-    public static final int PEEK = 2;
+    public static final SocketMsgFlags PEEK = new SocketMsgFlags(2);
     
     /**
      * Don't use a gateway to send out the packet,
      *     only send to hosts on directly connected networks.
      */
-    public static final int DONTROUTE = 4;
+    public static final SocketMsgFlags DONTROUTE = new SocketMsgFlags(4);
+    
+    private int value;
+    
+    public SocketMsgFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SocketMsgFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public SocketMsgFlags combined(SocketMsgFlags mask) {
+        return new SocketMsgFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static SocketMsgFlags combined(SocketMsgFlags mask, SocketMsgFlags... masks) {
+        int value = mask.getValue();
+        for (SocketMsgFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new SocketMsgFlags(value);
+    }
     
 }

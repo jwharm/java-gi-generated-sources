@@ -3,52 +3,53 @@ package org.harfbuzz;
 /**
  * The GDEF classes defined for glyphs.
  */
-public enum OtLayoutGlyphClassT {
+public class OtLayoutGlyphClassT {
 
     /**
      * Glyphs not matching the other classifications
      */
-    UNCLASSIFIED,
+    public static final OtLayoutGlyphClassT UNCLASSIFIED = new OtLayoutGlyphClassT(0);
     
     /**
      * Spacing, single characters, capable of accepting marks
      */
-    BASE_GLYPH,
+    public static final OtLayoutGlyphClassT BASE_GLYPH = new OtLayoutGlyphClassT(1);
     
     /**
      * Glyphs that represent ligation of multiple characters
      */
-    LIGATURE,
+    public static final OtLayoutGlyphClassT LIGATURE = new OtLayoutGlyphClassT(2);
     
     /**
      * Non-spacing, combining glyphs that represent marks
      */
-    MARK,
+    public static final OtLayoutGlyphClassT MARK = new OtLayoutGlyphClassT(3);
     
     /**
      * Spacing glyphs that represent part of a single character
      */
-    COMPONENT;
+    public static final OtLayoutGlyphClassT COMPONENT = new OtLayoutGlyphClassT(4);
     
-    public static OtLayoutGlyphClassT fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNCLASSIFIED;
-            case 1 -> BASE_GLYPH;
-            case 2 -> LIGATURE;
-            case 3 -> MARK;
-            case 4 -> COMPONENT;
-            default -> null;
-        };
+    private int value;
+    
+    public OtLayoutGlyphClassT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNCLASSIFIED -> 0;
-            case BASE_GLYPH -> 1;
-            case LIGATURE -> 2;
-            case MARK -> 3;
-            case COMPONENT -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(OtLayoutGlyphClassT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

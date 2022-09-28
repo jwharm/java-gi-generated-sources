@@ -3,59 +3,58 @@ package org.gtk.gtk;
 /**
  * An enum for determining where a dropped item goes.
  */
-public enum IconViewDropPosition {
+public class IconViewDropPosition {
 
     /**
      * no drop possible
      */
-    NO_DROP,
+    public static final IconViewDropPosition NO_DROP = new IconViewDropPosition(0);
     
     /**
      * dropped item replaces the item
      */
-    DROP_INTO,
+    public static final IconViewDropPosition DROP_INTO = new IconViewDropPosition(1);
     
     /**
      * dropped item is inserted to the left
      */
-    DROP_LEFT,
+    public static final IconViewDropPosition DROP_LEFT = new IconViewDropPosition(2);
     
     /**
      * dropped item is inserted to the right
      */
-    DROP_RIGHT,
+    public static final IconViewDropPosition DROP_RIGHT = new IconViewDropPosition(3);
     
     /**
      * dropped item is inserted above
      */
-    DROP_ABOVE,
+    public static final IconViewDropPosition DROP_ABOVE = new IconViewDropPosition(4);
     
     /**
      * dropped item is inserted below
      */
-    DROP_BELOW;
+    public static final IconViewDropPosition DROP_BELOW = new IconViewDropPosition(5);
     
-    public static IconViewDropPosition fromValue(int value) {
-        return switch(value) {
-            case 0 -> NO_DROP;
-            case 1 -> DROP_INTO;
-            case 2 -> DROP_LEFT;
-            case 3 -> DROP_RIGHT;
-            case 4 -> DROP_ABOVE;
-            case 5 -> DROP_BELOW;
-            default -> null;
-        };
+    private int value;
+    
+    public IconViewDropPosition(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NO_DROP -> 0;
-            case DROP_INTO -> 1;
-            case DROP_LEFT -> 2;
-            case DROP_RIGHT -> 3;
-            case DROP_ABOVE -> 4;
-            case DROP_BELOW -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(IconViewDropPosition[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

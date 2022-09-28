@@ -3,31 +3,38 @@ package org.gnome.adw;
 /**
  * Describes title centering behavior of a {@link HeaderBar} widget.
  */
-public enum CenteringPolicy {
+public class CenteringPolicy {
 
     /**
      * Keep the title centered when possible
      */
-    LOOSE,
+    public static final CenteringPolicy LOOSE = new CenteringPolicy(0);
     
     /**
      * Keep the title centered at all cost
      */
-    STRICT;
+    public static final CenteringPolicy STRICT = new CenteringPolicy(1);
     
-    public static CenteringPolicy fromValue(int value) {
-        return switch(value) {
-            case 0 -> LOOSE;
-            case 1 -> STRICT;
-            default -> null;
-        };
+    private int value;
+    
+    public CenteringPolicy(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LOOSE -> 0;
-            case STRICT -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CenteringPolicy[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

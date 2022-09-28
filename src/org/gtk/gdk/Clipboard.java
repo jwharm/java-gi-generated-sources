@@ -203,7 +203,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * the value will be copied directly. Otherwise, GDK will try to use
      * {@link content_deserialize_async#null} to convert the clipboard's data.
      */
-    public void readValueAsync(Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public void readValueAsync(org.gtk.gobject.Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gtk_h.gdk_clipboard_read_value_async(handle(), type.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
@@ -267,7 +267,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Sets the clipboard to contain the value collected from the given {@code args}.
      */
-    public void setValist(Type type, VaList args) {
+    public void setValist(org.gtk.gobject.Type type, VaList args) {
         gtk_h.gdk_clipboard_set_valist(handle(), type.getValue(), args);
     }
     

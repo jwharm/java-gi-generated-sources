@@ -3,31 +3,38 @@ package org.gtk.gtk;
 /**
  * The available modes for {@code Gtk.CellRendererAccel:accel-mode}.
  */
-public enum CellRendererAccelMode {
+public class CellRendererAccelMode {
 
     /**
      * GTK accelerators mode
      */
-    GTK,
+    public static final CellRendererAccelMode GTK = new CellRendererAccelMode(0);
     
     /**
      * Other accelerator mode
      */
-    OTHER;
+    public static final CellRendererAccelMode OTHER = new CellRendererAccelMode(1);
     
-    public static CellRendererAccelMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> GTK;
-            case 1 -> OTHER;
-            default -> null;
-        };
+    private int value;
+    
+    public CellRendererAccelMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case GTK -> 0;
-            case OTHER -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CellRendererAccelMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

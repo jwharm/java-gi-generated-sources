@@ -59,9 +59,9 @@ public class EventController extends org.gtk.gobject.Object {
      * <p>
      * At other times, 0 is returned.
      */
-    public int getCurrentEventState() {
+    public org.gtk.gdk.ModifierType getCurrentEventState() {
         var RESULT = gtk_h.gtk_event_controller_get_current_event_state(handle());
-        return RESULT;
+        return new org.gtk.gdk.ModifierType(RESULT);
     }
     
     /**
@@ -88,7 +88,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public PropagationLimit getPropagationLimit() {
         var RESULT = gtk_h.gtk_event_controller_get_propagation_limit(handle());
-        return PropagationLimit.fromValue(RESULT);
+        return new PropagationLimit(RESULT);
     }
     
     /**
@@ -96,7 +96,7 @@ public class EventController extends org.gtk.gobject.Object {
      */
     public PropagationPhase getPropagationPhase() {
         var RESULT = gtk_h.gtk_event_controller_get_propagation_phase(handle());
-        return PropagationPhase.fromValue(RESULT);
+        return new PropagationPhase(RESULT);
     }
     
     /**

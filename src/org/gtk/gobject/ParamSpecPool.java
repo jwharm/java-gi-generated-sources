@@ -23,7 +23,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a {@link ParamSpec} in the pool.
      */
-    public void insert(ParamSpec pspec, Type ownerType) {
+    public void insert(ParamSpec pspec, org.gtk.gobject.Type ownerType) {
         gtk_h.g_param_spec_pool_insert(handle(), pspec.handle(), ownerType.getValue());
     }
     
@@ -31,7 +31,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      * Gets an {@link org.gtk.glib.List} of all {@code GParamSpecs} owned by {@code owner_type} in
      * the pool.
      */
-    public org.gtk.glib.List listOwned(Type ownerType) {
+    public org.gtk.glib.List listOwned(org.gtk.gobject.Type ownerType) {
         var RESULT = gtk_h.g_param_spec_pool_list_owned(handle(), ownerType.getValue());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
@@ -39,7 +39,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up a {@link ParamSpec} in the pool.
      */
-    public ParamSpec lookup(java.lang.String paramName, Type ownerType, boolean walkAncestors) {
+    public ParamSpec lookup(java.lang.String paramName, org.gtk.gobject.Type ownerType, boolean walkAncestors) {
         var RESULT = gtk_h.g_param_spec_pool_lookup(handle(), Interop.allocateNativeString(paramName).handle(), ownerType.getValue(), walkAncestors ? 1 : 0);
         return new ParamSpec(References.get(RESULT, false));
     }

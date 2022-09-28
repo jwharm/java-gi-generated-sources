@@ -10,7 +10,7 @@ public class RegexCompileFlags {
      *     lowercase letters. This option can be changed within a pattern
      *     by a "(?i)" option setting.
      */
-    public static final int CASELESS = 1;
+    public static final RegexCompileFlags CASELESS = new RegexCompileFlags(1);
     
     /**
      * By default, GRegex treats the strings as consisting
@@ -25,14 +25,14 @@ public class RegexCompileFlags {
      *     and end. This can be changed within a pattern by a "(?m)" option
      *     setting.
      */
-    public static final int MULTILINE = 2;
+    public static final RegexCompileFlags MULTILINE = new RegexCompileFlags(2);
     
     /**
      * A dot metacharacter (".") in the pattern matches all
      *     characters, including newlines. Without it, newlines are excluded.
      *     This option can be changed within a pattern by a ("?s") option setting.
      */
-    public static final int DOTALL = 4;
+    public static final RegexCompileFlags DOTALL = new RegexCompileFlags(4);
     
     /**
      * Whitespace data characters in the pattern are
@@ -42,7 +42,7 @@ public class RegexCompileFlags {
      *     the next newline character, inclusive, are also ignored. This can
      *     be changed within a pattern by a "(?x)" option setting.
      */
-    public static final int EXTENDED = 8;
+    public static final RegexCompileFlags EXTENDED = new RegexCompileFlags(8);
     
     /**
      * The pattern is forced to be "anchored", that is,
@@ -51,7 +51,7 @@ public class RegexCompileFlags {
      *     appropriate constructs in the pattern itself such as the "^"
      *     metacharacter.
      */
-    public static final int ANCHORED = 16;
+    public static final RegexCompileFlags ANCHORED = new RegexCompileFlags(16);
     
     /**
      * A dollar metacharacter ("$") in the pattern
@@ -60,20 +60,20 @@ public class RegexCompileFlags {
      *     it is a newline (but not before any other newlines). This option
      *     is ignored if {@link RegexCompileFlags#MULTILINE} is set.
      */
-    public static final int DOLLAR_ENDONLY = 32;
+    public static final RegexCompileFlags DOLLAR_ENDONLY = new RegexCompileFlags(32);
     
     /**
      * Inverts the "greediness" of the quantifiers so that
      *     they are not greedy by default, but become greedy if followed by "?".
      *     It can also be set by a "(?U)" option setting within the pattern.
      */
-    public static final int UNGREEDY = 512;
+    public static final RegexCompileFlags UNGREEDY = new RegexCompileFlags(512);
     
     /**
      * Usually strings must be valid UTF-8 strings, using this
      *     flag they are considered as a raw sequence of bytes.
      */
-    public static final int RAW = 2048;
+    public static final RegexCompileFlags RAW = new RegexCompileFlags(2048);
     
     /**
      * Disables the use of numbered capturing
@@ -82,20 +82,20 @@ public class RegexCompileFlags {
      *     parentheses can still be used for capturing (and they acquire numbers
      *     in the usual way).
      */
-    public static final int NO_AUTO_CAPTURE = 4096;
+    public static final RegexCompileFlags NO_AUTO_CAPTURE = new RegexCompileFlags(4096);
     
     /**
      * Optimize the regular expression. If the pattern will
      *     be used many times, then it may be worth the effort to optimize it
      *     to improve the speed of matches.
      */
-    public static final int OPTIMIZE = 8192;
+    public static final RegexCompileFlags OPTIMIZE = new RegexCompileFlags(8192);
     
     /**
      * Limits an unanchored pattern to match before (or at) the
      *     first newline. Since: 2.34
      */
-    public static final int FIRSTLINE = 262144;
+    public static final RegexCompileFlags FIRSTLINE = new RegexCompileFlags(262144);
     
     /**
      * Names used to identify capturing subpatterns need not
@@ -103,47 +103,81 @@ public class RegexCompileFlags {
      *     is known that only one instance of the named subpattern can ever be
      *     matched.
      */
-    public static final int DUPNAMES = 524288;
+    public static final RegexCompileFlags DUPNAMES = new RegexCompileFlags(524288);
     
     /**
      * Usually any newline character or character sequence is
      *     recognized. If this option is set, the only recognized newline character
      *     is '\\r'.
      */
-    public static final int NEWLINE_CR = 1048576;
+    public static final RegexCompileFlags NEWLINE_CR = new RegexCompileFlags(1048576);
     
     /**
      * Usually any newline character or character sequence is
      *     recognized. If this option is set, the only recognized newline character
      *     is '\\n'.
      */
-    public static final int NEWLINE_LF = 2097152;
+    public static final RegexCompileFlags NEWLINE_LF = new RegexCompileFlags(2097152);
     
     /**
      * Usually any newline character or character sequence is
      *     recognized. If this option is set, the only recognized newline character
      *     sequence is '\\r\\n'.
      */
-    public static final int NEWLINE_CRLF = 3145728;
+    public static final RegexCompileFlags NEWLINE_CRLF = new RegexCompileFlags(3145728);
     
     /**
      * Usually any newline character or character sequence
      *     is recognized. If this option is set, the only recognized newline character
      *     sequences are '\\r', '\\n', and '\\r\\n'. Since: 2.34
      */
-    public static final int NEWLINE_ANYCRLF = 5242880;
+    public static final RegexCompileFlags NEWLINE_ANYCRLF = new RegexCompileFlags(5242880);
     
     /**
      * Usually any newline character or character sequence
      *     is recognised. If this option is set, then "\\R" only recognizes the newline
      *    characters '\\r', '\\n' and '\\r\\n'. Since: 2.34
      */
-    public static final int BSR_ANYCRLF = 8388608;
+    public static final RegexCompileFlags BSR_ANYCRLF = new RegexCompileFlags(8388608);
     
     /**
      * Changes behaviour so that it is compatible with
      *     JavaScript rather than PCRE. Since: 2.34
      */
-    public static final int JAVASCRIPT_COMPAT = 33554432;
+    public static final RegexCompileFlags JAVASCRIPT_COMPAT = new RegexCompileFlags(33554432);
+    
+    private int value;
+    
+    public RegexCompileFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(RegexCompileFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public RegexCompileFlags combined(RegexCompileFlags mask) {
+        return new RegexCompileFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static RegexCompileFlags combined(RegexCompileFlags mask, RegexCompileFlags... masks) {
+        int value = mask.getValue();
+        for (RegexCompileFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RegexCompileFlags(value);
+    }
     
 }

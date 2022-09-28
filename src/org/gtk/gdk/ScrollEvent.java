@@ -36,7 +36,7 @@ public class ScrollEvent extends Event {
      */
     public ScrollDirection getDirection() {
         var RESULT = gtk_h.gdk_scroll_event_get_direction(handle());
-        return ScrollDirection.fromValue(RESULT);
+        return new ScrollDirection(RESULT);
     }
     
     /**

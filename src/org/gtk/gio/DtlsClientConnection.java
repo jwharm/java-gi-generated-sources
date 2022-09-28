@@ -38,9 +38,9 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.NativeAddr
     /**
      * Gets {@code conn}'s validation flags
      */
-    public default int getValidationFlags() {
+    public default TlsCertificateFlags getValidationFlags() {
         var RESULT = gtk_h.g_dtls_client_connection_get_validation_flags(handle());
-        return RESULT;
+        return new TlsCertificateFlags(RESULT);
     }
     
     /**
@@ -58,8 +58,8 @@ public interface DtlsClientConnection extends io.github.jwharm.javagi.NativeAddr
      * checks performed when validating a server certificate. By default,
      * {@link TlsCertificateFlags#VALIDATE_ALL} is used.
      */
-    public default void setValidationFlags(int flags) {
-        gtk_h.g_dtls_client_connection_set_validation_flags(handle(), flags);
+    public default void setValidationFlags(TlsCertificateFlags flags) {
+        gtk_h.g_dtls_client_connection_set_validation_flags(handle(), flags.getValue());
     }
     
     /**

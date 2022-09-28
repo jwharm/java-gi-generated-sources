@@ -110,15 +110,15 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public Gravity getGravity() {
         var RESULT = gtk_h.pango_font_description_get_gravity(handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
      * Determines which fields in a font description have been set.
      */
-    public int getSetFields() {
+    public FontMask getSetFields() {
         var RESULT = gtk_h.pango_font_description_get_set_fields(handle());
-        return RESULT;
+        return new FontMask(RESULT);
     }
     
     /**
@@ -150,7 +150,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public Stretch getStretch() {
         var RESULT = gtk_h.pango_font_description_get_stretch(handle());
-        return Stretch.fromValue(RESULT);
+        return new Stretch(RESULT);
     }
     
     /**
@@ -160,7 +160,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public Style getStyle() {
         var RESULT = gtk_h.pango_font_description_get_style(handle());
-        return Style.fromValue(RESULT);
+        return new Style(RESULT);
     }
     
     /**
@@ -170,7 +170,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public Variant getVariant() {
         var RESULT = gtk_h.pango_font_description_get_variant(handle());
-        return Variant.fromValue(RESULT);
+        return new Variant(RESULT);
     }
     
     /**
@@ -190,7 +190,7 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      */
     public Weight getWeight() {
         var RESULT = gtk_h.pango_font_description_get_weight(handle());
-        return Weight.fromValue(RESULT);
+        return new Weight(RESULT);
     }
     
     /**
@@ -407,8 +407,8 @@ public class FontDescription extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The unset fields will get back to their default values.
      */
-    public void unsetFields(int toUnset) {
-        gtk_h.pango_font_description_unset_fields(handle(), toUnset);
+    public void unsetFields(FontMask toUnset) {
+        gtk_h.pango_font_description_unset_fields(handle(), toUnset.getValue());
     }
     
     /**

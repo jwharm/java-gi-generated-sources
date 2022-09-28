@@ -12,7 +12,7 @@ public class RegexMatchFlags {
      *     appropriate constructs in the pattern itself such as the "^"
      *     metacharacter.
      */
-    public static final int ANCHORED = 16;
+    public static final RegexMatchFlags ANCHORED = new RegexMatchFlags(16);
     
     /**
      * Specifies that first character of the string is
@@ -22,7 +22,7 @@ public class RegexMatchFlags {
      *     only the behaviour of the circumflex metacharacter, it does not
      *     affect "\\A".
      */
-    public static final int NOTBOL = 128;
+    public static final RegexMatchFlags NOTBOL = new RegexMatchFlags(128);
     
     /**
      * Specifies that the end of the subject string is
@@ -32,7 +32,7 @@ public class RegexMatchFlags {
      *     dollar never to match. This option affects only the behaviour of
      *     the dollar metacharacter, it does not affect "\\Z" or "\\z".
      */
-    public static final int NOTEOL = 256;
+    public static final RegexMatchFlags NOTEOL = new RegexMatchFlags(256);
     
     /**
      * An empty string is not considered to be a valid
@@ -44,31 +44,31 @@ public class RegexMatchFlags {
      *     valid, so GRegex searches further into the string for occurrences
      *     of "a" or "b".
      */
-    public static final int NOTEMPTY = 1024;
+    public static final RegexMatchFlags NOTEMPTY = new RegexMatchFlags(1024);
     
     /**
      * Turns on the partial matching feature, for more
      *     documentation on partial matching see g_match_info_is_partial_match().
      */
-    public static final int PARTIAL = 32768;
+    public static final RegexMatchFlags PARTIAL = new RegexMatchFlags(32768);
     
     /**
      * Overrides the newline definition set when
      *     creating a new {@link Regex}, setting the '\\r' character as line terminator.
      */
-    public static final int NEWLINE_CR = 1048576;
+    public static final RegexMatchFlags NEWLINE_CR = new RegexMatchFlags(1048576);
     
     /**
      * Overrides the newline definition set when
      *     creating a new {@link Regex}, setting the '\\n' character as line terminator.
      */
-    public static final int NEWLINE_LF = 2097152;
+    public static final RegexMatchFlags NEWLINE_LF = new RegexMatchFlags(2097152);
     
     /**
      * Overrides the newline definition set when
      *     creating a new {@link Regex}, setting the '\\r\\n' characters sequence as line terminator.
      */
-    public static final int NEWLINE_CRLF = 3145728;
+    public static final RegexMatchFlags NEWLINE_CRLF = new RegexMatchFlags(3145728);
     
     /**
      * Overrides the newline definition set when
@@ -78,21 +78,21 @@ public class RegexMatchFlags {
      *     U+0085 NEXT LINE (NEL), U+2028 LINE SEPARATOR and
      *     U+2029 PARAGRAPH SEPARATOR.
      */
-    public static final int NEWLINE_ANY = 4194304;
+    public static final RegexMatchFlags NEWLINE_ANY = new RegexMatchFlags(4194304);
     
     /**
      * Overrides the newline definition set when
      *     creating a new {@link Regex}; any '\\r', '\\n', or '\\r\\n' character sequence
      *     is recognized as a newline. Since: 2.34
      */
-    public static final int NEWLINE_ANYCRLF = 5242880;
+    public static final RegexMatchFlags NEWLINE_ANYCRLF = new RegexMatchFlags(5242880);
     
     /**
      * Overrides the newline definition for "\\R" set when
      *     creating a new {@link Regex}; only '\\r', '\\n', or '\\r\\n' character sequences
      *     are recognized as a newline by "\\R". Since: 2.34
      */
-    public static final int BSR_ANYCRLF = 8388608;
+    public static final RegexMatchFlags BSR_ANYCRLF = new RegexMatchFlags(8388608);
     
     /**
      * Overrides the newline definition for "\\R" set when
@@ -102,12 +102,12 @@ public class RegexMatchFlags {
      *     U+0085 NEXT LINE (NEL), U+2028 LINE SEPARATOR and
      *     U+2029 PARAGRAPH SEPARATOR. Since: 2.34
      */
-    public static final int BSR_ANY = 16777216;
+    public static final RegexMatchFlags BSR_ANY = new RegexMatchFlags(16777216);
     
     /**
      * An alias for {@link RegexMatchFlags#PARTIAL}. Since: 2.34
      */
-    public static final int PARTIAL_SOFT = 32768;
+    public static final RegexMatchFlags PARTIAL_SOFT = new RegexMatchFlags(32768);
     
     /**
      * Turns on the partial matching feature. In contrast to
@@ -115,13 +115,47 @@ public class RegexMatchFlags {
      *     is found, without continuing to search for a possible complete match. See
      *     g_match_info_is_partial_match() for more information. Since: 2.34
      */
-    public static final int PARTIAL_HARD = 134217728;
+    public static final RegexMatchFlags PARTIAL_HARD = new RegexMatchFlags(134217728);
     
     /**
      * Like {@link RegexMatchFlags#NOTEMPTY}, but only applied to
      *     the start of the matched string. For anchored
      *     patterns this can only happen for pattern containing "\\K". Since: 2.34
      */
-    public static final int NOTEMPTY_ATSTART = 268435456;
+    public static final RegexMatchFlags NOTEMPTY_ATSTART = new RegexMatchFlags(268435456);
+    
+    private int value;
+    
+    public RegexMatchFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(RegexMatchFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public RegexMatchFlags combined(RegexMatchFlags mask) {
+        return new RegexMatchFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static RegexMatchFlags combined(RegexMatchFlags mask, RegexMatchFlags... masks) {
+        int value = mask.getValue();
+        for (RegexMatchFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RegexMatchFlags(value);
+    }
     
 }

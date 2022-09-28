@@ -174,9 +174,9 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     /**
      * Gets the input hints of the {@code GtkText}.
      */
-    public int getInputHints() {
+    public InputHints getInputHints() {
         var RESULT = gtk_h.gtk_text_get_input_hints(handle());
-        return RESULT;
+        return new InputHints(RESULT);
     }
     
     /**
@@ -184,7 +184,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      */
     public InputPurpose getInputPurpose() {
         var RESULT = gtk_h.gtk_text_get_input_purpose(handle());
-        return InputPurpose.fromValue(RESULT);
+        return new InputPurpose(RESULT);
     }
     
     /**
@@ -344,8 +344,8 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
      * Sets input hints that allow input methods
      * to fine-tune their behaviour.
      */
-    public void setInputHints(int hints) {
-        gtk_h.gtk_text_set_input_hints(handle(), hints);
+    public void setInputHints(InputHints hints) {
+        gtk_h.gtk_text_set_input_hints(handle(), hints.getValue());
     }
     
     /**
@@ -640,7 +640,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     public static void __signalTextDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Text.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)), DeleteType.fromValue(type), count);
+        handler.signalReceived(new Text(References.get(source)), new DeleteType(type), count);
     }
     
     @FunctionalInterface
@@ -767,7 +767,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
     public static void __signalTextMoveCursor(MemoryAddress source, int step, int count, boolean extend, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Text.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)), MovementStep.fromValue(step), count, extend);
+        handler.signalReceived(new Text(References.get(source)), new MovementStep(step), count, extend);
     }
     
     @FunctionalInterface

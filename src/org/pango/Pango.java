@@ -324,8 +324,8 @@ public final class Pango {
      * Create a new attribute that influences how invisible
      * characters are rendered.
      */
-    public static Attribute attrShowNew(int flags) {
-        var RESULT = gtk_h.pango_attr_show_new(flags);
+    public static Attribute attrShowNew(ShowFlags flags) {
+        var RESULT = gtk_h.pango_attr_show_new(flags.getValue());
         return new Attribute(References.get(RESULT, true));
     }
     
@@ -413,7 +413,7 @@ public final class Pango {
      */
     public static AttrType attrTypeRegister(java.lang.String name) {
         var RESULT = gtk_h.pango_attr_type_register(Interop.allocateNativeString(name).handle());
-        return AttrType.fromValue(RESULT);
+        return new AttrType(RESULT);
     }
     
     /**
@@ -471,7 +471,7 @@ public final class Pango {
      */
     public static BidiType bidiTypeForUnichar(int ch) {
         var RESULT = gtk_h.pango_bidi_type_for_unichar(ch);
-        return BidiType.fromValue(RESULT);
+        return new BidiType(RESULT);
     }
     
     /**
@@ -518,7 +518,7 @@ public final class Pango {
      */
     public static Direction findBaseDir(java.lang.String text, int length) {
         var RESULT = gtk_h.pango_find_base_dir(Interop.allocateNativeString(text).handle(), length);
-        return Direction.fromValue(RESULT);
+        return new Direction(RESULT);
     }
     
     /**
@@ -613,7 +613,7 @@ public final class Pango {
      */
     public static Gravity gravityGetForMatrix(Matrix matrix) {
         var RESULT = gtk_h.pango_gravity_get_for_matrix(matrix.handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -627,7 +627,7 @@ public final class Pango {
      */
     public static Gravity gravityGetForScript(Script script, Gravity baseGravity, GravityHint hint) {
         var RESULT = gtk_h.pango_gravity_get_for_script(script.getValue(), baseGravity.getValue(), hint.getValue());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -649,7 +649,7 @@ public final class Pango {
      */
     public static Gravity gravityGetForScriptAndWidth(Script script, boolean wide, Gravity baseGravity, GravityHint hint) {
         var RESULT = gtk_h.pango_gravity_get_for_script_and_width(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -998,8 +998,8 @@ public final class Pango {
      * to subtract the item offset from their indices before calling
      * {@link Pango#shapeWithFlags}.
      */
-    public static void shapeItem(Item item, java.lang.String paragraphText, int paragraphLength, LogAttr logAttrs, GlyphString glyphs, int flags) {
-        gtk_h.pango_shape_item(item.handle(), Interop.allocateNativeString(paragraphText).handle(), paragraphLength, logAttrs.handle(), glyphs.handle(), flags);
+    public static void shapeItem(Item item, java.lang.String paragraphText, int paragraphLength, LogAttr logAttrs, GlyphString glyphs, ShapeFlags flags) {
+        gtk_h.pango_shape_item(item.handle(), Interop.allocateNativeString(paragraphText).handle(), paragraphLength, logAttrs.handle(), glyphs.handle(), flags.getValue());
     }
     
     /**
@@ -1018,8 +1018,8 @@ public final class Pango {
      * to subtract the item offset from their indices before calling
      * {@link Pango#shapeWithFlags}.
      */
-    public static void shapeWithFlags(java.lang.String itemText, int itemLength, java.lang.String paragraphText, int paragraphLength, Analysis analysis, GlyphString glyphs, int flags) {
-        gtk_h.pango_shape_with_flags(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle(), flags);
+    public static void shapeWithFlags(java.lang.String itemText, int itemLength, java.lang.String paragraphText, int paragraphLength, Analysis analysis, GlyphString glyphs, ShapeFlags flags) {
+        gtk_h.pango_shape_with_flags(Interop.allocateNativeString(itemText).handle(), itemLength, Interop.allocateNativeString(paragraphText).handle(), paragraphLength, analysis.handle(), glyphs.handle(), flags.getValue());
     }
     
     /**
@@ -1061,7 +1061,7 @@ public final class Pango {
      */
     public static Direction unicharDirection(int ch) {
         var RESULT = gtk_h.pango_unichar_direction(ch);
-        return Direction.fromValue(RESULT);
+        return new Direction(RESULT);
     }
     
     /**

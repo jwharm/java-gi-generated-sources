@@ -32,52 +32,53 @@ package org.gtk.gio;
  * {@link ResolverRecordType#NS} records are returned as variants with the signature
  * {@code (s)}, representing a string of the hostname of the name server.
  */
-public enum ResolverRecordType {
+public class ResolverRecordType {
 
     /**
      * look up DNS SRV records for a domain
      */
-    SRV,
+    public static final ResolverRecordType SRV = new ResolverRecordType(1);
     
     /**
      * look up DNS MX records for a domain
      */
-    MX,
+    public static final ResolverRecordType MX = new ResolverRecordType(2);
     
     /**
      * look up DNS TXT records for a name
      */
-    TXT,
+    public static final ResolverRecordType TXT = new ResolverRecordType(3);
     
     /**
      * look up DNS SOA records for a zone
      */
-    SOA,
+    public static final ResolverRecordType SOA = new ResolverRecordType(4);
     
     /**
      * look up DNS NS records for a domain
      */
-    NS;
+    public static final ResolverRecordType NS = new ResolverRecordType(5);
     
-    public static ResolverRecordType fromValue(int value) {
-        return switch(value) {
-            case 1 -> SRV;
-            case 2 -> MX;
-            case 3 -> TXT;
-            case 4 -> SOA;
-            case 5 -> NS;
-            default -> null;
-        };
+    private int value;
+    
+    public ResolverRecordType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SRV -> 1;
-            case MX -> 2;
-            case TXT -> 3;
-            case SOA -> 4;
-            case NS -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ResolverRecordType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

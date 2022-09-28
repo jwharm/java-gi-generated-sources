@@ -231,7 +231,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public IconSize getIconSize() {
         var RESULT = gtk_h.gtk_image_get_icon_size(handle());
-        return IconSize.fromValue(RESULT);
+        return new IconSize(RESULT);
     }
     
     /**
@@ -264,7 +264,7 @@ public class Image extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public ImageType getStorageType() {
         var RESULT = gtk_h.gtk_image_get_storage_type(handle());
-        return ImageType.fromValue(RESULT);
+        return new ImageType(RESULT);
     }
     
     /**

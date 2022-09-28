@@ -138,17 +138,17 @@ public final class Gtk {
      * for keyboard accelerators. This includes all keyboard modifiers except
      * for {@link org.gtk.gdk.ModifierType#LOCK_MASK}.
      */
-    public static int acceleratorGetDefaultModMask() {
+    public static org.gtk.gdk.ModifierType acceleratorGetDefaultModMask() {
         var RESULT = gtk_h.gtk_accelerator_get_default_mod_mask();
-        return RESULT;
+        return new org.gtk.gdk.ModifierType(RESULT);
     }
     
     /**
      * Converts an accelerator keyval and modifier mask into a string
      * which can be used to represent the accelerator to the user.
      */
-    public static java.lang.String acceleratorGetLabel(int acceleratorKey, int acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_get_label(acceleratorKey, acceleratorMods);
+    public static java.lang.String acceleratorGetLabel(int acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_get_label(acceleratorKey, acceleratorMods.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -163,8 +163,8 @@ public final class Gtk {
      * components, applications should use {@link Gtk#acceleratorGetLabel}
      * instead.
      */
-    public static java.lang.String acceleratorGetLabelWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, int acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_get_label_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods);
+    public static java.lang.String acceleratorGetLabelWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, org.gtk.gdk.ModifierType acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_get_label_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -178,8 +178,8 @@ public final class Gtk {
      * If you need to display accelerators in the user interface,
      * see {@link Gtk#acceleratorGetLabel}.
      */
-    public static java.lang.String acceleratorName(int acceleratorKey, int acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_name(acceleratorKey, acceleratorMods);
+    public static java.lang.String acceleratorName(int acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_name(acceleratorKey, acceleratorMods.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -191,8 +191,8 @@ public final class Gtk {
      * This is only useful for system-level components, applications
      * should use {@link Gtk#acceleratorName} instead.
      */
-    public static java.lang.String acceleratorNameWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, int acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_name_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods);
+    public static java.lang.String acceleratorNameWithKeycode(org.gtk.gdk.Display display, int acceleratorKey, int keycode, org.gtk.gdk.ModifierType acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_name_with_keycode(display.handle(), acceleratorKey, keycode, acceleratorMods.getValue());
         return RESULT.getUtf8String(0);
     }
     
@@ -223,8 +223,8 @@ public final class Gtk {
      * If the parse operation fails, {@code accelerator_key} and {@code accelerator_mods} will
      * be set to 0 (zero).
      */
-    public static boolean acceleratorParse(java.lang.String accelerator, PointerInteger acceleratorKey, PointerInteger acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_parse(Interop.allocateNativeString(accelerator).handle(), acceleratorKey.handle(), acceleratorMods.handle());
+    public static boolean acceleratorParse(java.lang.String accelerator, PointerInteger acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_parse(Interop.allocateNativeString(accelerator).handle(), acceleratorKey.handle(), new PointerInteger(acceleratorMods.getValue()).handle());
         return (RESULT != 0);
     }
     
@@ -244,8 +244,8 @@ public final class Gtk {
      * If the parse fails, {@code accelerator_key}, {@code accelerator_mods} and
      * {@code accelerator_codes} will be set to 0 (zero).
      */
-    public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, org.gtk.gdk.Display display, PointerInteger acceleratorKey, int[] acceleratorCodes, PointerInteger acceleratorMods) {
-        var RESULT = gtk_h.gtk_accelerator_parse_with_keycode(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, acceleratorCodes)).handle(), acceleratorMods.handle());
+    public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, org.gtk.gdk.Display display, PointerInteger acceleratorKey, int[] acceleratorCodes, org.gtk.gdk.ModifierType acceleratorMods) {
+        var RESULT = gtk_h.gtk_accelerator_parse_with_keycode(Interop.allocateNativeString(accelerator).handle(), display.handle(), acceleratorKey.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_INT, acceleratorCodes)).handle(), new PointerInteger(acceleratorMods.getValue()).handle());
         return (RESULT != 0);
     }
     
@@ -257,8 +257,8 @@ public final class Gtk {
      * and matches the “Ctrl+a” accelerator. But, you can't, for instance, use
      * the {@code GDK_KEY_Control_L} keyval as an accelerator.
      */
-    public static boolean acceleratorValid(int keyval, int modifiers) {
-        var RESULT = gtk_h.gtk_accelerator_valid(keyval, modifiers);
+    public static boolean acceleratorValid(int keyval, org.gtk.gdk.ModifierType modifiers) {
+        var RESULT = gtk_h.gtk_accelerator_valid(keyval, modifiers.getValue());
         return (RESULT != 0);
     }
     
@@ -474,9 +474,9 @@ public final class Gtk {
      * This function is intended for GTK modules that want
      * to adjust their debug output based on GTK debug flags.
      */
-    public static int getDebugFlags() {
+    public static DebugFlags getDebugFlags() {
         var RESULT = gtk_h.gtk_get_debug_flags();
-        return RESULT;
+        return new DebugFlags(RESULT);
     }
     
     /**
@@ -540,7 +540,7 @@ public final class Gtk {
      */
     public static TextDirection getLocaleDirection() {
         var RESULT = gtk_h.gtk_get_locale_direction();
-        return TextDirection.fromValue(RESULT);
+        return new TextDirection(RESULT);
     }
     
     /**
@@ -665,7 +665,7 @@ public final class Gtk {
      */
     public static Ordering orderingFromCmpfunc(int cmpfuncResult) {
         var RESULT = gtk_h.gtk_ordering_from_cmpfunc(cmpfuncResult);
-        return Ordering.fromValue(RESULT);
+        return new Ordering(RESULT);
     }
     
     /**
@@ -690,8 +690,8 @@ public final class Gtk {
      * <p>
      * See {@code g_param_spec_internal()} for details on the property strings.
      */
-    public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
-        var RESULT = gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags);
+    public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.ParamFlags flags) {
+        var RESULT = gtk_h.gtk_param_spec_expression(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
         return new org.gtk.gobject.ParamSpec(References.get(RESULT, true));
     }
     
@@ -890,8 +890,8 @@ public final class Gtk {
     /**
      * Sets the GTK debug flags.
      */
-    public static void setDebugFlags(int flags) {
-        gtk_h.gtk_set_debug_flags(flags);
+    public static void setDebugFlags(DebugFlags flags) {
+        gtk_h.gtk_set_debug_flags(flags.getValue());
     }
     
     /**

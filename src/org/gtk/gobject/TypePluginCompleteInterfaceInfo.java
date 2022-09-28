@@ -7,5 +7,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TypePluginCompleteInterfaceInfo {
-        void onTypePluginCompleteInterfaceInfo(TypePlugin plugin, Type instanceType, Type interfaceType, InterfaceInfo info);
+        void onTypePluginCompleteInterfaceInfo(TypePlugin plugin, org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo info);
 }

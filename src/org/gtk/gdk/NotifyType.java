@@ -6,31 +6,31 @@ package org.gtk.gdk;
  * See the X11 protocol specification of LeaveNotify for
  * full details of crossing event generation.
  */
-public enum NotifyType {
+public class NotifyType {
 
     /**
      * the surface is entered from an ancestor or
      *   left towards an ancestor.
      */
-    ANCESTOR,
+    public static final NotifyType ANCESTOR = new NotifyType(0);
     
     /**
      * the pointer moves between an ancestor and an
      *   inferior of the surface.
      */
-    VIRTUAL,
+    public static final NotifyType VIRTUAL = new NotifyType(1);
     
     /**
      * the surface is entered from an inferior or
      *   left towards an inferior.
      */
-    INFERIOR,
+    public static final NotifyType INFERIOR = new NotifyType(2);
     
     /**
      * the surface is entered from or left towards
      *   a surface which is neither an ancestor nor an inferior.
      */
-    NONLINEAR,
+    public static final NotifyType NONLINEAR = new NotifyType(3);
     
     /**
      * the pointer moves between two surfaces
@@ -38,34 +38,33 @@ public enum NotifyType {
      *   the ancestor chain between one of these surfaces and their least
      *   common ancestor.
      */
-    NONLINEAR_VIRTUAL,
+    public static final NotifyType NONLINEAR_VIRTUAL = new NotifyType(4);
     
     /**
      * an unknown type of enter/leave event occurred.
      */
-    UNKNOWN;
+    public static final NotifyType UNKNOWN = new NotifyType(5);
     
-    public static NotifyType fromValue(int value) {
-        return switch(value) {
-            case 0 -> ANCESTOR;
-            case 1 -> VIRTUAL;
-            case 2 -> INFERIOR;
-            case 3 -> NONLINEAR;
-            case 4 -> NONLINEAR_VIRTUAL;
-            case 5 -> UNKNOWN;
-            default -> null;
-        };
+    private int value;
+    
+    public NotifyType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ANCESTOR -> 0;
-            case VIRTUAL -> 1;
-            case INFERIOR -> 2;
-            case NONLINEAR -> 3;
-            case NONLINEAR_VIRTUAL -> 4;
-            case UNKNOWN -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(NotifyType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

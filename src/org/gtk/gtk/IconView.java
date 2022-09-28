@@ -93,16 +93,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Turns {@code icon_view} into a drop destination for automatic DND. Calling this
      * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
-    public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, int actions) {
-        gtk_h.gtk_icon_view_enable_model_drag_dest(handle(), formats.handle(), actions);
+    public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_icon_view_enable_model_drag_dest(handle(), formats.handle(), actions.getValue());
     }
     
     /**
      * Turns {@code icon_view} into a drag source for automatic DND. Calling this
      * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
-    public void enableModelDragSource(int startButtonMask, org.gtk.gdk.ContentFormats formats, int actions) {
-        gtk_h.gtk_icon_view_enable_model_drag_source(handle(), startButtonMask, formats.handle(), actions);
+    public void enableModelDragSource(org.gtk.gdk.ModifierType startButtonMask, org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_icon_view_enable_model_drag_source(handle(), startButtonMask.getValue(), formats.handle(), actions.getValue());
     }
     
     /**
@@ -175,7 +175,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public Orientation getItemOrientation() {
         var RESULT = gtk_h.gtk_icon_view_get_item_orientation(handle());
-        return Orientation.fromValue(RESULT);
+        return new Orientation(RESULT);
     }
     
     /**
@@ -289,7 +289,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      */
     public SelectionMode getSelectionMode() {
         var RESULT = gtk_h.gtk_icon_view_get_selection_mode(handle());
-        return SelectionMode.fromValue(RESULT);
+        return new SelectionMode(RESULT);
     }
     
     /**
@@ -760,7 +760,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     public static boolean __signalIconViewMoveCursor(MemoryAddress source, int step, int count, boolean extend, boolean modify, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (IconView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new IconView(References.get(source)), MovementStep.fromValue(step), count, extend, modify);
+        return handler.signalReceived(new IconView(References.get(source)), new MovementStep(step), count, extend, modify);
     }
     
     @FunctionalInterface

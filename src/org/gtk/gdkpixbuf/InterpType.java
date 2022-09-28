@@ -11,14 +11,14 @@ package org.gtk.gdkpixbuf;
  * <strong>*Note*</strong>: Cubic filtering is missing from the list; hyperbolic
  * interpolation is just as fast and results in higher quality.
  */
-public enum InterpType {
+public class InterpType {
 
     /**
      * Nearest neighbor sampling; this is the fastest
      *  and lowest quality mode. Quality is normally unacceptable when scaling
      *  down, but may be OK when scaling up.
      */
-    NEAREST,
+    public static final InterpType NEAREST = new InterpType(0);
     
     /**
      * This is an accurate simulation of the PostScript
@@ -27,7 +27,7 @@ public enum InterpType {
      *  are implemented with antialiasing.  It resembles nearest neighbor for
      *  enlargement, and bilinear for reduction.
      */
-    TILES,
+    public static final InterpType TILES = new InterpType(1);
     
     /**
      * Best quality/speed balance; use this mode by
@@ -36,7 +36,7 @@ public enum InterpType {
      *  For reduction, it is equivalent to laying down small tiles and
      *  integrating over the coverage area.
      */
-    BILINEAR,
+    public static final InterpType BILINEAR = new InterpType(2);
     
     /**
      * This is the slowest and highest quality
@@ -48,25 +48,28 @@ public enum InterpType {
      *  it has a lower quality than the {@code GDK_INTERP_BILINEAR} filter
      *  (Since: 2.38)
      */
-    HYPER;
+    public static final InterpType HYPER = new InterpType(3);
     
-    public static InterpType fromValue(int value) {
-        return switch(value) {
-            case 0 -> NEAREST;
-            case 1 -> TILES;
-            case 2 -> BILINEAR;
-            case 3 -> HYPER;
-            default -> null;
-        };
+    private int value;
+    
+    public InterpType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NEAREST -> 0;
-            case TILES -> 1;
-            case BILINEAR -> 2;
-            case HYPER -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(InterpType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

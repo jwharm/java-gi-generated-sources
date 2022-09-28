@@ -291,9 +291,9 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the {@code input-hints} of the {@code GtkTextView}.
      */
-    public int getInputHints() {
+    public InputHints getInputHints() {
         var RESULT = gtk_h.gtk_text_view_get_input_hints(handle());
-        return RESULT;
+        return new InputHints(RESULT);
     }
     
     /**
@@ -301,7 +301,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public InputPurpose getInputPurpose() {
         var RESULT = gtk_h.gtk_text_view_get_input_purpose(handle());
-        return InputPurpose.fromValue(RESULT);
+        return new InputPurpose(RESULT);
     }
     
     /**
@@ -352,7 +352,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public Justification getJustification() {
         var RESULT = gtk_h.gtk_text_view_get_justification(handle());
-        return Justification.fromValue(RESULT);
+        return new Justification(RESULT);
     }
     
     /**
@@ -504,7 +504,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      */
     public WrapMode getWrapMode() {
         var RESULT = gtk_h.gtk_text_view_get_wrap_mode(handle());
-        return WrapMode.fromValue(RESULT);
+        return new WrapMode(RESULT);
     }
     
     /**
@@ -757,8 +757,8 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The {@code input-hints} allow input methods to fine-tune
      * their behaviour.
      */
-    public void setInputHints(int hints) {
-        gtk_h.gtk_text_view_set_input_hints(handle(), hints);
+    public void setInputHints(InputHints hints) {
+        gtk_h.gtk_text_view_set_input_hints(handle(), hints.getValue());
     }
     
     /**
@@ -1046,7 +1046,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     public static void __signalTextViewDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TextView.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), DeleteType.fromValue(type), count);
+        handler.signalReceived(new TextView(References.get(source)), new DeleteType(type), count);
     }
     
     @FunctionalInterface
@@ -1078,7 +1078,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     public static boolean __signalTextViewExtendSelection(MemoryAddress source, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TextView.ExtendSelectionHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TextView(References.get(source)), TextExtendSelection.fromValue(granularity), new TextIter(References.get(location, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
+        return handler.signalReceived(new TextView(References.get(source)), new TextExtendSelection(granularity), new TextIter(References.get(location, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
     }
     
     @FunctionalInterface
@@ -1208,7 +1208,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     public static void __signalTextViewMoveCursor(MemoryAddress source, int step, int count, boolean extendSelection, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TextView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), MovementStep.fromValue(step), count, extendSelection);
+        handler.signalReceived(new TextView(References.get(source)), new MovementStep(step), count, extendSelection);
     }
     
     @FunctionalInterface
@@ -1247,7 +1247,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     public static void __signalTextViewMoveViewport(MemoryAddress source, int step, int count, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TextView.MoveViewportHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), ScrollStep.fromValue(step), count);
+        handler.signalReceived(new TextView(References.get(source)), new ScrollStep(step), count);
     }
     
     @FunctionalInterface

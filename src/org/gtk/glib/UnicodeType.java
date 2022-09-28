@@ -5,227 +5,178 @@ package org.gtk.glib;
  * Unicode specification.
  * See <a href="http://www.unicode.org/reports/tr44/#General_Category_Values">Unicode Character Database</a>.
  */
-public enum UnicodeType {
+public class UnicodeType {
 
     /**
      * General category "Other, Control" (Cc)
      */
-    CONTROL,
+    public static final UnicodeType CONTROL = new UnicodeType(0);
     
     /**
      * General category "Other, Format" (Cf)
      */
-    FORMAT,
+    public static final UnicodeType FORMAT = new UnicodeType(1);
     
     /**
      * General category "Other, Not Assigned" (Cn)
      */
-    UNASSIGNED,
+    public static final UnicodeType UNASSIGNED = new UnicodeType(2);
     
     /**
      * General category "Other, Private Use" (Co)
      */
-    PRIVATE_USE,
+    public static final UnicodeType PRIVATE_USE = new UnicodeType(3);
     
     /**
      * General category "Other, Surrogate" (Cs)
      */
-    SURROGATE,
+    public static final UnicodeType SURROGATE = new UnicodeType(4);
     
     /**
      * General category "Letter, Lowercase" (Ll)
      */
-    LOWERCASE_LETTER,
+    public static final UnicodeType LOWERCASE_LETTER = new UnicodeType(5);
     
     /**
      * General category "Letter, Modifier" (Lm)
      */
-    MODIFIER_LETTER,
+    public static final UnicodeType MODIFIER_LETTER = new UnicodeType(6);
     
     /**
      * General category "Letter, Other" (Lo)
      */
-    OTHER_LETTER,
+    public static final UnicodeType OTHER_LETTER = new UnicodeType(7);
     
     /**
      * General category "Letter, Titlecase" (Lt)
      */
-    TITLECASE_LETTER,
+    public static final UnicodeType TITLECASE_LETTER = new UnicodeType(8);
     
     /**
      * General category "Letter, Uppercase" (Lu)
      */
-    UPPERCASE_LETTER,
+    public static final UnicodeType UPPERCASE_LETTER = new UnicodeType(9);
     
     /**
      * General category "Mark, Spacing" (Mc)
      */
-    SPACING_MARK,
+    public static final UnicodeType SPACING_MARK = new UnicodeType(10);
     
     /**
      * General category "Mark, Enclosing" (Me)
      */
-    ENCLOSING_MARK,
+    public static final UnicodeType ENCLOSING_MARK = new UnicodeType(11);
     
     /**
      * General category "Mark, Nonspacing" (Mn)
      */
-    NON_SPACING_MARK,
+    public static final UnicodeType NON_SPACING_MARK = new UnicodeType(12);
     
     /**
      * General category "Number, Decimal Digit" (Nd)
      */
-    DECIMAL_NUMBER,
+    public static final UnicodeType DECIMAL_NUMBER = new UnicodeType(13);
     
     /**
      * General category "Number, Letter" (Nl)
      */
-    LETTER_NUMBER,
+    public static final UnicodeType LETTER_NUMBER = new UnicodeType(14);
     
     /**
      * General category "Number, Other" (No)
      */
-    OTHER_NUMBER,
+    public static final UnicodeType OTHER_NUMBER = new UnicodeType(15);
     
     /**
      * General category "Punctuation, Connector" (Pc)
      */
-    CONNECT_PUNCTUATION,
+    public static final UnicodeType CONNECT_PUNCTUATION = new UnicodeType(16);
     
     /**
      * General category "Punctuation, Dash" (Pd)
      */
-    DASH_PUNCTUATION,
+    public static final UnicodeType DASH_PUNCTUATION = new UnicodeType(17);
     
     /**
      * General category "Punctuation, Close" (Pe)
      */
-    CLOSE_PUNCTUATION,
+    public static final UnicodeType CLOSE_PUNCTUATION = new UnicodeType(18);
     
     /**
      * General category "Punctuation, Final quote" (Pf)
      */
-    FINAL_PUNCTUATION,
+    public static final UnicodeType FINAL_PUNCTUATION = new UnicodeType(19);
     
     /**
      * General category "Punctuation, Initial quote" (Pi)
      */
-    INITIAL_PUNCTUATION,
+    public static final UnicodeType INITIAL_PUNCTUATION = new UnicodeType(20);
     
     /**
      * General category "Punctuation, Other" (Po)
      */
-    OTHER_PUNCTUATION,
+    public static final UnicodeType OTHER_PUNCTUATION = new UnicodeType(21);
     
     /**
      * General category "Punctuation, Open" (Ps)
      */
-    OPEN_PUNCTUATION,
+    public static final UnicodeType OPEN_PUNCTUATION = new UnicodeType(22);
     
     /**
      * General category "Symbol, Currency" (Sc)
      */
-    CURRENCY_SYMBOL,
+    public static final UnicodeType CURRENCY_SYMBOL = new UnicodeType(23);
     
     /**
      * General category "Symbol, Modifier" (Sk)
      */
-    MODIFIER_SYMBOL,
+    public static final UnicodeType MODIFIER_SYMBOL = new UnicodeType(24);
     
     /**
      * General category "Symbol, Math" (Sm)
      */
-    MATH_SYMBOL,
+    public static final UnicodeType MATH_SYMBOL = new UnicodeType(25);
     
     /**
      * General category "Symbol, Other" (So)
      */
-    OTHER_SYMBOL,
+    public static final UnicodeType OTHER_SYMBOL = new UnicodeType(26);
     
     /**
      * General category "Separator, Line" (Zl)
      */
-    LINE_SEPARATOR,
+    public static final UnicodeType LINE_SEPARATOR = new UnicodeType(27);
     
     /**
      * General category "Separator, Paragraph" (Zp)
      */
-    PARAGRAPH_SEPARATOR,
+    public static final UnicodeType PARAGRAPH_SEPARATOR = new UnicodeType(28);
     
     /**
      * General category "Separator, Space" (Zs)
      */
-    SPACE_SEPARATOR;
+    public static final UnicodeType SPACE_SEPARATOR = new UnicodeType(29);
     
-    public static UnicodeType fromValue(int value) {
-        return switch(value) {
-            case 0 -> CONTROL;
-            case 1 -> FORMAT;
-            case 2 -> UNASSIGNED;
-            case 3 -> PRIVATE_USE;
-            case 4 -> SURROGATE;
-            case 5 -> LOWERCASE_LETTER;
-            case 6 -> MODIFIER_LETTER;
-            case 7 -> OTHER_LETTER;
-            case 8 -> TITLECASE_LETTER;
-            case 9 -> UPPERCASE_LETTER;
-            case 10 -> SPACING_MARK;
-            case 11 -> ENCLOSING_MARK;
-            case 12 -> NON_SPACING_MARK;
-            case 13 -> DECIMAL_NUMBER;
-            case 14 -> LETTER_NUMBER;
-            case 15 -> OTHER_NUMBER;
-            case 16 -> CONNECT_PUNCTUATION;
-            case 17 -> DASH_PUNCTUATION;
-            case 18 -> CLOSE_PUNCTUATION;
-            case 19 -> FINAL_PUNCTUATION;
-            case 20 -> INITIAL_PUNCTUATION;
-            case 21 -> OTHER_PUNCTUATION;
-            case 22 -> OPEN_PUNCTUATION;
-            case 23 -> CURRENCY_SYMBOL;
-            case 24 -> MODIFIER_SYMBOL;
-            case 25 -> MATH_SYMBOL;
-            case 26 -> OTHER_SYMBOL;
-            case 27 -> LINE_SEPARATOR;
-            case 28 -> PARAGRAPH_SEPARATOR;
-            case 29 -> SPACE_SEPARATOR;
-            default -> null;
-        };
+    private int value;
+    
+    public UnicodeType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case CONTROL -> 0;
-            case FORMAT -> 1;
-            case UNASSIGNED -> 2;
-            case PRIVATE_USE -> 3;
-            case SURROGATE -> 4;
-            case LOWERCASE_LETTER -> 5;
-            case MODIFIER_LETTER -> 6;
-            case OTHER_LETTER -> 7;
-            case TITLECASE_LETTER -> 8;
-            case UPPERCASE_LETTER -> 9;
-            case SPACING_MARK -> 10;
-            case ENCLOSING_MARK -> 11;
-            case NON_SPACING_MARK -> 12;
-            case DECIMAL_NUMBER -> 13;
-            case LETTER_NUMBER -> 14;
-            case OTHER_NUMBER -> 15;
-            case CONNECT_PUNCTUATION -> 16;
-            case DASH_PUNCTUATION -> 17;
-            case CLOSE_PUNCTUATION -> 18;
-            case FINAL_PUNCTUATION -> 19;
-            case INITIAL_PUNCTUATION -> 20;
-            case OTHER_PUNCTUATION -> 21;
-            case OPEN_PUNCTUATION -> 22;
-            case CURRENCY_SYMBOL -> 23;
-            case MODIFIER_SYMBOL -> 24;
-            case MATH_SYMBOL -> 25;
-            case OTHER_SYMBOL -> 26;
-            case LINE_SEPARATOR -> 27;
-            case PARAGRAPH_SEPARATOR -> 28;
-            case SPACE_SEPARATOR -> 29;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(UnicodeType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

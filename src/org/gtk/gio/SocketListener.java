@@ -313,7 +313,7 @@ public class SocketListener extends org.gtk.gobject.Object {
     public static void __signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SocketListener.EventHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SocketListener(References.get(source)), SocketListenerEvent.fromValue(event), new Socket(References.get(socket, false)));
+        handler.signalReceived(new SocketListener(References.get(source)), new SocketListenerEvent(event), new Socket(References.get(socket, false)));
     }
     
 }

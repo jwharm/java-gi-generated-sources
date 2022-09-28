@@ -4,87 +4,78 @@ package org.gtk.gtk;
  * These enumeration values describe the possible transitions
  * when the child of a {@code GtkRevealer} widget is shown or hidden.
  */
-public enum RevealerTransitionType {
+public class RevealerTransitionType {
 
     /**
      * No transition
      */
-    NONE,
+    public static final RevealerTransitionType NONE = new RevealerTransitionType(0);
     
     /**
      * Fade in
      */
-    CROSSFADE,
+    public static final RevealerTransitionType CROSSFADE = new RevealerTransitionType(1);
     
     /**
      * Slide in from the left
      */
-    SLIDE_RIGHT,
+    public static final RevealerTransitionType SLIDE_RIGHT = new RevealerTransitionType(2);
     
     /**
      * Slide in from the right
      */
-    SLIDE_LEFT,
+    public static final RevealerTransitionType SLIDE_LEFT = new RevealerTransitionType(3);
     
     /**
      * Slide in from the bottom
      */
-    SLIDE_UP,
+    public static final RevealerTransitionType SLIDE_UP = new RevealerTransitionType(4);
     
     /**
      * Slide in from the top
      */
-    SLIDE_DOWN,
+    public static final RevealerTransitionType SLIDE_DOWN = new RevealerTransitionType(5);
     
     /**
      * Floop in from the left
      */
-    SWING_RIGHT,
+    public static final RevealerTransitionType SWING_RIGHT = new RevealerTransitionType(6);
     
     /**
      * Floop in from the right
      */
-    SWING_LEFT,
+    public static final RevealerTransitionType SWING_LEFT = new RevealerTransitionType(7);
     
     /**
      * Floop in from the bottom
      */
-    SWING_UP,
+    public static final RevealerTransitionType SWING_UP = new RevealerTransitionType(8);
     
     /**
      * Floop in from the top
      */
-    SWING_DOWN;
+    public static final RevealerTransitionType SWING_DOWN = new RevealerTransitionType(9);
     
-    public static RevealerTransitionType fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> CROSSFADE;
-            case 2 -> SLIDE_RIGHT;
-            case 3 -> SLIDE_LEFT;
-            case 4 -> SLIDE_UP;
-            case 5 -> SLIDE_DOWN;
-            case 6 -> SWING_RIGHT;
-            case 7 -> SWING_LEFT;
-            case 8 -> SWING_UP;
-            case 9 -> SWING_DOWN;
-            default -> null;
-        };
+    private int value;
+    
+    public RevealerTransitionType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case CROSSFADE -> 1;
-            case SLIDE_RIGHT -> 2;
-            case SLIDE_LEFT -> 3;
-            case SLIDE_UP -> 4;
-            case SLIDE_DOWN -> 5;
-            case SWING_RIGHT -> 6;
-            case SWING_LEFT -> 7;
-            case SWING_UP -> 8;
-            case SWING_DOWN -> 9;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(RevealerTransitionType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -5,144 +5,119 @@ package org.gtk.gtk;
  * <p>
  * This enumeration can be expanded at later date.
  */
-public enum License {
+public class License {
 
     /**
      * No license specified
      */
-    UNKNOWN,
+    public static final License UNKNOWN = new License(0);
     
     /**
      * A license text is going to be specified by the
      *   developer
      */
-    CUSTOM,
+    public static final License CUSTOM = new License(1);
     
     /**
      * The GNU General Public License, version 2.0 or later
      */
-    GPL_2_0,
+    public static final License GPL_2_0 = new License(2);
     
     /**
      * The GNU General Public License, version 3.0 or later
      */
-    GPL_3_0,
+    public static final License GPL_3_0 = new License(3);
     
     /**
      * The GNU Lesser General Public License, version 2.1 or later
      */
-    LGPL_2_1,
+    public static final License LGPL_2_1 = new License(4);
     
     /**
      * The GNU Lesser General Public License, version 3.0 or later
      */
-    LGPL_3_0,
+    public static final License LGPL_3_0 = new License(5);
     
     /**
      * The BSD standard license
      */
-    BSD,
+    public static final License BSD = new License(6);
     
     /**
      * The MIT/X11 standard license
      */
-    MIT_X11,
+    public static final License MIT_X11 = new License(7);
     
     /**
      * The Artistic License, version 2.0
      */
-    ARTISTIC,
+    public static final License ARTISTIC = new License(8);
     
     /**
      * The GNU General Public License, version 2.0 only
      */
-    GPL_2_0_ONLY,
+    public static final License GPL_2_0_ONLY = new License(9);
     
     /**
      * The GNU General Public License, version 3.0 only
      */
-    GPL_3_0_ONLY,
+    public static final License GPL_3_0_ONLY = new License(10);
     
     /**
      * The GNU Lesser General Public License, version 2.1 only
      */
-    LGPL_2_1_ONLY,
+    public static final License LGPL_2_1_ONLY = new License(11);
     
     /**
      * The GNU Lesser General Public License, version 3.0 only
      */
-    LGPL_3_0_ONLY,
+    public static final License LGPL_3_0_ONLY = new License(12);
     
     /**
      * The GNU Affero General Public License, version 3.0 or later
      */
-    AGPL_3_0,
+    public static final License AGPL_3_0 = new License(13);
     
     /**
      * The GNU Affero General Public License, version 3.0 only
      */
-    AGPL_3_0_ONLY,
+    public static final License AGPL_3_0_ONLY = new License(14);
     
     /**
      * The 3-clause BSD licence
      */
-    BSD_3,
+    public static final License BSD_3 = new License(15);
     
     /**
      * The Apache License, version 2.0
      */
-    APACHE_2_0,
+    public static final License APACHE_2_0 = new License(16);
     
     /**
      * The Mozilla Public License, version 2.0
      */
-    MPL_2_0;
+    public static final License MPL_2_0 = new License(17);
     
-    public static License fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNKNOWN;
-            case 1 -> CUSTOM;
-            case 2 -> GPL_2_0;
-            case 3 -> GPL_3_0;
-            case 4 -> LGPL_2_1;
-            case 5 -> LGPL_3_0;
-            case 6 -> BSD;
-            case 7 -> MIT_X11;
-            case 8 -> ARTISTIC;
-            case 9 -> GPL_2_0_ONLY;
-            case 10 -> GPL_3_0_ONLY;
-            case 11 -> LGPL_2_1_ONLY;
-            case 12 -> LGPL_3_0_ONLY;
-            case 13 -> AGPL_3_0;
-            case 14 -> AGPL_3_0_ONLY;
-            case 15 -> BSD_3;
-            case 16 -> APACHE_2_0;
-            case 17 -> MPL_2_0;
-            default -> null;
-        };
+    private int value;
+    
+    public License(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN -> 0;
-            case CUSTOM -> 1;
-            case GPL_2_0 -> 2;
-            case GPL_3_0 -> 3;
-            case LGPL_2_1 -> 4;
-            case LGPL_3_0 -> 5;
-            case BSD -> 6;
-            case MIT_X11 -> 7;
-            case ARTISTIC -> 8;
-            case GPL_2_0_ONLY -> 9;
-            case GPL_3_0_ONLY -> 10;
-            case LGPL_2_1_ONLY -> 11;
-            case LGPL_3_0_ONLY -> 12;
-            case AGPL_3_0 -> 13;
-            case AGPL_3_0_ONLY -> 14;
-            case BSD_3 -> 15;
-            case APACHE_2_0 -> 16;
-            case MPL_2_0 -> 17;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(License[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

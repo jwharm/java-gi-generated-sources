@@ -1,12 +1,5 @@
 package org.harfbuzz;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * Data type for tag identifiers. Tags are four
  * byte integers, each byte representing a character.
@@ -15,9 +8,18 @@ import java.lang.invoke.*;
  * scripts, languages, font features, and baselines with
  * human-readable names.
  */
-public class TagT extends Alias<Integer> {
-
+public class TagT {
+    private int value;
+    
     public TagT(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
         this.value = value;
     }
     

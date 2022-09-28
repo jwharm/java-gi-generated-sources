@@ -6,40 +6,45 @@ package org.gtk.gsk;
  * The actual implementation of each filter is deferred to the
  * rendering pipeline.
  */
-public enum ScalingFilter {
+public class ScalingFilter {
 
     /**
      * linear interpolation filter
      */
-    LINEAR,
+    public static final ScalingFilter LINEAR = new ScalingFilter(0);
     
     /**
      * nearest neighbor interpolation filter
      */
-    NEAREST,
+    public static final ScalingFilter NEAREST = new ScalingFilter(1);
     
     /**
      * linear interpolation along each axis,
      *   plus mipmap generation, with linear interpolation along the mipmap
      *   levels
      */
-    TRILINEAR;
+    public static final ScalingFilter TRILINEAR = new ScalingFilter(2);
     
-    public static ScalingFilter fromValue(int value) {
-        return switch(value) {
-            case 0 -> LINEAR;
-            case 1 -> NEAREST;
-            case 2 -> TRILINEAR;
-            default -> null;
-        };
+    private int value;
+    
+    public ScalingFilter(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LINEAR -> 0;
-            case NEAREST -> 1;
-            case TRILINEAR -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ScalingFilter[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

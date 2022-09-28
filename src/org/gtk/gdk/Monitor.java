@@ -117,7 +117,7 @@ public class Monitor extends org.gtk.gobject.Object {
      */
     public SubpixelLayout getSubpixelLayout() {
         var RESULT = gtk_h.gdk_monitor_get_subpixel_layout(handle());
-        return SubpixelLayout.fromValue(RESULT);
+        return new SubpixelLayout(RESULT);
     }
     
     /**

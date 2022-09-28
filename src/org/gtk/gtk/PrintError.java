@@ -4,46 +4,49 @@ package org.gtk.gtk;
  * Error codes that identify various errors that can occur while
  * using the GTK printing support.
  */
-public enum PrintError {
+public class PrintError {
 
     /**
      * An unspecified error occurred.
      */
-    GENERAL,
+    public static final PrintError GENERAL = new PrintError(0);
     
     /**
      * An internal error occurred.
      */
-    INTERNAL_ERROR,
+    public static final PrintError INTERNAL_ERROR = new PrintError(1);
     
     /**
      * A memory allocation failed.
      */
-    NOMEM,
+    public static final PrintError NOMEM = new PrintError(2);
     
     /**
      * An error occurred while loading a page setup
      *   or paper size from a key file.
      */
-    INVALID_FILE;
+    public static final PrintError INVALID_FILE = new PrintError(3);
     
-    public static PrintError fromValue(int value) {
-        return switch(value) {
-            case 0 -> GENERAL;
-            case 1 -> INTERNAL_ERROR;
-            case 2 -> NOMEM;
-            case 3 -> INVALID_FILE;
-            default -> null;
-        };
+    private int value;
+    
+    public PrintError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case GENERAL -> 0;
-            case INTERNAL_ERROR -> 1;
-            case NOMEM -> 2;
-            case INVALID_FILE -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PrintError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

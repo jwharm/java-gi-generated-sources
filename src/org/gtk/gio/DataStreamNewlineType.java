@@ -3,45 +3,48 @@ package org.gtk.gio;
 /**
  * {@link DataStreamNewlineType} is used when checking for or setting the line endings for a given file.
  */
-public enum DataStreamNewlineType {
+public class DataStreamNewlineType {
 
     /**
      * Selects "LF" line endings, common on most modern UNIX platforms.
      */
-    LF,
+    public static final DataStreamNewlineType LF = new DataStreamNewlineType(0);
     
     /**
      * Selects "CR" line endings.
      */
-    CR,
+    public static final DataStreamNewlineType CR = new DataStreamNewlineType(1);
     
     /**
      * Selects "CR, LF" line ending, common on Microsoft Windows.
      */
-    CR_LF,
+    public static final DataStreamNewlineType CR_LF = new DataStreamNewlineType(2);
     
     /**
      * Automatically try to handle any line ending type.
      */
-    ANY;
+    public static final DataStreamNewlineType ANY = new DataStreamNewlineType(3);
     
-    public static DataStreamNewlineType fromValue(int value) {
-        return switch(value) {
-            case 0 -> LF;
-            case 1 -> CR;
-            case 2 -> CR_LF;
-            case 3 -> ANY;
-            default -> null;
-        };
+    private int value;
+    
+    public DataStreamNewlineType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LF -> 0;
-            case CR -> 1;
-            case CR_LF -> 2;
-            case ANY -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DataStreamNewlineType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -677,7 +677,7 @@ public class Pixbuf extends org.gtk.gobject.Object implements org.gtk.gio.Icon, 
      */
     public Colorspace getColorspace() {
         var RESULT = gtk_h.gdk_pixbuf_get_colorspace(handle());
-        return Colorspace.fromValue(RESULT);
+        return new Colorspace(RESULT);
     }
     
     /**

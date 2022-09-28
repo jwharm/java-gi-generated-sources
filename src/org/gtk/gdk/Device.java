@@ -53,7 +53,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public org.pango.Direction getDirection() {
         var RESULT = gtk_h.gdk_device_get_direction(handle());
-        return org.pango.Direction.fromValue(RESULT);
+        return new org.pango.Direction(RESULT);
     }
     
     /**
@@ -80,9 +80,9 @@ public class Device extends org.gtk.gobject.Object {
      * <p>
      * This is only relevant for keyboard devices.
      */
-    public int getModifierState() {
+    public ModifierType getModifierState() {
         var RESULT = gtk_h.gdk_device_get_modifier_state(handle());
-        return RESULT;
+        return new ModifierType(RESULT);
     }
     
     /**
@@ -145,7 +145,7 @@ public class Device extends org.gtk.gobject.Object {
      */
     public InputSource getSource() {
         var RESULT = gtk_h.gdk_device_get_source(handle());
-        return InputSource.fromValue(RESULT);
+        return new InputSource(RESULT);
     }
     
     /**

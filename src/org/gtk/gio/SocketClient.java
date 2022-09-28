@@ -350,7 +350,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_socket_client_get_family(handle());
-        return SocketFamily.fromValue(RESULT);
+        return new SocketFamily(RESULT);
     }
     
     /**
@@ -370,7 +370,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketProtocol getProtocol() {
         var RESULT = gtk_h.g_socket_client_get_protocol(handle());
-        return SocketProtocol.fromValue(RESULT);
+        return new SocketProtocol(RESULT);
     }
     
     /**
@@ -390,7 +390,7 @@ public class SocketClient extends org.gtk.gobject.Object {
      */
     public SocketType getSocketType() {
         var RESULT = gtk_h.g_socket_client_get_socket_type(handle());
-        return SocketType.fromValue(RESULT);
+        return new SocketType(RESULT);
     }
     
     /**
@@ -619,7 +619,7 @@ public class SocketClient extends org.gtk.gobject.Object {
     public static void __signalSocketClientEvent(MemoryAddress source, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SocketClient.EventHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SocketClient(References.get(source)), SocketClientEvent.fromValue(event), new SocketConnectable.SocketConnectableImpl(References.get(connectable, false)), new IOStream(References.get(connection, false)));
+        handler.signalReceived(new SocketClient(References.get(source)), new SocketClientEvent(event), new SocketConnectable.SocketConnectableImpl(References.get(connectable, false)), new IOStream(References.get(connection, false)));
     }
     
 }

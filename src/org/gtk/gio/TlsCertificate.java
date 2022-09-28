@@ -286,9 +286,9 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * certificates used by a TLS connection is to let {@link TlsConnection}
      * handle the verification.
      */
-    public int verify(SocketConnectable identity, TlsCertificate trustedCa) {
+    public TlsCertificateFlags verify(SocketConnectable identity, TlsCertificate trustedCa) {
         var RESULT = gtk_h.g_tls_certificate_verify(handle(), identity.handle(), trustedCa.handle());
-        return RESULT;
+        return new TlsCertificateFlags(RESULT);
     }
     
     /**

@@ -1,32 +1,35 @@
 package org.cairographics;
 
-public enum Extend {
+public class Extend {
 
-    NONE,
+    public static final Extend NONE = new Extend(0);
     
-    REPEAT,
+    public static final Extend REPEAT = new Extend(1);
     
-    REFLECT,
+    public static final Extend REFLECT = new Extend(2);
     
-    PAD;
+    public static final Extend PAD = new Extend(3);
     
-    public static Extend fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> REPEAT;
-            case 2 -> REFLECT;
-            case 3 -> PAD;
-            default -> null;
-        };
+    private int value;
+    
+    public Extend(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case REPEAT -> 1;
-            case REFLECT -> 2;
-            case PAD -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Extend[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

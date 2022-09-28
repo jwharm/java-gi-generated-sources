@@ -3,75 +3,70 @@ package org.gtk.glib;
 /**
  * Error codes returned by bookmark file parsing.
  */
-public enum BookmarkFileError {
+public class BookmarkFileError {
 
     /**
      * URI was ill-formed
      */
-    INVALID_URI,
+    public static final BookmarkFileError INVALID_URI = new BookmarkFileError(0);
     
     /**
      * a requested field was not found
      */
-    INVALID_VALUE,
+    public static final BookmarkFileError INVALID_VALUE = new BookmarkFileError(1);
     
     /**
      * a requested application did
      *     not register a bookmark
      */
-    APP_NOT_REGISTERED,
+    public static final BookmarkFileError APP_NOT_REGISTERED = new BookmarkFileError(2);
     
     /**
      * a requested URI was not found
      */
-    URI_NOT_FOUND,
+    public static final BookmarkFileError URI_NOT_FOUND = new BookmarkFileError(3);
     
     /**
      * document was ill formed
      */
-    READ,
+    public static final BookmarkFileError READ = new BookmarkFileError(4);
     
     /**
      * the text being parsed was
      *     in an unknown encoding
      */
-    UNKNOWN_ENCODING,
+    public static final BookmarkFileError UNKNOWN_ENCODING = new BookmarkFileError(5);
     
     /**
      * an error occurred while writing
      */
-    WRITE,
+    public static final BookmarkFileError WRITE = new BookmarkFileError(6);
     
     /**
      * requested file was not found
      */
-    FILE_NOT_FOUND;
+    public static final BookmarkFileError FILE_NOT_FOUND = new BookmarkFileError(7);
     
-    public static BookmarkFileError fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID_URI;
-            case 1 -> INVALID_VALUE;
-            case 2 -> APP_NOT_REGISTERED;
-            case 3 -> URI_NOT_FOUND;
-            case 4 -> READ;
-            case 5 -> UNKNOWN_ENCODING;
-            case 6 -> WRITE;
-            case 7 -> FILE_NOT_FOUND;
-            default -> null;
-        };
+    private int value;
+    
+    public BookmarkFileError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID_URI -> 0;
-            case INVALID_VALUE -> 1;
-            case APP_NOT_REGISTERED -> 2;
-            case URI_NOT_FOUND -> 3;
-            case READ -> 4;
-            case UNKNOWN_ENCODING -> 5;
-            case WRITE -> 6;
-            case FILE_NOT_FOUND -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BookmarkFileError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -12,21 +12,21 @@ public class BindingFlags {
      * The default binding; if the source property
      *   changes, the target property is updated with its value.
      */
-    public static final int DEFAULT = 0;
+    public static final BindingFlags DEFAULT = new BindingFlags(0);
     
     /**
      * Bidirectional binding; if either the
      *   property of the source or the property of the target changes,
      *   the other is updated.
      */
-    public static final int BIDIRECTIONAL = 1;
+    public static final BindingFlags BIDIRECTIONAL = new BindingFlags(1);
     
     /**
      * Synchronize the values of the source and
      *   target properties when creating the binding; the direction of
      *   the synchronization is always from the source to the target.
      */
-    public static final int SYNC_CREATE = 2;
+    public static final BindingFlags SYNC_CREATE = new BindingFlags(2);
     
     /**
      * If the two properties being bound are
@@ -35,6 +35,40 @@ public class BindingFlags {
      *   boolean properties, and cannot be used when passing custom
      *   transformation functions to g_object_bind_property_full().
      */
-    public static final int INVERT_BOOLEAN = 4;
+    public static final BindingFlags INVERT_BOOLEAN = new BindingFlags(4);
+    
+    private int value;
+    
+    public BindingFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BindingFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public BindingFlags combined(BindingFlags mask) {
+        return new BindingFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static BindingFlags combined(BindingFlags mask, BindingFlags... masks) {
+        int value = mask.getValue();
+        for (BindingFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new BindingFlags(value);
+    }
     
 }

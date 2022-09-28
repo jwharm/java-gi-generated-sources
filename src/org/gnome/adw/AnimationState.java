@@ -7,45 +7,48 @@ package org.gnome.adw;
  * {@code Animation.resume},
  * {@code Animation.skip}.
  */
-public enum AnimationState {
+public class AnimationState {
 
     /**
      * The animation hasn't started yet.
      */
-    IDLE,
+    public static final AnimationState IDLE = new AnimationState(0);
     
     /**
      * The animation has been paused.
      */
-    PAUSED,
+    public static final AnimationState PAUSED = new AnimationState(1);
     
     /**
      * The animation is currently playing.
      */
-    PLAYING,
+    public static final AnimationState PLAYING = new AnimationState(2);
     
     /**
      * The animation has finished.
      */
-    FINISHED;
+    public static final AnimationState FINISHED = new AnimationState(3);
     
-    public static AnimationState fromValue(int value) {
-        return switch(value) {
-            case 0 -> IDLE;
-            case 1 -> PAUSED;
-            case 2 -> PLAYING;
-            case 3 -> FINISHED;
-            default -> null;
-        };
+    private int value;
+    
+    public AnimationState(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case IDLE -> 0;
-            case PAUSED -> 1;
-            case PLAYING -> 2;
-            case FINISHED -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AnimationState[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

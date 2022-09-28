@@ -6,95 +6,84 @@ package org.gtk.gtk;
  * All predefined values are negative; GTK leaves values of 0 or greater for
  * application-defined response ids.
  */
-public enum ResponseType {
+public class ResponseType {
 
     /**
      * Returned if an action widget has no response id,
      *   or if the dialog gets programmatically hidden or destroyed
      */
-    NONE,
+    public static final ResponseType NONE = new ResponseType(-1);
     
     /**
      * Generic response id, not used by GTK dialogs
      */
-    REJECT,
+    public static final ResponseType REJECT = new ResponseType(-2);
     
     /**
      * Generic response id, not used by GTK dialogs
      */
-    ACCEPT,
+    public static final ResponseType ACCEPT = new ResponseType(-3);
     
     /**
      * Returned if the dialog is deleted
      */
-    DELETE_EVENT,
+    public static final ResponseType DELETE_EVENT = new ResponseType(-4);
     
     /**
      * Returned by OK buttons in GTK dialogs
      */
-    OK,
+    public static final ResponseType OK = new ResponseType(-5);
     
     /**
      * Returned by Cancel buttons in GTK dialogs
      */
-    CANCEL,
+    public static final ResponseType CANCEL = new ResponseType(-6);
     
     /**
      * Returned by Close buttons in GTK dialogs
      */
-    CLOSE,
+    public static final ResponseType CLOSE = new ResponseType(-7);
     
     /**
      * Returned by Yes buttons in GTK dialogs
      */
-    YES,
+    public static final ResponseType YES = new ResponseType(-8);
     
     /**
      * Returned by No buttons in GTK dialogs
      */
-    NO,
+    public static final ResponseType NO = new ResponseType(-9);
     
     /**
      * Returned by Apply buttons in GTK dialogs
      */
-    APPLY,
+    public static final ResponseType APPLY = new ResponseType(-10);
     
     /**
      * Returned by Help buttons in GTK dialogs
      */
-    HELP;
+    public static final ResponseType HELP = new ResponseType(-11);
     
-    public static ResponseType fromValue(int value) {
-        return switch(value) {
-            case -1 -> NONE;
-            case -2 -> REJECT;
-            case -3 -> ACCEPT;
-            case -4 -> DELETE_EVENT;
-            case -5 -> OK;
-            case -6 -> CANCEL;
-            case -7 -> CLOSE;
-            case -8 -> YES;
-            case -9 -> NO;
-            case -10 -> APPLY;
-            case -11 -> HELP;
-            default -> null;
-        };
+    private int value;
+    
+    public ResponseType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> -1;
-            case REJECT -> -2;
-            case ACCEPT -> -3;
-            case DELETE_EVENT -> -4;
-            case OK -> -5;
-            case CANCEL -> -6;
-            case CLOSE -> -7;
-            case YES -> -8;
-            case NO -> -9;
-            case APPLY -> -10;
-            case HELP -> -11;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ResponseType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

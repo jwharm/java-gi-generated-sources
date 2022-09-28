@@ -3,38 +3,43 @@ package org.gtk.gtk;
 /**
  * The type of a pad action.
  */
-public enum PadActionType {
+public class PadActionType {
 
     /**
      * Action is triggered by a pad button
      */
-    BUTTON,
+    public static final PadActionType BUTTON = new PadActionType(0);
     
     /**
      * Action is triggered by a pad ring
      */
-    RING,
+    public static final PadActionType RING = new PadActionType(1);
     
     /**
      * Action is triggered by a pad strip
      */
-    STRIP;
+    public static final PadActionType STRIP = new PadActionType(2);
     
-    public static PadActionType fromValue(int value) {
-        return switch(value) {
-            case 0 -> BUTTON;
-            case 1 -> RING;
-            case 2 -> STRIP;
-            default -> null;
-        };
+    private int value;
+    
+    public PadActionType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BUTTON -> 0;
-            case RING -> 1;
-            case STRIP -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PadActionType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

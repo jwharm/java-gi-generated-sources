@@ -54,24 +54,24 @@ public class DropTargetAsync extends EventController {
         return new DropTargetAsync(gobject.getReference());
     }
     
-    private static Reference constructNew(org.gtk.gdk.ContentFormats formats, int actions) {
-        Reference RESULT = References.get(gtk_h.gtk_drop_target_async_new(formats.handle(), actions), true);
+    private static Reference constructNew(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+        Reference RESULT = References.get(gtk_h.gtk_drop_target_async_new(formats.getReference().unowned().handle(), actions.getValue()), true);
         return RESULT;
     }
     
     /**
      * Creates a new {@code GtkDropTargetAsync} object.
      */
-    public DropTargetAsync(org.gtk.gdk.ContentFormats formats, int actions) {
+    public DropTargetAsync(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
         super(constructNew(formats, actions));
     }
     
     /**
      * Gets the actions that this drop target supports.
      */
-    public int getActions() {
+    public org.gtk.gdk.DragAction getActions() {
         var RESULT = gtk_h.gtk_drop_target_async_get_actions(handle());
-        return RESULT;
+        return new org.gtk.gdk.DragAction(RESULT);
     }
     
     /**
@@ -98,8 +98,8 @@ public class DropTargetAsync extends EventController {
     /**
      * Sets the actions that this drop target supports.
      */
-    public void setActions(int actions) {
-        gtk_h.gtk_drop_target_async_set_actions(handle(), actions);
+    public void setActions(org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_drop_target_async_set_actions(handle(), actions.getValue());
     }
     
     /**

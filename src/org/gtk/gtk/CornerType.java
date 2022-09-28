@@ -6,49 +6,52 @@ package org.gtk.gtk;
  * <p>
  * This is effectively the opposite of where the scroll bars are placed.
  */
-public enum CornerType {
+public class CornerType {
 
     /**
      * Place the scrollbars on the right and bottom of the
      *   widget (default behaviour).
      */
-    TOP_LEFT,
+    public static final CornerType TOP_LEFT = new CornerType(0);
     
     /**
      * Place the scrollbars on the top and right of the
      *   widget.
      */
-    BOTTOM_LEFT,
+    public static final CornerType BOTTOM_LEFT = new CornerType(1);
     
     /**
      * Place the scrollbars on the left and bottom of the
      *   widget.
      */
-    TOP_RIGHT,
+    public static final CornerType TOP_RIGHT = new CornerType(2);
     
     /**
      * Place the scrollbars on the top and left of the
      *   widget.
      */
-    BOTTOM_RIGHT;
+    public static final CornerType BOTTOM_RIGHT = new CornerType(3);
     
-    public static CornerType fromValue(int value) {
-        return switch(value) {
-            case 0 -> TOP_LEFT;
-            case 1 -> BOTTOM_LEFT;
-            case 2 -> TOP_RIGHT;
-            case 3 -> BOTTOM_RIGHT;
-            default -> null;
-        };
+    private int value;
+    
+    public CornerType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case TOP_LEFT -> 0;
-            case BOTTOM_LEFT -> 1;
-            case TOP_RIGHT -> 2;
-            case BOTTOM_RIGHT -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CornerType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

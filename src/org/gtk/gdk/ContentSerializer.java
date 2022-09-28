@@ -110,7 +110,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * This function consumes {@code error}.
      */
     public void returnError(org.gtk.glib.Error error) {
-        gtk_h.gdk_content_serializer_return_error(handle(), error.handle());
+        gtk_h.gdk_content_serializer_return_error(handle(), error.getReference().unowned().handle());
     }
     
     /**

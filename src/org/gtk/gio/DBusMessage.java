@@ -34,9 +34,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static Reference constructNewFromBlob(byte[] blob, long blobLen, int capabilities) throws GErrorException {
+    private static Reference constructNewFromBlob(byte[] blob, long blobLen, DBusCapabilityFlags capabilities) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_message_new_from_blob(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, capabilities, GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_dbus_message_new_from_blob(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, blob)).handle(), blobLen, capabilities.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -51,7 +51,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      * If the {@code blob} cannot be parsed, contains invalid fields, or contains invalid
      * headers, {@link IOErrorEnum#INVALID_ARGUMENT} will be returned.
      */
-    public static DBusMessage newFromBlob(byte[] blob, long blobLen, int capabilities) throws GErrorException {
+    public static DBusMessage newFromBlob(byte[] blob, long blobLen, DBusCapabilityFlags capabilities) throws GErrorException {
         return new DBusMessage(constructNewFromBlob(blob, blobLen, capabilities));
     }
     
@@ -117,7 +117,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessageByteOrder getByteOrder() {
         var RESULT = gtk_h.g_dbus_message_get_byte_order(handle());
-        return DBusMessageByteOrder.fromValue(RESULT);
+        return new DBusMessageByteOrder(RESULT);
     }
     
     /**
@@ -139,9 +139,9 @@ public class DBusMessage extends org.gtk.gobject.Object {
     /**
      * Gets the flags for {@code message}.
      */
-    public int getFlags() {
+    public DBusMessageFlags getFlags() {
         var RESULT = gtk_h.g_dbus_message_get_flags(handle());
-        return RESULT;
+        return new DBusMessageFlags(RESULT);
     }
     
     /**
@@ -186,7 +186,7 @@ public class DBusMessage extends org.gtk.gobject.Object {
      */
     public DBusMessageType getMessageType() {
         var RESULT = gtk_h.g_dbus_message_get_message_type(handle());
-        return DBusMessageType.fromValue(RESULT);
+        return new DBusMessageType(RESULT);
     }
     
     /**
@@ -360,8 +360,8 @@ public class DBusMessage extends org.gtk.gobject.Object {
     /**
      * Sets the flags to set on {@code message}.
      */
-    public void setFlags(int flags) {
-        gtk_h.g_dbus_message_set_flags(handle(), flags);
+    public void setFlags(DBusMessageFlags flags) {
+        gtk_h.g_dbus_message_set_flags(handle(), flags.getValue());
     }
     
     /**

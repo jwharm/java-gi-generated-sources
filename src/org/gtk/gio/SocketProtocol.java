@@ -9,52 +9,53 @@ package org.gtk.gio;
  * can also pass any other identifiers handled by the platform in order to
  * use protocols not listed here.
  */
-public enum SocketProtocol {
+public class SocketProtocol {
 
     /**
      * The protocol type is unknown
      */
-    UNKNOWN,
+    public static final SocketProtocol UNKNOWN = new SocketProtocol(-1);
     
     /**
      * The default protocol for the family/type
      */
-    DEFAULT,
+    public static final SocketProtocol DEFAULT = new SocketProtocol(0);
     
     /**
      * TCP over IP
      */
-    TCP,
+    public static final SocketProtocol TCP = new SocketProtocol(6);
     
     /**
      * UDP over IP
      */
-    UDP,
+    public static final SocketProtocol UDP = new SocketProtocol(17);
     
     /**
      * SCTP over IP
      */
-    SCTP;
+    public static final SocketProtocol SCTP = new SocketProtocol(132);
     
-    public static SocketProtocol fromValue(int value) {
-        return switch(value) {
-            case -1 -> UNKNOWN;
-            case 0 -> DEFAULT;
-            case 6 -> TCP;
-            case 17 -> UDP;
-            case 132 -> SCTP;
-            default -> null;
-        };
+    private int value;
+    
+    public SocketProtocol(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN -> -1;
-            case DEFAULT -> 0;
-            case TCP -> 6;
-            case UDP -> 17;
-            case SCTP -> 132;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SocketProtocol[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -3,53 +3,54 @@ package org.gtk.gdk;
 /**
  * Specifies the direction for scroll events.
  */
-public enum ScrollDirection {
+public class ScrollDirection {
 
     /**
      * the surface is scrolled up.
      */
-    UP,
+    public static final ScrollDirection UP = new ScrollDirection(0);
     
     /**
      * the surface is scrolled down.
      */
-    DOWN,
+    public static final ScrollDirection DOWN = new ScrollDirection(1);
     
     /**
      * the surface is scrolled to the left.
      */
-    LEFT,
+    public static final ScrollDirection LEFT = new ScrollDirection(2);
     
     /**
      * the surface is scrolled to the right.
      */
-    RIGHT,
+    public static final ScrollDirection RIGHT = new ScrollDirection(3);
     
     /**
      * the scrolling is determined by the delta values
      *   in scroll events. See gdk_scroll_event_get_deltas()
      */
-    SMOOTH;
+    public static final ScrollDirection SMOOTH = new ScrollDirection(4);
     
-    public static ScrollDirection fromValue(int value) {
-        return switch(value) {
-            case 0 -> UP;
-            case 1 -> DOWN;
-            case 2 -> LEFT;
-            case 3 -> RIGHT;
-            case 4 -> SMOOTH;
-            default -> null;
-        };
+    private int value;
+    
+    public ScrollDirection(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UP -> 0;
-            case DOWN -> 1;
-            case LEFT -> 2;
-            case RIGHT -> 3;
-            case SMOOTH -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ScrollDirection[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

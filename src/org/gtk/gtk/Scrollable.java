@@ -72,7 +72,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default ScrollablePolicy getHscrollPolicy() {
         var RESULT = gtk_h.gtk_scrollable_get_hscroll_policy(handle());
-        return ScrollablePolicy.fromValue(RESULT);
+        return new ScrollablePolicy(RESULT);
     }
     
     /**
@@ -88,7 +88,7 @@ public interface Scrollable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default ScrollablePolicy getVscrollPolicy() {
         var RESULT = gtk_h.gtk_scrollable_get_vscroll_policy(handle());
-        return ScrollablePolicy.fromValue(RESULT);
+        return new ScrollablePolicy(RESULT);
     }
     
     /**

@@ -200,7 +200,7 @@ public class Gesture extends EventController {
      */
     public EventSequenceState getSequenceState(org.gtk.gdk.EventSequence sequence) {
         var RESULT = gtk_h.gtk_gesture_get_sequence_state(handle(), sequence.handle());
-        return EventSequenceState.fromValue(RESULT);
+        return new EventSequenceState(RESULT);
     }
     
     /**
@@ -495,7 +495,7 @@ public class Gesture extends EventController {
     public static void __signalGestureSequenceStateChanged(MemoryAddress source, MemoryAddress sequence, int state, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Gesture.SequenceStateChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)), EventSequenceState.fromValue(state));
+        handler.signalReceived(new Gesture(References.get(source)), new org.gtk.gdk.EventSequence(References.get(sequence, false)), new EventSequenceState(state));
     }
     
     @FunctionalInterface

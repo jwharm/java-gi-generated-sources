@@ -100,7 +100,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      */
     public RevealerTransitionType getTransitionType() {
         var RESULT = gtk_h.gtk_revealer_get_transition_type(handle());
-        return RevealerTransitionType.fromValue(RESULT);
+        return new RevealerTransitionType(RESULT);
     }
     
     /**

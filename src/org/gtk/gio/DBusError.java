@@ -3,71 +3,71 @@ package org.gtk.gio;
 /**
  * Error codes for the {@code G_DBUS_ERROR} error domain.
  */
-public enum DBusError {
+public class DBusError {
 
     /**
      * A generic error; "something went wrong" - see the error message for
      * more.
      */
-    FAILED,
+    public static final DBusError FAILED = new DBusError(0);
     
     /**
      * There was not enough memory to complete an operation.
      */
-    NO_MEMORY,
+    public static final DBusError NO_MEMORY = new DBusError(1);
     
     /**
      * The bus doesn't know how to launch a service to supply the bus name
      * you wanted.
      */
-    SERVICE_UNKNOWN,
+    public static final DBusError SERVICE_UNKNOWN = new DBusError(2);
     
     /**
      * The bus name you referenced doesn't exist (i.e. no application owns
      * it).
      */
-    NAME_HAS_NO_OWNER,
+    public static final DBusError NAME_HAS_NO_OWNER = new DBusError(3);
     
     /**
      * No reply to a message expecting one, usually means a timeout occurred.
      */
-    NO_REPLY,
+    public static final DBusError NO_REPLY = new DBusError(4);
     
     /**
      * Something went wrong reading or writing to a socket, for example.
      */
-    IO_ERROR,
+    public static final DBusError IO_ERROR = new DBusError(5);
     
     /**
      * A D-Bus bus address was malformed.
      */
-    BAD_ADDRESS,
+    public static final DBusError BAD_ADDRESS = new DBusError(6);
     
     /**
      * Requested operation isn't supported (like ENOSYS on UNIX).
      */
-    NOT_SUPPORTED,
+    public static final DBusError NOT_SUPPORTED = new DBusError(7);
     
     /**
      * Some limited resource is exhausted.
      */
-    LIMITS_EXCEEDED,
+    public static final DBusError LIMITS_EXCEEDED = new DBusError(8);
     
     /**
      * Security restrictions don't allow doing what you're trying to do.
      */
-    ACCESS_DENIED,
+    public static final DBusError ACCESS_DENIED = new DBusError(9);
     
     /**
      * Authentication didn't work.
      */
-    AUTH_FAILED,
+    public static final DBusError AUTH_FAILED = new DBusError(10);
     
     /**
      * Unable to connect to server (probably caused by ECONNREFUSED on a
      * socket).
      */
-    NO_SERVER,
+    public static final DBusError NO_SERVER = new DBusError(11);
     
     /**
      * Certain timeout errors, possibly ETIMEDOUT on a socket.  Note that
@@ -76,269 +76,190 @@ public enum DBusError {
      * exists. We can't fix it for compatibility reasons so just be
      * careful.
      */
-    TIMEOUT,
+    public static final DBusError TIMEOUT = new DBusError(12);
     
     /**
      * No network access (probably ENETUNREACH on a socket).
      */
-    NO_NETWORK,
+    public static final DBusError NO_NETWORK = new DBusError(13);
     
     /**
      * Can't bind a socket since its address is in use (i.e. EADDRINUSE).
      */
-    ADDRESS_IN_USE,
+    public static final DBusError ADDRESS_IN_USE = new DBusError(14);
     
     /**
      * The connection is disconnected and you're trying to use it.
      */
-    DISCONNECTED,
+    public static final DBusError DISCONNECTED = new DBusError(15);
     
     /**
      * Invalid arguments passed to a method call.
      */
-    INVALID_ARGS,
+    public static final DBusError INVALID_ARGS = new DBusError(16);
     
     /**
      * Missing file.
      */
-    FILE_NOT_FOUND,
+    public static final DBusError FILE_NOT_FOUND = new DBusError(17);
     
     /**
      * Existing file and the operation you're using does not silently overwrite.
      */
-    FILE_EXISTS,
+    public static final DBusError FILE_EXISTS = new DBusError(18);
     
     /**
      * Method name you invoked isn't known by the object you invoked it on.
      */
-    UNKNOWN_METHOD,
+    public static final DBusError UNKNOWN_METHOD = new DBusError(19);
     
     /**
      * Certain timeout errors, e.g. while starting a service. Warning: this is
      * confusingly-named given that {@link DBusError#TIMEOUT} also exists. We
      * can't fix it for compatibility reasons so just be careful.
      */
-    TIMED_OUT,
+    public static final DBusError TIMED_OUT = new DBusError(20);
     
     /**
      * Tried to remove or modify a match rule that didn't exist.
      */
-    MATCH_RULE_NOT_FOUND,
+    public static final DBusError MATCH_RULE_NOT_FOUND = new DBusError(21);
     
     /**
      * The match rule isn't syntactically valid.
      */
-    MATCH_RULE_INVALID,
+    public static final DBusError MATCH_RULE_INVALID = new DBusError(22);
     
     /**
      * While starting a new process, the exec() call failed.
      */
-    SPAWN_EXEC_FAILED,
+    public static final DBusError SPAWN_EXEC_FAILED = new DBusError(23);
     
     /**
      * While starting a new process, the fork() call failed.
      */
-    SPAWN_FORK_FAILED,
+    public static final DBusError SPAWN_FORK_FAILED = new DBusError(24);
     
     /**
      * While starting a new process, the child exited with a status code.
      */
-    SPAWN_CHILD_EXITED,
+    public static final DBusError SPAWN_CHILD_EXITED = new DBusError(25);
     
     /**
      * While starting a new process, the child exited on a signal.
      */
-    SPAWN_CHILD_SIGNALED,
+    public static final DBusError SPAWN_CHILD_SIGNALED = new DBusError(26);
     
     /**
      * While starting a new process, something went wrong.
      */
-    SPAWN_FAILED,
+    public static final DBusError SPAWN_FAILED = new DBusError(27);
     
     /**
      * We failed to setup the environment correctly.
      */
-    SPAWN_SETUP_FAILED,
+    public static final DBusError SPAWN_SETUP_FAILED = new DBusError(28);
     
     /**
      * We failed to setup the config parser correctly.
      */
-    SPAWN_CONFIG_INVALID,
+    public static final DBusError SPAWN_CONFIG_INVALID = new DBusError(29);
     
     /**
      * Bus name was not valid.
      */
-    SPAWN_SERVICE_INVALID,
+    public static final DBusError SPAWN_SERVICE_INVALID = new DBusError(30);
     
     /**
      * Service file not found in system-services directory.
      */
-    SPAWN_SERVICE_NOT_FOUND,
+    public static final DBusError SPAWN_SERVICE_NOT_FOUND = new DBusError(31);
     
     /**
      * Permissions are incorrect on the setuid helper.
      */
-    SPAWN_PERMISSIONS_INVALID,
+    public static final DBusError SPAWN_PERMISSIONS_INVALID = new DBusError(32);
     
     /**
      * Service file invalid (Name, User or Exec missing).
      */
-    SPAWN_FILE_INVALID,
+    public static final DBusError SPAWN_FILE_INVALID = new DBusError(33);
     
     /**
      * Tried to get a UNIX process ID and it wasn't available.
      */
-    SPAWN_NO_MEMORY,
+    public static final DBusError SPAWN_NO_MEMORY = new DBusError(34);
     
     /**
      * Tried to get a UNIX process ID and it wasn't available.
      */
-    UNIX_PROCESS_ID_UNKNOWN,
+    public static final DBusError UNIX_PROCESS_ID_UNKNOWN = new DBusError(35);
     
     /**
      * A type signature is not valid.
      */
-    INVALID_SIGNATURE,
+    public static final DBusError INVALID_SIGNATURE = new DBusError(36);
     
     /**
      * A file contains invalid syntax or is otherwise broken.
      */
-    INVALID_FILE_CONTENT,
+    public static final DBusError INVALID_FILE_CONTENT = new DBusError(37);
     
     /**
      * Asked for SELinux security context and it wasn't available.
      */
-    SELINUX_SECURITY_CONTEXT_UNKNOWN,
+    public static final DBusError SELINUX_SECURITY_CONTEXT_UNKNOWN = new DBusError(38);
     
     /**
      * Asked for ADT audit data and it wasn't available.
      */
-    ADT_AUDIT_DATA_UNKNOWN,
+    public static final DBusError ADT_AUDIT_DATA_UNKNOWN = new DBusError(39);
     
     /**
      * There's already an object with the requested object path.
      */
-    OBJECT_PATH_IN_USE,
+    public static final DBusError OBJECT_PATH_IN_USE = new DBusError(40);
     
     /**
      * Object you invoked a method on isn't known. Since 2.42
      */
-    UNKNOWN_OBJECT,
+    public static final DBusError UNKNOWN_OBJECT = new DBusError(41);
     
     /**
      * Interface you invoked a method on isn't known by the object. Since 2.42
      */
-    UNKNOWN_INTERFACE,
+    public static final DBusError UNKNOWN_INTERFACE = new DBusError(42);
     
     /**
      * Property you tried to access isn't known by the object. Since 2.42
      */
-    UNKNOWN_PROPERTY,
+    public static final DBusError UNKNOWN_PROPERTY = new DBusError(43);
     
     /**
      * Property you tried to set is read-only. Since 2.42
      */
-    PROPERTY_READ_ONLY;
+    public static final DBusError PROPERTY_READ_ONLY = new DBusError(44);
     
-    public static DBusError fromValue(int value) {
-        return switch(value) {
-            case 0 -> FAILED;
-            case 1 -> NO_MEMORY;
-            case 2 -> SERVICE_UNKNOWN;
-            case 3 -> NAME_HAS_NO_OWNER;
-            case 4 -> NO_REPLY;
-            case 5 -> IO_ERROR;
-            case 6 -> BAD_ADDRESS;
-            case 7 -> NOT_SUPPORTED;
-            case 8 -> LIMITS_EXCEEDED;
-            case 9 -> ACCESS_DENIED;
-            case 10 -> AUTH_FAILED;
-            case 11 -> NO_SERVER;
-            case 12 -> TIMEOUT;
-            case 13 -> NO_NETWORK;
-            case 14 -> ADDRESS_IN_USE;
-            case 15 -> DISCONNECTED;
-            case 16 -> INVALID_ARGS;
-            case 17 -> FILE_NOT_FOUND;
-            case 18 -> FILE_EXISTS;
-            case 19 -> UNKNOWN_METHOD;
-            case 20 -> TIMED_OUT;
-            case 21 -> MATCH_RULE_NOT_FOUND;
-            case 22 -> MATCH_RULE_INVALID;
-            case 23 -> SPAWN_EXEC_FAILED;
-            case 24 -> SPAWN_FORK_FAILED;
-            case 25 -> SPAWN_CHILD_EXITED;
-            case 26 -> SPAWN_CHILD_SIGNALED;
-            case 27 -> SPAWN_FAILED;
-            case 28 -> SPAWN_SETUP_FAILED;
-            case 29 -> SPAWN_CONFIG_INVALID;
-            case 30 -> SPAWN_SERVICE_INVALID;
-            case 31 -> SPAWN_SERVICE_NOT_FOUND;
-            case 32 -> SPAWN_PERMISSIONS_INVALID;
-            case 33 -> SPAWN_FILE_INVALID;
-            case 34 -> SPAWN_NO_MEMORY;
-            case 35 -> UNIX_PROCESS_ID_UNKNOWN;
-            case 36 -> INVALID_SIGNATURE;
-            case 37 -> INVALID_FILE_CONTENT;
-            case 38 -> SELINUX_SECURITY_CONTEXT_UNKNOWN;
-            case 39 -> ADT_AUDIT_DATA_UNKNOWN;
-            case 40 -> OBJECT_PATH_IN_USE;
-            case 41 -> UNKNOWN_OBJECT;
-            case 42 -> UNKNOWN_INTERFACE;
-            case 43 -> UNKNOWN_PROPERTY;
-            case 44 -> PROPERTY_READ_ONLY;
-            default -> null;
-        };
+    private int value;
+    
+    public DBusError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FAILED -> 0;
-            case NO_MEMORY -> 1;
-            case SERVICE_UNKNOWN -> 2;
-            case NAME_HAS_NO_OWNER -> 3;
-            case NO_REPLY -> 4;
-            case IO_ERROR -> 5;
-            case BAD_ADDRESS -> 6;
-            case NOT_SUPPORTED -> 7;
-            case LIMITS_EXCEEDED -> 8;
-            case ACCESS_DENIED -> 9;
-            case AUTH_FAILED -> 10;
-            case NO_SERVER -> 11;
-            case TIMEOUT -> 12;
-            case NO_NETWORK -> 13;
-            case ADDRESS_IN_USE -> 14;
-            case DISCONNECTED -> 15;
-            case INVALID_ARGS -> 16;
-            case FILE_NOT_FOUND -> 17;
-            case FILE_EXISTS -> 18;
-            case UNKNOWN_METHOD -> 19;
-            case TIMED_OUT -> 20;
-            case MATCH_RULE_NOT_FOUND -> 21;
-            case MATCH_RULE_INVALID -> 22;
-            case SPAWN_EXEC_FAILED -> 23;
-            case SPAWN_FORK_FAILED -> 24;
-            case SPAWN_CHILD_EXITED -> 25;
-            case SPAWN_CHILD_SIGNALED -> 26;
-            case SPAWN_FAILED -> 27;
-            case SPAWN_SETUP_FAILED -> 28;
-            case SPAWN_CONFIG_INVALID -> 29;
-            case SPAWN_SERVICE_INVALID -> 30;
-            case SPAWN_SERVICE_NOT_FOUND -> 31;
-            case SPAWN_PERMISSIONS_INVALID -> 32;
-            case SPAWN_FILE_INVALID -> 33;
-            case SPAWN_NO_MEMORY -> 34;
-            case UNIX_PROCESS_ID_UNKNOWN -> 35;
-            case INVALID_SIGNATURE -> 36;
-            case INVALID_FILE_CONTENT -> 37;
-            case SELINUX_SECURITY_CONTEXT_UNKNOWN -> 38;
-            case ADT_AUDIT_DATA_UNKNOWN -> 39;
-            case OBJECT_PATH_IN_USE -> 40;
-            case UNKNOWN_OBJECT -> 41;
-            case UNKNOWN_INTERFACE -> 42;
-            case UNKNOWN_PROPERTY -> 43;
-            case PROPERTY_READ_ONLY -> 44;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DBusError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

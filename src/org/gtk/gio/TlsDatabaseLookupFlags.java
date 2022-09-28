@@ -5,32 +5,39 @@ package org.gtk.gio;
  * g_tls_database_lookup_certificate_issuer(),
  * and g_tls_database_lookup_certificates_issued_by().
  */
-public enum TlsDatabaseLookupFlags {
+public class TlsDatabaseLookupFlags {
 
     /**
      * No lookup flags
      */
-    NONE,
+    public static final TlsDatabaseLookupFlags NONE = new TlsDatabaseLookupFlags(0);
     
     /**
      * Restrict lookup to certificates that have
      *     a private key.
      */
-    KEYPAIR;
+    public static final TlsDatabaseLookupFlags KEYPAIR = new TlsDatabaseLookupFlags(1);
     
-    public static TlsDatabaseLookupFlags fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> KEYPAIR;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsDatabaseLookupFlags(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case KEYPAIR -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsDatabaseLookupFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

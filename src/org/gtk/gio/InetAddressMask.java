@@ -81,7 +81,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements Initable 
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_inet_address_mask_get_family(handle());
-        return SocketFamily.fromValue(RESULT);
+        return new SocketFamily(RESULT);
     }
     
     /**

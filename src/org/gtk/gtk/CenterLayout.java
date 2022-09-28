@@ -44,7 +44,7 @@ public class CenterLayout extends LayoutManager {
      */
     public BaselinePosition getBaselinePosition() {
         var RESULT = gtk_h.gtk_center_layout_get_baseline_position(handle());
-        return BaselinePosition.fromValue(RESULT);
+        return new BaselinePosition(RESULT);
     }
     
     /**
@@ -68,7 +68,7 @@ public class CenterLayout extends LayoutManager {
      */
     public Orientation getOrientation() {
         var RESULT = gtk_h.gtk_center_layout_get_orientation(handle());
-        return Orientation.fromValue(RESULT);
+        return new Orientation(RESULT);
     }
     
     /**

@@ -335,9 +335,9 @@ public final class HarfBuzz {
      * and {@code HB_BUFFER_DIFF_FLAG_NOTDEF_PRESENT} are never returned.  This should be used by most
      * callers if just comparing two buffers is needed.
      */
-    public static int bufferDiff(BufferT buffer, BufferT reference, CodepointT dottedcircleGlyph, int positionFuzz) {
+    public static BufferDiffFlagsT bufferDiff(BufferT buffer, BufferT reference, CodepointT dottedcircleGlyph, int positionFuzz) {
         var RESULT = gtk_h.hb_buffer_diff(buffer.handle(), reference.handle(), dottedcircleGlyph.getValue(), positionFuzz);
-        return RESULT;
+        return new BufferDiffFlagsT(RESULT);
     }
     
     /**
@@ -347,7 +347,7 @@ public final class HarfBuzz {
      */
     public static BufferClusterLevelT bufferGetClusterLevel(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_cluster_level(buffer.handle());
-        return BufferClusterLevelT.fromValue(RESULT);
+        return new BufferClusterLevelT(RESULT);
     }
     
     /**
@@ -356,7 +356,7 @@ public final class HarfBuzz {
      */
     public static BufferContentTypeT bufferGetContentType(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_content_type(buffer.handle());
-        return BufferContentTypeT.fromValue(RESULT);
+        return new BufferContentTypeT(RESULT);
     }
     
     /**
@@ -364,7 +364,7 @@ public final class HarfBuzz {
      */
     public static DirectionT bufferGetDirection(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_direction(buffer.handle());
-        return DirectionT.fromValue(RESULT);
+        return new DirectionT(RESULT);
     }
     
     /**
@@ -378,9 +378,9 @@ public final class HarfBuzz {
     /**
      * Fetches the {@link buffer_flags_t} of {@code buffer}.
      */
-    public static int bufferGetFlags(BufferT buffer) {
+    public static BufferFlagsT bufferGetFlags(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_flags(buffer.handle());
-        return RESULT;
+        return new BufferFlagsT(RESULT);
     }
     
     /**
@@ -429,7 +429,7 @@ public final class HarfBuzz {
      */
     public static ScriptT bufferGetScript(BufferT buffer) {
         var RESULT = gtk_h.hb_buffer_get_script(buffer.handle());
-        return ScriptT.fromValue(RESULT);
+        return new ScriptT(RESULT);
     }
     
     /**
@@ -558,8 +558,8 @@ public final class HarfBuzz {
      * See the documentation of hb_buffer_serialize_unicode() and
      * hb_buffer_serialize_glyphs() for a description of the output format.
      */
-    public static int bufferSerialize(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, int flags) {
-        var RESULT = gtk_h.hb_buffer_serialize(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags);
+    public static int bufferSerialize(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
+        var RESULT = gtk_h.hb_buffer_serialize(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
         return RESULT;
     }
     
@@ -570,7 +570,7 @@ public final class HarfBuzz {
      */
     public static BufferSerializeFormatT bufferSerializeFormatFromString(byte[] str, int len) {
         var RESULT = gtk_h.hb_buffer_serialize_format_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
-        return BufferSerializeFormatT.fromValue(RESULT);
+        return new BufferSerializeFormatT(RESULT);
     }
     
     /**
@@ -629,8 +629,8 @@ public final class HarfBuzz {
      *    {@link glyph_extents_t}.width and {@link glyph_extents_t}.height respectively if
      *    {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set.
      */
-    public static int bufferSerializeGlyphs(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, int flags) {
-        var RESULT = gtk_h.hb_buffer_serialize_glyphs(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags);
+    public static int bufferSerializeGlyphs(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, FontT font, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
+        var RESULT = gtk_h.hb_buffer_serialize_glyphs(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), font.handle(), format.getValue(), flags.getValue());
         return RESULT;
     }
     
@@ -672,8 +672,8 @@ public final class HarfBuzz {
      * [{u:1617,cl:0},{u:1576,cl:1}]
      * }</pre>
      */
-    public static int bufferSerializeUnicode(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, BufferSerializeFormatT format, int flags) {
-        var RESULT = gtk_h.hb_buffer_serialize_unicode(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags);
+    public static int bufferSerializeUnicode(BufferT buffer, int start, int end, byte[] buf, int bufSize, PointerInteger bufConsumed, BufferSerializeFormatT format, BufferSerializeFlagsT flags) {
+        var RESULT = gtk_h.hb_buffer_serialize_unicode(buffer.handle(), start, end, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, buf)).handle(), bufSize, bufConsumed.handle(), format.getValue(), flags.getValue());
         return RESULT;
     }
     
@@ -710,8 +710,8 @@ public final class HarfBuzz {
     /**
      * Sets {@code buffer} flags to {@code flags}. See {@link buffer_flags_t}.
      */
-    public static void bufferSetFlags(BufferT buffer, int flags) {
-        gtk_h.hb_buffer_set_flags(buffer.handle(), flags);
+    public static void bufferSetFlags(BufferT buffer, BufferFlagsT flags) {
+        gtk_h.hb_buffer_set_flags(buffer.handle(), flags.getValue());
     }
     
     /**
@@ -843,7 +843,7 @@ public final class HarfBuzz {
      */
     public static DirectionT directionFromString(byte[] str, int len) {
         var RESULT = gtk_h.hb_direction_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
-        return DirectionT.fromValue(RESULT);
+        return new DirectionT(RESULT);
     }
     
     /**
@@ -1193,7 +1193,7 @@ public final class HarfBuzz {
     public static void fontAddGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_add_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        gtk_h.hb_font_add_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
     }
@@ -1324,7 +1324,7 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), glyphPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), new PointerInteger(glyph.getValue()).handle());
         glyph.setValue(glyphPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -1339,7 +1339,7 @@ public final class HarfBuzz {
     public static void fontGetGlyphAdvanceForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_get_glyph_advance_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        gtk_h.hb_font_get_glyph_advance_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
     }
@@ -1354,7 +1354,7 @@ public final class HarfBuzz {
     public static void fontGetGlyphAdvancesForDirection(FontT font, DirectionT direction, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
-        gtk_h.hb_font_get_glyph_advances_for_direction(font.handle(), direction.getValue(), count, firstGlyphPOINTER.handle(), glyphStride, firstAdvancePOINTER.handle(), advanceStride);
+        gtk_h.hb_font_get_glyph_advances_for_direction(font.handle(), direction.getValue(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
         firstGlyph.setValue(firstGlyphPOINTER.get());
         firstAdvance.setValue(firstAdvancePOINTER.get());
     }
@@ -1366,7 +1366,7 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphContourPoint(FontT font, CodepointT glyph, int pointIndex, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_contour_point(font.handle(), glyph.getValue(), pointIndex, xPOINTER.handle(), yPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_glyph_contour_point(font.handle(), glyph.getValue(), pointIndex, new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
         return new BoolT(RESULT);
@@ -1383,7 +1383,7 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphContourPointForOrigin(FontT font, CodepointT glyph, int pointIndex, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_contour_point_for_origin(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_glyph_contour_point_for_origin(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
         return new BoolT(RESULT);
@@ -1418,7 +1418,7 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetGlyphFromName(FontT font, java.lang.String[] name, int len, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_from_name(font.handle(), Interop.allocateNativeArray(name).handle(), len, glyphPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_glyph_from_name(font.handle(), Interop.allocateNativeArray(name).handle(), len, new PointerInteger(glyph.getValue()).handle());
         glyph.setValue(glyphPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -1439,7 +1439,7 @@ public final class HarfBuzz {
     public static void fontGetGlyphHAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
-        gtk_h.hb_font_get_glyph_h_advances(font.handle(), count, firstGlyphPOINTER.handle(), glyphStride, firstAdvancePOINTER.handle(), advanceStride);
+        gtk_h.hb_font_get_glyph_h_advances(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
         firstGlyph.setValue(firstGlyphPOINTER.get());
         firstAdvance.setValue(firstAdvancePOINTER.get());
     }
@@ -1463,7 +1463,7 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphHOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_h_origin(font.handle(), glyph.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_glyph_h_origin(font.handle(), glyph.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
         return new BoolT(RESULT);
@@ -1478,7 +1478,7 @@ public final class HarfBuzz {
     public static void fontGetGlyphKerningForDirection(FontT font, CodepointT firstGlyph, CodepointT secondGlyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_get_glyph_kerning_for_direction(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        gtk_h.hb_font_get_glyph_kerning_for_direction(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
     }
@@ -1501,7 +1501,7 @@ public final class HarfBuzz {
     public static void fontGetGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_get_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        gtk_h.hb_font_get_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
     }
@@ -1531,7 +1531,7 @@ public final class HarfBuzz {
     public static void fontGetGlyphVAdvances(FontT font, int count, CodepointT firstGlyph, int glyphStride, PositionT firstAdvance, int advanceStride) {
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         PointerInteger firstAdvancePOINTER = new PointerInteger(firstAdvance.getValue());
-        gtk_h.hb_font_get_glyph_v_advances(font.handle(), count, firstGlyphPOINTER.handle(), glyphStride, firstAdvancePOINTER.handle(), advanceStride);
+        gtk_h.hb_font_get_glyph_v_advances(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, new PointerInteger(firstAdvance.getValue()).handle(), advanceStride);
         firstGlyph.setValue(firstGlyphPOINTER.get());
         firstAdvance.setValue(firstAdvancePOINTER.get());
     }
@@ -1543,7 +1543,7 @@ public final class HarfBuzz {
     public static BoolT fontGetGlyphVOrigin(FontT font, CodepointT glyph, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        var RESULT = gtk_h.hb_font_get_glyph_v_origin(font.handle(), glyph.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_glyph_v_origin(font.handle(), glyph.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
         return new BoolT(RESULT);
@@ -1568,7 +1568,7 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetNominalGlyph(FontT font, CodepointT unicode, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_nominal_glyph(font.handle(), unicode.getValue(), glyphPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_nominal_glyph(font.handle(), unicode.getValue(), new PointerInteger(glyph.getValue()).handle());
         glyph.setValue(glyphPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -1580,7 +1580,7 @@ public final class HarfBuzz {
     public static int fontGetNominalGlyphs(FontT font, int count, CodepointT firstUnicode, int unicodeStride, CodepointT firstGlyph, int glyphStride) {
         PointerInteger firstUnicodePOINTER = new PointerInteger(firstUnicode.getValue());
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
-        var RESULT = gtk_h.hb_font_get_nominal_glyphs(font.handle(), count, firstUnicodePOINTER.handle(), unicodeStride, firstGlyphPOINTER.handle(), glyphStride);
+        var RESULT = gtk_h.hb_font_get_nominal_glyphs(font.handle(), count, new PointerInteger(firstUnicode.getValue()).handle(), unicodeStride, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride);
         firstUnicode.setValue(firstUnicodePOINTER.get());
         firstGlyph.setValue(firstGlyphPOINTER.get());
         return RESULT;
@@ -1681,7 +1681,7 @@ public final class HarfBuzz {
      */
     public static BoolT fontGetVariationGlyph(FontT font, CodepointT unicode, CodepointT variationSelector, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_get_variation_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), glyphPOINTER.handle());
+        var RESULT = gtk_h.hb_font_get_variation_glyph(font.handle(), unicode.getValue(), variationSelector.getValue(), new PointerInteger(glyph.getValue()).handle());
         glyph.setValue(glyphPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -1694,7 +1694,7 @@ public final class HarfBuzz {
      */
     public static BoolT fontGlyphFromString(FontT font, byte[] s, int len, CodepointT glyph) {
         PointerInteger glyphPOINTER = new PointerInteger(glyph.getValue());
-        var RESULT = gtk_h.hb_font_glyph_from_string(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, s)).handle(), len, glyphPOINTER.handle());
+        var RESULT = gtk_h.hb_font_glyph_from_string(font.handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, s)).handle(), len, new PointerInteger(glyph.getValue()).handle());
         glyph.setValue(glyphPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -1844,7 +1844,7 @@ public final class HarfBuzz {
     public static void fontSubtractGlyphOriginForDirection(FontT font, CodepointT glyph, DirectionT direction, PositionT x, PositionT y) {
         PointerInteger xPOINTER = new PointerInteger(x.getValue());
         PointerInteger yPOINTER = new PointerInteger(y.getValue());
-        gtk_h.hb_font_subtract_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), xPOINTER.handle(), yPOINTER.handle());
+        gtk_h.hb_font_subtract_glyph_origin_for_direction(font.handle(), glyph.getValue(), direction.getValue(), new PointerInteger(x.getValue()).handle(), new PointerInteger(y.getValue()).handle());
         x.setValue(xPOINTER.get());
         y.setValue(yPOINTER.get());
     }
@@ -1931,7 +1931,7 @@ public final class HarfBuzz {
      */
     public static org.gtk.glib.UnicodeScript glibScriptFromScript(ScriptT script) {
         var RESULT = gtk_h.hb_glib_script_from_script(script.getValue());
-        return org.gtk.glib.UnicodeScript.fromValue(RESULT);
+        return new org.gtk.glib.UnicodeScript(RESULT);
     }
     
     /**
@@ -1940,15 +1940,15 @@ public final class HarfBuzz {
      */
     public static ScriptT glibScriptToScript(org.gtk.glib.UnicodeScript script) {
         var RESULT = gtk_h.hb_glib_script_to_script(script.getValue());
-        return ScriptT.fromValue(RESULT);
+        return new ScriptT(RESULT);
     }
     
     /**
      * Returns glyph flags encoded within a {@link glyph_info_t}.
      */
-    public static int glyphInfoGetGlyphFlags(GlyphInfoT info) {
+    public static GlyphFlagsT glyphInfoGetGlyphFlags(GlyphInfoT info) {
         var RESULT = gtk_h.hb_glyph_info_get_glyph_flags(info.handle());
-        return RESULT;
+        return new GlyphFlagsT(RESULT);
     }
     
     /**
@@ -2186,9 +2186,9 @@ public final class HarfBuzz {
     /**
      * Fetches the flags defined for a color palette.
      */
-    public static int otColorPaletteGetFlags(FaceT face, int paletteIndex) {
+    public static OtColorPaletteFlagsT otColorPaletteGetFlags(FaceT face, int paletteIndex) {
         var RESULT = gtk_h.hb_ot_color_palette_get_flags(face.handle(), paletteIndex);
-        return RESULT;
+        return new OtColorPaletteFlagsT(RESULT);
     }
     
     /**
@@ -2221,7 +2221,7 @@ public final class HarfBuzz {
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
-        gtk_h.hb_ot_layout_collect_features(face.handle(), tableTag.getValue(), scriptsPOINTER.handle(), languagesPOINTER.handle(), featuresPOINTER.handle(), featureIndexes.handle());
+        gtk_h.hb_ot_layout_collect_features(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), featureIndexes.handle());
         scripts.setValue(scriptsPOINTER.get());
         languages.setValue(languagesPOINTER.get());
         features.setValue(featuresPOINTER.get());
@@ -2238,7 +2238,7 @@ public final class HarfBuzz {
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
-        gtk_h.hb_ot_layout_collect_lookups(face.handle(), tableTag.getValue(), scriptsPOINTER.handle(), languagesPOINTER.handle(), featuresPOINTER.handle(), lookupIndexes.handle());
+        gtk_h.hb_ot_layout_collect_lookups(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), lookupIndexes.handle());
         scripts.setValue(scriptsPOINTER.get());
         languages.setValue(languagesPOINTER.get());
         features.setValue(featuresPOINTER.get());
@@ -2272,7 +2272,7 @@ public final class HarfBuzz {
         PointerInteger tooltipIdPOINTER = new PointerInteger(tooltipId.getValue());
         PointerInteger sampleIdPOINTER = new PointerInteger(sampleId.getValue());
         PointerInteger firstParamIdPOINTER = new PointerInteger(firstParamId.getValue());
-        var RESULT = gtk_h.hb_ot_layout_feature_get_name_ids(face.handle(), tableTag.getValue(), featureIndex, labelIdPOINTER.handle(), tooltipIdPOINTER.handle(), sampleIdPOINTER.handle(), numNamedParameters.handle(), firstParamIdPOINTER.handle());
+        var RESULT = gtk_h.hb_ot_layout_feature_get_name_ids(face.handle(), tableTag.getValue(), featureIndex, new PointerInteger(labelId.getValue()).handle(), new PointerInteger(tooltipId.getValue()).handle(), new PointerInteger(sampleId.getValue()).handle(), numNamedParameters.handle(), new PointerInteger(firstParamId.getValue()).handle());
         labelId.setValue(labelIdPOINTER.get());
         tooltipId.setValue(tooltipIdPOINTER.get());
         sampleId.setValue(sampleIdPOINTER.get());
@@ -2306,7 +2306,7 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutGetBaseline(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
         PointerInteger coordPOINTER = new PointerInteger(coord.getValue());
-        var RESULT = gtk_h.hb_ot_layout_get_baseline(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), coordPOINTER.handle());
+        var RESULT = gtk_h.hb_ot_layout_get_baseline(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), new PointerInteger(coord.getValue()).handle());
         coord.setValue(coordPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -2317,7 +2317,7 @@ public final class HarfBuzz {
      */
     public static void otLayoutGetBaselineWithFallback(FontT font, OtLayoutBaselineTagT baselineTag, DirectionT direction, TagT scriptTag, TagT languageTag, PositionT coord) {
         PointerInteger coordPOINTER = new PointerInteger(coord.getValue());
-        gtk_h.hb_ot_layout_get_baseline_with_fallback(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), coordPOINTER.handle());
+        gtk_h.hb_ot_layout_get_baseline_with_fallback(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), new PointerInteger(coord.getValue()).handle());
         coord.setValue(coordPOINTER.get());
     }
     
@@ -2326,7 +2326,7 @@ public final class HarfBuzz {
      */
     public static OtLayoutGlyphClassT otLayoutGetGlyphClass(FaceT face, CodepointT glyph) {
         var RESULT = gtk_h.hb_ot_layout_get_glyph_class(face.handle(), glyph.getValue());
-        return OtLayoutGlyphClassT.fromValue(RESULT);
+        return new OtLayoutGlyphClassT(RESULT);
     }
     
     /**
@@ -2342,7 +2342,7 @@ public final class HarfBuzz {
      */
     public static OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(ScriptT script) {
         var RESULT = gtk_h.hb_ot_layout_get_horizontal_baseline_tag_for_script(script.getValue());
-        return OtLayoutBaselineTagT.fromValue(RESULT);
+        return new OtLayoutBaselineTagT(RESULT);
     }
     
     /**
@@ -2373,7 +2373,7 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutGetSizeParams(FaceT face, PointerInteger designSize, PointerInteger subfamilyId, OtNameIdT subfamilyNameId, PointerInteger rangeStart, PointerInteger rangeEnd) {
         PointerInteger subfamilyNameIdPOINTER = new PointerInteger(subfamilyNameId.getValue());
-        var RESULT = gtk_h.hb_ot_layout_get_size_params(face.handle(), designSize.handle(), subfamilyId.handle(), subfamilyNameIdPOINTER.handle(), rangeStart.handle(), rangeEnd.handle());
+        var RESULT = gtk_h.hb_ot_layout_get_size_params(face.handle(), designSize.handle(), subfamilyId.handle(), new PointerInteger(subfamilyNameId.getValue()).handle(), rangeStart.handle(), rangeEnd.handle());
         subfamilyNameId.setValue(subfamilyNameIdPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -2437,7 +2437,7 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutLanguageGetRequiredFeature(FaceT face, TagT tableTag, int scriptIndex, int languageIndex, PointerInteger featureIndex, TagT featureTag) {
         PointerInteger featureTagPOINTER = new PointerInteger(featureTag.getValue());
-        var RESULT = gtk_h.hb_ot_layout_language_get_required_feature(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle(), featureTagPOINTER.handle());
+        var RESULT = gtk_h.hb_ot_layout_language_get_required_feature(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureIndex.handle(), new PointerInteger(featureTag.getValue()).handle());
         featureTag.setValue(featureTagPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -2481,7 +2481,7 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutLookupWouldSubstitute(FaceT face, int lookupIndex, CodepointT glyphs, int glyphsLength, BoolT zeroContext) {
         PointerInteger glyphsPOINTER = new PointerInteger(glyphs.getValue());
-        var RESULT = gtk_h.hb_ot_layout_lookup_would_substitute(face.handle(), lookupIndex, glyphsPOINTER.handle(), glyphsLength, zeroContext.getValue());
+        var RESULT = gtk_h.hb_ot_layout_lookup_would_substitute(face.handle(), lookupIndex, new PointerInteger(glyphs.getValue()).handle(), glyphsLength, zeroContext.getValue());
         glyphs.setValue(glyphsPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -2513,7 +2513,7 @@ public final class HarfBuzz {
      */
     public static BoolT otLayoutScriptSelectLanguage(FaceT face, TagT tableTag, int scriptIndex, int languageCount, TagT languageTags, PointerInteger languageIndex) {
         PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
-        var RESULT = gtk_h.hb_ot_layout_script_select_language(face.handle(), tableTag.getValue(), scriptIndex, languageCount, languageTagsPOINTER.handle(), languageIndex.handle());
+        var RESULT = gtk_h.hb_ot_layout_script_select_language(face.handle(), tableTag.getValue(), scriptIndex, languageCount, new PointerInteger(languageTags.getValue()).handle(), languageIndex.handle());
         languageTags.setValue(languageTagsPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -2524,7 +2524,7 @@ public final class HarfBuzz {
     public static BoolT otLayoutTableChooseScript(FaceT face, TagT tableTag, TagT scriptTags, PointerInteger scriptIndex, TagT chosenScript) {
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         PointerInteger chosenScriptPOINTER = new PointerInteger(chosenScript.getValue());
-        var RESULT = gtk_h.hb_ot_layout_table_choose_script(face.handle(), tableTag.getValue(), scriptTagsPOINTER.handle(), scriptIndex.handle(), chosenScriptPOINTER.handle());
+        var RESULT = gtk_h.hb_ot_layout_table_choose_script(face.handle(), tableTag.getValue(), new PointerInteger(scriptTags.getValue()).handle(), scriptIndex.handle(), new PointerInteger(chosenScript.getValue()).handle());
         scriptTags.setValue(scriptTagsPOINTER.get());
         chosenScript.setValue(chosenScriptPOINTER.get());
         return new BoolT(RESULT);
@@ -2585,7 +2585,7 @@ public final class HarfBuzz {
     public static BoolT otLayoutTableSelectScript(FaceT face, TagT tableTag, int scriptCount, TagT scriptTags, PointerInteger scriptIndex, TagT chosenScript) {
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         PointerInteger chosenScriptPOINTER = new PointerInteger(chosenScript.getValue());
-        var RESULT = gtk_h.hb_ot_layout_table_select_script(face.handle(), tableTag.getValue(), scriptCount, scriptTagsPOINTER.handle(), scriptIndex.handle(), chosenScriptPOINTER.handle());
+        var RESULT = gtk_h.hb_ot_layout_table_select_script(face.handle(), tableTag.getValue(), scriptCount, new PointerInteger(scriptTags.getValue()).handle(), scriptIndex.handle(), new PointerInteger(chosenScript.getValue()).handle());
         scriptTags.setValue(scriptTagsPOINTER.get());
         chosenScript.setValue(chosenScriptPOINTER.get());
         return new BoolT(RESULT);
@@ -2618,7 +2618,7 @@ public final class HarfBuzz {
      */
     public static int otMathGetGlyphAssembly(FontT font, CodepointT glyph, DirectionT direction, int startOffset, PointerInteger partsCount, OtMathGlyphPartT[] parts, PositionT italicsCorrection) {
         PointerInteger italicsCorrectionPOINTER = new PointerInteger(italicsCorrection.getValue());
-        var RESULT = gtk_h.hb_ot_math_get_glyph_assembly(font.handle(), glyph.getValue(), direction.getValue(), startOffset, partsCount.handle(), Interop.allocateNativeArray(parts).handle(), italicsCorrectionPOINTER.handle());
+        var RESULT = gtk_h.hb_ot_math_get_glyph_assembly(font.handle(), glyph.getValue(), direction.getValue(), startOffset, partsCount.handle(), Interop.allocateNativeArray(parts).handle(), new PointerInteger(italicsCorrection.getValue()).handle());
         italicsCorrection.setValue(italicsCorrectionPOINTER.get());
         return RESULT;
     }
@@ -2741,7 +2741,7 @@ public final class HarfBuzz {
      */
     public static BoolT otMetricsGetPosition(FontT font, OtMetricsTagT metricsTag, PositionT position) {
         PointerInteger positionPOINTER = new PointerInteger(position.getValue());
-        var RESULT = gtk_h.hb_ot_metrics_get_position(font.handle(), metricsTag.getValue(), positionPOINTER.handle());
+        var RESULT = gtk_h.hb_ot_metrics_get_position(font.handle(), metricsTag.getValue(), new PointerInteger(position.getValue()).handle());
         position.setValue(positionPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -2752,7 +2752,7 @@ public final class HarfBuzz {
      */
     public static void otMetricsGetPositionWithFallback(FontT font, OtMetricsTagT metricsTag, PositionT position) {
         PointerInteger positionPOINTER = new PointerInteger(position.getValue());
-        gtk_h.hb_ot_metrics_get_position_with_fallback(font.handle(), metricsTag.getValue(), positionPOINTER.handle());
+        gtk_h.hb_ot_metrics_get_position_with_fallback(font.handle(), metricsTag.getValue(), new PointerInteger(position.getValue()).handle());
         position.setValue(positionPOINTER.get());
     }
     
@@ -2851,13 +2851,13 @@ public final class HarfBuzz {
      */
     public static ScriptT otTagToScript(TagT tag) {
         var RESULT = gtk_h.hb_ot_tag_to_script(tag.getValue());
-        return ScriptT.fromValue(RESULT);
+        return new ScriptT(RESULT);
     }
     
     public static void otTagsFromScript(ScriptT script, TagT scriptTag1, TagT scriptTag2) {
         PointerInteger scriptTag1POINTER = new PointerInteger(scriptTag1.getValue());
         PointerInteger scriptTag2POINTER = new PointerInteger(scriptTag2.getValue());
-        gtk_h.hb_ot_tags_from_script(script.getValue(), scriptTag1POINTER.handle(), scriptTag2POINTER.handle());
+        gtk_h.hb_ot_tags_from_script(script.getValue(), new PointerInteger(scriptTag1.getValue()).handle(), new PointerInteger(scriptTag2.getValue()).handle());
         scriptTag1.setValue(scriptTag1POINTER.get());
         scriptTag2.setValue(scriptTag2POINTER.get());
     }
@@ -2868,7 +2868,7 @@ public final class HarfBuzz {
     public static void otTagsFromScriptAndLanguage(ScriptT script, LanguageT language, PointerInteger scriptCount, TagT scriptTags, PointerInteger languageCount, TagT languageTags) {
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
-        gtk_h.hb_ot_tags_from_script_and_language(script.getValue(), language.handle(), scriptCount.handle(), scriptTagsPOINTER.handle(), languageCount.handle(), languageTagsPOINTER.handle());
+        gtk_h.hb_ot_tags_from_script_and_language(script.getValue(), language.handle(), scriptCount.handle(), new PointerInteger(scriptTags.getValue()).handle(), languageCount.handle(), new PointerInteger(languageTags.getValue()).handle());
         scriptTags.setValue(scriptTagsPOINTER.get());
         languageTags.setValue(languageTagsPOINTER.get());
     }
@@ -2969,7 +2969,7 @@ public final class HarfBuzz {
      */
     public static ScriptT scriptFromIso15924Tag(TagT tag) {
         var RESULT = gtk_h.hb_script_from_iso15924_tag(tag.getValue());
-        return ScriptT.fromValue(RESULT);
+        return new ScriptT(RESULT);
     }
     
     /**
@@ -2979,7 +2979,7 @@ public final class HarfBuzz {
      */
     public static ScriptT scriptFromString(byte[] str, int len) {
         var RESULT = gtk_h.hb_script_from_string(new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, str)).handle(), len);
-        return ScriptT.fromValue(RESULT);
+        return new ScriptT(RESULT);
     }
     
     /**
@@ -2992,7 +2992,7 @@ public final class HarfBuzz {
      */
     public static DirectionT scriptGetHorizontalDirection(ScriptT script) {
         var RESULT = gtk_h.hb_script_get_horizontal_direction(script.getValue());
-        return DirectionT.fromValue(RESULT);
+        return new DirectionT(RESULT);
     }
     
     /**
@@ -3203,7 +3203,7 @@ public final class HarfBuzz {
      */
     public static BoolT setNext(SetT set, CodepointT codepoint) {
         PointerInteger codepointPOINTER = new PointerInteger(codepoint.getValue());
-        var RESULT = gtk_h.hb_set_next(set.handle(), codepointPOINTER.handle());
+        var RESULT = gtk_h.hb_set_next(set.handle(), new PointerInteger(codepoint.getValue()).handle());
         codepoint.setValue(codepointPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -3217,7 +3217,7 @@ public final class HarfBuzz {
     public static BoolT setNextRange(SetT set, CodepointT first, CodepointT last) {
         PointerInteger firstPOINTER = new PointerInteger(first.getValue());
         PointerInteger lastPOINTER = new PointerInteger(last.getValue());
-        var RESULT = gtk_h.hb_set_next_range(set.handle(), firstPOINTER.handle(), lastPOINTER.handle());
+        var RESULT = gtk_h.hb_set_next_range(set.handle(), new PointerInteger(first.getValue()).handle(), new PointerInteger(last.getValue()).handle());
         first.setValue(firstPOINTER.get());
         last.setValue(lastPOINTER.get());
         return new BoolT(RESULT);
@@ -3230,7 +3230,7 @@ public final class HarfBuzz {
      */
     public static BoolT setPrevious(SetT set, CodepointT codepoint) {
         PointerInteger codepointPOINTER = new PointerInteger(codepoint.getValue());
-        var RESULT = gtk_h.hb_set_previous(set.handle(), codepointPOINTER.handle());
+        var RESULT = gtk_h.hb_set_previous(set.handle(), new PointerInteger(codepoint.getValue()).handle());
         codepoint.setValue(codepointPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -3244,7 +3244,7 @@ public final class HarfBuzz {
     public static BoolT setPreviousRange(SetT set, CodepointT first, CodepointT last) {
         PointerInteger firstPOINTER = new PointerInteger(first.getValue());
         PointerInteger lastPOINTER = new PointerInteger(last.getValue());
-        var RESULT = gtk_h.hb_set_previous_range(set.handle(), firstPOINTER.handle(), lastPOINTER.handle());
+        var RESULT = gtk_h.hb_set_previous_range(set.handle(), new PointerInteger(first.getValue()).handle(), new PointerInteger(last.getValue()).handle());
         first.setValue(firstPOINTER.get());
         last.setValue(lastPOINTER.get());
         return new BoolT(RESULT);
@@ -3433,7 +3433,7 @@ public final class HarfBuzz {
      */
     public static UnicodeCombiningClassT unicodeCombiningClass(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_combining_class(ufuncs.handle(), unicode.getValue());
-        return UnicodeCombiningClassT.fromValue(RESULT);
+        return new UnicodeCombiningClassT(RESULT);
     }
     
     /**
@@ -3445,7 +3445,7 @@ public final class HarfBuzz {
      */
     public static BoolT unicodeCompose(UnicodeFuncsT ufuncs, CodepointT a, CodepointT b, CodepointT ab) {
         PointerInteger abPOINTER = new PointerInteger(ab.getValue());
-        var RESULT = gtk_h.hb_unicode_compose(ufuncs.handle(), a.getValue(), b.getValue(), abPOINTER.handle());
+        var RESULT = gtk_h.hb_unicode_compose(ufuncs.handle(), a.getValue(), b.getValue(), new PointerInteger(ab.getValue()).handle());
         ab.setValue(abPOINTER.get());
         return new BoolT(RESULT);
     }
@@ -3459,7 +3459,7 @@ public final class HarfBuzz {
     public static BoolT unicodeDecompose(UnicodeFuncsT ufuncs, CodepointT ab, CodepointT a, CodepointT b) {
         PointerInteger aPOINTER = new PointerInteger(a.getValue());
         PointerInteger bPOINTER = new PointerInteger(b.getValue());
-        var RESULT = gtk_h.hb_unicode_decompose(ufuncs.handle(), ab.getValue(), aPOINTER.handle(), bPOINTER.handle());
+        var RESULT = gtk_h.hb_unicode_decompose(ufuncs.handle(), ab.getValue(), new PointerInteger(a.getValue()).handle(), new PointerInteger(b.getValue()).handle());
         a.setValue(aPOINTER.get());
         b.setValue(bPOINTER.get());
         return new BoolT(RESULT);
@@ -3548,7 +3548,7 @@ public final class HarfBuzz {
      */
     public static UnicodeGeneralCategoryT unicodeGeneralCategory(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_general_category(ufuncs.handle(), unicode.getValue());
-        return UnicodeGeneralCategoryT.fromValue(RESULT);
+        return new UnicodeGeneralCategoryT(RESULT);
     }
     
     /**
@@ -3566,7 +3566,7 @@ public final class HarfBuzz {
      */
     public static ScriptT unicodeScript(UnicodeFuncsT ufuncs, CodepointT unicode) {
         var RESULT = gtk_h.hb_unicode_script(ufuncs.handle(), unicode.getValue());
-        return ScriptT.fromValue(RESULT);
+        return new ScriptT(RESULT);
     }
     
     /**

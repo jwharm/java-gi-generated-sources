@@ -86,9 +86,9 @@ public class Printer extends org.gtk.gobject.Object {
      * available, see {@link Printer#hasDetails} and
      * {@link Printer#requestDetails}.
      */
-    public int getCapabilities() {
+    public PrintCapabilities getCapabilities() {
         var RESULT = gtk_h.gtk_printer_get_capabilities(handle());
-        return RESULT;
+        return new PrintCapabilities(RESULT);
     }
     
     /**

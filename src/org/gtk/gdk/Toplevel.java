@@ -48,9 +48,9 @@ public interface Toplevel extends io.github.jwharm.javagi.NativeAddress {
      * Gets the bitwise or of the currently active surface state flags,
      * from the {@code GdkToplevelState} enumeration.
      */
-    public default int getState() {
+    public default ToplevelState getState() {
         var RESULT = gtk_h.gdk_toplevel_get_state(handle());
-        return RESULT;
+        return new ToplevelState(RESULT);
     }
     
     /**

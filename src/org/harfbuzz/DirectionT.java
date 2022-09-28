@@ -7,52 +7,53 @@ package org.harfbuzz;
  * orientation (irrespective of specific direction) with
  * HB_DIRECTION_IS_HORIZONTAL() or HB_DIRECTION_IS_VERTICAL().
  */
-public enum DirectionT {
+public class DirectionT {
 
     /**
      * Initial, unset direction.
      */
-    INVALID,
+    public static final DirectionT INVALID = new DirectionT(0);
     
     /**
      * Text is set horizontally from left to right.
      */
-    LTR,
+    public static final DirectionT LTR = new DirectionT(4);
     
     /**
      * Text is set horizontally from right to left.
      */
-    RTL,
+    public static final DirectionT RTL = new DirectionT(5);
     
     /**
      * Text is set vertically from top to bottom.
      */
-    TTB,
+    public static final DirectionT TTB = new DirectionT(6);
     
     /**
      * Text is set vertically from bottom to top.
      */
-    BTT;
+    public static final DirectionT BTT = new DirectionT(7);
     
-    public static DirectionT fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 4 -> LTR;
-            case 5 -> RTL;
-            case 6 -> TTB;
-            case 7 -> BTT;
-            default -> null;
-        };
+    private int value;
+    
+    public DirectionT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case LTR -> 4;
-            case RTL -> 5;
-            case TTB -> 6;
-            case BTT -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DirectionT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

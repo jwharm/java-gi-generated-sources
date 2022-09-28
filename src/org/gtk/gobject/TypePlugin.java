@@ -64,7 +64,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.NativeAddress {
      * {@link TypePluginClass} of {@code plugin}. There should be no need to use this
      * function outside of the GObject type system itself.
      */
-    public default void completeInterfaceInfo(Type instanceType, Type interfaceType, InterfaceInfo info) {
+    public default void completeInterfaceInfo(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo info) {
         gtk_h.g_type_plugin_complete_interface_info(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
     }
     
@@ -73,7 +73,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.NativeAddress {
      * There should be no need to use this function outside of the GObject
      * type system itself.
      */
-    public default void completeTypeInfo(Type gType, TypeInfo info, TypeValueTable valueTable) {
+    public default void completeTypeInfo(org.gtk.gobject.Type gType, TypeInfo info, TypeValueTable valueTable) {
         gtk_h.g_type_plugin_complete_type_info(handle(), gType.getValue(), info.handle(), valueTable.handle());
     }
     

@@ -212,9 +212,9 @@ public class IOStream extends org.gtk.gobject.Object {
      * You can then call g_io_stream_splice_finish() to get the
      * result of the operation.
      */
-    public void spliceAsync(IOStream stream2, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void spliceAsync(IOStream stream2, IOStreamSpliceFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_io_stream_splice_async(handle(), stream2.handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_io_stream_splice_async(handle(), stream2.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

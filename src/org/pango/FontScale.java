@@ -4,45 +4,48 @@ package org.pango;
  * An enumeration that affects font sizes for superscript
  * and subscript positioning and for (emulated) Small Caps.
  */
-public enum FontScale {
+public class FontScale {
 
     /**
      * Leave the font size unchanged
      */
-    NONE,
+    public static final FontScale NONE = new FontScale(0);
     
     /**
      * Change the font to a size suitable for superscripts
      */
-    SUPERSCRIPT,
+    public static final FontScale SUPERSCRIPT = new FontScale(1);
     
     /**
      * Change the font to a size suitable for subscripts
      */
-    SUBSCRIPT,
+    public static final FontScale SUBSCRIPT = new FontScale(2);
     
     /**
      * Change the font to a size suitable for Small Caps
      */
-    SMALL_CAPS;
+    public static final FontScale SMALL_CAPS = new FontScale(3);
     
-    public static FontScale fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> SUPERSCRIPT;
-            case 2 -> SUBSCRIPT;
-            case 3 -> SMALL_CAPS;
-            default -> null;
-        };
+    private int value;
+    
+    public FontScale(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case SUPERSCRIPT -> 1;
-            case SUBSCRIPT -> 2;
-            case SMALL_CAPS -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FontScale[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

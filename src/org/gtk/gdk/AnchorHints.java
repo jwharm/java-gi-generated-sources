@@ -22,46 +22,80 @@ public class AnchorHints {
     /**
      * allow flipping anchors horizontally
      */
-    public static final int FLIP_X = 1;
+    public static final AnchorHints FLIP_X = new AnchorHints(1);
     
     /**
      * allow flipping anchors vertically
      */
-    public static final int FLIP_Y = 2;
+    public static final AnchorHints FLIP_Y = new AnchorHints(2);
     
     /**
      * allow sliding surface horizontally
      */
-    public static final int SLIDE_X = 4;
+    public static final AnchorHints SLIDE_X = new AnchorHints(4);
     
     /**
      * allow sliding surface vertically
      */
-    public static final int SLIDE_Y = 8;
+    public static final AnchorHints SLIDE_Y = new AnchorHints(8);
     
     /**
      * allow resizing surface horizontally
      */
-    public static final int RESIZE_X = 16;
+    public static final AnchorHints RESIZE_X = new AnchorHints(16);
     
     /**
      * allow resizing surface vertically
      */
-    public static final int RESIZE_Y = 32;
+    public static final AnchorHints RESIZE_Y = new AnchorHints(32);
     
     /**
      * allow flipping anchors on both axes
      */
-    public static final int FLIP = 3;
+    public static final AnchorHints FLIP = new AnchorHints(3);
     
     /**
      * allow sliding surface on both axes
      */
-    public static final int SLIDE = 12;
+    public static final AnchorHints SLIDE = new AnchorHints(12);
     
     /**
      * allow resizing surface on both axes
      */
-    public static final int RESIZE = 48;
+    public static final AnchorHints RESIZE = new AnchorHints(48);
+    
+    private int value;
+    
+    public AnchorHints(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AnchorHints[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public AnchorHints combined(AnchorHints mask) {
+        return new AnchorHints(this.getValue() | mask.getValue());
+    }
+    
+    public static AnchorHints combined(AnchorHints mask, AnchorHints... masks) {
+        int value = mask.getValue();
+        for (AnchorHints arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AnchorHints(value);
+    }
     
 }

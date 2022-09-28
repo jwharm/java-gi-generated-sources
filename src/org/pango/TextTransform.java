@@ -3,46 +3,49 @@ package org.pango;
 /**
  * An enumeration that affects how Pango treats characters during shaping.
  */
-public enum TextTransform {
+public class TextTransform {
 
     /**
      * Leave text unchanged
      */
-    NONE,
+    public static final TextTransform NONE = new TextTransform(0);
     
     /**
      * Display letters and numbers as lowercase
      */
-    LOWERCASE,
+    public static final TextTransform LOWERCASE = new TextTransform(1);
     
     /**
      * Display letters and numbers as uppercase
      */
-    UPPERCASE,
+    public static final TextTransform UPPERCASE = new TextTransform(2);
     
     /**
      * Display the first character of a word
      *   in titlecase
      */
-    CAPITALIZE;
+    public static final TextTransform CAPITALIZE = new TextTransform(3);
     
-    public static TextTransform fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> LOWERCASE;
-            case 2 -> UPPERCASE;
-            case 3 -> CAPITALIZE;
-            default -> null;
-        };
+    private int value;
+    
+    public TextTransform(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case LOWERCASE -> 1;
-            case UPPERCASE -> 2;
-            case CAPITALIZE -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TextTransform[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

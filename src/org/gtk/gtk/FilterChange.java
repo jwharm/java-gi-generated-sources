@@ -8,43 +8,48 @@ package org.gtk.gtk;
  * value to pass, {@link FilterChange#DIFFERENT} is always a correct
  * choice.
  */
-public enum FilterChange {
+public class FilterChange {
 
     /**
      * The filter change cannot be
      *   described with any of the other enumeration values.
      */
-    DIFFERENT,
+    public static final FilterChange DIFFERENT = new FilterChange(0);
     
     /**
      * The filter is less strict than
      *   it was before: All items that it used to return {@code true} for
      *   still return {@code true}, others now may, too.
      */
-    LESS_STRICT,
+    public static final FilterChange LESS_STRICT = new FilterChange(1);
     
     /**
      * The filter is more strict than
      *   it was before: All items that it used to return {@code false} for
      *   still return {@code false}, others now may, too.
      */
-    MORE_STRICT;
+    public static final FilterChange MORE_STRICT = new FilterChange(2);
     
-    public static FilterChange fromValue(int value) {
-        return switch(value) {
-            case 0 -> DIFFERENT;
-            case 1 -> LESS_STRICT;
-            case 2 -> MORE_STRICT;
-            default -> null;
-        };
+    private int value;
+    
+    public FilterChange(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DIFFERENT -> 0;
-            case LESS_STRICT -> 1;
-            case MORE_STRICT -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FilterChange[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

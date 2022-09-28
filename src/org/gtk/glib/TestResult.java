@@ -1,32 +1,35 @@
 package org.gtk.glib;
 
-public enum TestResult {
+public class TestResult {
 
-    SUCCESS,
+    public static final TestResult SUCCESS = new TestResult(0);
     
-    SKIPPED,
+    public static final TestResult SKIPPED = new TestResult(1);
     
-    FAILURE,
+    public static final TestResult FAILURE = new TestResult(2);
     
-    INCOMPLETE;
+    public static final TestResult INCOMPLETE = new TestResult(3);
     
-    public static TestResult fromValue(int value) {
-        return switch(value) {
-            case 0 -> SUCCESS;
-            case 1 -> SKIPPED;
-            case 2 -> FAILURE;
-            case 3 -> INCOMPLETE;
-            default -> null;
-        };
+    private int value;
+    
+    public TestResult(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SUCCESS -> 0;
-            case SKIPPED -> 1;
-            case FAILURE -> 2;
-            case INCOMPLETE -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TestResult[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

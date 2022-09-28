@@ -76,7 +76,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      */
     public BaselinePosition getBaselinePosition() {
         var RESULT = gtk_h.gtk_box_get_baseline_position(handle());
-        return BaselinePosition.fromValue(RESULT);
+        return new BaselinePosition(RESULT);
     }
     
     /**

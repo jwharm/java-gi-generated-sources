@@ -142,7 +142,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
      */
     public MessageType getMessageType() {
         var RESULT = gtk_h.gtk_info_bar_get_message_type(handle());
-        return MessageType.fromValue(RESULT);
+        return new MessageType(RESULT);
     }
     
     /**

@@ -9,80 +9,73 @@ package org.gtk.glib;
  * every platform has a directory for every logical id in this
  * enumeration.
  */
-public enum UserDirectory {
+public class UserDirectory {
 
     /**
      * the user's Desktop directory
      */
-    DIRECTORY_DESKTOP,
+    public static final UserDirectory DIRECTORY_DESKTOP = new UserDirectory(0);
     
     /**
      * the user's Documents directory
      */
-    DIRECTORY_DOCUMENTS,
+    public static final UserDirectory DIRECTORY_DOCUMENTS = new UserDirectory(1);
     
     /**
      * the user's Downloads directory
      */
-    DIRECTORY_DOWNLOAD,
+    public static final UserDirectory DIRECTORY_DOWNLOAD = new UserDirectory(2);
     
     /**
      * the user's Music directory
      */
-    DIRECTORY_MUSIC,
+    public static final UserDirectory DIRECTORY_MUSIC = new UserDirectory(3);
     
     /**
      * the user's Pictures directory
      */
-    DIRECTORY_PICTURES,
+    public static final UserDirectory DIRECTORY_PICTURES = new UserDirectory(4);
     
     /**
      * the user's shared directory
      */
-    DIRECTORY_PUBLIC_SHARE,
+    public static final UserDirectory DIRECTORY_PUBLIC_SHARE = new UserDirectory(5);
     
     /**
      * the user's Templates directory
      */
-    DIRECTORY_TEMPLATES,
+    public static final UserDirectory DIRECTORY_TEMPLATES = new UserDirectory(6);
     
     /**
      * the user's Movies directory
      */
-    DIRECTORY_VIDEOS,
+    public static final UserDirectory DIRECTORY_VIDEOS = new UserDirectory(7);
     
     /**
      * the number of enum values
      */
-    N_DIRECTORIES;
+    public static final UserDirectory N_DIRECTORIES = new UserDirectory(8);
     
-    public static UserDirectory fromValue(int value) {
-        return switch(value) {
-            case 0 -> DIRECTORY_DESKTOP;
-            case 1 -> DIRECTORY_DOCUMENTS;
-            case 2 -> DIRECTORY_DOWNLOAD;
-            case 3 -> DIRECTORY_MUSIC;
-            case 4 -> DIRECTORY_PICTURES;
-            case 5 -> DIRECTORY_PUBLIC_SHARE;
-            case 6 -> DIRECTORY_TEMPLATES;
-            case 7 -> DIRECTORY_VIDEOS;
-            case 8 -> N_DIRECTORIES;
-            default -> null;
-        };
+    private int value;
+    
+    public UserDirectory(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DIRECTORY_DESKTOP -> 0;
-            case DIRECTORY_DOCUMENTS -> 1;
-            case DIRECTORY_DOWNLOAD -> 2;
-            case DIRECTORY_MUSIC -> 3;
-            case DIRECTORY_PICTURES -> 4;
-            case DIRECTORY_PUBLIC_SHARE -> 5;
-            case DIRECTORY_TEMPLATES -> 6;
-            case DIRECTORY_VIDEOS -> 7;
-            case N_DIRECTORIES -> 8;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(UserDirectory[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

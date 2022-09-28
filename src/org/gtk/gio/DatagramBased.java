@@ -96,9 +96,9 @@ public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * This call never blocks.
      */
-    public default int conditionCheck(int condition) {
-        var RESULT = gtk_h.g_datagram_based_condition_check(handle(), condition);
-        return RESULT;
+    public default org.gtk.glib.IOCondition conditionCheck(org.gtk.glib.IOCondition condition) {
+        var RESULT = gtk_h.g_datagram_based_condition_check(handle(), condition.getValue());
+        return new org.gtk.glib.IOCondition(RESULT);
     }
     
     /**
@@ -109,9 +109,9 @@ public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
      * reached before the condition is met, then {@code false} is returned and {@code error} is
      * set appropriately ({@link IOErrorEnum#CANCELLED} or {@link IOErrorEnum#TIMED_OUT}).
      */
-    public default boolean conditionWait(int condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public default boolean conditionWait(org.gtk.glib.IOCondition condition, long timeout, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_datagram_based_condition_wait(handle(), condition, timeout, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_datagram_based_condition_wait(handle(), condition.getValue(), timeout, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -134,8 +134,8 @@ public interface DatagramBased extends io.github.jwharm.javagi.NativeAddress {
      * change). You can check for this in the callback using
      * g_cancellable_is_cancelled().
      */
-    public default org.gtk.glib.Source createSource(int condition, Cancellable cancellable) {
-        var RESULT = gtk_h.g_datagram_based_create_source(handle(), condition, cancellable.handle());
+    public default org.gtk.glib.Source createSource(org.gtk.glib.IOCondition condition, Cancellable cancellable) {
+        var RESULT = gtk_h.g_datagram_based_create_source(handle(), condition.getValue(), cancellable.handle());
         return new org.gtk.glib.Source(References.get(RESULT, true));
     }
     

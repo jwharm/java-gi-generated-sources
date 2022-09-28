@@ -310,9 +310,9 @@ public final class Gio {
      * percent-encoded URIs, the percent-character must be doubled in order to prevent it from
      * being swallowed by Exec key unquoting. See the specification for exact quoting rules.
      */
-    public static AppInfo appInfoCreateFromCommandline(java.lang.String commandline, java.lang.String applicationName, int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static AppInfo appInfoCreateFromCommandline(java.lang.String commandline, java.lang.String applicationName, AppInfoCreateFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_app_info_create_from_commandline(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags, GERROR);
+        var RESULT = gtk_h.g_app_info_create_from_commandline(Interop.allocateNativeString(commandline).handle(), Interop.allocateNativeString(applicationName).handle(), flags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -587,9 +587,9 @@ public final class Gio {
      * Simply register objects to be exported in {@code bus_acquired_handler} and
      * unregister the objects (if any) in {@code name_lost_handler}.
      */
-    public static int busOwnName(BusType busType, java.lang.String name, int flags, BusAcquiredCallback busAcquiredHandler, BusNameAcquiredCallback nameAcquiredHandler, BusNameLostCallback nameLostHandler) {
+    public static int busOwnName(BusType busType, java.lang.String name, BusNameOwnerFlags flags, BusAcquiredCallback busAcquiredHandler, BusNameAcquiredCallback nameAcquiredHandler, BusNameLostCallback nameLostHandler) {
         try {
-            var RESULT = gtk_h.g_bus_own_name(busType.getValue(), Interop.allocateNativeString(name).handle(), flags, 
+            var RESULT = gtk_h.g_bus_own_name(busType.getValue(), Interop.allocateNativeString(name).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbBusAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -617,9 +617,9 @@ public final class Gio {
      * Like g_bus_own_name() but takes a {@link DBusConnection} instead of a
      * {@link BusType}.
      */
-    public static int busOwnNameOnConnection(DBusConnection connection, java.lang.String name, int flags, BusNameAcquiredCallback nameAcquiredHandler, BusNameLostCallback nameLostHandler) {
+    public static int busOwnNameOnConnection(DBusConnection connection, java.lang.String name, BusNameOwnerFlags flags, BusNameAcquiredCallback nameAcquiredHandler, BusNameLostCallback nameLostHandler) {
         try {
-            var RESULT = gtk_h.g_bus_own_name_on_connection(connection.handle(), Interop.allocateNativeString(name).handle(), flags, 
+            var RESULT = gtk_h.g_bus_own_name_on_connection(connection.handle(), Interop.allocateNativeString(name).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameAcquiredCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -642,8 +642,8 @@ public final class Gio {
      * Version of g_bus_own_name_on_connection() using closures instead of
      * callbacks for easier binding in other languages.
      */
-    public static int busOwnNameOnConnectionWithClosures(DBusConnection connection, java.lang.String name, int flags, org.gtk.gobject.Closure nameAcquiredClosure, org.gtk.gobject.Closure nameLostClosure) {
-        var RESULT = gtk_h.g_bus_own_name_on_connection_with_closures(connection.handle(), Interop.allocateNativeString(name).handle(), flags, nameAcquiredClosure.handle(), nameLostClosure.handle());
+    public static int busOwnNameOnConnectionWithClosures(DBusConnection connection, java.lang.String name, BusNameOwnerFlags flags, org.gtk.gobject.Closure nameAcquiredClosure, org.gtk.gobject.Closure nameLostClosure) {
+        var RESULT = gtk_h.g_bus_own_name_on_connection_with_closures(connection.handle(), Interop.allocateNativeString(name).handle(), flags.getValue(), nameAcquiredClosure.handle(), nameLostClosure.handle());
         return RESULT;
     }
     
@@ -651,8 +651,8 @@ public final class Gio {
      * Version of g_bus_own_name() using closures instead of callbacks for
      * easier binding in other languages.
      */
-    public static int busOwnNameWithClosures(BusType busType, java.lang.String name, int flags, org.gtk.gobject.Closure busAcquiredClosure, org.gtk.gobject.Closure nameAcquiredClosure, org.gtk.gobject.Closure nameLostClosure) {
-        var RESULT = gtk_h.g_bus_own_name_with_closures(busType.getValue(), Interop.allocateNativeString(name).handle(), flags, busAcquiredClosure.handle(), nameAcquiredClosure.handle(), nameLostClosure.handle());
+    public static int busOwnNameWithClosures(BusType busType, java.lang.String name, BusNameOwnerFlags flags, org.gtk.gobject.Closure busAcquiredClosure, org.gtk.gobject.Closure nameAcquiredClosure, org.gtk.gobject.Closure nameLostClosure) {
+        var RESULT = gtk_h.g_bus_own_name_with_closures(busType.getValue(), Interop.allocateNativeString(name).handle(), flags.getValue(), busAcquiredClosure.handle(), nameAcquiredClosure.handle(), nameLostClosure.handle());
         return RESULT;
     }
     
@@ -715,9 +715,9 @@ public final class Gio {
      * {@code name_appeared_handler} and destroy them again (if any) in
      * {@code name_vanished_handler}.
      */
-    public static int busWatchName(BusType busType, java.lang.String name, int flags, BusNameAppearedCallback nameAppearedHandler, BusNameVanishedCallback nameVanishedHandler) {
+    public static int busWatchName(BusType busType, java.lang.String name, BusNameWatcherFlags flags, BusNameAppearedCallback nameAppearedHandler, BusNameVanishedCallback nameVanishedHandler) {
         try {
-            var RESULT = gtk_h.g_bus_watch_name(busType.getValue(), Interop.allocateNativeString(name).handle(), flags, 
+            var RESULT = gtk_h.g_bus_watch_name(busType.getValue(), Interop.allocateNativeString(name).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameAppearedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -740,9 +740,9 @@ public final class Gio {
      * Like g_bus_watch_name() but takes a {@link DBusConnection} instead of a
      * {@link BusType}.
      */
-    public static int busWatchNameOnConnection(DBusConnection connection, java.lang.String name, int flags, BusNameAppearedCallback nameAppearedHandler, BusNameVanishedCallback nameVanishedHandler) {
+    public static int busWatchNameOnConnection(DBusConnection connection, java.lang.String name, BusNameWatcherFlags flags, BusNameAppearedCallback nameAppearedHandler, BusNameVanishedCallback nameVanishedHandler) {
         try {
-            var RESULT = gtk_h.g_bus_watch_name_on_connection(connection.handle(), Interop.allocateNativeString(name).handle(), flags, 
+            var RESULT = gtk_h.g_bus_watch_name_on_connection(connection.handle(), Interop.allocateNativeString(name).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbBusNameAppearedCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -765,8 +765,8 @@ public final class Gio {
      * Version of g_bus_watch_name_on_connection() using closures instead of callbacks for
      * easier binding in other languages.
      */
-    public static int busWatchNameOnConnectionWithClosures(DBusConnection connection, java.lang.String name, int flags, org.gtk.gobject.Closure nameAppearedClosure, org.gtk.gobject.Closure nameVanishedClosure) {
-        var RESULT = gtk_h.g_bus_watch_name_on_connection_with_closures(connection.handle(), Interop.allocateNativeString(name).handle(), flags, nameAppearedClosure.handle(), nameVanishedClosure.handle());
+    public static int busWatchNameOnConnectionWithClosures(DBusConnection connection, java.lang.String name, BusNameWatcherFlags flags, org.gtk.gobject.Closure nameAppearedClosure, org.gtk.gobject.Closure nameVanishedClosure) {
+        var RESULT = gtk_h.g_bus_watch_name_on_connection_with_closures(connection.handle(), Interop.allocateNativeString(name).handle(), flags.getValue(), nameAppearedClosure.handle(), nameVanishedClosure.handle());
         return RESULT;
     }
     
@@ -774,8 +774,8 @@ public final class Gio {
      * Version of g_bus_watch_name() using closures instead of callbacks for
      * easier binding in other languages.
      */
-    public static int busWatchNameWithClosures(BusType busType, java.lang.String name, int flags, org.gtk.gobject.Closure nameAppearedClosure, org.gtk.gobject.Closure nameVanishedClosure) {
-        var RESULT = gtk_h.g_bus_watch_name_with_closures(busType.getValue(), Interop.allocateNativeString(name).handle(), flags, nameAppearedClosure.handle(), nameVanishedClosure.handle());
+    public static int busWatchNameWithClosures(BusType busType, java.lang.String name, BusNameWatcherFlags flags, org.gtk.gobject.Closure nameAppearedClosure, org.gtk.gobject.Closure nameVanishedClosure) {
+        var RESULT = gtk_h.g_bus_watch_name_with_closures(busType.getValue(), Interop.allocateNativeString(name).handle(), flags.getValue(), nameAppearedClosure.handle(), nameVanishedClosure.handle());
         return RESULT;
     }
     
@@ -1500,7 +1500,7 @@ public final class Gio {
      */
     public static IOErrorEnum ioErrorFromErrno(int errNo) {
         var RESULT = gtk_h.g_io_error_from_errno(errNo);
-        return IOErrorEnum.fromValue(RESULT);
+        return new IOErrorEnum(RESULT);
     }
     
     /**
@@ -1518,7 +1518,7 @@ public final class Gio {
      * If {@code type} has already been registered as an extension for this
      * extension point, the existing {@link IOExtension} object is returned.
      */
-    public static IOExtension ioExtensionPointImplement(java.lang.String extensionPointName, Type type, java.lang.String extensionName, int priority) {
+    public static IOExtension ioExtensionPointImplement(java.lang.String extensionPointName, org.gtk.gobject.Type type, java.lang.String extensionName, int priority) {
         var RESULT = gtk_h.g_io_extension_point_implement(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);
         return new IOExtension(References.get(RESULT, false));
     }
@@ -1863,9 +1863,9 @@ public final class Gio {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public static boolean resourcesGetInfo(java.lang.String path, int lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean resourcesGetInfo(java.lang.String path, ResourceLookupFlags lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resources_get_info(Interop.allocateNativeString(path).handle(), lookupFlags, size.handle(), flags.handle(), GERROR);
+        var RESULT = gtk_h.g_resources_get_info(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1888,9 +1888,9 @@ public final class Gio {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public static org.gtk.glib.Bytes resourcesLookupData(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public static org.gtk.glib.Bytes resourcesLookupData(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resources_lookup_data(Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
+        var RESULT = gtk_h.g_resources_lookup_data(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1904,9 +1904,9 @@ public final class Gio {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public static InputStream resourcesOpenStream(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public static InputStream resourcesOpenStream(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resources_open_stream(Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
+        var RESULT = gtk_h.g_resources_open_stream(Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -2307,7 +2307,7 @@ public final class Gio {
     public static boolean __cbDatagramBasedSourceFunc(MemoryAddress datagramBased, int condition, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (DatagramBasedSourceFunc) Interop.signalRegistry.get(hash);
-        return handler.onDatagramBasedSourceFunc(new DatagramBased.DatagramBasedImpl(References.get(datagramBased, false)), condition);
+        return handler.onDatagramBasedSourceFunc(new DatagramBased.DatagramBasedImpl(References.get(datagramBased, false)), new org.gtk.glib.IOCondition(condition));
     }
     
     public static boolean __cbSettingsGetMapping(MemoryAddress value, MemoryAddress result, MemoryAddress userData) {
@@ -2367,7 +2367,7 @@ public final class Gio {
     public static boolean __cbSocketSourceFunc(MemoryAddress socket, int condition, MemoryAddress userData) {
         int hash = userData.get(C_INT, 0);
         var handler = (SocketSourceFunc) Interop.signalRegistry.get(hash);
-        return handler.onSocketSourceFunc(new Socket(References.get(socket, false)), condition);
+        return handler.onSocketSourceFunc(new Socket(References.get(socket, false)), new org.gtk.glib.IOCondition(condition));
     }
     
     public static void __cbDesktopAppLaunchCallback(MemoryAddress appinfo, int pid, MemoryAddress userData) {

@@ -3,59 +3,58 @@ package org.gtk.gtk;
 /**
  * Used to reference the parts of {@code GtkTextView}.
  */
-public enum TextWindowType {
+public class TextWindowType {
 
     /**
      * Window that floats over scrolling areas.
      */
-    WIDGET,
+    public static final TextWindowType WIDGET = new TextWindowType(1);
     
     /**
      * Scrollable text window.
      */
-    TEXT,
+    public static final TextWindowType TEXT = new TextWindowType(2);
     
     /**
      * Left side border window.
      */
-    LEFT,
+    public static final TextWindowType LEFT = new TextWindowType(3);
     
     /**
      * Right side border window.
      */
-    RIGHT,
+    public static final TextWindowType RIGHT = new TextWindowType(4);
     
     /**
      * Top border window.
      */
-    TOP,
+    public static final TextWindowType TOP = new TextWindowType(5);
     
     /**
      * Bottom border window.
      */
-    BOTTOM;
+    public static final TextWindowType BOTTOM = new TextWindowType(6);
     
-    public static TextWindowType fromValue(int value) {
-        return switch(value) {
-            case 1 -> WIDGET;
-            case 2 -> TEXT;
-            case 3 -> LEFT;
-            case 4 -> RIGHT;
-            case 5 -> TOP;
-            case 6 -> BOTTOM;
-            default -> null;
-        };
+    private int value;
+    
+    public TextWindowType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case WIDGET -> 1;
-            case TEXT -> 2;
-            case LEFT -> 3;
-            case RIGHT -> 4;
-            case TOP -> 5;
-            case BOTTOM -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TextWindowType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

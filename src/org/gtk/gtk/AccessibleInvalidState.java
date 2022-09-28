@@ -8,45 +8,48 @@ package org.gtk.gtk;
  * {@link AccessibleInvalidState#TRUE} have the same values
  * as {@code false} and {@code true}.
  */
-public enum AccessibleInvalidState {
+public class AccessibleInvalidState {
 
     /**
      * There are no detected errors in the value
      */
-    FALSE,
+    public static final AccessibleInvalidState FALSE = new AccessibleInvalidState(0);
     
     /**
      * The value entered by the user has failed validation
      */
-    TRUE,
+    public static final AccessibleInvalidState TRUE = new AccessibleInvalidState(1);
     
     /**
      * A grammatical error was detected
      */
-    GRAMMAR,
+    public static final AccessibleInvalidState GRAMMAR = new AccessibleInvalidState(2);
     
     /**
      * A spelling error was detected
      */
-    SPELLING;
+    public static final AccessibleInvalidState SPELLING = new AccessibleInvalidState(3);
     
-    public static AccessibleInvalidState fromValue(int value) {
-        return switch(value) {
-            case 0 -> FALSE;
-            case 1 -> TRUE;
-            case 2 -> GRAMMAR;
-            case 3 -> SPELLING;
-            default -> null;
-        };
+    private int value;
+    
+    public AccessibleInvalidState(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FALSE -> 0;
-            case TRUE -> 1;
-            case GRAMMAR -> 2;
-            case SPELLING -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AccessibleInvalidState[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -200,9 +200,9 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public boolean getInfo(java.lang.String path, int lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getInfo(java.lang.String path, ResourceLookupFlags lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_get_info(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, size.handle(), flags.handle(), GERROR);
+        var RESULT = gtk_h.g_resource_get_info(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -225,9 +225,9 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public org.gtk.glib.Bytes lookupData(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.Bytes lookupData(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_lookup_data(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
+        var RESULT = gtk_h.g_resource_lookup_data(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -240,9 +240,9 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public InputStream openStream(java.lang.String path, int lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public InputStream openStream(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_resource_open_stream(handle(), Interop.allocateNativeString(path).handle(), lookupFlags, GERROR);
+        var RESULT = gtk_h.g_resource_open_stream(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }

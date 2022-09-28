@@ -51,7 +51,7 @@ public class GesturePan extends GestureDrag {
      */
     public Orientation getOrientation() {
         var RESULT = gtk_h.gtk_gesture_pan_get_orientation(handle());
-        return Orientation.fromValue(RESULT);
+        return new Orientation(RESULT);
     }
     
     /**
@@ -90,7 +90,7 @@ public class GesturePan extends GestureDrag {
     public static void __signalGesturePanPan(MemoryAddress source, int direction, double offset, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (GesturePan.PanHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GesturePan(References.get(source)), PanDirection.fromValue(direction), offset);
+        handler.signalReceived(new GesturePan(References.get(source)), new PanDirection(direction), offset);
     }
     
 }

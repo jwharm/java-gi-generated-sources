@@ -97,7 +97,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      */
     public SizeRequestMode getRequestMode() {
         var RESULT = gtk_h.gtk_layout_manager_get_request_mode(handle());
-        return SizeRequestMode.fromValue(RESULT);
+        return new SizeRequestMode(RESULT);
     }
     
     /**

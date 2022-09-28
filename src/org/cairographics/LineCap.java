@@ -1,28 +1,33 @@
 package org.cairographics;
 
-public enum LineCap {
+public class LineCap {
 
-    BUTT,
+    public static final LineCap BUTT = new LineCap(0);
     
-    ROUND,
+    public static final LineCap ROUND = new LineCap(1);
     
-    SQUARE;
+    public static final LineCap SQUARE = new LineCap(2);
     
-    public static LineCap fromValue(int value) {
-        return switch(value) {
-            case 0 -> BUTT;
-            case 1 -> ROUND;
-            case 2 -> SQUARE;
-            default -> null;
-        };
+    private int value;
+    
+    public LineCap(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BUTT -> 0;
-            case ROUND -> 1;
-            case SQUARE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(LineCap[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

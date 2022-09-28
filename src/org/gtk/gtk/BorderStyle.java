@@ -3,87 +3,78 @@ package org.gtk.gtk;
 /**
  * Describes how the border of a UI element should be rendered.
  */
-public enum BorderStyle {
+public class BorderStyle {
 
     /**
      * No visible border
      */
-    NONE,
+    public static final BorderStyle NONE = new BorderStyle(0);
     
     /**
      * Same as {@link BorderStyle#NONE}
      */
-    HIDDEN,
+    public static final BorderStyle HIDDEN = new BorderStyle(1);
     
     /**
      * A single line segment
      */
-    SOLID,
+    public static final BorderStyle SOLID = new BorderStyle(2);
     
     /**
      * Looks as if the content is sunken into the canvas
      */
-    INSET,
+    public static final BorderStyle INSET = new BorderStyle(3);
     
     /**
      * Looks as if the content is coming out of the canvas
      */
-    OUTSET,
+    public static final BorderStyle OUTSET = new BorderStyle(4);
     
     /**
      * A series of round dots
      */
-    DOTTED,
+    public static final BorderStyle DOTTED = new BorderStyle(5);
     
     /**
      * A series of square-ended dashes
      */
-    DASHED,
+    public static final BorderStyle DASHED = new BorderStyle(6);
     
     /**
      * Two parallel lines with some space between them
      */
-    DOUBLE,
+    public static final BorderStyle DOUBLE = new BorderStyle(7);
     
     /**
      * Looks as if it were carved in the canvas
      */
-    GROOVE,
+    public static final BorderStyle GROOVE = new BorderStyle(8);
     
     /**
      * Looks as if it were coming out of the canvas
      */
-    RIDGE;
+    public static final BorderStyle RIDGE = new BorderStyle(9);
     
-    public static BorderStyle fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> HIDDEN;
-            case 2 -> SOLID;
-            case 3 -> INSET;
-            case 4 -> OUTSET;
-            case 5 -> DOTTED;
-            case 6 -> DASHED;
-            case 7 -> DOUBLE;
-            case 8 -> GROOVE;
-            case 9 -> RIDGE;
-            default -> null;
-        };
+    private int value;
+    
+    public BorderStyle(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case HIDDEN -> 1;
-            case SOLID -> 2;
-            case INSET -> 3;
-            case OUTSET -> 4;
-            case DOTTED -> 5;
-            case DASHED -> 6;
-            case DOUBLE -> 7;
-            case GROOVE -> 8;
-            case RIDGE -> 9;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BorderStyle[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

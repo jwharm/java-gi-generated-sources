@@ -184,7 +184,7 @@ public interface AsyncInitable extends io.github.jwharm.javagi.NativeAddress {
      * then call g_async_initable_new_finish() to get the new object and check
      * for any errors.
      */
-    public static void newValistAsync(Type objectType, java.lang.String firstPropertyName, VaList varArgs, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public static void newValistAsync(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
             gtk_h.g_async_initable_new_valist_async(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(

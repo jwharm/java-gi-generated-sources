@@ -6,101 +6,88 @@ package org.pango;
  * Weight is specified as a numeric value ranging from 100 to 1000.
  * This enumeration simply provides some common, predefined values.
  */
-public enum Weight {
+public class Weight {
 
     /**
      * the thin weight (= 100) Since: 1.24
      */
-    THIN,
+    public static final Weight THIN = new Weight(100);
     
     /**
      * the ultralight weight (= 200)
      */
-    ULTRALIGHT,
+    public static final Weight ULTRALIGHT = new Weight(200);
     
     /**
      * the light weight (= 300)
      */
-    LIGHT,
+    public static final Weight LIGHT = new Weight(300);
     
     /**
      * the semilight weight (= 350) Since: 1.36.7
      */
-    SEMILIGHT,
+    public static final Weight SEMILIGHT = new Weight(350);
     
     /**
      * the book weight (= 380) Since: 1.24)
      */
-    BOOK,
+    public static final Weight BOOK = new Weight(380);
     
     /**
      * the default weight (= 400)
      */
-    NORMAL,
+    public static final Weight NORMAL = new Weight(400);
     
     /**
      * the medium weight (= 500) Since: 1.24
      */
-    MEDIUM,
+    public static final Weight MEDIUM = new Weight(500);
     
     /**
      * the semibold weight (= 600)
      */
-    SEMIBOLD,
+    public static final Weight SEMIBOLD = new Weight(600);
     
     /**
      * the bold weight (= 700)
      */
-    BOLD,
+    public static final Weight BOLD = new Weight(700);
     
     /**
      * the ultrabold weight (= 800)
      */
-    ULTRABOLD,
+    public static final Weight ULTRABOLD = new Weight(800);
     
     /**
      * the heavy weight (= 900)
      */
-    HEAVY,
+    public static final Weight HEAVY = new Weight(900);
     
     /**
      * the ultraheavy weight (= 1000) Since: 1.24
      */
-    ULTRAHEAVY;
+    public static final Weight ULTRAHEAVY = new Weight(1000);
     
-    public static Weight fromValue(int value) {
-        return switch(value) {
-            case 100 -> THIN;
-            case 200 -> ULTRALIGHT;
-            case 300 -> LIGHT;
-            case 350 -> SEMILIGHT;
-            case 380 -> BOOK;
-            case 400 -> NORMAL;
-            case 500 -> MEDIUM;
-            case 600 -> SEMIBOLD;
-            case 700 -> BOLD;
-            case 800 -> ULTRABOLD;
-            case 900 -> HEAVY;
-            case 1000 -> ULTRAHEAVY;
-            default -> null;
-        };
+    private int value;
+    
+    public Weight(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case THIN -> 100;
-            case ULTRALIGHT -> 200;
-            case LIGHT -> 300;
-            case SEMILIGHT -> 350;
-            case BOOK -> 380;
-            case NORMAL -> 400;
-            case MEDIUM -> 500;
-            case SEMIBOLD -> 600;
-            case BOLD -> 700;
-            case ULTRABOLD -> 800;
-            case HEAVY -> 900;
-            case ULTRAHEAVY -> 1000;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Weight[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

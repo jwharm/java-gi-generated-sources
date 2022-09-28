@@ -21,7 +21,7 @@ public class PropertyExpression extends Expression {
         return new PropertyExpression(gobject.getReference());
     }
     
-    private static Reference constructNew(Type thisType, Expression expression, java.lang.String propertyName) {
+    private static Reference constructNew(org.gtk.gobject.Type thisType, Expression expression, java.lang.String propertyName) {
         Reference RESULT = References.get(gtk_h.gtk_property_expression_new(thisType.getValue(), expression.getReference().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true);
         return RESULT;
     }
@@ -38,7 +38,7 @@ public class PropertyExpression extends Expression {
      * <p>
      * The given {@code this_type} must have a property with {@code property_name}.
      */
-    public PropertyExpression(Type thisType, Expression expression, java.lang.String propertyName) {
+    public PropertyExpression(org.gtk.gobject.Type thisType, Expression expression, java.lang.String propertyName) {
         super(constructNew(thisType, expression, propertyName));
     }
     

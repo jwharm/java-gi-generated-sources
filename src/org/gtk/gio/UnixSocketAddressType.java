@@ -15,53 +15,54 @@ package org.gtk.gio;
  * pass an appropriate smaller length to bind() or connect(). This is
  * {@link UnixSocketAddressType#ABSTRACT}.
  */
-public enum UnixSocketAddressType {
+public class UnixSocketAddressType {
 
     /**
      * invalid
      */
-    INVALID,
+    public static final UnixSocketAddressType INVALID = new UnixSocketAddressType(0);
     
     /**
      * anonymous
      */
-    ANONYMOUS,
+    public static final UnixSocketAddressType ANONYMOUS = new UnixSocketAddressType(1);
     
     /**
      * a filesystem path
      */
-    PATH,
+    public static final UnixSocketAddressType PATH = new UnixSocketAddressType(2);
     
     /**
      * an abstract name
      */
-    ABSTRACT,
+    public static final UnixSocketAddressType ABSTRACT = new UnixSocketAddressType(3);
     
     /**
      * an abstract name, 0-padded
      *   to the full length of a unix socket name
      */
-    ABSTRACT_PADDED;
+    public static final UnixSocketAddressType ABSTRACT_PADDED = new UnixSocketAddressType(4);
     
-    public static UnixSocketAddressType fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> ANONYMOUS;
-            case 2 -> PATH;
-            case 3 -> ABSTRACT;
-            case 4 -> ABSTRACT_PADDED;
-            default -> null;
-        };
+    private int value;
+    
+    public UnixSocketAddressType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case ANONYMOUS -> 1;
-            case PATH -> 2;
-            case ABSTRACT -> 3;
-            case ABSTRACT_PADDED -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(UnixSocketAddressType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

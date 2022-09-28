@@ -30,8 +30,8 @@ public class TlsConnection extends IOStream {
      * Used by {@link TlsConnection} implementations to emit the
      * {@link TlsConnection}::accept-certificate signal.
      */
-    public boolean emitAcceptCertificate(TlsCertificate peerCert, int errors) {
-        var RESULT = gtk_h.g_tls_connection_emit_accept_certificate(handle(), peerCert.handle(), errors);
+    public boolean emitAcceptCertificate(TlsCertificate peerCert, TlsCertificateFlags errors) {
+        var RESULT = gtk_h.g_tls_connection_emit_accept_certificate(handle(), peerCert.handle(), errors.getValue());
         return (RESULT != 0);
     }
     
@@ -133,9 +133,9 @@ public class TlsConnection extends IOStream {
      * <p>
      * See {@link TlsConnection}:peer-certificate-errors for more information.
      */
-    public int getPeerCertificateErrors() {
+    public TlsCertificateFlags getPeerCertificateErrors() {
         var RESULT = gtk_h.g_tls_connection_get_peer_certificate_errors(handle());
-        return RESULT;
+        return new TlsCertificateFlags(RESULT);
     }
     
     /**
@@ -146,7 +146,7 @@ public class TlsConnection extends IOStream {
      */
     public TlsProtocolVersion getProtocolVersion() {
         var RESULT = gtk_h.g_tls_connection_get_protocol_version(handle());
-        return TlsProtocolVersion.fromValue(RESULT);
+        return new TlsProtocolVersion(RESULT);
     }
     
     /**
@@ -336,7 +336,7 @@ public class TlsConnection extends IOStream {
     
     @FunctionalInterface
     public interface AcceptCertificateHandler {
-        boolean signalReceived(TlsConnection source, TlsCertificate peerCert, int errors);
+        boolean signalReceived(TlsConnection source, TlsCertificate peerCert, TlsCertificateFlags errors);
     }
     
     /**
@@ -404,7 +404,7 @@ public class TlsConnection extends IOStream {
     public static boolean __signalTlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TlsConnection(References.get(source)), new TlsCertificate(References.get(peerCert, false)), errors);
+        return handler.signalReceived(new TlsConnection(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
     }
     
 }

@@ -3,45 +3,48 @@ package org.gtk.gio;
 /**
  * An enumeration for well-known message buses.
  */
-public enum BusType {
+public class BusType {
 
     /**
      * An alias for the message bus that activated the process, if any.
      */
-    STARTER,
+    public static final BusType STARTER = new BusType(-1);
     
     /**
      * Not a message bus.
      */
-    NONE,
+    public static final BusType NONE = new BusType(0);
     
     /**
      * The system-wide message bus.
      */
-    SYSTEM,
+    public static final BusType SYSTEM = new BusType(1);
     
     /**
      * The login session message bus.
      */
-    SESSION;
+    public static final BusType SESSION = new BusType(2);
     
-    public static BusType fromValue(int value) {
-        return switch(value) {
-            case -1 -> STARTER;
-            case 0 -> NONE;
-            case 1 -> SYSTEM;
-            case 2 -> SESSION;
-            default -> null;
-        };
+    private int value;
+    
+    public BusType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case STARTER -> -1;
-            case NONE -> 0;
-            case SYSTEM -> 1;
-            case SESSION -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BusType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

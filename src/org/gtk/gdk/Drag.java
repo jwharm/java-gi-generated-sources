@@ -50,9 +50,9 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Determines the bitmask of possible actions proposed by the source.
      */
-    public int getActions() {
+    public DragAction getActions() {
         var RESULT = gtk_h.gdk_drag_get_actions(handle());
-        return RESULT;
+        return new DragAction(RESULT);
     }
     
     /**
@@ -104,9 +104,9 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Determines the action chosen by the drag destination.
      */
-    public int getSelectedAction() {
+    public DragAction getSelectedAction() {
         var RESULT = gtk_h.gdk_drag_get_selected_action(handle());
-        return RESULT;
+        return new DragAction(RESULT);
     }
     
     /**
@@ -143,8 +143,8 @@ public class Drag extends org.gtk.gobject.Object {
      * the source if {@link Drag#getSelectedAction} returns
      * {@link DragAction#MOVE}.
      */
-    public static Drag begin(Surface surface, Device device, ContentProvider content, int actions, double dx, double dy) {
-        var RESULT = gtk_h.gdk_drag_begin(surface.handle(), device.handle(), content.handle(), actions, dx, dy);
+    public static Drag begin(Surface surface, Device device, ContentProvider content, DragAction actions, double dx, double dy) {
+        var RESULT = gtk_h.gdk_drag_begin(surface.handle(), device.handle(), content.handle(), actions.getValue(), dx, dy);
         return new Drag(References.get(RESULT, true));
     }
     
@@ -177,7 +177,7 @@ public class Drag extends org.gtk.gobject.Object {
     public static void __signalDragCancel(MemoryAddress source, int reason, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Drag.CancelHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drag(References.get(source)), DragCancelReason.fromValue(reason));
+        handler.signalReceived(new Drag(References.get(source)), new DragCancelReason(reason));
     }
     
     @FunctionalInterface

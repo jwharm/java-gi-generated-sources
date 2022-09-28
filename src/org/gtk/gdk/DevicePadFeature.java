@@ -3,38 +3,43 @@ package org.gtk.gdk;
 /**
  * A pad feature.
  */
-public enum DevicePadFeature {
+public class DevicePadFeature {
 
     /**
      * a button
      */
-    BUTTON,
+    public static final DevicePadFeature BUTTON = new DevicePadFeature(0);
     
     /**
      * a ring-shaped interactive area
      */
-    RING,
+    public static final DevicePadFeature RING = new DevicePadFeature(1);
     
     /**
      * a straight interactive area
      */
-    STRIP;
+    public static final DevicePadFeature STRIP = new DevicePadFeature(2);
     
-    public static DevicePadFeature fromValue(int value) {
-        return switch(value) {
-            case 0 -> BUTTON;
-            case 1 -> RING;
-            case 2 -> STRIP;
-            default -> null;
-        };
+    private int value;
+    
+    public DevicePadFeature(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BUTTON -> 0;
-            case RING -> 1;
-            case STRIP -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DevicePadFeature[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

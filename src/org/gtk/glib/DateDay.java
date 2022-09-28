@@ -1,20 +1,22 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * Integer representing a day of the month; between 1 and 31.
  * <p>
  * The {@code G_DATE_BAD_DAY} value represents an invalid day of the month.
  */
-public class DateDay extends Alias<Byte> {
-
+public class DateDay {
+    private byte value;
+    
     public DateDay(byte value) {
+        this.value = value;
+    }
+    
+    public byte getValue() {
+        return this.value;
+    }
+    
+    public void setValue(byte value) {
         this.value = value;
     }
     

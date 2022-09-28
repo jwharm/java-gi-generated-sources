@@ -18,70 +18,104 @@ public class InputHints {
     /**
      * No special behaviour suggested
      */
-    public static final int NONE = 0;
+    public static final InputHints NONE = new InputHints(0);
     
     /**
      * Suggest checking for typos
      */
-    public static final int SPELLCHECK = 1;
+    public static final InputHints SPELLCHECK = new InputHints(1);
     
     /**
      * Suggest not checking for typos
      */
-    public static final int NO_SPELLCHECK = 2;
+    public static final InputHints NO_SPELLCHECK = new InputHints(2);
     
     /**
      * Suggest word completion
      */
-    public static final int WORD_COMPLETION = 4;
+    public static final InputHints WORD_COMPLETION = new InputHints(4);
     
     /**
      * Suggest to convert all text to lowercase
      */
-    public static final int LOWERCASE = 8;
+    public static final InputHints LOWERCASE = new InputHints(8);
     
     /**
      * Suggest to capitalize all text
      */
-    public static final int UPPERCASE_CHARS = 16;
+    public static final InputHints UPPERCASE_CHARS = new InputHints(16);
     
     /**
      * Suggest to capitalize the first
      *   character of each word
      */
-    public static final int UPPERCASE_WORDS = 32;
+    public static final InputHints UPPERCASE_WORDS = new InputHints(32);
     
     /**
      * Suggest to capitalize the
      *   first word of each sentence
      */
-    public static final int UPPERCASE_SENTENCES = 64;
+    public static final InputHints UPPERCASE_SENTENCES = new InputHints(64);
     
     /**
      * Suggest to not show an onscreen keyboard
      *   (e.g for a calculator that already has all the keys).
      */
-    public static final int INHIBIT_OSK = 128;
+    public static final InputHints INHIBIT_OSK = new InputHints(128);
     
     /**
      * The text is vertical
      */
-    public static final int VERTICAL_WRITING = 256;
+    public static final InputHints VERTICAL_WRITING = new InputHints(256);
     
     /**
      * Suggest offering Emoji support
      */
-    public static final int EMOJI = 512;
+    public static final InputHints EMOJI = new InputHints(512);
     
     /**
      * Suggest not offering Emoji support
      */
-    public static final int NO_EMOJI = 1024;
+    public static final InputHints NO_EMOJI = new InputHints(1024);
     
     /**
      * Request that the input method should not
      *    update personalized data (like typing history)
      */
-    public static final int PRIVATE = 2048;
+    public static final InputHints PRIVATE = new InputHints(2048);
+    
+    private int value;
+    
+    public InputHints(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(InputHints[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public InputHints combined(InputHints mask) {
+        return new InputHints(this.getValue() | mask.getValue());
+    }
+    
+    public static InputHints combined(InputHints mask, InputHints... masks) {
+        int value = mask.getValue();
+        for (InputHints arg : masks) {
+            value |= arg.getValue();
+        }
+        return new InputHints(value);
+    }
     
 }

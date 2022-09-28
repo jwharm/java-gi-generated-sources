@@ -12,81 +12,115 @@ public class StateFlags {
     /**
      * State during normal operation
      */
-    public static final int NORMAL = 0;
+    public static final StateFlags NORMAL = new StateFlags(0);
     
     /**
      * Widget is active
      */
-    public static final int ACTIVE = 1;
+    public static final StateFlags ACTIVE = new StateFlags(1);
     
     /**
      * Widget has a mouse pointer over it
      */
-    public static final int PRELIGHT = 2;
+    public static final StateFlags PRELIGHT = new StateFlags(2);
     
     /**
      * Widget is selected
      */
-    public static final int SELECTED = 4;
+    public static final StateFlags SELECTED = new StateFlags(4);
     
     /**
      * Widget is insensitive
      */
-    public static final int INSENSITIVE = 8;
+    public static final StateFlags INSENSITIVE = new StateFlags(8);
     
     /**
      * Widget is inconsistent
      */
-    public static final int INCONSISTENT = 16;
+    public static final StateFlags INCONSISTENT = new StateFlags(16);
     
     /**
      * Widget has the keyboard focus
      */
-    public static final int FOCUSED = 32;
+    public static final StateFlags FOCUSED = new StateFlags(32);
     
     /**
      * Widget is in a background toplevel window
      */
-    public static final int BACKDROP = 64;
+    public static final StateFlags BACKDROP = new StateFlags(64);
     
     /**
      * Widget is in left-to-right text direction
      */
-    public static final int DIR_LTR = 128;
+    public static final StateFlags DIR_LTR = new StateFlags(128);
     
     /**
      * Widget is in right-to-left text direction
      */
-    public static final int DIR_RTL = 256;
+    public static final StateFlags DIR_RTL = new StateFlags(256);
     
     /**
      * Widget is a link
      */
-    public static final int LINK = 512;
+    public static final StateFlags LINK = new StateFlags(512);
     
     /**
      * The location the widget points to has already been visited
      */
-    public static final int VISITED = 1024;
+    public static final StateFlags VISITED = new StateFlags(1024);
     
     /**
      * Widget is checked
      */
-    public static final int CHECKED = 2048;
+    public static final StateFlags CHECKED = new StateFlags(2048);
     
     /**
      * Widget is highlighted as a drop target for DND
      */
-    public static final int DROP_ACTIVE = 4096;
+    public static final StateFlags DROP_ACTIVE = new StateFlags(4096);
     
     /**
      * Widget has the visible focus
      */
-    public static final int FOCUS_VISIBLE = 8192;
+    public static final StateFlags FOCUS_VISIBLE = new StateFlags(8192);
     
     /**
      * Widget contains the keyboard focus
      */
-    public static final int FOCUS_WITHIN = 16384;
+    public static final StateFlags FOCUS_WITHIN = new StateFlags(16384);
+    
+    private int value;
+    
+    public StateFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(StateFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public StateFlags combined(StateFlags mask) {
+        return new StateFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static StateFlags combined(StateFlags mask, StateFlags... masks) {
+        int value = mask.getValue();
+        for (StateFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new StateFlags(value);
+    }
     
 }

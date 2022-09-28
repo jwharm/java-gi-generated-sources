@@ -74,7 +74,7 @@ public class Sorter extends org.gtk.gobject.Object {
      */
     public Ordering compare(org.gtk.gobject.Object item1, org.gtk.gobject.Object item2) {
         var RESULT = gtk_h.gtk_sorter_compare(handle(), item1.handle(), item2.handle());
-        return Ordering.fromValue(RESULT);
+        return new Ordering(RESULT);
     }
     
     /**
@@ -87,7 +87,7 @@ public class Sorter extends org.gtk.gobject.Object {
      */
     public SorterOrder getOrder() {
         var RESULT = gtk_h.gtk_sorter_get_order(handle());
-        return SorterOrder.fromValue(RESULT);
+        return new SorterOrder(RESULT);
     }
     
     @FunctionalInterface
@@ -128,7 +128,7 @@ public class Sorter extends org.gtk.gobject.Object {
     public static void __signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Sorter.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Sorter(References.get(source)), SorterChange.fromValue(change));
+        handler.signalReceived(new Sorter(References.get(source)), new SorterChange(change));
     }
     
 }

@@ -10,38 +10,43 @@ package org.pango;
  * See {@link Layout#setAutoDir} for how text direction affects
  * the interpretation of {@code PangoAlignment} values.
  */
-public enum Alignment {
+public class Alignment {
 
     /**
      * Put all available space on the right
      */
-    LEFT,
+    public static final Alignment LEFT = new Alignment(0);
     
     /**
      * Center the line within the available space
      */
-    CENTER,
+    public static final Alignment CENTER = new Alignment(1);
     
     /**
      * Put all available space on the left
      */
-    RIGHT;
+    public static final Alignment RIGHT = new Alignment(2);
     
-    public static Alignment fromValue(int value) {
-        return switch(value) {
-            case 0 -> LEFT;
-            case 1 -> CENTER;
-            case 2 -> RIGHT;
-            default -> null;
-        };
+    private int value;
+    
+    public Alignment(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LEFT -> 0;
-            case CENTER -> 1;
-            case RIGHT -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Alignment[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

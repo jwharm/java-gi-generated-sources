@@ -16,53 +16,53 @@ public class SubprocessFlags {
     /**
      * No flags.
      */
-    public static final int NONE = 0;
+    public static final SubprocessFlags NONE = new SubprocessFlags(0);
     
     /**
      * create a pipe for the stdin of the
      *   spawned process that can be accessed with
      *   g_subprocess_get_stdin_pipe().
      */
-    public static final int STDIN_PIPE = 1;
+    public static final SubprocessFlags STDIN_PIPE = new SubprocessFlags(1);
     
     /**
      * stdin is inherited from the
      *   calling process.
      */
-    public static final int STDIN_INHERIT = 2;
+    public static final SubprocessFlags STDIN_INHERIT = new SubprocessFlags(2);
     
     /**
      * create a pipe for the stdout of the
      *   spawned process that can be accessed with
      *   g_subprocess_get_stdout_pipe().
      */
-    public static final int STDOUT_PIPE = 4;
+    public static final SubprocessFlags STDOUT_PIPE = new SubprocessFlags(4);
     
     /**
      * silence the stdout of the spawned
      *   process (ie: redirect to {@code /dev/null}).
      */
-    public static final int STDOUT_SILENCE = 8;
+    public static final SubprocessFlags STDOUT_SILENCE = new SubprocessFlags(8);
     
     /**
      * create a pipe for the stderr of the
      *   spawned process that can be accessed with
      *   g_subprocess_get_stderr_pipe().
      */
-    public static final int STDERR_PIPE = 16;
+    public static final SubprocessFlags STDERR_PIPE = new SubprocessFlags(16);
     
     /**
      * silence the stderr of the spawned
      *   process (ie: redirect to {@code /dev/null}).
      */
-    public static final int STDERR_SILENCE = 32;
+    public static final SubprocessFlags STDERR_SILENCE = new SubprocessFlags(32);
     
     /**
      * merge the stderr of the spawned
      *   process with whatever the stdout happens to be.  This is a good way
      *   of directing both streams to a common log file, for example.
      */
-    public static final int STDERR_MERGE = 64;
+    public static final SubprocessFlags STDERR_MERGE = new SubprocessFlags(64);
     
     /**
      * spawned processes will inherit the
@@ -70,13 +70,47 @@ public class SubprocessFlags {
      *   been explicitly marked as close-on-exec.  This flag has no effect
      *   over the "standard" file descriptors (stdin, stdout, stderr).
      */
-    public static final int INHERIT_FDS = 128;
+    public static final SubprocessFlags INHERIT_FDS = new SubprocessFlags(128);
     
     /**
      * if path searching is
      *   needed when spawning the subprocess, use the {@code PATH} in the launcher
      *   environment. (Since: 2.72)
      */
-    public static final int SEARCH_PATH_FROM_ENVP = 256;
+    public static final SubprocessFlags SEARCH_PATH_FROM_ENVP = new SubprocessFlags(256);
+    
+    private int value;
+    
+    public SubprocessFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SubprocessFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public SubprocessFlags combined(SubprocessFlags mask) {
+        return new SubprocessFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static SubprocessFlags combined(SubprocessFlags mask, SubprocessFlags... masks) {
+        int value = mask.getValue();
+        for (SubprocessFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new SubprocessFlags(value);
+    }
     
 }

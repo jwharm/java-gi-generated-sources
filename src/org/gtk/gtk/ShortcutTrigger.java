@@ -162,7 +162,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      */
     public org.gtk.gdk.KeyMatch trigger(org.gtk.gdk.Event event, boolean enableMnemonics) {
         var RESULT = gtk_h.gtk_shortcut_trigger_trigger(handle(), event.handle(), enableMnemonics ? 1 : 0);
-        return org.gtk.gdk.KeyMatch.fromValue(RESULT);
+        return new org.gtk.gdk.KeyMatch(RESULT);
     }
     
 }

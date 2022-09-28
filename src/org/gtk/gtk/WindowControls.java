@@ -103,7 +103,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      */
     public PackType getSide() {
         var RESULT = gtk_h.gtk_window_controls_get_side(handle());
-        return PackType.fromValue(RESULT);
+        return new PackType(RESULT);
     }
     
     /**

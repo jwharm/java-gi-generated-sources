@@ -34,7 +34,7 @@ public interface Accessible extends io.github.jwharm.javagi.NativeAddress {
      */
     public default AccessibleRole getAccessibleRole() {
         var RESULT = gtk_h.gtk_accessible_get_accessible_role(handle());
-        return AccessibleRole.fromValue(RESULT);
+        return new AccessibleRole(RESULT);
     }
     
     /**

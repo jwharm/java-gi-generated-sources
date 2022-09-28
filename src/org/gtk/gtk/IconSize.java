@@ -11,38 +11,43 @@ package org.gtk.gtk;
  * determine the actual size to be used with the
  * {@code -gtk-icon-size} CSS property.
  */
-public enum IconSize {
+public class IconSize {
 
     /**
      * Keep the size of the parent element
      */
-    INHERIT,
+    public static final IconSize INHERIT = new IconSize(0);
     
     /**
      * Size similar to text size
      */
-    NORMAL,
+    public static final IconSize NORMAL = new IconSize(1);
     
     /**
      * Large size, for example in an icon view
      */
-    LARGE;
+    public static final IconSize LARGE = new IconSize(2);
     
-    public static IconSize fromValue(int value) {
-        return switch(value) {
-            case 0 -> INHERIT;
-            case 1 -> NORMAL;
-            case 2 -> LARGE;
-            default -> null;
-        };
+    private int value;
+    
+    public IconSize(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INHERIT -> 0;
-            case NORMAL -> 1;
-            case LARGE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(IconSize[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

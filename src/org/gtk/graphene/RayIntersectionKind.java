@@ -3,40 +3,45 @@ package org.gtk.graphene;
 /**
  * The type of intersection.
  */
-public enum RayIntersectionKind {
+public class RayIntersectionKind {
 
     /**
      * No intersection
      */
-    NONE,
+    public static final RayIntersectionKind NONE = new RayIntersectionKind(0);
     
     /**
      * The ray is entering the intersected
      *   object
      */
-    ENTER,
+    public static final RayIntersectionKind ENTER = new RayIntersectionKind(1);
     
     /**
      * The ray is leaving the intersected
      *   object
      */
-    LEAVE;
+    public static final RayIntersectionKind LEAVE = new RayIntersectionKind(2);
     
-    public static RayIntersectionKind fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> ENTER;
-            case 2 -> LEAVE;
-            default -> null;
-        };
+    private int value;
+    
+    public RayIntersectionKind(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case ENTER -> 1;
-            case LEAVE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(RayIntersectionKind[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -9,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface IOFunc {
-        boolean onIOFunc(IOChannel source, int condition);
+        boolean onIOFunc(IOChannel source, IOCondition condition);
 }

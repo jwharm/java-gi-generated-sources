@@ -7,5 +7,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TestLogFatalFunc {
-        boolean onTestLogFatalFunc(java.lang.String logDomain, int logLevel, java.lang.String message);
+        boolean onTestLogFatalFunc(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String message);
 }

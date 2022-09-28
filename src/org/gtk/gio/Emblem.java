@@ -63,7 +63,7 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
      */
     public EmblemOrigin getOrigin() {
         var RESULT = gtk_h.g_emblem_get_origin(handle());
-        return EmblemOrigin.fromValue(RESULT);
+        return new EmblemOrigin(RESULT);
     }
     
 }

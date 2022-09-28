@@ -4,22 +4,22 @@ package org.pango;
  * The {@code PangoUnderline} enumeration is used to specify whether text
  * should be underlined, and if so, the type of underlining.
  */
-public enum Underline {
+public class Underline {
 
     /**
      * no underline should be drawn
      */
-    NONE,
+    public static final Underline NONE = new Underline(0);
     
     /**
      * a single underline should be drawn
      */
-    SINGLE,
+    public static final Underline SINGLE = new Underline(1);
     
     /**
      * a double underline should be drawn
      */
-    DOUBLE,
+    public static final Underline DOUBLE = new Underline(2);
     
     /**
      * a single underline should be drawn at a
@@ -29,7 +29,7 @@ public enum Underline {
      *   {@link Underline#SINGLE} should be used for extended
      *   portions of text.
      */
-    LOW,
+    public static final Underline LOW = new Underline(3);
     
     /**
      * an underline indicating an error should
@@ -41,54 +41,49 @@ public enum Underline {
      *   may automatically be used. This type of underlining is
      *   available since Pango 1.4.
      */
-    ERROR,
+    public static final Underline ERROR = new Underline(4);
     
     /**
      * Like {@code PANGO_UNDERLINE_SINGLE}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
-    SINGLE_LINE,
+    public static final Underline SINGLE_LINE = new Underline(5);
     
     /**
      * Like {@code PANGO_UNDERLINE_DOUBLE}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
-    DOUBLE_LINE,
+    public static final Underline DOUBLE_LINE = new Underline(6);
     
     /**
      * Like {@code PANGO_UNDERLINE_ERROR}, but
      *   drawn continuously across multiple runs. This type
      *   of underlining is available since Pango 1.46.
      */
-    ERROR_LINE;
+    public static final Underline ERROR_LINE = new Underline(7);
     
-    public static Underline fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> SINGLE;
-            case 2 -> DOUBLE;
-            case 3 -> LOW;
-            case 4 -> ERROR;
-            case 5 -> SINGLE_LINE;
-            case 6 -> DOUBLE_LINE;
-            case 7 -> ERROR_LINE;
-            default -> null;
-        };
+    private int value;
+    
+    public Underline(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case SINGLE -> 1;
-            case DOUBLE -> 2;
-            case LOW -> 3;
-            case ERROR -> 4;
-            case SINGLE_LINE -> 5;
-            case DOUBLE_LINE -> 6;
-            case ERROR_LINE -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Underline[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -1,116 +1,77 @@
 package org.cairographics;
 
-public enum SurfaceType {
+public class SurfaceType {
 
-    IMAGE,
+    public static final SurfaceType IMAGE = new SurfaceType(0);
     
-    PDF,
+    public static final SurfaceType PDF = new SurfaceType(1);
     
-    PS,
+    public static final SurfaceType PS = new SurfaceType(2);
     
-    XLIB,
+    public static final SurfaceType XLIB = new SurfaceType(3);
     
-    XCB,
+    public static final SurfaceType XCB = new SurfaceType(4);
     
-    GLITZ,
+    public static final SurfaceType GLITZ = new SurfaceType(5);
     
-    QUARTZ,
+    public static final SurfaceType QUARTZ = new SurfaceType(6);
     
-    WIN32,
+    public static final SurfaceType WIN32 = new SurfaceType(7);
     
-    BEOS,
+    public static final SurfaceType BEOS = new SurfaceType(8);
     
-    DIRECTFB,
+    public static final SurfaceType DIRECTFB = new SurfaceType(9);
     
-    SVG,
+    public static final SurfaceType SVG = new SurfaceType(10);
     
-    OS2,
+    public static final SurfaceType OS2 = new SurfaceType(11);
     
-    WIN32_PRINTING,
+    public static final SurfaceType WIN32_PRINTING = new SurfaceType(12);
     
-    QUARTZ_IMAGE,
+    public static final SurfaceType QUARTZ_IMAGE = new SurfaceType(13);
     
-    SCRIPT,
+    public static final SurfaceType SCRIPT = new SurfaceType(14);
     
-    QT,
+    public static final SurfaceType QT = new SurfaceType(15);
     
-    RECORDING,
+    public static final SurfaceType RECORDING = new SurfaceType(16);
     
-    VG,
+    public static final SurfaceType VG = new SurfaceType(17);
     
-    GL,
+    public static final SurfaceType GL = new SurfaceType(18);
     
-    DRM,
+    public static final SurfaceType DRM = new SurfaceType(19);
     
-    TEE,
+    public static final SurfaceType TEE = new SurfaceType(20);
     
-    XML,
+    public static final SurfaceType XML = new SurfaceType(21);
     
-    SKIA,
+    public static final SurfaceType SKIA = new SurfaceType(22);
     
-    SUBSURFACE,
+    public static final SurfaceType SUBSURFACE = new SurfaceType(23);
     
-    COGL;
+    public static final SurfaceType COGL = new SurfaceType(24);
     
-    public static SurfaceType fromValue(int value) {
-        return switch(value) {
-            case 0 -> IMAGE;
-            case 1 -> PDF;
-            case 2 -> PS;
-            case 3 -> XLIB;
-            case 4 -> XCB;
-            case 5 -> GLITZ;
-            case 6 -> QUARTZ;
-            case 7 -> WIN32;
-            case 8 -> BEOS;
-            case 9 -> DIRECTFB;
-            case 10 -> SVG;
-            case 11 -> OS2;
-            case 12 -> WIN32_PRINTING;
-            case 13 -> QUARTZ_IMAGE;
-            case 14 -> SCRIPT;
-            case 15 -> QT;
-            case 16 -> RECORDING;
-            case 17 -> VG;
-            case 18 -> GL;
-            case 19 -> DRM;
-            case 20 -> TEE;
-            case 21 -> XML;
-            case 22 -> SKIA;
-            case 23 -> SUBSURFACE;
-            case 24 -> COGL;
-            default -> null;
-        };
+    private int value;
+    
+    public SurfaceType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case IMAGE -> 0;
-            case PDF -> 1;
-            case PS -> 2;
-            case XLIB -> 3;
-            case XCB -> 4;
-            case GLITZ -> 5;
-            case QUARTZ -> 6;
-            case WIN32 -> 7;
-            case BEOS -> 8;
-            case DIRECTFB -> 9;
-            case SVG -> 10;
-            case OS2 -> 11;
-            case WIN32_PRINTING -> 12;
-            case QUARTZ_IMAGE -> 13;
-            case SCRIPT -> 14;
-            case QT -> 15;
-            case RECORDING -> 16;
-            case VG -> 17;
-            case GL -> 18;
-            case DRM -> 19;
-            case TEE -> 20;
-            case XML -> 21;
-            case SKIA -> 22;
-            case SUBSURFACE -> 23;
-            case COGL -> 24;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SurfaceType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

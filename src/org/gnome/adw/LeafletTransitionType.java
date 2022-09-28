@@ -5,38 +5,43 @@ package org.gnome.adw;
  * <p>
  * New values may be added to this enumeration over time.
  */
-public enum LeafletTransitionType {
+public class LeafletTransitionType {
 
     /**
      * Cover the old page or uncover the new page, sliding from or towards the end according to orientation, text direction and children order
      */
-    OVER,
+    public static final LeafletTransitionType OVER = new LeafletTransitionType(0);
     
     /**
      * Uncover the new page or cover the old page, sliding from or towards the start according to orientation, text direction and children order
      */
-    UNDER,
+    public static final LeafletTransitionType UNDER = new LeafletTransitionType(1);
     
     /**
      * Slide from left, right, up or down according to the orientation, text direction and the children order
      */
-    SLIDE;
+    public static final LeafletTransitionType SLIDE = new LeafletTransitionType(2);
     
-    public static LeafletTransitionType fromValue(int value) {
-        return switch(value) {
-            case 0 -> OVER;
-            case 1 -> UNDER;
-            case 2 -> SLIDE;
-            default -> null;
-        };
+    private int value;
+    
+    public LeafletTransitionType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case OVER -> 0;
-            case UNDER -> 1;
-            case SLIDE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(LeafletTransitionType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

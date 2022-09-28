@@ -3,38 +3,43 @@ package org.harfbuzz;
 /**
  * The type of {@link buffer_t} contents.
  */
-public enum BufferContentTypeT {
+public class BufferContentTypeT {
 
     /**
      * Initial value for new buffer.
      */
-    INVALID,
+    public static final BufferContentTypeT INVALID = new BufferContentTypeT(0);
     
     /**
      * The buffer contains input characters (before shaping).
      */
-    UNICODE,
+    public static final BufferContentTypeT UNICODE = new BufferContentTypeT(1);
     
     /**
      * The buffer contains output glyphs (after shaping).
      */
-    GLYPHS;
+    public static final BufferContentTypeT GLYPHS = new BufferContentTypeT(2);
     
-    public static BufferContentTypeT fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> UNICODE;
-            case 2 -> GLYPHS;
-            default -> null;
-        };
+    private int value;
+    
+    public BufferContentTypeT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case UNICODE -> 1;
-            case GLYPHS -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BufferContentTypeT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

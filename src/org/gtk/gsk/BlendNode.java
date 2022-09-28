@@ -39,7 +39,7 @@ public class BlendNode extends RenderNode {
      */
     public BlendMode getBlendMode() {
         var RESULT = gtk_h.gsk_blend_node_get_blend_mode(handle());
-        return BlendMode.fromValue(RESULT);
+        return new BlendMode(RESULT);
     }
     
     /**

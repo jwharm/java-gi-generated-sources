@@ -4,73 +4,68 @@ package org.gtk.glib;
  * The possible errors, used in the {@code v_error} field
  * of {@link TokenValue}, when the token is a {@link TokenType#ERROR}.
  */
-public enum ErrorType {
+public class ErrorType {
 
     /**
      * unknown error
      */
-    UNKNOWN,
+    public static final ErrorType UNKNOWN = new ErrorType(0);
     
     /**
      * unexpected end of file
      */
-    UNEXP_EOF,
+    public static final ErrorType UNEXP_EOF = new ErrorType(1);
     
     /**
      * unterminated string constant
      */
-    UNEXP_EOF_IN_STRING,
+    public static final ErrorType UNEXP_EOF_IN_STRING = new ErrorType(2);
     
     /**
      * unterminated comment
      */
-    UNEXP_EOF_IN_COMMENT,
+    public static final ErrorType UNEXP_EOF_IN_COMMENT = new ErrorType(3);
     
     /**
      * non-digit character in a number
      */
-    NON_DIGIT_IN_CONST,
+    public static final ErrorType NON_DIGIT_IN_CONST = new ErrorType(4);
     
     /**
      * digit beyond radix in a number
      */
-    DIGIT_RADIX,
+    public static final ErrorType DIGIT_RADIX = new ErrorType(5);
     
     /**
      * non-decimal floating point number
      */
-    FLOAT_RADIX,
+    public static final ErrorType FLOAT_RADIX = new ErrorType(6);
     
     /**
      * malformed floating point number
      */
-    FLOAT_MALFORMED;
+    public static final ErrorType FLOAT_MALFORMED = new ErrorType(7);
     
-    public static ErrorType fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNKNOWN;
-            case 1 -> UNEXP_EOF;
-            case 2 -> UNEXP_EOF_IN_STRING;
-            case 3 -> UNEXP_EOF_IN_COMMENT;
-            case 4 -> NON_DIGIT_IN_CONST;
-            case 5 -> DIGIT_RADIX;
-            case 6 -> FLOAT_RADIX;
-            case 7 -> FLOAT_MALFORMED;
-            default -> null;
-        };
+    private int value;
+    
+    public ErrorType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN -> 0;
-            case UNEXP_EOF -> 1;
-            case UNEXP_EOF_IN_STRING -> 2;
-            case UNEXP_EOF_IN_COMMENT -> 3;
-            case NON_DIGIT_IN_CONST -> 4;
-            case DIGIT_RADIX -> 5;
-            case FLOAT_RADIX -> 6;
-            case FLOAT_MALFORMED -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ErrorType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

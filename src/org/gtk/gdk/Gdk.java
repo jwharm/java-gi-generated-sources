@@ -4635,7 +4635,7 @@ public final class Gdk {
      * When the operation is finished, {@code callback} will be called. You must then
      * call {@link Gdk#contentDeserializeFinish} to get the result of the operation.
      */
-    public static void contentDeserializeAsync(org.gtk.gio.InputStream stream, java.lang.String mimeType, Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static void contentDeserializeAsync(org.gtk.gio.InputStream stream, java.lang.String mimeType, org.gtk.gobject.Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gtk_h.gdk_content_deserialize_async(stream.handle(), Interop.allocateNativeString(mimeType).handle(), type.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
@@ -4679,7 +4679,7 @@ public final class Gdk {
     /**
      * Registers a function to deserialize object of a given type.
      */
-    public static void contentRegisterDeserializer(java.lang.String mimeType, Type type, ContentDeserializeFunc deserialize) {
+    public static void contentRegisterDeserializer(java.lang.String mimeType, org.gtk.gobject.Type type, ContentDeserializeFunc deserialize) {
         try {
             gtk_h.gdk_content_register_deserializer(Interop.allocateNativeString(mimeType).handle(), type.getValue(), 
                     Linker.nativeLinker().upcallStub(
@@ -4697,7 +4697,7 @@ public final class Gdk {
     /**
      * Registers a function to serialize objects of a given type.
      */
-    public static void contentRegisterSerializer(Type type, java.lang.String mimeType, ContentSerializeFunc serialize) {
+    public static void contentRegisterSerializer(org.gtk.gobject.Type type, java.lang.String mimeType, ContentSerializeFunc serialize) {
         try {
             gtk_h.gdk_content_register_serializer(type.getValue(), Interop.allocateNativeString(mimeType).handle(), 
                     Linker.nativeLinker().upcallStub(
@@ -4754,8 +4754,8 @@ public final class Gdk {
      * When {@code action} is 0 - ie no action was given, {@code true}
      * is returned.
      */
-    public static boolean dragActionIsUnique(int action) {
-        var RESULT = gtk_h.gdk_drag_action_is_unique(action);
+    public static boolean dragActionIsUnique(DragAction action) {
+        var RESULT = gtk_h.gdk_drag_action_is_unique(action.getValue());
         return (RESULT != 0);
     }
     

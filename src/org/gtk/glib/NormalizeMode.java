@@ -7,29 +7,29 @@ package org.gtk.glib;
  * accent or as a single precomposed character. Unicode strings
  * should generally be normalized before comparing them.
  */
-public enum NormalizeMode {
+public class NormalizeMode {
 
     /**
      * standardize differences that do not affect the
      *     text content, such as the above-mentioned accent representation
      */
-    DEFAULT,
+    public static final NormalizeMode DEFAULT = new NormalizeMode(0);
     
     /**
      * another name for {@link NormalizeMode#DEFAULT}
      */
-    NFD,
+    public static final NormalizeMode NFD = new NormalizeMode(0);
     
     /**
      * like {@link NormalizeMode#DEFAULT}, but with
      *     composed forms rather than a maximally decomposed form
      */
-    DEFAULT_COMPOSE,
+    public static final NormalizeMode DEFAULT_COMPOSE = new NormalizeMode(1);
     
     /**
      * another name for {@link NormalizeMode#DEFAULT_COMPOSE}
      */
-    NFC,
+    public static final NormalizeMode NFC = new NormalizeMode(1);
     
     /**
      * beyond {@link NormalizeMode#DEFAULT} also standardize the
@@ -38,45 +38,44 @@ public enum NormalizeMode {
      *     information may be lost but for most text operations such
      *     characters should be considered the same
      */
-    ALL,
+    public static final NormalizeMode ALL = new NormalizeMode(2);
     
     /**
      * another name for {@link NormalizeMode#ALL}
      */
-    NFKD,
+    public static final NormalizeMode NFKD = new NormalizeMode(2);
     
     /**
      * like {@link NormalizeMode#ALL}, but with composed
      *     forms rather than a maximally decomposed form
      */
-    ALL_COMPOSE,
+    public static final NormalizeMode ALL_COMPOSE = new NormalizeMode(3);
     
     /**
      * another name for {@link NormalizeMode#ALL_COMPOSE}
      */
-    NFKC;
+    public static final NormalizeMode NFKC = new NormalizeMode(3);
     
-    public static NormalizeMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> DEFAULT;
-            case 1 -> DEFAULT_COMPOSE;
-            case 2 -> ALL;
-            case 3 -> ALL_COMPOSE;
-            default -> null;
-        };
+    private int value;
+    
+    public NormalizeMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DEFAULT -> 0;
-            case NFD -> 0;
-            case DEFAULT_COMPOSE -> 1;
-            case NFC -> 1;
-            case ALL -> 2;
-            case NFKD -> 2;
-            case ALL_COMPOSE -> 3;
-            case NFKC -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(NormalizeMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

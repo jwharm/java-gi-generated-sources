@@ -73,7 +73,7 @@ public class Animation extends org.gtk.gobject.Object {
      */
     public AnimationState getState() {
         var RESULT = gtk_h.adw_animation_get_state(handle());
-        return AnimationState.fromValue(RESULT);
+        return new AnimationState(RESULT);
     }
     
     /**

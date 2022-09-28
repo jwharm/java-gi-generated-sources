@@ -101,9 +101,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         return new DBusConnection(constructNewForAddressFinish(res));
     }
     
-    private static Reference constructNewForAddressSync(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    private static Reference constructNewForAddressSync(java.lang.String address, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_for_address_sync(Interop.allocateNativeString(address).handle(), flags, observer.handle(), cancellable.handle(), GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_for_address_sync(Interop.allocateNativeString(address).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -129,13 +129,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * If {@code observer} is not {@code null} it may be used to control the
      * authentication process.
      */
-    public static DBusConnection newForAddressSync(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    public static DBusConnection newForAddressSync(java.lang.String address, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         return new DBusConnection(constructNewForAddressSync(address, flags, observer, cancellable));
     }
     
-    private static Reference constructNewSync(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    private static Reference constructNewSync(IOStream stream, java.lang.String guid, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_sync(stream.handle(), Interop.allocateNativeString(guid).handle(), flags, observer.handle(), cancellable.handle(), GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_dbus_connection_new_sync(stream.handle(), Interop.allocateNativeString(guid).handle(), flags.getValue(), observer.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -159,7 +159,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * This is a synchronous failable constructor. See
      * g_dbus_connection_new() for the asynchronous version.
      */
-    public static DBusConnection newSync(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    public static DBusConnection newSync(IOStream stream, java.lang.String guid, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         return new DBusConnection(constructNewSync(stream, guid, flags, observer, cancellable));
     }
     
@@ -255,9 +255,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * If {@code callback} is {@code null} then the D-Bus method call message will be sent with
      * the {@link DBusMessageFlags#NO_REPLY_EXPECTED} flag set.
      */
-    public void call(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void call(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_dbus_connection_call(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, cancellable.handle(), 
+            gtk_h.g_dbus_connection_call(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -319,9 +319,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * g_dbus_connection_call() for the asynchronous version of
      * this method.
      */
-    public org.gtk.glib.Variant callSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.Variant callSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dbus_connection_call_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -345,9 +345,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * <p>
      * This method is only available on UNIX.
      */
-    public void callWithUnixFdList(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, UnixFDList fdList, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void callWithUnixFdList(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, UnixFDList fdList, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_dbus_connection_call_with_unix_fd_list(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, fdList.handle(), cancellable.handle(), 
+            gtk_h.g_dbus_connection_call_with_unix_fd_list(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, fdList.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -389,9 +389,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * <p>
      * This method is only available on UNIX.
      */
-    public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, int flags, int timeoutMsec, UnixFDList fdList, UnixFDList[] outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.Variant callWithUnixFdListSync(java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, org.gtk.glib.Variant parameters, org.gtk.glib.VariantType replyType, DBusCallFlags flags, int timeoutMsec, UnixFDList fdList, UnixFDList[] outFdList, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags, timeoutMsec, fdList.handle(), Interop.allocateNativeArray(outFdList).handle(), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_call_with_unix_fd_list_sync(handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(methodName).handle(), parameters.handle(), replyType.handle(), flags.getValue(), timeoutMsec, fdList.handle(), Interop.allocateNativeArray(outFdList).handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -598,9 +598,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     /**
      * Gets the capabilities negotiated with the remote peer
      */
-    public int getCapabilities() {
+    public DBusCapabilityFlags getCapabilities() {
         var RESULT = gtk_h.g_dbus_connection_get_capabilities(handle());
-        return RESULT;
+        return new DBusCapabilityFlags(RESULT);
     }
     
     /**
@@ -616,9 +616,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
     /**
      * Gets the flags used to construct this connection
      */
-    public int getFlags() {
+    public DBusConnectionFlags getFlags() {
         var RESULT = gtk_h.g_dbus_connection_get_flags(handle());
-        return RESULT;
+        return new DBusConnectionFlags(RESULT);
     }
     
     /**
@@ -787,9 +787,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * See this [server][gdbus-subtree-server] for an example of how to use
      * this method.
      */
-    public int registerSubtree(java.lang.String objectPath, DBusSubtreeVTable vtable, int flags, java.lang.foreign.MemoryAddress userData, org.gtk.glib.DestroyNotify userDataFreeFunc) throws io.github.jwharm.javagi.GErrorException {
+    public int registerSubtree(java.lang.String objectPath, DBusSubtreeVTable vtable, DBusSubtreeFlags flags, java.lang.foreign.MemoryAddress userData, org.gtk.glib.DestroyNotify userDataFreeFunc) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dbus_connection_register_subtree(handle(), Interop.allocateNativeString(objectPath).handle(), vtable.handle(), flags, userData, 
+        var RESULT = gtk_h.g_dbus_connection_register_subtree(handle(), Interop.allocateNativeString(objectPath).handle(), vtable.handle(), flags.getValue(), userData, 
                     Interop.cbDestroyNotifySymbol(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
@@ -834,9 +834,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Note that {@code message} must be unlocked, unless {@code flags} contain the
      * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag.
      */
-    public boolean sendMessage(DBusMessage message, int flags, PointerInteger outSerial) throws io.github.jwharm.javagi.GErrorException {
+    public boolean sendMessage(DBusMessage message, DBusSendMessageFlags flags, PointerInteger outSerial) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dbus_connection_send_message(handle(), message.handle(), flags, outSerial.handle(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_send_message(handle(), message.handle(), flags.getValue(), outSerial.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -874,9 +874,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * for an example of how to use this low-level API to send and receive
      * UNIX file descriptors.
      */
-    public void sendMessageWithReply(DBusMessage message, int flags, int timeoutMsec, PointerInteger outSerial, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void sendMessageWithReply(DBusMessage message, DBusSendMessageFlags flags, int timeoutMsec, PointerInteger outSerial, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_dbus_connection_send_message_with_reply(handle(), message.handle(), flags, timeoutMsec, outSerial.handle(), cancellable.handle(), 
+            gtk_h.g_dbus_connection_send_message_with_reply(handle(), message.handle(), flags.getValue(), timeoutMsec, outSerial.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -941,9 +941,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * Note that {@code message} must be unlocked, unless {@code flags} contain the
      * {@link DBusSendMessageFlags#PRESERVE_SERIAL} flag.
      */
-    public DBusMessage sendMessageWithReplySync(DBusMessage message, int flags, int timeoutMsec, PointerInteger outSerial, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public DBusMessage sendMessageWithReplySync(DBusMessage message, DBusSendMessageFlags flags, int timeoutMsec, PointerInteger outSerial, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_dbus_connection_send_message_with_reply_sync(handle(), message.handle(), flags, timeoutMsec, outSerial.handle(), cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_dbus_connection_send_message_with_reply_sync(handle(), message.handle(), flags.getValue(), timeoutMsec, outSerial.handle(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -1017,9 +1017,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * <p>
      * This function can never fail.
      */
-    public int signalSubscribe(java.lang.String sender, java.lang.String interfaceName, java.lang.String member, java.lang.String objectPath, java.lang.String arg0, int flags, DBusSignalCallback callback) {
+    public int signalSubscribe(java.lang.String sender, java.lang.String interfaceName, java.lang.String member, java.lang.String objectPath, java.lang.String arg0, DBusSignalFlags flags, DBusSignalCallback callback) {
         try {
-            var RESULT = gtk_h.g_dbus_connection_signal_subscribe(handle(), Interop.allocateNativeString(sender).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(member).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(arg0).handle(), flags, 
+            var RESULT = gtk_h.g_dbus_connection_signal_subscribe(handle(), Interop.allocateNativeString(sender).handle(), Interop.allocateNativeString(interfaceName).handle(), Interop.allocateNativeString(member).handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(arg0).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDBusSignalCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -1123,9 +1123,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * g_dbus_connection_new_sync() for the synchronous
      * version.
      */
-    public static void new_(IOStream stream, java.lang.String guid, int flags, DBusAuthObserver observer, Cancellable cancellable, AsyncReadyCallback callback) {
+    public static void new_(IOStream stream, java.lang.String guid, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_dbus_connection_new(stream.handle(), Interop.allocateNativeString(guid).handle(), flags, observer.handle(), cancellable.handle(), 
+            gtk_h.g_dbus_connection_new(stream.handle(), Interop.allocateNativeString(guid).handle(), flags.getValue(), observer.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -1161,9 +1161,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
      * g_dbus_connection_new_for_address_sync() for the synchronous
      * version.
      */
-    public static void newForAddress(java.lang.String address, int flags, DBusAuthObserver observer, Cancellable cancellable, AsyncReadyCallback callback) {
+    public static void newForAddress(java.lang.String address, DBusConnectionFlags flags, DBusAuthObserver observer, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_dbus_connection_new_for_address(Interop.allocateNativeString(address).handle(), flags, observer.handle(), cancellable.handle(), 
+            gtk_h.g_dbus_connection_new_for_address(Interop.allocateNativeString(address).handle(), flags.getValue(), observer.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

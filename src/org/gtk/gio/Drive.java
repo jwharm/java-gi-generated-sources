@@ -82,9 +82,9 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      * finished by calling g_drive_eject_with_operation_finish() with the {@code drive}
      * and {@link AsyncResult} data returned in the {@code callback}.
      */
-    public default void ejectWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void ejectWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_drive_eject_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_drive_eject_with_operation(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -148,7 +148,7 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      */
     public default DriveStartStopType getStartStopType() {
         var RESULT = gtk_h.g_drive_get_start_stop_type(handle());
-        return DriveStartStopType.fromValue(RESULT);
+        return new DriveStartStopType(RESULT);
     }
     
     /**
@@ -253,9 +253,9 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_drive_start_finish() to obtain the
      * result of the operation.
      */
-    public default void start(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void start(DriveStartFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_drive_start(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_drive_start(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -286,9 +286,9 @@ public interface Drive extends io.github.jwharm.javagi.NativeAddress {
      * You can then call g_drive_stop_finish() to obtain the
      * result of the operation.
      */
-    public default void stop(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void stop(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_drive_stop(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_drive_stop(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

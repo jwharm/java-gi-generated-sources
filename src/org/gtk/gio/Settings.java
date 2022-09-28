@@ -456,8 +456,8 @@ public class Settings extends org.gtk.gobject.Object {
      * If you bind the same property twice on the same object, the second
      * binding overrides the first one.
      */
-    public void bind(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, int flags) {
-        gtk_h.g_settings_bind(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags);
+    public void bind(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, SettingsBindFlags flags) {
+        gtk_h.g_settings_bind(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags.getValue());
     }
     
     /**
@@ -472,9 +472,9 @@ public class Settings extends org.gtk.gobject.Object {
      * If you bind the same property twice on the same object, the second
      * binding overrides the first one.
      */
-    public void bindWithMapping(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, int flags, SettingsBindGetMapping getMapping, SettingsBindSetMapping setMapping) {
+    public void bindWithMapping(java.lang.String key, org.gtk.gobject.Object object, java.lang.String property, SettingsBindFlags flags, SettingsBindGetMapping getMapping, SettingsBindSetMapping setMapping) {
         try {
-            gtk_h.g_settings_bind_with_mapping(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags, 
+            gtk_h.g_settings_bind_with_mapping(handle(), Interop.allocateNativeString(key).handle(), object.handle(), Interop.allocateNativeString(property).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSettingsBindGetMapping",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

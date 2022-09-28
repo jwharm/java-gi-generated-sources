@@ -1,12 +1,5 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * A type which is used to hold a process identification.
  * <p>
@@ -16,9 +9,18 @@ import java.lang.invoke.*;
  * GPid is used in GLib only for descendant processes spawned with
  * the g_spawn functions.
  */
-public class Pid extends Alias<Integer> {
-
+public class Pid {
+    private int value;
+    
     public Pid(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
         this.value = value;
     }
     

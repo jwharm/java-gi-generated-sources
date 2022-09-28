@@ -212,7 +212,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateMonth getMonth() {
         var RESULT = gtk_h.g_date_get_month(handle());
-        return DateMonth.fromValue(RESULT);
+        return new DateMonth(RESULT);
     }
     
     /**
@@ -230,7 +230,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      */
     public DateWeekday getWeekday() {
         var RESULT = gtk_h.g_date_get_weekday(handle());
-        return DateWeekday.fromValue(RESULT);
+        return new DateWeekday(RESULT);
     }
     
     /**

@@ -4,38 +4,43 @@ package org.gtk.glib;
  * This enumeration isn't used in the API, but may be useful if you need
  * to mark a number as a day, month, or year.
  */
-public enum DateDMY {
+public class DateDMY {
 
     /**
      * a day
      */
-    DAY,
+    public static final DateDMY DAY = new DateDMY(0);
     
     /**
      * a month
      */
-    MONTH,
+    public static final DateDMY MONTH = new DateDMY(1);
     
     /**
      * a year
      */
-    YEAR;
+    public static final DateDMY YEAR = new DateDMY(2);
     
-    public static DateDMY fromValue(int value) {
-        return switch(value) {
-            case 0 -> DAY;
-            case 1 -> MONTH;
-            case 2 -> YEAR;
-            default -> null;
-        };
+    private int value;
+    
+    public DateDMY(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DAY -> 0;
-            case MONTH -> 1;
-            case YEAR -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DateDMY[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

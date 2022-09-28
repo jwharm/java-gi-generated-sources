@@ -5,39 +5,44 @@ package org.gtk.gdk;
  * <p>
  * {@code GdkKeyMatch} values are returned by {@link KeyEvent#matches}.
  */
-public enum KeyMatch {
+public class KeyMatch {
 
     /**
      * The key event does not match
      */
-    NONE,
+    public static final KeyMatch NONE = new KeyMatch(0);
     
     /**
      * The key event matches if keyboard state
      *   (specifically, the currently active group) is ignored
      */
-    PARTIAL,
+    public static final KeyMatch PARTIAL = new KeyMatch(1);
     
     /**
      * The key event matches
      */
-    EXACT;
+    public static final KeyMatch EXACT = new KeyMatch(2);
     
-    public static KeyMatch fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> PARTIAL;
-            case 2 -> EXACT;
-            default -> null;
-        };
+    private int value;
+    
+    public KeyMatch(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case PARTIAL -> 1;
-            case EXACT -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(KeyMatch[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

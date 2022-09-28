@@ -35,7 +35,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         return RESULT;
     }
     
-    public java.lang.foreign.MemoryAddress getPrivate(Type privateType) {
+    public java.lang.foreign.MemoryAddress getPrivate(org.gtk.gobject.Type privateType) {
         var RESULT = gtk_h.g_type_class_get_private(handle(), privateType.getValue());
         return RESULT;
     }
@@ -86,7 +86,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * of the type passed in does not currently exist (hasn't been
      * referenced before).
      */
-    public static TypeClass peek(Type type) {
+    public static TypeClass peek(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek(type.getValue());
         return new TypeClass(References.get(RESULT, false));
     }
@@ -95,7 +95,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * A more efficient version of g_type_class_peek() which works only for
      * static types.
      */
-    public static TypeClass peekStatic(Type type) {
+    public static TypeClass peekStatic(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek_static(type.getValue());
         return new TypeClass(References.get(RESULT, false));
     }
@@ -105,7 +105,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * {@code type}. This function will demand-create the class if it doesn't
      * exist already.
      */
-    public static TypeClass ref(Type type) {
+    public static TypeClass ref(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_ref(type.getValue());
         return new TypeClass(References.get(RESULT, false));
     }

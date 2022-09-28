@@ -25,16 +25,16 @@ public class Seat extends org.gtk.gobject.Object {
     /**
      * Returns the capabilities this {@code GdkSeat} currently has.
      */
-    public int getCapabilities() {
+    public SeatCapabilities getCapabilities() {
         var RESULT = gtk_h.gdk_seat_get_capabilities(handle());
-        return RESULT;
+        return new SeatCapabilities(RESULT);
     }
     
     /**
      * Returns the devices that match the given capabilities.
      */
-    public org.gtk.glib.List getDevices(int capabilities) {
-        var RESULT = gtk_h.gdk_seat_get_devices(handle(), capabilities);
+    public org.gtk.glib.List getDevices(SeatCapabilities capabilities) {
+        var RESULT = gtk_h.gdk_seat_get_devices(handle(), capabilities.getValue());
         return new org.gtk.glib.List(References.get(RESULT, false));
     }
     

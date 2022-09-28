@@ -110,7 +110,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public FoldThresholdPolicy getSwitchThresholdPolicy() {
         var RESULT = gtk_h.adw_squeezer_get_switch_threshold_policy(handle());
-        return FoldThresholdPolicy.fromValue(RESULT);
+        return new FoldThresholdPolicy(RESULT);
     }
     
     /**
@@ -134,7 +134,7 @@ public class Squeezer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      */
     public SqueezerTransitionType getTransitionType() {
         var RESULT = gtk_h.adw_squeezer_get_transition_type(handle());
-        return SqueezerTransitionType.fromValue(RESULT);
+        return new SqueezerTransitionType(RESULT);
     }
     
     /**

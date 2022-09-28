@@ -8,45 +8,48 @@ package org.pango;
  * text in order to make it fit to a given width and replaced
  * with an ellipsis.
  */
-public enum EllipsizeMode {
+public class EllipsizeMode {
 
     /**
      * No ellipsization
      */
-    NONE,
+    public static final EllipsizeMode NONE = new EllipsizeMode(0);
     
     /**
      * Omit characters at the start of the text
      */
-    START,
+    public static final EllipsizeMode START = new EllipsizeMode(1);
     
     /**
      * Omit characters in the middle of the text
      */
-    MIDDLE,
+    public static final EllipsizeMode MIDDLE = new EllipsizeMode(2);
     
     /**
      * Omit characters at the end of the text
      */
-    END;
+    public static final EllipsizeMode END = new EllipsizeMode(3);
     
-    public static EllipsizeMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> START;
-            case 2 -> MIDDLE;
-            case 3 -> END;
-            default -> null;
-        };
+    private int value;
+    
+    public EllipsizeMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case START -> 1;
-            case MIDDLE -> 2;
-            case END -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(EllipsizeMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

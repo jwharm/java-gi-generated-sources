@@ -125,9 +125,9 @@ public class Binding extends Object {
     /**
      * Retrieves the flags passed when constructing the {@link Binding}.
      */
-    public int getFlags() {
+    public BindingFlags getFlags() {
         var RESULT = gtk_h.g_binding_get_flags(handle());
-        return RESULT;
+        return new BindingFlags(RESULT);
     }
     
     /**

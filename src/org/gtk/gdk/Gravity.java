@@ -3,88 +3,79 @@ package org.gtk.gdk;
 /**
  * Defines the reference point of a surface and is used in {@code GdkPopupLayout}.
  */
-public enum Gravity {
+public class Gravity {
 
     /**
      * the reference point is at the top left corner.
      */
-    NORTH_WEST,
+    public static final Gravity NORTH_WEST = new Gravity(1);
     
     /**
      * the reference point is in the middle of the top edge.
      */
-    NORTH,
+    public static final Gravity NORTH = new Gravity(2);
     
     /**
      * the reference point is at the top right corner.
      */
-    NORTH_EAST,
+    public static final Gravity NORTH_EAST = new Gravity(3);
     
     /**
      * the reference point is at the middle of the left edge.
      */
-    WEST,
+    public static final Gravity WEST = new Gravity(4);
     
     /**
      * the reference point is at the center of the surface.
      */
-    CENTER,
+    public static final Gravity CENTER = new Gravity(5);
     
     /**
      * the reference point is at the middle of the right edge.
      */
-    EAST,
+    public static final Gravity EAST = new Gravity(6);
     
     /**
      * the reference point is at the lower left corner.
      */
-    SOUTH_WEST,
+    public static final Gravity SOUTH_WEST = new Gravity(7);
     
     /**
      * the reference point is at the middle of the lower edge.
      */
-    SOUTH,
+    public static final Gravity SOUTH = new Gravity(8);
     
     /**
      * the reference point is at the lower right corner.
      */
-    SOUTH_EAST,
+    public static final Gravity SOUTH_EAST = new Gravity(9);
     
     /**
      * the reference point is at the top left corner of the
      *  surface itself, ignoring window manager decorations.
      */
-    STATIC;
+    public static final Gravity STATIC = new Gravity(10);
     
-    public static Gravity fromValue(int value) {
-        return switch(value) {
-            case 1 -> NORTH_WEST;
-            case 2 -> NORTH;
-            case 3 -> NORTH_EAST;
-            case 4 -> WEST;
-            case 5 -> CENTER;
-            case 6 -> EAST;
-            case 7 -> SOUTH_WEST;
-            case 8 -> SOUTH;
-            case 9 -> SOUTH_EAST;
-            case 10 -> STATIC;
-            default -> null;
-        };
+    private int value;
+    
+    public Gravity(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORTH_WEST -> 1;
-            case NORTH -> 2;
-            case NORTH_EAST -> 3;
-            case WEST -> 4;
-            case CENTER -> 5;
-            case EAST -> 6;
-            case SOUTH_WEST -> 7;
-            case SOUTH -> 8;
-            case SOUTH_EAST -> 9;
-            case STATIC -> 10;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Gravity[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

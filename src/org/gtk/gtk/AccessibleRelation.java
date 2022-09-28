@@ -6,63 +6,63 @@ package org.gtk.gtk;
  * Accessible relations can be references to other widgets,
  * integers or strings.
  */
-public enum AccessibleRelation {
+public class AccessibleRelation {
 
     /**
      * Identifies the currently active
      *    element when focus is on a composite widget, combobox, textbox, group,
      *    or application. Value type: reference
      */
-    ACTIVE_DESCENDANT,
+    public static final AccessibleRelation ACTIVE_DESCENDANT = new AccessibleRelation(0);
     
     /**
      * Defines the total number of columns
      *    in a table, grid, or treegrid. Value type: integer
      */
-    COL_COUNT,
+    public static final AccessibleRelation COL_COUNT = new AccessibleRelation(1);
     
     /**
      * Defines an element's column index or
      *    position with respect to the total number of columns within a table,
      *    grid, or treegrid. Value type: integer
      */
-    COL_INDEX,
+    public static final AccessibleRelation COL_INDEX = new AccessibleRelation(2);
     
     /**
      * Defines a human readable text
      *   alternative of {@link AccessibleRelation#COL_INDEX}. Value type: string
      */
-    COL_INDEX_TEXT,
+    public static final AccessibleRelation COL_INDEX_TEXT = new AccessibleRelation(3);
     
     /**
      * Defines the number of columns spanned
      *   by a cell or gridcell within a table, grid, or treegrid. Value type: integer
      */
-    COL_SPAN,
+    public static final AccessibleRelation COL_SPAN = new AccessibleRelation(4);
     
     /**
      * Identifies the element (or elements) whose
      *    contents or presence are controlled by the current element. Value type: reference
      */
-    CONTROLS,
+    public static final AccessibleRelation CONTROLS = new AccessibleRelation(5);
     
     /**
      * Identifies the element (or elements)
      *    that describes the object. Value type: reference
      */
-    DESCRIBED_BY,
+    public static final AccessibleRelation DESCRIBED_BY = new AccessibleRelation(6);
     
     /**
      * Identifies the element (or elements) that
      *    provide additional information related to the object. Value type: reference
      */
-    DETAILS,
+    public static final AccessibleRelation DETAILS = new AccessibleRelation(7);
     
     /**
      * Identifies the element that provides
      *    an error message for an object. Value type: reference
      */
-    ERROR_MESSAGE,
+    public static final AccessibleRelation ERROR_MESSAGE = new AccessibleRelation(8);
     
     /**
      * Identifies the next element (or elements)
@@ -70,13 +70,13 @@ public enum AccessibleRelation {
      *    allows assistive technology to override the general default of reading in
      *    document source order. Value type: reference
      */
-    FLOW_TO,
+    public static final AccessibleRelation FLOW_TO = new AccessibleRelation(9);
     
     /**
      * Identifies the element (or elements)
      *    that labels the current element. Value type: reference
      */
-    LABELLED_BY,
+    public static final AccessibleRelation LABELLED_BY = new AccessibleRelation(10);
     
     /**
      * Identifies an element (or elements) in order
@@ -84,90 +84,65 @@ public enum AccessibleRelation {
      *    between elements where the widget hierarchy cannot be used to represent
      *    the relationship. Value type: reference
      */
-    OWNS,
+    public static final AccessibleRelation OWNS = new AccessibleRelation(11);
     
     /**
      * Defines an element's number or position
      *    in the current set of listitems or treeitems. Value type: integer
      */
-    POS_IN_SET,
+    public static final AccessibleRelation POS_IN_SET = new AccessibleRelation(12);
     
     /**
      * Defines the total number of rows in a table,
      *    grid, or treegrid. Value type: integer
      */
-    ROW_COUNT,
+    public static final AccessibleRelation ROW_COUNT = new AccessibleRelation(13);
     
     /**
      * Defines an element's row index or position
      *    with respect to the total number of rows within a table, grid, or treegrid.
      *    Value type: integer
      */
-    ROW_INDEX,
+    public static final AccessibleRelation ROW_INDEX = new AccessibleRelation(14);
     
     /**
      * Defines a human readable text
      *    alternative of aria-rowindex. Value type: string
      */
-    ROW_INDEX_TEXT,
+    public static final AccessibleRelation ROW_INDEX_TEXT = new AccessibleRelation(15);
     
     /**
      * Defines the number of rows spanned by a
      *    cell or gridcell within a table, grid, or treegrid. Value type: integer
      */
-    ROW_SPAN,
+    public static final AccessibleRelation ROW_SPAN = new AccessibleRelation(16);
     
     /**
      * Defines the number of items in the current
      *    set of listitems or treeitems. Value type: integer
      */
-    SET_SIZE;
+    public static final AccessibleRelation SET_SIZE = new AccessibleRelation(17);
     
-    public static AccessibleRelation fromValue(int value) {
-        return switch(value) {
-            case 0 -> ACTIVE_DESCENDANT;
-            case 1 -> COL_COUNT;
-            case 2 -> COL_INDEX;
-            case 3 -> COL_INDEX_TEXT;
-            case 4 -> COL_SPAN;
-            case 5 -> CONTROLS;
-            case 6 -> DESCRIBED_BY;
-            case 7 -> DETAILS;
-            case 8 -> ERROR_MESSAGE;
-            case 9 -> FLOW_TO;
-            case 10 -> LABELLED_BY;
-            case 11 -> OWNS;
-            case 12 -> POS_IN_SET;
-            case 13 -> ROW_COUNT;
-            case 14 -> ROW_INDEX;
-            case 15 -> ROW_INDEX_TEXT;
-            case 16 -> ROW_SPAN;
-            case 17 -> SET_SIZE;
-            default -> null;
-        };
+    private int value;
+    
+    public AccessibleRelation(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ACTIVE_DESCENDANT -> 0;
-            case COL_COUNT -> 1;
-            case COL_INDEX -> 2;
-            case COL_INDEX_TEXT -> 3;
-            case COL_SPAN -> 4;
-            case CONTROLS -> 5;
-            case DESCRIBED_BY -> 6;
-            case DETAILS -> 7;
-            case ERROR_MESSAGE -> 8;
-            case FLOW_TO -> 9;
-            case LABELLED_BY -> 10;
-            case OWNS -> 11;
-            case POS_IN_SET -> 12;
-            case ROW_COUNT -> 13;
-            case ROW_INDEX -> 14;
-            case ROW_INDEX_TEXT -> 15;
-            case ROW_SPAN -> 16;
-            case SET_SIZE -> 17;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AccessibleRelation[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

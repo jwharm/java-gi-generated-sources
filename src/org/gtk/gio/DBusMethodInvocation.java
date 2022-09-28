@@ -241,7 +241,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * {@code invocation}.
      */
     public void takeError(org.gtk.glib.Error error) {
-        gtk_h.g_dbus_method_invocation_take_error(handle(), error.handle());
+        gtk_h.g_dbus_method_invocation_take_error(handle(), error.getReference().unowned().handle());
     }
     
 }

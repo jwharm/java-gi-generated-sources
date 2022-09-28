@@ -20,47 +20,50 @@ package org.gtk.gdk;
  * to undo any visible/permanent changes that were done throughout the
  * progress of the gesture.
  */
-public enum TouchpadGesturePhase {
+public class TouchpadGesturePhase {
 
     /**
      * The gesture has begun.
      */
-    BEGIN,
+    public static final TouchpadGesturePhase BEGIN = new TouchpadGesturePhase(0);
     
     /**
      * The gesture has been updated.
      */
-    UPDATE,
+    public static final TouchpadGesturePhase UPDATE = new TouchpadGesturePhase(1);
     
     /**
      * The gesture was finished, changes
      *   should be permanently applied.
      */
-    END,
+    public static final TouchpadGesturePhase END = new TouchpadGesturePhase(2);
     
     /**
      * The gesture was cancelled, all
      *   changes should be undone.
      */
-    CANCEL;
+    public static final TouchpadGesturePhase CANCEL = new TouchpadGesturePhase(3);
     
-    public static TouchpadGesturePhase fromValue(int value) {
-        return switch(value) {
-            case 0 -> BEGIN;
-            case 1 -> UPDATE;
-            case 2 -> END;
-            case 3 -> CANCEL;
-            default -> null;
-        };
+    private int value;
+    
+    public TouchpadGesturePhase(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BEGIN -> 0;
-            case UPDATE -> 1;
-            case END -> 2;
-            case CANCEL -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TouchpadGesturePhase[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

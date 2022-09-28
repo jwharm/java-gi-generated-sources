@@ -3,1566 +3,1283 @@ package org.harfbuzz;
 /**
  * The selectors defined for specifying AAT feature settings.
  */
-public enum AatLayoutFeatureSelectorT {
+public class AatLayoutFeatureSelectorT {
 
     /**
      * Initial, unset feature selector
      */
-    INVALID,
+    public static final AatLayoutFeatureSelectorT INVALID = new AatLayoutFeatureSelectorT(65535);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALL_TYPOGRAPHIC}
      */
-    ALL_TYPE_FEATURES_ON,
+    public static final AatLayoutFeatureSelectorT ALL_TYPE_FEATURES_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALL_TYPOGRAPHIC}
      */
-    ALL_TYPE_FEATURES_OFF,
+    public static final AatLayoutFeatureSelectorT ALL_TYPE_FEATURES_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    REQUIRED_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT REQUIRED_LIGATURES_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    REQUIRED_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT REQUIRED_LIGATURES_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    COMMON_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT COMMON_LIGATURES_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    COMMON_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT COMMON_LIGATURES_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    RARE_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT RARE_LIGATURES_ON = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    RARE_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT RARE_LIGATURES_OFF = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    LOGOS_ON,
+    public static final AatLayoutFeatureSelectorT LOGOS_ON = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    LOGOS_OFF,
+    public static final AatLayoutFeatureSelectorT LOGOS_OFF = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    REBUS_PICTURES_ON,
+    public static final AatLayoutFeatureSelectorT REBUS_PICTURES_ON = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    REBUS_PICTURES_OFF,
+    public static final AatLayoutFeatureSelectorT REBUS_PICTURES_OFF = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    DIPHTHONG_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT DIPHTHONG_LIGATURES_ON = new AatLayoutFeatureSelectorT(10);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    DIPHTHONG_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT DIPHTHONG_LIGATURES_OFF = new AatLayoutFeatureSelectorT(11);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    SQUARED_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT SQUARED_LIGATURES_ON = new AatLayoutFeatureSelectorT(12);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    SQUARED_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT SQUARED_LIGATURES_OFF = new AatLayoutFeatureSelectorT(13);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    ABBREV_SQUARED_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT ABBREV_SQUARED_LIGATURES_ON = new AatLayoutFeatureSelectorT(14);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    ABBREV_SQUARED_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT ABBREV_SQUARED_LIGATURES_OFF = new AatLayoutFeatureSelectorT(15);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    SYMBOL_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT SYMBOL_LIGATURES_ON = new AatLayoutFeatureSelectorT(16);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    SYMBOL_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT SYMBOL_LIGATURES_OFF = new AatLayoutFeatureSelectorT(17);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    CONTEXTUAL_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT CONTEXTUAL_LIGATURES_ON = new AatLayoutFeatureSelectorT(18);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    CONTEXTUAL_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT CONTEXTUAL_LIGATURES_OFF = new AatLayoutFeatureSelectorT(19);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    HISTORICAL_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT HISTORICAL_LIGATURES_ON = new AatLayoutFeatureSelectorT(20);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    HISTORICAL_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT HISTORICAL_LIGATURES_OFF = new AatLayoutFeatureSelectorT(21);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    UNCONNECTED,
+    public static final AatLayoutFeatureSelectorT UNCONNECTED = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    PARTIALLY_CONNECTED,
+    public static final AatLayoutFeatureSelectorT PARTIALLY_CONNECTED = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LIGATURES}
      */
-    CURSIVE,
+    public static final AatLayoutFeatureSelectorT CURSIVE = new AatLayoutFeatureSelectorT(2);
     
     /**
      * Deprecated
      */
-    UPPER_AND_LOWER_CASE,
+    public static final AatLayoutFeatureSelectorT UPPER_AND_LOWER_CASE = new AatLayoutFeatureSelectorT(0);
     
     /**
      * Deprecated
      */
-    ALL_CAPS,
+    public static final AatLayoutFeatureSelectorT ALL_CAPS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * Deprecated
      */
-    ALL_LOWER_CASE,
+    public static final AatLayoutFeatureSelectorT ALL_LOWER_CASE = new AatLayoutFeatureSelectorT(2);
     
     /**
      * Deprecated
      */
-    SMALL_CAPS,
+    public static final AatLayoutFeatureSelectorT SMALL_CAPS = new AatLayoutFeatureSelectorT(3);
     
     /**
      * Deprecated
      */
-    INITIAL_CAPS,
+    public static final AatLayoutFeatureSelectorT INITIAL_CAPS = new AatLayoutFeatureSelectorT(4);
     
     /**
      * Deprecated
      */
-    INITIAL_CAPS_AND_SMALL_CAPS,
+    public static final AatLayoutFeatureSelectorT INITIAL_CAPS_AND_SMALL_CAPS = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_SUBSTITUTION}
      */
-    SUBSTITUTE_VERTICAL_FORMS_ON,
+    public static final AatLayoutFeatureSelectorT SUBSTITUTE_VERTICAL_FORMS_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_SUBSTITUTION}
      */
-    SUBSTITUTE_VERTICAL_FORMS_OFF,
+    public static final AatLayoutFeatureSelectorT SUBSTITUTE_VERTICAL_FORMS_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LINGUISTIC_REARRANGEMENT}
      */
-    LINGUISTIC_REARRANGEMENT_ON,
+    public static final AatLayoutFeatureSelectorT LINGUISTIC_REARRANGEMENT_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LINGUISTIC_REARRANGEMENT}
      */
-    LINGUISTIC_REARRANGEMENT_OFF,
+    public static final AatLayoutFeatureSelectorT LINGUISTIC_REARRANGEMENT_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
-    MONOSPACED_NUMBERS,
+    public static final AatLayoutFeatureSelectorT MONOSPACED_NUMBERS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
-    PROPORTIONAL_NUMBERS,
+    public static final AatLayoutFeatureSelectorT PROPORTIONAL_NUMBERS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
-    THIRD_WIDTH_NUMBERS,
+    public static final AatLayoutFeatureSelectorT THIRD_WIDTH_NUMBERS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_SPACING}
      */
-    QUARTER_WIDTH_NUMBERS,
+    public static final AatLayoutFeatureSelectorT QUARTER_WIDTH_NUMBERS = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    WORD_INITIAL_SWASHES_ON,
+    public static final AatLayoutFeatureSelectorT WORD_INITIAL_SWASHES_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    WORD_INITIAL_SWASHES_OFF,
+    public static final AatLayoutFeatureSelectorT WORD_INITIAL_SWASHES_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    WORD_FINAL_SWASHES_ON,
+    public static final AatLayoutFeatureSelectorT WORD_FINAL_SWASHES_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    WORD_FINAL_SWASHES_OFF,
+    public static final AatLayoutFeatureSelectorT WORD_FINAL_SWASHES_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    LINE_INITIAL_SWASHES_ON,
+    public static final AatLayoutFeatureSelectorT LINE_INITIAL_SWASHES_ON = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    LINE_INITIAL_SWASHES_OFF,
+    public static final AatLayoutFeatureSelectorT LINE_INITIAL_SWASHES_OFF = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    LINE_FINAL_SWASHES_ON,
+    public static final AatLayoutFeatureSelectorT LINE_FINAL_SWASHES_ON = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    LINE_FINAL_SWASHES_OFF,
+    public static final AatLayoutFeatureSelectorT LINE_FINAL_SWASHES_OFF = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    NON_FINAL_SWASHES_ON,
+    public static final AatLayoutFeatureSelectorT NON_FINAL_SWASHES_ON = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_SMART_SWASH_TYPE}
      */
-    NON_FINAL_SWASHES_OFF,
+    public static final AatLayoutFeatureSelectorT NON_FINAL_SWASHES_OFF = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE}
      */
-    SHOW_DIACRITICS,
+    public static final AatLayoutFeatureSelectorT SHOW_DIACRITICS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE}
      */
-    HIDE_DIACRITICS,
+    public static final AatLayoutFeatureSelectorT HIDE_DIACRITICS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DIACRITICS_TYPE}
      */
-    DECOMPOSE_DIACRITICS,
+    public static final AatLayoutFeatureSelectorT DECOMPOSE_DIACRITICS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
-    NORMAL_POSITION,
+    public static final AatLayoutFeatureSelectorT NORMAL_POSITION = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
-    SUPERIORS,
+    public static final AatLayoutFeatureSelectorT SUPERIORS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
-    INFERIORS,
+    public static final AatLayoutFeatureSelectorT INFERIORS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
-    ORDINALS,
+    public static final AatLayoutFeatureSelectorT ORDINALS = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_VERTICAL_POSITION}
      */
-    SCIENTIFIC_INFERIORS,
+    public static final AatLayoutFeatureSelectorT SCIENTIFIC_INFERIORS = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS}
      */
-    NO_FRACTIONS,
+    public static final AatLayoutFeatureSelectorT NO_FRACTIONS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS}
      */
-    VERTICAL_FRACTIONS,
+    public static final AatLayoutFeatureSelectorT VERTICAL_FRACTIONS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_FRACTIONS}
      */
-    DIAGONAL_FRACTIONS,
+    public static final AatLayoutFeatureSelectorT DIAGONAL_FRACTIONS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_OVERLAPPING_CHARACTERS_TYPE}
      */
-    PREVENT_OVERLAP_ON,
+    public static final AatLayoutFeatureSelectorT PREVENT_OVERLAP_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_OVERLAPPING_CHARACTERS_TYPE}
      */
-    PREVENT_OVERLAP_OFF,
+    public static final AatLayoutFeatureSelectorT PREVENT_OVERLAP_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    HYPHENS_TO_EM_DASH_ON,
+    public static final AatLayoutFeatureSelectorT HYPHENS_TO_EM_DASH_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    HYPHENS_TO_EM_DASH_OFF,
+    public static final AatLayoutFeatureSelectorT HYPHENS_TO_EM_DASH_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    HYPHEN_TO_EN_DASH_ON,
+    public static final AatLayoutFeatureSelectorT HYPHEN_TO_EN_DASH_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    HYPHEN_TO_EN_DASH_OFF,
+    public static final AatLayoutFeatureSelectorT HYPHEN_TO_EN_DASH_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    SLASHED_ZERO_ON,
+    public static final AatLayoutFeatureSelectorT SLASHED_ZERO_ON = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    SLASHED_ZERO_OFF,
+    public static final AatLayoutFeatureSelectorT SLASHED_ZERO_OFF = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    FORM_INTERROBANG_ON,
+    public static final AatLayoutFeatureSelectorT FORM_INTERROBANG_ON = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    FORM_INTERROBANG_OFF,
+    public static final AatLayoutFeatureSelectorT FORM_INTERROBANG_OFF = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    SMART_QUOTES_ON,
+    public static final AatLayoutFeatureSelectorT SMART_QUOTES_ON = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    SMART_QUOTES_OFF,
+    public static final AatLayoutFeatureSelectorT SMART_QUOTES_OFF = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    PERIODS_TO_ELLIPSIS_ON,
+    public static final AatLayoutFeatureSelectorT PERIODS_TO_ELLIPSIS_ON = new AatLayoutFeatureSelectorT(10);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TYPOGRAPHIC_EXTRAS}
      */
-    PERIODS_TO_ELLIPSIS_OFF,
+    public static final AatLayoutFeatureSelectorT PERIODS_TO_ELLIPSIS_OFF = new AatLayoutFeatureSelectorT(11);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    HYPHEN_TO_MINUS_ON,
+    public static final AatLayoutFeatureSelectorT HYPHEN_TO_MINUS_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    HYPHEN_TO_MINUS_OFF,
+    public static final AatLayoutFeatureSelectorT HYPHEN_TO_MINUS_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    ASTERISK_TO_MULTIPLY_ON,
+    public static final AatLayoutFeatureSelectorT ASTERISK_TO_MULTIPLY_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    ASTERISK_TO_MULTIPLY_OFF,
+    public static final AatLayoutFeatureSelectorT ASTERISK_TO_MULTIPLY_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    SLASH_TO_DIVIDE_ON,
+    public static final AatLayoutFeatureSelectorT SLASH_TO_DIVIDE_ON = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    SLASH_TO_DIVIDE_OFF,
+    public static final AatLayoutFeatureSelectorT SLASH_TO_DIVIDE_OFF = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    INEQUALITY_LIGATURES_ON,
+    public static final AatLayoutFeatureSelectorT INEQUALITY_LIGATURES_ON = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    INEQUALITY_LIGATURES_OFF,
+    public static final AatLayoutFeatureSelectorT INEQUALITY_LIGATURES_OFF = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    EXPONENTS_ON,
+    public static final AatLayoutFeatureSelectorT EXPONENTS_ON = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    EXPONENTS_OFF,
+    public static final AatLayoutFeatureSelectorT EXPONENTS_OFF = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    MATHEMATICAL_GREEK_ON,
+    public static final AatLayoutFeatureSelectorT MATHEMATICAL_GREEK_ON = new AatLayoutFeatureSelectorT(10);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_MATHEMATICAL_EXTRAS}
      */
-    MATHEMATICAL_GREEK_OFF,
+    public static final AatLayoutFeatureSelectorT MATHEMATICAL_GREEK_OFF = new AatLayoutFeatureSelectorT(11);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
-    NO_ORNAMENTS,
+    public static final AatLayoutFeatureSelectorT NO_ORNAMENTS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
-    DINGBATS,
+    public static final AatLayoutFeatureSelectorT DINGBATS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
-    PI_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT PI_CHARACTERS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
-    FLEURONS,
+    public static final AatLayoutFeatureSelectorT FLEURONS = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
-    DECORATIVE_BORDERS,
+    public static final AatLayoutFeatureSelectorT DECORATIVE_BORDERS = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
-    INTERNATIONAL_SYMBOLS,
+    public static final AatLayoutFeatureSelectorT INTERNATIONAL_SYMBOLS = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ORNAMENT_SETS_TYPE}
      */
-    MATH_SYMBOLS,
+    public static final AatLayoutFeatureSelectorT MATH_SYMBOLS = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_ALTERNATIVES}
      */
-    NO_ALTERNATES,
+    public static final AatLayoutFeatureSelectorT NO_ALTERNATES = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
-    DESIGN_LEVEL1,
+    public static final AatLayoutFeatureSelectorT DESIGN_LEVEL1 = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
-    DESIGN_LEVEL2,
+    public static final AatLayoutFeatureSelectorT DESIGN_LEVEL2 = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
-    DESIGN_LEVEL3,
+    public static final AatLayoutFeatureSelectorT DESIGN_LEVEL3 = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
-    DESIGN_LEVEL4,
+    public static final AatLayoutFeatureSelectorT DESIGN_LEVEL4 = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_DESIGN_COMPLEXITY_TYPE}
      */
-    DESIGN_LEVEL5,
+    public static final AatLayoutFeatureSelectorT DESIGN_LEVEL5 = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
-    NO_STYLE_OPTIONS,
+    public static final AatLayoutFeatureSelectorT NO_STYLE_OPTIONS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
-    DISPLAY_TEXT,
+    public static final AatLayoutFeatureSelectorT DISPLAY_TEXT = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
-    ENGRAVED_TEXT,
+    public static final AatLayoutFeatureSelectorT ENGRAVED_TEXT = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
-    ILLUMINATED_CAPS,
+    public static final AatLayoutFeatureSelectorT ILLUMINATED_CAPS = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
-    TITLING_CAPS,
+    public static final AatLayoutFeatureSelectorT TITLING_CAPS = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLE_OPTIONS}
      */
-    TALL_CAPS,
+    public static final AatLayoutFeatureSelectorT TALL_CAPS = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    TRADITIONAL_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT TRADITIONAL_CHARACTERS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    SIMPLIFIED_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT SIMPLIFIED_CHARACTERS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    JIS1978_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT JIS1978_CHARACTERS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    JIS1983_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT JIS1983_CHARACTERS = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    JIS1990_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT JIS1990_CHARACTERS = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    TRADITIONAL_ALT_ONE,
+    public static final AatLayoutFeatureSelectorT TRADITIONAL_ALT_ONE = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    TRADITIONAL_ALT_TWO,
+    public static final AatLayoutFeatureSelectorT TRADITIONAL_ALT_TWO = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    TRADITIONAL_ALT_THREE,
+    public static final AatLayoutFeatureSelectorT TRADITIONAL_ALT_THREE = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    TRADITIONAL_ALT_FOUR,
+    public static final AatLayoutFeatureSelectorT TRADITIONAL_ALT_FOUR = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    TRADITIONAL_ALT_FIVE,
+    public static final AatLayoutFeatureSelectorT TRADITIONAL_ALT_FIVE = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    EXPERT_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT EXPERT_CHARACTERS = new AatLayoutFeatureSelectorT(10);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    JIS2004_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT JIS2004_CHARACTERS = new AatLayoutFeatureSelectorT(11);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    HOJO_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT HOJO_CHARACTERS = new AatLayoutFeatureSelectorT(12);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    NLCCHARACTERS,
+    public static final AatLayoutFeatureSelectorT NLCCHARACTERS = new AatLayoutFeatureSelectorT(13);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CHARACTER_SHAPE}
      */
-    TRADITIONAL_NAMES_CHARACTERS,
+    public static final AatLayoutFeatureSelectorT TRADITIONAL_NAMES_CHARACTERS = new AatLayoutFeatureSelectorT(14);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_CASE}
      */
-    LOWER_CASE_NUMBERS,
+    public static final AatLayoutFeatureSelectorT LOWER_CASE_NUMBERS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_NUMBER_CASE}
      */
-    UPPER_CASE_NUMBERS,
+    public static final AatLayoutFeatureSelectorT UPPER_CASE_NUMBERS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
-    PROPORTIONAL_TEXT,
+    public static final AatLayoutFeatureSelectorT PROPORTIONAL_TEXT = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
-    MONOSPACED_TEXT,
+    public static final AatLayoutFeatureSelectorT MONOSPACED_TEXT = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
-    HALF_WIDTH_TEXT,
+    public static final AatLayoutFeatureSelectorT HALF_WIDTH_TEXT = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
-    THIRD_WIDTH_TEXT,
+    public static final AatLayoutFeatureSelectorT THIRD_WIDTH_TEXT = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
-    QUARTER_WIDTH_TEXT,
+    public static final AatLayoutFeatureSelectorT QUARTER_WIDTH_TEXT = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
-    ALT_PROPORTIONAL_TEXT,
+    public static final AatLayoutFeatureSelectorT ALT_PROPORTIONAL_TEXT = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TEXT_SPACING}
      */
-    ALT_HALF_WIDTH_TEXT,
+    public static final AatLayoutFeatureSelectorT ALT_HALF_WIDTH_TEXT = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    NO_TRANSLITERATION,
+    public static final AatLayoutFeatureSelectorT NO_TRANSLITERATION = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    HANJA_TO_HANGUL,
+    public static final AatLayoutFeatureSelectorT HANJA_TO_HANGUL = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    HIRAGANA_TO_KATAKANA,
+    public static final AatLayoutFeatureSelectorT HIRAGANA_TO_KATAKANA = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    KATAKANA_TO_HIRAGANA,
+    public static final AatLayoutFeatureSelectorT KATAKANA_TO_HIRAGANA = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    KANA_TO_ROMANIZATION,
+    public static final AatLayoutFeatureSelectorT KANA_TO_ROMANIZATION = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    ROMANIZATION_TO_HIRAGANA,
+    public static final AatLayoutFeatureSelectorT ROMANIZATION_TO_HIRAGANA = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    ROMANIZATION_TO_KATAKANA,
+    public static final AatLayoutFeatureSelectorT ROMANIZATION_TO_KATAKANA = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    HANJA_TO_HANGUL_ALT_ONE,
+    public static final AatLayoutFeatureSelectorT HANJA_TO_HANGUL_ALT_ONE = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    HANJA_TO_HANGUL_ALT_TWO,
+    public static final AatLayoutFeatureSelectorT HANJA_TO_HANGUL_ALT_TWO = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_TRANSLITERATION}
      */
-    HANJA_TO_HANGUL_ALT_THREE,
+    public static final AatLayoutFeatureSelectorT HANJA_TO_HANGUL_ALT_THREE = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    NO_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT NO_ANNOTATION = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    BOX_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT BOX_ANNOTATION = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    ROUNDED_BOX_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT ROUNDED_BOX_ANNOTATION = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    CIRCLE_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT CIRCLE_ANNOTATION = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    INVERTED_CIRCLE_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT INVERTED_CIRCLE_ANNOTATION = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    PARENTHESIS_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT PARENTHESIS_ANNOTATION = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    PERIOD_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT PERIOD_ANNOTATION = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    ROMAN_NUMERAL_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT ROMAN_NUMERAL_ANNOTATION = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    DIAMOND_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT DIAMOND_ANNOTATION = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    INVERTED_BOX_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT INVERTED_BOX_ANNOTATION = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ANNOTATION_TYPE}
      */
-    INVERTED_ROUNDED_BOX_ANNOTATION,
+    public static final AatLayoutFeatureSelectorT INVERTED_ROUNDED_BOX_ANNOTATION = new AatLayoutFeatureSelectorT(10);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_KANA_SPACING_TYPE}
      */
-    FULL_WIDTH_KANA,
+    public static final AatLayoutFeatureSelectorT FULL_WIDTH_KANA = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_KANA_SPACING_TYPE}
      */
-    PROPORTIONAL_KANA,
+    public static final AatLayoutFeatureSelectorT PROPORTIONAL_KANA = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE}
      */
-    FULL_WIDTH_IDEOGRAPHS,
+    public static final AatLayoutFeatureSelectorT FULL_WIDTH_IDEOGRAPHS = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE}
      */
-    PROPORTIONAL_IDEOGRAPHS,
+    public static final AatLayoutFeatureSelectorT PROPORTIONAL_IDEOGRAPHS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_SPACING_TYPE}
      */
-    HALF_WIDTH_IDEOGRAPHS,
+    public static final AatLayoutFeatureSelectorT HALF_WIDTH_IDEOGRAPHS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
-    CANONICAL_COMPOSITION_ON,
+    public static final AatLayoutFeatureSelectorT CANONICAL_COMPOSITION_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
-    CANONICAL_COMPOSITION_OFF,
+    public static final AatLayoutFeatureSelectorT CANONICAL_COMPOSITION_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
-    COMPATIBILITY_COMPOSITION_ON,
+    public static final AatLayoutFeatureSelectorT COMPATIBILITY_COMPOSITION_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
-    COMPATIBILITY_COMPOSITION_OFF,
+    public static final AatLayoutFeatureSelectorT COMPATIBILITY_COMPOSITION_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
-    TRANSCODING_COMPOSITION_ON,
+    public static final AatLayoutFeatureSelectorT TRANSCODING_COMPOSITION_ON = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UNICODE_DECOMPOSITION_TYPE}
      */
-    TRANSCODING_COMPOSITION_OFF,
+    public static final AatLayoutFeatureSelectorT TRANSCODING_COMPOSITION_OFF = new AatLayoutFeatureSelectorT(5);
     
     /**
      * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_RUBY_KANA_OFF} instead
      */
-    NO_RUBY_KANA,
+    public static final AatLayoutFeatureSelectorT NO_RUBY_KANA = new AatLayoutFeatureSelectorT(0);
     
     /**
      * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_RUBY_KANA_ON} instead
      */
-    RUBY_KANA,
+    public static final AatLayoutFeatureSelectorT RUBY_KANA = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_RUBY_KANA}
      */
-    RUBY_KANA_ON,
+    public static final AatLayoutFeatureSelectorT RUBY_KANA_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_RUBY_KANA}
      */
-    RUBY_KANA_OFF,
+    public static final AatLayoutFeatureSelectorT RUBY_KANA_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
-    NO_CJK_SYMBOL_ALTERNATIVES,
+    public static final AatLayoutFeatureSelectorT NO_CJK_SYMBOL_ALTERNATIVES = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
-    CJK_SYMBOL_ALT_ONE,
+    public static final AatLayoutFeatureSelectorT CJK_SYMBOL_ALT_ONE = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
-    CJK_SYMBOL_ALT_TWO,
+    public static final AatLayoutFeatureSelectorT CJK_SYMBOL_ALT_TWO = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
-    CJK_SYMBOL_ALT_THREE,
+    public static final AatLayoutFeatureSelectorT CJK_SYMBOL_ALT_THREE = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
-    CJK_SYMBOL_ALT_FOUR,
+    public static final AatLayoutFeatureSelectorT CJK_SYMBOL_ALT_FOUR = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_SYMBOL_ALTERNATIVES_TYPE}
      */
-    CJK_SYMBOL_ALT_FIVE,
+    public static final AatLayoutFeatureSelectorT CJK_SYMBOL_ALT_FIVE = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
-    NO_IDEOGRAPHIC_ALTERNATIVES,
+    public static final AatLayoutFeatureSelectorT NO_IDEOGRAPHIC_ALTERNATIVES = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
-    IDEOGRAPHIC_ALT_ONE,
+    public static final AatLayoutFeatureSelectorT IDEOGRAPHIC_ALT_ONE = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
-    IDEOGRAPHIC_ALT_TWO,
+    public static final AatLayoutFeatureSelectorT IDEOGRAPHIC_ALT_TWO = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
-    IDEOGRAPHIC_ALT_THREE,
+    public static final AatLayoutFeatureSelectorT IDEOGRAPHIC_ALT_THREE = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
-    IDEOGRAPHIC_ALT_FOUR,
+    public static final AatLayoutFeatureSelectorT IDEOGRAPHIC_ALT_FOUR = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_IDEOGRAPHIC_ALTERNATIVES_TYPE}
      */
-    IDEOGRAPHIC_ALT_FIVE,
+    public static final AatLayoutFeatureSelectorT IDEOGRAPHIC_ALT_FIVE = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_VERTICAL_ROMAN_PLACEMENT_TYPE}
      */
-    CJK_VERTICAL_ROMAN_CENTERED,
+    public static final AatLayoutFeatureSelectorT CJK_VERTICAL_ROMAN_CENTERED = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_VERTICAL_ROMAN_PLACEMENT_TYPE}
      */
-    CJK_VERTICAL_ROMAN_HBASELINE,
+    public static final AatLayoutFeatureSelectorT CJK_VERTICAL_ROMAN_HBASELINE = new AatLayoutFeatureSelectorT(1);
     
     /**
      * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_CJK_ITALIC_ROMAN_OFF} instead
      */
-    NO_CJK_ITALIC_ROMAN,
+    public static final AatLayoutFeatureSelectorT NO_CJK_ITALIC_ROMAN = new AatLayoutFeatureSelectorT(0);
     
     /**
      * Deprecated; use {@code HB_AAT_LAYOUT_FEATURE_SELECTOR_CJK_ITALIC_ROMAN_ON} instead
      */
-    CJK_ITALIC_ROMAN,
+    public static final AatLayoutFeatureSelectorT CJK_ITALIC_ROMAN = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ITALIC_CJK_ROMAN}
      */
-    CJK_ITALIC_ROMAN_ON,
+    public static final AatLayoutFeatureSelectorT CJK_ITALIC_ROMAN_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ITALIC_CJK_ROMAN}
      */
-    CJK_ITALIC_ROMAN_OFF,
+    public static final AatLayoutFeatureSelectorT CJK_ITALIC_ROMAN_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
-    CASE_SENSITIVE_LAYOUT_ON,
+    public static final AatLayoutFeatureSelectorT CASE_SENSITIVE_LAYOUT_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
-    CASE_SENSITIVE_LAYOUT_OFF,
+    public static final AatLayoutFeatureSelectorT CASE_SENSITIVE_LAYOUT_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
-    CASE_SENSITIVE_SPACING_ON,
+    public static final AatLayoutFeatureSelectorT CASE_SENSITIVE_SPACING_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CASE_SENSITIVE_LAYOUT}
      */
-    CASE_SENSITIVE_SPACING_OFF,
+    public static final AatLayoutFeatureSelectorT CASE_SENSITIVE_SPACING_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
-    ALTERNATE_HORIZ_KANA_ON,
+    public static final AatLayoutFeatureSelectorT ALTERNATE_HORIZ_KANA_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
-    ALTERNATE_HORIZ_KANA_OFF,
+    public static final AatLayoutFeatureSelectorT ALTERNATE_HORIZ_KANA_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
-    ALTERNATE_VERT_KANA_ON,
+    public static final AatLayoutFeatureSelectorT ALTERNATE_VERT_KANA_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_ALTERNATE_KANA}
      */
-    ALTERNATE_VERT_KANA_OFF,
+    public static final AatLayoutFeatureSelectorT ALTERNATE_VERT_KANA_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    NO_STYLISTIC_ALTERNATES,
+    public static final AatLayoutFeatureSelectorT NO_STYLISTIC_ALTERNATES = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_ONE_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_ONE_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_ONE_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_ONE_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TWO_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TWO_ON = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TWO_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TWO_OFF = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_THREE_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_THREE_ON = new AatLayoutFeatureSelectorT(6);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_THREE_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_THREE_OFF = new AatLayoutFeatureSelectorT(7);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FOUR_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FOUR_ON = new AatLayoutFeatureSelectorT(8);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FOUR_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FOUR_OFF = new AatLayoutFeatureSelectorT(9);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FIVE_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FIVE_ON = new AatLayoutFeatureSelectorT(10);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FIVE_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FIVE_OFF = new AatLayoutFeatureSelectorT(11);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SIX_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SIX_ON = new AatLayoutFeatureSelectorT(12);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SIX_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SIX_OFF = new AatLayoutFeatureSelectorT(13);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SEVEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SEVEN_ON = new AatLayoutFeatureSelectorT(14);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SEVEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SEVEN_OFF = new AatLayoutFeatureSelectorT(15);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_EIGHT_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_EIGHT_ON = new AatLayoutFeatureSelectorT(16);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_EIGHT_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_EIGHT_OFF = new AatLayoutFeatureSelectorT(17);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_NINE_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_NINE_ON = new AatLayoutFeatureSelectorT(18);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_NINE_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_NINE_OFF = new AatLayoutFeatureSelectorT(19);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TEN_ON = new AatLayoutFeatureSelectorT(20);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TEN_OFF = new AatLayoutFeatureSelectorT(21);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_ELEVEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_ELEVEN_ON = new AatLayoutFeatureSelectorT(22);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_ELEVEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_ELEVEN_OFF = new AatLayoutFeatureSelectorT(23);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TWELVE_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TWELVE_ON = new AatLayoutFeatureSelectorT(24);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TWELVE_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TWELVE_OFF = new AatLayoutFeatureSelectorT(25);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_THIRTEEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_THIRTEEN_ON = new AatLayoutFeatureSelectorT(26);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_THIRTEEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_THIRTEEN_OFF = new AatLayoutFeatureSelectorT(27);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FOURTEEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FOURTEEN_ON = new AatLayoutFeatureSelectorT(28);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FOURTEEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FOURTEEN_OFF = new AatLayoutFeatureSelectorT(29);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FIFTEEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FIFTEEN_ON = new AatLayoutFeatureSelectorT(30);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_FIFTEEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_FIFTEEN_OFF = new AatLayoutFeatureSelectorT(31);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SIXTEEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SIXTEEN_ON = new AatLayoutFeatureSelectorT(32);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SIXTEEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SIXTEEN_OFF = new AatLayoutFeatureSelectorT(33);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SEVENTEEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SEVENTEEN_ON = new AatLayoutFeatureSelectorT(34);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_SEVENTEEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_SEVENTEEN_OFF = new AatLayoutFeatureSelectorT(35);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_EIGHTEEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_EIGHTEEN_ON = new AatLayoutFeatureSelectorT(36);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_EIGHTEEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_EIGHTEEN_OFF = new AatLayoutFeatureSelectorT(37);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_NINETEEN_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_NINETEEN_ON = new AatLayoutFeatureSelectorT(38);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_NINETEEN_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_NINETEEN_OFF = new AatLayoutFeatureSelectorT(39);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TWENTY_ON,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TWENTY_ON = new AatLayoutFeatureSelectorT(40);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_STYLISTIC_ALTERNATIVES}
      */
-    STYLISTIC_ALT_TWENTY_OFF,
+    public static final AatLayoutFeatureSelectorT STYLISTIC_ALT_TWENTY_OFF = new AatLayoutFeatureSelectorT(41);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
-    CONTEXTUAL_ALTERNATES_ON,
+    public static final AatLayoutFeatureSelectorT CONTEXTUAL_ALTERNATES_ON = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
-    CONTEXTUAL_ALTERNATES_OFF,
+    public static final AatLayoutFeatureSelectorT CONTEXTUAL_ALTERNATES_OFF = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
-    SWASH_ALTERNATES_ON,
+    public static final AatLayoutFeatureSelectorT SWASH_ALTERNATES_ON = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
-    SWASH_ALTERNATES_OFF,
+    public static final AatLayoutFeatureSelectorT SWASH_ALTERNATES_OFF = new AatLayoutFeatureSelectorT(3);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
-    CONTEXTUAL_SWASH_ALTERNATES_ON,
+    public static final AatLayoutFeatureSelectorT CONTEXTUAL_SWASH_ALTERNATES_ON = new AatLayoutFeatureSelectorT(4);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CONTEXTUAL_ALTERNATIVES}
      */
-    CONTEXTUAL_SWASH_ALTERNATES_OFF,
+    public static final AatLayoutFeatureSelectorT CONTEXTUAL_SWASH_ALTERNATES_OFF = new AatLayoutFeatureSelectorT(5);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE}
      */
-    DEFAULT_LOWER_CASE,
+    public static final AatLayoutFeatureSelectorT DEFAULT_LOWER_CASE = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE}
      */
-    LOWER_CASE_SMALL_CAPS,
+    public static final AatLayoutFeatureSelectorT LOWER_CASE_SMALL_CAPS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_LOWER_CASE}
      */
-    LOWER_CASE_PETITE_CAPS,
+    public static final AatLayoutFeatureSelectorT LOWER_CASE_PETITE_CAPS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE}
      */
-    DEFAULT_UPPER_CASE,
+    public static final AatLayoutFeatureSelectorT DEFAULT_UPPER_CASE = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE}
      */
-    UPPER_CASE_SMALL_CAPS,
+    public static final AatLayoutFeatureSelectorT UPPER_CASE_SMALL_CAPS = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_UPPER_CASE}
      */
-    UPPER_CASE_PETITE_CAPS,
+    public static final AatLayoutFeatureSelectorT UPPER_CASE_PETITE_CAPS = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
-    HALF_WIDTH_CJK_ROMAN,
+    public static final AatLayoutFeatureSelectorT HALF_WIDTH_CJK_ROMAN = new AatLayoutFeatureSelectorT(0);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
-    PROPORTIONAL_CJK_ROMAN,
+    public static final AatLayoutFeatureSelectorT PROPORTIONAL_CJK_ROMAN = new AatLayoutFeatureSelectorT(1);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
-    DEFAULT_CJK_ROMAN,
+    public static final AatLayoutFeatureSelectorT DEFAULT_CJK_ROMAN = new AatLayoutFeatureSelectorT(2);
     
     /**
      * for {@code HB_AAT_LAYOUT_FEATURE_TYPE_CJK_ROMAN_SPACING_TYPE}
      */
-    FULL_WIDTH_CJK_ROMAN;
+    public static final AatLayoutFeatureSelectorT FULL_WIDTH_CJK_ROMAN = new AatLayoutFeatureSelectorT(3);
     
-    public static AatLayoutFeatureSelectorT fromValue(int value) {
-        return switch(value) {
-            case 65535 -> INVALID;
-            case 0 -> ALL_TYPE_FEATURES_ON;
-            case 1 -> ALL_TYPE_FEATURES_OFF;
-            case 2 -> COMMON_LIGATURES_ON;
-            case 3 -> COMMON_LIGATURES_OFF;
-            case 4 -> RARE_LIGATURES_ON;
-            case 5 -> RARE_LIGATURES_OFF;
-            case 6 -> LOGOS_ON;
-            case 7 -> LOGOS_OFF;
-            case 8 -> REBUS_PICTURES_ON;
-            case 9 -> REBUS_PICTURES_OFF;
-            case 10 -> DIPHTHONG_LIGATURES_ON;
-            case 11 -> DIPHTHONG_LIGATURES_OFF;
-            case 12 -> SQUARED_LIGATURES_ON;
-            case 13 -> SQUARED_LIGATURES_OFF;
-            case 14 -> ABBREV_SQUARED_LIGATURES_ON;
-            case 15 -> ABBREV_SQUARED_LIGATURES_OFF;
-            case 16 -> SYMBOL_LIGATURES_ON;
-            case 17 -> SYMBOL_LIGATURES_OFF;
-            case 18 -> CONTEXTUAL_LIGATURES_ON;
-            case 19 -> CONTEXTUAL_LIGATURES_OFF;
-            case 20 -> HISTORICAL_LIGATURES_ON;
-            case 21 -> HISTORICAL_LIGATURES_OFF;
-            case 22 -> STYLISTIC_ALT_ELEVEN_ON;
-            case 23 -> STYLISTIC_ALT_ELEVEN_OFF;
-            case 24 -> STYLISTIC_ALT_TWELVE_ON;
-            case 25 -> STYLISTIC_ALT_TWELVE_OFF;
-            case 26 -> STYLISTIC_ALT_THIRTEEN_ON;
-            case 27 -> STYLISTIC_ALT_THIRTEEN_OFF;
-            case 28 -> STYLISTIC_ALT_FOURTEEN_ON;
-            case 29 -> STYLISTIC_ALT_FOURTEEN_OFF;
-            case 30 -> STYLISTIC_ALT_FIFTEEN_ON;
-            case 31 -> STYLISTIC_ALT_FIFTEEN_OFF;
-            case 32 -> STYLISTIC_ALT_SIXTEEN_ON;
-            case 33 -> STYLISTIC_ALT_SIXTEEN_OFF;
-            case 34 -> STYLISTIC_ALT_SEVENTEEN_ON;
-            case 35 -> STYLISTIC_ALT_SEVENTEEN_OFF;
-            case 36 -> STYLISTIC_ALT_EIGHTEEN_ON;
-            case 37 -> STYLISTIC_ALT_EIGHTEEN_OFF;
-            case 38 -> STYLISTIC_ALT_NINETEEN_ON;
-            case 39 -> STYLISTIC_ALT_NINETEEN_OFF;
-            case 40 -> STYLISTIC_ALT_TWENTY_ON;
-            case 41 -> STYLISTIC_ALT_TWENTY_OFF;
-            default -> null;
-        };
+    private int value;
+    
+    public AatLayoutFeatureSelectorT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 65535;
-            case ALL_TYPE_FEATURES_ON -> 0;
-            case ALL_TYPE_FEATURES_OFF -> 1;
-            case REQUIRED_LIGATURES_ON -> 0;
-            case REQUIRED_LIGATURES_OFF -> 1;
-            case COMMON_LIGATURES_ON -> 2;
-            case COMMON_LIGATURES_OFF -> 3;
-            case RARE_LIGATURES_ON -> 4;
-            case RARE_LIGATURES_OFF -> 5;
-            case LOGOS_ON -> 6;
-            case LOGOS_OFF -> 7;
-            case REBUS_PICTURES_ON -> 8;
-            case REBUS_PICTURES_OFF -> 9;
-            case DIPHTHONG_LIGATURES_ON -> 10;
-            case DIPHTHONG_LIGATURES_OFF -> 11;
-            case SQUARED_LIGATURES_ON -> 12;
-            case SQUARED_LIGATURES_OFF -> 13;
-            case ABBREV_SQUARED_LIGATURES_ON -> 14;
-            case ABBREV_SQUARED_LIGATURES_OFF -> 15;
-            case SYMBOL_LIGATURES_ON -> 16;
-            case SYMBOL_LIGATURES_OFF -> 17;
-            case CONTEXTUAL_LIGATURES_ON -> 18;
-            case CONTEXTUAL_LIGATURES_OFF -> 19;
-            case HISTORICAL_LIGATURES_ON -> 20;
-            case HISTORICAL_LIGATURES_OFF -> 21;
-            case UNCONNECTED -> 0;
-            case PARTIALLY_CONNECTED -> 1;
-            case CURSIVE -> 2;
-            case UPPER_AND_LOWER_CASE -> 0;
-            case ALL_CAPS -> 1;
-            case ALL_LOWER_CASE -> 2;
-            case SMALL_CAPS -> 3;
-            case INITIAL_CAPS -> 4;
-            case INITIAL_CAPS_AND_SMALL_CAPS -> 5;
-            case SUBSTITUTE_VERTICAL_FORMS_ON -> 0;
-            case SUBSTITUTE_VERTICAL_FORMS_OFF -> 1;
-            case LINGUISTIC_REARRANGEMENT_ON -> 0;
-            case LINGUISTIC_REARRANGEMENT_OFF -> 1;
-            case MONOSPACED_NUMBERS -> 0;
-            case PROPORTIONAL_NUMBERS -> 1;
-            case THIRD_WIDTH_NUMBERS -> 2;
-            case QUARTER_WIDTH_NUMBERS -> 3;
-            case WORD_INITIAL_SWASHES_ON -> 0;
-            case WORD_INITIAL_SWASHES_OFF -> 1;
-            case WORD_FINAL_SWASHES_ON -> 2;
-            case WORD_FINAL_SWASHES_OFF -> 3;
-            case LINE_INITIAL_SWASHES_ON -> 4;
-            case LINE_INITIAL_SWASHES_OFF -> 5;
-            case LINE_FINAL_SWASHES_ON -> 6;
-            case LINE_FINAL_SWASHES_OFF -> 7;
-            case NON_FINAL_SWASHES_ON -> 8;
-            case NON_FINAL_SWASHES_OFF -> 9;
-            case SHOW_DIACRITICS -> 0;
-            case HIDE_DIACRITICS -> 1;
-            case DECOMPOSE_DIACRITICS -> 2;
-            case NORMAL_POSITION -> 0;
-            case SUPERIORS -> 1;
-            case INFERIORS -> 2;
-            case ORDINALS -> 3;
-            case SCIENTIFIC_INFERIORS -> 4;
-            case NO_FRACTIONS -> 0;
-            case VERTICAL_FRACTIONS -> 1;
-            case DIAGONAL_FRACTIONS -> 2;
-            case PREVENT_OVERLAP_ON -> 0;
-            case PREVENT_OVERLAP_OFF -> 1;
-            case HYPHENS_TO_EM_DASH_ON -> 0;
-            case HYPHENS_TO_EM_DASH_OFF -> 1;
-            case HYPHEN_TO_EN_DASH_ON -> 2;
-            case HYPHEN_TO_EN_DASH_OFF -> 3;
-            case SLASHED_ZERO_ON -> 4;
-            case SLASHED_ZERO_OFF -> 5;
-            case FORM_INTERROBANG_ON -> 6;
-            case FORM_INTERROBANG_OFF -> 7;
-            case SMART_QUOTES_ON -> 8;
-            case SMART_QUOTES_OFF -> 9;
-            case PERIODS_TO_ELLIPSIS_ON -> 10;
-            case PERIODS_TO_ELLIPSIS_OFF -> 11;
-            case HYPHEN_TO_MINUS_ON -> 0;
-            case HYPHEN_TO_MINUS_OFF -> 1;
-            case ASTERISK_TO_MULTIPLY_ON -> 2;
-            case ASTERISK_TO_MULTIPLY_OFF -> 3;
-            case SLASH_TO_DIVIDE_ON -> 4;
-            case SLASH_TO_DIVIDE_OFF -> 5;
-            case INEQUALITY_LIGATURES_ON -> 6;
-            case INEQUALITY_LIGATURES_OFF -> 7;
-            case EXPONENTS_ON -> 8;
-            case EXPONENTS_OFF -> 9;
-            case MATHEMATICAL_GREEK_ON -> 10;
-            case MATHEMATICAL_GREEK_OFF -> 11;
-            case NO_ORNAMENTS -> 0;
-            case DINGBATS -> 1;
-            case PI_CHARACTERS -> 2;
-            case FLEURONS -> 3;
-            case DECORATIVE_BORDERS -> 4;
-            case INTERNATIONAL_SYMBOLS -> 5;
-            case MATH_SYMBOLS -> 6;
-            case NO_ALTERNATES -> 0;
-            case DESIGN_LEVEL1 -> 0;
-            case DESIGN_LEVEL2 -> 1;
-            case DESIGN_LEVEL3 -> 2;
-            case DESIGN_LEVEL4 -> 3;
-            case DESIGN_LEVEL5 -> 4;
-            case NO_STYLE_OPTIONS -> 0;
-            case DISPLAY_TEXT -> 1;
-            case ENGRAVED_TEXT -> 2;
-            case ILLUMINATED_CAPS -> 3;
-            case TITLING_CAPS -> 4;
-            case TALL_CAPS -> 5;
-            case TRADITIONAL_CHARACTERS -> 0;
-            case SIMPLIFIED_CHARACTERS -> 1;
-            case JIS1978_CHARACTERS -> 2;
-            case JIS1983_CHARACTERS -> 3;
-            case JIS1990_CHARACTERS -> 4;
-            case TRADITIONAL_ALT_ONE -> 5;
-            case TRADITIONAL_ALT_TWO -> 6;
-            case TRADITIONAL_ALT_THREE -> 7;
-            case TRADITIONAL_ALT_FOUR -> 8;
-            case TRADITIONAL_ALT_FIVE -> 9;
-            case EXPERT_CHARACTERS -> 10;
-            case JIS2004_CHARACTERS -> 11;
-            case HOJO_CHARACTERS -> 12;
-            case NLCCHARACTERS -> 13;
-            case TRADITIONAL_NAMES_CHARACTERS -> 14;
-            case LOWER_CASE_NUMBERS -> 0;
-            case UPPER_CASE_NUMBERS -> 1;
-            case PROPORTIONAL_TEXT -> 0;
-            case MONOSPACED_TEXT -> 1;
-            case HALF_WIDTH_TEXT -> 2;
-            case THIRD_WIDTH_TEXT -> 3;
-            case QUARTER_WIDTH_TEXT -> 4;
-            case ALT_PROPORTIONAL_TEXT -> 5;
-            case ALT_HALF_WIDTH_TEXT -> 6;
-            case NO_TRANSLITERATION -> 0;
-            case HANJA_TO_HANGUL -> 1;
-            case HIRAGANA_TO_KATAKANA -> 2;
-            case KATAKANA_TO_HIRAGANA -> 3;
-            case KANA_TO_ROMANIZATION -> 4;
-            case ROMANIZATION_TO_HIRAGANA -> 5;
-            case ROMANIZATION_TO_KATAKANA -> 6;
-            case HANJA_TO_HANGUL_ALT_ONE -> 7;
-            case HANJA_TO_HANGUL_ALT_TWO -> 8;
-            case HANJA_TO_HANGUL_ALT_THREE -> 9;
-            case NO_ANNOTATION -> 0;
-            case BOX_ANNOTATION -> 1;
-            case ROUNDED_BOX_ANNOTATION -> 2;
-            case CIRCLE_ANNOTATION -> 3;
-            case INVERTED_CIRCLE_ANNOTATION -> 4;
-            case PARENTHESIS_ANNOTATION -> 5;
-            case PERIOD_ANNOTATION -> 6;
-            case ROMAN_NUMERAL_ANNOTATION -> 7;
-            case DIAMOND_ANNOTATION -> 8;
-            case INVERTED_BOX_ANNOTATION -> 9;
-            case INVERTED_ROUNDED_BOX_ANNOTATION -> 10;
-            case FULL_WIDTH_KANA -> 0;
-            case PROPORTIONAL_KANA -> 1;
-            case FULL_WIDTH_IDEOGRAPHS -> 0;
-            case PROPORTIONAL_IDEOGRAPHS -> 1;
-            case HALF_WIDTH_IDEOGRAPHS -> 2;
-            case CANONICAL_COMPOSITION_ON -> 0;
-            case CANONICAL_COMPOSITION_OFF -> 1;
-            case COMPATIBILITY_COMPOSITION_ON -> 2;
-            case COMPATIBILITY_COMPOSITION_OFF -> 3;
-            case TRANSCODING_COMPOSITION_ON -> 4;
-            case TRANSCODING_COMPOSITION_OFF -> 5;
-            case NO_RUBY_KANA -> 0;
-            case RUBY_KANA -> 1;
-            case RUBY_KANA_ON -> 2;
-            case RUBY_KANA_OFF -> 3;
-            case NO_CJK_SYMBOL_ALTERNATIVES -> 0;
-            case CJK_SYMBOL_ALT_ONE -> 1;
-            case CJK_SYMBOL_ALT_TWO -> 2;
-            case CJK_SYMBOL_ALT_THREE -> 3;
-            case CJK_SYMBOL_ALT_FOUR -> 4;
-            case CJK_SYMBOL_ALT_FIVE -> 5;
-            case NO_IDEOGRAPHIC_ALTERNATIVES -> 0;
-            case IDEOGRAPHIC_ALT_ONE -> 1;
-            case IDEOGRAPHIC_ALT_TWO -> 2;
-            case IDEOGRAPHIC_ALT_THREE -> 3;
-            case IDEOGRAPHIC_ALT_FOUR -> 4;
-            case IDEOGRAPHIC_ALT_FIVE -> 5;
-            case CJK_VERTICAL_ROMAN_CENTERED -> 0;
-            case CJK_VERTICAL_ROMAN_HBASELINE -> 1;
-            case NO_CJK_ITALIC_ROMAN -> 0;
-            case CJK_ITALIC_ROMAN -> 1;
-            case CJK_ITALIC_ROMAN_ON -> 2;
-            case CJK_ITALIC_ROMAN_OFF -> 3;
-            case CASE_SENSITIVE_LAYOUT_ON -> 0;
-            case CASE_SENSITIVE_LAYOUT_OFF -> 1;
-            case CASE_SENSITIVE_SPACING_ON -> 2;
-            case CASE_SENSITIVE_SPACING_OFF -> 3;
-            case ALTERNATE_HORIZ_KANA_ON -> 0;
-            case ALTERNATE_HORIZ_KANA_OFF -> 1;
-            case ALTERNATE_VERT_KANA_ON -> 2;
-            case ALTERNATE_VERT_KANA_OFF -> 3;
-            case NO_STYLISTIC_ALTERNATES -> 0;
-            case STYLISTIC_ALT_ONE_ON -> 2;
-            case STYLISTIC_ALT_ONE_OFF -> 3;
-            case STYLISTIC_ALT_TWO_ON -> 4;
-            case STYLISTIC_ALT_TWO_OFF -> 5;
-            case STYLISTIC_ALT_THREE_ON -> 6;
-            case STYLISTIC_ALT_THREE_OFF -> 7;
-            case STYLISTIC_ALT_FOUR_ON -> 8;
-            case STYLISTIC_ALT_FOUR_OFF -> 9;
-            case STYLISTIC_ALT_FIVE_ON -> 10;
-            case STYLISTIC_ALT_FIVE_OFF -> 11;
-            case STYLISTIC_ALT_SIX_ON -> 12;
-            case STYLISTIC_ALT_SIX_OFF -> 13;
-            case STYLISTIC_ALT_SEVEN_ON -> 14;
-            case STYLISTIC_ALT_SEVEN_OFF -> 15;
-            case STYLISTIC_ALT_EIGHT_ON -> 16;
-            case STYLISTIC_ALT_EIGHT_OFF -> 17;
-            case STYLISTIC_ALT_NINE_ON -> 18;
-            case STYLISTIC_ALT_NINE_OFF -> 19;
-            case STYLISTIC_ALT_TEN_ON -> 20;
-            case STYLISTIC_ALT_TEN_OFF -> 21;
-            case STYLISTIC_ALT_ELEVEN_ON -> 22;
-            case STYLISTIC_ALT_ELEVEN_OFF -> 23;
-            case STYLISTIC_ALT_TWELVE_ON -> 24;
-            case STYLISTIC_ALT_TWELVE_OFF -> 25;
-            case STYLISTIC_ALT_THIRTEEN_ON -> 26;
-            case STYLISTIC_ALT_THIRTEEN_OFF -> 27;
-            case STYLISTIC_ALT_FOURTEEN_ON -> 28;
-            case STYLISTIC_ALT_FOURTEEN_OFF -> 29;
-            case STYLISTIC_ALT_FIFTEEN_ON -> 30;
-            case STYLISTIC_ALT_FIFTEEN_OFF -> 31;
-            case STYLISTIC_ALT_SIXTEEN_ON -> 32;
-            case STYLISTIC_ALT_SIXTEEN_OFF -> 33;
-            case STYLISTIC_ALT_SEVENTEEN_ON -> 34;
-            case STYLISTIC_ALT_SEVENTEEN_OFF -> 35;
-            case STYLISTIC_ALT_EIGHTEEN_ON -> 36;
-            case STYLISTIC_ALT_EIGHTEEN_OFF -> 37;
-            case STYLISTIC_ALT_NINETEEN_ON -> 38;
-            case STYLISTIC_ALT_NINETEEN_OFF -> 39;
-            case STYLISTIC_ALT_TWENTY_ON -> 40;
-            case STYLISTIC_ALT_TWENTY_OFF -> 41;
-            case CONTEXTUAL_ALTERNATES_ON -> 0;
-            case CONTEXTUAL_ALTERNATES_OFF -> 1;
-            case SWASH_ALTERNATES_ON -> 2;
-            case SWASH_ALTERNATES_OFF -> 3;
-            case CONTEXTUAL_SWASH_ALTERNATES_ON -> 4;
-            case CONTEXTUAL_SWASH_ALTERNATES_OFF -> 5;
-            case DEFAULT_LOWER_CASE -> 0;
-            case LOWER_CASE_SMALL_CAPS -> 1;
-            case LOWER_CASE_PETITE_CAPS -> 2;
-            case DEFAULT_UPPER_CASE -> 0;
-            case UPPER_CASE_SMALL_CAPS -> 1;
-            case UPPER_CASE_PETITE_CAPS -> 2;
-            case HALF_WIDTH_CJK_ROMAN -> 0;
-            case PROPORTIONAL_CJK_ROMAN -> 1;
-            case DEFAULT_CJK_ROMAN -> 2;
-            case FULL_WIDTH_CJK_ROMAN -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AatLayoutFeatureSelectorT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

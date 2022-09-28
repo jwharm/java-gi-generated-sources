@@ -152,7 +152,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      */
     public AssistantPageType getPageType(Widget page) {
         var RESULT = gtk_h.gtk_assistant_get_page_type(handle(), page.handle());
-        return AssistantPageType.fromValue(RESULT);
+        return new AssistantPageType(RESULT);
     }
     
     /**

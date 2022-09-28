@@ -51,9 +51,9 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
      * finished by calling g_mount_eject_with_operation_finish() with the {@code mount}
      * and {@link AsyncResult} data returned in the {@code callback}.
      */
-    public default void ejectWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void ejectWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_mount_eject_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_mount_eject_with_operation(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -226,9 +226,9 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
      * and then remounting not all backends might need to actually be
      * unmounted.
      */
-    public default void remount(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void remount(MountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_mount_remount(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_mount_remount(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -268,9 +268,9 @@ public interface Mount extends io.github.jwharm.javagi.NativeAddress {
      * finished by calling g_mount_unmount_with_operation_finish() with the {@code mount}
      * and {@link AsyncResult} data returned in the {@code callback}.
      */
-    public default void unmountWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void unmountWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_mount_unmount_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_mount_unmount_with_operation(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

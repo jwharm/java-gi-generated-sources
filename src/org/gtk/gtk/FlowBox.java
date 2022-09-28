@@ -201,7 +201,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SelectionMode getSelectionMode() {
         var RESULT = gtk_h.gtk_flow_box_get_selection_mode(handle());
-        return SelectionMode.fromValue(RESULT);
+        return new SelectionMode(RESULT);
     }
     
     /**
@@ -571,7 +571,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
     public static boolean __signalFlowBoxMoveCursor(MemoryAddress source, int step, int count, boolean extend, boolean modify, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (FlowBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new FlowBox(References.get(source)), MovementStep.fromValue(step), count, extend, modify);
+        return handler.signalReceived(new FlowBox(References.get(source)), new MovementStep(step), count, extend, modify);
     }
     
     @FunctionalInterface

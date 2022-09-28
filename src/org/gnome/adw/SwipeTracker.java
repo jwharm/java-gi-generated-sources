@@ -222,7 +222,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public static void __signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (SwipeTracker.PrepareHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SwipeTracker(References.get(source)), NavigationDirection.fromValue(direction));
+        handler.signalReceived(new SwipeTracker(References.get(source)), new NavigationDirection(direction));
     }
     
     @FunctionalInterface

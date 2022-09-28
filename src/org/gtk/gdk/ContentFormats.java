@@ -63,7 +63,7 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew(mimeTypes, nMimeTypes));
     }
     
-    private static Reference constructNewForGtype(Type type) {
+    private static Reference constructNewForGtype(org.gtk.gobject.Type type) {
         Reference RESULT = References.get(gtk_h.gdk_content_formats_new_for_gtype(type.getValue()), true);
         return RESULT;
     }
@@ -71,14 +71,14 @@ public class ContentFormats extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@code GdkContentFormats} for a given {@code GType}.
      */
-    public static ContentFormats newForGtype(Type type) {
+    public static ContentFormats newForGtype(org.gtk.gobject.Type type) {
         return new ContentFormats(constructNewForGtype(type));
     }
     
     /**
      * Checks if a given {@code GType} is part of the given {@code formats}.
      */
-    public boolean containGtype(Type type) {
+    public boolean containGtype(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.gdk_content_formats_contain_gtype(handle(), type.getValue());
         return (RESULT != 0);
     }

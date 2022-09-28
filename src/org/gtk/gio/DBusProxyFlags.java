@@ -8,29 +8,29 @@ public class DBusProxyFlags {
     /**
      * No flags set.
      */
-    public static final int NONE = 0;
+    public static final DBusProxyFlags NONE = new DBusProxyFlags(0);
     
     /**
      * Don't load properties.
      */
-    public static final int DO_NOT_LOAD_PROPERTIES = 1;
+    public static final DBusProxyFlags DO_NOT_LOAD_PROPERTIES = new DBusProxyFlags(1);
     
     /**
      * Don't connect to signals on the remote object.
      */
-    public static final int DO_NOT_CONNECT_SIGNALS = 2;
+    public static final DBusProxyFlags DO_NOT_CONNECT_SIGNALS = new DBusProxyFlags(2);
     
     /**
      * If the proxy is for a well-known name,
      * do not ask the bus to launch an owner during proxy initialization or a method call.
      * This flag is only meaningful in proxies for well-known names.
      */
-    public static final int DO_NOT_AUTO_START = 4;
+    public static final DBusProxyFlags DO_NOT_AUTO_START = new DBusProxyFlags(4);
     
     /**
      * If set, the property value for any __invalidated property__ will be (asynchronously) retrieved upon receiving the <a href="http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-properties">`PropertiesChanged`</a> D-Bus signal and the property will not cause emission of the {@link DBusProxy}::g-properties-changed signal. When the value is received the {@link DBusProxy}::g-properties-changed signal is emitted for the property along with the retrieved value. Since 2.32.
      */
-    public static final int GET_INVALIDATED_PROPERTIES = 8;
+    public static final DBusProxyFlags GET_INVALIDATED_PROPERTIES = new DBusProxyFlags(8);
     
     /**
      * If the proxy is for a well-known name,
@@ -38,13 +38,47 @@ public class DBusProxyFlags {
      * autostarted by a method call. This flag is only meaningful in proxies for well-known names,
      * and only if {@link DBusProxyFlags#DO_NOT_AUTO_START} is not also specified.
      */
-    public static final int DO_NOT_AUTO_START_AT_CONSTRUCTION = 16;
+    public static final DBusProxyFlags DO_NOT_AUTO_START_AT_CONSTRUCTION = new DBusProxyFlags(16);
     
     /**
      * Don't actually send the AddMatch D-Bus
      *    call for this signal subscription. This gives you more control
      *    over which match rules you add (but you must add them manually). (Since: 2.72)
      */
-    public static final int NO_MATCH_RULE = 32;
+    public static final DBusProxyFlags NO_MATCH_RULE = new DBusProxyFlags(32);
+    
+    private int value;
+    
+    public DBusProxyFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DBusProxyFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public DBusProxyFlags combined(DBusProxyFlags mask) {
+        return new DBusProxyFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static DBusProxyFlags combined(DBusProxyFlags mask, DBusProxyFlags... masks) {
+        int value = mask.getValue();
+        for (DBusProxyFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DBusProxyFlags(value);
+    }
     
 }

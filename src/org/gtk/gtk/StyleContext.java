@@ -147,9 +147,9 @@ public class StyleContext extends org.gtk.gobject.Object {
      * If you need to retrieve the current state of a {@code GtkWidget}, use
      * {@link Widget#getStateFlags}.
      */
-    public int getState() {
+    public StateFlags getState() {
         var RESULT = gtk_h.gtk_style_context_get_state(handle());
-        return RESULT;
+        return new StateFlags(RESULT);
     }
     
     /**
@@ -232,8 +232,8 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Sets the state to be used for style matching.
      */
-    public void setState(int flags) {
-        gtk_h.gtk_style_context_set_state(handle(), flags);
+    public void setState(StateFlags flags) {
+        gtk_h.gtk_style_context_set_state(handle(), flags.getValue());
     }
     
     /**
@@ -248,8 +248,8 @@ public class StyleContext extends org.gtk.gobject.Object {
      * CSS implementation in GTK. There are no guarantees about
      * the format of the returned string, it may change.
      */
-    public java.lang.String toString(int flags) {
-        var RESULT = gtk_h.gtk_style_context_to_string(handle(), flags);
+    public java.lang.String toString(StyleContextPrintFlags flags) {
+        var RESULT = gtk_h.gtk_style_context_to_string(handle(), flags.getValue());
         return RESULT.getUtf8String(0);
     }
     

@@ -10,59 +10,58 @@ package org.gtk.gtk;
  * > and {@link ButtonsType#OK_CANCEL} are discouraged by the
  * > <a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines</a>.
  */
-public enum ButtonsType {
+public class ButtonsType {
 
     /**
      * no buttons at all
      */
-    NONE,
+    public static final ButtonsType NONE = new ButtonsType(0);
     
     /**
      * an OK button
      */
-    OK,
+    public static final ButtonsType OK = new ButtonsType(1);
     
     /**
      * a Close button
      */
-    CLOSE,
+    public static final ButtonsType CLOSE = new ButtonsType(2);
     
     /**
      * a Cancel button
      */
-    CANCEL,
+    public static final ButtonsType CANCEL = new ButtonsType(3);
     
     /**
      * Yes and No buttons
      */
-    YES_NO,
+    public static final ButtonsType YES_NO = new ButtonsType(4);
     
     /**
      * OK and Cancel buttons
      */
-    OK_CANCEL;
+    public static final ButtonsType OK_CANCEL = new ButtonsType(5);
     
-    public static ButtonsType fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> OK;
-            case 2 -> CLOSE;
-            case 3 -> CANCEL;
-            case 4 -> YES_NO;
-            case 5 -> OK_CANCEL;
-            default -> null;
-        };
+    private int value;
+    
+    public ButtonsType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case OK -> 1;
-            case CLOSE -> 2;
-            case CANCEL -> 3;
-            case YES_NO -> 4;
-            case OK_CANCEL -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ButtonsType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

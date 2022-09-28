@@ -4,31 +4,38 @@ package org.gtk.gtk;
  * Used to reference the layers of {@code GtkTextView} for the purpose of customized
  * drawing with the ::snapshot_layer vfunc.
  */
-public enum TextViewLayer {
+public class TextViewLayer {
 
     /**
      * The layer rendered below the text (but above the background).
      */
-    BELOW_TEXT,
+    public static final TextViewLayer BELOW_TEXT = new TextViewLayer(0);
     
     /**
      * The layer rendered above the text.
      */
-    ABOVE_TEXT;
+    public static final TextViewLayer ABOVE_TEXT = new TextViewLayer(1);
     
-    public static TextViewLayer fromValue(int value) {
-        return switch(value) {
-            case 0 -> BELOW_TEXT;
-            case 1 -> ABOVE_TEXT;
-            default -> null;
-        };
+    private int value;
+    
+    public TextViewLayer(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BELOW_TEXT -> 0;
-            case ABOVE_TEXT -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TextViewLayer[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

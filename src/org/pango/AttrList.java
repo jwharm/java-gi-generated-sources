@@ -54,7 +54,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * never removes or combines existing attributes.
      */
     public void change(Attribute attr) {
-        gtk_h.pango_attr_list_change(handle(), attr.handle());
+        gtk_h.pango_attr_list_change(handle(), attr.getReference().unowned().handle());
     }
     
     /**
@@ -123,7 +123,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * matching {@code start_index}.
      */
     public void insert(Attribute attr) {
-        gtk_h.pango_attr_list_insert(handle(), attr.handle());
+        gtk_h.pango_attr_list_insert(handle(), attr.getReference().unowned().handle());
     }
     
     /**
@@ -133,7 +133,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * matching {@code start_index}.
      */
     public void insertBefore(Attribute attr) {
-        gtk_h.pango_attr_list_insert_before(handle(), attr.handle());
+        gtk_h.pango_attr_list_insert_before(handle(), attr.getReference().unowned().handle());
     }
     
     /**

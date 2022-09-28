@@ -3,87 +3,78 @@ package org.gtk.gio;
 /**
  * Header fields used in {@link DBusMessage}.
  */
-public enum DBusMessageHeaderField {
+public class DBusMessageHeaderField {
 
     /**
      * Not a valid header field.
      */
-    INVALID,
+    public static final DBusMessageHeaderField INVALID = new DBusMessageHeaderField(0);
     
     /**
      * The object path.
      */
-    PATH,
+    public static final DBusMessageHeaderField PATH = new DBusMessageHeaderField(1);
     
     /**
      * The interface name.
      */
-    INTERFACE,
+    public static final DBusMessageHeaderField INTERFACE = new DBusMessageHeaderField(2);
     
     /**
      * The method or signal name.
      */
-    MEMBER,
+    public static final DBusMessageHeaderField MEMBER = new DBusMessageHeaderField(3);
     
     /**
      * The name of the error that occurred.
      */
-    ERROR_NAME,
+    public static final DBusMessageHeaderField ERROR_NAME = new DBusMessageHeaderField(4);
     
     /**
      * The serial number the message is a reply to.
      */
-    REPLY_SERIAL,
+    public static final DBusMessageHeaderField REPLY_SERIAL = new DBusMessageHeaderField(5);
     
     /**
      * The name the message is intended for.
      */
-    DESTINATION,
+    public static final DBusMessageHeaderField DESTINATION = new DBusMessageHeaderField(6);
     
     /**
      * Unique name of the sender of the message (filled in by the bus).
      */
-    SENDER,
+    public static final DBusMessageHeaderField SENDER = new DBusMessageHeaderField(7);
     
     /**
      * The signature of the message body.
      */
-    SIGNATURE,
+    public static final DBusMessageHeaderField SIGNATURE = new DBusMessageHeaderField(8);
     
     /**
      * The number of UNIX file descriptors that accompany the message.
      */
-    NUM_UNIX_FDS;
+    public static final DBusMessageHeaderField NUM_UNIX_FDS = new DBusMessageHeaderField(9);
     
-    public static DBusMessageHeaderField fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> PATH;
-            case 2 -> INTERFACE;
-            case 3 -> MEMBER;
-            case 4 -> ERROR_NAME;
-            case 5 -> REPLY_SERIAL;
-            case 6 -> DESTINATION;
-            case 7 -> SENDER;
-            case 8 -> SIGNATURE;
-            case 9 -> NUM_UNIX_FDS;
-            default -> null;
-        };
+    private int value;
+    
+    public DBusMessageHeaderField(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case PATH -> 1;
-            case INTERFACE -> 2;
-            case MEMBER -> 3;
-            case ERROR_NAME -> 4;
-            case REPLY_SERIAL -> 5;
-            case DESTINATION -> 6;
-            case SENDER -> 7;
-            case SIGNATURE -> 8;
-            case NUM_UNIX_FDS -> 9;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DBusMessageHeaderField[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

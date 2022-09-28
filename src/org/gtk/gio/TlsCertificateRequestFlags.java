@@ -5,24 +5,33 @@ package org.gtk.gio;
  * g_tls_interaction_request_certificate_async(), and
  * g_tls_interaction_invoke_request_certificate().
  */
-public enum TlsCertificateRequestFlags {
+public class TlsCertificateRequestFlags {
 
     /**
      * No flags
      */
-    NONE;
+    public static final TlsCertificateRequestFlags NONE = new TlsCertificateRequestFlags(0);
     
-    public static TlsCertificateRequestFlags fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsCertificateRequestFlags(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsCertificateRequestFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

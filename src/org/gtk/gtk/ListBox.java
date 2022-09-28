@@ -208,7 +208,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      */
     public SelectionMode getSelectionMode() {
         var RESULT = gtk_h.gtk_list_box_get_selection_mode(handle());
-        return SelectionMode.fromValue(RESULT);
+        return new SelectionMode(RESULT);
     }
     
     /**
@@ -535,7 +535,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
     public static void __signalListBoxMoveCursor(MemoryAddress source, int object, int p0, boolean p1, boolean p2, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ListBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)), MovementStep.fromValue(object), p0, p1, p2);
+        handler.signalReceived(new ListBox(References.get(source)), new MovementStep(object), p0, p1, p2);
     }
     
     @FunctionalInterface

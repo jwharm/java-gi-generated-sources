@@ -3,38 +3,43 @@ package org.pango;
 /**
  * An enumeration specifying the various slant styles possible for a font.
  */
-public enum Style {
+public class Style {
 
     /**
      * the font is upright.
      */
-    NORMAL,
+    public static final Style NORMAL = new Style(0);
     
     /**
      * the font is slanted, but in a roman style.
      */
-    OBLIQUE,
+    public static final Style OBLIQUE = new Style(1);
     
     /**
      * the font is slanted in an italic style.
      */
-    ITALIC;
+    public static final Style ITALIC = new Style(2);
     
-    public static Style fromValue(int value) {
-        return switch(value) {
-            case 0 -> NORMAL;
-            case 1 -> OBLIQUE;
-            case 2 -> ITALIC;
-            default -> null;
-        };
+    private int value;
+    
+    public Style(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORMAL -> 0;
-            case OBLIQUE -> 1;
-            case ITALIC -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Style[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

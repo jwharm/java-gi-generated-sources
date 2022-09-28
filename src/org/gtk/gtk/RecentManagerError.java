@@ -3,71 +3,68 @@ package org.gtk.gtk;
 /**
  * Error codes for {@code GtkRecentManager} operations
  */
-public enum RecentManagerError {
+public class RecentManagerError {
 
     /**
      * the URI specified does not exists in
      *   the recently used resources list.
      */
-    NOT_FOUND,
+    public static final RecentManagerError NOT_FOUND = new RecentManagerError(0);
     
     /**
      * the URI specified is not valid.
      */
-    INVALID_URI,
+    public static final RecentManagerError INVALID_URI = new RecentManagerError(1);
     
     /**
      * the supplied string is not
      *   UTF-8 encoded.
      */
-    INVALID_ENCODING,
+    public static final RecentManagerError INVALID_ENCODING = new RecentManagerError(2);
     
     /**
      * no application has registered
      *   the specified item.
      */
-    NOT_REGISTERED,
+    public static final RecentManagerError NOT_REGISTERED = new RecentManagerError(3);
     
     /**
      * failure while reading the recently used
      *   resources file.
      */
-    READ,
+    public static final RecentManagerError READ = new RecentManagerError(4);
     
     /**
      * failure while writing the recently used
      *   resources file.
      */
-    WRITE,
+    public static final RecentManagerError WRITE = new RecentManagerError(5);
     
     /**
      * unspecified error.
      */
-    UNKNOWN;
+    public static final RecentManagerError UNKNOWN = new RecentManagerError(6);
     
-    public static RecentManagerError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NOT_FOUND;
-            case 1 -> INVALID_URI;
-            case 2 -> INVALID_ENCODING;
-            case 3 -> NOT_REGISTERED;
-            case 4 -> READ;
-            case 5 -> WRITE;
-            case 6 -> UNKNOWN;
-            default -> null;
-        };
+    private int value;
+    
+    public RecentManagerError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NOT_FOUND -> 0;
-            case INVALID_URI -> 1;
-            case INVALID_ENCODING -> 2;
-            case NOT_REGISTERED -> 3;
-            case READ -> 4;
-            case WRITE -> 5;
-            case UNKNOWN -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(RecentManagerError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

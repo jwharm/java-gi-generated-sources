@@ -3,31 +3,38 @@ package org.gtk.gtk;
 /**
  * Specifies the side of the entry at which an icon is placed.
  */
-public enum EntryIconPosition {
+public class EntryIconPosition {
 
     /**
      * At the beginning of the entry (depending on the text direction).
      */
-    PRIMARY,
+    public static final EntryIconPosition PRIMARY = new EntryIconPosition(0);
     
     /**
      * At the end of the entry (depending on the text direction).
      */
-    SECONDARY;
+    public static final EntryIconPosition SECONDARY = new EntryIconPosition(1);
     
-    public static EntryIconPosition fromValue(int value) {
-        return switch(value) {
-            case 0 -> PRIMARY;
-            case 1 -> SECONDARY;
-            default -> null;
-        };
+    private int value;
+    
+    public EntryIconPosition(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case PRIMARY -> 0;
-            case SECONDARY -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(EntryIconPosition[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

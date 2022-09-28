@@ -46,7 +46,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      */
     public TransformCategory getCategory() {
         var RESULT = gtk_h.gsk_transform_get_category(handle());
-        return TransformCategory.fromValue(RESULT);
+        return new TransformCategory(RESULT);
     }
     
     /**

@@ -3,31 +3,38 @@ package org.gtk.gtk;
 /**
  * Error codes for {@code GtkIconTheme} operations.
  */
-public enum IconThemeError {
+public class IconThemeError {
 
     /**
      * The icon specified does not exist in the theme
      */
-    NOT_FOUND,
+    public static final IconThemeError NOT_FOUND = new IconThemeError(0);
     
     /**
      * An unspecified error occurred.
      */
-    FAILED;
+    public static final IconThemeError FAILED = new IconThemeError(1);
     
-    public static IconThemeError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NOT_FOUND;
-            case 1 -> FAILED;
-            default -> null;
-        };
+    private int value;
+    
+    public IconThemeError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NOT_FOUND -> 0;
-            case FAILED -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(IconThemeError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

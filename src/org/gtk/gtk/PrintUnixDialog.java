@@ -124,9 +124,9 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
     /**
      * Gets the capabilities that have been set on this {@code GtkPrintUnixDialog}.
      */
-    public int getManualCapabilities() {
+    public PrintCapabilities getManualCapabilities() {
         var RESULT = gtk_h.gtk_print_unix_dialog_get_manual_capabilities(handle());
-        return RESULT;
+        return new PrintCapabilities(RESULT);
     }
     
     /**
@@ -206,8 +206,8 @@ public class PrintUnixDialog extends Dialog implements Accessible, Buildable, Co
      * will only let you select the scale if the printing system automatically
      * handles scaling.
      */
-    public void setManualCapabilities(int capabilities) {
-        gtk_h.gtk_print_unix_dialog_set_manual_capabilities(handle(), capabilities);
+    public void setManualCapabilities(PrintCapabilities capabilities) {
+        gtk_h.gtk_print_unix_dialog_set_manual_capabilities(handle(), capabilities.getValue());
     }
     
     /**

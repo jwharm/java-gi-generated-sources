@@ -5,45 +5,48 @@ package org.gtk.gio;
  * identical to the system defines {@code AF_INET}, {@code AF_INET6} and {@code AF_UNIX},
  * if available.)
  */
-public enum SocketFamily {
+public class SocketFamily {
 
     /**
      * no address family
      */
-    INVALID,
+    public static final SocketFamily INVALID = new SocketFamily(0);
     
     /**
      * the UNIX domain family
      */
-    UNIX,
+    public static final SocketFamily UNIX = new SocketFamily(1);
     
     /**
      * the IPv4 family
      */
-    IPV4,
+    public static final SocketFamily IPV4 = new SocketFamily(2);
     
     /**
      * the IPv6 family
      */
-    IPV6;
+    public static final SocketFamily IPV6 = new SocketFamily(10);
     
-    public static SocketFamily fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> UNIX;
-            case 2 -> IPV4;
-            case 10 -> IPV6;
-            default -> null;
-        };
+    private int value;
+    
+    public SocketFamily(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case UNIX -> 1;
-            case IPV4 -> 2;
-            case IPV6 -> 10;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SocketFamily[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

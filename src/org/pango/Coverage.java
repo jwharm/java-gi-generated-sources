@@ -53,7 +53,7 @@ public class Coverage extends org.gtk.gobject.Object {
      */
     public CoverageLevel get(int index) {
         var RESULT = gtk_h.pango_coverage_get(handle(), index);
-        return CoverageLevel.fromValue(RESULT);
+        return new CoverageLevel(RESULT);
     }
     
     /**

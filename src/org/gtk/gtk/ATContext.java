@@ -55,7 +55,7 @@ public class ATContext extends org.gtk.gobject.Object {
      */
     public AccessibleRole getAccessibleRole() {
         var RESULT = gtk_h.gtk_at_context_get_accessible_role(handle());
-        return AccessibleRole.fromValue(RESULT);
+        return new AccessibleRole(RESULT);
     }
     
     @FunctionalInterface

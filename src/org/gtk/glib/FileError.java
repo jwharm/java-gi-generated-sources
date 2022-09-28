@@ -14,44 +14,44 @@ package org.gtk.glib;
  * don't occur on some systems, etc., sometimes there are subtle
  * differences in when a system will report a given error, etc.
  */
-public enum FileError {
+public class FileError {
 
     /**
      * Operation not permitted; only the owner of
      *     the file (or other resource) or processes with special privileges
      *     can perform the operation.
      */
-    EXIST,
+    public static final FileError EXIST = new FileError(0);
     
     /**
      * File is a directory; you cannot open a directory
      *     for writing, or create or remove hard links to it.
      */
-    ISDIR,
+    public static final FileError ISDIR = new FileError(1);
     
     /**
      * Permission denied; the file permissions do not
      *     allow the attempted operation.
      */
-    ACCES,
+    public static final FileError ACCES = new FileError(2);
     
     /**
      * Filename too long.
      */
-    NAMETOOLONG,
+    public static final FileError NAMETOOLONG = new FileError(3);
     
     /**
      * No such file or directory. This is a "file
      *     doesn't exist" error for ordinary files that are referenced in
      *     contexts where they are expected to already exist.
      */
-    NOENT,
+    public static final FileError NOENT = new FileError(4);
     
     /**
      * A file that isn't a directory was specified when
      *     a directory is required.
      */
-    NOTDIR,
+    public static final FileError NOTDIR = new FileError(5);
     
     /**
      * No such device or address. The system tried to
@@ -60,77 +60,77 @@ public enum FileError {
      *     installed incorrectly, or that the physical device is missing or
      *     not correctly attached to the computer.
      */
-    NXIO,
+    public static final FileError NXIO = new FileError(6);
     
     /**
      * The underlying file system of the specified file
      *     does not support memory mapping.
      */
-    NODEV,
+    public static final FileError NODEV = new FileError(7);
     
     /**
      * The directory containing the new link can't be
      *     modified because it's on a read-only file system.
      */
-    ROFS,
+    public static final FileError ROFS = new FileError(8);
     
     /**
      * Text file busy.
      */
-    TXTBSY,
+    public static final FileError TXTBSY = new FileError(9);
     
     /**
      * You passed in a pointer to bad memory.
      *     (GLib won't reliably return this, don't pass in pointers to bad
      *     memory.)
      */
-    FAULT,
+    public static final FileError FAULT = new FileError(10);
     
     /**
      * Too many levels of symbolic links were encountered
      *     in looking up a file name. This often indicates a cycle of symbolic
      *     links.
      */
-    LOOP,
+    public static final FileError LOOP = new FileError(11);
     
     /**
      * No space left on device; write operation on a
      *     file failed because the disk is full.
      */
-    NOSPC,
+    public static final FileError NOSPC = new FileError(12);
     
     /**
      * No memory available. The system cannot allocate
      *     more virtual memory because its capacity is full.
      */
-    NOMEM,
+    public static final FileError NOMEM = new FileError(13);
     
     /**
      * The current process has too many files open and
      *     can't open any more. Duplicate descriptors do count toward this
      *     limit.
      */
-    MFILE,
+    public static final FileError MFILE = new FileError(14);
     
     /**
      * There are too many distinct file openings in the
      *     entire system.
      */
-    NFILE,
+    public static final FileError NFILE = new FileError(15);
     
     /**
      * Bad file descriptor; for example, I/O on a
      *     descriptor that has been closed or reading from a descriptor open
      *     only for writing (or vice versa).
      */
-    BADF,
+    public static final FileError BADF = new FileError(16);
     
     /**
      * Invalid argument. This is used to indicate
      *     various kinds of problems with passing the wrong argument to a
      *     library function.
      */
-    INVAL,
+    public static final FileError INVAL = new FileError(17);
     
     /**
      * Broken pipe; there is no process reading from the
@@ -140,40 +140,40 @@ public enum FileError {
      *     program will never actually see this code unless it has handled
      *     or blocked 'SIGPIPE'.
      */
-    PIPE,
+    public static final FileError PIPE = new FileError(18);
     
     /**
      * Resource temporarily unavailable; the call might
      *     work if you try again later.
      */
-    AGAIN,
+    public static final FileError AGAIN = new FileError(19);
     
     /**
      * Interrupted function call; an asynchronous signal
      *     occurred and prevented completion of the call. When this
      *     happens, you should try the call again.
      */
-    INTR,
+    public static final FileError INTR = new FileError(20);
     
     /**
      * Input/output error; usually used for physical read
      *    or write errors. i.e. the disk or other physical device hardware
      *    is returning errors.
      */
-    IO,
+    public static final FileError IO = new FileError(21);
     
     /**
      * Operation not permitted; only the owner of the
      *    file (or other resource) or processes with special privileges can
      *    perform the operation.
      */
-    PERM,
+    public static final FileError PERM = new FileError(22);
     
     /**
      * Function not implemented; this indicates that
      *    the system is missing some functionality.
      */
-    NOSYS,
+    public static final FileError NOSYS = new FileError(23);
     
     /**
      * Does not correspond to a UNIX error code; this
@@ -181,67 +181,28 @@ public enum FileError {
      *    in all {@link Error} error code enumerations. Returned if no specific
      *    code applies.
      */
-    FAILED;
+    public static final FileError FAILED = new FileError(24);
     
-    public static FileError fromValue(int value) {
-        return switch(value) {
-            case 0 -> EXIST;
-            case 1 -> ISDIR;
-            case 2 -> ACCES;
-            case 3 -> NAMETOOLONG;
-            case 4 -> NOENT;
-            case 5 -> NOTDIR;
-            case 6 -> NXIO;
-            case 7 -> NODEV;
-            case 8 -> ROFS;
-            case 9 -> TXTBSY;
-            case 10 -> FAULT;
-            case 11 -> LOOP;
-            case 12 -> NOSPC;
-            case 13 -> NOMEM;
-            case 14 -> MFILE;
-            case 15 -> NFILE;
-            case 16 -> BADF;
-            case 17 -> INVAL;
-            case 18 -> PIPE;
-            case 19 -> AGAIN;
-            case 20 -> INTR;
-            case 21 -> IO;
-            case 22 -> PERM;
-            case 23 -> NOSYS;
-            case 24 -> FAILED;
-            default -> null;
-        };
+    private int value;
+    
+    public FileError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case EXIST -> 0;
-            case ISDIR -> 1;
-            case ACCES -> 2;
-            case NAMETOOLONG -> 3;
-            case NOENT -> 4;
-            case NOTDIR -> 5;
-            case NXIO -> 6;
-            case NODEV -> 7;
-            case ROFS -> 8;
-            case TXTBSY -> 9;
-            case FAULT -> 10;
-            case LOOP -> 11;
-            case NOSPC -> 12;
-            case NOMEM -> 13;
-            case MFILE -> 14;
-            case NFILE -> 15;
-            case BADF -> 16;
-            case INVAL -> 17;
-            case PIPE -> 18;
-            case AGAIN -> 19;
-            case INTR -> 20;
-            case IO -> 21;
-            case PERM -> 22;
-            case NOSYS -> 23;
-            case FAILED -> 24;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

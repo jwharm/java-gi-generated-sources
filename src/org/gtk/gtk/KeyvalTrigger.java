@@ -21,8 +21,8 @@ public class KeyvalTrigger extends ShortcutTrigger {
         return new KeyvalTrigger(gobject.getReference());
     }
     
-    private static Reference constructNew(int keyval, int modifiers) {
-        Reference RESULT = References.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers), true);
+    private static Reference constructNew(int keyval, org.gtk.gdk.ModifierType modifiers) {
+        Reference RESULT = References.get(gtk_h.gtk_keyval_trigger_new(keyval, modifiers.getValue()), true);
         return RESULT;
     }
     
@@ -30,7 +30,7 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * Creates a {@code GtkShortcutTrigger} that will trigger whenever
      * the key with the given {@code keyval} and {@code modifiers} is pressed.
      */
-    public KeyvalTrigger(int keyval, int modifiers) {
+    public KeyvalTrigger(int keyval, org.gtk.gdk.ModifierType modifiers) {
         super(constructNew(keyval, modifiers));
     }
     
@@ -47,9 +47,9 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * Gets the modifiers that must be present to succeed
      * triggering {@code self}.
      */
-    public int getModifiers() {
+    public org.gtk.gdk.ModifierType getModifiers() {
         var RESULT = gtk_h.gtk_keyval_trigger_get_modifiers(handle());
-        return RESULT;
+        return new org.gtk.gdk.ModifierType(RESULT);
     }
     
 }

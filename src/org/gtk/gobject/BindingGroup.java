@@ -47,8 +47,8 @@ public class BindingGroup extends Object {
      * <p>
      * See g_object_bind_property() for more information.
      */
-    public void bind(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags) {
-        gtk_h.g_binding_group_bind(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags);
+    public void bind(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags) {
+        gtk_h.g_binding_group_bind(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue());
     }
     
     /**
@@ -59,9 +59,9 @@ public class BindingGroup extends Object {
      * <p>
      * See g_object_bind_property_full() for more information.
      */
-    public void bindFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
+    public void bindFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
         try {
-            gtk_h.g_binding_group_bind_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, 
+            gtk_h.g_binding_group_bind_full(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -91,8 +91,8 @@ public class BindingGroup extends Object {
      * <p>
      * See g_object_bind_property_with_closures() for more information.
      */
-    public void bindWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, int flags, Closure transformTo, Closure transformFrom) {
-        gtk_h.g_binding_group_bind_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags, transformTo.handle(), transformFrom.handle());
+    public void bindWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, Closure transformTo, Closure transformFrom) {
+        gtk_h.g_binding_group_bind_with_closures(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), transformTo.handle(), transformFrom.handle());
     }
     
     /**

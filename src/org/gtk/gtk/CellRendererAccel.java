@@ -71,7 +71,7 @@ public class CellRendererAccel extends CellRendererText {
     
     @FunctionalInterface
     public interface AccelEditedHandler {
-        void signalReceived(CellRendererAccel source, java.lang.String pathString, int accelKey, int accelMods, int hardwareKeycode);
+        void signalReceived(CellRendererAccel source, java.lang.String pathString, int accelKey, org.gtk.gdk.ModifierType accelMods, int hardwareKeycode);
     }
     
     /**
@@ -98,7 +98,7 @@ public class CellRendererAccel extends CellRendererText {
     public static void __signalCellRendererAccelAccelEdited(MemoryAddress source, MemoryAddress pathString, int accelKey, int accelMods, int hardwareKeycode, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (CellRendererAccel.AccelEditedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellRendererAccel(References.get(source)), pathString.getUtf8String(0), accelKey, accelMods, hardwareKeycode);
+        handler.signalReceived(new CellRendererAccel(References.get(source)), pathString.getUtf8String(0), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
     }
     
 }

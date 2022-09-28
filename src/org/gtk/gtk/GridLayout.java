@@ -80,7 +80,7 @@ public class GridLayout extends LayoutManager {
      */
     public BaselinePosition getRowBaselinePosition(int row) {
         var RESULT = gtk_h.gtk_grid_layout_get_row_baseline_position(handle(), row);
-        return BaselinePosition.fromValue(RESULT);
+        return new BaselinePosition(RESULT);
     }
     
     /**

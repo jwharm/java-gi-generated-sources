@@ -14,6 +14,40 @@ public class BuilderClosureFlags {
      * The closure should be created swapped. See
      *   g_cclosure_new_swap() for details.
      */
-    public static final int SWAPPED = 1;
+    public static final BuilderClosureFlags SWAPPED = new BuilderClosureFlags(1);
+    
+    private int value;
+    
+    public BuilderClosureFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BuilderClosureFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public BuilderClosureFlags combined(BuilderClosureFlags mask) {
+        return new BuilderClosureFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static BuilderClosureFlags combined(BuilderClosureFlags mask, BuilderClosureFlags... masks) {
+        int value = mask.getValue();
+        for (BuilderClosureFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new BuilderClosureFlags(value);
+    }
     
 }

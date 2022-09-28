@@ -3,31 +3,38 @@ package org.gnome.adw;
 /**
  * Describes the adaptive modes of {@link ViewSwitcher}.
  */
-public enum ViewSwitcherPolicy {
+public class ViewSwitcherPolicy {
 
     /**
      * Force the narrow mode
      */
-    NARROW,
+    public static final ViewSwitcherPolicy NARROW = new ViewSwitcherPolicy(0);
     
     /**
      * Force the wide mode
      */
-    WIDE;
+    public static final ViewSwitcherPolicy WIDE = new ViewSwitcherPolicy(1);
     
-    public static ViewSwitcherPolicy fromValue(int value) {
-        return switch(value) {
-            case 0 -> NARROW;
-            case 1 -> WIDE;
-            default -> null;
-        };
+    private int value;
+    
+    public ViewSwitcherPolicy(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NARROW -> 0;
-            case WIDE -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ViewSwitcherPolicy[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

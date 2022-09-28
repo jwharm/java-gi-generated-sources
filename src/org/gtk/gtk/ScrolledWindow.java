@@ -203,7 +203,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      */
     public CornerType getPlacement() {
         var RESULT = gtk_h.gtk_scrolled_window_get_placement(handle());
-        return CornerType.fromValue(RESULT);
+        return new CornerType(RESULT);
     }
     
     /**
@@ -433,7 +433,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     public static void __signalScrolledWindowEdgeOvershot(MemoryAddress source, int pos, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ScrolledWindow.EdgeOvershotHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScrolledWindow(References.get(source)), PositionType.fromValue(pos));
+        handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
     }
     
     @FunctionalInterface
@@ -473,7 +473,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     public static void __signalScrolledWindowEdgeReached(MemoryAddress source, int pos, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ScrolledWindow.EdgeReachedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScrolledWindow(References.get(source)), PositionType.fromValue(pos));
+        handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
     }
     
     @FunctionalInterface
@@ -512,7 +512,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     public static void __signalScrolledWindowMoveFocusOut(MemoryAddress source, int directionType, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ScrolledWindow.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScrolledWindow(References.get(source)), DirectionType.fromValue(directionType));
+        handler.signalReceived(new ScrolledWindow(References.get(source)), new DirectionType(directionType));
     }
     
     @FunctionalInterface
@@ -549,7 +549,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
     public static boolean __signalScrolledWindowScrollChild(MemoryAddress source, int scroll, boolean horizontal, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (ScrolledWindow.ScrollChildHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new ScrolledWindow(References.get(source)), ScrollType.fromValue(scroll), horizontal);
+        return handler.signalReceived(new ScrolledWindow(References.get(source)), new ScrollType(scroll), horizontal);
     }
     
 }

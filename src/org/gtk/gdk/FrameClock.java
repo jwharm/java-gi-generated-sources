@@ -169,8 +169,8 @@ public class FrameClock extends org.gtk.gobject.Object {
      * since this allows GTK to adjust system parameters to get maximally
      * smooth animations.
      */
-    public void requestPhase(int phase) {
-        gtk_h.gdk_frame_clock_request_phase(handle(), phase);
+    public void requestPhase(FrameClockPhase phase) {
+        gtk_h.gdk_frame_clock_request_phase(handle(), phase.getValue());
     }
     
     @FunctionalInterface

@@ -134,8 +134,8 @@ public class IconTheme extends org.gtk.gobject.Object {
      * The icon can then be rendered by using it as a {@code GdkPaintable},
      * or you can get information such as the filename and size.
      */
-    public IconPaintable lookupByGicon(org.gtk.gio.Icon icon, int size, int scale, TextDirection direction, int flags) {
-        var RESULT = gtk_h.gtk_icon_theme_lookup_by_gicon(handle(), icon.handle(), size, scale, direction.getValue(), flags);
+    public IconPaintable lookupByGicon(org.gtk.gio.Icon icon, int size, int scale, TextDirection direction, IconLookupFlags flags) {
+        var RESULT = gtk_h.gtk_icon_theme_lookup_by_gicon(handle(), icon.handle(), size, scale, direction.getValue(), flags.getValue());
         return new IconPaintable(References.get(RESULT, true));
     }
     
@@ -157,8 +157,8 @@ public class IconTheme extends org.gtk.gobject.Object {
      * update the icon. This is usually done by overriding the
      * GtkWidgetClass.css-changed() function.
      */
-    public IconPaintable lookupIcon(java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, TextDirection direction, int flags) {
-        var RESULT = gtk_h.gtk_icon_theme_lookup_icon(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks).handle(), size, scale, direction.getValue(), flags);
+    public IconPaintable lookupIcon(java.lang.String iconName, java.lang.String[] fallbacks, int size, int scale, TextDirection direction, IconLookupFlags flags) {
+        var RESULT = gtk_h.gtk_icon_theme_lookup_icon(handle(), Interop.allocateNativeString(iconName).handle(), Interop.allocateNativeArray(fallbacks).handle(), size, scale, direction.getValue(), flags.getValue());
         return new IconPaintable(References.get(RESULT, true));
     }
     

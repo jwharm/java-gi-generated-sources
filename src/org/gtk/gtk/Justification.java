@@ -3,45 +3,48 @@ package org.gtk.gtk;
 /**
  * Used for justifying the text inside a {@link Label} widget.
  */
-public enum Justification {
+public class Justification {
 
     /**
      * The text is placed at the left edge of the label.
      */
-    LEFT,
+    public static final Justification LEFT = new Justification(0);
     
     /**
      * The text is placed at the right edge of the label.
      */
-    RIGHT,
+    public static final Justification RIGHT = new Justification(1);
     
     /**
      * The text is placed in the center of the label.
      */
-    CENTER,
+    public static final Justification CENTER = new Justification(2);
     
     /**
      * The text is placed is distributed across the label.
      */
-    FILL;
+    public static final Justification FILL = new Justification(3);
     
-    public static Justification fromValue(int value) {
-        return switch(value) {
-            case 0 -> LEFT;
-            case 1 -> RIGHT;
-            case 2 -> CENTER;
-            case 3 -> FILL;
-            default -> null;
-        };
+    private int value;
+    
+    public Justification(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LEFT -> 0;
-            case RIGHT -> 1;
-            case CENTER -> 2;
-            case FILL -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Justification[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -119,7 +119,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
      */
     public ArrowType getArrowDirection() {
         var RESULT = gtk_h.gtk_menu_button_get_direction(handle());
-        return ArrowType.fromValue(RESULT);
+        return new ArrowType(RESULT);
     }
     
     /**

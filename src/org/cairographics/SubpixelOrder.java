@@ -1,36 +1,37 @@
 package org.cairographics;
 
-public enum SubpixelOrder {
+public class SubpixelOrder {
 
-    DEFAULT,
+    public static final SubpixelOrder DEFAULT = new SubpixelOrder(0);
     
-    RGB,
+    public static final SubpixelOrder RGB = new SubpixelOrder(1);
     
-    BGR,
+    public static final SubpixelOrder BGR = new SubpixelOrder(2);
     
-    VRGB,
+    public static final SubpixelOrder VRGB = new SubpixelOrder(3);
     
-    VBGR;
+    public static final SubpixelOrder VBGR = new SubpixelOrder(4);
     
-    public static SubpixelOrder fromValue(int value) {
-        return switch(value) {
-            case 0 -> DEFAULT;
-            case 1 -> RGB;
-            case 2 -> BGR;
-            case 3 -> VRGB;
-            case 4 -> VBGR;
-            default -> null;
-        };
+    private int value;
+    
+    public SubpixelOrder(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DEFAULT -> 0;
-            case RGB -> 1;
-            case BGR -> 2;
-            case VRGB -> 3;
-            case VBGR -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SubpixelOrder[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

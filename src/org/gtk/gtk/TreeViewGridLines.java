@@ -3,45 +3,48 @@ package org.gtk.gtk;
 /**
  * Used to indicate which grid lines to draw in a tree view.
  */
-public enum TreeViewGridLines {
+public class TreeViewGridLines {
 
     /**
      * No grid lines.
      */
-    NONE,
+    public static final TreeViewGridLines NONE = new TreeViewGridLines(0);
     
     /**
      * Horizontal grid lines.
      */
-    HORIZONTAL,
+    public static final TreeViewGridLines HORIZONTAL = new TreeViewGridLines(1);
     
     /**
      * Vertical grid lines.
      */
-    VERTICAL,
+    public static final TreeViewGridLines VERTICAL = new TreeViewGridLines(2);
     
     /**
      * Horizontal and vertical grid lines.
      */
-    BOTH;
+    public static final TreeViewGridLines BOTH = new TreeViewGridLines(3);
     
-    public static TreeViewGridLines fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> HORIZONTAL;
-            case 2 -> VERTICAL;
-            case 3 -> BOTH;
-            default -> null;
-        };
+    private int value;
+    
+    public TreeViewGridLines(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case HORIZONTAL -> 1;
-            case VERTICAL -> 2;
-            case BOTH -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TreeViewGridLines[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

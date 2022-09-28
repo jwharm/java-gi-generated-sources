@@ -4,50 +4,53 @@ package org.gtk.gtk;
  * Describes changes in a sorter in more detail and allows users
  * to optimize resorting.
  */
-public enum SorterChange {
+public class SorterChange {
 
     /**
      * The sorter change cannot be described
      *   by any of the other enumeration values
      */
-    DIFFERENT,
+    public static final SorterChange DIFFERENT = new SorterChange(0);
     
     /**
      * The sort order was inverted. Comparisons
      *   that returned {@link Ordering#SMALLER} now return {@link Ordering#LARGER}
      *   and vice versa. Other comparisons return the same values as before.
      */
-    INVERTED,
+    public static final SorterChange INVERTED = new SorterChange(1);
     
     /**
      * The sorter is less strict: Comparisons
      *   may now return {@link Ordering#EQUAL} that did not do so before.
      */
-    LESS_STRICT,
+    public static final SorterChange LESS_STRICT = new SorterChange(2);
     
     /**
      * The sorter is more strict: Comparisons
      *   that did return {@link Ordering#EQUAL} may not do so anymore.
      */
-    MORE_STRICT;
+    public static final SorterChange MORE_STRICT = new SorterChange(3);
     
-    public static SorterChange fromValue(int value) {
-        return switch(value) {
-            case 0 -> DIFFERENT;
-            case 1 -> INVERTED;
-            case 2 -> LESS_STRICT;
-            case 3 -> MORE_STRICT;
-            default -> null;
-        };
+    private int value;
+    
+    public SorterChange(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DIFFERENT -> 0;
-            case INVERTED -> 1;
-            case LESS_STRICT -> 2;
-            case MORE_STRICT -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SorterChange[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

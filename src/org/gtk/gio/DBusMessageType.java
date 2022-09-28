@@ -3,52 +3,53 @@ package org.gtk.gio;
 /**
  * Message types used in {@link DBusMessage}.
  */
-public enum DBusMessageType {
+public class DBusMessageType {
 
     /**
      * Message is of invalid type.
      */
-    INVALID,
+    public static final DBusMessageType INVALID = new DBusMessageType(0);
     
     /**
      * Method call.
      */
-    METHOD_CALL,
+    public static final DBusMessageType METHOD_CALL = new DBusMessageType(1);
     
     /**
      * Method reply.
      */
-    METHOD_RETURN,
+    public static final DBusMessageType METHOD_RETURN = new DBusMessageType(2);
     
     /**
      * Error reply.
      */
-    ERROR,
+    public static final DBusMessageType ERROR = new DBusMessageType(3);
     
     /**
      * Signal emission.
      */
-    SIGNAL;
+    public static final DBusMessageType SIGNAL = new DBusMessageType(4);
     
-    public static DBusMessageType fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> METHOD_CALL;
-            case 2 -> METHOD_RETURN;
-            case 3 -> ERROR;
-            case 4 -> SIGNAL;
-            default -> null;
-        };
+    private int value;
+    
+    public DBusMessageType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case METHOD_CALL -> 1;
-            case METHOD_RETURN -> 2;
-            case ERROR -> 3;
-            case SIGNAL -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DBusMessageType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

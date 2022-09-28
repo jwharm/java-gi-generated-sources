@@ -1,18 +1,20 @@
 package org.harfbuzz;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * Data type for bitmasks.
  */
-public class MaskT extends Alias<Integer> {
-
+public class MaskT {
+    private int value;
+    
     public MaskT(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
         this.value = value;
     }
     

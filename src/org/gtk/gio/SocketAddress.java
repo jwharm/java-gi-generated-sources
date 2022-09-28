@@ -41,7 +41,7 @@ public class SocketAddress extends org.gtk.gobject.Object implements SocketConne
      */
     public SocketFamily getFamily() {
         var RESULT = gtk_h.g_socket_address_get_family(handle());
-        return SocketFamily.fromValue(RESULT);
+        return new SocketFamily(RESULT);
     }
     
     /**

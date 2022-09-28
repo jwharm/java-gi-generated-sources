@@ -338,7 +338,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     public static boolean __signalRangeChangeValue(MemoryAddress source, int scroll, double value, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Range.ChangeValueHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Range(References.get(source)), ScrollType.fromValue(scroll), value);
+        return handler.signalReceived(new Range(References.get(source)), new ScrollType(scroll), value);
     }
     
     @FunctionalInterface
@@ -372,7 +372,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
     public static void __signalRangeMoveSlider(MemoryAddress source, int step, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Range.MoveSliderHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Range(References.get(source)), ScrollType.fromValue(step));
+        handler.signalReceived(new Range(References.get(source)), new ScrollType(step));
     }
     
     @FunctionalInterface

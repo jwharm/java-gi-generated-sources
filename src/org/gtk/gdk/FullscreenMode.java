@@ -3,31 +3,38 @@ package org.gtk.gdk;
 /**
  * Indicates which monitor a surface should span over when in fullscreen mode.
  */
-public enum FullscreenMode {
+public class FullscreenMode {
 
     /**
      * Fullscreen on current monitor only.
      */
-    CURRENT_MONITOR,
+    public static final FullscreenMode CURRENT_MONITOR = new FullscreenMode(0);
     
     /**
      * Span across all monitors when fullscreen.
      */
-    ALL_MONITORS;
+    public static final FullscreenMode ALL_MONITORS = new FullscreenMode(1);
     
-    public static FullscreenMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> CURRENT_MONITOR;
-            case 1 -> ALL_MONITORS;
-            default -> null;
-        };
+    private int value;
+    
+    public FullscreenMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case CURRENT_MONITOR -> 0;
-            case ALL_MONITORS -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FullscreenMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -127,7 +127,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
     public static void __signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (FileMonitor.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileMonitor(References.get(source)), new File.FileImpl(References.get(file, false)), new File.FileImpl(References.get(otherFile, false)), FileMonitorEvent.fromValue(eventType));
+        handler.signalReceived(new FileMonitor(References.get(source)), new File.FileImpl(References.get(file, false)), new File.FileImpl(References.get(otherFile, false)), new FileMonitorEvent(eventType));
     }
     
 }

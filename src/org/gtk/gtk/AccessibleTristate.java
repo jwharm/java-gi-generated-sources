@@ -8,38 +8,43 @@ package org.gtk.gtk;
  * {@link AccessibleTristate#TRUE} have the same values
  * as {@code false} and {@code true}.
  */
-public enum AccessibleTristate {
+public class AccessibleTristate {
 
     /**
      * The state is {@code false}
      */
-    FALSE,
+    public static final AccessibleTristate FALSE = new AccessibleTristate(0);
     
     /**
      * The state is {@code true}
      */
-    TRUE,
+    public static final AccessibleTristate TRUE = new AccessibleTristate(1);
     
     /**
      * The state is {@code mixed}
      */
-    MIXED;
+    public static final AccessibleTristate MIXED = new AccessibleTristate(2);
     
-    public static AccessibleTristate fromValue(int value) {
-        return switch(value) {
-            case 0 -> FALSE;
-            case 1 -> TRUE;
-            case 2 -> MIXED;
-            default -> null;
-        };
+    private int value;
+    
+    public AccessibleTristate(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FALSE -> 0;
-            case TRUE -> 1;
-            case MIXED -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AccessibleTristate[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

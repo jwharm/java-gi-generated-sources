@@ -3,17 +3,17 @@ package org.gtk.gtk;
 /**
  * Used to control what selections users are allowed to make.
  */
-public enum SelectionMode {
+public class SelectionMode {
 
     /**
      * No selection is possible.
      */
-    NONE,
+    public static final SelectionMode NONE = new SelectionMode(0);
     
     /**
      * Zero or one element may be selected.
      */
-    SINGLE,
+    public static final SelectionMode SINGLE = new SelectionMode(1);
     
     /**
      * Exactly one element is selected.
@@ -23,7 +23,7 @@ public enum SelectionMode {
      *   can’t deselect a currently selected element except by selecting
      *   another element.
      */
-    BROWSE,
+    public static final SelectionMode BROWSE = new SelectionMode(2);
     
     /**
      * Any number of elements may be selected.
@@ -31,25 +31,28 @@ public enum SelectionMode {
      *   key to select between the focus and the child pointed to.
      *   Some widgets may also allow Click-drag to select a range of elements.
      */
-    MULTIPLE;
+    public static final SelectionMode MULTIPLE = new SelectionMode(3);
     
-    public static SelectionMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> SINGLE;
-            case 2 -> BROWSE;
-            case 3 -> MULTIPLE;
-            default -> null;
-        };
+    private int value;
+    
+    public SelectionMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case SINGLE -> 1;
-            case BROWSE -> 2;
-            case MULTIPLE -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SelectionMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

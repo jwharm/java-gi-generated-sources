@@ -422,9 +422,9 @@ public class Builder extends org.gtk.gobject.Object {
      * If no closure could be created, {@code null} will be returned and {@code error}
      * will be set.
      */
-    public org.gtk.gobject.Closure createClosure(java.lang.String functionName, int flags, org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.gobject.Closure createClosure(java.lang.String functionName, BuilderClosureFlags flags, org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.gtk_builder_create_closure(handle(), Interop.allocateNativeString(functionName).handle(), flags, object.handle(), GERROR);
+        var RESULT = gtk_h.gtk_builder_create_closure(handle(), Interop.allocateNativeString(functionName).handle(), flags.getValue(), object.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -446,7 +446,7 @@ public class Builder extends org.gtk.gobject.Object {
      * This is exported purely to let {@code gtk-builder-tool} validate
      * templates, applications have no need to call this function.
      */
-    public boolean extendWithTemplate(org.gtk.gobject.Object object, Type templateType, java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
+    public boolean extendWithTemplate(org.gtk.gobject.Object object, org.gtk.gobject.Type templateType, java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_builder_extend_with_template(handle(), object.handle(), templateType.getValue(), Interop.allocateNativeString(buffer).handle(), length, GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
@@ -578,7 +578,7 @@ public class Builder extends org.gtk.gobject.Object {
      * Upon errors {@code false} will be returned and {@code error} will be
      * assigned a {@code GError} from the {@code GTK_BUILDER_ERROR} domain.
      */
-    public boolean valueFromStringType(Type type, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean valueFromStringType(org.gtk.gobject.Type type, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.gtk_builder_value_from_string_type(handle(), type.getValue(), Interop.allocateNativeString(string).handle(), value.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {

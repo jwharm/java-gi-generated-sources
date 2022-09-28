@@ -54,31 +54,31 @@ public class EventControllerScroll extends EventController {
         return new EventControllerScroll(gobject.getReference());
     }
     
-    private static Reference constructNew(int flags) {
-        Reference RESULT = References.get(gtk_h.gtk_event_controller_scroll_new(flags), true);
+    private static Reference constructNew(EventControllerScrollFlags flags) {
+        Reference RESULT = References.get(gtk_h.gtk_event_controller_scroll_new(flags.getValue()), true);
         return RESULT;
     }
     
     /**
      * Creates a new event controller that will handle scroll events.
      */
-    public EventControllerScroll(int flags) {
+    public EventControllerScroll(EventControllerScrollFlags flags) {
         super(constructNew(flags));
     }
     
     /**
      * Gets the flags conditioning the scroll controller behavior.
      */
-    public int getFlags() {
+    public EventControllerScrollFlags getFlags() {
         var RESULT = gtk_h.gtk_event_controller_scroll_get_flags(handle());
-        return RESULT;
+        return new EventControllerScrollFlags(RESULT);
     }
     
     /**
      * Sets the flags conditioning scroll controller behavior.
      */
-    public void setFlags(int flags) {
-        gtk_h.gtk_event_controller_scroll_set_flags(handle(), flags);
+    public void setFlags(EventControllerScrollFlags flags) {
+        gtk_h.gtk_event_controller_scroll_set_flags(handle(), flags.getValue());
     }
     
     @FunctionalInterface

@@ -3,38 +3,43 @@ package org.gtk.gtk;
 /**
  * Describes the state of a {@code Gesture}.
  */
-public enum EventSequenceState {
+public class EventSequenceState {
 
     /**
      * The sequence is handled, but not grabbed.
      */
-    NONE,
+    public static final EventSequenceState NONE = new EventSequenceState(0);
     
     /**
      * The sequence is handled and grabbed.
      */
-    CLAIMED,
+    public static final EventSequenceState CLAIMED = new EventSequenceState(1);
     
     /**
      * The sequence is denied.
      */
-    DENIED;
+    public static final EventSequenceState DENIED = new EventSequenceState(2);
     
-    public static EventSequenceState fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> CLAIMED;
-            case 2 -> DENIED;
-            default -> null;
-        };
+    private int value;
+    
+    public EventSequenceState(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case CLAIMED -> 1;
-            case DENIED -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(EventSequenceState[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

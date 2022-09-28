@@ -51,7 +51,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
      */
     public BaselinePosition getBaselinePosition() {
         var RESULT = gtk_h.gtk_box_layout_get_baseline_position(handle());
-        return BaselinePosition.fromValue(RESULT);
+        return new BaselinePosition(RESULT);
     }
     
     /**

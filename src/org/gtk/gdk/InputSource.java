@@ -3,70 +3,67 @@ package org.gtk.gdk;
 /**
  * An enumeration describing the type of an input device in general terms.
  */
-public enum InputSource {
+public class InputSource {
 
     /**
      * the device is a mouse. (This will be reported for the core
      *   pointer, even if it is something else, such as a trackball.)
      */
-    MOUSE,
+    public static final InputSource MOUSE = new InputSource(0);
     
     /**
      * the device is a stylus of a graphics tablet or similar device.
      */
-    PEN,
+    public static final InputSource PEN = new InputSource(1);
     
     /**
      * the device is a keyboard.
      */
-    KEYBOARD,
+    public static final InputSource KEYBOARD = new InputSource(2);
     
     /**
      * the device is a direct-input touch device, such
      *   as a touchscreen or tablet
      */
-    TOUCHSCREEN,
+    public static final InputSource TOUCHSCREEN = new InputSource(3);
     
     /**
      * the device is an indirect touch device, such
      *   as a touchpad
      */
-    TOUCHPAD,
+    public static final InputSource TOUCHPAD = new InputSource(4);
     
     /**
      * the device is a trackpoint
      */
-    TRACKPOINT,
+    public static final InputSource TRACKPOINT = new InputSource(5);
     
     /**
      * the device is a "pad", a collection of buttons,
      *   rings and strips found in drawing tablets
      */
-    TABLET_PAD;
+    public static final InputSource TABLET_PAD = new InputSource(6);
     
-    public static InputSource fromValue(int value) {
-        return switch(value) {
-            case 0 -> MOUSE;
-            case 1 -> PEN;
-            case 2 -> KEYBOARD;
-            case 3 -> TOUCHSCREEN;
-            case 4 -> TOUCHPAD;
-            case 5 -> TRACKPOINT;
-            case 6 -> TABLET_PAD;
-            default -> null;
-        };
+    private int value;
+    
+    public InputSource(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case MOUSE -> 0;
-            case PEN -> 1;
-            case KEYBOARD -> 2;
-            case TOUCHSCREEN -> 3;
-            case TOUCHPAD -> 4;
-            case TRACKPOINT -> 5;
-            case TABLET_PAD -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(InputSource[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

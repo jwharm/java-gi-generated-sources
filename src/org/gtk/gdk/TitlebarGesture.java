@@ -1,28 +1,33 @@
 package org.gtk.gdk;
 
-public enum TitlebarGesture {
+public class TitlebarGesture {
 
-    DOUBLE_CLICK,
+    public static final TitlebarGesture DOUBLE_CLICK = new TitlebarGesture(1);
     
-    RIGHT_CLICK,
+    public static final TitlebarGesture RIGHT_CLICK = new TitlebarGesture(2);
     
-    MIDDLE_CLICK;
+    public static final TitlebarGesture MIDDLE_CLICK = new TitlebarGesture(3);
     
-    public static TitlebarGesture fromValue(int value) {
-        return switch(value) {
-            case 1 -> DOUBLE_CLICK;
-            case 2 -> RIGHT_CLICK;
-            case 3 -> MIDDLE_CLICK;
-            default -> null;
-        };
+    private int value;
+    
+    public TitlebarGesture(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DOUBLE_CLICK -> 1;
-            case RIGHT_CLICK -> 2;
-            case MIDDLE_CLICK -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TitlebarGesture[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

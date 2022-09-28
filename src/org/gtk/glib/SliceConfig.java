@@ -1,40 +1,39 @@
 package org.gtk.glib;
 
-public enum SliceConfig {
+public class SliceConfig {
 
-    ALWAYS_MALLOC,
+    public static final SliceConfig ALWAYS_MALLOC = new SliceConfig(1);
     
-    BYPASS_MAGAZINES,
+    public static final SliceConfig BYPASS_MAGAZINES = new SliceConfig(2);
     
-    WORKING_SET_MSECS,
+    public static final SliceConfig WORKING_SET_MSECS = new SliceConfig(3);
     
-    COLOR_INCREMENT,
+    public static final SliceConfig COLOR_INCREMENT = new SliceConfig(4);
     
-    CHUNK_SIZES,
+    public static final SliceConfig CHUNK_SIZES = new SliceConfig(5);
     
-    CONTENTION_COUNTER;
+    public static final SliceConfig CONTENTION_COUNTER = new SliceConfig(6);
     
-    public static SliceConfig fromValue(int value) {
-        return switch(value) {
-            case 1 -> ALWAYS_MALLOC;
-            case 2 -> BYPASS_MAGAZINES;
-            case 3 -> WORKING_SET_MSECS;
-            case 4 -> COLOR_INCREMENT;
-            case 5 -> CHUNK_SIZES;
-            case 6 -> CONTENTION_COUNTER;
-            default -> null;
-        };
+    private int value;
+    
+    public SliceConfig(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ALWAYS_MALLOC -> 1;
-            case BYPASS_MAGAZINES -> 2;
-            case WORKING_SET_MSECS -> 3;
-            case COLOR_INCREMENT -> 4;
-            case CHUNK_SIZES -> 5;
-            case CONTENTION_COUNTER -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SliceConfig[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -3,145 +3,120 @@ package org.gtk.glib;
 /**
  * The range of possible top-level types of {@link Variant} instances.
  */
-public enum VariantClass {
+public class VariantClass {
 
     /**
      * The {@link Variant} is a boolean.
      */
-    BOOLEAN,
+    public static final VariantClass BOOLEAN = new VariantClass(98);
     
     /**
      * The {@link Variant} is a byte.
      */
-    BYTE,
+    public static final VariantClass BYTE = new VariantClass(121);
     
     /**
      * The {@link Variant} is a signed 16 bit integer.
      */
-    INT16,
+    public static final VariantClass INT16 = new VariantClass(110);
     
     /**
      * The {@link Variant} is an unsigned 16 bit integer.
      */
-    UINT16,
+    public static final VariantClass UINT16 = new VariantClass(113);
     
     /**
      * The {@link Variant} is a signed 32 bit integer.
      */
-    INT32,
+    public static final VariantClass INT32 = new VariantClass(105);
     
     /**
      * The {@link Variant} is an unsigned 32 bit integer.
      */
-    UINT32,
+    public static final VariantClass UINT32 = new VariantClass(117);
     
     /**
      * The {@link Variant} is a signed 64 bit integer.
      */
-    INT64,
+    public static final VariantClass INT64 = new VariantClass(120);
     
     /**
      * The {@link Variant} is an unsigned 64 bit integer.
      */
-    UINT64,
+    public static final VariantClass UINT64 = new VariantClass(116);
     
     /**
      * The {@link Variant} is a file handle index.
      */
-    HANDLE,
+    public static final VariantClass HANDLE = new VariantClass(104);
     
     /**
      * The {@link Variant} is a double precision floating
      *                          point value.
      */
-    DOUBLE,
+    public static final VariantClass DOUBLE = new VariantClass(100);
     
     /**
      * The {@link Variant} is a normal string.
      */
-    STRING,
+    public static final VariantClass STRING = new VariantClass(115);
     
     /**
      * The {@link Variant} is a D-Bus object path
      *                               string.
      */
-    OBJECT_PATH,
+    public static final VariantClass OBJECT_PATH = new VariantClass(111);
     
     /**
      * The {@link Variant} is a D-Bus signature string.
      */
-    SIGNATURE,
+    public static final VariantClass SIGNATURE = new VariantClass(103);
     
     /**
      * The {@link Variant} is a variant.
      */
-    VARIANT,
+    public static final VariantClass VARIANT = new VariantClass(118);
     
     /**
      * The {@link Variant} is a maybe-typed value.
      */
-    MAYBE,
+    public static final VariantClass MAYBE = new VariantClass(109);
     
     /**
      * The {@link Variant} is an array.
      */
-    ARRAY,
+    public static final VariantClass ARRAY = new VariantClass(97);
     
     /**
      * The {@link Variant} is a tuple.
      */
-    TUPLE,
+    public static final VariantClass TUPLE = new VariantClass(40);
     
     /**
      * The {@link Variant} is a dictionary entry.
      */
-    DICT_ENTRY;
+    public static final VariantClass DICT_ENTRY = new VariantClass(123);
     
-    public static VariantClass fromValue(int value) {
-        return switch(value) {
-            case 98 -> BOOLEAN;
-            case 121 -> BYTE;
-            case 110 -> INT16;
-            case 113 -> UINT16;
-            case 105 -> INT32;
-            case 117 -> UINT32;
-            case 120 -> INT64;
-            case 116 -> UINT64;
-            case 104 -> HANDLE;
-            case 100 -> DOUBLE;
-            case 115 -> STRING;
-            case 111 -> OBJECT_PATH;
-            case 103 -> SIGNATURE;
-            case 118 -> VARIANT;
-            case 109 -> MAYBE;
-            case 97 -> ARRAY;
-            case 40 -> TUPLE;
-            case 123 -> DICT_ENTRY;
-            default -> null;
-        };
+    private int value;
+    
+    public VariantClass(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BOOLEAN -> 98;
-            case BYTE -> 121;
-            case INT16 -> 110;
-            case UINT16 -> 113;
-            case INT32 -> 105;
-            case UINT32 -> 117;
-            case INT64 -> 120;
-            case UINT64 -> 116;
-            case HANDLE -> 104;
-            case DOUBLE -> 100;
-            case STRING -> 115;
-            case OBJECT_PATH -> 111;
-            case SIGNATURE -> 103;
-            case VARIANT -> 118;
-            case MAYBE -> 109;
-            case ARRAY -> 97;
-            case TUPLE -> 40;
-            case DICT_ENTRY -> 123;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(VariantClass[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

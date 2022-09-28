@@ -6,45 +6,48 @@ package org.gtk.gtk;
  * The strength of a {@link Constraint} can be expressed with any positive
  * integer; the values of this enumeration can be used for readability.
  */
-public enum ConstraintStrength {
+public class ConstraintStrength {
 
     /**
      * The constraint is required towards solving the layout
      */
-    REQUIRED,
+    public static final ConstraintStrength REQUIRED = new ConstraintStrength(1001001000);
     
     /**
      * A strong constraint
      */
-    STRONG,
+    public static final ConstraintStrength STRONG = new ConstraintStrength(1000000000);
     
     /**
      * A medium constraint
      */
-    MEDIUM,
+    public static final ConstraintStrength MEDIUM = new ConstraintStrength(1000);
     
     /**
      * A weak constraint
      */
-    WEAK;
+    public static final ConstraintStrength WEAK = new ConstraintStrength(1);
     
-    public static ConstraintStrength fromValue(int value) {
-        return switch(value) {
-            case 1001001000 -> REQUIRED;
-            case 1000000000 -> STRONG;
-            case 1000 -> MEDIUM;
-            case 1 -> WEAK;
-            default -> null;
-        };
+    private int value;
+    
+    public ConstraintStrength(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case REQUIRED -> 1001001000;
-            case STRONG -> 1000000000;
-            case MEDIUM -> 1000;
-            case WEAK -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ConstraintStrength[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

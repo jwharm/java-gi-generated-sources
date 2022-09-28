@@ -118,7 +118,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      */
     public SizeGroupMode getMode() {
         var RESULT = gtk_h.gtk_size_group_get_mode(handle());
-        return SizeGroupMode.fromValue(RESULT);
+        return new SizeGroupMode(RESULT);
     }
     
     /**

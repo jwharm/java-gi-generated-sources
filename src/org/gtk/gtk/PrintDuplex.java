@@ -3,38 +3,43 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_settings_set_duplex().
  */
-public enum PrintDuplex {
+public class PrintDuplex {
 
     /**
      * No duplex.
      */
-    SIMPLEX,
+    public static final PrintDuplex SIMPLEX = new PrintDuplex(0);
     
     /**
      * Horizontal duplex.
      */
-    HORIZONTAL,
+    public static final PrintDuplex HORIZONTAL = new PrintDuplex(1);
     
     /**
      * Vertical duplex.
      */
-    VERTICAL;
+    public static final PrintDuplex VERTICAL = new PrintDuplex(2);
     
-    public static PrintDuplex fromValue(int value) {
-        return switch(value) {
-            case 0 -> SIMPLEX;
-            case 1 -> HORIZONTAL;
-            case 2 -> VERTICAL;
-            default -> null;
-        };
+    private int value;
+    
+    public PrintDuplex(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SIMPLEX -> 0;
-            case HORIZONTAL -> 1;
-            case VERTICAL -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PrintDuplex[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

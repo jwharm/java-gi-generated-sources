@@ -3,235 +3,186 @@ package org.gtk.gdk;
 /**
  * Specifies the type of the event.
  */
-public enum EventType {
+public class EventType {
 
     /**
      * the window manager has requested that the toplevel surface be
      *   hidden or destroyed, usually when the user clicks on a special icon in the
      *   title bar.
      */
-    DELETE,
+    public static final EventType DELETE = new EventType(0);
     
     /**
      * the pointer (usually a mouse) has moved.
      */
-    MOTION_NOTIFY,
+    public static final EventType MOTION_NOTIFY = new EventType(1);
     
     /**
      * a mouse button has been pressed.
      */
-    BUTTON_PRESS,
+    public static final EventType BUTTON_PRESS = new EventType(2);
     
     /**
      * a mouse button has been released.
      */
-    BUTTON_RELEASE,
+    public static final EventType BUTTON_RELEASE = new EventType(3);
     
     /**
      * a key has been pressed.
      */
-    KEY_PRESS,
+    public static final EventType KEY_PRESS = new EventType(4);
     
     /**
      * a key has been released.
      */
-    KEY_RELEASE,
+    public static final EventType KEY_RELEASE = new EventType(5);
     
     /**
      * the pointer has entered the surface.
      */
-    ENTER_NOTIFY,
+    public static final EventType ENTER_NOTIFY = new EventType(6);
     
     /**
      * the pointer has left the surface.
      */
-    LEAVE_NOTIFY,
+    public static final EventType LEAVE_NOTIFY = new EventType(7);
     
     /**
      * the keyboard focus has entered or left the surface.
      */
-    FOCUS_CHANGE,
+    public static final EventType FOCUS_CHANGE = new EventType(8);
     
     /**
      * an input device has moved into contact with a sensing
      *   surface (e.g. a touchscreen or graphics tablet).
      */
-    PROXIMITY_IN,
+    public static final EventType PROXIMITY_IN = new EventType(9);
     
     /**
      * an input device has moved out of contact with a sensing
      *   surface.
      */
-    PROXIMITY_OUT,
+    public static final EventType PROXIMITY_OUT = new EventType(10);
     
     /**
      * the mouse has entered the surface while a drag is in progress.
      */
-    DRAG_ENTER,
+    public static final EventType DRAG_ENTER = new EventType(11);
     
     /**
      * the mouse has left the surface while a drag is in progress.
      */
-    DRAG_LEAVE,
+    public static final EventType DRAG_LEAVE = new EventType(12);
     
     /**
      * the mouse has moved in the surface while a drag is in
      *   progress.
      */
-    DRAG_MOTION,
+    public static final EventType DRAG_MOTION = new EventType(13);
     
     /**
      * a drop operation onto the surface has started.
      */
-    DROP_START,
+    public static final EventType DROP_START = new EventType(14);
     
     /**
      * the scroll wheel was turned
      */
-    SCROLL,
+    public static final EventType SCROLL = new EventType(15);
     
     /**
      * a pointer or keyboard grab was broken.
      */
-    GRAB_BROKEN,
+    public static final EventType GRAB_BROKEN = new EventType(16);
     
     /**
      * A new touch event sequence has just started.
      */
-    TOUCH_BEGIN,
+    public static final EventType TOUCH_BEGIN = new EventType(17);
     
     /**
      * A touch event sequence has been updated.
      */
-    TOUCH_UPDATE,
+    public static final EventType TOUCH_UPDATE = new EventType(18);
     
     /**
      * A touch event sequence has finished.
      */
-    TOUCH_END,
+    public static final EventType TOUCH_END = new EventType(19);
     
     /**
      * A touch event sequence has been canceled.
      */
-    TOUCH_CANCEL,
+    public static final EventType TOUCH_CANCEL = new EventType(20);
     
     /**
      * A touchpad swipe gesture event, the current state
      *   is determined by its phase field.
      */
-    TOUCHPAD_SWIPE,
+    public static final EventType TOUCHPAD_SWIPE = new EventType(21);
     
     /**
      * A touchpad pinch gesture event, the current state
      *   is determined by its phase field.
      */
-    TOUCHPAD_PINCH,
+    public static final EventType TOUCHPAD_PINCH = new EventType(22);
     
     /**
      * A tablet pad button press event.
      */
-    PAD_BUTTON_PRESS,
+    public static final EventType PAD_BUTTON_PRESS = new EventType(23);
     
     /**
      * A tablet pad button release event.
      */
-    PAD_BUTTON_RELEASE,
+    public static final EventType PAD_BUTTON_RELEASE = new EventType(24);
     
     /**
      * A tablet pad axis event from a "ring".
      */
-    PAD_RING,
+    public static final EventType PAD_RING = new EventType(25);
     
     /**
      * A tablet pad axis event from a "strip".
      */
-    PAD_STRIP,
+    public static final EventType PAD_STRIP = new EventType(26);
     
     /**
      * A tablet pad group mode change.
      */
-    PAD_GROUP_MODE,
+    public static final EventType PAD_GROUP_MODE = new EventType(27);
     
     /**
      * A touchpad hold gesture event, the current state
      *   is determined by its phase field. Since: 4.6
      */
-    TOUCHPAD_HOLD,
+    public static final EventType TOUCHPAD_HOLD = new EventType(28);
     
     /**
      * marks the end of the GdkEventType enumeration.
      */
-    EVENT_LAST;
+    public static final EventType EVENT_LAST = new EventType(29);
     
-    public static EventType fromValue(int value) {
-        return switch(value) {
-            case 0 -> DELETE;
-            case 1 -> MOTION_NOTIFY;
-            case 2 -> BUTTON_PRESS;
-            case 3 -> BUTTON_RELEASE;
-            case 4 -> KEY_PRESS;
-            case 5 -> KEY_RELEASE;
-            case 6 -> ENTER_NOTIFY;
-            case 7 -> LEAVE_NOTIFY;
-            case 8 -> FOCUS_CHANGE;
-            case 9 -> PROXIMITY_IN;
-            case 10 -> PROXIMITY_OUT;
-            case 11 -> DRAG_ENTER;
-            case 12 -> DRAG_LEAVE;
-            case 13 -> DRAG_MOTION;
-            case 14 -> DROP_START;
-            case 15 -> SCROLL;
-            case 16 -> GRAB_BROKEN;
-            case 17 -> TOUCH_BEGIN;
-            case 18 -> TOUCH_UPDATE;
-            case 19 -> TOUCH_END;
-            case 20 -> TOUCH_CANCEL;
-            case 21 -> TOUCHPAD_SWIPE;
-            case 22 -> TOUCHPAD_PINCH;
-            case 23 -> PAD_BUTTON_PRESS;
-            case 24 -> PAD_BUTTON_RELEASE;
-            case 25 -> PAD_RING;
-            case 26 -> PAD_STRIP;
-            case 27 -> PAD_GROUP_MODE;
-            case 28 -> TOUCHPAD_HOLD;
-            case 29 -> EVENT_LAST;
-            default -> null;
-        };
+    private int value;
+    
+    public EventType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DELETE -> 0;
-            case MOTION_NOTIFY -> 1;
-            case BUTTON_PRESS -> 2;
-            case BUTTON_RELEASE -> 3;
-            case KEY_PRESS -> 4;
-            case KEY_RELEASE -> 5;
-            case ENTER_NOTIFY -> 6;
-            case LEAVE_NOTIFY -> 7;
-            case FOCUS_CHANGE -> 8;
-            case PROXIMITY_IN -> 9;
-            case PROXIMITY_OUT -> 10;
-            case DRAG_ENTER -> 11;
-            case DRAG_LEAVE -> 12;
-            case DRAG_MOTION -> 13;
-            case DROP_START -> 14;
-            case SCROLL -> 15;
-            case GRAB_BROKEN -> 16;
-            case TOUCH_BEGIN -> 17;
-            case TOUCH_UPDATE -> 18;
-            case TOUCH_END -> 19;
-            case TOUCH_CANCEL -> 20;
-            case TOUCHPAD_SWIPE -> 21;
-            case TOUCHPAD_PINCH -> 22;
-            case PAD_BUTTON_PRESS -> 23;
-            case PAD_BUTTON_RELEASE -> 24;
-            case PAD_RING -> 25;
-            case PAD_STRIP -> 26;
-            case PAD_GROUP_MODE -> 27;
-            case TOUCHPAD_HOLD -> 28;
-            case EVENT_LAST -> 29;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(EventType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

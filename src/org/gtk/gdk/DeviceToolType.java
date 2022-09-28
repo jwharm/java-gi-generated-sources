@@ -4,73 +4,68 @@ package org.gtk.gdk;
  * Indicates the specific type of tool being used being a tablet. Such as an
  * airbrush, pencil, etc.
  */
-public enum DeviceToolType {
+public class DeviceToolType {
 
     /**
      * Tool is of an unknown type.
      */
-    UNKNOWN,
+    public static final DeviceToolType UNKNOWN = new DeviceToolType(0);
     
     /**
      * Tool is a standard tablet stylus.
      */
-    PEN,
+    public static final DeviceToolType PEN = new DeviceToolType(1);
     
     /**
      * Tool is standard tablet eraser.
      */
-    ERASER,
+    public static final DeviceToolType ERASER = new DeviceToolType(2);
     
     /**
      * Tool is a brush stylus.
      */
-    BRUSH,
+    public static final DeviceToolType BRUSH = new DeviceToolType(3);
     
     /**
      * Tool is a pencil stylus.
      */
-    PENCIL,
+    public static final DeviceToolType PENCIL = new DeviceToolType(4);
     
     /**
      * Tool is an airbrush stylus.
      */
-    AIRBRUSH,
+    public static final DeviceToolType AIRBRUSH = new DeviceToolType(5);
     
     /**
      * Tool is a mouse.
      */
-    MOUSE,
+    public static final DeviceToolType MOUSE = new DeviceToolType(6);
     
     /**
      * Tool is a lens cursor.
      */
-    LENS;
+    public static final DeviceToolType LENS = new DeviceToolType(7);
     
-    public static DeviceToolType fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNKNOWN;
-            case 1 -> PEN;
-            case 2 -> ERASER;
-            case 3 -> BRUSH;
-            case 4 -> PENCIL;
-            case 5 -> AIRBRUSH;
-            case 6 -> MOUSE;
-            case 7 -> LENS;
-            default -> null;
-        };
+    private int value;
+    
+    public DeviceToolType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN -> 0;
-            case PEN -> 1;
-            case ERASER -> 2;
-            case BRUSH -> 3;
-            case PENCIL -> 4;
-            case AIRBRUSH -> 5;
-            case MOUSE -> 6;
-            case LENS -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DeviceToolType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

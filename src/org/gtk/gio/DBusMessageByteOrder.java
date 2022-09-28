@@ -3,31 +3,38 @@ package org.gtk.gio;
 /**
  * Enumeration used to describe the byte order of a D-Bus message.
  */
-public enum DBusMessageByteOrder {
+public class DBusMessageByteOrder {
 
     /**
      * The byte order is big endian.
      */
-    BIG_ENDIAN,
+    public static final DBusMessageByteOrder BIG_ENDIAN = new DBusMessageByteOrder(66);
     
     /**
      * The byte order is little endian.
      */
-    LITTLE_ENDIAN;
+    public static final DBusMessageByteOrder LITTLE_ENDIAN = new DBusMessageByteOrder(108);
     
-    public static DBusMessageByteOrder fromValue(int value) {
-        return switch(value) {
-            case 66 -> BIG_ENDIAN;
-            case 108 -> LITTLE_ENDIAN;
-            default -> null;
-        };
+    private int value;
+    
+    public DBusMessageByteOrder(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BIG_ENDIAN -> 66;
-            case LITTLE_ENDIAN -> 108;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DBusMessageByteOrder[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

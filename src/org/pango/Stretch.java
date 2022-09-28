@@ -4,80 +4,73 @@ package org.pango;
  * An enumeration specifying the width of the font relative to other designs
  * within a family.
  */
-public enum Stretch {
+public class Stretch {
 
     /**
      * ultra condensed width
      */
-    ULTRA_CONDENSED,
+    public static final Stretch ULTRA_CONDENSED = new Stretch(0);
     
     /**
      * extra condensed width
      */
-    EXTRA_CONDENSED,
+    public static final Stretch EXTRA_CONDENSED = new Stretch(1);
     
     /**
      * condensed width
      */
-    CONDENSED,
+    public static final Stretch CONDENSED = new Stretch(2);
     
     /**
      * semi condensed width
      */
-    SEMI_CONDENSED,
+    public static final Stretch SEMI_CONDENSED = new Stretch(3);
     
     /**
      * the normal width
      */
-    NORMAL,
+    public static final Stretch NORMAL = new Stretch(4);
     
     /**
      * semi expanded width
      */
-    SEMI_EXPANDED,
+    public static final Stretch SEMI_EXPANDED = new Stretch(5);
     
     /**
      * expanded width
      */
-    EXPANDED,
+    public static final Stretch EXPANDED = new Stretch(6);
     
     /**
      * extra expanded width
      */
-    EXTRA_EXPANDED,
+    public static final Stretch EXTRA_EXPANDED = new Stretch(7);
     
     /**
      * ultra expanded width
      */
-    ULTRA_EXPANDED;
+    public static final Stretch ULTRA_EXPANDED = new Stretch(8);
     
-    public static Stretch fromValue(int value) {
-        return switch(value) {
-            case 0 -> ULTRA_CONDENSED;
-            case 1 -> EXTRA_CONDENSED;
-            case 2 -> CONDENSED;
-            case 3 -> SEMI_CONDENSED;
-            case 4 -> NORMAL;
-            case 5 -> SEMI_EXPANDED;
-            case 6 -> EXPANDED;
-            case 7 -> EXTRA_EXPANDED;
-            case 8 -> ULTRA_EXPANDED;
-            default -> null;
-        };
+    private int value;
+    
+    public Stretch(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ULTRA_CONDENSED -> 0;
-            case EXTRA_CONDENSED -> 1;
-            case CONDENSED -> 2;
-            case SEMI_CONDENSED -> 3;
-            case NORMAL -> 4;
-            case SEMI_EXPANDED -> 5;
-            case EXPANDED -> 6;
-            case EXTRA_EXPANDED -> 7;
-            case ULTRA_EXPANDED -> 8;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Stretch[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

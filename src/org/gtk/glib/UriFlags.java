@@ -13,7 +13,7 @@ public class UriFlags {
     /**
      * No flags set.
      */
-    public static final int NONE = 0;
+    public static final UriFlags NONE = new UriFlags(0);
     
     /**
      * Parse the URI more relaxedly than the
@@ -22,20 +22,20 @@ public class UriFlags {
      *     sources. This is also needed for some obscure URI schemes where {@code ;}
      *     separates the host from the path. Don’t use this flag unless you need to.
      */
-    public static final int PARSE_RELAXED = 1;
+    public static final UriFlags PARSE_RELAXED = new UriFlags(1);
     
     /**
      * The userinfo field may contain a password,
      *     which will be separated from the username by {@code :}.
      */
-    public static final int HAS_PASSWORD = 2;
+    public static final UriFlags HAS_PASSWORD = new UriFlags(2);
     
     /**
      * The userinfo may contain additional
      *     authentication-related parameters, which will be separated from
      *     the username and/or password by {@code ;}.
      */
-    public static final int HAS_AUTH_PARAMS = 4;
+    public static final UriFlags HAS_AUTH_PARAMS = new UriFlags(4);
     
     /**
      * When parsing a URI, this indicates that {@code %}-encoded
@@ -45,31 +45,31 @@ public class UriFlags {
      *     that you have already {@code %}-encoded the components, and so {@link Uri}
      *     should not do any encoding itself.
      */
-    public static final int ENCODED = 8;
+    public static final UriFlags ENCODED = new UriFlags(8);
     
     /**
      * The host component should not be assumed to be a
      *     DNS hostname or IP address (for example, for {@code smb} URIs with NetBIOS
      *     hostnames).
      */
-    public static final int NON_DNS = 16;
+    public static final UriFlags NON_DNS = new UriFlags(16);
     
     /**
      * Same as {@link UriFlags#ENCODED}, for the query
      *     field only.
      */
-    public static final int ENCODED_QUERY = 32;
+    public static final UriFlags ENCODED_QUERY = new UriFlags(32);
     
     /**
      * Same as {@link UriFlags#ENCODED}, for the path only.
      */
-    public static final int ENCODED_PATH = 64;
+    public static final UriFlags ENCODED_PATH = new UriFlags(64);
     
     /**
      * Same as {@link UriFlags#ENCODED}, for the
      *     fragment only.
      */
-    public static final int ENCODED_FRAGMENT = 128;
+    public static final UriFlags ENCODED_FRAGMENT = new UriFlags(128);
     
     /**
      * A scheme-based normalization will be applied.
@@ -77,6 +77,40 @@ public class UriFlags {
      *     omitted port to {@code 80}; and when building a URI, changing empty path to {@code /}
      *     and default port {@code 80}). This only supports a subset of known schemes. (Since: 2.68)
      */
-    public static final int SCHEME_NORMALIZE = 256;
+    public static final UriFlags SCHEME_NORMALIZE = new UriFlags(256);
+    
+    private int value;
+    
+    public UriFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(UriFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public UriFlags combined(UriFlags mask) {
+        return new UriFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static UriFlags combined(UriFlags mask, UriFlags... masks) {
+        int value = mask.getValue();
+        for (UriFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new UriFlags(value);
+    }
     
 }

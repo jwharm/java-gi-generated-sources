@@ -3,38 +3,43 @@ package org.gtk.glib;
 /**
  * Error codes returned by shell functions.
  */
-public enum ShellError {
+public class ShellError {
 
     /**
      * Mismatched or otherwise mangled quoting.
      */
-    BAD_QUOTING,
+    public static final ShellError BAD_QUOTING = new ShellError(0);
     
     /**
      * String to be parsed was empty.
      */
-    EMPTY_STRING,
+    public static final ShellError EMPTY_STRING = new ShellError(1);
     
     /**
      * Some other error.
      */
-    FAILED;
+    public static final ShellError FAILED = new ShellError(2);
     
-    public static ShellError fromValue(int value) {
-        return switch(value) {
-            case 0 -> BAD_QUOTING;
-            case 1 -> EMPTY_STRING;
-            case 2 -> FAILED;
-            default -> null;
-        };
+    private int value;
+    
+    public ShellError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BAD_QUOTING -> 0;
-            case EMPTY_STRING -> 1;
-            case FAILED -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ShellError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -70,7 +70,7 @@ public class TimedAnimation extends Animation {
      */
     public Easing getEasing() {
         var RESULT = gtk_h.adw_timed_animation_get_easing(handle());
-        return Easing.fromValue(RESULT);
+        return new Easing(RESULT);
     }
     
     /**

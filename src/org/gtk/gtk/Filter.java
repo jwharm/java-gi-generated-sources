@@ -69,7 +69,7 @@ public class Filter extends org.gtk.gobject.Object {
      */
     public FilterMatch getStrictness() {
         var RESULT = gtk_h.gtk_filter_get_strictness(handle());
-        return FilterMatch.fromValue(RESULT);
+        return new FilterMatch(RESULT);
     }
     
     /**
@@ -118,7 +118,7 @@ public class Filter extends org.gtk.gobject.Object {
     public static void __signalFilterChanged(MemoryAddress source, int change, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Filter.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Filter(References.get(source)), FilterChange.fromValue(change));
+        handler.signalReceived(new Filter(References.get(source)), new FilterChange(change));
     }
     
 }

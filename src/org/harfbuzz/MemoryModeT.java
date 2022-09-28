@@ -29,47 +29,50 @@ package org.harfbuzz;
  *   {@code HB_MEMORY_READONLY_MAY_MAKE_WRITABLE}, however, using that mode
  *   correctly is very tricky.  Use {@code HB_MEMORY_MODE_READONLY} instead.
  */
-public enum MemoryModeT {
+public class MemoryModeT {
 
     /**
      * HarfBuzz immediately makes a copy of the data.
      */
-    DUPLICATE,
+    public static final MemoryModeT DUPLICATE = new MemoryModeT(0);
     
     /**
      * HarfBuzz client will never modify the data,
      *     and HarfBuzz will never modify the data.
      */
-    READONLY,
+    public static final MemoryModeT READONLY = new MemoryModeT(1);
     
     /**
      * HarfBuzz client made a copy of the data solely
      *     for HarfBuzz, so HarfBuzz may modify the data.
      */
-    WRITABLE,
+    public static final MemoryModeT WRITABLE = new MemoryModeT(2);
     
     /**
      * See above
      */
-    READONLY_MAY_MAKE_WRITABLE;
+    public static final MemoryModeT READONLY_MAY_MAKE_WRITABLE = new MemoryModeT(3);
     
-    public static MemoryModeT fromValue(int value) {
-        return switch(value) {
-            case 0 -> DUPLICATE;
-            case 1 -> READONLY;
-            case 2 -> WRITABLE;
-            case 3 -> READONLY_MAY_MAKE_WRITABLE;
-            default -> null;
-        };
+    private int value;
+    
+    public MemoryModeT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DUPLICATE -> 0;
-            case READONLY -> 1;
-            case WRITABLE -> 2;
-            case READONLY_MAY_MAKE_WRITABLE -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(MemoryModeT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

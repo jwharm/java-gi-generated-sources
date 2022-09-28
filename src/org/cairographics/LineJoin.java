@@ -1,28 +1,33 @@
 package org.cairographics;
 
-public enum LineJoin {
+public class LineJoin {
 
-    MITER,
+    public static final LineJoin MITER = new LineJoin(0);
     
-    ROUND,
+    public static final LineJoin ROUND = new LineJoin(1);
     
-    BEVEL;
+    public static final LineJoin BEVEL = new LineJoin(2);
     
-    public static LineJoin fromValue(int value) {
-        return switch(value) {
-            case 0 -> MITER;
-            case 1 -> ROUND;
-            case 2 -> BEVEL;
-            default -> null;
-        };
+    private int value;
+    
+    public LineJoin(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case MITER -> 0;
-            case ROUND -> 1;
-            case BEVEL -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(LineJoin[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

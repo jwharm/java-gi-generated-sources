@@ -6,47 +6,50 @@ package org.gtk.gio;
  * <p>
  * Additional values may be added to this type in the future.
  */
-public enum SocketListenerEvent {
+public class SocketListenerEvent {
 
     /**
      * The listener is about to bind a socket.
      */
-    BINDING,
+    public static final SocketListenerEvent BINDING = new SocketListenerEvent(0);
     
     /**
      * The listener has bound a socket.
      */
-    BOUND,
+    public static final SocketListenerEvent BOUND = new SocketListenerEvent(1);
     
     /**
      * The listener is about to start
      *    listening on this socket.
      */
-    LISTENING,
+    public static final SocketListenerEvent LISTENING = new SocketListenerEvent(2);
     
     /**
      * The listener is now listening on
      *   this socket.
      */
-    LISTENED;
+    public static final SocketListenerEvent LISTENED = new SocketListenerEvent(3);
     
-    public static SocketListenerEvent fromValue(int value) {
-        return switch(value) {
-            case 0 -> BINDING;
-            case 1 -> BOUND;
-            case 2 -> LISTENING;
-            case 3 -> LISTENED;
-            default -> null;
-        };
+    private int value;
+    
+    public SocketListenerEvent(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BINDING -> 0;
-            case BOUND -> 1;
-            case LISTENING -> 2;
-            case LISTENED -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SocketListenerEvent[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

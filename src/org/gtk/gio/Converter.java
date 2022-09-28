@@ -102,13 +102,13 @@ public interface Converter extends io.github.jwharm.javagi.NativeAddress {
      * to produce as much output as possible and then return an error
      * (typically {@link IOErrorEnum#PARTIAL_INPUT}).
      */
-    public default ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, int flags, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public default ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, ConverterFlags flags, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_converter_convert(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, inbuf)).handle(), inbufSize, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, outbuf)).handle(), outbufSize, flags, bytesRead.handle(), bytesWritten.handle(), GERROR);
+        var RESULT = gtk_h.g_converter_convert(handle(), new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, inbuf)).handle(), inbufSize, new MemorySegmentReference(Interop.getAllocator().allocateArray(ValueLayout.JAVA_BYTE, outbuf)).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return ConverterResult.fromValue(RESULT);
+        return new ConverterResult(RESULT);
     }
     
     /**

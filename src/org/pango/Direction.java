@@ -20,68 +20,65 @@ package org.pango;
  * directly. {@code PangoDirection} is only retained because it is used in some
  * public apis.
  */
-public enum Direction {
+public class Direction {
 
     /**
      * A strong left-to-right direction
      */
-    LTR,
+    public static final Direction LTR = new Direction(0);
     
     /**
      * A strong right-to-left direction
      */
-    RTL,
+    public static final Direction RTL = new Direction(1);
     
     /**
      * Deprecated value; treated the
      *   same as {@code PANGO_DIRECTION_RTL}.
      */
-    TTB_LTR,
+    public static final Direction TTB_LTR = new Direction(2);
     
     /**
      * Deprecated value; treated the
      *   same as {@code PANGO_DIRECTION_LTR}
      */
-    TTB_RTL,
+    public static final Direction TTB_RTL = new Direction(3);
     
     /**
      * A weak left-to-right direction
      */
-    WEAK_LTR,
+    public static final Direction WEAK_LTR = new Direction(4);
     
     /**
      * A weak right-to-left direction
      */
-    WEAK_RTL,
+    public static final Direction WEAK_RTL = new Direction(5);
     
     /**
      * No direction specified
      */
-    NEUTRAL;
+    public static final Direction NEUTRAL = new Direction(6);
     
-    public static Direction fromValue(int value) {
-        return switch(value) {
-            case 0 -> LTR;
-            case 1 -> RTL;
-            case 2 -> TTB_LTR;
-            case 3 -> TTB_RTL;
-            case 4 -> WEAK_LTR;
-            case 5 -> WEAK_RTL;
-            case 6 -> NEUTRAL;
-            default -> null;
-        };
+    private int value;
+    
+    public Direction(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LTR -> 0;
-            case RTL -> 1;
-            case TTB_LTR -> 2;
-            case TTB_RTL -> 3;
-            case WEAK_LTR -> 4;
-            case WEAK_RTL -> 5;
-            case NEUTRAL -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Direction[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

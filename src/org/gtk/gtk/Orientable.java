@@ -21,7 +21,7 @@ public interface Orientable extends io.github.jwharm.javagi.NativeAddress {
      */
     public default Orientation getOrientation() {
         var RESULT = gtk_h.gtk_orientable_get_orientation(handle());
-        return Orientation.fromValue(RESULT);
+        return new Orientation(RESULT);
     }
     
     /**

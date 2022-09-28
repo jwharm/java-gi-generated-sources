@@ -3,31 +3,38 @@ package org.gnome.adw;
 /**
  * Describes the direction of a swipe navigation gesture.
  */
-public enum NavigationDirection {
+public class NavigationDirection {
 
     /**
      * Corresponds to start or top, depending on orientation and text direction
      */
-    BACK,
+    public static final NavigationDirection BACK = new NavigationDirection(0);
     
     /**
      * Corresponds to end or bottom, depending on orientation and text direction
      */
-    FORWARD;
+    public static final NavigationDirection FORWARD = new NavigationDirection(1);
     
-    public static NavigationDirection fromValue(int value) {
-        return switch(value) {
-            case 0 -> BACK;
-            case 1 -> FORWARD;
-            default -> null;
-        };
+    private int value;
+    
+    public NavigationDirection(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BACK -> 0;
-            case FORWARD -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(NavigationDirection[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

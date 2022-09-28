@@ -3,38 +3,43 @@ package org.gtk.gdk;
 /**
  * Used in {@code GdkDrag} to the reason of a cancelled DND operation.
  */
-public enum DragCancelReason {
+public class DragCancelReason {
 
     /**
      * There is no suitable drop target.
      */
-    NO_TARGET,
+    public static final DragCancelReason NO_TARGET = new DragCancelReason(0);
     
     /**
      * Drag cancelled by the user
      */
-    USER_CANCELLED,
+    public static final DragCancelReason USER_CANCELLED = new DragCancelReason(1);
     
     /**
      * Unspecified error.
      */
-    ERROR;
+    public static final DragCancelReason ERROR = new DragCancelReason(2);
     
-    public static DragCancelReason fromValue(int value) {
-        return switch(value) {
-            case 0 -> NO_TARGET;
-            case 1 -> USER_CANCELLED;
-            case 2 -> ERROR;
-            default -> null;
-        };
+    private int value;
+    
+    public DragCancelReason(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NO_TARGET -> 0;
-            case USER_CANCELLED -> 1;
-            case ERROR -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DragCancelReason[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

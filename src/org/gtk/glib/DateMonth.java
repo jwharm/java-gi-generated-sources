@@ -4,108 +4,93 @@ package org.gtk.glib;
  * Enumeration representing a month; values are {@link DateMonth#JANUARY},
  * {@link DateMonth#FEBRUARY}, etc. {@link DateMonth#BAD_MONTH} is the invalid value.
  */
-public enum DateMonth {
+public class DateMonth {
 
     /**
      * invalid value
      */
-    BAD_MONTH,
+    public static final DateMonth BAD_MONTH = new DateMonth(0);
     
     /**
      * January
      */
-    JANUARY,
+    public static final DateMonth JANUARY = new DateMonth(1);
     
     /**
      * February
      */
-    FEBRUARY,
+    public static final DateMonth FEBRUARY = new DateMonth(2);
     
     /**
      * March
      */
-    MARCH,
+    public static final DateMonth MARCH = new DateMonth(3);
     
     /**
      * April
      */
-    APRIL,
+    public static final DateMonth APRIL = new DateMonth(4);
     
     /**
      * May
      */
-    MAY,
+    public static final DateMonth MAY = new DateMonth(5);
     
     /**
      * June
      */
-    JUNE,
+    public static final DateMonth JUNE = new DateMonth(6);
     
     /**
      * July
      */
-    JULY,
+    public static final DateMonth JULY = new DateMonth(7);
     
     /**
      * August
      */
-    AUGUST,
+    public static final DateMonth AUGUST = new DateMonth(8);
     
     /**
      * September
      */
-    SEPTEMBER,
+    public static final DateMonth SEPTEMBER = new DateMonth(9);
     
     /**
      * October
      */
-    OCTOBER,
+    public static final DateMonth OCTOBER = new DateMonth(10);
     
     /**
      * November
      */
-    NOVEMBER,
+    public static final DateMonth NOVEMBER = new DateMonth(11);
     
     /**
      * December
      */
-    DECEMBER;
+    public static final DateMonth DECEMBER = new DateMonth(12);
     
-    public static DateMonth fromValue(int value) {
-        return switch(value) {
-            case 0 -> BAD_MONTH;
-            case 1 -> JANUARY;
-            case 2 -> FEBRUARY;
-            case 3 -> MARCH;
-            case 4 -> APRIL;
-            case 5 -> MAY;
-            case 6 -> JUNE;
-            case 7 -> JULY;
-            case 8 -> AUGUST;
-            case 9 -> SEPTEMBER;
-            case 10 -> OCTOBER;
-            case 11 -> NOVEMBER;
-            case 12 -> DECEMBER;
-            default -> null;
-        };
+    private int value;
+    
+    public DateMonth(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BAD_MONTH -> 0;
-            case JANUARY -> 1;
-            case FEBRUARY -> 2;
-            case MARCH -> 3;
-            case APRIL -> 4;
-            case MAY -> 5;
-            case JUNE -> 6;
-            case JULY -> 7;
-            case AUGUST -> 8;
-            case SEPTEMBER -> 9;
-            case OCTOBER -> 10;
-            case NOVEMBER -> 11;
-            case DECEMBER -> 12;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DateMonth[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

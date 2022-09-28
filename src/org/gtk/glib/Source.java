@@ -92,8 +92,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As the name suggests, this function is not available on Windows.
      */
-    public java.lang.foreign.MemoryAddress addUnixFd(int fd, int events) {
-        var RESULT = gtk_h.g_source_add_unix_fd(handle(), fd, events);
+    public java.lang.foreign.MemoryAddress addUnixFd(int fd, IOCondition events) {
+        var RESULT = gtk_h.g_source_add_unix_fd(handle(), fd, events.getValue());
         return RESULT;
     }
     
@@ -310,8 +310,8 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As the name suggests, this function is not available on Windows.
      */
-    public void modifyUnixFd(java.lang.foreign.MemoryAddress tag, int newEvents) {
-        gtk_h.g_source_modify_unix_fd(handle(), tag, newEvents);
+    public void modifyUnixFd(java.lang.foreign.MemoryAddress tag, IOCondition newEvents) {
+        gtk_h.g_source_modify_unix_fd(handle(), tag, newEvents.getValue());
     }
     
     /**
@@ -326,9 +326,9 @@ public class Source extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As the name suggests, this function is not available on Windows.
      */
-    public int queryUnixFd(java.lang.foreign.MemoryAddress tag) {
+    public IOCondition queryUnixFd(java.lang.foreign.MemoryAddress tag) {
         var RESULT = gtk_h.g_source_query_unix_fd(handle(), tag);
-        return RESULT;
+        return new IOCondition(RESULT);
     }
     
     /**

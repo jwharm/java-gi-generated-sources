@@ -24,5 +24,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface LogWriterFunc {
-        LogWriterOutput onLogWriterFunc(int logLevel, LogField[] fields, long nFields);
+        LogWriterOutput onLogWriterFunc(LogLevelFlags logLevel, LogField[] fields, long nFields);
 }

@@ -215,9 +215,9 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Splices an input stream into an output stream.
      */
-    public long splice(InputStream source, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long splice(InputStream source, OutputStreamSpliceFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_output_stream_splice(handle(), source.handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_output_stream_splice(handle(), source.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -233,9 +233,9 @@ public class OutputStream extends org.gtk.gobject.Object {
      * For the synchronous, blocking version of this function, see
      * g_output_stream_splice().
      */
-    public void spliceAsync(InputStream source, int flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void spliceAsync(InputStream source, OutputStreamSpliceFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_output_stream_splice_async(handle(), source.handle(), flags, ioPriority, cancellable.handle(), 
+            gtk_h.g_output_stream_splice_async(handle(), source.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

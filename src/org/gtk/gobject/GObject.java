@@ -42,7 +42,7 @@ public final class GObject {
     /**
      * Provide a copy of a boxed structure {@code src_boxed} which is of type {@code boxed_type}.
      */
-    public static java.lang.foreign.MemoryAddress boxedCopy(Type boxedType, java.lang.foreign.MemoryAddress srcBoxed) {
+    public static java.lang.foreign.MemoryAddress boxedCopy(org.gtk.gobject.Type boxedType, java.lang.foreign.MemoryAddress srcBoxed) {
         var RESULT = gtk_h.g_boxed_copy(boxedType.getValue(), srcBoxed);
         return RESULT;
     }
@@ -50,7 +50,7 @@ public final class GObject {
     /**
      * Free the boxed structure {@code boxed} which is of type {@code boxed_type}.
      */
-    public static void boxedFree(Type boxedType, java.lang.foreign.MemoryAddress boxed) {
+    public static void boxedFree(org.gtk.gobject.Type boxedType, java.lang.foreign.MemoryAddress boxed) {
         gtk_h.g_boxed_free(boxedType.getValue(), boxed);
     }
     
@@ -348,8 +348,8 @@ public final class GObject {
      * }
      * }</pre>
      */
-    public static void enumCompleteTypeInfo(Type gEnumType, TypeInfo info, EnumValue constValues) {
-        gtk_h.g_enum_complete_type_info(gEnumType.getValue(), info.handle(), constValues.handle());
+    public static void enumCompleteTypeInfo(org.gtk.gobject.Type gEnumType, TypeInfo info, EnumValue constValues) {
+        gtk_h.g_enum_complete_type_info(gEnumType.getValue(), info.getReference().unowned().handle(), constValues.handle());
     }
     
     /**
@@ -394,7 +394,7 @@ public final class GObject {
      * This is intended to be used for debugging purposes. The format of the output
      * may change in the future.
      */
-    public static java.lang.String enumToString(Type gEnumType, int value) {
+    public static java.lang.String enumToString(org.gtk.gobject.Type gEnumType, int value) {
         var RESULT = gtk_h.g_enum_to_string(gEnumType.getValue(), value);
         return RESULT.getUtf8String(0);
     }
@@ -404,8 +404,8 @@ public final class GObject {
      * function of a {@link TypePlugin} implementation, see the example for
      * g_enum_complete_type_info() above.
      */
-    public static void flagsCompleteTypeInfo(Type gFlagsType, TypeInfo info, FlagsValue constValues) {
-        gtk_h.g_flags_complete_type_info(gFlagsType.getValue(), info.handle(), constValues.handle());
+    public static void flagsCompleteTypeInfo(org.gtk.gobject.Type gFlagsType, TypeInfo info, FlagsValue constValues) {
+        gtk_h.g_flags_complete_type_info(gFlagsType.getValue(), info.getReference().unowned().handle(), constValues.handle());
     }
     
     /**
@@ -451,7 +451,7 @@ public final class GObject {
      * This is intended to be used for debugging purposes. The format of the output
      * may change in the future.
      */
-    public static java.lang.String flagsToString(Type flagsType, int value) {
+    public static java.lang.String flagsToString(org.gtk.gobject.Type flagsType, int value) {
         var RESULT = gtk_h.g_flags_to_string(flagsType.getValue(), value);
         return RESULT.getUtf8String(0);
     }
@@ -470,8 +470,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecBoolean(java.lang.String name, java.lang.String nick, java.lang.String blurb, boolean defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_boolean(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue ? 1 : 0, flags);
+    public static ParamSpec paramSpecBoolean(java.lang.String name, java.lang.String nick, java.lang.String blurb, boolean defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_boolean(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue ? 1 : 0, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -481,16 +481,16 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecBoxed(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type boxedType, int flags) {
-        var RESULT = gtk_h.g_param_spec_boxed(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), boxedType.getValue(), flags);
+    public static ParamSpec paramSpecBoxed(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type boxedType, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_boxed(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), boxedType.getValue(), flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
     /**
      * Creates a new {@link ParamSpecChar} instance specifying a {@code G_TYPE_CHAR} property.
      */
-    public static ParamSpec paramSpecChar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_char(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecChar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_char(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -500,8 +500,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecDouble(java.lang.String name, java.lang.String nick, java.lang.String blurb, double minimum, double maximum, double defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_double(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecDouble(java.lang.String name, java.lang.String nick, java.lang.String blurb, double minimum, double maximum, double defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_double(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -511,8 +511,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecEnum(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type enumType, int defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_enum(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), enumType.getValue(), defaultValue, flags);
+    public static ParamSpec paramSpecEnum(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type enumType, int defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_enum(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), enumType.getValue(), defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -522,8 +522,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecFlags(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type flagsType, int defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_flags(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flagsType.getValue(), defaultValue, flags);
+    public static ParamSpec paramSpecFlags(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type flagsType, int defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_flags(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flagsType.getValue(), defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -532,8 +532,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecFloat(java.lang.String name, java.lang.String nick, java.lang.String blurb, float minimum, float maximum, float defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_float(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecFloat(java.lang.String name, java.lang.String nick, java.lang.String blurb, float minimum, float maximum, float defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_float(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -543,8 +543,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecGtype(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type isAType, int flags) {
-        var RESULT = gtk_h.g_param_spec_gtype(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), isAType.getValue(), flags);
+    public static ParamSpec paramSpecGtype(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type isAType, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_gtype(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), isAType.getValue(), flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -553,8 +553,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecInt(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_int(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecInt(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_int(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -563,8 +563,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecInt64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_int64(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecInt64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_int64(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -573,8 +573,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecLong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_long(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecLong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_long(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -584,8 +584,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecObject(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type objectType, int flags) {
-        var RESULT = gtk_h.g_param_spec_object(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), objectType.getValue(), flags);
+    public static ParamSpec paramSpecObject(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type objectType, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_object(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), objectType.getValue(), flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -605,8 +605,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecParam(java.lang.String name, java.lang.String nick, java.lang.String blurb, Type paramType, int flags) {
-        var RESULT = gtk_h.g_param_spec_param(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), paramType.getValue(), flags);
+    public static ParamSpec paramSpecParam(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type paramType, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_param(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), paramType.getValue(), flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -617,8 +617,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecPointer(java.lang.String name, java.lang.String nick, java.lang.String blurb, int flags) {
-        var RESULT = gtk_h.g_param_spec_pointer(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags);
+    public static ParamSpec paramSpecPointer(java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_pointer(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -627,16 +627,16 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecString(java.lang.String name, java.lang.String nick, java.lang.String blurb, java.lang.String defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_string(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), Interop.allocateNativeString(defaultValue).handle(), flags);
+    public static ParamSpec paramSpecString(java.lang.String name, java.lang.String nick, java.lang.String blurb, java.lang.String defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_string(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), Interop.allocateNativeString(defaultValue).handle(), flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
     /**
      * Creates a new {@link ParamSpecUChar} instance specifying a {@code G_TYPE_UCHAR} property.
      */
-    public static ParamSpec paramSpecUchar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_uchar(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecUchar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_uchar(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -645,8 +645,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUint(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_uint(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecUint(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_uint(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -656,8 +656,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUint64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_uint64(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecUint64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_uint64(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -667,8 +667,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUlong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_ulong(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags);
+    public static ParamSpec paramSpecUlong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_ulong(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -679,8 +679,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUnichar(java.lang.String name, java.lang.String nick, java.lang.String blurb, int defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_unichar(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue, flags);
+    public static ParamSpec paramSpecUnichar(java.lang.String name, java.lang.String nick, java.lang.String blurb, int defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_unichar(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue, flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -692,8 +692,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecValueArray(java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamSpec elementSpec, int flags) {
-        var RESULT = gtk_h.g_param_spec_value_array(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), elementSpec.handle(), flags);
+    public static ParamSpec paramSpecValueArray(java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamSpec elementSpec, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_value_array(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), elementSpec.handle(), flags.getValue());
         return new ParamSpec(References.get(RESULT, false));
     }
     
@@ -705,8 +705,8 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecVariant(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.glib.VariantType type, org.gtk.glib.Variant defaultValue, int flags) {
-        var RESULT = gtk_h.g_param_spec_variant(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), type.handle(), defaultValue.handle(), flags);
+    public static ParamSpec paramSpecVariant(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.glib.VariantType type, org.gtk.glib.Variant defaultValue, ParamFlags flags) {
+        var RESULT = gtk_h.g_param_spec_variant(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), type.handle(), defaultValue.getReference().unowned().handle(), flags.getValue());
         return new ParamSpec(References.get(RESULT, true));
     }
     
@@ -869,7 +869,7 @@ public final class GObject {
      * used. Specify {@code connect_flags} if you need {@code ..._after()} or
      * {@code ..._swapped()} variants of this function.
      */
-    public static long signalConnectData(Object instance, java.lang.String detailedSignal, Callback cHandler, ClosureNotify destroyData, int connectFlags) {
+    public static long signalConnectData(Object instance, java.lang.String detailedSignal, Callback cHandler, ClosureNotify destroyData, ConnectFlags connectFlags) {
         try {
             var RESULT = gtk_h.g_signal_connect_data(instance.handle(), Interop.allocateNativeString(detailedSignal).handle(), 
                     Linker.nativeLinker().upcallStub(
@@ -882,7 +882,7 @@ public final class GObject {
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
-                        Interop.getScope()), connectFlags);
+                        Interop.getScope()), connectFlags.getValue());
             return RESULT;
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
@@ -908,7 +908,7 @@ public final class GObject {
      * connected, in contrast to g_signal_emit() and g_signal_emit_valist().
      */
     public static void signalEmitv(Value[] instanceAndParams, int signalId, org.gtk.glib.Quark detail, Value returnValue) {
-        gtk_h.g_signal_emitv(Interop.allocateNativeArray(instanceAndParams).handle(), signalId, detail.getValue(), returnValue.handle());
+        gtk_h.g_signal_emitv(Interop.allocateNativeArray(instanceAndParams).handle(), signalId, detail.getValue(), returnValue.getReference().unowned().handle());
     }
     
     /**
@@ -952,8 +952,8 @@ public final class GObject {
      * The match {@code mask} has to be non-0 for successful matches.
      * If no handler was found, 0 is returned.
      */
-    public static long signalHandlerFind(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_signal_handler_find(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
+    public static long signalHandlerFind(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_signal_handler_find(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
     
@@ -993,8 +993,8 @@ public final class GObject {
      * If no handlers were found, 0 is returned, the number of blocked handlers
      * otherwise.
      */
-    public static int signalHandlersBlockMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_signal_handlers_block_matched(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
+    public static int signalHandlersBlockMatched(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_signal_handlers_block_matched(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
     
@@ -1017,8 +1017,8 @@ public final class GObject {
      * matches.  If no handlers were found, 0 is returned, the number of
      * disconnected handlers otherwise.
      */
-    public static int signalHandlersDisconnectMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_signal_handlers_disconnect_matched(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
+    public static int signalHandlersDisconnectMatched(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_signal_handlers_disconnect_matched(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
     
@@ -1032,8 +1032,8 @@ public final class GObject {
      * otherwise. The match criteria should not apply to any handlers that are
      * not currently blocked.
      */
-    public static int signalHandlersUnblockMatched(Object instance, int mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
-        var RESULT = gtk_h.g_signal_handlers_unblock_matched(instance.handle(), mask, signalId, detail.getValue(), closure.handle(), func, data);
+    public static int signalHandlersUnblockMatched(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+        var RESULT = gtk_h.g_signal_handlers_unblock_matched(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         return RESULT;
     }
     
@@ -1086,7 +1086,7 @@ public final class GObject {
      * <p>
      * See g_signal_new() for details on allowed signal names.
      */
-    public static int signalLookup(java.lang.String name, Type itype) {
+    public static int signalLookup(java.lang.String name, org.gtk.gobject.Type itype) {
         var RESULT = gtk_h.g_signal_lookup(Interop.allocateNativeString(name).handle(), itype.getValue());
         return RESULT;
     }
@@ -1110,7 +1110,7 @@ public final class GObject {
      * g_signal_chain_from_overridden_handler() for how to chain up to the
      * parent class closure from inside the overridden one.
      */
-    public static void signalOverrideClassClosure(int signalId, Type instanceType, Closure classClosure) {
+    public static void signalOverrideClassClosure(int signalId, org.gtk.gobject.Type instanceType, Closure classClosure) {
         gtk_h.g_signal_override_class_closure(signalId, instanceType.getValue(), classClosure.handle());
     }
     
@@ -1118,9 +1118,9 @@ public final class GObject {
      * Internal function to parse a signal name into its {@code signal_id}
      * and {@code detail} quark.
      */
-    public static boolean signalParseName(java.lang.String detailedSignal, Type itype, PointerInteger signalIdP, org.gtk.glib.Quark detailP, boolean forceDetailQuark) {
+    public static boolean signalParseName(java.lang.String detailedSignal, org.gtk.gobject.Type itype, PointerInteger signalIdP, org.gtk.glib.Quark detailP, boolean forceDetailQuark) {
         PointerInteger detailPPOINTER = new PointerInteger(detailP.getValue());
-        var RESULT = gtk_h.g_signal_parse_name(Interop.allocateNativeString(detailedSignal).handle(), itype.getValue(), signalIdP.handle(), detailPPOINTER.handle(), forceDetailQuark ? 1 : 0);
+        var RESULT = gtk_h.g_signal_parse_name(Interop.allocateNativeString(detailedSignal).handle(), itype.getValue(), signalIdP.handle(), new PointerInteger(detailP.getValue()).handle(), forceDetailQuark ? 1 : 0);
         detailP.setValue(detailPPOINTER.get());
         return (RESULT != 0);
     }
@@ -1172,7 +1172,7 @@ public final class GObject {
      * {@code struct_offset} in the class structure of the interface or classed type
      * identified by {@code itype}.
      */
-    public static Closure signalTypeCclosureNew(Type itype, int structOffset) {
+    public static Closure signalTypeCclosureNew(org.gtk.gobject.Type itype, int structOffset) {
         var RESULT = gtk_h.g_signal_type_cclosure_new(itype.getValue(), structOffset);
         return new Closure(References.get(RESULT, false));
     }
@@ -1250,11 +1250,11 @@ public final class GObject {
      * The private structure can be retrieved using the
      * G_TYPE_CLASS_GET_PRIVATE() macro.
      */
-    public static void typeAddClassPrivate(Type classType, long privateSize) {
+    public static void typeAddClassPrivate(org.gtk.gobject.Type classType, long privateSize) {
         gtk_h.g_type_add_class_private(classType.getValue(), privateSize);
     }
     
-    public static int typeAddInstancePrivate(Type classType, long privateSize) {
+    public static int typeAddInstancePrivate(org.gtk.gobject.Type classType, long privateSize) {
         var RESULT = gtk_h.g_type_add_instance_private(classType.getValue(), privateSize);
         return RESULT;
     }
@@ -1289,7 +1289,7 @@ public final class GObject {
      * contained in the {@link TypePlugin} structure pointed to by {@code plugin}
      * is used to manage the relationship.
      */
-    public static void typeAddInterfaceDynamic(Type instanceType, Type interfaceType, TypePlugin plugin) {
+    public static void typeAddInterfaceDynamic(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, TypePlugin plugin) {
         gtk_h.g_type_add_interface_dynamic(instanceType.getValue(), interfaceType.getValue(), plugin.handle());
     }
     
@@ -1298,16 +1298,16 @@ public final class GObject {
      * The information contained in the {@link InterfaceInfo} structure
      * pointed to by {@code info} is used to manage the relationship.
      */
-    public static void typeAddInterfaceStatic(Type instanceType, Type interfaceType, InterfaceInfo info) {
+    public static void typeAddInterfaceStatic(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo info) {
         gtk_h.g_type_add_interface_static(instanceType.getValue(), interfaceType.getValue(), info.handle());
     }
     
-    public static TypeClass typeCheckClassCast(TypeClass gClass, Type isAType) {
+    public static TypeClass typeCheckClassCast(TypeClass gClass, org.gtk.gobject.Type isAType) {
         var RESULT = gtk_h.g_type_check_class_cast(gClass.handle(), isAType.getValue());
         return new TypeClass(References.get(RESULT, false));
     }
     
-    public static boolean typeCheckClassIsA(TypeClass gClass, Type isAType) {
+    public static boolean typeCheckClassIsA(TypeClass gClass, org.gtk.gobject.Type isAType) {
         var RESULT = gtk_h.g_type_check_class_is_a(gClass.handle(), isAType.getValue());
         return (RESULT != 0);
     }
@@ -1321,22 +1321,22 @@ public final class GObject {
         return (RESULT != 0);
     }
     
-    public static TypeInstance typeCheckInstanceCast(TypeInstance instance, Type ifaceType) {
+    public static TypeInstance typeCheckInstanceCast(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_check_instance_cast(instance.handle(), ifaceType.getValue());
         return new TypeInstance(References.get(RESULT, false));
     }
     
-    public static boolean typeCheckInstanceIsA(TypeInstance instance, Type ifaceType) {
+    public static boolean typeCheckInstanceIsA(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_check_instance_is_a(instance.handle(), ifaceType.getValue());
         return (RESULT != 0);
     }
     
-    public static boolean typeCheckInstanceIsFundamentallyA(TypeInstance instance, Type fundamentalType) {
+    public static boolean typeCheckInstanceIsFundamentallyA(TypeInstance instance, org.gtk.gobject.Type fundamentalType) {
         var RESULT = gtk_h.g_type_check_instance_is_fundamentally_a(instance.handle(), fundamentalType.getValue());
         return (RESULT != 0);
     }
     
-    public static boolean typeCheckIsValueType(Type type) {
+    public static boolean typeCheckIsValueType(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_check_is_value_type(type.getValue());
         return (RESULT != 0);
     }
@@ -1346,7 +1346,7 @@ public final class GObject {
         return (RESULT != 0);
     }
     
-    public static boolean typeCheckValueHolds(Value value, Type type) {
+    public static boolean typeCheckValueHolds(Value value, org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_check_value_holds(value.handle(), type.getValue());
         return (RESULT != 0);
     }
@@ -1362,7 +1362,7 @@ public final class GObject {
      * of the type passed in does not currently exist (hasn't been
      * referenced before).
      */
-    public static TypeClass typeClassPeek(Type type) {
+    public static TypeClass typeClassPeek(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek(type.getValue());
         return new TypeClass(References.get(RESULT, false));
     }
@@ -1371,7 +1371,7 @@ public final class GObject {
      * A more efficient version of g_type_class_peek() which works only for
      * static types.
      */
-    public static TypeClass typeClassPeekStatic(Type type) {
+    public static TypeClass typeClassPeekStatic(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_peek_static(type.getValue());
         return new TypeClass(References.get(RESULT, false));
     }
@@ -1381,7 +1381,7 @@ public final class GObject {
      * {@code type}. This function will demand-create the class if it doesn't
      * exist already.
      */
-    public static TypeClass typeClassRef(Type type) {
+    public static TypeClass typeClassRef(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_class_ref(type.getValue());
         return new TypeClass(References.get(RESULT, false));
     }
@@ -1404,7 +1404,7 @@ public final class GObject {
      * fundamental type. Also language bindings should not use this
      * function, but g_object_new() instead.
      */
-    public static TypeInstance typeCreateInstance(Type type) {
+    public static TypeInstance typeCreateInstance(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_create_instance(type.getValue());
         return new TypeInstance(References.get(RESULT, false));
     }
@@ -1413,7 +1413,7 @@ public final class GObject {
      * If the interface type {@code g_type} is currently in use, returns its
      * default interface vtable.
      */
-    public static TypeInterface typeDefaultInterfacePeek(Type gType) {
+    public static TypeInterface typeDefaultInterfacePeek(org.gtk.gobject.Type gType) {
         var RESULT = gtk_h.g_type_default_interface_peek(gType.getValue());
         return new TypeInterface(References.get(RESULT, false));
     }
@@ -1430,7 +1430,7 @@ public final class GObject {
      * want to make sure that signals and properties for an interface
      * have been installed.
      */
-    public static TypeInterface typeDefaultInterfaceRef(Type gType) {
+    public static TypeInterface typeDefaultInterfaceRef(org.gtk.gobject.Type gType) {
         var RESULT = gtk_h.g_type_default_interface_ref(gType.getValue());
         return new TypeInterface(References.get(RESULT, false));
     }
@@ -1450,7 +1450,7 @@ public final class GObject {
      * Returns the length of the ancestry of the passed in type. This
      * includes the type itself, so that e.g. a fundamental type has depth 1.
      */
-    public static int typeDepth(Type type) {
+    public static int typeDepth(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_depth(type.getValue());
         return RESULT;
     }
@@ -1469,7 +1469,7 @@ public final class GObject {
      * out by the compiler. Using g_type_ensure() guarantees that the
      * type's _get_type() method is called.
      */
-    public static void typeEnsure(Type type) {
+    public static void typeEnsure(org.gtk.gobject.Type type) {
         gtk_h.g_type_ensure(type.getValue());
     }
     
@@ -1499,7 +1499,7 @@ public final class GObject {
      * Internal function, used to extract the fundamental type ID portion.
      * Use G_TYPE_FUNDAMENTAL() instead.
      */
-    public static org.gtk.gobject.Type typeFundamental(Type typeId) {
+    public static org.gtk.gobject.Type typeFundamental(org.gtk.gobject.Type typeId) {
         var RESULT = gtk_h.g_type_fundamental(typeId.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
@@ -1521,7 +1521,7 @@ public final class GObject {
      * the instance_count debug flag is set (by setting the GOBJECT_DEBUG
      * variable to include instance-count).
      */
-    public static int typeGetInstanceCount(Type type) {
+    public static int typeGetInstanceCount(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_get_instance_count(type.getValue());
         return RESULT;
     }
@@ -1529,7 +1529,7 @@ public final class GObject {
     /**
      * Returns the {@link TypePlugin} structure for {@code type}.
      */
-    public static TypePlugin typeGetPlugin(Type type) {
+    public static TypePlugin typeGetPlugin(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_get_plugin(type.getValue());
         return new TypePlugin.TypePluginImpl(References.get(RESULT, false));
     }
@@ -1542,7 +1542,7 @@ public final class GObject {
      * attached to one type with g_type_set_qdata() cannot
      * be retrieved from a subtype using g_type_get_qdata().
      */
-    public static java.lang.foreign.MemoryAddress typeGetQdata(Type type, org.gtk.glib.Quark quark) {
+    public static java.lang.foreign.MemoryAddress typeGetQdata(org.gtk.gobject.Type type, org.gtk.glib.Quark quark) {
         var RESULT = gtk_h.g_type_get_qdata(type.getValue(), quark.getValue());
         return RESULT;
     }
@@ -1566,7 +1566,7 @@ public final class GObject {
      * interface derivation (which GType doesn't support). An interface can have
      * at most one instantiatable prerequisite type.
      */
-    public static void typeInterfaceAddPrerequisite(Type interfaceType, Type prerequisiteType) {
+    public static void typeInterfaceAddPrerequisite(org.gtk.gobject.Type interfaceType, org.gtk.gobject.Type prerequisiteType) {
         gtk_h.g_type_interface_add_prerequisite(interfaceType.getValue(), prerequisiteType.getValue());
     }
     
@@ -1576,7 +1576,7 @@ public final class GObject {
      * if {@code interface_type} has not been added to {@code instance_type} or does
      * not have a {@link TypePlugin} structure. See g_type_add_interface_dynamic().
      */
-    public static TypePlugin typeInterfaceGetPlugin(Type instanceType, Type interfaceType) {
+    public static TypePlugin typeInterfaceGetPlugin(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_get_plugin(instanceType.getValue(), interfaceType.getValue());
         return new TypePlugin.TypePluginImpl(References.get(RESULT, false));
     }
@@ -1589,7 +1589,7 @@ public final class GObject {
      * See g_type_interface_add_prerequisite() for more information
      * about prerequisites.
      */
-    public static org.gtk.gobject.Type typeInterfaceInstantiatablePrerequisite(Type interfaceType) {
+    public static org.gtk.gobject.Type typeInterfaceInstantiatablePrerequisite(org.gtk.gobject.Type interfaceType) {
         var RESULT = gtk_h.g_type_interface_instantiatable_prerequisite(interfaceType.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
@@ -1598,7 +1598,7 @@ public final class GObject {
      * Returns the {@link TypeInterface} structure of an interface to which the
      * passed in class conforms.
      */
-    public static TypeInterface typeInterfacePeek(TypeClass instanceClass, Type ifaceType) {
+    public static TypeInterface typeInterfacePeek(TypeClass instanceClass, org.gtk.gobject.Type ifaceType) {
         var RESULT = gtk_h.g_type_interface_peek(instanceClass.handle(), ifaceType.getValue());
         return new TypeInterface(References.get(RESULT, false));
     }
@@ -1608,7 +1608,7 @@ public final class GObject {
      * descendant of {@code is_a_type}. If {@code is_a_type} is an interface, check
      * whether {@code type} conforms to it.
      */
-    public static boolean typeIsA(Type type, Type isAType) {
+    public static boolean typeIsA(org.gtk.gobject.Type type, org.gtk.gobject.Type isAType) {
         var RESULT = gtk_h.g_type_is_a(type.getValue(), isAType.getValue());
         return (RESULT != 0);
     }
@@ -1620,7 +1620,7 @@ public final class GObject {
      * other validly registered type ID, but randomized type IDs should
      * not be passed in and will most likely lead to a crash.
      */
-    public static java.lang.String typeName(Type type) {
+    public static java.lang.String typeName(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_name(type.getValue());
         return RESULT.getUtf8String(0);
     }
@@ -1644,7 +1644,7 @@ public final class GObject {
      * be used to determine the types and order in which the leaf type is
      * descended from the root type.
      */
-    public static org.gtk.gobject.Type typeNextBase(Type leafType, Type rootType) {
+    public static org.gtk.gobject.Type typeNextBase(org.gtk.gobject.Type leafType, org.gtk.gobject.Type rootType) {
         var RESULT = gtk_h.g_type_next_base(leafType.getValue(), rootType.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
@@ -1653,7 +1653,7 @@ public final class GObject {
      * Return the direct parent type of the passed in type. If the passed
      * in type has no parent, i.e. is a fundamental type, 0 is returned.
      */
-    public static org.gtk.gobject.Type typeParent(Type type) {
+    public static org.gtk.gobject.Type typeParent(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_parent(type.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
@@ -1661,7 +1661,7 @@ public final class GObject {
     /**
      * Get the corresponding quark of the type IDs name.
      */
-    public static org.gtk.glib.Quark typeQname(Type type) {
+    public static org.gtk.glib.Quark typeQname(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_qname(type.getValue());
         return new org.gtk.glib.Quark(RESULT);
     }
@@ -1674,7 +1674,7 @@ public final class GObject {
      * {@link TypeQuery} structure should be considered constant and have to be
      * left untouched.
      */
-    public static void typeQuery(Type type, TypeQuery query) {
+    public static void typeQuery(org.gtk.gobject.Type type, TypeQuery query) {
         gtk_h.g_type_query(type.getValue(), query.handle());
     }
     
@@ -1685,8 +1685,8 @@ public final class GObject {
      * instances (if not abstract).  The value of {@code flags} determines the nature
      * (e.g. abstract or not) of the type.
      */
-    public static org.gtk.gobject.Type typeRegisterDynamic(Type parentType, java.lang.String typeName, TypePlugin plugin, int flags) {
-        var RESULT = gtk_h.g_type_register_dynamic(parentType.getValue(), Interop.allocateNativeString(typeName).handle(), plugin.handle(), flags);
+    public static org.gtk.gobject.Type typeRegisterDynamic(org.gtk.gobject.Type parentType, java.lang.String typeName, TypePlugin plugin, TypeFlags flags) {
+        var RESULT = gtk_h.g_type_register_dynamic(parentType.getValue(), Interop.allocateNativeString(typeName).handle(), plugin.handle(), flags.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -1699,8 +1699,8 @@ public final class GObject {
      * {@code finfo} to manage the type and its instances. The value of {@code flags} determines
      * additional characteristics of the fundamental type.
      */
-    public static org.gtk.gobject.Type typeRegisterFundamental(Type typeId, java.lang.String typeName, TypeInfo info, TypeFundamentalInfo finfo, int flags) {
-        var RESULT = gtk_h.g_type_register_fundamental(typeId.getValue(), Interop.allocateNativeString(typeName).handle(), info.handle(), finfo.handle(), flags);
+    public static org.gtk.gobject.Type typeRegisterFundamental(org.gtk.gobject.Type typeId, java.lang.String typeName, TypeInfo info, TypeFundamentalInfo finfo, TypeFlags flags) {
+        var RESULT = gtk_h.g_type_register_fundamental(typeId.getValue(), Interop.allocateNativeString(typeName).handle(), info.handle(), finfo.handle(), flags.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -1711,8 +1711,8 @@ public final class GObject {
      * instances (if not abstract). The value of {@code flags} determines the nature
      * (e.g. abstract or not) of the type.
      */
-    public static org.gtk.gobject.Type typeRegisterStatic(Type parentType, java.lang.String typeName, TypeInfo info, int flags) {
-        var RESULT = gtk_h.g_type_register_static(parentType.getValue(), Interop.allocateNativeString(typeName).handle(), info.handle(), flags);
+    public static org.gtk.gobject.Type typeRegisterStatic(org.gtk.gobject.Type parentType, java.lang.String typeName, TypeInfo info, TypeFlags flags) {
+        var RESULT = gtk_h.g_type_register_static(parentType.getValue(), Interop.allocateNativeString(typeName).handle(), info.handle(), flags.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
     
@@ -1756,11 +1756,11 @@ public final class GObject {
     /**
      * Attaches arbitrary data to a type.
      */
-    public static void typeSetQdata(Type type, org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
+    public static void typeSetQdata(org.gtk.gobject.Type type, org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
         gtk_h.g_type_set_qdata(type.getValue(), quark.getValue(), data);
     }
     
-    public static boolean typeTestFlags(Type type, int flags) {
+    public static boolean typeTestFlags(org.gtk.gobject.Type type, int flags) {
         var RESULT = gtk_h.g_type_test_flags(type.getValue(), flags);
         return (RESULT != 0);
     }
@@ -1772,7 +1772,7 @@ public final class GObject {
      * that implements or has internal knowledge of the implementation of
      * {@code type}.
      */
-    public static TypeValueTable typeValueTablePeek(Type type) {
+    public static TypeValueTable typeValueTablePeek(org.gtk.gobject.Type type) {
         var RESULT = gtk_h.g_type_value_table_peek(type.getValue());
         return new TypeValueTable(References.get(RESULT, false));
     }
@@ -1781,7 +1781,7 @@ public final class GObject {
      * Returns whether a {@link Value} of type {@code src_type} can be copied into
      * a {@link Value} of type {@code dest_type}.
      */
-    public static boolean valueTypeCompatible(Type srcType, Type destType) {
+    public static boolean valueTypeCompatible(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_compatible(srcType.getValue(), destType.getValue());
         return (RESULT != 0);
     }
@@ -1792,7 +1792,7 @@ public final class GObject {
      * the types to be transformable, they must be compatible or a
      * transformation function must be registered.
      */
-    public static boolean valueTypeTransformable(Type srcType, Type destType) {
+    public static boolean valueTypeTransformable(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_transformable(srcType.getValue(), destType.getValue());
         return (RESULT != 0);
     }

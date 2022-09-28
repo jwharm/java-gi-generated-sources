@@ -1,172 +1,105 @@
 package org.cairographics;
 
-public enum Status {
+public class Status {
 
-    SUCCESS,
+    public static final Status SUCCESS = new Status(0);
     
-    NO_MEMORY,
+    public static final Status NO_MEMORY = new Status(1);
     
-    INVALID_RESTORE,
+    public static final Status INVALID_RESTORE = new Status(2);
     
-    INVALID_POP_GROUP,
+    public static final Status INVALID_POP_GROUP = new Status(3);
     
-    NO_CURRENT_POINT,
+    public static final Status NO_CURRENT_POINT = new Status(4);
     
-    INVALID_MATRIX,
+    public static final Status INVALID_MATRIX = new Status(5);
     
-    INVALID_STATUS,
+    public static final Status INVALID_STATUS = new Status(6);
     
-    NULL_POINTER,
+    public static final Status NULL_POINTER = new Status(7);
     
-    INVALID_STRING,
+    public static final Status INVALID_STRING = new Status(8);
     
-    INVALID_PATH_DATA,
+    public static final Status INVALID_PATH_DATA = new Status(9);
     
-    READ_ERROR,
+    public static final Status READ_ERROR = new Status(10);
     
-    WRITE_ERROR,
+    public static final Status WRITE_ERROR = new Status(11);
     
-    SURFACE_FINISHED,
+    public static final Status SURFACE_FINISHED = new Status(12);
     
-    SURFACE_TYPE_MISMATCH,
+    public static final Status SURFACE_TYPE_MISMATCH = new Status(13);
     
-    PATTERN_TYPE_MISMATCH,
+    public static final Status PATTERN_TYPE_MISMATCH = new Status(14);
     
-    INVALID_CONTENT,
+    public static final Status INVALID_CONTENT = new Status(15);
     
-    INVALID_FORMAT,
+    public static final Status INVALID_FORMAT = new Status(16);
     
-    INVALID_VISUAL,
+    public static final Status INVALID_VISUAL = new Status(17);
     
-    FILE_NOT_FOUND,
+    public static final Status FILE_NOT_FOUND = new Status(18);
     
-    INVALID_DASH,
+    public static final Status INVALID_DASH = new Status(19);
     
-    INVALID_DSC_COMMENT,
+    public static final Status INVALID_DSC_COMMENT = new Status(20);
     
-    INVALID_INDEX,
+    public static final Status INVALID_INDEX = new Status(21);
     
-    CLIP_NOT_REPRESENTABLE,
+    public static final Status CLIP_NOT_REPRESENTABLE = new Status(22);
     
-    TEMP_FILE_ERROR,
+    public static final Status TEMP_FILE_ERROR = new Status(23);
     
-    INVALID_STRIDE,
+    public static final Status INVALID_STRIDE = new Status(24);
     
-    FONT_TYPE_MISMATCH,
+    public static final Status FONT_TYPE_MISMATCH = new Status(25);
     
-    USER_FONT_IMMUTABLE,
+    public static final Status USER_FONT_IMMUTABLE = new Status(26);
     
-    USER_FONT_ERROR,
+    public static final Status USER_FONT_ERROR = new Status(27);
     
-    NEGATIVE_COUNT,
+    public static final Status NEGATIVE_COUNT = new Status(28);
     
-    INVALID_CLUSTERS,
+    public static final Status INVALID_CLUSTERS = new Status(29);
     
-    INVALID_SLANT,
+    public static final Status INVALID_SLANT = new Status(30);
     
-    INVALID_WEIGHT,
+    public static final Status INVALID_WEIGHT = new Status(31);
     
-    INVALID_SIZE,
+    public static final Status INVALID_SIZE = new Status(32);
     
-    USER_FONT_NOT_IMPLEMENTED,
+    public static final Status USER_FONT_NOT_IMPLEMENTED = new Status(33);
     
-    DEVICE_TYPE_MISMATCH,
+    public static final Status DEVICE_TYPE_MISMATCH = new Status(34);
     
-    DEVICE_ERROR,
+    public static final Status DEVICE_ERROR = new Status(35);
     
-    INVALID_MESH_CONSTRUCTION,
+    public static final Status INVALID_MESH_CONSTRUCTION = new Status(36);
     
-    DEVICE_FINISHED,
+    public static final Status DEVICE_FINISHED = new Status(37);
     
-    JBIG2_GLOBAL_MISSING;
+    public static final Status JBIG2_GLOBAL_MISSING = new Status(38);
     
-    public static Status fromValue(int value) {
-        return switch(value) {
-            case 0 -> SUCCESS;
-            case 1 -> NO_MEMORY;
-            case 2 -> INVALID_RESTORE;
-            case 3 -> INVALID_POP_GROUP;
-            case 4 -> NO_CURRENT_POINT;
-            case 5 -> INVALID_MATRIX;
-            case 6 -> INVALID_STATUS;
-            case 7 -> NULL_POINTER;
-            case 8 -> INVALID_STRING;
-            case 9 -> INVALID_PATH_DATA;
-            case 10 -> READ_ERROR;
-            case 11 -> WRITE_ERROR;
-            case 12 -> SURFACE_FINISHED;
-            case 13 -> SURFACE_TYPE_MISMATCH;
-            case 14 -> PATTERN_TYPE_MISMATCH;
-            case 15 -> INVALID_CONTENT;
-            case 16 -> INVALID_FORMAT;
-            case 17 -> INVALID_VISUAL;
-            case 18 -> FILE_NOT_FOUND;
-            case 19 -> INVALID_DASH;
-            case 20 -> INVALID_DSC_COMMENT;
-            case 21 -> INVALID_INDEX;
-            case 22 -> CLIP_NOT_REPRESENTABLE;
-            case 23 -> TEMP_FILE_ERROR;
-            case 24 -> INVALID_STRIDE;
-            case 25 -> FONT_TYPE_MISMATCH;
-            case 26 -> USER_FONT_IMMUTABLE;
-            case 27 -> USER_FONT_ERROR;
-            case 28 -> NEGATIVE_COUNT;
-            case 29 -> INVALID_CLUSTERS;
-            case 30 -> INVALID_SLANT;
-            case 31 -> INVALID_WEIGHT;
-            case 32 -> INVALID_SIZE;
-            case 33 -> USER_FONT_NOT_IMPLEMENTED;
-            case 34 -> DEVICE_TYPE_MISMATCH;
-            case 35 -> DEVICE_ERROR;
-            case 36 -> INVALID_MESH_CONSTRUCTION;
-            case 37 -> DEVICE_FINISHED;
-            case 38 -> JBIG2_GLOBAL_MISSING;
-            default -> null;
-        };
+    private int value;
+    
+    public Status(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case SUCCESS -> 0;
-            case NO_MEMORY -> 1;
-            case INVALID_RESTORE -> 2;
-            case INVALID_POP_GROUP -> 3;
-            case NO_CURRENT_POINT -> 4;
-            case INVALID_MATRIX -> 5;
-            case INVALID_STATUS -> 6;
-            case NULL_POINTER -> 7;
-            case INVALID_STRING -> 8;
-            case INVALID_PATH_DATA -> 9;
-            case READ_ERROR -> 10;
-            case WRITE_ERROR -> 11;
-            case SURFACE_FINISHED -> 12;
-            case SURFACE_TYPE_MISMATCH -> 13;
-            case PATTERN_TYPE_MISMATCH -> 14;
-            case INVALID_CONTENT -> 15;
-            case INVALID_FORMAT -> 16;
-            case INVALID_VISUAL -> 17;
-            case FILE_NOT_FOUND -> 18;
-            case INVALID_DASH -> 19;
-            case INVALID_DSC_COMMENT -> 20;
-            case INVALID_INDEX -> 21;
-            case CLIP_NOT_REPRESENTABLE -> 22;
-            case TEMP_FILE_ERROR -> 23;
-            case INVALID_STRIDE -> 24;
-            case FONT_TYPE_MISMATCH -> 25;
-            case USER_FONT_IMMUTABLE -> 26;
-            case USER_FONT_ERROR -> 27;
-            case NEGATIVE_COUNT -> 28;
-            case INVALID_CLUSTERS -> 29;
-            case INVALID_SLANT -> 30;
-            case INVALID_WEIGHT -> 31;
-            case INVALID_SIZE -> 32;
-            case USER_FONT_NOT_IMPLEMENTED -> 33;
-            case DEVICE_TYPE_MISMATCH -> 34;
-            case DEVICE_ERROR -> 35;
-            case INVALID_MESH_CONSTRUCTION -> 36;
-            case DEVICE_FINISHED -> 37;
-            case JBIG2_GLOBAL_MISSING -> 38;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Status[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

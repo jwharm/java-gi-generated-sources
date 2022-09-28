@@ -80,9 +80,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
         super(reference);
     }
     
-    private static Reference constructNew(java.lang.String pattern, int compileOptions, int matchOptions) throws GErrorException {
+    private static Reference constructNew(java.lang.String pattern, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_regex_new(Interop.allocateNativeString(pattern).handle(), compileOptions, matchOptions, GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_regex_new(Interop.allocateNativeString(pattern).handle(), compileOptions.getValue(), matchOptions.getValue(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -93,7 +93,7 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * Compiles the regular expression to an internal form, and does
      * the initial setup of the {@link Regex} structure.
      */
-    public Regex(java.lang.String pattern, int compileOptions, int matchOptions) throws GErrorException {
+    public Regex(java.lang.String pattern, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) throws GErrorException {
         super(constructNew(pattern, compileOptions, matchOptions));
     }
     
@@ -112,9 +112,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * include flags set by option expressions such as {@code (?i)} found at the
      * top-level within the compiled pattern.
      */
-    public int getCompileFlags() {
+    public RegexCompileFlags getCompileFlags() {
         var RESULT = gtk_h.g_regex_get_compile_flags(handle());
-        return RESULT;
+        return new RegexCompileFlags(RESULT);
     }
     
     /**
@@ -128,9 +128,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the match options that {@code regex} was created with.
      */
-    public int getMatchFlags() {
+    public RegexMatchFlags getMatchFlags() {
         var RESULT = gtk_h.g_regex_get_match_flags(handle());
-        return RESULT;
+        return new RegexMatchFlags(RESULT);
     }
     
     /**
@@ -212,8 +212,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * you use any {@link MatchInfo} method (except g_match_info_free()) after
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
-    public boolean match(java.lang.String string, int matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = gtk_h.g_regex_match(handle(), Interop.allocateNativeString(string).handle(), matchOptions, Interop.allocateNativeArray(matchInfo).handle());
+    public boolean match(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
+        var RESULT = gtk_h.g_regex_match(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
         return (RESULT != 0);
     }
     
@@ -233,8 +233,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * you use any {@link MatchInfo} method (except g_match_info_free()) after
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
-    public boolean matchAll(java.lang.String string, int matchOptions, MatchInfo[] matchInfo) {
-        var RESULT = gtk_h.g_regex_match_all(handle(), Interop.allocateNativeString(string).handle(), matchOptions, Interop.allocateNativeArray(matchInfo).handle());
+    public boolean matchAll(java.lang.String string, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) {
+        var RESULT = gtk_h.g_regex_match_all(handle(), Interop.allocateNativeString(string).handle(), matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle());
         return (RESULT != 0);
     }
     
@@ -278,9 +278,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * you use any {@link MatchInfo} method (except g_match_info_free()) after
      * freeing or modifying {@code string} then the behaviour is undefined.
      */
-    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_match_all_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo).handle(), GERROR);
+        var RESULT = gtk_h.g_regex_match_all_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -340,9 +340,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * }
      * }</pre>
      */
-    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
+    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, MatchInfo[] matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_match_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, Interop.allocateNativeArray(matchInfo).handle(), GERROR);
+        var RESULT = gtk_h.g_regex_match_full(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), Interop.allocateNativeArray(matchInfo).handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -387,9 +387,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * string and setting {@link RegexMatchFlags#NOTBOL} in the case of a pattern that
      * begins with any kind of lookbehind assertion, such as "\\b".
      */
-    public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_replace(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
+        var RESULT = gtk_h.g_regex_replace(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -443,10 +443,10 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * ...
      * }</pre>
      */
-    public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, int matchOptions, RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, RegexMatchFlags matchOptions, RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            var RESULT = gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions, 
+            var RESULT = gtk_h.g_regex_replace_eval(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, matchOptions.getValue(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbRegexEvalCallback",
                             MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -472,9 +472,9 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * case of a pattern that begins with any kind of lookbehind
      * assertion, such as "\\b".
      */
-    public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, int matchOptions) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_regex_replace_literal(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions, GERROR);
+        var RESULT = gtk_h.g_regex_replace_literal(handle(), Interop.allocateNativeArray(string).handle(), stringLen, startPosition, Interop.allocateNativeString(replacement).handle(), matchOptions.getValue(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -552,8 +552,8 @@ public class Regex extends io.github.jwharm.javagi.ResourceBase {
      * once, it's more efficient to compile the pattern once with
      * g_regex_new() and then use g_regex_match().
      */
-    public static boolean matchSimple(java.lang.String pattern, java.lang.String string, int compileOptions, int matchOptions) {
-        var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions, matchOptions);
+    public static boolean matchSimple(java.lang.String pattern, java.lang.String string, RegexCompileFlags compileOptions, RegexMatchFlags matchOptions) {
+        var RESULT = gtk_h.g_regex_match_simple(Interop.allocateNativeString(pattern).handle(), Interop.allocateNativeString(string).handle(), compileOptions.getValue(), matchOptions.getValue());
         return (RESULT != 0);
     }
     

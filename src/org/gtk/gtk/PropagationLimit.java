@@ -4,34 +4,41 @@ package org.gtk.gtk;
  * Describes limits of a {@link EventController} for handling events
  * targeting other widgets.
  */
-public enum PropagationLimit {
+public class PropagationLimit {
 
     /**
      * Events are handled regardless of what their
      *   target is.
      */
-    NONE,
+    public static final PropagationLimit NONE = new PropagationLimit(0);
     
     /**
      * Events are only handled if their target
      *   is in the same {@code Native} as the event controllers widget. Note
      *   that some event types have two targets (origin and destination).
      */
-    SAME_NATIVE;
+    public static final PropagationLimit SAME_NATIVE = new PropagationLimit(1);
     
-    public static PropagationLimit fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> SAME_NATIVE;
-            default -> null;
-        };
+    private int value;
+    
+    public PropagationLimit(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case SAME_NATIVE -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PropagationLimit[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

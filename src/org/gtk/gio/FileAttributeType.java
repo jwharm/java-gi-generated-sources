@@ -3,87 +3,78 @@ package org.gtk.gio;
 /**
  * The data types for file attributes.
  */
-public enum FileAttributeType {
+public class FileAttributeType {
 
     /**
      * indicates an invalid or uninitialized type.
      */
-    INVALID,
+    public static final FileAttributeType INVALID = new FileAttributeType(0);
     
     /**
      * a null terminated UTF8 string.
      */
-    STRING,
+    public static final FileAttributeType STRING = new FileAttributeType(1);
     
     /**
      * a zero terminated string of non-zero bytes.
      */
-    BYTE_STRING,
+    public static final FileAttributeType BYTE_STRING = new FileAttributeType(2);
     
     /**
      * a boolean value.
      */
-    BOOLEAN,
+    public static final FileAttributeType BOOLEAN = new FileAttributeType(3);
     
     /**
      * an unsigned 4-byte/32-bit integer.
      */
-    UINT32,
+    public static final FileAttributeType UINT32 = new FileAttributeType(4);
     
     /**
      * a signed 4-byte/32-bit integer.
      */
-    INT32,
+    public static final FileAttributeType INT32 = new FileAttributeType(5);
     
     /**
      * an unsigned 8-byte/64-bit integer.
      */
-    UINT64,
+    public static final FileAttributeType UINT64 = new FileAttributeType(6);
     
     /**
      * a signed 8-byte/64-bit integer.
      */
-    INT64,
+    public static final FileAttributeType INT64 = new FileAttributeType(7);
     
     /**
      * a {@link org.gtk.gobject.Object}.
      */
-    OBJECT,
+    public static final FileAttributeType OBJECT = new FileAttributeType(8);
     
     /**
      * a {@code null} terminated char **. Since 2.22
      */
-    STRINGV;
+    public static final FileAttributeType STRINGV = new FileAttributeType(9);
     
-    public static FileAttributeType fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> STRING;
-            case 2 -> BYTE_STRING;
-            case 3 -> BOOLEAN;
-            case 4 -> UINT32;
-            case 5 -> INT32;
-            case 6 -> UINT64;
-            case 7 -> INT64;
-            case 8 -> OBJECT;
-            case 9 -> STRINGV;
-            default -> null;
-        };
+    private int value;
+    
+    public FileAttributeType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case STRING -> 1;
-            case BYTE_STRING -> 2;
-            case BOOLEAN -> 3;
-            case UINT32 -> 4;
-            case INT32 -> 5;
-            case UINT64 -> 6;
-            case INT64 -> 7;
-            case OBJECT -> 8;
-            case STRINGV -> 9;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileAttributeType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

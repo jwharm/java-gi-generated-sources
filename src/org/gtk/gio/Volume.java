@@ -73,9 +73,9 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
      * finished by calling g_volume_eject_with_operation_finish() with the {@code volume}
      * and {@link AsyncResult} data returned in the {@code callback}.
      */
-    public default void ejectWithOperation(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void ejectWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_volume_eject_with_operation(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_volume_eject_with_operation(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -207,9 +207,9 @@ public interface Volume extends io.github.jwharm.javagi.NativeAddress {
      * finished by calling g_volume_mount_finish() with the {@code volume}
      * and {@link AsyncResult} returned in the {@code callback}.
      */
-    public default void mount(int flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    public default void mount(MountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_volume_mount(handle(), flags, mountOperation.handle(), cancellable.handle(), 
+            gtk_h.g_volume_mount(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),

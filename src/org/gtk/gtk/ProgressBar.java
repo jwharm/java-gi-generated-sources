@@ -85,7 +85,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      */
     public org.pango.EllipsizeMode getEllipsize() {
         var RESULT = gtk_h.gtk_progress_bar_get_ellipsize(handle());
-        return org.pango.EllipsizeMode.fromValue(RESULT);
+        return new org.pango.EllipsizeMode(RESULT);
     }
     
     /**

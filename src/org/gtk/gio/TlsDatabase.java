@@ -275,13 +275,13 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * This function can block. Use g_tls_database_verify_chain_async() to
      * perform the verification operation asynchronously.
      */
-    public int verifyChain(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, int flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public TlsCertificateFlags verifyChain(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, TlsDatabaseVerifyFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        var RESULT = gtk_h.g_tls_database_verify_chain(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags, cancellable.handle(), GERROR);
+        var RESULT = gtk_h.g_tls_database_verify_chain(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT;
+        return new TlsCertificateFlags(RESULT);
     }
     
     /**
@@ -289,9 +289,9 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * looking up and adding any missing certificates to the chain. See
      * g_tls_database_verify_chain() for more information.
      */
-    public void verifyChainAsync(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, int flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    public void verifyChainAsync(TlsCertificate chain, java.lang.String purpose, SocketConnectable identity, TlsInteraction interaction, TlsDatabaseVerifyFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
         try {
-            gtk_h.g_tls_database_verify_chain_async(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags, cancellable.handle(), 
+            gtk_h.g_tls_database_verify_chain_async(handle(), chain.handle(), Interop.allocateNativeString(purpose).handle(), identity.handle(), interaction.handle(), flags.getValue(), cancellable.handle(), 
                     Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -316,13 +316,13 @@ public class TlsDatabase extends org.gtk.gobject.Object {
      * accordingly. {@code error} is not set when {@code chain} is successfully analyzed
      * but found to be invalid.
      */
-    public int verifyChainFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public TlsCertificateFlags verifyChainFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         var RESULT = gtk_h.g_tls_database_verify_chain_finish(handle(), result.handle(), GERROR);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT;
+        return new TlsCertificateFlags(RESULT);
     }
     
 }

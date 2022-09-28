@@ -59,7 +59,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      */
     public TokenType curToken() {
         var RESULT = gtk_h.g_scanner_cur_token(handle());
-        return TokenType.fromValue(RESULT);
+        return new TokenType(RESULT);
     }
     
     /**
@@ -86,7 +86,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      */
     public TokenType getNextToken() {
         var RESULT = gtk_h.g_scanner_get_next_token(handle());
-        return TokenType.fromValue(RESULT);
+        return new TokenType(RESULT);
     }
     
     /**
@@ -128,7 +128,7 @@ public class Scanner extends io.github.jwharm.javagi.ResourceBase {
      */
     public TokenType peekNextToken() {
         var RESULT = gtk_h.g_scanner_peek_next_token(handle());
-        return TokenType.fromValue(RESULT);
+        return new TokenType(RESULT);
     }
     
     /**

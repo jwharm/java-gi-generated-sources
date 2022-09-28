@@ -12,68 +12,65 @@ package org.gtk.gio;
  * which is why all Windows symlinks will continue to be reported as
  * {@link FileType#REGULAR} or {@link FileType#DIRECTORY}.
  */
-public enum FileType {
+public class FileType {
 
     /**
      * File's type is unknown.
      */
-    UNKNOWN,
+    public static final FileType UNKNOWN = new FileType(0);
     
     /**
      * File handle represents a regular file.
      */
-    REGULAR,
+    public static final FileType REGULAR = new FileType(1);
     
     /**
      * File handle represents a directory.
      */
-    DIRECTORY,
+    public static final FileType DIRECTORY = new FileType(2);
     
     /**
      * File handle represents a symbolic link
      *    (Unix systems).
      */
-    SYMBOLIC_LINK,
+    public static final FileType SYMBOLIC_LINK = new FileType(3);
     
     /**
      * File is a "special" file, such as a socket, fifo,
      *    block device, or character device.
      */
-    SPECIAL,
+    public static final FileType SPECIAL = new FileType(4);
     
     /**
      * File is a shortcut (Windows systems).
      */
-    SHORTCUT,
+    public static final FileType SHORTCUT = new FileType(5);
     
     /**
      * File is a mountable location.
      */
-    MOUNTABLE;
+    public static final FileType MOUNTABLE = new FileType(6);
     
-    public static FileType fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNKNOWN;
-            case 1 -> REGULAR;
-            case 2 -> DIRECTORY;
-            case 3 -> SYMBOLIC_LINK;
-            case 4 -> SPECIAL;
-            case 5 -> SHORTCUT;
-            case 6 -> MOUNTABLE;
-            default -> null;
-        };
+    private int value;
+    
+    public FileType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN -> 0;
-            case REGULAR -> 1;
-            case DIRECTORY -> 2;
-            case SYMBOLIC_LINK -> 3;
-            case SPECIAL -> 4;
-            case SHORTCUT -> 5;
-            case MOUNTABLE -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

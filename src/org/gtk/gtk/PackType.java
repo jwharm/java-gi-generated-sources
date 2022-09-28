@@ -5,31 +5,38 @@ package org.gtk.gtk;
  * <p>
  * See {@link WindowControls} for example.
  */
-public enum PackType {
+public class PackType {
 
     /**
      * The child is packed into the start of the widget
      */
-    START,
+    public static final PackType START = new PackType(0);
     
     /**
      * The child is packed into the end of the widget
      */
-    END;
+    public static final PackType END = new PackType(1);
     
-    public static PackType fromValue(int value) {
-        return switch(value) {
-            case 0 -> START;
-            case 1 -> END;
-            default -> null;
-        };
+    private int value;
+    
+    public PackType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case START -> 0;
-            case END -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PackType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

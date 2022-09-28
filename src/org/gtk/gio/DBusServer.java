@@ -38,9 +38,9 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         return new DBusServer(gobject.getReference());
     }
     
-    private static Reference constructNewSync(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    private static Reference constructNewSync(java.lang.String address, DBusServerFlags flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        Reference RESULT = References.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags, Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
+        Reference RESULT = References.get(gtk_h.g_dbus_server_new_sync(Interop.allocateNativeString(address).handle(), flags.getValue(), Interop.allocateNativeString(guid).handle(), observer.handle(), cancellable.handle(), GERROR), true);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
@@ -69,7 +69,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
      * This is a synchronous failable constructor. There is currently no
      * asynchronous version.
      */
-    public static DBusServer newSync(java.lang.String address, int flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
+    public static DBusServer newSync(java.lang.String address, DBusServerFlags flags, java.lang.String guid, DBusAuthObserver observer, Cancellable cancellable) throws GErrorException {
         return new DBusServer(constructNewSync(address, flags, guid, observer, cancellable));
     }
     
@@ -88,9 +88,9 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
     /**
      * Gets the flags for {@code server}.
      */
-    public int getFlags() {
+    public DBusServerFlags getFlags() {
         var RESULT = gtk_h.g_dbus_server_get_flags(handle());
-        return RESULT;
+        return new DBusServerFlags(RESULT);
     }
     
     /**

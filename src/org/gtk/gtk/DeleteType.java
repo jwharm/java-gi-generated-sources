@@ -3,23 +3,23 @@ package org.gtk.gtk;
 /**
  * Passed to various keybinding signals for deleting text.
  */
-public enum DeleteType {
+public class DeleteType {
 
     /**
      * Delete characters.
      */
-    CHARS,
+    public static final DeleteType CHARS = new DeleteType(0);
     
     /**
      * Delete only the portion of the word to the
      *   left/right of cursor if we’re in the middle of a word.
      */
-    WORD_ENDS,
+    public static final DeleteType WORD_ENDS = new DeleteType(1);
     
     /**
      * Delete words.
      */
-    WORDS,
+    public static final DeleteType WORDS = new DeleteType(2);
     
     /**
      * Delete display-lines. Display-lines
@@ -27,55 +27,50 @@ public enum DeleteType {
      *   breaks. As opposed to paragraphs, which are defined by line
      *   breaks in the input.
      */
-    DISPLAY_LINES,
+    public static final DeleteType DISPLAY_LINES = new DeleteType(3);
     
     /**
      * Delete only the portion of the
      *   display-line to the left/right of cursor.
      */
-    DISPLAY_LINE_ENDS,
+    public static final DeleteType DISPLAY_LINE_ENDS = new DeleteType(4);
     
     /**
      * Delete to the end of the
      *   paragraph. Like C-k in Emacs (or its reverse).
      */
-    PARAGRAPH_ENDS,
+    public static final DeleteType PARAGRAPH_ENDS = new DeleteType(5);
     
     /**
      * Delete entire line. Like C-k in pico.
      */
-    PARAGRAPHS,
+    public static final DeleteType PARAGRAPHS = new DeleteType(6);
     
     /**
      * Delete only whitespace. Like M-\\ in Emacs.
      */
-    WHITESPACE;
+    public static final DeleteType WHITESPACE = new DeleteType(7);
     
-    public static DeleteType fromValue(int value) {
-        return switch(value) {
-            case 0 -> CHARS;
-            case 1 -> WORD_ENDS;
-            case 2 -> WORDS;
-            case 3 -> DISPLAY_LINES;
-            case 4 -> DISPLAY_LINE_ENDS;
-            case 5 -> PARAGRAPH_ENDS;
-            case 6 -> PARAGRAPHS;
-            case 7 -> WHITESPACE;
-            default -> null;
-        };
+    private int value;
+    
+    public DeleteType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case CHARS -> 0;
-            case WORD_ENDS -> 1;
-            case WORDS -> 2;
-            case DISPLAY_LINES -> 3;
-            case DISPLAY_LINE_ENDS -> 4;
-            case PARAGRAPH_ENDS -> 5;
-            case PARAGRAPHS -> 6;
-            case WHITESPACE -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DeleteType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -228,16 +228,16 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      * Turns {@code tree_view} into a drop destination for automatic DND. Calling
      * this method sets {@code GtkTreeView}:reorderable to {@code false}.
      */
-    public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, int actions) {
-        gtk_h.gtk_tree_view_enable_model_drag_dest(handle(), formats.handle(), actions);
+    public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_tree_view_enable_model_drag_dest(handle(), formats.handle(), actions.getValue());
     }
     
     /**
      * Turns {@code tree_view} into a drag source for automatic DND. Calling this
      * method sets {@code GtkTreeView}:reorderable to {@code false}.
      */
-    public void enableModelDragSource(int startButtonMask, org.gtk.gdk.ContentFormats formats, int actions) {
-        gtk_h.gtk_tree_view_enable_model_drag_source(handle(), startButtonMask, formats.handle(), actions);
+    public void enableModelDragSource(org.gtk.gdk.ModifierType startButtonMask, org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_tree_view_enable_model_drag_source(handle(), startButtonMask.getValue(), formats.handle(), actions.getValue());
     }
     
     /**
@@ -370,7 +370,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
      */
     public TreeViewGridLines getGridLines() {
         var RESULT = gtk_h.gtk_tree_view_get_grid_lines(handle());
-        return TreeViewGridLines.fromValue(RESULT);
+        return new TreeViewGridLines(RESULT);
     }
     
     /**
@@ -1186,7 +1186,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
     public static boolean __signalTreeViewMoveCursor(MemoryAddress source, int step, int direction, boolean extend, boolean modify, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (TreeView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)), MovementStep.fromValue(step), direction, extend, modify);
+        return handler.signalReceived(new TreeView(References.get(source)), new MovementStep(step), direction, extend, modify);
     }
     
     @FunctionalInterface

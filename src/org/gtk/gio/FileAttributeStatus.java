@@ -3,38 +3,43 @@ package org.gtk.gio;
 /**
  * Used by g_file_set_attributes_from_info() when setting file attributes.
  */
-public enum FileAttributeStatus {
+public class FileAttributeStatus {
 
     /**
      * Attribute value is unset (empty).
      */
-    UNSET,
+    public static final FileAttributeStatus UNSET = new FileAttributeStatus(0);
     
     /**
      * Attribute value is set.
      */
-    SET,
+    public static final FileAttributeStatus SET = new FileAttributeStatus(1);
     
     /**
      * Indicates an error in setting the value.
      */
-    ERROR_SETTING;
+    public static final FileAttributeStatus ERROR_SETTING = new FileAttributeStatus(2);
     
-    public static FileAttributeStatus fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNSET;
-            case 1 -> SET;
-            case 2 -> ERROR_SETTING;
-            default -> null;
-        };
+    private int value;
+    
+    public FileAttributeStatus(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNSET -> 0;
-            case SET -> 1;
-            case ERROR_SETTING -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileAttributeStatus[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

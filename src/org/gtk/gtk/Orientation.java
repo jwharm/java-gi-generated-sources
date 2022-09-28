@@ -5,31 +5,38 @@ package org.gtk.gtk;
  * <p>
  * Typical examples are {@code GesturePan}.
  */
-public enum Orientation {
+public class Orientation {
 
     /**
      * The element is in horizontal orientation.
      */
-    HORIZONTAL,
+    public static final Orientation HORIZONTAL = new Orientation(0);
     
     /**
      * The element is in vertical orientation.
      */
-    VERTICAL;
+    public static final Orientation VERTICAL = new Orientation(1);
     
-    public static Orientation fromValue(int value) {
-        return switch(value) {
-            case 0 -> HORIZONTAL;
-            case 1 -> VERTICAL;
-            default -> null;
-        };
+    private int value;
+    
+    public Orientation(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case HORIZONTAL -> 0;
-            case VERTICAL -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Orientation[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

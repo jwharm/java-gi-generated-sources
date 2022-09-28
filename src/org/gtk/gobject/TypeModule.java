@@ -61,7 +61,7 @@ public class TypeModule extends Object implements TypePlugin {
      * Since 2.56 if {@code module} is {@code null} this will call g_type_add_interface_static()
      * instead. This can be used when making a static build of the module.
      */
-    public void addInterface(Type instanceType, Type interfaceType, InterfaceInfo interfaceInfo) {
+    public void addInterface(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo interfaceInfo) {
         gtk_h.g_type_module_add_interface(handle(), instanceType.getValue(), interfaceType.getValue(), interfaceInfo.handle());
     }
     
@@ -115,8 +115,8 @@ public class TypeModule extends Object implements TypePlugin {
      * Since 2.56 if {@code module} is {@code null} this will call g_type_register_static()
      * instead. This can be used when making a static build of the module.
      */
-    public org.gtk.gobject.Type registerType(Type parentType, java.lang.String typeName, TypeInfo typeInfo, int flags) {
-        var RESULT = gtk_h.g_type_module_register_type(handle(), parentType.getValue(), Interop.allocateNativeString(typeName).handle(), typeInfo.handle(), flags);
+    public org.gtk.gobject.Type registerType(org.gtk.gobject.Type parentType, java.lang.String typeName, TypeInfo typeInfo, TypeFlags flags) {
+        var RESULT = gtk_h.g_type_module_register_type(handle(), parentType.getValue(), Interop.allocateNativeString(typeName).handle(), typeInfo.handle(), flags.getValue());
         return new org.gtk.gobject.Type(RESULT);
     }
     

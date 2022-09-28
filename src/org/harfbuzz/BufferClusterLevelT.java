@@ -18,46 +18,50 @@ package org.harfbuzz;
  * do not need to maintain such backward compatibility are recommended to use
  * {@code HB_BUFFER_CLUSTER_LEVEL_MONOTONE_CHARACTERS} instead of the default.
  */
-public enum BufferClusterLevelT {
+public class BufferClusterLevelT {
 
     /**
      * Return cluster values grouped by graphemes into
      *   monotone order.
      */
-    MONOTONE_GRAPHEMES,
+    public static final BufferClusterLevelT MONOTONE_GRAPHEMES = new BufferClusterLevelT(0);
     
     /**
      * Return cluster values grouped into monotone order.
      */
-    MONOTONE_CHARACTERS,
+    public static final BufferClusterLevelT MONOTONE_CHARACTERS = new BufferClusterLevelT(1);
     
     /**
      * Don't group cluster values.
      */
-    CHARACTERS,
+    public static final BufferClusterLevelT CHARACTERS = new BufferClusterLevelT(2);
     
     /**
      * Default cluster level,
      *   equal to {@code HB_BUFFER_CLUSTER_LEVEL_MONOTONE_GRAPHEMES}.
      */
-    DEFAULT;
+    public static final BufferClusterLevelT DEFAULT = new BufferClusterLevelT(0);
     
-    public static BufferClusterLevelT fromValue(int value) {
-        return switch(value) {
-            case 0 -> MONOTONE_GRAPHEMES;
-            case 1 -> MONOTONE_CHARACTERS;
-            case 2 -> CHARACTERS;
-            default -> null;
-        };
+    private int value;
+    
+    public BufferClusterLevelT(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case MONOTONE_GRAPHEMES -> 0;
-            case MONOTONE_CHARACTERS -> 1;
-            case CHARACTERS -> 2;
-            case DEFAULT -> 0;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BufferClusterLevelT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -3,85 +3,78 @@ package org.gtk.gdk;
 /**
  * Specifies the crossing mode for enter and leave events.
  */
-public enum CrossingMode {
+public class CrossingMode {
 
     /**
      * crossing because of pointer motion.
      */
-    NORMAL,
+    public static final CrossingMode NORMAL = new CrossingMode(0);
     
     /**
      * crossing because a grab is activated.
      */
-    GRAB,
+    public static final CrossingMode GRAB = new CrossingMode(1);
     
     /**
      * crossing because a grab is deactivated.
      */
-    UNGRAB,
+    public static final CrossingMode UNGRAB = new CrossingMode(2);
     
     /**
      * crossing because a GTK grab is activated.
      */
-    GTK_GRAB,
+    public static final CrossingMode GTK_GRAB = new CrossingMode(3);
     
     /**
      * crossing because a GTK grab is deactivated.
      */
-    GTK_UNGRAB,
+    public static final CrossingMode GTK_UNGRAB = new CrossingMode(4);
     
     /**
      * crossing because a GTK widget changed
      *   state (e.g. sensitivity).
      */
-    STATE_CHANGED,
+    public static final CrossingMode STATE_CHANGED = new CrossingMode(5);
     
     /**
      * crossing because a touch sequence has begun,
      *   this event is synthetic as the pointer might have not left the surface.
      */
-    TOUCH_BEGIN,
+    public static final CrossingMode TOUCH_BEGIN = new CrossingMode(6);
     
     /**
      * crossing because a touch sequence has ended,
      *   this event is synthetic as the pointer might have not left the surface.
      */
-    TOUCH_END,
+    public static final CrossingMode TOUCH_END = new CrossingMode(7);
     
     /**
      * crossing because of a device switch (i.e.
      *   a mouse taking control of the pointer after a touch device), this event
      *   is synthetic as the pointer didn’t leave the surface.
      */
-    DEVICE_SWITCH;
+    public static final CrossingMode DEVICE_SWITCH = new CrossingMode(8);
     
-    public static CrossingMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> NORMAL;
-            case 1 -> GRAB;
-            case 2 -> UNGRAB;
-            case 3 -> GTK_GRAB;
-            case 4 -> GTK_UNGRAB;
-            case 5 -> STATE_CHANGED;
-            case 6 -> TOUCH_BEGIN;
-            case 7 -> TOUCH_END;
-            case 8 -> DEVICE_SWITCH;
-            default -> null;
-        };
+    private int value;
+    
+    public CrossingMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORMAL -> 0;
-            case GRAB -> 1;
-            case UNGRAB -> 2;
-            case GTK_GRAB -> 3;
-            case GTK_UNGRAB -> 4;
-            case STATE_CHANGED -> 5;
-            case TOUCH_BEGIN -> 6;
-            case TOUCH_END -> 7;
-            case DEVICE_SWITCH -> 8;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CrossingMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

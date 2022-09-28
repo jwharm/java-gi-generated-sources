@@ -521,7 +521,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@link Widget#sizeAllocate}.
      */
     public void allocate(int width, int height, int baseline, org.gtk.gsk.Transform transform) {
-        gtk_h.gtk_widget_allocate(handle(), width, height, baseline, transform.handle());
+        gtk_h.gtk_widget_allocate(handle(), width, height, baseline, transform.getReference().unowned().handle());
     }
     
     /**
@@ -733,7 +733,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * Note that unlike {@link Widget#isAncestor}, this function
      * considers {@code widget} to be an ancestor of itself.
      */
-    public Widget getAncestor(Type widgetType) {
+    public Widget getAncestor(org.gtk.gobject.Type widgetType) {
         var RESULT = gtk_h.gtk_widget_get_ancestor(handle(), widgetType.getValue());
         return new Widget(References.get(RESULT, false));
     }
@@ -810,7 +810,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public TextDirection getDirection() {
         var RESULT = gtk_h.gtk_widget_get_direction(handle());
-        return TextDirection.fromValue(RESULT);
+        return new TextDirection(RESULT);
     }
     
     /**
@@ -927,7 +927,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Align getHalign() {
         var RESULT = gtk_h.gtk_widget_get_halign(handle());
-        return Align.fromValue(RESULT);
+        return new Align(RESULT);
     }
     
     /**
@@ -1100,7 +1100,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Overflow getOverflow() {
         var RESULT = gtk_h.gtk_widget_get_overflow(handle());
-        return Overflow.fromValue(RESULT);
+        return new Overflow(RESULT);
     }
     
     /**
@@ -1202,7 +1202,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public SizeRequestMode getRequestMode() {
         var RESULT = gtk_h.gtk_widget_get_request_mode(handle());
-        return SizeRequestMode.fromValue(RESULT);
+        return new SizeRequestMode(RESULT);
     }
     
     /**
@@ -1302,9 +1302,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * {@code Gtk.StyleContext}
      * method, you should look at {@link StyleContext#getState}.
      */
-    public int getStateFlags() {
+    public StateFlags getStateFlags() {
         var RESULT = gtk_h.gtk_widget_get_state_flags(handle());
-        return RESULT;
+        return new StateFlags(RESULT);
     }
     
     /**
@@ -1330,7 +1330,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * to the {@code widget_type} which declared the child and is meant for language
      * bindings which cannot easily make use of the GObject structure offsets.
      */
-    public org.gtk.gobject.Object getTemplateChild(Type widgetType, java.lang.String name) {
+    public org.gtk.gobject.Object getTemplateChild(org.gtk.gobject.Type widgetType, java.lang.String name) {
         var RESULT = gtk_h.gtk_widget_get_template_child(handle(), widgetType.getValue(), Interop.allocateNativeString(name).handle());
         return new org.gtk.gobject.Object(References.get(RESULT, false));
     }
@@ -1364,7 +1364,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public Align getValign() {
         var RESULT = gtk_h.gtk_widget_get_valign(handle());
-        return Align.fromValue(RESULT);
+        return new Align(RESULT);
     }
     
     /**
@@ -1777,8 +1777,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * below the mouse cursor for purposes of hover highlighting and
      * delivering events.
      */
-    public Widget pick(double x, double y, int flags) {
-        var RESULT = gtk_h.gtk_widget_pick(handle(), x, y, flags);
+    public Widget pick(double x, double y, PickFlags flags) {
+        var RESULT = gtk_h.gtk_widget_pick(handle(), x, y, flags.getValue());
         return new Widget(References.get(RESULT, false));
     }
     
@@ -2312,8 +2312,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * This function is for use in widget implementations.
      */
-    public void setStateFlags(int flags, boolean clear) {
-        gtk_h.gtk_widget_set_state_flags(handle(), flags, clear ? 1 : 0);
+    public void setStateFlags(StateFlags flags, boolean clear) {
+        gtk_h.gtk_widget_set_state_flags(handle(), flags.getValue(), clear ? 1 : 0);
     }
     
     /**
@@ -2500,8 +2500,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      * <p>
      * This function is for use in widget implementations.
      */
-    public void unsetStateFlags(int flags) {
-        gtk_h.gtk_widget_unset_state_flags(handle(), flags);
+    public void unsetStateFlags(StateFlags flags) {
+        gtk_h.gtk_widget_unset_state_flags(handle(), flags.getValue());
     }
     
     /**
@@ -2511,7 +2511,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
      */
     public static TextDirection getDefaultDirection() {
         var RESULT = gtk_h.gtk_widget_get_default_direction();
-        return TextDirection.fromValue(RESULT);
+        return new TextDirection(RESULT);
     }
     
     /**
@@ -2589,7 +2589,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public static void __signalWidgetDirectionChanged(MemoryAddress source, int previousDirection, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Widget.DirectionChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)), TextDirection.fromValue(previousDirection));
+        handler.signalReceived(new Widget(References.get(source)), new TextDirection(previousDirection));
     }
     
     @FunctionalInterface
@@ -2655,7 +2655,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public static boolean __signalWidgetKeynavFailed(MemoryAddress source, int direction, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Widget.KeynavFailedHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Widget(References.get(source)), DirectionType.fromValue(direction));
+        return handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
     }
     
     @FunctionalInterface
@@ -2762,7 +2762,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public static void __signalWidgetMoveFocus(MemoryAddress source, int direction, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Widget.MoveFocusHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)), DirectionType.fromValue(direction));
+        handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
     }
     
     @FunctionalInterface
@@ -2879,7 +2879,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     
     @FunctionalInterface
     public interface StateFlagsChangedHandler {
-        void signalReceived(Widget source, int flags);
+        void signalReceived(Widget source, StateFlags flags);
     }
     
     /**
@@ -2908,7 +2908,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
     public static void __signalWidgetStateFlagsChanged(MemoryAddress source, int flags, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Widget.StateFlagsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)), flags);
+        handler.signalReceived(new Widget(References.get(source)), new StateFlags(flags));
     }
     
     @FunctionalInterface

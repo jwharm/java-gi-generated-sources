@@ -4,38 +4,43 @@ package org.gtk.gio;
  * When to allow rehandshaking. See
  * g_tls_connection_set_rehandshake_mode().
  */
-public enum TlsRehandshakeMode {
+public class TlsRehandshakeMode {
 
     /**
      * Never allow rehandshaking
      */
-    NEVER,
+    public static final TlsRehandshakeMode NEVER = new TlsRehandshakeMode(0);
     
     /**
      * Allow safe rehandshaking only
      */
-    SAFELY,
+    public static final TlsRehandshakeMode SAFELY = new TlsRehandshakeMode(1);
     
     /**
      * Allow unsafe rehandshaking
      */
-    UNSAFELY;
+    public static final TlsRehandshakeMode UNSAFELY = new TlsRehandshakeMode(2);
     
-    public static TlsRehandshakeMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> NEVER;
-            case 1 -> SAFELY;
-            case 2 -> UNSAFELY;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsRehandshakeMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NEVER -> 0;
-            case SAFELY -> 1;
-            case UNSAFELY -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsRehandshakeMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -64,7 +64,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      */
     public ViewSwitcherPolicy getPolicy() {
         var RESULT = gtk_h.adw_view_switcher_get_policy(handle());
-        return ViewSwitcherPolicy.fromValue(RESULT);
+        return new ViewSwitcherPolicy(RESULT);
     }
     
     /**

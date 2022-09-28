@@ -8,12 +8,12 @@ public class FileMonitorFlags {
     /**
      * No flags set.
      */
-    public static final int NONE = 0;
+    public static final FileMonitorFlags NONE = new FileMonitorFlags(0);
     
     /**
      * Watch for mount events.
      */
-    public static final int WATCH_MOUNTS = 1;
+    public static final FileMonitorFlags WATCH_MOUNTS = new FileMonitorFlags(1);
     
     /**
      * Pair DELETED and CREATED events caused
@@ -23,13 +23,13 @@ public class FileMonitorFlags {
      *   and CREATED events).  Deprecated since 2.46: use
      *   {@link FileMonitorFlags#WATCH_MOVES} instead.
      */
-    public static final int SEND_MOVED = 2;
+    public static final FileMonitorFlags SEND_MOVED = new FileMonitorFlags(2);
     
     /**
      * Watch for changes to the file made
      *   via another hard link. Since 2.36.
      */
-    public static final int WATCH_HARD_LINKS = 4;
+    public static final FileMonitorFlags WATCH_HARD_LINKS = new FileMonitorFlags(4);
     
     /**
      * Watch for rename operations on a
@@ -37,6 +37,40 @@ public class FileMonitorFlags {
      *   {@link FileMonitorEvent#MOVED_IN} and {@link FileMonitorEvent#MOVED_OUT}
      *   events to be emitted when possible.  Since: 2.46.
      */
-    public static final int WATCH_MOVES = 8;
+    public static final FileMonitorFlags WATCH_MOVES = new FileMonitorFlags(8);
+    
+    private int value;
+    
+    public FileMonitorFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileMonitorFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public FileMonitorFlags combined(FileMonitorFlags mask) {
+        return new FileMonitorFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static FileMonitorFlags combined(FileMonitorFlags mask, FileMonitorFlags... masks) {
+        int value = mask.getValue();
+        for (FileMonitorFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileMonitorFlags(value);
+    }
     
 }

@@ -21,94 +21,83 @@ package org.gtk.gtk;
  * This enumeration may be extended in the future; input methods should
  * interpret unknown values as “free form”.
  */
-public enum InputPurpose {
+public class InputPurpose {
 
     /**
      * Allow any character
      */
-    FREE_FORM,
+    public static final InputPurpose FREE_FORM = new InputPurpose(0);
     
     /**
      * Allow only alphabetic characters
      */
-    ALPHA,
+    public static final InputPurpose ALPHA = new InputPurpose(1);
     
     /**
      * Allow only digits
      */
-    DIGITS,
+    public static final InputPurpose DIGITS = new InputPurpose(2);
     
     /**
      * Edited field expects numbers
      */
-    NUMBER,
+    public static final InputPurpose NUMBER = new InputPurpose(3);
     
     /**
      * Edited field expects phone number
      */
-    PHONE,
+    public static final InputPurpose PHONE = new InputPurpose(4);
     
     /**
      * Edited field expects URL
      */
-    URL,
+    public static final InputPurpose URL = new InputPurpose(5);
     
     /**
      * Edited field expects email address
      */
-    EMAIL,
+    public static final InputPurpose EMAIL = new InputPurpose(6);
     
     /**
      * Edited field expects the name of a person
      */
-    NAME,
+    public static final InputPurpose NAME = new InputPurpose(7);
     
     /**
      * Like {@link InputPurpose#FREE_FORM}, but characters are hidden
      */
-    PASSWORD,
+    public static final InputPurpose PASSWORD = new InputPurpose(8);
     
     /**
      * Like {@link InputPurpose#DIGITS}, but characters are hidden
      */
-    PIN,
+    public static final InputPurpose PIN = new InputPurpose(9);
     
     /**
      * Allow any character, in addition to control codes
      */
-    TERMINAL;
+    public static final InputPurpose TERMINAL = new InputPurpose(10);
     
-    public static InputPurpose fromValue(int value) {
-        return switch(value) {
-            case 0 -> FREE_FORM;
-            case 1 -> ALPHA;
-            case 2 -> DIGITS;
-            case 3 -> NUMBER;
-            case 4 -> PHONE;
-            case 5 -> URL;
-            case 6 -> EMAIL;
-            case 7 -> NAME;
-            case 8 -> PASSWORD;
-            case 9 -> PIN;
-            case 10 -> TERMINAL;
-            default -> null;
-        };
+    private int value;
+    
+    public InputPurpose(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FREE_FORM -> 0;
-            case ALPHA -> 1;
-            case DIGITS -> 2;
-            case NUMBER -> 3;
-            case PHONE -> 4;
-            case URL -> 5;
-            case EMAIL -> 6;
-            case NAME -> 7;
-            case PASSWORD -> 8;
-            case PIN -> 9;
-            case TERMINAL -> 10;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(InputPurpose[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

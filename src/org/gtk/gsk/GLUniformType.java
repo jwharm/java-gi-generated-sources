@@ -7,73 +7,68 @@ package org.gtk.gsk;
  * It defines both what the type is called in the GLSL shader
  * code, and what the corresponding C type is on the Gtk side.
  */
-public enum GLUniformType {
+public class GLUniformType {
 
     /**
      * No type, used for uninitialized or unspecified values.
      */
-    NONE,
+    public static final GLUniformType NONE = new GLUniformType(0);
     
     /**
      * A float uniform
      */
-    FLOAT,
+    public static final GLUniformType FLOAT = new GLUniformType(1);
     
     /**
      * A GLSL int / gint32 uniform
      */
-    INT,
+    public static final GLUniformType INT = new GLUniformType(2);
     
     /**
      * A GLSL uint / guint32 uniform
      */
-    UINT,
+    public static final GLUniformType UINT = new GLUniformType(3);
     
     /**
      * A GLSL bool / gboolean uniform
      */
-    BOOL,
+    public static final GLUniformType BOOL = new GLUniformType(4);
     
     /**
      * A GLSL vec2 / graphene_vec2_t uniform
      */
-    VEC2,
+    public static final GLUniformType VEC2 = new GLUniformType(5);
     
     /**
      * A GLSL vec3 / graphene_vec3_t uniform
      */
-    VEC3,
+    public static final GLUniformType VEC3 = new GLUniformType(6);
     
     /**
      * A GLSL vec4 / graphene_vec4_t uniform
      */
-    VEC4;
+    public static final GLUniformType VEC4 = new GLUniformType(7);
     
-    public static GLUniformType fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> FLOAT;
-            case 2 -> INT;
-            case 3 -> UINT;
-            case 4 -> BOOL;
-            case 5 -> VEC2;
-            case 6 -> VEC3;
-            case 7 -> VEC4;
-            default -> null;
-        };
+    private int value;
+    
+    public GLUniformType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case FLOAT -> 1;
-            case INT -> 2;
-            case UINT -> 3;
-            case BOOL -> 4;
-            case VEC2 -> 5;
-            case VEC3 -> 6;
-            case VEC4 -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(GLUniformType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

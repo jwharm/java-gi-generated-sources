@@ -3,73 +3,68 @@ package org.gtk.gdk;
 /**
  * Determines a surface edge or corner.
  */
-public enum SurfaceEdge {
+public class SurfaceEdge {
 
     /**
      * the top left corner.
      */
-    NORTH_WEST,
+    public static final SurfaceEdge NORTH_WEST = new SurfaceEdge(0);
     
     /**
      * the top edge.
      */
-    NORTH,
+    public static final SurfaceEdge NORTH = new SurfaceEdge(1);
     
     /**
      * the top right corner.
      */
-    NORTH_EAST,
+    public static final SurfaceEdge NORTH_EAST = new SurfaceEdge(2);
     
     /**
      * the left edge.
      */
-    WEST,
+    public static final SurfaceEdge WEST = new SurfaceEdge(3);
     
     /**
      * the right edge.
      */
-    EAST,
+    public static final SurfaceEdge EAST = new SurfaceEdge(4);
     
     /**
      * the lower left corner.
      */
-    SOUTH_WEST,
+    public static final SurfaceEdge SOUTH_WEST = new SurfaceEdge(5);
     
     /**
      * the lower edge.
      */
-    SOUTH,
+    public static final SurfaceEdge SOUTH = new SurfaceEdge(6);
     
     /**
      * the lower right corner.
      */
-    SOUTH_EAST;
+    public static final SurfaceEdge SOUTH_EAST = new SurfaceEdge(7);
     
-    public static SurfaceEdge fromValue(int value) {
-        return switch(value) {
-            case 0 -> NORTH_WEST;
-            case 1 -> NORTH;
-            case 2 -> NORTH_EAST;
-            case 3 -> WEST;
-            case 4 -> EAST;
-            case 5 -> SOUTH_WEST;
-            case 6 -> SOUTH;
-            case 7 -> SOUTH_EAST;
-            default -> null;
-        };
+    private int value;
+    
+    public SurfaceEdge(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORTH_WEST -> 0;
-            case NORTH -> 1;
-            case NORTH_EAST -> 2;
-            case WEST -> 3;
-            case EAST -> 4;
-            case SOUTH_WEST -> 5;
-            case SOUTH -> 6;
-            case SOUTH_EAST -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SurfaceEdge[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

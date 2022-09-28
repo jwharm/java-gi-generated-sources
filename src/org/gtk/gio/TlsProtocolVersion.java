@@ -11,73 +11,68 @@ package org.gtk.gio;
  * it's possible for an unknown DTLS protocol version to compare less
  * than the TLS protocol versions.
  */
-public enum TlsProtocolVersion {
+public class TlsProtocolVersion {
 
     /**
      * No protocol version or unknown protocol version
      */
-    UNKNOWN,
+    public static final TlsProtocolVersion UNKNOWN = new TlsProtocolVersion(0);
     
     /**
      * SSL 3.0, which is insecure and should not be used
      */
-    SSL_3_0,
+    public static final TlsProtocolVersion SSL_3_0 = new TlsProtocolVersion(1);
     
     /**
      * TLS 1.0, which is insecure and should not be used
      */
-    TLS_1_0,
+    public static final TlsProtocolVersion TLS_1_0 = new TlsProtocolVersion(2);
     
     /**
      * TLS 1.1, which is insecure and should not be used
      */
-    TLS_1_1,
+    public static final TlsProtocolVersion TLS_1_1 = new TlsProtocolVersion(3);
     
     /**
      * TLS 1.2, defined by <a href="https://datatracker.ietf.org/doc/html/rfc5246">RFC 5246</a>
      */
-    TLS_1_2,
+    public static final TlsProtocolVersion TLS_1_2 = new TlsProtocolVersion(4);
     
     /**
      * TLS 1.3, defined by <a href="https://datatracker.ietf.org/doc/html/rfc8446">RFC 8446</a>
      */
-    TLS_1_3,
+    public static final TlsProtocolVersion TLS_1_3 = new TlsProtocolVersion(5);
     
     /**
      * DTLS 1.0, which is insecure and should not be used
      */
-    DTLS_1_0,
+    public static final TlsProtocolVersion DTLS_1_0 = new TlsProtocolVersion(201);
     
     /**
      * DTLS 1.2, defined by <a href="https://datatracker.ietf.org/doc/html/rfc6347">RFC 6347</a>
      */
-    DTLS_1_2;
+    public static final TlsProtocolVersion DTLS_1_2 = new TlsProtocolVersion(202);
     
-    public static TlsProtocolVersion fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNKNOWN;
-            case 1 -> SSL_3_0;
-            case 2 -> TLS_1_0;
-            case 3 -> TLS_1_1;
-            case 4 -> TLS_1_2;
-            case 5 -> TLS_1_3;
-            case 201 -> DTLS_1_0;
-            case 202 -> DTLS_1_2;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsProtocolVersion(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN -> 0;
-            case SSL_3_0 -> 1;
-            case TLS_1_0 -> 2;
-            case TLS_1_1 -> 3;
-            case TLS_1_2 -> 4;
-            case TLS_1_3 -> 5;
-            case DTLS_1_0 -> 201;
-            case DTLS_1_2 -> 202;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsProtocolVersion[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -3,45 +3,48 @@ package org.gtk.gtk;
 /**
  * An enum for determining where a dropped row goes.
  */
-public enum TreeViewDropPosition {
+public class TreeViewDropPosition {
 
     /**
      * dropped row is inserted before
      */
-    BEFORE,
+    public static final TreeViewDropPosition BEFORE = new TreeViewDropPosition(0);
     
     /**
      * dropped row is inserted after
      */
-    AFTER,
+    public static final TreeViewDropPosition AFTER = new TreeViewDropPosition(1);
     
     /**
      * dropped row becomes a child or is inserted before
      */
-    INTO_OR_BEFORE,
+    public static final TreeViewDropPosition INTO_OR_BEFORE = new TreeViewDropPosition(2);
     
     /**
      * dropped row becomes a child or is inserted after
      */
-    INTO_OR_AFTER;
+    public static final TreeViewDropPosition INTO_OR_AFTER = new TreeViewDropPosition(3);
     
-    public static TreeViewDropPosition fromValue(int value) {
-        return switch(value) {
-            case 0 -> BEFORE;
-            case 1 -> AFTER;
-            case 2 -> INTO_OR_BEFORE;
-            case 3 -> INTO_OR_AFTER;
-            default -> null;
-        };
+    private int value;
+    
+    public TreeViewDropPosition(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BEFORE -> 0;
-            case AFTER -> 1;
-            case INTO_OR_BEFORE -> 2;
-            case INTO_OR_AFTER -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TreeViewDropPosition[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

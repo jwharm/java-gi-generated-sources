@@ -1,32 +1,35 @@
 package org.cairographics;
 
-public enum PathDataType {
+public class PathDataType {
 
-    MOVE_TO,
+    public static final PathDataType MOVE_TO = new PathDataType(0);
     
-    LINE_TO,
+    public static final PathDataType LINE_TO = new PathDataType(1);
     
-    CURVE_TO,
+    public static final PathDataType CURVE_TO = new PathDataType(2);
     
-    CLOSE_PATH;
+    public static final PathDataType CLOSE_PATH = new PathDataType(3);
     
-    public static PathDataType fromValue(int value) {
-        return switch(value) {
-            case 0 -> MOVE_TO;
-            case 1 -> LINE_TO;
-            case 2 -> CURVE_TO;
-            case 3 -> CLOSE_PATH;
-            default -> null;
-        };
+    private int value;
+    
+    public PathDataType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case MOVE_TO -> 0;
-            case LINE_TO -> 1;
-            case CURVE_TO -> 2;
-            case CLOSE_PATH -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PathDataType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

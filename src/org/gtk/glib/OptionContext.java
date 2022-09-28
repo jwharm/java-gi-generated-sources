@@ -24,7 +24,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * ownership of the {@code group} and thus the {@code group} should not be freed.
      */
     public void addGroup(OptionGroup group) {
-        gtk_h.g_option_context_add_group(handle(), group.handle());
+        gtk_h.g_option_context_add_group(handle(), group.getReference().unowned().handle());
     }
     
     /**
@@ -212,7 +212,7 @@ public class OptionContext extends io.github.jwharm.javagi.ResourceBase {
      * treated differently when generating {@code --help} output.
      */
     public void setMainGroup(OptionGroup group) {
-        gtk_h.g_option_context_set_main_group(handle(), group.handle());
+        gtk_h.g_option_context_set_main_group(handle(), group.getReference().unowned().handle());
     }
     
     /**

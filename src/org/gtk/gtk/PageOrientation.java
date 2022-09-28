@@ -3,45 +3,48 @@ package org.gtk.gtk;
 /**
  * See also gtk_print_settings_set_orientation().
  */
-public enum PageOrientation {
+public class PageOrientation {
 
     /**
      * Portrait mode.
      */
-    PORTRAIT,
+    public static final PageOrientation PORTRAIT = new PageOrientation(0);
     
     /**
      * Landscape mode.
      */
-    LANDSCAPE,
+    public static final PageOrientation LANDSCAPE = new PageOrientation(1);
     
     /**
      * Reverse portrait mode.
      */
-    REVERSE_PORTRAIT,
+    public static final PageOrientation REVERSE_PORTRAIT = new PageOrientation(2);
     
     /**
      * Reverse landscape mode.
      */
-    REVERSE_LANDSCAPE;
+    public static final PageOrientation REVERSE_LANDSCAPE = new PageOrientation(3);
     
-    public static PageOrientation fromValue(int value) {
-        return switch(value) {
-            case 0 -> PORTRAIT;
-            case 1 -> LANDSCAPE;
-            case 2 -> REVERSE_PORTRAIT;
-            case 3 -> REVERSE_LANDSCAPE;
-            default -> null;
-        };
+    private int value;
+    
+    public PageOrientation(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case PORTRAIT -> 0;
-            case LANDSCAPE -> 1;
-            case REVERSE_PORTRAIT -> 2;
-            case REVERSE_LANDSCAPE -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PageOrientation[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

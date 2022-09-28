@@ -109,7 +109,7 @@ public interface PollableOutputStream extends io.github.jwharm.javagi.NativeAddr
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return PollableReturn.fromValue(RESULT);
+        return new PollableReturn(RESULT);
     }
     
     class PollableOutputStreamImpl extends org.gtk.gobject.Object implements PollableOutputStream {

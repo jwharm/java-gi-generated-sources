@@ -8,5 +8,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SocketSourceFunc {
-        boolean onSocketSourceFunc(Socket socket, int condition);
+        boolean onSocketSourceFunc(Socket socket, org.gtk.glib.IOCondition condition);
 }

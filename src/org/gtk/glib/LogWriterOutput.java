@@ -8,31 +8,38 @@ package org.gtk.glib;
  * If a {@link LogWriterFunc} ignores a log entry, it should return
  * {@link LogWriterOutput#HANDLED}.
  */
-public enum LogWriterOutput {
+public class LogWriterOutput {
 
     /**
      * Log writer has handled the log entry.
      */
-    HANDLED,
+    public static final LogWriterOutput HANDLED = new LogWriterOutput(1);
     
     /**
      * Log writer could not handle the log entry.
      */
-    UNHANDLED;
+    public static final LogWriterOutput UNHANDLED = new LogWriterOutput(0);
     
-    public static LogWriterOutput fromValue(int value) {
-        return switch(value) {
-            case 1 -> HANDLED;
-            case 0 -> UNHANDLED;
-            default -> null;
-        };
+    private int value;
+    
+    public LogWriterOutput(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case HANDLED -> 1;
-            case UNHANDLED -> 0;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(LogWriterOutput[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

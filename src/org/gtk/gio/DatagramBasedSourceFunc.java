@@ -8,5 +8,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DatagramBasedSourceFunc {
-        boolean onDatagramBasedSourceFunc(DatagramBased datagramBased, int condition);
+        boolean onDatagramBasedSourceFunc(DatagramBased datagramBased, org.gtk.glib.IOCondition condition);
 }

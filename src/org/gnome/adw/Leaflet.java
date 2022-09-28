@@ -143,7 +143,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public FoldThresholdPolicy getFoldThresholdPolicy() {
         var RESULT = gtk_h.adw_leaflet_get_fold_threshold_policy(handle());
-        return FoldThresholdPolicy.fromValue(RESULT);
+        return new FoldThresholdPolicy(RESULT);
     }
     
     /**
@@ -195,7 +195,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gt
      */
     public LeafletTransitionType getTransitionType() {
         var RESULT = gtk_h.adw_leaflet_get_transition_type(handle());
-        return LeafletTransitionType.fromValue(RESULT);
+        return new LeafletTransitionType(RESULT);
     }
     
     /**

@@ -3,40 +3,45 @@ package org.gtk.gsk;
 /**
  * Errors that can happen during (de)serialization.
  */
-public enum SerializationError {
+public class SerializationError {
 
     /**
      * The format can not be identified
      */
-    UNSUPPORTED_FORMAT,
+    public static final SerializationError UNSUPPORTED_FORMAT = new SerializationError(0);
     
     /**
      * The version of the data is not
      *   understood
      */
-    UNSUPPORTED_VERSION,
+    public static final SerializationError UNSUPPORTED_VERSION = new SerializationError(1);
     
     /**
      * The given data may not exist in
      *   a proper serialization
      */
-    INVALID_DATA;
+    public static final SerializationError INVALID_DATA = new SerializationError(2);
     
-    public static SerializationError fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNSUPPORTED_FORMAT;
-            case 1 -> UNSUPPORTED_VERSION;
-            case 2 -> INVALID_DATA;
-            default -> null;
-        };
+    private int value;
+    
+    public SerializationError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNSUPPORTED_FORMAT -> 0;
-            case UNSUPPORTED_VERSION -> 1;
-            case INVALID_DATA -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SerializationError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

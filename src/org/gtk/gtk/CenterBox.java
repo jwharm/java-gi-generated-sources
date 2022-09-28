@@ -69,7 +69,7 @@ public class CenterBox extends Widget implements Accessible, Buildable, Constrai
      */
     public BaselinePosition getBaselinePosition() {
         var RESULT = gtk_h.gtk_center_box_get_baseline_position(handle());
-        return BaselinePosition.fromValue(RESULT);
+        return new BaselinePosition(RESULT);
     }
     
     /**

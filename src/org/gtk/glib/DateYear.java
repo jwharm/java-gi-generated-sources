@@ -1,12 +1,5 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * Integer type representing a year.
  * <p>
@@ -16,9 +9,18 @@ import java.lang.invoke.*;
  * <p>
  * The year is represented with four digits.
  */
-public class DateYear extends Alias<Short> {
-
+public class DateYear {
+    private short value;
+    
     public DateYear(short value) {
+        this.value = value;
+    }
+    
+    public short getValue() {
+        return this.value;
+    }
+    
+    public void setValue(short value) {
         this.value = value;
     }
     

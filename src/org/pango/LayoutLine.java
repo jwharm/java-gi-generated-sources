@@ -73,7 +73,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      */
     public Direction getResolvedDirection() {
         var RESULT = gtk_h.pango_layout_line_get_resolved_direction(handle());
-        return Direction.fromValue(RESULT);
+        return new Direction(RESULT);
     }
     
     /**

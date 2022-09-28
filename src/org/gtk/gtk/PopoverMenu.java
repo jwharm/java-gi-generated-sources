@@ -152,8 +152,8 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
         return new PopoverMenu(constructNewFromModel(model));
     }
     
-    private static Reference constructNewFromModelFull(org.gtk.gio.MenuModel model, int flags) {
-        Reference RESULT = References.get(gtk_h.gtk_popover_menu_new_from_model_full(model.handle(), flags), true);
+    private static Reference constructNewFromModelFull(org.gtk.gio.MenuModel model, PopoverMenuFlags flags) {
+        Reference RESULT = References.get(gtk_h.gtk_popover_menu_new_from_model_full(model.handle(), flags.getValue()), true);
         return RESULT;
     }
     
@@ -170,7 +170,7 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * {@link PopoverMenuFlags#NESTED}, which makes GTK create traditional,
      * nested submenus instead of the default sliding submenus.
      */
-    public static PopoverMenu newFromModelFull(org.gtk.gio.MenuModel model, int flags) {
+    public static PopoverMenu newFromModelFull(org.gtk.gio.MenuModel model, PopoverMenuFlags flags) {
         return new PopoverMenu(constructNewFromModelFull(model, flags));
     }
     

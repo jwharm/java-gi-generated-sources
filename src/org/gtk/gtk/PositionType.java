@@ -6,45 +6,48 @@ package org.gtk.gtk;
  * For examples, see the tabs of a {@link Notebook}, or the label
  * of a {@link Scale}.
  */
-public enum PositionType {
+public class PositionType {
 
     /**
      * The feature is at the left edge.
      */
-    LEFT,
+    public static final PositionType LEFT = new PositionType(0);
     
     /**
      * The feature is at the right edge.
      */
-    RIGHT,
+    public static final PositionType RIGHT = new PositionType(1);
     
     /**
      * The feature is at the top edge.
      */
-    TOP,
+    public static final PositionType TOP = new PositionType(2);
     
     /**
      * The feature is at the bottom edge.
      */
-    BOTTOM;
+    public static final PositionType BOTTOM = new PositionType(3);
     
-    public static PositionType fromValue(int value) {
-        return switch(value) {
-            case 0 -> LEFT;
-            case 1 -> RIGHT;
-            case 2 -> TOP;
-            case 3 -> BOTTOM;
-            default -> null;
-        };
+    private int value;
+    
+    public PositionType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LEFT -> 0;
-            case RIGHT -> 1;
-            case TOP -> 2;
-            case BOTTOM -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PositionType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -255,7 +255,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes {@code value} with the default value of {@code type}.
      */
-    public Value init(Type gType) {
+    public Value init(org.gtk.gobject.Type gType) {
         var RESULT = gtk_h.g_value_init(handle(), gType.getValue());
         return new Value(References.get(RESULT, false));
     }
@@ -337,7 +337,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Set the contents of a {@code G_TYPE_GTYPE} {@link Value} to {@code v_gtype}.
      */
-    public void setGtype(Type vGtype) {
+    public void setGtype(org.gtk.gobject.Type vGtype) {
         gtk_h.g_value_set_gtype(handle(), vGtype.getValue());
     }
     
@@ -535,7 +535,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * This is an internal function introduced mainly for C marshallers.
      */
     public void takeVariant(org.gtk.glib.Variant variant) {
-        gtk_h.g_value_take_variant(handle(), variant.handle());
+        gtk_h.g_value_take_variant(handle(), variant.getReference().unowned().handle());
     }
     
     /**
@@ -566,7 +566,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * Returns whether a {@link Value} of type {@code src_type} can be copied into
      * a {@link Value} of type {@code dest_type}.
      */
-    public static boolean typeCompatible(Type srcType, Type destType) {
+    public static boolean typeCompatible(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_compatible(srcType.getValue(), destType.getValue());
         return (RESULT != 0);
     }
@@ -577,7 +577,7 @@ public class Value extends io.github.jwharm.javagi.ResourceBase {
      * the types to be transformable, they must be compatible or a
      * transformation function must be registered.
      */
-    public static boolean typeTransformable(Type srcType, Type destType) {
+    public static boolean typeTransformable(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
         var RESULT = gtk_h.g_value_type_transformable(srcType.getValue(), destType.getValue());
         return (RESULT != 0);
     }

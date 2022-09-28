@@ -20,7 +20,7 @@ public class TypeInstance extends io.github.jwharm.javagi.ResourceBase {
         super(References.get(io.github.jwharm.javagi.interop.jextract.GTypeInstance.allocate(Interop.getAllocator()).address()));
     }
     
-    public java.lang.foreign.MemoryAddress getPrivate(Type privateType) {
+    public java.lang.foreign.MemoryAddress getPrivate(org.gtk.gobject.Type privateType) {
         var RESULT = gtk_h.g_type_instance_get_private(handle(), privateType.getValue());
         return RESULT;
     }

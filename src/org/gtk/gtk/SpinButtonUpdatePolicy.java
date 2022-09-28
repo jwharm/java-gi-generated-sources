@@ -6,34 +6,41 @@ package org.gtk.gtk;
  * <p>
  * See {@link SpinButton#setUpdatePolicy}.
  */
-public enum SpinButtonUpdatePolicy {
+public class SpinButtonUpdatePolicy {
 
     /**
      * When refreshing your {@code GtkSpinButton}, the value is
      *   always displayed
      */
-    ALWAYS,
+    public static final SpinButtonUpdatePolicy ALWAYS = new SpinButtonUpdatePolicy(0);
     
     /**
      * When refreshing your {@code GtkSpinButton}, the value is
      *   only displayed if it is valid within the bounds of the spin button's
      *   adjustment
      */
-    IF_VALID;
+    public static final SpinButtonUpdatePolicy IF_VALID = new SpinButtonUpdatePolicy(1);
     
-    public static SpinButtonUpdatePolicy fromValue(int value) {
-        return switch(value) {
-            case 0 -> ALWAYS;
-            case 1 -> IF_VALID;
-            default -> null;
-        };
+    private int value;
+    
+    public SpinButtonUpdatePolicy(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ALWAYS -> 0;
-            case IF_VALID -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SpinButtonUpdatePolicy[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

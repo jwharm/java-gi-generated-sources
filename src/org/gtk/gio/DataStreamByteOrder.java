@@ -4,38 +4,43 @@ package org.gtk.gio;
  * {@link DataStreamByteOrder} is used to ensure proper endianness of streaming data sources
  * across various machine architectures.
  */
-public enum DataStreamByteOrder {
+public class DataStreamByteOrder {
 
     /**
      * Selects Big Endian byte order.
      */
-    BIG_ENDIAN,
+    public static final DataStreamByteOrder BIG_ENDIAN = new DataStreamByteOrder(0);
     
     /**
      * Selects Little Endian byte order.
      */
-    LITTLE_ENDIAN,
+    public static final DataStreamByteOrder LITTLE_ENDIAN = new DataStreamByteOrder(1);
     
     /**
      * Selects endianness based on host machine's architecture.
      */
-    HOST_ENDIAN;
+    public static final DataStreamByteOrder HOST_ENDIAN = new DataStreamByteOrder(2);
     
-    public static DataStreamByteOrder fromValue(int value) {
-        return switch(value) {
-            case 0 -> BIG_ENDIAN;
-            case 1 -> LITTLE_ENDIAN;
-            case 2 -> HOST_ENDIAN;
-            default -> null;
-        };
+    private int value;
+    
+    public DataStreamByteOrder(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BIG_ENDIAN -> 0;
-            case LITTLE_ENDIAN -> 1;
-            case HOST_ENDIAN -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DataStreamByteOrder[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

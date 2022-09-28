@@ -9,7 +9,7 @@ public class MainContextFlags {
     /**
      * Default behaviour.
      */
-    public static final int NONE = 0;
+    public static final MainContextFlags NONE = new MainContextFlags(0);
     
     /**
      * Assume that polling for events will
@@ -17,6 +17,40 @@ public class MainContextFlags {
      * {@code g_main_context_{prepare,query,check,dispatch}} to integrate GMainContext in
      * other event loops.
      */
-    public static final int OWNERLESS_POLLING = 1;
+    public static final MainContextFlags OWNERLESS_POLLING = new MainContextFlags(1);
+    
+    private int value;
+    
+    public MainContextFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(MainContextFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public MainContextFlags combined(MainContextFlags mask) {
+        return new MainContextFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static MainContextFlags combined(MainContextFlags mask, MainContextFlags... masks) {
+        int value = mask.getValue();
+        for (MainContextFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MainContextFlags(value);
+    }
     
 }

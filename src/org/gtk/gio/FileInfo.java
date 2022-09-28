@@ -159,7 +159,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public FileAttributeStatus getAttributeStatus(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_status(handle(), Interop.allocateNativeString(attribute).handle());
-        return FileAttributeStatus.fromValue(RESULT);
+        return new FileAttributeStatus(RESULT);
     }
     
     /**
@@ -176,7 +176,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public FileAttributeType getAttributeType(java.lang.String attribute) {
         var RESULT = gtk_h.g_file_info_get_attribute_type(handle(), Interop.allocateNativeString(attribute).handle());
-        return FileAttributeType.fromValue(RESULT);
+        return new FileAttributeType(RESULT);
     }
     
     /**
@@ -261,7 +261,7 @@ public class FileInfo extends org.gtk.gobject.Object {
      */
     public FileType getFileType() {
         var RESULT = gtk_h.g_file_info_get_file_type(handle());
-        return FileType.fromValue(RESULT);
+        return new FileType(RESULT);
     }
     
     /**

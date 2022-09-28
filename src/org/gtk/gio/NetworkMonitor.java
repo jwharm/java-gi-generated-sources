@@ -106,7 +106,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.NativeAddress {
      */
     public default NetworkConnectivity getConnectivity() {
         var RESULT = gtk_h.g_network_monitor_get_connectivity(handle());
-        return NetworkConnectivity.fromValue(RESULT);
+        return new NetworkConnectivity(RESULT);
     }
     
     /**

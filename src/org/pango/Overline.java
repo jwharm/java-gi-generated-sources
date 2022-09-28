@@ -4,32 +4,39 @@ package org.pango;
  * The {@code PangoOverline} enumeration is used to specify whether text
  * should be overlined, and if so, the type of line.
  */
-public enum Overline {
+public class Overline {
 
     /**
      * no overline should be drawn
      */
-    NONE,
+    public static final Overline NONE = new Overline(0);
     
     /**
      * Draw a single line above the ink
      *   extents of the text being underlined.
      */
-    SINGLE;
+    public static final Overline SINGLE = new Overline(1);
     
-    public static Overline fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> SINGLE;
-            default -> null;
-        };
+    private int value;
+    
+    public Overline(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case SINGLE -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Overline[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -70,7 +70,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Direction getBaseDir() {
         var RESULT = gtk_h.pango_context_get_base_dir(handle());
-        return Direction.fromValue(RESULT);
+        return new Direction(RESULT);
     }
     
     /**
@@ -80,7 +80,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Gravity getBaseGravity() {
         var RESULT = gtk_h.pango_context_get_base_gravity(handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -109,7 +109,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public Gravity getGravity() {
         var RESULT = gtk_h.pango_context_get_gravity(handle());
-        return Gravity.fromValue(RESULT);
+        return new Gravity(RESULT);
     }
     
     /**
@@ -119,7 +119,7 @@ public class Context extends org.gtk.gobject.Object {
      */
     public GravityHint getGravityHint() {
         var RESULT = gtk_h.pango_context_get_gravity_hint(handle());
-        return GravityHint.fromValue(RESULT);
+        return new GravityHint(RESULT);
     }
     
     /**

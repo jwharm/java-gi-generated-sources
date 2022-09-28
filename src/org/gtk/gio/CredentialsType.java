@@ -3,73 +3,68 @@ package org.gtk.gio;
 /**
  * Enumeration describing different kinds of native credential types.
  */
-public enum CredentialsType {
+public class CredentialsType {
 
     /**
      * Indicates an invalid native credential type.
      */
-    INVALID,
+    public static final CredentialsType INVALID = new CredentialsType(0);
     
     /**
      * The native credentials type is a {@code struct ucred}.
      */
-    LINUX_UCRED,
+    public static final CredentialsType LINUX_UCRED = new CredentialsType(1);
     
     /**
      * The native credentials type is a {@code struct cmsgcred}.
      */
-    FREEBSD_CMSGCRED,
+    public static final CredentialsType FREEBSD_CMSGCRED = new CredentialsType(2);
     
     /**
      * The native credentials type is a {@code struct sockpeercred}. Added in 2.30.
      */
-    OPENBSD_SOCKPEERCRED,
+    public static final CredentialsType OPENBSD_SOCKPEERCRED = new CredentialsType(3);
     
     /**
      * The native credentials type is a {@code ucred_t}. Added in 2.40.
      */
-    SOLARIS_UCRED,
+    public static final CredentialsType SOLARIS_UCRED = new CredentialsType(4);
     
     /**
      * The native credentials type is a {@code struct unpcbid}. Added in 2.42.
      */
-    NETBSD_UNPCBID,
+    public static final CredentialsType NETBSD_UNPCBID = new CredentialsType(5);
     
     /**
      * The native credentials type is a {@code struct xucred}. Added in 2.66.
      */
-    APPLE_XUCRED,
+    public static final CredentialsType APPLE_XUCRED = new CredentialsType(6);
     
     /**
      * The native credentials type is a PID {@code DWORD}. Added in 2.72.
      */
-    WIN32_PID;
+    public static final CredentialsType WIN32_PID = new CredentialsType(7);
     
-    public static CredentialsType fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> LINUX_UCRED;
-            case 2 -> FREEBSD_CMSGCRED;
-            case 3 -> OPENBSD_SOCKPEERCRED;
-            case 4 -> SOLARIS_UCRED;
-            case 5 -> NETBSD_UNPCBID;
-            case 6 -> APPLE_XUCRED;
-            case 7 -> WIN32_PID;
-            default -> null;
-        };
+    private int value;
+    
+    public CredentialsType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case LINUX_UCRED -> 1;
-            case FREEBSD_CMSGCRED -> 2;
-            case OPENBSD_SOCKPEERCRED -> 3;
-            case SOLARIS_UCRED -> 4;
-            case NETBSD_UNPCBID -> 5;
-            case APPLE_XUCRED -> 6;
-            case WIN32_PID -> 7;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(CredentialsType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -275,7 +275,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.EllipsizeMode getEllipsize() {
         var RESULT = gtk_h.gtk_label_get_ellipsize(handle());
-        return org.pango.EllipsizeMode.fromValue(RESULT);
+        return new org.pango.EllipsizeMode(RESULT);
     }
     
     /**
@@ -295,7 +295,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public Justification getJustify() {
         var RESULT = gtk_h.gtk_label_get_justify(handle());
-        return Justification.fromValue(RESULT);
+        return new Justification(RESULT);
     }
     
     /**
@@ -387,7 +387,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public NaturalWrapMode getNaturalWrapMode() {
         var RESULT = gtk_h.gtk_label_get_natural_wrap_mode(handle());
-        return NaturalWrapMode.fromValue(RESULT);
+        return new NaturalWrapMode(RESULT);
     }
     
     /**
@@ -473,7 +473,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      */
     public org.pango.WrapMode getWrapMode() {
         var RESULT = gtk_h.gtk_label_get_wrap_mode(handle());
-        return org.pango.WrapMode.fromValue(RESULT);
+        return new org.pango.WrapMode(RESULT);
     }
     
     /**
@@ -938,7 +938,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     public static void __signalLabelMoveCursor(MemoryAddress source, int step, int count, boolean extendSelection, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Label.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Label(References.get(source)), MovementStep.fromValue(step), count, extendSelection);
+        handler.signalReceived(new Label(References.get(source)), new MovementStep(step), count, extendSelection);
     }
     
 }

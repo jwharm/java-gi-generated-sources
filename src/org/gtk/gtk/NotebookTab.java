@@ -3,31 +3,38 @@ package org.gtk.gtk;
 /**
  * The parameter used in the action signals of {@code GtkNotebook}.
  */
-public enum NotebookTab {
+public class NotebookTab {
 
     /**
      * the first tab in the notebook
      */
-    FIRST,
+    public static final NotebookTab FIRST = new NotebookTab(0);
     
     /**
      * the last tab in the notebook
      */
-    LAST;
+    public static final NotebookTab LAST = new NotebookTab(1);
     
-    public static NotebookTab fromValue(int value) {
-        return switch(value) {
-            case 0 -> FIRST;
-            case 1 -> LAST;
-            default -> null;
-        };
+    private int value;
+    
+    public NotebookTab(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FIRST -> 0;
-            case LAST -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(NotebookTab[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

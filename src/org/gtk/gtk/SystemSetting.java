@@ -11,17 +11,17 @@ package org.gtk.gtk;
  * <p>
  * More values may be added over time.
  */
-public enum SystemSetting {
+public class SystemSetting {
 
     /**
      * the {@code Gtk.Settings:gtk-xft-dpi} setting has changed
      */
-    DPI,
+    public static final SystemSetting DPI = new SystemSetting(0);
     
     /**
      * The {@code Gtk.Settings:gtk-font-name} setting has changed
      */
-    FONT_NAME,
+    public static final SystemSetting FONT_NAME = new SystemSetting(1);
     
     /**
      * The font configuration has changed in a way that
@@ -32,38 +32,39 @@ public enum SystemSetting {
      *   {@code Gtk.Settings:gtk-xft-rgba} or
      *   {@code Gtk.Settings:gtk-fontconfig-timestamp} settings
      */
-    FONT_CONFIG,
+    public static final SystemSetting FONT_CONFIG = new SystemSetting(2);
     
     /**
      * The display has changed
      */
-    DISPLAY,
+    public static final SystemSetting DISPLAY = new SystemSetting(3);
     
     /**
      * The icon theme has changed in a way that requires
      *   icons to be looked up again
      */
-    ICON_THEME;
+    public static final SystemSetting ICON_THEME = new SystemSetting(4);
     
-    public static SystemSetting fromValue(int value) {
-        return switch(value) {
-            case 0 -> DPI;
-            case 1 -> FONT_NAME;
-            case 2 -> FONT_CONFIG;
-            case 3 -> DISPLAY;
-            case 4 -> ICON_THEME;
-            default -> null;
-        };
+    private int value;
+    
+    public SystemSetting(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DPI -> 0;
-            case FONT_NAME -> 1;
-            case FONT_CONFIG -> 2;
-            case DISPLAY -> 3;
-            case ICON_THEME -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SystemSetting[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

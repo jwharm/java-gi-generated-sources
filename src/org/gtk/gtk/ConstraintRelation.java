@@ -3,38 +3,43 @@ package org.gtk.gtk;
 /**
  * The relation between two terms of a constraint.
  */
-public enum ConstraintRelation {
+public class ConstraintRelation {
 
     /**
      * Less than, or equal
      */
-    LE,
+    public static final ConstraintRelation LE = new ConstraintRelation(-1);
     
     /**
      * Equal
      */
-    EQ,
+    public static final ConstraintRelation EQ = new ConstraintRelation(0);
     
     /**
      * Greater than, or equal
      */
-    GE;
+    public static final ConstraintRelation GE = new ConstraintRelation(1);
     
-    public static ConstraintRelation fromValue(int value) {
-        return switch(value) {
-            case -1 -> LE;
-            case 0 -> EQ;
-            case 1 -> GE;
-            default -> null;
-        };
+    private int value;
+    
+    public ConstraintRelation(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case LE -> -1;
-            case EQ -> 0;
-            case GE -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ConstraintRelation[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

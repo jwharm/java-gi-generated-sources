@@ -109,7 +109,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      */
     public PasswordSave getPasswordSave() {
         var RESULT = gtk_h.g_mount_operation_get_password_save(handle());
-        return PasswordSave.fromValue(RESULT);
+        return new PasswordSave(RESULT);
     }
     
     /**
@@ -236,7 +236,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AskPasswordHandler {
-        void signalReceived(MountOperation source, java.lang.String message, java.lang.String defaultUser, java.lang.String defaultDomain, int flags);
+        void signalReceived(MountOperation source, java.lang.String message, java.lang.String defaultUser, java.lang.String defaultDomain, AskPasswordFlags flags);
     }
     
     /**
@@ -267,7 +267,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public static void __signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (MountOperation.AskPasswordHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), flags);
+        handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), new AskPasswordFlags(flags));
     }
     
     @FunctionalInterface
@@ -336,7 +336,7 @@ public class MountOperation extends org.gtk.gobject.Object {
     public static void __signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (MountOperation.ReplyHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)), MountOperationResult.fromValue(result));
+        handler.signalReceived(new MountOperation(References.get(source)), new MountOperationResult(result));
     }
     
     @FunctionalInterface

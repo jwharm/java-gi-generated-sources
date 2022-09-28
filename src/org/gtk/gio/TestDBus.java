@@ -92,15 +92,15 @@ public class TestDBus extends org.gtk.gobject.Object {
         return new TestDBus(gobject.getReference());
     }
     
-    private static Reference constructNew(int flags) {
-        Reference RESULT = References.get(gtk_h.g_test_dbus_new(flags), true);
+    private static Reference constructNew(TestDBusFlags flags) {
+        Reference RESULT = References.get(gtk_h.g_test_dbus_new(flags.getValue()), true);
         return RESULT;
     }
     
     /**
      * Create a new {@link TestDBus} object.
      */
-    public TestDBus(int flags) {
+    public TestDBus(TestDBusFlags flags) {
         super(constructNew(flags));
     }
     
@@ -136,9 +136,9 @@ public class TestDBus extends org.gtk.gobject.Object {
     /**
      * Get the flags of the {@link TestDBus} object.
      */
-    public int getFlags() {
+    public TestDBusFlags getFlags() {
         var RESULT = gtk_h.g_test_dbus_get_flags(handle());
-        return RESULT;
+        return new TestDBusFlags(RESULT);
     }
     
     /**

@@ -77,7 +77,7 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      */
     public AccessibleRole getAccessibleRole() {
         var RESULT = gtk_h.gtk_widget_class_get_accessible_role(handle());
-        return AccessibleRole.fromValue(RESULT);
+        return new AccessibleRole(RESULT);
     }
     
     /**
@@ -144,9 +144,9 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * by parent classes. You can identify those by looking
      * at {@code owner}.
      */
-    public boolean queryAction(int index, Type owner, java.lang.String[] actionName, org.gtk.glib.VariantType[] parameterType, java.lang.String[] propertyName) {
+    public boolean queryAction(int index, org.gtk.gobject.Type owner, java.lang.String[] actionName, org.gtk.glib.VariantType[] parameterType, java.lang.String[] propertyName) {
         PointerLong ownerPOINTER = new PointerLong(owner.getValue());
-        var RESULT = gtk_h.gtk_widget_class_query_action(handle(), index, ownerPOINTER.handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(propertyName).handle());
+        var RESULT = gtk_h.gtk_widget_class_query_action(handle(), index, new PointerLong(owner.getValue()).handle(), Interop.allocateNativeArray(actionName).handle(), Interop.allocateNativeArray(parameterType).handle(), Interop.allocateNativeArray(propertyName).handle());
         owner.setValue(ownerPOINTER.get());
         return (RESULT != 0);
     }
@@ -207,7 +207,7 @@ public class WidgetClass extends io.github.jwharm.javagi.ResourceBase {
      * This function should only be called from class init functions
      * of widgets.
      */
-    public void setLayoutManagerType(Type type) {
+    public void setLayoutManagerType(org.gtk.gobject.Type type) {
         gtk_h.gtk_widget_class_set_layout_manager_type(handle(), type.getValue());
     }
     

@@ -110,7 +110,7 @@ public class EventControllerKey extends EventController {
     
     @FunctionalInterface
     public interface KeyPressedHandler {
-        boolean signalReceived(EventControllerKey source, int keyval, int keycode, int state);
+        boolean signalReceived(EventControllerKey source, int keyval, int keycode, org.gtk.gdk.ModifierType state);
     }
     
     /**
@@ -137,12 +137,12 @@ public class EventControllerKey extends EventController {
     public static boolean __signalEventControllerKeyKeyPressed(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (EventControllerKey.KeyPressedHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, state);
+        return handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
     }
     
     @FunctionalInterface
     public interface KeyReleasedHandler {
-        void signalReceived(EventControllerKey source, int keyval, int keycode, int state);
+        void signalReceived(EventControllerKey source, int keyval, int keycode, org.gtk.gdk.ModifierType state);
     }
     
     /**
@@ -169,12 +169,12 @@ public class EventControllerKey extends EventController {
     public static void __signalEventControllerKeyKeyReleased(MemoryAddress source, int keyval, int keycode, int state, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (EventControllerKey.KeyReleasedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, state);
+        handler.signalReceived(new EventControllerKey(References.get(source)), keyval, keycode, new org.gtk.gdk.ModifierType(state));
     }
     
     @FunctionalInterface
     public interface ModifiersHandler {
-        boolean signalReceived(EventControllerKey source, int keyval);
+        boolean signalReceived(EventControllerKey source, org.gtk.gdk.ModifierType keyval);
     }
     
     /**
@@ -201,7 +201,7 @@ public class EventControllerKey extends EventController {
     public static boolean __signalEventControllerKeyModifiers(MemoryAddress source, int keyval, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (EventControllerKey.ModifiersHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new EventControllerKey(References.get(source)), keyval);
+        return handler.signalReceived(new EventControllerKey(References.get(source)), new org.gtk.gdk.ModifierType(keyval));
     }
     
 }

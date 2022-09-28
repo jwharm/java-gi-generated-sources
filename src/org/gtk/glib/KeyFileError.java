@@ -3,60 +3,59 @@ package org.gtk.glib;
 /**
  * Error codes returned by key file parsing.
  */
-public enum KeyFileError {
+public class KeyFileError {
 
     /**
      * the text being parsed was in
      *   an unknown encoding
      */
-    UNKNOWN_ENCODING,
+    public static final KeyFileError UNKNOWN_ENCODING = new KeyFileError(0);
     
     /**
      * document was ill-formed
      */
-    PARSE,
+    public static final KeyFileError PARSE = new KeyFileError(1);
     
     /**
      * the file was not found
      */
-    NOT_FOUND,
+    public static final KeyFileError NOT_FOUND = new KeyFileError(2);
     
     /**
      * a requested key was not found
      */
-    KEY_NOT_FOUND,
+    public static final KeyFileError KEY_NOT_FOUND = new KeyFileError(3);
     
     /**
      * a requested group was not found
      */
-    GROUP_NOT_FOUND,
+    public static final KeyFileError GROUP_NOT_FOUND = new KeyFileError(4);
     
     /**
      * a value could not be parsed
      */
-    INVALID_VALUE;
+    public static final KeyFileError INVALID_VALUE = new KeyFileError(5);
     
-    public static KeyFileError fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNKNOWN_ENCODING;
-            case 1 -> PARSE;
-            case 2 -> NOT_FOUND;
-            case 3 -> KEY_NOT_FOUND;
-            case 4 -> GROUP_NOT_FOUND;
-            case 5 -> INVALID_VALUE;
-            default -> null;
-        };
+    private int value;
+    
+    public KeyFileError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN_ENCODING -> 0;
-            case PARSE -> 1;
-            case NOT_FOUND -> 2;
-            case KEY_NOT_FOUND -> 3;
-            case GROUP_NOT_FOUND -> 4;
-            case INVALID_VALUE -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(KeyFileError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

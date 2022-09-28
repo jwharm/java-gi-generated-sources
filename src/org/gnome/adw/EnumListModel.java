@@ -23,7 +23,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
         return new EnumListModel(gobject.getReference());
     }
     
-    private static Reference constructNew(Type enumType) {
+    private static Reference constructNew(org.gtk.gobject.Type enumType) {
         Reference RESULT = References.get(gtk_h.adw_enum_list_model_new(enumType.getValue()), true);
         return RESULT;
     }
@@ -31,7 +31,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
     /**
      * Creates a new {@code AdwEnumListModel} for {@code enum_type}.
      */
-    public EnumListModel(Type enumType) {
+    public EnumListModel(org.gtk.gobject.Type enumType) {
         super(constructNew(enumType));
     }
     

@@ -121,7 +121,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      */
     public CenteringPolicy getCenteringPolicy() {
         var RESULT = gtk_h.adw_header_bar_get_centering_policy(handle());
-        return CenteringPolicy.fromValue(RESULT);
+        return new CenteringPolicy(RESULT);
     }
     
     /**

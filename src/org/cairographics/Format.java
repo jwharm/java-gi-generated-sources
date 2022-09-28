@@ -1,44 +1,41 @@
 package org.cairographics;
 
-public enum Format {
+public class Format {
 
-    INVALID,
+    public static final Format INVALID = new Format(-1);
     
-    ARGB32,
+    public static final Format ARGB32 = new Format(0);
     
-    RGB24,
+    public static final Format RGB24 = new Format(1);
     
-    A8,
+    public static final Format A8 = new Format(2);
     
-    A1,
+    public static final Format A1 = new Format(3);
     
-    RGB16_565,
+    public static final Format RGB16_565 = new Format(4);
     
-    RGB30;
+    public static final Format RGB30 = new Format(5);
     
-    public static Format fromValue(int value) {
-        return switch(value) {
-            case -1 -> INVALID;
-            case 0 -> ARGB32;
-            case 1 -> RGB24;
-            case 2 -> A8;
-            case 3 -> A1;
-            case 4 -> RGB16_565;
-            case 5 -> RGB30;
-            default -> null;
-        };
+    private int value;
+    
+    public Format(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> -1;
-            case ARGB32 -> 0;
-            case RGB24 -> 1;
-            case A8 -> 2;
-            case A1 -> 3;
-            case RGB16_565 -> 4;
-            case RGB30 -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Format[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

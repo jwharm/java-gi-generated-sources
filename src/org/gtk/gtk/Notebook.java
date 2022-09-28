@@ -290,7 +290,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
      */
     public PositionType getTabPos() {
         var RESULT = gtk_h.gtk_notebook_get_tab_pos(handle());
-        return PositionType.fromValue(RESULT);
+        return new PositionType(RESULT);
     }
     
     /**
@@ -647,7 +647,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     public static boolean __signalNotebookFocusTab(MemoryAddress source, int object, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Notebook.FocusTabHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), NotebookTab.fromValue(object));
+        return handler.signalReceived(new Notebook(References.get(source)), new NotebookTab(object));
     }
     
     @FunctionalInterface
@@ -676,7 +676,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     public static void __signalNotebookMoveFocusOut(MemoryAddress source, int object, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Notebook.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Notebook(References.get(source)), DirectionType.fromValue(object));
+        handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object));
     }
     
     @FunctionalInterface
@@ -804,7 +804,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
     public static boolean __signalNotebookReorderTab(MemoryAddress source, int object, boolean p0, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Notebook.ReorderTabHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), DirectionType.fromValue(object), p0);
+        return handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object), p0);
     }
     
     @FunctionalInterface

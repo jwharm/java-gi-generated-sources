@@ -8,5 +8,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface UnixFDSourceFunc {
-        boolean onUnixFDSourceFunc(int fd, int condition);
+        boolean onUnixFDSourceFunc(int fd, IOCondition condition);
 }

@@ -8,44 +8,44 @@ public class SpawnFlags {
     /**
      * no flags, default behaviour
      */
-    public static final int DEFAULT = 0;
+    public static final SpawnFlags DEFAULT = new SpawnFlags(0);
     
     /**
      * the parent's open file descriptors will
      *     be inherited by the child; otherwise all descriptors except stdin,
      *     stdout and stderr will be closed before calling exec() in the child.
      */
-    public static final int LEAVE_DESCRIPTORS_OPEN = 1;
+    public static final SpawnFlags LEAVE_DESCRIPTORS_OPEN = new SpawnFlags(1);
     
     /**
      * the child will not be automatically reaped;
      *     you must use g_child_watch_add() yourself (or call waitpid() or handle
      *     {@code SIGCHLD} yourself), or the child will become a zombie.
      */
-    public static final int DO_NOT_REAP_CHILD = 2;
+    public static final SpawnFlags DO_NOT_REAP_CHILD = new SpawnFlags(2);
     
     /**
      * {@code argv[0]} need not be an absolute path, it will be
      *     looked for in the user's {@code PATH}.
      */
-    public static final int SEARCH_PATH = 4;
+    public static final SpawnFlags SEARCH_PATH = new SpawnFlags(4);
     
     /**
      * the child's standard output will be discarded,
      *     instead of going to the same location as the parent's standard output.
      */
-    public static final int STDOUT_TO_DEV_NULL = 8;
+    public static final SpawnFlags STDOUT_TO_DEV_NULL = new SpawnFlags(8);
     
     /**
      * the child's standard error will be discarded.
      */
-    public static final int STDERR_TO_DEV_NULL = 16;
+    public static final SpawnFlags STDERR_TO_DEV_NULL = new SpawnFlags(16);
     
     /**
      * the child will inherit the parent's standard
      *     input (by default, the child's standard input is attached to {@code /dev/null}).
      */
-    public static final int CHILD_INHERITS_STDIN = 32;
+    public static final SpawnFlags CHILD_INHERITS_STDIN = new SpawnFlags(32);
     
     /**
      * the first element of {@code argv} is the file to
@@ -53,19 +53,53 @@ public class SpawnFlags {
      *     to pass to the file. Normally g_spawn_async_with_pipes() uses {@code argv[0]}
      *     as the file to execute, and passes all of {@code argv} to the child.
      */
-    public static final int FILE_AND_ARGV_ZERO = 64;
+    public static final SpawnFlags FILE_AND_ARGV_ZERO = new SpawnFlags(64);
     
     /**
      * if {@code argv[0]} is not an absolute path,
      *     it will be looked for in the {@code PATH} from the passed child environment.
      *     Since: 2.34
      */
-    public static final int SEARCH_PATH_FROM_ENVP = 128;
+    public static final SpawnFlags SEARCH_PATH_FROM_ENVP = new SpawnFlags(128);
     
     /**
      * create all pipes with the {@code O_CLOEXEC} flag set.
      *     Since: 2.40
      */
-    public static final int CLOEXEC_PIPES = 256;
+    public static final SpawnFlags CLOEXEC_PIPES = new SpawnFlags(256);
+    
+    private int value;
+    
+    public SpawnFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SpawnFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public SpawnFlags combined(SpawnFlags mask) {
+        return new SpawnFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static SpawnFlags combined(SpawnFlags mask, SpawnFlags... masks) {
+        int value = mask.getValue();
+        for (SpawnFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new SpawnFlags(value);
+    }
     
 }

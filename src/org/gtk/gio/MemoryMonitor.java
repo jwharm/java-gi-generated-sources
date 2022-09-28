@@ -99,7 +99,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.NativeAddress {
     public static void __signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (MemoryMonitor.LowMemoryWarningHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MemoryMonitor.MemoryMonitorImpl(References.get(source)), MemoryMonitorWarningLevel.fromValue(level));
+        handler.signalReceived(new MemoryMonitor.MemoryMonitorImpl(References.get(source)), new MemoryMonitorWarningLevel(level));
     }
     
     class MemoryMonitorImpl extends org.gtk.gobject.Object implements MemoryMonitor {

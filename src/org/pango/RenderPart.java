@@ -4,52 +4,53 @@ package org.pango;
  * {@code PangoRenderPart} defines different items to render for such
  * purposes as setting colors.
  */
-public enum RenderPart {
+public class RenderPart {
 
     /**
      * the text itself
      */
-    FOREGROUND,
+    public static final RenderPart FOREGROUND = new RenderPart(0);
     
     /**
      * the area behind the text
      */
-    BACKGROUND,
+    public static final RenderPart BACKGROUND = new RenderPart(1);
     
     /**
      * underlines
      */
-    UNDERLINE,
+    public static final RenderPart UNDERLINE = new RenderPart(2);
     
     /**
      * strikethrough lines
      */
-    STRIKETHROUGH,
+    public static final RenderPart STRIKETHROUGH = new RenderPart(3);
     
     /**
      * overlines
      */
-    OVERLINE;
+    public static final RenderPart OVERLINE = new RenderPart(4);
     
-    public static RenderPart fromValue(int value) {
-        return switch(value) {
-            case 0 -> FOREGROUND;
-            case 1 -> BACKGROUND;
-            case 2 -> UNDERLINE;
-            case 3 -> STRIKETHROUGH;
-            case 4 -> OVERLINE;
-            default -> null;
-        };
+    private int value;
+    
+    public RenderPart(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FOREGROUND -> 0;
-            case BACKGROUND -> 1;
-            case UNDERLINE -> 2;
-            case STRIKETHROUGH -> 3;
-            case OVERLINE -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(RenderPart[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

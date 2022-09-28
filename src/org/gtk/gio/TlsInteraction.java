@@ -61,7 +61,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return TlsInteractionResult.fromValue(RESULT);
+        return new TlsInteractionResult(RESULT);
     }
     
     /**
@@ -112,7 +112,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return TlsInteractionResult.fromValue(RESULT);
+        return new TlsInteractionResult(RESULT);
     }
     
     /**
@@ -142,7 +142,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return TlsInteractionResult.fromValue(RESULT);
+        return new TlsInteractionResult(RESULT);
     }
     
     /**
@@ -173,7 +173,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return TlsInteractionResult.fromValue(RESULT);
+        return new TlsInteractionResult(RESULT);
     }
     
     /**
@@ -200,7 +200,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return TlsInteractionResult.fromValue(RESULT);
+        return new TlsInteractionResult(RESULT);
     }
     
     /**
@@ -245,7 +245,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return TlsInteractionResult.fromValue(RESULT);
+        return new TlsInteractionResult(RESULT);
     }
     
 }

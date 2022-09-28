@@ -28,8 +28,8 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         return new SubprocessLauncher(gobject.getReference());
     }
     
-    private static Reference constructNew(int flags) {
-        Reference RESULT = References.get(gtk_h.g_subprocess_launcher_new(flags), true);
+    private static Reference constructNew(SubprocessFlags flags) {
+        Reference RESULT = References.get(gtk_h.g_subprocess_launcher_new(flags.getValue()), true);
         return RESULT;
     }
     
@@ -40,7 +40,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * environment of the calling process is made at the time of this call
      * and will be used as the environment that the process is launched in.
      */
-    public SubprocessLauncher(int flags) {
+    public SubprocessLauncher(SubprocessFlags flags) {
         super(constructNew(flags));
     }
     
@@ -152,8 +152,8 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * function like g_subprocess_launcher_set_stdin_file_path() or
      * g_subprocess_launcher_take_stdout_fd().
      */
-    public void setFlags(int flags) {
-        gtk_h.g_subprocess_launcher_set_flags(handle(), flags);
+    public void setFlags(SubprocessFlags flags) {
+        gtk_h.g_subprocess_launcher_set_flags(handle(), flags.getValue());
     }
     
     /**

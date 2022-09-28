@@ -7,108 +7,93 @@ package org.gtk.gdk;
  * report their location via the x/y members of events regardless. Whether
  * X and Y are present as axes depends on the GDK backend.
  */
-public enum AxisUse {
+public class AxisUse {
 
     /**
      * the axis is ignored.
      */
-    IGNORE,
+    public static final AxisUse IGNORE = new AxisUse(0);
     
     /**
      * the axis is used as the x axis.
      */
-    X,
+    public static final AxisUse X = new AxisUse(1);
     
     /**
      * the axis is used as the y axis.
      */
-    Y,
+    public static final AxisUse Y = new AxisUse(2);
     
     /**
      * the axis is used as the scroll x delta
      */
-    DELTA_X,
+    public static final AxisUse DELTA_X = new AxisUse(3);
     
     /**
      * the axis is used as the scroll y delta
      */
-    DELTA_Y,
+    public static final AxisUse DELTA_Y = new AxisUse(4);
     
     /**
      * the axis is used for pressure information.
      */
-    PRESSURE,
+    public static final AxisUse PRESSURE = new AxisUse(5);
     
     /**
      * the axis is used for x tilt information.
      */
-    XTILT,
+    public static final AxisUse XTILT = new AxisUse(6);
     
     /**
      * the axis is used for y tilt information.
      */
-    YTILT,
+    public static final AxisUse YTILT = new AxisUse(7);
     
     /**
      * the axis is used for wheel information.
      */
-    WHEEL,
+    public static final AxisUse WHEEL = new AxisUse(8);
     
     /**
      * the axis is used for pen/tablet distance information
      */
-    DISTANCE,
+    public static final AxisUse DISTANCE = new AxisUse(9);
     
     /**
      * the axis is used for pen rotation information
      */
-    ROTATION,
+    public static final AxisUse ROTATION = new AxisUse(10);
     
     /**
      * the axis is used for pen slider information
      */
-    SLIDER,
+    public static final AxisUse SLIDER = new AxisUse(11);
     
     /**
      * a constant equal to the numerically highest axis value.
      */
-    LAST;
+    public static final AxisUse LAST = new AxisUse(12);
     
-    public static AxisUse fromValue(int value) {
-        return switch(value) {
-            case 0 -> IGNORE;
-            case 1 -> X;
-            case 2 -> Y;
-            case 3 -> DELTA_X;
-            case 4 -> DELTA_Y;
-            case 5 -> PRESSURE;
-            case 6 -> XTILT;
-            case 7 -> YTILT;
-            case 8 -> WHEEL;
-            case 9 -> DISTANCE;
-            case 10 -> ROTATION;
-            case 11 -> SLIDER;
-            case 12 -> LAST;
-            default -> null;
-        };
+    private int value;
+    
+    public AxisUse(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case IGNORE -> 0;
-            case X -> 1;
-            case Y -> 2;
-            case DELTA_X -> 3;
-            case DELTA_Y -> 4;
-            case PRESSURE -> 5;
-            case XTILT -> 6;
-            case YTILT -> 7;
-            case WHEEL -> 8;
-            case DISTANCE -> 9;
-            case ROTATION -> 10;
-            case SLIDER -> 11;
-            case LAST -> 12;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(AxisUse[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

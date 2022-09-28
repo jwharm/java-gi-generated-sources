@@ -4,47 +4,50 @@ package org.gtk.gio;
  * Flags used when creating a {@link Socket}. Some protocols may not implement
  * all the socket types.
  */
-public enum SocketType {
+public class SocketType {
 
     /**
      * Type unknown or wrong
      */
-    INVALID,
+    public static final SocketType INVALID = new SocketType(0);
     
     /**
      * Reliable connection-based byte streams (e.g. TCP).
      */
-    STREAM,
+    public static final SocketType STREAM = new SocketType(1);
     
     /**
      * Connectionless, unreliable datagram passing.
      *     (e.g. UDP)
      */
-    DATAGRAM,
+    public static final SocketType DATAGRAM = new SocketType(2);
     
     /**
      * Reliable connection-based passing of datagrams
      *     of fixed maximum length (e.g. SCTP).
      */
-    SEQPACKET;
+    public static final SocketType SEQPACKET = new SocketType(3);
     
-    public static SocketType fromValue(int value) {
-        return switch(value) {
-            case 0 -> INVALID;
-            case 1 -> STREAM;
-            case 2 -> DATAGRAM;
-            case 3 -> SEQPACKET;
-            default -> null;
-        };
+    private int value;
+    
+    public SocketType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case INVALID -> 0;
-            case STREAM -> 1;
-            case DATAGRAM -> 2;
-            case SEQPACKET -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SocketType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

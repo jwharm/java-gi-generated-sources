@@ -3,31 +3,38 @@ package org.gtk.gtk;
 /**
  * Determines the direction of a sort.
  */
-public enum SortType {
+public class SortType {
 
     /**
      * Sorting is in ascending order.
      */
-    ASCENDING,
+    public static final SortType ASCENDING = new SortType(0);
     
     /**
      * Sorting is in descending order.
      */
-    DESCENDING;
+    public static final SortType DESCENDING = new SortType(1);
     
-    public static SortType fromValue(int value) {
-        return switch(value) {
-            case 0 -> ASCENDING;
-            case 1 -> DESCENDING;
-            default -> null;
-        };
+    private int value;
+    
+    public SortType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case ASCENDING -> 0;
-            case DESCENDING -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SortType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

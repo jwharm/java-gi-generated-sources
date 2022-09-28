@@ -142,8 +142,8 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         return new Application(gobject.getReference());
     }
     
-    private static Reference constructNew(java.lang.String applicationId, int flags) {
-        Reference RESULT = References.get(gtk_h.g_application_new(Interop.allocateNativeString(applicationId).handle(), flags), true);
+    private static Reference constructNew(java.lang.String applicationId, ApplicationFlags flags) {
+        Reference RESULT = References.get(gtk_h.g_application_new(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
         return RESULT;
     }
     
@@ -156,7 +156,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * If no application ID is given then some features of {@link Application}
      * (most notably application uniqueness) will be disabled.
      */
-    public Application(java.lang.String applicationId, int flags) {
+    public Application(java.lang.String applicationId, ApplicationFlags flags) {
         super(constructNew(applicationId, flags));
     }
     
@@ -187,8 +187,8 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * See {@link org.gtk.glib.OptionEntry} for more documentation of the arguments.
      */
-    public void addMainOption(java.lang.String longName, byte shortName, int flags, org.gtk.glib.OptionArg arg, java.lang.String description, java.lang.String argDescription) {
-        gtk_h.g_application_add_main_option(handle(), Interop.allocateNativeString(longName).handle(), shortName, flags, arg.getValue(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(argDescription).handle());
+    public void addMainOption(java.lang.String longName, byte shortName, org.gtk.glib.OptionFlags flags, org.gtk.glib.OptionArg arg, java.lang.String description, java.lang.String argDescription) {
+        gtk_h.g_application_add_main_option(handle(), Interop.allocateNativeString(longName).handle(), shortName, flags.getValue(), arg.getValue(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(argDescription).handle());
     }
     
     /**
@@ -280,7 +280,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * {@link ApplicationFlags#HANDLES_COMMAND_LINE} was given.
      */
     public void addOptionGroup(org.gtk.glib.OptionGroup group) {
-        gtk_h.g_application_add_option_group(handle(), group.handle());
+        gtk_h.g_application_add_option_group(handle(), group.getReference().unowned().handle());
     }
     
     /**
@@ -349,9 +349,9 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * See {@link ApplicationFlags}.
      */
-    public int getFlags() {
+    public ApplicationFlags getFlags() {
         var RESULT = gtk_h.g_application_get_flags(handle());
-        return RESULT;
+        return new ApplicationFlags(RESULT);
     }
     
     /**
@@ -682,8 +682,8 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
      * <p>
      * See {@link ApplicationFlags}.
      */
-    public void setFlags(int flags) {
-        gtk_h.g_application_set_flags(handle(), flags);
+    public void setFlags(ApplicationFlags flags) {
+        gtk_h.g_application_set_flags(handle(), flags.getValue());
     }
     
     /**

@@ -3,150 +3,123 @@ package org.gtk.glib;
 /**
  * Error codes returned by parsing text-format GVariants.
  */
-public enum VariantParseError {
+public class VariantParseError {
 
     /**
      * generic error (unused)
      */
-    FAILED,
+    public static final VariantParseError FAILED = new VariantParseError(0);
     
     /**
      * a non-basic {@link VariantType} was given where a basic type was expected
      */
-    BASIC_TYPE_EXPECTED,
+    public static final VariantParseError BASIC_TYPE_EXPECTED = new VariantParseError(1);
     
     /**
      * cannot infer the {@link VariantType}
      */
-    CANNOT_INFER_TYPE,
+    public static final VariantParseError CANNOT_INFER_TYPE = new VariantParseError(2);
     
     /**
      * an indefinite {@link VariantType} was given where a definite type was expected
      */
-    DEFINITE_TYPE_EXPECTED,
+    public static final VariantParseError DEFINITE_TYPE_EXPECTED = new VariantParseError(3);
     
     /**
      * extra data after parsing finished
      */
-    INPUT_NOT_AT_END,
+    public static final VariantParseError INPUT_NOT_AT_END = new VariantParseError(4);
     
     /**
      * invalid character in number or unicode escape
      */
-    INVALID_CHARACTER,
+    public static final VariantParseError INVALID_CHARACTER = new VariantParseError(5);
     
     /**
      * not a valid {@link Variant} format string
      */
-    INVALID_FORMAT_STRING,
+    public static final VariantParseError INVALID_FORMAT_STRING = new VariantParseError(6);
     
     /**
      * not a valid object path
      */
-    INVALID_OBJECT_PATH,
+    public static final VariantParseError INVALID_OBJECT_PATH = new VariantParseError(7);
     
     /**
      * not a valid type signature
      */
-    INVALID_SIGNATURE,
+    public static final VariantParseError INVALID_SIGNATURE = new VariantParseError(8);
     
     /**
      * not a valid {@link Variant} type string
      */
-    INVALID_TYPE_STRING,
+    public static final VariantParseError INVALID_TYPE_STRING = new VariantParseError(9);
     
     /**
      * could not find a common type for array entries
      */
-    NO_COMMON_TYPE,
+    public static final VariantParseError NO_COMMON_TYPE = new VariantParseError(10);
     
     /**
      * the numerical value is out of range of the given type
      */
-    NUMBER_OUT_OF_RANGE,
+    public static final VariantParseError NUMBER_OUT_OF_RANGE = new VariantParseError(11);
     
     /**
      * the numerical value is out of range for any type
      */
-    NUMBER_TOO_BIG,
+    public static final VariantParseError NUMBER_TOO_BIG = new VariantParseError(12);
     
     /**
      * cannot parse as variant of the specified type
      */
-    TYPE_ERROR,
+    public static final VariantParseError TYPE_ERROR = new VariantParseError(13);
     
     /**
      * an unexpected token was encountered
      */
-    UNEXPECTED_TOKEN,
+    public static final VariantParseError UNEXPECTED_TOKEN = new VariantParseError(14);
     
     /**
      * an unknown keyword was encountered
      */
-    UNKNOWN_KEYWORD,
+    public static final VariantParseError UNKNOWN_KEYWORD = new VariantParseError(15);
     
     /**
      * unterminated string constant
      */
-    UNTERMINATED_STRING_CONSTANT,
+    public static final VariantParseError UNTERMINATED_STRING_CONSTANT = new VariantParseError(16);
     
     /**
      * no value given
      */
-    VALUE_EXPECTED,
+    public static final VariantParseError VALUE_EXPECTED = new VariantParseError(17);
     
     /**
      * variant was too deeply nested; {@link Variant} is only guaranteed to handle nesting up to 64 levels (Since: 2.64)
      */
-    RECURSION;
+    public static final VariantParseError RECURSION = new VariantParseError(18);
     
-    public static VariantParseError fromValue(int value) {
-        return switch(value) {
-            case 0 -> FAILED;
-            case 1 -> BASIC_TYPE_EXPECTED;
-            case 2 -> CANNOT_INFER_TYPE;
-            case 3 -> DEFINITE_TYPE_EXPECTED;
-            case 4 -> INPUT_NOT_AT_END;
-            case 5 -> INVALID_CHARACTER;
-            case 6 -> INVALID_FORMAT_STRING;
-            case 7 -> INVALID_OBJECT_PATH;
-            case 8 -> INVALID_SIGNATURE;
-            case 9 -> INVALID_TYPE_STRING;
-            case 10 -> NO_COMMON_TYPE;
-            case 11 -> NUMBER_OUT_OF_RANGE;
-            case 12 -> NUMBER_TOO_BIG;
-            case 13 -> TYPE_ERROR;
-            case 14 -> UNEXPECTED_TOKEN;
-            case 15 -> UNKNOWN_KEYWORD;
-            case 16 -> UNTERMINATED_STRING_CONSTANT;
-            case 17 -> VALUE_EXPECTED;
-            case 18 -> RECURSION;
-            default -> null;
-        };
+    private int value;
+    
+    public VariantParseError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FAILED -> 0;
-            case BASIC_TYPE_EXPECTED -> 1;
-            case CANNOT_INFER_TYPE -> 2;
-            case DEFINITE_TYPE_EXPECTED -> 3;
-            case INPUT_NOT_AT_END -> 4;
-            case INVALID_CHARACTER -> 5;
-            case INVALID_FORMAT_STRING -> 6;
-            case INVALID_OBJECT_PATH -> 7;
-            case INVALID_SIGNATURE -> 8;
-            case INVALID_TYPE_STRING -> 9;
-            case NO_COMMON_TYPE -> 10;
-            case NUMBER_OUT_OF_RANGE -> 11;
-            case NUMBER_TOO_BIG -> 12;
-            case TYPE_ERROR -> 13;
-            case UNEXPECTED_TOKEN -> 14;
-            case UNKNOWN_KEYWORD -> 15;
-            case UNTERMINATED_STRING_CONSTANT -> 16;
-            case VALUE_EXPECTED -> 17;
-            case RECURSION -> 18;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(VariantParseError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -1,52 +1,45 @@
 package org.cairographics;
 
-public enum DeviceType {
+public class DeviceType {
 
-    DRM,
+    public static final DeviceType DRM = new DeviceType(0);
     
-    GL,
+    public static final DeviceType GL = new DeviceType(1);
     
-    SCRIPT,
+    public static final DeviceType SCRIPT = new DeviceType(2);
     
-    XCB,
+    public static final DeviceType XCB = new DeviceType(3);
     
-    XLIB,
+    public static final DeviceType XLIB = new DeviceType(4);
     
-    XML,
+    public static final DeviceType XML = new DeviceType(5);
     
-    COGL,
+    public static final DeviceType COGL = new DeviceType(6);
     
-    WIN32,
+    public static final DeviceType WIN32 = new DeviceType(7);
     
-    INVALID;
+    public static final DeviceType INVALID = new DeviceType(-1);
     
-    public static DeviceType fromValue(int value) {
-        return switch(value) {
-            case 0 -> DRM;
-            case 1 -> GL;
-            case 2 -> SCRIPT;
-            case 3 -> XCB;
-            case 4 -> XLIB;
-            case 5 -> XML;
-            case 6 -> COGL;
-            case 7 -> WIN32;
-            case -1 -> INVALID;
-            default -> null;
-        };
+    private int value;
+    
+    public DeviceType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case DRM -> 0;
-            case GL -> 1;
-            case SCRIPT -> 2;
-            case XCB -> 3;
-            case XLIB -> 4;
-            case XML -> 5;
-            case COGL -> 6;
-            case WIN32 -> 7;
-            case INVALID -> -1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(DeviceType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

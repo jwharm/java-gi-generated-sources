@@ -195,7 +195,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PrintDuplex getDuplex() {
         var RESULT = gtk_h.gtk_print_settings_get_duplex(handle());
-        return PrintDuplex.fromValue(RESULT);
+        return new PrintDuplex(RESULT);
     }
     
     /**
@@ -265,7 +265,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public NumberUpLayout getNumberUpLayout() {
         var RESULT = gtk_h.gtk_print_settings_get_number_up_layout(handle());
-        return NumberUpLayout.fromValue(RESULT);
+        return new NumberUpLayout(RESULT);
     }
     
     /**
@@ -274,7 +274,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PageOrientation getOrientation() {
         var RESULT = gtk_h.gtk_print_settings_get_orientation(handle());
-        return PageOrientation.fromValue(RESULT);
+        return new PageOrientation(RESULT);
     }
     
     /**
@@ -290,7 +290,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PageSet getPageSet() {
         var RESULT = gtk_h.gtk_print_settings_get_page_set(handle());
-        return PageSet.fromValue(RESULT);
+        return new PageSet(RESULT);
     }
     
     /**
@@ -325,7 +325,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PrintPages getPrintPages() {
         var RESULT = gtk_h.gtk_print_settings_get_print_pages(handle());
-        return PrintPages.fromValue(RESULT);
+        return new PrintPages(RESULT);
     }
     
     /**
@@ -350,7 +350,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      */
     public PrintQuality getQuality() {
         var RESULT = gtk_h.gtk_print_settings_get_quality(handle());
-        return PrintQuality.fromValue(RESULT);
+        return new PrintQuality(RESULT);
     }
     
     /**

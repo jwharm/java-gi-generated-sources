@@ -6,45 +6,48 @@ package org.gtk.gtk;
  * <p>
  * More values may be added over time.
  */
-public enum SymbolicColor {
+public class SymbolicColor {
 
     /**
      * The default foreground color
      */
-    FOREGROUND,
+    public static final SymbolicColor FOREGROUND = new SymbolicColor(0);
     
     /**
      * Indication color for errors
      */
-    ERROR,
+    public static final SymbolicColor ERROR = new SymbolicColor(1);
     
     /**
      * Indication color for warnings
      */
-    WARNING,
+    public static final SymbolicColor WARNING = new SymbolicColor(2);
     
     /**
      * Indication color for success
      */
-    SUCCESS;
+    public static final SymbolicColor SUCCESS = new SymbolicColor(3);
     
-    public static SymbolicColor fromValue(int value) {
-        return switch(value) {
-            case 0 -> FOREGROUND;
-            case 1 -> ERROR;
-            case 2 -> WARNING;
-            case 3 -> SUCCESS;
-            default -> null;
-        };
+    private int value;
+    
+    public SymbolicColor(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FOREGROUND -> 0;
-            case ERROR -> 1;
-            case WARNING -> 2;
-            case SUCCESS -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(SymbolicColor[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -12,73 +12,70 @@ package org.gtk.gsk;
  * multiplication will not worsen categories. So for the matrix
  * multiplication {@code C = A * B}, {@code category(C) = MIN (category(A), category(B))}.
  */
-public enum TransformCategory {
+public class TransformCategory {
 
     /**
      * The category of the matrix has not been
      *   determined.
      */
-    UNKNOWN,
+    public static final TransformCategory UNKNOWN = new TransformCategory(0);
     
     /**
      * Analyzing the matrix concluded that it does
      *   not fit in any other category.
      */
-    ANY,
+    public static final TransformCategory ANY = new TransformCategory(1);
     
     /**
      * The matrix is a 3D matrix. This means that
      *   the w column (the last column) has the values (0, 0, 0, 1).
      */
-    _3D,
+    public static final TransformCategory _3D = new TransformCategory(2);
     
     /**
      * The matrix is a 2D matrix. This is equivalent
      *   to graphene_matrix_is_2d() returning {@code true}. In particular, this
      *   means that Cairo can deal with the matrix.
      */
-    _2D,
+    public static final TransformCategory _2D = new TransformCategory(3);
     
     /**
      * The matrix is a combination of 2D scale
      *   and 2D translation operations. In particular, this means that any
      *   rectangle can be transformed exactly using this matrix.
      */
-    _2D_AFFINE,
+    public static final TransformCategory _2D_AFFINE = new TransformCategory(4);
     
     /**
      * The matrix is a 2D translation.
      */
-    _2D_TRANSLATE,
+    public static final TransformCategory _2D_TRANSLATE = new TransformCategory(5);
     
     /**
      * The matrix is the identity matrix.
      */
-    IDENTITY;
+    public static final TransformCategory IDENTITY = new TransformCategory(6);
     
-    public static TransformCategory fromValue(int value) {
-        return switch(value) {
-            case 0 -> UNKNOWN;
-            case 1 -> ANY;
-            case 2 -> _3D;
-            case 3 -> _2D;
-            case 4 -> _2D_AFFINE;
-            case 5 -> _2D_TRANSLATE;
-            case 6 -> IDENTITY;
-            default -> null;
-        };
+    private int value;
+    
+    public TransformCategory(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case UNKNOWN -> 0;
-            case ANY -> 1;
-            case _3D -> 2;
-            case _2D -> 3;
-            case _2D_AFFINE -> 4;
-            case _2D_TRANSLATE -> 5;
-            case IDENTITY -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TransformCategory[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

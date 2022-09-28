@@ -1,12 +1,5 @@
 package org.gtk.glib;
 
-import org.gtk.gobject.*;
-import io.github.jwharm.javagi.interop.jextract.gtk_h;
-import static io.github.jwharm.javagi.interop.jextract.gtk_h.C_INT;
-import io.github.jwharm.javagi.*;
-import java.lang.foreign.*;
-import java.lang.invoke.*;
-
 /**
  * Simply a replacement for {@code time_t}. It has been deprecated
  * since it is not equivalent to {@code time_t} on 64-bit platforms
@@ -30,9 +23,18 @@ import java.lang.invoke.*;
  * gtime = (GTime)ttime;
  * }</pre>
  */
-public class Time extends Alias<Integer> {
-
+public class Time {
+    private int value;
+    
     public Time(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
         this.value = value;
     }
     

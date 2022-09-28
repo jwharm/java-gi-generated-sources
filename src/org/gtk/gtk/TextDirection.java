@@ -3,38 +3,43 @@ package org.gtk.gtk;
 /**
  * Reading directions for text.
  */
-public enum TextDirection {
+public class TextDirection {
 
     /**
      * No direction.
      */
-    NONE,
+    public static final TextDirection NONE = new TextDirection(0);
     
     /**
      * Left to right text direction.
      */
-    LTR,
+    public static final TextDirection LTR = new TextDirection(1);
     
     /**
      * Right to left text direction.
      */
-    RTL;
+    public static final TextDirection RTL = new TextDirection(2);
     
-    public static TextDirection fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> LTR;
-            case 2 -> RTL;
-            default -> null;
-        };
+    private int value;
+    
+    public TextDirection(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case LTR -> 1;
-            case RTL -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TextDirection[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

@@ -1,28 +1,33 @@
 package org.cairographics;
 
-public enum FontSlant {
+public class FontSlant {
 
-    NORMAL,
+    public static final FontSlant NORMAL = new FontSlant(0);
     
-    ITALIC,
+    public static final FontSlant ITALIC = new FontSlant(1);
     
-    OBLIQUE;
+    public static final FontSlant OBLIQUE = new FontSlant(2);
     
-    public static FontSlant fromValue(int value) {
-        return switch(value) {
-            case 0 -> NORMAL;
-            case 1 -> ITALIC;
-            case 2 -> OBLIQUE;
-            default -> null;
-        };
+    private int value;
+    
+    public FontSlant(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORMAL -> 0;
-            case ITALIC -> 1;
-            case OBLIQUE -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FontSlant[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

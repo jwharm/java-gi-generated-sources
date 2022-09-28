@@ -78,8 +78,8 @@ public class IMContext extends org.gtk.gobject.Object {
      * to another input method without necessarily having a {@code GdkEvent}
      * available.
      */
-    public boolean filterKey(boolean press, org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, int time, int keycode, int state, int group) {
-        var RESULT = gtk_h.gtk_im_context_filter_key(handle(), press ? 1 : 0, surface.handle(), device.handle(), time, keycode, state, group);
+    public boolean filterKey(boolean press, org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, int time, int keycode, org.gtk.gdk.ModifierType state, int group) {
+        var RESULT = gtk_h.gtk_im_context_filter_key(handle(), press ? 1 : 0, surface.handle(), device.handle(), time, keycode, state.getValue(), group);
         return (RESULT != 0);
     }
     

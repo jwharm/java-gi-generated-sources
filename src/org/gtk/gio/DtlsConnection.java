@@ -95,8 +95,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * Used by {@link DtlsConnection} implementations to emit the
      * {@link DtlsConnection}::accept-certificate signal.
      */
-    public default boolean emitAcceptCertificate(TlsCertificate peerCert, int errors) {
-        var RESULT = gtk_h.g_dtls_connection_emit_accept_certificate(handle(), peerCert.handle(), errors);
+    public default boolean emitAcceptCertificate(TlsCertificate peerCert, TlsCertificateFlags errors) {
+        var RESULT = gtk_h.g_dtls_connection_emit_accept_certificate(handle(), peerCert.handle(), errors.getValue());
         return (RESULT != 0);
     }
     
@@ -196,9 +196,9 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      * certificate, after the handshake has completed or failed. (It is
      * not set during the emission of {@link DtlsConnection}::accept-certificate.)
      */
-    public default int getPeerCertificateErrors() {
+    public default TlsCertificateFlags getPeerCertificateErrors() {
         var RESULT = gtk_h.g_dtls_connection_get_peer_certificate_errors(handle());
-        return RESULT;
+        return new TlsCertificateFlags(RESULT);
     }
     
     /**
@@ -209,7 +209,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
      */
     public default TlsProtocolVersion getProtocolVersion() {
         var RESULT = gtk_h.g_dtls_connection_get_protocol_version(handle());
-        return TlsProtocolVersion.fromValue(RESULT);
+        return new TlsProtocolVersion(RESULT);
     }
     
     /**
@@ -450,7 +450,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     
     @FunctionalInterface
     public interface AcceptCertificateHandler {
-        boolean signalReceived(DtlsConnection source, TlsCertificate peerCert, int errors);
+        boolean signalReceived(DtlsConnection source, TlsCertificate peerCert, TlsCertificateFlags errors);
     }
     
     /**
@@ -518,7 +518,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.NativeAddress {
     public static boolean __signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (DtlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(References.get(source)), new TlsCertificate(References.get(peerCert, false)), errors);
+        return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
     }
     
     class DtlsConnectionImpl extends org.gtk.gobject.Object implements DtlsConnection {

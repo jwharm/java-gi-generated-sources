@@ -10,38 +10,43 @@ package org.gtk.gtk;
  * {@code GtkBaselinePosition} to select where to put the baseline inside the
  * extra available space.
  */
-public enum BaselinePosition {
+public class BaselinePosition {
 
     /**
      * Align the baseline at the top
      */
-    TOP,
+    public static final BaselinePosition TOP = new BaselinePosition(0);
     
     /**
      * Center the baseline
      */
-    CENTER,
+    public static final BaselinePosition CENTER = new BaselinePosition(1);
     
     /**
      * Align the baseline at the bottom
      */
-    BOTTOM;
+    public static final BaselinePosition BOTTOM = new BaselinePosition(2);
     
-    public static BaselinePosition fromValue(int value) {
-        return switch(value) {
-            case 0 -> TOP;
-            case 1 -> CENTER;
-            case 2 -> BOTTOM;
-            default -> null;
-        };
+    private int value;
+    
+    public BaselinePosition(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case TOP -> 0;
-            case CENTER -> 1;
-            case BOTTOM -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(BaselinePosition[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

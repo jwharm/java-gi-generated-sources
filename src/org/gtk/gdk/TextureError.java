@@ -3,46 +3,49 @@ package org.gtk.gdk;
 /**
  * Possible errors that can be returned by {@code GdkTexture} constructors.
  */
-public enum TextureError {
+public class TextureError {
 
     /**
      * Not enough memory to handle this image
      */
-    TOO_LARGE,
+    public static final TextureError TOO_LARGE = new TextureError(0);
     
     /**
      * The image data appears corrupted
      */
-    CORRUPT_IMAGE,
+    public static final TextureError CORRUPT_IMAGE = new TextureError(1);
     
     /**
      * The image contains features
      *   that cannot be loaded
      */
-    UNSUPPORTED_CONTENT,
+    public static final TextureError UNSUPPORTED_CONTENT = new TextureError(2);
     
     /**
      * The image format is not supported
      */
-    UNSUPPORTED_FORMAT;
+    public static final TextureError UNSUPPORTED_FORMAT = new TextureError(3);
     
-    public static TextureError fromValue(int value) {
-        return switch(value) {
-            case 0 -> TOO_LARGE;
-            case 1 -> CORRUPT_IMAGE;
-            case 2 -> UNSUPPORTED_CONTENT;
-            case 3 -> UNSUPPORTED_FORMAT;
-            default -> null;
-        };
+    private int value;
+    
+    public TextureError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case TOO_LARGE -> 0;
-            case CORRUPT_IMAGE -> 1;
-            case UNSUPPORTED_CONTENT -> 2;
-            case UNSUPPORTED_FORMAT -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TextureError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

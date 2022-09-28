@@ -1,28 +1,33 @@
 package org.cairographics;
 
-public enum RegionOverlap {
+public class RegionOverlap {
 
-    IN,
+    public static final RegionOverlap IN = new RegionOverlap(0);
     
-    OUT,
+    public static final RegionOverlap OUT = new RegionOverlap(1);
     
-    PART;
+    public static final RegionOverlap PART = new RegionOverlap(2);
     
-    public static RegionOverlap fromValue(int value) {
-        return switch(value) {
-            case 0 -> IN;
-            case 1 -> OUT;
-            case 2 -> PART;
-            default -> null;
-        };
+    private int value;
+    
+    public RegionOverlap(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case IN -> 0;
-            case OUT -> 1;
-            case PART -> 2;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(RegionOverlap[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

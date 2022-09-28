@@ -287,7 +287,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public ImageType getIconStorageType(EntryIconPosition iconPos) {
         var RESULT = gtk_h.gtk_entry_get_icon_storage_type(handle(), iconPos.getValue());
-        return ImageType.fromValue(RESULT);
+        return new ImageType(RESULT);
     }
     
     /**
@@ -311,9 +311,9 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     /**
      * Gets the input hints of this {@code GtkEntry}.
      */
-    public int getInputHints() {
+    public InputHints getInputHints() {
         var RESULT = gtk_h.gtk_entry_get_input_hints(handle());
-        return RESULT;
+        return new InputHints(RESULT);
     }
     
     /**
@@ -321,7 +321,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      */
     public InputPurpose getInputPurpose() {
         var RESULT = gtk_h.gtk_entry_get_input_purpose(handle());
-        return InputPurpose.fromValue(RESULT);
+        return new InputPurpose(RESULT);
     }
     
     /**
@@ -531,8 +531,8 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * This makes it so that GTK will start a drag
      * operation when the user clicks and drags the icon.
      */
-    public void setIconDragSource(EntryIconPosition iconPos, org.gtk.gdk.ContentProvider provider, int actions) {
-        gtk_h.gtk_entry_set_icon_drag_source(handle(), iconPos.getValue(), provider.handle(), actions);
+    public void setIconDragSource(EntryIconPosition iconPos, org.gtk.gdk.ContentProvider provider, org.gtk.gdk.DragAction actions) {
+        gtk_h.gtk_entry_set_icon_drag_source(handle(), iconPos.getValue(), provider.handle(), actions.getValue());
     }
     
     /**
@@ -621,8 +621,8 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
      * Set additional hints which allow input methods to
      * fine-tune their behavior.
      */
-    public void setInputHints(int hints) {
-        gtk_h.gtk_entry_set_input_hints(handle(), hints);
+    public void setInputHints(InputHints hints) {
+        gtk_h.gtk_entry_set_input_hints(handle(), hints.getValue());
     }
     
     /**
@@ -800,7 +800,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     public static void __signalEntryIconPress(MemoryAddress source, int iconPos, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Entry.IconPressHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Entry(References.get(source)), EntryIconPosition.fromValue(iconPos));
+        handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
     }
     
     @FunctionalInterface
@@ -833,7 +833,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
     public static void __signalEntryIconRelease(MemoryAddress source, int iconPos, MemoryAddress data) {
         int hash = data.get(C_INT, 0);
         var handler = (Entry.IconReleaseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Entry(References.get(source)), EntryIconPosition.fromValue(iconPos));
+        handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
     }
     
 }

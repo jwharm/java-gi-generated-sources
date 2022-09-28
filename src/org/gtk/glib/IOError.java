@@ -4,45 +4,48 @@ package org.gtk.glib;
  * {@link IOError} is only used by the deprecated functions
  * g_io_channel_read(), g_io_channel_write(), and g_io_channel_seek().
  */
-public enum IOError {
+public class IOError {
 
     /**
      * no error
      */
-    NONE,
+    public static final IOError NONE = new IOError(0);
     
     /**
      * an EAGAIN error occurred
      */
-    AGAIN,
+    public static final IOError AGAIN = new IOError(1);
     
     /**
      * an EINVAL error occurred
      */
-    INVAL,
+    public static final IOError INVAL = new IOError(2);
     
     /**
      * another error occurred
      */
-    UNKNOWN;
+    public static final IOError UNKNOWN = new IOError(3);
     
-    public static IOError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NONE;
-            case 1 -> AGAIN;
-            case 2 -> INVAL;
-            case 3 -> UNKNOWN;
-            default -> null;
-        };
+    private int value;
+    
+    public IOError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NONE -> 0;
-            case AGAIN -> 1;
-            case INVAL -> 2;
-            case UNKNOWN -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(IOError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

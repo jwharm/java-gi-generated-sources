@@ -10,45 +10,48 @@ package org.gtk.gtk;
  * For empty images, you can request any storage type (call any of the "get"
  * functions), but they will all return {@code null} values.
  */
-public enum ImageType {
+public class ImageType {
 
     /**
      * there is no image displayed by the widget
      */
-    EMPTY,
+    public static final ImageType EMPTY = new ImageType(0);
     
     /**
      * the widget contains a named icon
      */
-    ICON_NAME,
+    public static final ImageType ICON_NAME = new ImageType(1);
     
     /**
      * the widget contains a {@code GIcon}
      */
-    GICON,
+    public static final ImageType GICON = new ImageType(2);
     
     /**
      * the widget contains a {@code GdkPaintable}
      */
-    PAINTABLE;
+    public static final ImageType PAINTABLE = new ImageType(3);
     
-    public static ImageType fromValue(int value) {
-        return switch(value) {
-            case 0 -> EMPTY;
-            case 1 -> ICON_NAME;
-            case 2 -> GICON;
-            case 3 -> PAINTABLE;
-            default -> null;
-        };
+    private int value;
+    
+    public ImageType(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case EMPTY -> 0;
-            case ICON_NAME -> 1;
-            case GICON -> 2;
-            case PAINTABLE -> 3;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(ImageType[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

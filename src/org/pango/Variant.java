@@ -3,74 +3,71 @@ package org.pango;
 /**
  * An enumeration specifying capitalization variant of the font.
  */
-public enum Variant {
+public class Variant {
 
     /**
      * A normal font.
      */
-    NORMAL,
+    public static final Variant NORMAL = new Variant(0);
     
     /**
      * A font with the lower case characters
      *   replaced by smaller variants of the capital characters.
      */
-    SMALL_CAPS,
+    public static final Variant SMALL_CAPS = new Variant(1);
     
     /**
      * A font with all characters
      *   replaced by smaller variants of the capital characters. Since: 1.50
      */
-    ALL_SMALL_CAPS,
+    public static final Variant ALL_SMALL_CAPS = new Variant(2);
     
     /**
      * A font with the lower case characters
      *   replaced by smaller variants of the capital characters.
      *   Petite Caps can be even smaller than Small Caps. Since: 1.50
      */
-    PETITE_CAPS,
+    public static final Variant PETITE_CAPS = new Variant(3);
     
     /**
      * A font with all characters
      *   replaced by smaller variants of the capital characters.
      *   Petite Caps can be even smaller than Small Caps. Since: 1.50
      */
-    ALL_PETITE_CAPS,
+    public static final Variant ALL_PETITE_CAPS = new Variant(4);
     
     /**
      * A font with the upper case characters
      *   replaced by smaller variants of the capital letters. Since: 1.50
      */
-    UNICASE,
+    public static final Variant UNICASE = new Variant(5);
     
     /**
      * A font with capital letters that
      *   are more suitable for all-uppercase titles. Since: 1.50
      */
-    TITLE_CAPS;
+    public static final Variant TITLE_CAPS = new Variant(6);
     
-    public static Variant fromValue(int value) {
-        return switch(value) {
-            case 0 -> NORMAL;
-            case 1 -> SMALL_CAPS;
-            case 2 -> ALL_SMALL_CAPS;
-            case 3 -> PETITE_CAPS;
-            case 4 -> ALL_PETITE_CAPS;
-            case 5 -> UNICASE;
-            case 6 -> TITLE_CAPS;
-            default -> null;
-        };
+    private int value;
+    
+    public Variant(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NORMAL -> 0;
-            case SMALL_CAPS -> 1;
-            case ALL_SMALL_CAPS -> 2;
-            case PETITE_CAPS -> 3;
-            case ALL_PETITE_CAPS -> 4;
-            case UNICASE -> 5;
-            case TITLE_CAPS -> 6;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Variant[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

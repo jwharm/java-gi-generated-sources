@@ -52,7 +52,7 @@ public class NumericSorter extends Sorter {
      */
     public SortType getSortOrder() {
         var RESULT = gtk_h.gtk_numeric_sorter_get_sort_order(handle());
-        return SortType.fromValue(RESULT);
+        return new SortType(RESULT);
     }
     
     /**

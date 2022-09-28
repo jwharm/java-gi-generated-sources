@@ -8,13 +8,13 @@ public class FileCreateFlags {
     /**
      * No flags set.
      */
-    public static final int NONE = 0;
+    public static final FileCreateFlags NONE = new FileCreateFlags(0);
     
     /**
      * Create a file that can only be
      *    accessed by the current user.
      */
-    public static final int PRIVATE = 1;
+    public static final FileCreateFlags PRIVATE = new FileCreateFlags(1);
     
     /**
      * Replace the destination
@@ -28,6 +28,40 @@ public class FileCreateFlags {
      *    g_file_replace() and its variants, including g_file_replace_contents().
      *    Since 2.20
      */
-    public static final int REPLACE_DESTINATION = 2;
+    public static final FileCreateFlags REPLACE_DESTINATION = new FileCreateFlags(2);
+    
+    private int value;
+    
+    public FileCreateFlags(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(FileCreateFlags[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public FileCreateFlags combined(FileCreateFlags mask) {
+        return new FileCreateFlags(this.getValue() | mask.getValue());
+    }
+    
+    public static FileCreateFlags combined(FileCreateFlags mask, FileCreateFlags... masks) {
+        int value = mask.getValue();
+        for (FileCreateFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileCreateFlags(value);
+    }
     
 }

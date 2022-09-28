@@ -818,7 +818,7 @@ public class Variant extends io.github.jwharm.javagi.ResourceBase {
      */
     public VariantClass classify() {
         var RESULT = gtk_h.g_variant_classify(handle());
-        return VariantClass.fromValue(RESULT);
+        return new VariantClass(RESULT);
     }
     
     /**

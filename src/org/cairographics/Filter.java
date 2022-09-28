@@ -1,40 +1,39 @@
 package org.cairographics;
 
-public enum Filter {
+public class Filter {
 
-    FAST,
+    public static final Filter FAST = new Filter(0);
     
-    GOOD,
+    public static final Filter GOOD = new Filter(1);
     
-    BEST,
+    public static final Filter BEST = new Filter(2);
     
-    NEAREST,
+    public static final Filter NEAREST = new Filter(3);
     
-    BILINEAR,
+    public static final Filter BILINEAR = new Filter(4);
     
-    GAUSSIAN;
+    public static final Filter GAUSSIAN = new Filter(5);
     
-    public static Filter fromValue(int value) {
-        return switch(value) {
-            case 0 -> FAST;
-            case 1 -> GOOD;
-            case 2 -> BEST;
-            case 3 -> NEAREST;
-            case 4 -> BILINEAR;
-            case 5 -> GAUSSIAN;
-            default -> null;
-        };
+    private int value;
+    
+    public Filter(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case FAST -> 0;
-            case GOOD -> 1;
-            case BEST -> 2;
-            case NEAREST -> 3;
-            case BILINEAR -> 4;
-            case GAUSSIAN -> 5;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(Filter[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

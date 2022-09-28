@@ -92,9 +92,9 @@ public interface Paintable extends io.github.jwharm.javagi.NativeAddress {
      * <p>
      * See {@code Gdk.PaintableFlags} for the flags and what they mean.
      */
-    public default int getFlags() {
+    public default PaintableFlags getFlags() {
         var RESULT = gtk_h.gdk_paintable_get_flags(handle());
-        return RESULT;
+        return new PaintableFlags(RESULT);
     }
     
     /**

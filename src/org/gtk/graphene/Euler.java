@@ -92,7 +92,7 @@ public class Euler extends io.github.jwharm.javagi.ResourceBase {
      */
     public EulerOrder getOrder() {
         var RESULT = gtk_h.graphene_euler_get_order(handle());
-        return EulerOrder.fromValue(RESULT);
+        return new EulerOrder(RESULT);
     }
     
     /**

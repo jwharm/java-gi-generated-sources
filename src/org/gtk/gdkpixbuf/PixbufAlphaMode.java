@@ -14,7 +14,7 @@ package org.gtk.gdkpixbuf;
  * it will be possible to do full alpha compositing onto arbitrary drawables.
  * For now both cases fall back to a bilevel clipping mask.
  */
-public enum PixbufAlphaMode {
+public class PixbufAlphaMode {
 
     /**
      * A bilevel clipping mask (black and white)
@@ -22,27 +22,34 @@ public enum PixbufAlphaMode {
      *  will be considered fully transparent, and all others will be
      *  considered fully opaque.
      */
-    BILEVEL,
+    public static final PixbufAlphaMode BILEVEL = new PixbufAlphaMode(0);
     
     /**
      * For now falls back to {@code GDK_PIXBUF_ALPHA_BILEVEL}.
      *  In the future it will do full alpha compositing.
      */
-    FULL;
+    public static final PixbufAlphaMode FULL = new PixbufAlphaMode(1);
     
-    public static PixbufAlphaMode fromValue(int value) {
-        return switch(value) {
-            case 0 -> BILEVEL;
-            case 1 -> FULL;
-            default -> null;
-        };
+    private int value;
+    
+    public PixbufAlphaMode(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case BILEVEL -> 0;
-            case FULL -> 1;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(PixbufAlphaMode[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

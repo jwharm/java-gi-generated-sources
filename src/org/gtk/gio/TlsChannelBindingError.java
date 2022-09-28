@@ -4,21 +4,21 @@ package org.gtk.gio;
  * An error code used with {@code G_TLS_CHANNEL_BINDING_ERROR} in a {@link org.gtk.glib.Error} to
  * indicate a TLS channel binding retrieval error.
  */
-public enum TlsChannelBindingError {
+public class TlsChannelBindingError {
 
     /**
      * Either entire binding
      *    retrieval facility or specific binding type is not implemented in the
      *    TLS backend.
      */
-    NOT_IMPLEMENTED,
+    public static final TlsChannelBindingError NOT_IMPLEMENTED = new TlsChannelBindingError(0);
     
     /**
      * The handshake is not yet
      *    complete on the connection which is a strong requirement for any existing
      *    binding type.
      */
-    INVALID_STATE,
+    public static final TlsChannelBindingError INVALID_STATE = new TlsChannelBindingError(1);
     
     /**
      * Handshake is complete but
@@ -26,7 +26,7 @@ public enum TlsChannelBindingError {
      *    implementation failed to provide the binding data. For example, some
      *    implementations do not provide a peer certificate for resumed connections.
      */
-    NOT_AVAILABLE,
+    public static final TlsChannelBindingError NOT_AVAILABLE = new TlsChannelBindingError(2);
     
     /**
      * Binding type is not supported
@@ -34,33 +34,34 @@ public enum TlsChannelBindingError {
      *    {@code tls-server-end-point} binding data for a certificate which has no hash
      *    function or uses multiple hash functions.
      */
-    NOT_SUPPORTED,
+    public static final TlsChannelBindingError NOT_SUPPORTED = new TlsChannelBindingError(3);
     
     /**
      * Any other backend error
      *    preventing binding data retrieval.
      */
-    GENERAL_ERROR;
+    public static final TlsChannelBindingError GENERAL_ERROR = new TlsChannelBindingError(4);
     
-    public static TlsChannelBindingError fromValue(int value) {
-        return switch(value) {
-            case 0 -> NOT_IMPLEMENTED;
-            case 1 -> INVALID_STATE;
-            case 2 -> NOT_AVAILABLE;
-            case 3 -> NOT_SUPPORTED;
-            case 4 -> GENERAL_ERROR;
-            default -> null;
-        };
+    private int value;
+    
+    public TlsChannelBindingError(int value) {
+        this.value = value;
     }
-
+    
     public int getValue() {
-        return switch(this) {
-            case NOT_IMPLEMENTED -> 0;
-            case INVALID_STATE -> 1;
-            case NOT_AVAILABLE -> 2;
-            case NOT_SUPPORTED -> 3;
-            case GENERAL_ERROR -> 4;
-        };
+        return this.value;
     }
-
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(TlsChannelBindingError[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
 }

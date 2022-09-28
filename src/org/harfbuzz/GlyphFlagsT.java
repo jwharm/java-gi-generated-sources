@@ -21,7 +21,7 @@ public class GlyphFlagsT {
      * 				   layout, by avoiding re-shaping of each line
      * 				   after line-breaking.
      */
-    public static final int UNSAFE_TO_BREAK = 1;
+    public static final GlyphFlagsT UNSAFE_TO_BREAK = new GlyphFlagsT(1);
     
     /**
      * Indicates that if input text is changed on one
@@ -80,11 +80,45 @@ public class GlyphFlagsT {
      * 			   reliably produced.
      * 				   Since: 4.0.0
      */
-    public static final int UNSAFE_TO_CONCAT = 2;
+    public static final GlyphFlagsT UNSAFE_TO_CONCAT = new GlyphFlagsT(2);
     
     /**
      * All the currently defined flags.
      */
-    public static final int DEFINED = 3;
+    public static final GlyphFlagsT DEFINED = new GlyphFlagsT(3);
+    
+    private int value;
+    
+    public GlyphFlagsT(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
+    }
+    
+    public void setValue(int value) {
+        this.value = value;
+    }
+    
+    public static int[] getValues(GlyphFlagsT[] array) {
+        int[] values = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            values[i] = array[i].getValue();
+        }
+        return values;
+    }
+    
+    public GlyphFlagsT combined(GlyphFlagsT mask) {
+        return new GlyphFlagsT(this.getValue() | mask.getValue());
+    }
+    
+    public static GlyphFlagsT combined(GlyphFlagsT mask, GlyphFlagsT... masks) {
+        int value = mask.getValue();
+        for (GlyphFlagsT arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GlyphFlagsT(value);
+    }
     
 }
