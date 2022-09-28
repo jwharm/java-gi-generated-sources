@@ -71,7 +71,7 @@ public class ATContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("state-change").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ATContext.class, "__signalATContextStateChange",
+                    MethodHandles.lookup().findStatic(ATContext.Callbacks.class, "signalATContextStateChange",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -83,10 +83,13 @@ public class ATContext extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalATContextStateChange(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ATContext.StateChangeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ATContext(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalATContextStateChange(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ATContext.StateChangeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ATContext(References.get(source)));
+        }
+        
+    }
 }

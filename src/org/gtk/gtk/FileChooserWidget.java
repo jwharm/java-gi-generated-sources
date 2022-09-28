@@ -64,7 +64,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("desktop-folder").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetDesktopFolder",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetDesktopFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -74,12 +74,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.DesktopFolderHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -107,7 +101,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("down-folder").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetDownFolder",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetDownFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -117,12 +111,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.DownFolderHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -146,7 +134,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("home-folder").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetHomeFolder",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetHomeFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -156,12 +144,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.HomeFolderHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -190,7 +172,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("location-popup").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetLocationPopup",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetLocationPopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -200,12 +182,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.LocationPopupHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)), path.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -229,7 +205,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("location-popup-on-paste").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetLocationPopupOnPaste",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetLocationPopupOnPaste",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -239,12 +215,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.LocationPopupOnPasteHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -269,7 +239,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("location-toggle-popup").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetLocationTogglePopup",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetLocationTogglePopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -279,12 +249,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.LocationTogglePopupHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -307,7 +271,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("places-shortcut").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetPlacesShortcut",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetPlacesShortcut",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -317,12 +281,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.PlacesShortcutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -352,7 +310,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("quick-bookmark").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetQuickBookmark",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetQuickBookmark",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -362,12 +320,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.QuickBookmarkHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)), bookmarkIndex);
     }
     
     @FunctionalInterface
@@ -390,7 +342,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("recent-shortcut").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetRecentShortcut",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetRecentShortcut",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -400,12 +352,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.RecentShortcutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -428,7 +374,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("search-shortcut").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetSearchShortcut",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetSearchShortcut",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -438,12 +384,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.SearchShortcutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -466,7 +406,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("show-hidden").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetShowHidden",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetShowHidden",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -476,12 +416,6 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.ShowHiddenHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -505,7 +439,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                 handle(),
                 Interop.allocateNativeString("up-folder").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileChooserWidget.class, "__signalFileChooserWidgetUpFolder",
+                    MethodHandles.lookup().findStatic(FileChooserWidget.Callbacks.class, "signalFileChooserWidgetUpFolder",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -517,10 +451,79 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         }
     }
     
-    public static void __signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileChooserWidget.UpFolderHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileChooserWidget(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.DesktopFolderHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.DownFolderHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.HomeFolderHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.LocationPopupHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)), path.getUtf8String(0));
+        }
+        
+        public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.LocationPopupOnPasteHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.LocationTogglePopupHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.PlacesShortcutHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.QuickBookmarkHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)), bookmarkIndex);
+        }
+        
+        public static void signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.RecentShortcutHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.SearchShortcutHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.ShowHiddenHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+        public static void signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileChooserWidget.UpFolderHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileChooserWidget(References.get(source)));
+        }
+        
+    }
 }

@@ -82,7 +82,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("low-memory-warning").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MemoryMonitor.class, "__signalMemoryMonitorLowMemoryWarning",
+                    MethodHandles.lookup().findStatic(MemoryMonitor.Callbacks.class, "signalMemoryMonitorLowMemoryWarning",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -94,10 +94,14 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MemoryMonitor.LowMemoryWarningHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MemoryMonitor.MemoryMonitorImpl(References.get(source)), new MemoryMonitorWarningLevel(level));
+    public static class Callbacks {
+    
+        public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MemoryMonitor.LowMemoryWarningHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MemoryMonitor.MemoryMonitorImpl(References.get(source)), new MemoryMonitorWarningLevel(level));
+        }
+        
     }
     
     class MemoryMonitorImpl extends org.gtk.gobject.Object implements MemoryMonitor {

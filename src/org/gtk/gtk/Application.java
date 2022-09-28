@@ -349,7 +349,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                 handle(),
                 Interop.allocateNativeString("query-end").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationQueryEnd",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationQueryEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -359,12 +359,6 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalApplicationQueryEnd(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.QueryEndHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)));
     }
     
     @FunctionalInterface
@@ -382,7 +376,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                 handle(),
                 Interop.allocateNativeString("window-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationWindowAdded",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationWindowAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -392,12 +386,6 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalApplicationWindowAdded(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.WindowAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
     }
     
     @FunctionalInterface
@@ -417,7 +405,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
                 handle(),
                 Interop.allocateNativeString("window-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationWindowRemoved",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationWindowRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -429,10 +417,25 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         }
     }
     
-    public static void __signalApplicationWindowRemoved(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.WindowRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalApplicationQueryEnd(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.QueryEndHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)));
+        }
+        
+        public static void signalApplicationWindowAdded(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.WindowAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
+        }
+        
+        public static void signalApplicationWindowRemoved(MemoryAddress source, MemoryAddress window, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.WindowRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)), new Window(References.get(window, false)));
+        }
+        
+    }
 }

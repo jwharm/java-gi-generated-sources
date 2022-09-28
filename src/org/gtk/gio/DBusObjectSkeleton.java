@@ -102,7 +102,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
                 handle(),
                 Interop.allocateNativeString("authorize-method").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectSkeleton.class, "__signalDBusObjectSkeletonAuthorizeMethod",
+                    MethodHandles.lookup().findStatic(DBusObjectSkeleton.Callbacks.class, "signalDBusObjectSkeletonAuthorizeMethod",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -114,10 +114,13 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         }
     }
     
-    public static boolean __signalDBusObjectSkeletonAuthorizeMethod(MemoryAddress source, MemoryAddress interface_, MemoryAddress invocation, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObjectSkeleton.AuthorizeMethodHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DBusObjectSkeleton(References.get(source)), new DBusInterfaceSkeleton(References.get(interface_, false)), new DBusMethodInvocation(References.get(invocation, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalDBusObjectSkeletonAuthorizeMethod(MemoryAddress source, MemoryAddress interface_, MemoryAddress invocation, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObjectSkeleton.AuthorizeMethodHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DBusObjectSkeleton(References.get(source)), new DBusInterfaceSkeleton(References.get(interface_, false)), new DBusMethodInvocation(References.get(invocation, false)));
+        }
+        
+    }
 }

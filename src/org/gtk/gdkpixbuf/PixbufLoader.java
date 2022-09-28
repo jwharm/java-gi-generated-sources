@@ -265,7 +265,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("area-prepared").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PixbufLoader.class, "__signalPixbufLoaderAreaPrepared",
+                    MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderAreaPrepared",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -275,12 +275,6 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPixbufLoaderAreaPrepared(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PixbufLoader.AreaPreparedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(References.get(source)));
     }
     
     @FunctionalInterface
@@ -304,7 +298,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("area-updated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PixbufLoader.class, "__signalPixbufLoaderAreaUpdated",
+                    MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderAreaUpdated",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -314,12 +308,6 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPixbufLoaderAreaUpdated(MemoryAddress source, int x, int y, int width, int height, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PixbufLoader.AreaUpdatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(References.get(source)), x, y, width, height);
     }
     
     @FunctionalInterface
@@ -340,7 +328,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("closed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PixbufLoader.class, "__signalPixbufLoaderClosed",
+                    MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderClosed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -350,12 +338,6 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPixbufLoaderClosed(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PixbufLoader.ClosedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(References.get(source)));
     }
     
     @FunctionalInterface
@@ -378,7 +360,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("size-prepared").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PixbufLoader.class, "__signalPixbufLoaderSizePrepared",
+                    MethodHandles.lookup().findStatic(PixbufLoader.Callbacks.class, "signalPixbufLoaderSizePrepared",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -390,10 +372,31 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalPixbufLoaderSizePrepared(MemoryAddress source, int width, int height, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PixbufLoader.SizePreparedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PixbufLoader(References.get(source)), width, height);
-    }
+    public static class Callbacks {
     
+        public static void signalPixbufLoaderAreaPrepared(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PixbufLoader.AreaPreparedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PixbufLoader(References.get(source)));
+        }
+        
+        public static void signalPixbufLoaderAreaUpdated(MemoryAddress source, int x, int y, int width, int height, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PixbufLoader.AreaUpdatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PixbufLoader(References.get(source)), x, y, width, height);
+        }
+        
+        public static void signalPixbufLoaderClosed(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PixbufLoader.ClosedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PixbufLoader(References.get(source)));
+        }
+        
+        public static void signalPixbufLoaderSizePrepared(MemoryAddress source, int width, int height, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PixbufLoader.SizePreparedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PixbufLoader(References.get(source)), width, height);
+        }
+        
+    }
 }

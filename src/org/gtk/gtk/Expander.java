@@ -277,7 +277,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Expander.class, "__signalExpanderActivate",
+                    MethodHandles.lookup().findStatic(Expander.Callbacks.class, "signalExpanderActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -289,10 +289,13 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static void __signalExpanderActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Expander.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Expander(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalExpanderActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Expander.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Expander(References.get(source)));
+        }
+        
+    }
 }

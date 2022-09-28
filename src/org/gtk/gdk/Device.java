@@ -236,7 +236,7 @@ public class Device extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Device.class, "__signalDeviceChanged",
+                    MethodHandles.lookup().findStatic(Device.Callbacks.class, "signalDeviceChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -246,12 +246,6 @@ public class Device extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDeviceChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Device.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Device(References.get(source)));
     }
     
     @FunctionalInterface
@@ -268,7 +262,7 @@ public class Device extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("tool-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Device.class, "__signalDeviceToolChanged",
+                    MethodHandles.lookup().findStatic(Device.Callbacks.class, "signalDeviceToolChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -280,10 +274,19 @@ public class Device extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalDeviceToolChanged(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Device.ToolChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Device(References.get(source)), new DeviceTool(References.get(tool, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalDeviceChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Device.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Device(References.get(source)));
+        }
+        
+        public static void signalDeviceToolChanged(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Device.ToolChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Device(References.get(source)), new DeviceTool(References.get(tool, false)));
+        }
+        
+    }
 }

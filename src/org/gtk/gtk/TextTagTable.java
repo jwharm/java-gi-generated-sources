@@ -128,7 +128,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
                 handle(),
                 Interop.allocateNativeString("tag-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextTagTable.class, "__signalTextTagTableTagAdded",
+                    MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -138,12 +138,6 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextTagTableTagAdded(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextTagTable.TagAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)));
     }
     
     @FunctionalInterface
@@ -160,7 +154,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
                 handle(),
                 Interop.allocateNativeString("tag-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextTagTable.class, "__signalTextTagTableTagChanged",
+                    MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -170,12 +164,6 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextTagTableTagChanged(MemoryAddress source, MemoryAddress tag, int sizeChanged, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextTagTable.TagChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)), sizeChanged != 0);
     }
     
     @FunctionalInterface
@@ -195,7 +183,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
                 handle(),
                 Interop.allocateNativeString("tag-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextTagTable.class, "__signalTextTagTableTagRemoved",
+                    MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -207,10 +195,25 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         }
     }
     
-    public static void __signalTextTagTableTagRemoved(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextTagTable.TagRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalTextTagTableTagAdded(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextTagTable.TagAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)));
+        }
+        
+        public static void signalTextTagTableTagChanged(MemoryAddress source, MemoryAddress tag, int sizeChanged, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextTagTable.TagChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)), sizeChanged != 0);
+        }
+        
+        public static void signalTextTagTableTagRemoved(MemoryAddress source, MemoryAddress tag, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextTagTable.TagRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextTagTable(References.get(source)), new TextTag(References.get(tag, false)));
+        }
+        
+    }
 }

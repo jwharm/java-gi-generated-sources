@@ -111,7 +111,7 @@ public class Sorter extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Sorter.class, "__signalSorterChanged",
+                    MethodHandles.lookup().findStatic(Sorter.Callbacks.class, "signalSorterChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -123,10 +123,13 @@ public class Sorter extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Sorter.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Sorter(References.get(source)), new SorterChange(change));
-    }
+    public static class Callbacks {
     
+        public static void signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Sorter.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Sorter(References.get(source)), new SorterChange(change));
+        }
+        
+    }
 }

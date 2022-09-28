@@ -152,7 +152,7 @@ public class Monitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("invalidate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Monitor.class, "__signalMonitorInvalidate",
+                    MethodHandles.lookup().findStatic(Monitor.Callbacks.class, "signalMonitorInvalidate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -164,10 +164,13 @@ public class Monitor extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalMonitorInvalidate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Monitor.InvalidateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Monitor(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalMonitorInvalidate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Monitor.InvalidateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Monitor(References.get(source)));
+        }
+        
+    }
 }

@@ -121,7 +121,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("display-opened").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DisplayManager.class, "__signalDisplayManagerDisplayOpened",
+                    MethodHandles.lookup().findStatic(DisplayManager.Callbacks.class, "signalDisplayManagerDisplayOpened",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -133,10 +133,13 @@ public class DisplayManager extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalDisplayManagerDisplayOpened(MemoryAddress source, MemoryAddress display, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DisplayManager.DisplayOpenedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DisplayManager(References.get(source)), new Display(References.get(display, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalDisplayManagerDisplayOpened(MemoryAddress source, MemoryAddress display, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DisplayManager.DisplayOpenedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DisplayManager(References.get(source)), new Display(References.get(display, false)));
+        }
+        
+    }
 }

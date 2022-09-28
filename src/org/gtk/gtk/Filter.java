@@ -101,7 +101,7 @@ public class Filter extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Filter.class, "__signalFilterChanged",
+                    MethodHandles.lookup().findStatic(Filter.Callbacks.class, "signalFilterChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -113,10 +113,13 @@ public class Filter extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalFilterChanged(MemoryAddress source, int change, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Filter.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Filter(References.get(source)), new FilterChange(change));
-    }
+    public static class Callbacks {
     
+        public static void signalFilterChanged(MemoryAddress source, int change, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Filter.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Filter(References.get(source)), new FilterChange(change));
+        }
+        
+    }
 }

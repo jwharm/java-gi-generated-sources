@@ -394,7 +394,7 @@ public class Resolver extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("reload").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Resolver.class, "__signalResolverReload",
+                    MethodHandles.lookup().findStatic(Resolver.Callbacks.class, "signalResolverReload",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -406,10 +406,13 @@ public class Resolver extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalResolverReload(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Resolver.ReloadHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Resolver(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalResolverReload(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Resolver.ReloadHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Resolver(References.get(source)));
+        }
+        
+    }
 }

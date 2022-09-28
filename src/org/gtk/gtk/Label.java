@@ -801,7 +801,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("activate-current-link").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.class, "__signalLabelActivateCurrentLink",
+                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelActivateCurrentLink",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -811,12 +811,6 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalLabelActivateCurrentLink(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Label.ActivateCurrentLinkHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Label(References.get(source)));
     }
     
     @FunctionalInterface
@@ -836,7 +830,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("activate-link").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.class, "__signalLabelActivateLink",
+                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -846,12 +840,6 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalLabelActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Label.ActivateLinkHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Label(References.get(source)), uri.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -872,7 +860,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("copy-clipboard").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.class, "__signalLabelCopyClipboard",
+                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelCopyClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -882,12 +870,6 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalLabelCopyClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Label.CopyClipboardHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Label(References.get(source)));
     }
     
     @FunctionalInterface
@@ -921,7 +903,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.class, "__signalLabelMoveCursor",
+                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -933,10 +915,31 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    public static void __signalLabelMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Label.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Label(References.get(source)), new MovementStep(step), count, extendSelection != 0);
-    }
+    public static class Callbacks {
     
+        public static void signalLabelActivateCurrentLink(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Label.ActivateCurrentLinkHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Label(References.get(source)));
+        }
+        
+        public static boolean signalLabelActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Label.ActivateLinkHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Label(References.get(source)), uri.getUtf8String(0));
+        }
+        
+        public static void signalLabelCopyClipboard(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Label.CopyClipboardHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Label(References.get(source)));
+        }
+        
+        public static void signalLabelMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Label.MoveCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Label(References.get(source)), new MovementStep(step), count, extendSelection != 0);
+        }
+        
+    }
 }

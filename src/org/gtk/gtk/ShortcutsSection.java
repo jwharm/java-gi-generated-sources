@@ -42,7 +42,7 @@ public class ShortcutsSection extends Box implements Accessible, Buildable, Cons
                 handle(),
                 Interop.allocateNativeString("change-current-page").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ShortcutsSection.class, "__signalShortcutsSectionChangeCurrentPage",
+                    MethodHandles.lookup().findStatic(ShortcutsSection.Callbacks.class, "signalShortcutsSectionChangeCurrentPage",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -54,10 +54,13 @@ public class ShortcutsSection extends Box implements Accessible, Buildable, Cons
         }
     }
     
-    public static boolean __signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ShortcutsSection.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new ShortcutsSection(References.get(source)), object);
-    }
+    public static class Callbacks {
     
+        public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ShortcutsSection.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new ShortcutsSection(References.get(source)), object);
+        }
+        
+    }
 }

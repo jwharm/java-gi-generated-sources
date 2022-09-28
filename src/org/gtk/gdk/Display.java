@@ -414,7 +414,7 @@ public class Display extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("closed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Display.class, "__signalDisplayClosed",
+                    MethodHandles.lookup().findStatic(Display.Callbacks.class, "signalDisplayClosed",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -424,12 +424,6 @@ public class Display extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDisplayClosed(MemoryAddress source, int isError, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Display.ClosedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Display(References.get(source)), isError != 0);
     }
     
     @FunctionalInterface
@@ -446,7 +440,7 @@ public class Display extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("opened").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Display.class, "__signalDisplayOpened",
+                    MethodHandles.lookup().findStatic(Display.Callbacks.class, "signalDisplayOpened",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -456,12 +450,6 @@ public class Display extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDisplayOpened(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Display.OpenedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Display(References.get(source)));
     }
     
     @FunctionalInterface
@@ -478,7 +466,7 @@ public class Display extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("seat-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Display.class, "__signalDisplaySeatAdded",
+                    MethodHandles.lookup().findStatic(Display.Callbacks.class, "signalDisplaySeatAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -488,12 +476,6 @@ public class Display extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDisplaySeatAdded(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Display.SeatAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
     }
     
     @FunctionalInterface
@@ -510,7 +492,7 @@ public class Display extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("seat-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Display.class, "__signalDisplaySeatRemoved",
+                    MethodHandles.lookup().findStatic(Display.Callbacks.class, "signalDisplaySeatRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -520,12 +502,6 @@ public class Display extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDisplaySeatRemoved(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Display.SeatRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
     }
     
     @FunctionalInterface
@@ -542,7 +518,7 @@ public class Display extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("setting-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Display.class, "__signalDisplaySettingChanged",
+                    MethodHandles.lookup().findStatic(Display.Callbacks.class, "signalDisplaySettingChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -554,10 +530,37 @@ public class Display extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalDisplaySettingChanged(MemoryAddress source, MemoryAddress setting, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Display.SettingChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Display(References.get(source)), setting.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalDisplayClosed(MemoryAddress source, int isError, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Display.ClosedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Display(References.get(source)), isError != 0);
+        }
+        
+        public static void signalDisplayOpened(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Display.OpenedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Display(References.get(source)));
+        }
+        
+        public static void signalDisplaySeatAdded(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Display.SeatAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
+        }
+        
+        public static void signalDisplaySeatRemoved(MemoryAddress source, MemoryAddress seat, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Display.SeatRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Display(References.get(source)), new Seat(References.get(seat, false)));
+        }
+        
+        public static void signalDisplaySettingChanged(MemoryAddress source, MemoryAddress setting, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Display.SettingChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Display(References.get(source)), setting.getUtf8String(0));
+        }
+        
+    }
 }

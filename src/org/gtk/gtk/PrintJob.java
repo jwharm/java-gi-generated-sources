@@ -336,7 +336,7 @@ public class PrintJob extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("status-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintJob.class, "__signalPrintJobStatusChanged",
+                    MethodHandles.lookup().findStatic(PrintJob.Callbacks.class, "signalPrintJobStatusChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -348,10 +348,13 @@ public class PrintJob extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalPrintJobStatusChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintJob.StatusChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintJob(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalPrintJobStatusChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintJob.StatusChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintJob(References.get(source)));
+        }
+        
+    }
 }

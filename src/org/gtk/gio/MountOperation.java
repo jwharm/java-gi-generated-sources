@@ -214,7 +214,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("aborted").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.class, "__signalMountOperationAborted",
+                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAborted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -224,12 +224,6 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MountOperation.AbortedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)));
     }
     
     @FunctionalInterface
@@ -250,7 +244,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("ask-password").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.class, "__signalMountOperationAskPassword",
+                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAskPassword",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -260,12 +254,6 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MountOperation.AskPasswordHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), new AskPasswordFlags(flags));
     }
     
     @FunctionalInterface
@@ -287,7 +275,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("ask-question").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.class, "__signalMountOperationAskQuestion",
+                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAskQuestion",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -297,12 +285,6 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MountOperation.AskQuestionHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), new PointerString(choices).iterator());
     }
     
     @FunctionalInterface
@@ -319,7 +301,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("reply").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.class, "__signalMountOperationReply",
+                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationReply",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -329,12 +311,6 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MountOperation.ReplyHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)), new MountOperationResult(result));
     }
     
     @FunctionalInterface
@@ -362,7 +338,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("show-processes").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.class, "__signalMountOperationShowProcesses",
+                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationShowProcesses",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -372,12 +348,6 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MountOperation.ShowProcessesHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), new PointerInteger(processes).iterator(), new PointerString(choices).iterator());
     }
     
     @FunctionalInterface
@@ -409,7 +379,7 @@ public class MountOperation extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("show-unmount-progress").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.class, "__signalMountOperationShowUnmountProgress",
+                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationShowUnmountProgress",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, long.class, long.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -421,10 +391,43 @@ public class MountOperation extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MountOperation.ShowUnmountProgressHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), timeLeft, bytesLeft);
-    }
+    public static class Callbacks {
     
+        public static void signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MountOperation.AbortedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MountOperation(References.get(source)));
+        }
+        
+        public static void signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MountOperation.AskPasswordHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), new AskPasswordFlags(flags));
+        }
+        
+        public static void signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MountOperation.AskQuestionHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), new PointerString(choices).iterator());
+        }
+        
+        public static void signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MountOperation.ReplyHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MountOperation(References.get(source)), new MountOperationResult(result));
+        }
+        
+        public static void signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MountOperation.ShowProcessesHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), new PointerInteger(processes).iterator(), new PointerString(choices).iterator());
+        }
+        
+        public static void signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MountOperation.ShowUnmountProgressHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MountOperation(References.get(source)), message.getUtf8String(0), timeLeft, bytesLeft);
+        }
+        
+    }
 }

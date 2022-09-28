@@ -196,7 +196,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GridView.class, "__signalGridViewActivate",
+                    MethodHandles.lookup().findStatic(GridView.Callbacks.class, "signalGridViewActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -208,10 +208,13 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
         }
     }
     
-    public static void __signalGridViewActivate(MemoryAddress source, int position, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GridView.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GridView(References.get(source)), position);
-    }
+    public static class Callbacks {
     
+        public static void signalGridViewActivate(MemoryAddress source, int position, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GridView.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GridView(References.get(source)), position);
+        }
+        
+    }
 }

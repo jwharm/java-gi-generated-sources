@@ -268,7 +268,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Volume.class, "__signalVolumeChanged",
+                    MethodHandles.lookup().findStatic(Volume.Callbacks.class, "signalVolumeChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -278,12 +278,6 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Volume.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -302,7 +296,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Volume.class, "__signalVolumeRemoved",
+                    MethodHandles.lookup().findStatic(Volume.Callbacks.class, "signalVolumeRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -314,10 +308,20 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalVolumeRemoved(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Volume.RemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
+    public static class Callbacks {
+    
+        public static void signalVolumeChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Volume.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
+        }
+        
+        public static void signalVolumeRemoved(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Volume.RemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Volume.VolumeImpl(References.get(source)));
+        }
+        
     }
     
     class VolumeImpl extends org.gtk.gobject.Object implements Volume {

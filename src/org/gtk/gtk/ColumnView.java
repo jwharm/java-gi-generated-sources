@@ -294,7 +294,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColumnView.class, "__signalColumnViewActivate",
+                    MethodHandles.lookup().findStatic(ColumnView.Callbacks.class, "signalColumnViewActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -306,10 +306,13 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    public static void __signalColumnViewActivate(MemoryAddress source, int position, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ColumnView.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ColumnView(References.get(source)), position);
-    }
+    public static class Callbacks {
     
+        public static void signalColumnViewActivate(MemoryAddress source, int position, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ColumnView.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ColumnView(References.get(source)), position);
+        }
+        
+    }
 }

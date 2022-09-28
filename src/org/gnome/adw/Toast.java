@@ -288,7 +288,7 @@ public class Toast extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("dismissed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Toast.class, "__signalToastDismissed",
+                    MethodHandles.lookup().findStatic(Toast.Callbacks.class, "signalToastDismissed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -300,10 +300,13 @@ public class Toast extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalToastDismissed(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Toast.DismissedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Toast(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalToastDismissed(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Toast.DismissedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Toast(References.get(source)));
+        }
+        
+    }
 }

@@ -271,7 +271,7 @@ public class Printer extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("details-acquired").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Printer.class, "__signalPrinterDetailsAcquired",
+                    MethodHandles.lookup().findStatic(Printer.Callbacks.class, "signalPrinterDetailsAcquired",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -283,10 +283,13 @@ public class Printer extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalPrinterDetailsAcquired(MemoryAddress source, int success, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Printer.DetailsAcquiredHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Printer(References.get(source)), success != 0);
-    }
+    public static class Callbacks {
     
+        public static void signalPrinterDetailsAcquired(MemoryAddress source, int success, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Printer.DetailsAcquiredHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Printer(References.get(source)), success != 0);
+        }
+        
+    }
 }

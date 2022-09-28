@@ -216,7 +216,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropDown.class, "__signalDropDownActivate",
+                    MethodHandles.lookup().findStatic(DropDown.Callbacks.class, "signalDropDownActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -228,10 +228,13 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static void __signalDropDownActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropDown.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DropDown(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalDropDownActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropDown.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DropDown(References.get(source)));
+        }
+        
+    }
 }

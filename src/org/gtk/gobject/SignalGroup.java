@@ -198,7 +198,7 @@ public class SignalGroup extends Object {
                 handle(),
                 Interop.allocateNativeString("bind").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SignalGroup.class, "__signalSignalGroupBind",
+                    MethodHandles.lookup().findStatic(SignalGroup.Callbacks.class, "signalSignalGroupBind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -208,12 +208,6 @@ public class SignalGroup extends Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSignalGroupBind(MemoryAddress source, MemoryAddress instance, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SignalGroup.BindHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SignalGroup(References.get(source)), new Object(References.get(instance, false)));
     }
     
     @FunctionalInterface
@@ -234,7 +228,7 @@ public class SignalGroup extends Object {
                 handle(),
                 Interop.allocateNativeString("unbind").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SignalGroup.class, "__signalSignalGroupUnbind",
+                    MethodHandles.lookup().findStatic(SignalGroup.Callbacks.class, "signalSignalGroupUnbind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -246,10 +240,19 @@ public class SignalGroup extends Object {
         }
     }
     
-    public static void __signalSignalGroupUnbind(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SignalGroup.UnbindHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SignalGroup(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalSignalGroupBind(MemoryAddress source, MemoryAddress instance, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SignalGroup.BindHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SignalGroup(References.get(source)), new Object(References.get(instance, false)));
+        }
+        
+        public static void signalSignalGroupUnbind(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SignalGroup.UnbindHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SignalGroup(References.get(source)));
+        }
+        
+    }
 }

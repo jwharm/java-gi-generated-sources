@@ -899,7 +899,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationActivate",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -909,12 +909,6 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalApplicationActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)));
     }
     
     @FunctionalInterface
@@ -933,7 +927,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                 handle(),
                 Interop.allocateNativeString("command-line").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationCommandLine",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationCommandLine",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -943,12 +937,6 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalApplicationCommandLine(MemoryAddress source, MemoryAddress commandLine, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.CommandLineHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)), new ApplicationCommandLine(References.get(commandLine, false)));
     }
     
     @FunctionalInterface
@@ -1005,7 +993,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                 handle(),
                 Interop.allocateNativeString("handle-local-options").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationHandleLocalOptions",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationHandleLocalOptions",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1015,12 +1003,6 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalApplicationHandleLocalOptions(MemoryAddress source, MemoryAddress options, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.HandleLocalOptionsHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)), new org.gtk.glib.VariantDict(References.get(options, false)));
     }
     
     @FunctionalInterface
@@ -1041,7 +1023,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                 handle(),
                 Interop.allocateNativeString("name-lost").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationNameLost",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationNameLost",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1051,12 +1033,6 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalApplicationNameLost(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.NameLostHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Application(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1074,7 +1050,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                 handle(),
                 Interop.allocateNativeString("open").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationOpen",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationOpen",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1084,12 +1060,6 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalApplicationOpen(MemoryAddress source, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.OpenHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)), new PointerProxy<File>(files, File.class).iterator(), nFiles, hint.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -1107,7 +1077,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                 handle(),
                 Interop.allocateNativeString("shutdown").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationShutdown",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationShutdown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1117,12 +1087,6 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalApplicationShutdown(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.ShutdownHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1140,7 +1104,7 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
                 handle(),
                 Interop.allocateNativeString("startup").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.class, "__signalApplicationStartup",
+                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationStartup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1152,10 +1116,49 @@ public class Application extends org.gtk.gobject.Object implements ActionGroup, 
         }
     }
     
-    public static void __signalApplicationStartup(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Application.StartupHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Application(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalApplicationActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)));
+        }
+        
+        public static void signalApplicationCommandLine(MemoryAddress source, MemoryAddress commandLine, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.CommandLineHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)), new ApplicationCommandLine(References.get(commandLine, false)));
+        }
+        
+        public static void signalApplicationHandleLocalOptions(MemoryAddress source, MemoryAddress options, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.HandleLocalOptionsHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)), new org.gtk.glib.VariantDict(References.get(options, false)));
+        }
+        
+        public static boolean signalApplicationNameLost(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.NameLostHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Application(References.get(source)));
+        }
+        
+        public static void signalApplicationOpen(MemoryAddress source, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.OpenHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)), new PointerProxy<File>(files, File.class).iterator(), nFiles, hint.getUtf8String(0));
+        }
+        
+        public static void signalApplicationShutdown(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.ShutdownHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)));
+        }
+        
+        public static void signalApplicationStartup(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Application.StartupHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Application(References.get(source)));
+        }
+        
+    }
 }

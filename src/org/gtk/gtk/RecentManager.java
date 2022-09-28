@@ -235,7 +235,7 @@ public class RecentManager extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(RecentManager.class, "__signalRecentManagerChanged",
+                    MethodHandles.lookup().findStatic(RecentManager.Callbacks.class, "signalRecentManagerChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -247,10 +247,13 @@ public class RecentManager extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalRecentManagerChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (RecentManager.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new RecentManager(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalRecentManagerChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (RecentManager.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new RecentManager(References.get(source)));
+        }
+        
+    }
 }

@@ -44,7 +44,7 @@ public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
                 handle(),
                 Interop.allocateNativeString("images-updated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VulkanContext.class, "__signalVulkanContextImagesUpdated",
+                    MethodHandles.lookup().findStatic(VulkanContext.Callbacks.class, "signalVulkanContextImagesUpdated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -56,10 +56,13 @@ public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
         }
     }
     
-    public static void __signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VulkanContext.ImagesUpdatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VulkanContext(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VulkanContext.ImagesUpdatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VulkanContext(References.get(source)));
+        }
+        
+    }
 }

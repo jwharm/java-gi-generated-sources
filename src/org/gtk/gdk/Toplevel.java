@@ -264,7 +264,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("compute-size").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Toplevel.class, "__signalToplevelComputeSize",
+                    MethodHandles.lookup().findStatic(Toplevel.Callbacks.class, "signalToplevelComputeSize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -276,10 +276,14 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalToplevelComputeSize(MemoryAddress source, MemoryAddress size, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Toplevel.ComputeSizeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Toplevel.ToplevelImpl(References.get(source)), new ToplevelSize(References.get(size, false)));
+    public static class Callbacks {
+    
+        public static void signalToplevelComputeSize(MemoryAddress source, MemoryAddress size, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Toplevel.ComputeSizeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Toplevel.ToplevelImpl(References.get(source)), new ToplevelSize(References.get(size, false)));
+        }
+        
     }
     
     class ToplevelImpl extends org.gtk.gobject.Object implements Toplevel {

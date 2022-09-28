@@ -502,7 +502,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("begin-print").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationBeginPrint",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationBeginPrint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -512,12 +512,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationBeginPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.BeginPrintHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
     
     @FunctionalInterface
@@ -544,7 +538,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("create-custom-widget").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationCreateCustomWidget",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCreateCustomWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -554,12 +548,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationCreateCustomWidget(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.CreateCustomWidgetHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)));
     }
     
     @FunctionalInterface
@@ -581,7 +569,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("custom-widget-apply").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationCustomWidgetApply",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCustomWidgetApply",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -591,12 +579,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationCustomWidgetApply(MemoryAddress source, MemoryAddress widget, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.CustomWidgetApplyHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)));
     }
     
     @FunctionalInterface
@@ -622,7 +604,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("done").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationDone",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDone",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -632,12 +614,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.DoneHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationResult(result));
     }
     
     @FunctionalInterface
@@ -704,7 +680,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("draw-page").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationDrawPage",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDrawPage",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -714,12 +690,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationDrawPage(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.DrawPageHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr);
     }
     
     @FunctionalInterface
@@ -739,7 +709,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("end-print").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationEndPrint",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationEndPrint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -749,12 +719,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationEndPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.EndPrintHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
     
     @FunctionalInterface
@@ -784,7 +748,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("paginate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationPaginate",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPaginate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -794,12 +758,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalPrintOperationPaginate(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.PaginateHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
     }
     
     @FunctionalInterface
@@ -832,7 +790,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("preview").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationPreview",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPreview",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -842,12 +800,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalPrintOperationPreview(MemoryAddress source, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.PreviewHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationPreview.PrintOperationPreviewImpl(References.get(preview, false)), new PrintContext(References.get(context, false)), new Window(References.get(parent, false)));
     }
     
     @FunctionalInterface
@@ -868,7 +820,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("request-page-setup").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationRequestPageSetup",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationRequestPageSetup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -878,12 +830,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationRequestPageSetup(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.RequestPageSetupHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr, new PageSetup(References.get(setup, false)));
     }
     
     @FunctionalInterface
@@ -904,7 +850,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("status-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationStatusChanged",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationStatusChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -914,12 +860,6 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationStatusChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.StatusChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)));
     }
     
     @FunctionalInterface
@@ -939,7 +879,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
                 handle(),
                 Interop.allocateNativeString("update-custom-widget").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.class, "__signalPrintOperationUpdateCustomWidget",
+                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationUpdateCustomWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -951,10 +891,73 @@ public class PrintOperation extends org.gtk.gobject.Object implements PrintOpera
         }
     }
     
-    public static void __signalPrintOperationUpdateCustomWidget(MemoryAddress source, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperation.UpdateCustomWidgetHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)), new PageSetup(References.get(setup, false)), new PrintSettings(References.get(settings, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalPrintOperationBeginPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.BeginPrintHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
+        }
+        
+        public static void signalPrintOperationCreateCustomWidget(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.CreateCustomWidgetHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)));
+        }
+        
+        public static void signalPrintOperationCustomWidgetApply(MemoryAddress source, MemoryAddress widget, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.CustomWidgetApplyHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)));
+        }
+        
+        public static void signalPrintOperationDone(MemoryAddress source, int result, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.DoneHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationResult(result));
+        }
+        
+        public static void signalPrintOperationDrawPage(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.DrawPageHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr);
+        }
+        
+        public static void signalPrintOperationEndPrint(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.EndPrintHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
+        }
+        
+        public static boolean signalPrintOperationPaginate(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.PaginateHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)));
+        }
+        
+        public static boolean signalPrintOperationPreview(MemoryAddress source, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.PreviewHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new PrintOperation(References.get(source)), new PrintOperationPreview.PrintOperationPreviewImpl(References.get(preview, false)), new PrintContext(References.get(context, false)), new Window(References.get(parent, false)));
+        }
+        
+        public static void signalPrintOperationRequestPageSetup(MemoryAddress source, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.RequestPageSetupHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)), new PrintContext(References.get(context, false)), pageNr, new PageSetup(References.get(setup, false)));
+        }
+        
+        public static void signalPrintOperationStatusChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.StatusChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)));
+        }
+        
+        public static void signalPrintOperationUpdateCustomWidget(MemoryAddress source, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperation.UpdateCustomWidgetHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperation(References.get(source)), new Widget(References.get(widget, false)), new PageSetup(References.get(setup, false)), new PrintSettings(References.get(settings, false)));
+        }
+        
+    }
 }

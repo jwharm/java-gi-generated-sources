@@ -257,7 +257,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("close").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InfoBar.class, "__signalInfoBarClose",
+                    MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -267,12 +267,6 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalInfoBarClose(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (InfoBar.CloseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new InfoBar(References.get(source)));
     }
     
     @FunctionalInterface
@@ -293,7 +287,7 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("response").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InfoBar.class, "__signalInfoBarResponse",
+                    MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -305,10 +299,19 @@ public class InfoBar extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    public static void __signalInfoBarResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (InfoBar.ResponseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new InfoBar(References.get(source)), responseId);
-    }
+    public static class Callbacks {
     
+        public static void signalInfoBarClose(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (InfoBar.CloseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new InfoBar(References.get(source)));
+        }
+        
+        public static void signalInfoBarResponse(MemoryAddress source, int responseId, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (InfoBar.ResponseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new InfoBar(References.get(source)), responseId);
+        }
+        
+    }
 }

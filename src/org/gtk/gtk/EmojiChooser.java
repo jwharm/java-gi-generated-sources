@@ -72,7 +72,7 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
                 handle(),
                 Interop.allocateNativeString("emoji-picked").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EmojiChooser.class, "__signalEmojiChooserEmojiPicked",
+                    MethodHandles.lookup().findStatic(EmojiChooser.Callbacks.class, "signalEmojiChooserEmojiPicked",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -84,10 +84,13 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
         }
     }
     
-    public static void __signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EmojiChooser.EmojiPickedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EmojiChooser(References.get(source)), text.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EmojiChooser.EmojiPickedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EmojiChooser(References.get(source)), text.getUtf8String(0));
+        }
+        
+    }
 }

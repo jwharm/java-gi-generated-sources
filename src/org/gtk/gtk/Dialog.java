@@ -266,7 +266,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("close").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Dialog.class, "__signalDialogClose",
+                    MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -276,12 +276,6 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDialogClose(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Dialog.CloseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Dialog(References.get(source)));
     }
     
     @FunctionalInterface
@@ -303,7 +297,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("response").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Dialog.class, "__signalDialogResponse",
+                    MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -315,10 +309,19 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         }
     }
     
-    public static void __signalDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Dialog.ResponseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Dialog(References.get(source)), responseId);
-    }
+    public static class Callbacks {
     
+        public static void signalDialogClose(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Dialog.CloseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Dialog(References.get(source)));
+        }
+        
+        public static void signalDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Dialog.ResponseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Dialog(References.get(source)), responseId);
+        }
+        
+    }
 }

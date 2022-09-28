@@ -1086,7 +1086,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("columns-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewColumnsChanged",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewColumnsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1096,12 +1096,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeViewColumnsChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.ColumnsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1118,7 +1112,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("cursor-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewCursorChanged",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewCursorChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1128,12 +1122,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeViewCursorChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.CursorChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1147,7 +1135,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("expand-collapse-cursor-row").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewExpandCollapseCursorRow",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewExpandCollapseCursorRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1157,12 +1145,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewExpandCollapseCursorRow(MemoryAddress source, int object, int p0, int p1, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.ExpandCollapseCursorRowHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)), object != 0, p0 != 0, p1 != 0);
     }
     
     @FunctionalInterface
@@ -1187,7 +1169,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewMoveCursor",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewMoveCursor",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1197,12 +1179,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewMoveCursor(MemoryAddress source, int step, int direction, int extend, int modify, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)), new MovementStep(step), direction, extend != 0, modify != 0);
     }
     
     @FunctionalInterface
@@ -1232,7 +1208,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("row-activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewRowActivated",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewRowActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1242,12 +1218,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeViewRowActivated(MemoryAddress source, MemoryAddress path, MemoryAddress column, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.RowActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeView(References.get(source)), new TreePath(References.get(path, false)), new TreeViewColumn(References.get(column, false)));
     }
     
     @FunctionalInterface
@@ -1264,7 +1234,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("row-collapsed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewRowCollapsed",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewRowCollapsed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1274,12 +1244,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeViewRowCollapsed(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.RowCollapsedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
     }
     
     @FunctionalInterface
@@ -1296,7 +1260,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("row-expanded").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewRowExpanded",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewRowExpanded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1306,12 +1270,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeViewRowExpanded(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.RowExpandedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
     }
     
     @FunctionalInterface
@@ -1325,7 +1283,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("select-all").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewSelectAll",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewSelectAll",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1335,12 +1293,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewSelectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.SelectAllHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1354,7 +1306,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("select-cursor-parent").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewSelectCursorParent",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewSelectCursorParent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1364,12 +1316,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewSelectCursorParent(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.SelectCursorParentHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1383,7 +1329,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("select-cursor-row").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewSelectCursorRow",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewSelectCursorRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1393,12 +1339,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewSelectCursorRow(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.SelectCursorRowHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)), object != 0);
     }
     
     @FunctionalInterface
@@ -1412,7 +1352,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("start-interactive-search").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewStartInteractiveSearch",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewStartInteractiveSearch",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1422,12 +1362,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewStartInteractiveSearch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.StartInteractiveSearchHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1445,7 +1379,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("test-collapse-row").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewTestCollapseRow",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewTestCollapseRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1455,12 +1389,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewTestCollapseRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.TestCollapseRowHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
     }
     
     @FunctionalInterface
@@ -1478,7 +1406,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("test-expand-row").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewTestExpandRow",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewTestExpandRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1488,12 +1416,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewTestExpandRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.TestExpandRowHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
     }
     
     @FunctionalInterface
@@ -1507,7 +1429,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("toggle-cursor-row").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewToggleCursorRow",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewToggleCursorRow",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1517,12 +1439,6 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTreeViewToggleCursorRow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1536,7 +1452,7 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("unselect-all").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeView.class, "__signalTreeViewUnselectAll",
+                    MethodHandles.lookup().findStatic(TreeView.Callbacks.class, "signalTreeViewUnselectAll",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1548,10 +1464,97 @@ public class TreeView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static boolean __signalTreeViewUnselectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeView.UnselectAllHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TreeView(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalTreeViewColumnsChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.ColumnsChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeView(References.get(source)));
+        }
+        
+        public static void signalTreeViewCursorChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.CursorChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeView(References.get(source)));
+        }
+        
+        public static boolean signalTreeViewExpandCollapseCursorRow(MemoryAddress source, int object, int p0, int p1, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.ExpandCollapseCursorRowHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)), object != 0, p0 != 0, p1 != 0);
+        }
+        
+        public static boolean signalTreeViewMoveCursor(MemoryAddress source, int step, int direction, int extend, int modify, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.MoveCursorHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)), new MovementStep(step), direction, extend != 0, modify != 0);
+        }
+        
+        public static void signalTreeViewRowActivated(MemoryAddress source, MemoryAddress path, MemoryAddress column, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.RowActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeView(References.get(source)), new TreePath(References.get(path, false)), new TreeViewColumn(References.get(column, false)));
+        }
+        
+        public static void signalTreeViewRowCollapsed(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.RowCollapsedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+        }
+        
+        public static void signalTreeViewRowExpanded(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.RowExpandedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+        }
+        
+        public static boolean signalTreeViewSelectAll(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.SelectAllHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)));
+        }
+        
+        public static boolean signalTreeViewSelectCursorParent(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.SelectCursorParentHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)));
+        }
+        
+        public static boolean signalTreeViewSelectCursorRow(MemoryAddress source, int object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.SelectCursorRowHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)), object != 0);
+        }
+        
+        public static boolean signalTreeViewStartInteractiveSearch(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.StartInteractiveSearchHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)));
+        }
+        
+        public static boolean signalTreeViewTestCollapseRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.TestCollapseRowHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+        }
+        
+        public static boolean signalTreeViewTestExpandRow(MemoryAddress source, MemoryAddress iter, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.TestExpandRowHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)), new TreeIter(References.get(iter, false)), new TreePath(References.get(path, false)));
+        }
+        
+        public static boolean signalTreeViewToggleCursorRow(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)));
+        }
+        
+        public static boolean signalTreeViewUnselectAll(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeView.UnselectAllHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TreeView(References.get(source)));
+        }
+        
+    }
 }

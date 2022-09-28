@@ -78,7 +78,7 @@ public class GestureLongPress extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("cancelled").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureLongPress.class, "__signalGestureLongPressCancelled",
+                    MethodHandles.lookup().findStatic(GestureLongPress.Callbacks.class, "signalGestureLongPressCancelled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -88,12 +88,6 @@ public class GestureLongPress extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureLongPress.CancelledHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureLongPress(References.get(source)));
     }
     
     @FunctionalInterface
@@ -111,7 +105,7 @@ public class GestureLongPress extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("pressed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureLongPress.class, "__signalGestureLongPressPressed",
+                    MethodHandles.lookup().findStatic(GestureLongPress.Callbacks.class, "signalGestureLongPressPressed",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -123,10 +117,19 @@ public class GestureLongPress extends GestureSingle {
         }
     }
     
-    public static void __signalGestureLongPressPressed(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureLongPress.PressedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureLongPress(References.get(source)), x, y);
-    }
+    public static class Callbacks {
     
+        public static void signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureLongPress.CancelledHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureLongPress(References.get(source)));
+        }
+        
+        public static void signalGestureLongPressPressed(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureLongPress.PressedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureLongPress(References.get(source)), x, y);
+        }
+        
+    }
 }

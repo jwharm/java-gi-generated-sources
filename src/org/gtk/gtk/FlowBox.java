@@ -474,7 +474,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("activate-cursor-child").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxActivateCursorChild",
+                    MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxActivateCursorChild",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -484,12 +484,6 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFlowBoxActivateCursorChild(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBox.ActivateCursorChildHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FlowBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -506,7 +500,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("child-activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxChildActivated",
+                    MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxChildActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -516,12 +510,6 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFlowBoxChildActivated(MemoryAddress source, MemoryAddress child, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBox.ChildActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FlowBox(References.get(source)), new FlowBoxChild(References.get(child, false)));
     }
     
     @FunctionalInterface
@@ -554,7 +542,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxMoveCursor",
+                    MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxMoveCursor",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -564,12 +552,6 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalFlowBoxMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new FlowBox(References.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
     }
     
     @FunctionalInterface
@@ -591,7 +573,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("select-all").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxSelectAll",
+                    MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxSelectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -601,12 +583,6 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFlowBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBox.SelectAllHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FlowBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -627,7 +603,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("selected-children-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxSelectedChildrenChanged",
+                    MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxSelectedChildrenChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -637,12 +613,6 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFlowBoxSelectedChildrenChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBox.SelectedChildrenChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FlowBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -663,7 +633,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("toggle-cursor-child").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxToggleCursorChild",
+                    MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxToggleCursorChild",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -673,12 +643,6 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFlowBoxToggleCursorChild(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBox.ToggleCursorChildHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FlowBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -700,7 +664,7 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("unselect-all").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBox.class, "__signalFlowBoxUnselectAll",
+                    MethodHandles.lookup().findStatic(FlowBox.Callbacks.class, "signalFlowBoxUnselectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -712,10 +676,49 @@ public class FlowBox extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    public static void __signalFlowBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FlowBox(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalFlowBoxActivateCursorChild(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBox.ActivateCursorChildHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FlowBox(References.get(source)));
+        }
+        
+        public static void signalFlowBoxChildActivated(MemoryAddress source, MemoryAddress child, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBox.ChildActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FlowBox(References.get(source)), new FlowBoxChild(References.get(child, false)));
+        }
+        
+        public static boolean signalFlowBoxMoveCursor(MemoryAddress source, int step, int count, int extend, int modify, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new FlowBox(References.get(source)), new MovementStep(step), count, extend != 0, modify != 0);
+        }
+        
+        public static void signalFlowBoxSelectAll(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBox.SelectAllHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FlowBox(References.get(source)));
+        }
+        
+        public static void signalFlowBoxSelectedChildrenChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBox.SelectedChildrenChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FlowBox(References.get(source)));
+        }
+        
+        public static void signalFlowBoxToggleCursorChild(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBox.ToggleCursorChildHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FlowBox(References.get(source)));
+        }
+        
+        public static void signalFlowBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FlowBox(References.get(source)));
+        }
+        
+    }
 }

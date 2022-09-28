@@ -160,7 +160,7 @@ public class Drag extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("cancel").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drag.class, "__signalDragCancel",
+                    MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragCancel",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -170,12 +170,6 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDragCancel(MemoryAddress source, int reason, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Drag.CancelHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drag(References.get(source)), new DragCancelReason(reason));
     }
     
     @FunctionalInterface
@@ -194,7 +188,7 @@ public class Drag extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("dnd-finished").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drag.class, "__signalDragDndFinished",
+                    MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragDndFinished",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -204,12 +198,6 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDragDndFinished(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Drag.DndFinishedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drag(References.get(source)));
     }
     
     @FunctionalInterface
@@ -226,7 +214,7 @@ public class Drag extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("drop-performed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drag.class, "__signalDragDropPerformed",
+                    MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragDropPerformed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -238,10 +226,25 @@ public class Drag extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalDragDropPerformed(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Drag.DropPerformedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drag(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalDragCancel(MemoryAddress source, int reason, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Drag.CancelHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Drag(References.get(source)), new DragCancelReason(reason));
+        }
+        
+        public static void signalDragDndFinished(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Drag.DndFinishedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Drag(References.get(source)));
+        }
+        
+        public static void signalDragDropPerformed(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Drag.DropPerformedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Drag(References.get(source)));
+        }
+        
+    }
 }

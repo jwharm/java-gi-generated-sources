@@ -179,7 +179,7 @@ public class Animation extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("done").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Animation.class, "__signalAnimationDone",
+                    MethodHandles.lookup().findStatic(Animation.Callbacks.class, "signalAnimationDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -191,10 +191,13 @@ public class Animation extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalAnimationDone(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Animation.DoneHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Animation(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalAnimationDone(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Animation.DoneHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Animation(References.get(source)));
+        }
+        
+    }
 }

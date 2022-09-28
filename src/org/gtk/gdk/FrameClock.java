@@ -187,7 +187,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("after-paint").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FrameClock.class, "__signalFrameClockAfterPaint",
+                    MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockAfterPaint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -197,12 +197,6 @@ public class FrameClock extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFrameClockAfterPaint(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FrameClock.AfterPaintHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FrameClock(References.get(source)));
     }
     
     @FunctionalInterface
@@ -221,7 +215,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("before-paint").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FrameClock.class, "__signalFrameClockBeforePaint",
+                    MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockBeforePaint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -231,12 +225,6 @@ public class FrameClock extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFrameClockBeforePaint(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FrameClock.BeforePaintHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FrameClock(References.get(source)));
     }
     
     @FunctionalInterface
@@ -256,7 +244,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("flush-events").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FrameClock.class, "__signalFrameClockFlushEvents",
+                    MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockFlushEvents",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -266,12 +254,6 @@ public class FrameClock extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFrameClockFlushEvents(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FrameClock.FlushEventsHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FrameClock(References.get(source)));
     }
     
     @FunctionalInterface
@@ -292,7 +274,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("layout").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FrameClock.class, "__signalFrameClockLayout",
+                    MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockLayout",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -302,12 +284,6 @@ public class FrameClock extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFrameClockLayout(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FrameClock.LayoutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FrameClock(References.get(source)));
     }
     
     @FunctionalInterface
@@ -329,7 +305,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("paint").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FrameClock.class, "__signalFrameClockPaint",
+                    MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockPaint",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -339,12 +315,6 @@ public class FrameClock extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFrameClockPaint(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FrameClock.PaintHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FrameClock(References.get(source)));
     }
     
     @FunctionalInterface
@@ -364,7 +334,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("resume-events").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FrameClock.class, "__signalFrameClockResumeEvents",
+                    MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockResumeEvents",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -374,12 +344,6 @@ public class FrameClock extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFrameClockResumeEvents(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FrameClock.ResumeEventsHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FrameClock(References.get(source)));
     }
     
     @FunctionalInterface
@@ -401,7 +365,7 @@ public class FrameClock extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("update").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FrameClock.class, "__signalFrameClockUpdate",
+                    MethodHandles.lookup().findStatic(FrameClock.Callbacks.class, "signalFrameClockUpdate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -413,10 +377,49 @@ public class FrameClock extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalFrameClockUpdate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FrameClock.UpdateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FrameClock(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalFrameClockAfterPaint(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FrameClock.AfterPaintHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FrameClock(References.get(source)));
+        }
+        
+        public static void signalFrameClockBeforePaint(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FrameClock.BeforePaintHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FrameClock(References.get(source)));
+        }
+        
+        public static void signalFrameClockFlushEvents(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FrameClock.FlushEventsHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FrameClock(References.get(source)));
+        }
+        
+        public static void signalFrameClockLayout(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FrameClock.LayoutHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FrameClock(References.get(source)));
+        }
+        
+        public static void signalFrameClockPaint(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FrameClock.PaintHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FrameClock(References.get(source)));
+        }
+        
+        public static void signalFrameClockResumeEvents(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FrameClock.ResumeEventsHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FrameClock(References.get(source)));
+        }
+        
+        public static void signalFrameClockUpdate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FrameClock.UpdateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FrameClock(References.get(source)));
+        }
+        
+    }
 }

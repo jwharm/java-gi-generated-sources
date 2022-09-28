@@ -163,7 +163,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("items-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListModel.class, "__signalListModelItemsChanged",
+                    MethodHandles.lookup().findStatic(ListModel.Callbacks.class, "signalListModelItemsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -175,10 +175,14 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalListModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListModel.ItemsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListModel.ListModelImpl(References.get(source)), position, removed, added);
+    public static class Callbacks {
+    
+        public static void signalListModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListModel.ItemsChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListModel.ListModelImpl(References.get(source)), position, removed, added);
+        }
+        
     }
     
     class ListModelImpl extends org.gtk.gobject.Object implements ListModel {

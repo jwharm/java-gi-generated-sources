@@ -395,7 +395,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                 handle(),
                 Interop.allocateNativeString("change-value").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.class, "__signalSpinButtonChangeValue",
+                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonChangeValue",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -405,12 +405,6 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSpinButtonChangeValue(MemoryAddress source, int scroll, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SpinButton.ChangeValueHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SpinButton(References.get(source)), new ScrollType(scroll));
     }
     
     @FunctionalInterface
@@ -433,7 +427,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                 handle(),
                 Interop.allocateNativeString("input").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.class, "__signalSpinButtonInput",
+                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonInput",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -443,12 +437,6 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSpinButtonInput(MemoryAddress source, double newValue, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SpinButton.InputHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SpinButton(References.get(source)), newValue);
     }
     
     @FunctionalInterface
@@ -485,7 +473,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                 handle(),
                 Interop.allocateNativeString("output").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.class, "__signalSpinButtonOutput",
+                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonOutput",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -495,12 +483,6 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalSpinButtonOutput(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SpinButton.OutputHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new SpinButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -519,7 +501,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                 handle(),
                 Interop.allocateNativeString("value-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.class, "__signalSpinButtonValueChanged",
+                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -529,12 +511,6 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSpinButtonValueChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SpinButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SpinButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -552,7 +528,7 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
                 handle(),
                 Interop.allocateNativeString("wrapped").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.class, "__signalSpinButtonWrapped",
+                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonWrapped",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -564,10 +540,37 @@ public class SpinButton extends Widget implements Accessible, Buildable, CellEdi
         }
     }
     
-    public static void __signalSpinButtonWrapped(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SpinButton.WrappedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SpinButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalSpinButtonChangeValue(MemoryAddress source, int scroll, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SpinButton.ChangeValueHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SpinButton(References.get(source)), new ScrollType(scroll));
+        }
+        
+        public static void signalSpinButtonInput(MemoryAddress source, double newValue, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SpinButton.InputHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SpinButton(References.get(source)), newValue);
+        }
+        
+        public static boolean signalSpinButtonOutput(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SpinButton.OutputHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new SpinButton(References.get(source)));
+        }
+        
+        public static void signalSpinButtonValueChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SpinButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SpinButton(References.get(source)));
+        }
+        
+        public static void signalSpinButtonWrapped(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SpinButton.WrappedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SpinButton(References.get(source)));
+        }
+        
+    }
 }

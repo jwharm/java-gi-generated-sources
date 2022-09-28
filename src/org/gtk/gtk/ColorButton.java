@@ -113,7 +113,7 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorButton.class, "__signalColorButtonActivate",
+                    MethodHandles.lookup().findStatic(ColorButton.Callbacks.class, "signalColorButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -123,12 +123,6 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalColorButtonActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ColorButton.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ColorButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -152,7 +146,7 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
                 handle(),
                 Interop.allocateNativeString("color-set").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorButton.class, "__signalColorButtonColorSet",
+                    MethodHandles.lookup().findStatic(ColorButton.Callbacks.class, "signalColorButtonColorSet",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -164,10 +158,19 @@ public class ColorButton extends Widget implements Accessible, Buildable, ColorC
         }
     }
     
-    public static void __signalColorButtonColorSet(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ColorButton.ColorSetHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ColorButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalColorButtonActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ColorButton.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ColorButton(References.get(source)));
+        }
+        
+        public static void signalColorButtonColorSet(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ColorButton.ColorSetHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ColorButton(References.get(source)));
+        }
+        
+    }
 }

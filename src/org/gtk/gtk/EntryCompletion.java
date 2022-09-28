@@ -324,7 +324,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                 handle(),
                 Interop.allocateNativeString("cursor-on-match").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.class, "__signalEntryCompletionCursorOnMatch",
+                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionCursorOnMatch",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -334,12 +334,6 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalEntryCompletionCursorOnMatch(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EntryCompletion.CursorOnMatchHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }
     
     @FunctionalInterface
@@ -364,7 +358,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                 handle(),
                 Interop.allocateNativeString("insert-prefix").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.class, "__signalEntryCompletionInsertPrefix",
+                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionInsertPrefix",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -374,12 +368,6 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalEntryCompletionInsertPrefix(MemoryAddress source, MemoryAddress prefix, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EntryCompletion.InsertPrefixHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new EntryCompletion(References.get(source)), prefix.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -403,7 +391,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                 handle(),
                 Interop.allocateNativeString("match-selected").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.class, "__signalEntryCompletionMatchSelected",
+                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionMatchSelected",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -413,12 +401,6 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalEntryCompletionMatchSelected(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EntryCompletion.MatchSelectedHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
     }
     
     @FunctionalInterface
@@ -438,7 +420,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
                 handle(),
                 Interop.allocateNativeString("no-matches").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.class, "__signalEntryCompletionNoMatches",
+                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionNoMatches",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -450,10 +432,31 @@ public class EntryCompletion extends org.gtk.gobject.Object implements Buildable
         }
     }
     
-    public static void __signalEntryCompletionNoMatches(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EntryCompletion.NoMatchesHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EntryCompletion(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalEntryCompletionCursorOnMatch(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EntryCompletion.CursorOnMatchHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
+        }
+        
+        public static boolean signalEntryCompletionInsertPrefix(MemoryAddress source, MemoryAddress prefix, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EntryCompletion.InsertPrefixHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new EntryCompletion(References.get(source)), prefix.getUtf8String(0));
+        }
+        
+        public static boolean signalEntryCompletionMatchSelected(MemoryAddress source, MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EntryCompletion.MatchSelectedHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new EntryCompletion(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)));
+        }
+        
+        public static void signalEntryCompletionNoMatches(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EntryCompletion.NoMatchesHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EntryCompletion(References.get(source)));
+        }
+        
+    }
 }

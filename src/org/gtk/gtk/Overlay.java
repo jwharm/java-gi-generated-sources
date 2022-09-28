@@ -160,7 +160,7 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("get-child-position").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Overlay.class, "__signalOverlayGetChildPosition",
+                    MethodHandles.lookup().findStatic(Overlay.Callbacks.class, "signalOverlayGetChildPosition",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -172,10 +172,13 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    public static boolean __signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Overlay.GetChildPositionHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Overlay(References.get(source)), new Widget(References.get(widget, false)), new org.gtk.gdk.Rectangle(References.get(allocation, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Overlay.GetChildPositionHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Overlay(References.get(source)), new Widget(References.get(widget, false)), new org.gtk.gdk.Rectangle(References.get(allocation, false)));
+        }
+        
+    }
 }

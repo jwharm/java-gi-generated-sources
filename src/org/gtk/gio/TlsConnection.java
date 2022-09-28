@@ -387,7 +387,7 @@ public class TlsConnection extends IOStream {
                 handle(),
                 Interop.allocateNativeString("accept-certificate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TlsConnection.class, "__signalTlsConnectionAcceptCertificate",
+                    MethodHandles.lookup().findStatic(TlsConnection.Callbacks.class, "signalTlsConnectionAcceptCertificate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -399,10 +399,13 @@ public class TlsConnection extends IOStream {
         }
     }
     
-    public static boolean __signalTlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TlsConnection(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
-    }
+    public static class Callbacks {
     
+        public static boolean signalTlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TlsConnection(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
+        }
+        
+    }
 }

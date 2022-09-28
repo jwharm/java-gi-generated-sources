@@ -149,7 +149,7 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("network-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(NetworkMonitor.class, "__signalNetworkMonitorNetworkChanged",
+                    MethodHandles.lookup().findStatic(NetworkMonitor.Callbacks.class, "signalNetworkMonitorNetworkChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -161,10 +161,14 @@ public interface NetworkMonitor extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalNetworkMonitorNetworkChanged(MemoryAddress source, int networkAvailable, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (NetworkMonitor.NetworkChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new NetworkMonitor.NetworkMonitorImpl(References.get(source)), networkAvailable != 0);
+    public static class Callbacks {
+    
+        public static void signalNetworkMonitorNetworkChanged(MemoryAddress source, int networkAvailable, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (NetworkMonitor.NetworkChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new NetworkMonitor.NetworkMonitorImpl(References.get(source)), networkAvailable != 0);
+        }
+        
     }
     
     class NetworkMonitorImpl extends org.gtk.gobject.Object implements NetworkMonitor {

@@ -2548,7 +2548,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("destroy").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetDestroy",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetDestroy",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2558,12 +2558,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetDestroy(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.DestroyHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -2580,7 +2574,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("direction-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetDirectionChanged",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetDirectionChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2590,12 +2584,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetDirectionChanged(MemoryAddress source, int previousDirection, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.DirectionChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)), new TextDirection(previousDirection));
     }
     
     @FunctionalInterface
@@ -2612,7 +2600,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("hide").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetHide",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetHide",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2622,12 +2610,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetHide(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.HideHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -2646,7 +2628,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("keynav-failed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetKeynavFailed",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetKeynavFailed",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2656,12 +2638,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalWidgetKeynavFailed(MemoryAddress source, int direction, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.KeynavFailedHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
     }
     
     @FunctionalInterface
@@ -2686,7 +2662,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("map").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetMap",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMap",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2696,12 +2672,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetMap(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.MapHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -2721,7 +2691,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("mnemonic-activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetMnemonicActivate",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMnemonicActivate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2731,12 +2701,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalWidgetMnemonicActivate(MemoryAddress source, int groupCycling, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.MnemonicActivateHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Widget(References.get(source)), groupCycling != 0);
     }
     
     @FunctionalInterface
@@ -2753,7 +2717,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("move-focus").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetMoveFocus",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMoveFocus",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2763,12 +2727,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetMoveFocus(MemoryAddress source, int direction, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.MoveFocusHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
     }
     
     @FunctionalInterface
@@ -2798,7 +2756,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("query-tooltip").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetQueryTooltip",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetQueryTooltip",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2808,12 +2766,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalWidgetQueryTooltip(MemoryAddress source, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.QueryTooltipHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Widget(References.get(source)), x, y, keyboardMode != 0, new Tooltip(References.get(tooltip, false)));
     }
     
     @FunctionalInterface
@@ -2833,7 +2785,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("realize").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetRealize",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetRealize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2843,12 +2795,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetRealize(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.RealizeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -2865,7 +2811,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("show").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetShow",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetShow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2875,12 +2821,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetShow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.ShowHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -2899,7 +2839,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("state-flags-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetStateFlagsChanged",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetStateFlagsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2909,12 +2849,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetStateFlagsChanged(MemoryAddress source, int flags, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.StateFlagsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)), new StateFlags(flags));
     }
     
     @FunctionalInterface
@@ -2937,7 +2871,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("unmap").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetUnmap",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetUnmap",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2947,12 +2881,6 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWidgetUnmap(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.UnmapHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -2972,7 +2900,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
                 handle(),
                 Interop.allocateNativeString("unrealize").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.class, "__signalWidgetUnrealize",
+                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetUnrealize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -2984,10 +2912,85 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements Accessib
         }
     }
     
-    public static void __signalWidgetUnrealize(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Widget.UnrealizeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Widget(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalWidgetDestroy(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.DestroyHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)));
+        }
+        
+        public static void signalWidgetDirectionChanged(MemoryAddress source, int previousDirection, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.DirectionChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)), new TextDirection(previousDirection));
+        }
+        
+        public static void signalWidgetHide(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.HideHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)));
+        }
+        
+        public static boolean signalWidgetKeynavFailed(MemoryAddress source, int direction, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.KeynavFailedHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
+        }
+        
+        public static void signalWidgetMap(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.MapHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)));
+        }
+        
+        public static boolean signalWidgetMnemonicActivate(MemoryAddress source, int groupCycling, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.MnemonicActivateHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Widget(References.get(source)), groupCycling != 0);
+        }
+        
+        public static void signalWidgetMoveFocus(MemoryAddress source, int direction, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.MoveFocusHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)), new DirectionType(direction));
+        }
+        
+        public static boolean signalWidgetQueryTooltip(MemoryAddress source, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.QueryTooltipHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Widget(References.get(source)), x, y, keyboardMode != 0, new Tooltip(References.get(tooltip, false)));
+        }
+        
+        public static void signalWidgetRealize(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.RealizeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)));
+        }
+        
+        public static void signalWidgetShow(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.ShowHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)));
+        }
+        
+        public static void signalWidgetStateFlagsChanged(MemoryAddress source, int flags, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.StateFlagsChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)), new StateFlags(flags));
+        }
+        
+        public static void signalWidgetUnmap(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.UnmapHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)));
+        }
+        
+        public static void signalWidgetUnrealize(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Widget.UnrealizeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Widget(References.get(source)));
+        }
+        
+    }
 }

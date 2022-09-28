@@ -133,7 +133,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("popdown").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScaleButton.class, "__signalScaleButtonPopdown",
+                    MethodHandles.lookup().findStatic(ScaleButton.Callbacks.class, "signalScaleButtonPopdown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -143,12 +143,6 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalScaleButtonPopdown(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ScaleButton.PopdownHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScaleButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -170,7 +164,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("popup").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScaleButton.class, "__signalScaleButtonPopup",
+                    MethodHandles.lookup().findStatic(ScaleButton.Callbacks.class, "signalScaleButtonPopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -180,12 +174,6 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalScaleButtonPopup(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ScaleButton.PopupHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScaleButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -202,7 +190,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("value-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScaleButton.class, "__signalScaleButtonValueChanged",
+                    MethodHandles.lookup().findStatic(ScaleButton.Callbacks.class, "signalScaleButtonValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -214,10 +202,25 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    public static void __signalScaleButtonValueChanged(MemoryAddress source, double value, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ScaleButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScaleButton(References.get(source)), value);
-    }
+    public static class Callbacks {
     
+        public static void signalScaleButtonPopdown(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ScaleButton.PopdownHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ScaleButton(References.get(source)));
+        }
+        
+        public static void signalScaleButtonPopup(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ScaleButton.PopupHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ScaleButton(References.get(source)));
+        }
+        
+        public static void signalScaleButtonValueChanged(MemoryAddress source, double value, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ScaleButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ScaleButton(References.get(source)), value);
+        }
+        
+    }
 }

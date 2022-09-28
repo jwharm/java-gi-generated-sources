@@ -553,7 +553,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
                 handle(),
                 Interop.allocateNativeString("g-properties-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusProxy.class, "__signalDBusProxyGPropertiesChanged",
+                    MethodHandles.lookup().findStatic(DBusProxy.Callbacks.class, "signalDBusProxyGPropertiesChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -563,12 +563,6 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDBusProxyGPropertiesChanged(MemoryAddress source, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusProxy.GPropertiesChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusProxy(References.get(source)), new org.gtk.glib.Variant(References.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
     }
     
     @FunctionalInterface
@@ -589,7 +583,7 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
                 handle(),
                 Interop.allocateNativeString("g-signal").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusProxy.class, "__signalDBusProxyGSignal",
+                    MethodHandles.lookup().findStatic(DBusProxy.Callbacks.class, "signalDBusProxyGSignal",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -601,10 +595,19 @@ public class DBusProxy extends org.gtk.gobject.Object implements AsyncInitable, 
         }
     }
     
-    public static void __signalDBusProxyGSignal(MemoryAddress source, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusProxy.GSignalHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusProxy(References.get(source)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalDBusProxyGPropertiesChanged(MemoryAddress source, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusProxy.GPropertiesChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusProxy(References.get(source)), new org.gtk.glib.Variant(References.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
+        }
+        
+        public static void signalDBusProxyGSignal(MemoryAddress source, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusProxy.GSignalHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusProxy(References.get(source)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
+        }
+        
+    }
 }

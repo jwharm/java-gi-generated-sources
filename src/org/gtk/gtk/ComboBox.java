@@ -406,7 +406,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ComboBox.class, "__signalComboBoxActivate",
+                    MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -416,12 +416,6 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalComboBoxActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ComboBox.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ComboBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -442,7 +436,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ComboBox.class, "__signalComboBoxChanged",
+                    MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -452,12 +446,6 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalComboBoxChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ComboBox.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ComboBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -504,7 +492,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                 handle(),
                 Interop.allocateNativeString("format-entry-text").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ComboBox.class, "__signalComboBoxFormatEntryText",
+                    MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxFormatEntryText",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -514,12 +502,6 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalComboBoxFormatEntryText(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ComboBox.FormatEntryTextHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ComboBox(References.get(source)), path.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -538,7 +520,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                 handle(),
                 Interop.allocateNativeString("move-active").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ComboBox.class, "__signalComboBoxMoveActive",
+                    MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxMoveActive",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -548,12 +530,6 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ComboBox.MoveActiveHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ComboBox(References.get(source)), new ScrollType(scrollType));
     }
     
     @FunctionalInterface
@@ -574,7 +550,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                 handle(),
                 Interop.allocateNativeString("popdown").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ComboBox.class, "__signalComboBoxPopdown",
+                    MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxPopdown",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -584,12 +560,6 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalComboBoxPopdown(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ComboBox.PopdownHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new ComboBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -610,7 +580,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                 handle(),
                 Interop.allocateNativeString("popup").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ComboBox.class, "__signalComboBoxPopup",
+                    MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxPopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -622,10 +592,43 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    public static void __signalComboBoxPopup(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ComboBox.PopupHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ComboBox(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalComboBoxActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ComboBox.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ComboBox(References.get(source)));
+        }
+        
+        public static void signalComboBoxChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ComboBox.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ComboBox(References.get(source)));
+        }
+        
+        public static void signalComboBoxFormatEntryText(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ComboBox.FormatEntryTextHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ComboBox(References.get(source)), path.getUtf8String(0));
+        }
+        
+        public static void signalComboBoxMoveActive(MemoryAddress source, int scrollType, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ComboBox.MoveActiveHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ComboBox(References.get(source)), new ScrollType(scrollType));
+        }
+        
+        public static boolean signalComboBoxPopdown(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ComboBox.PopdownHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new ComboBox(References.get(source)));
+        }
+        
+        public static void signalComboBoxPopup(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ComboBox.PopupHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ComboBox(References.get(source)));
+        }
+        
+    }
 }

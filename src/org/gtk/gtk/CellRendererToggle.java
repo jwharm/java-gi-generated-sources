@@ -113,7 +113,7 @@ public class CellRendererToggle extends CellRenderer {
                 handle(),
                 Interop.allocateNativeString("toggled").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellRendererToggle.class, "__signalCellRendererToggleToggled",
+                    MethodHandles.lookup().findStatic(CellRendererToggle.Callbacks.class, "signalCellRendererToggleToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -125,10 +125,13 @@ public class CellRendererToggle extends CellRenderer {
         }
     }
     
-    public static void __signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellRendererToggle.ToggledHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellRendererToggle(References.get(source)), path.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellRendererToggle.ToggledHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellRendererToggle(References.get(source)), path.getUtf8String(0));
+        }
+        
+    }
 }

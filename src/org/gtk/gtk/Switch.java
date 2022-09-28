@@ -109,7 +109,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Switch.class, "__signalSwitchActivate",
+                    MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -119,12 +119,6 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Switch.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Switch(References.get(source)));
     }
     
     @FunctionalInterface
@@ -155,7 +149,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
                 handle(),
                 Interop.allocateNativeString("state-set").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Switch.class, "__signalSwitchStateSet",
+                    MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchStateSet",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -167,10 +161,19 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         }
     }
     
-    public static boolean __signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Switch.StateSetHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Switch(References.get(source)), state != 0);
-    }
+    public static class Callbacks {
     
+        public static void signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Switch.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Switch(References.get(source)));
+        }
+        
+        public static boolean signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Switch.StateSetHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Switch(References.get(source)), state != 0);
+        }
+        
+    }
 }

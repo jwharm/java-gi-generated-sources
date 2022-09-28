@@ -69,7 +69,7 @@ public class EventControllerMotion extends EventController {
                 handle(),
                 Interop.allocateNativeString("enter").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerMotion.class, "__signalEventControllerMotionEnter",
+                    MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -79,12 +79,6 @@ public class EventControllerMotion extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
     }
     
     @FunctionalInterface
@@ -101,7 +95,7 @@ public class EventControllerMotion extends EventController {
                 handle(),
                 Interop.allocateNativeString("leave").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerMotion.class, "__signalEventControllerMotionLeave",
+                    MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -111,12 +105,6 @@ public class EventControllerMotion extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerMotion(References.get(source)));
     }
     
     @FunctionalInterface
@@ -133,7 +121,7 @@ public class EventControllerMotion extends EventController {
                 handle(),
                 Interop.allocateNativeString("motion").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerMotion.class, "__signalEventControllerMotionMotion",
+                    MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -145,10 +133,25 @@ public class EventControllerMotion extends EventController {
         }
     }
     
-    public static void __signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
-    }
+    public static class Callbacks {
     
+        public static void signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
+        }
+        
+        public static void signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerMotion(References.get(source)));
+        }
+        
+        public static void signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerMotion(References.get(source)), x, y);
+        }
+        
+    }
 }

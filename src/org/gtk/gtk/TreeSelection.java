@@ -248,7 +248,7 @@ public class TreeSelection extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeSelection.class, "__signalTreeSelectionChanged",
+                    MethodHandles.lookup().findStatic(TreeSelection.Callbacks.class, "signalTreeSelectionChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -260,10 +260,13 @@ public class TreeSelection extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalTreeSelectionChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeSelection.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeSelection(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalTreeSelectionChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeSelection.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeSelection(References.get(source)));
+        }
+        
+    }
 }

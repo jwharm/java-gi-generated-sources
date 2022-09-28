@@ -325,7 +325,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("create-context").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GLArea.class, "__signalGLAreaCreateContext",
+                    MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaCreateContext",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -335,12 +335,6 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGLAreaCreateContext(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GLArea.CreateContextHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GLArea(References.get(source)));
     }
     
     @FunctionalInterface
@@ -360,7 +354,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("render").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GLArea.class, "__signalGLAreaRender",
+                    MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaRender",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -370,12 +364,6 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalGLAreaRender(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GLArea.RenderHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new GLArea(References.get(source)), new org.gtk.gdk.GLContext(References.get(context, false)));
     }
     
     @FunctionalInterface
@@ -402,7 +390,7 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("resize").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GLArea.class, "__signalGLAreaResize",
+                    MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaResize",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -414,10 +402,25 @@ public class GLArea extends Widget implements Accessible, Buildable, ConstraintT
         }
     }
     
-    public static void __signalGLAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GLArea.ResizeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GLArea(References.get(source)), width, height);
-    }
+    public static class Callbacks {
     
+        public static void signalGLAreaCreateContext(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GLArea.CreateContextHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GLArea(References.get(source)));
+        }
+        
+        public static boolean signalGLAreaRender(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GLArea.RenderHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new GLArea(References.get(source)), new org.gtk.gdk.GLContext(References.get(context, false)));
+        }
+        
+        public static void signalGLAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GLArea.ResizeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GLArea(References.get(source)), width, height);
+        }
+        
+    }
 }

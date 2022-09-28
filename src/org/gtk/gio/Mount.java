@@ -353,7 +353,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Mount.class, "__signalMountChanged",
+                    MethodHandles.lookup().findStatic(Mount.Callbacks.class, "signalMountChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -363,12 +363,6 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalMountChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Mount.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Mount.MountImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -389,7 +383,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("pre-unmount").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Mount.class, "__signalMountPreUnmount",
+                    MethodHandles.lookup().findStatic(Mount.Callbacks.class, "signalMountPreUnmount",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -399,12 +393,6 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalMountPreUnmount(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Mount.PreUnmountHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Mount.MountImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -424,7 +412,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("unmounted").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Mount.class, "__signalMountUnmounted",
+                    MethodHandles.lookup().findStatic(Mount.Callbacks.class, "signalMountUnmounted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -436,10 +424,26 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalMountUnmounted(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Mount.UnmountedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Mount.MountImpl(References.get(source)));
+    public static class Callbacks {
+    
+        public static void signalMountChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Mount.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Mount.MountImpl(References.get(source)));
+        }
+        
+        public static void signalMountPreUnmount(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Mount.PreUnmountHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Mount.MountImpl(References.get(source)));
+        }
+        
+        public static void signalMountUnmounted(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Mount.UnmountedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Mount.MountImpl(References.get(source)));
+        }
+        
     }
     
     class MountImpl extends org.gtk.gobject.Object implements Mount {

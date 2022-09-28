@@ -127,7 +127,7 @@ public class SocketService extends SocketListener {
                 handle(),
                 Interop.allocateNativeString("incoming").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SocketService.class, "__signalSocketServiceIncoming",
+                    MethodHandles.lookup().findStatic(SocketService.Callbacks.class, "signalSocketServiceIncoming",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -139,10 +139,13 @@ public class SocketService extends SocketListener {
         }
     }
     
-    public static boolean __signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SocketService.IncomingHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new SocketService(References.get(source)), new SocketConnection(References.get(connection, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SocketService.IncomingHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new SocketService(References.get(source)), new SocketConnection(References.get(connection, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)));
+        }
+        
+    }
 }

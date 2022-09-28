@@ -426,7 +426,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                 handle(),
                 Interop.allocateNativeString("edge-overshot").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.class, "__signalScrolledWindowEdgeOvershot",
+                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowEdgeOvershot",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -436,12 +436,6 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalScrolledWindowEdgeOvershot(MemoryAddress source, int pos, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ScrolledWindow.EdgeOvershotHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
     }
     
     @FunctionalInterface
@@ -466,7 +460,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                 handle(),
                 Interop.allocateNativeString("edge-reached").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.class, "__signalScrolledWindowEdgeReached",
+                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowEdgeReached",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -476,12 +470,6 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalScrolledWindowEdgeReached(MemoryAddress source, int pos, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ScrolledWindow.EdgeReachedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
     }
     
     @FunctionalInterface
@@ -505,7 +493,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                 handle(),
                 Interop.allocateNativeString("move-focus-out").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.class, "__signalScrolledWindowMoveFocusOut",
+                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowMoveFocusOut",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -515,12 +503,6 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalScrolledWindowMoveFocusOut(MemoryAddress source, int directionType, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ScrolledWindow.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ScrolledWindow(References.get(source)), new DirectionType(directionType));
     }
     
     @FunctionalInterface
@@ -542,7 +524,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                 handle(),
                 Interop.allocateNativeString("scroll-child").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.class, "__signalScrolledWindowScrollChild",
+                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowScrollChild",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -554,10 +536,31 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         }
     }
     
-    public static boolean __signalScrolledWindowScrollChild(MemoryAddress source, int scroll, int horizontal, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ScrolledWindow.ScrollChildHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new ScrolledWindow(References.get(source)), new ScrollType(scroll), horizontal != 0);
-    }
+    public static class Callbacks {
     
+        public static void signalScrolledWindowEdgeOvershot(MemoryAddress source, int pos, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ScrolledWindow.EdgeOvershotHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
+        }
+        
+        public static void signalScrolledWindowEdgeReached(MemoryAddress source, int pos, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ScrolledWindow.EdgeReachedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ScrolledWindow(References.get(source)), new PositionType(pos));
+        }
+        
+        public static void signalScrolledWindowMoveFocusOut(MemoryAddress source, int directionType, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ScrolledWindow.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ScrolledWindow(References.get(source)), new DirectionType(directionType));
+        }
+        
+        public static boolean signalScrolledWindowScrollChild(MemoryAddress source, int scroll, int horizontal, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ScrolledWindow.ScrollChildHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new ScrolledWindow(References.get(source)), new ScrollType(scroll), horizontal != 0);
+        }
+        
+    }
 }

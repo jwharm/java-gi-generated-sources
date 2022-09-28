@@ -468,7 +468,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextActivate",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -478,12 +478,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)));
     }
     
     @FunctionalInterface
@@ -505,7 +499,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("backspace").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextBackspace",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextBackspace",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -515,12 +509,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextBackspace(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.BackspaceHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)));
     }
     
     @FunctionalInterface
@@ -543,7 +531,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("copy-clipboard").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextCopyClipboard",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextCopyClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -553,12 +541,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextCopyClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.CopyClipboardHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)));
     }
     
     @FunctionalInterface
@@ -581,7 +563,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("cut-clipboard").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextCutClipboard",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextCutClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -591,12 +573,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextCutClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.CutClipboardHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)));
     }
     
     @FunctionalInterface
@@ -623,7 +599,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("delete-from-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextDeleteFromCursor",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextDeleteFromCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -633,12 +609,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)), new DeleteType(type), count);
     }
     
     @FunctionalInterface
@@ -660,7 +630,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("insert-at-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextInsertAtCursor",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextInsertAtCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -670,12 +640,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)), string.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -698,7 +662,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("insert-emoji").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextInsertEmoji",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextInsertEmoji",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -708,12 +672,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextInsertEmoji(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.InsertEmojiHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)));
     }
     
     @FunctionalInterface
@@ -750,7 +708,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextMoveCursor",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -760,12 +718,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextMoveCursor(MemoryAddress source, int step, int count, int extend, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)), new MovementStep(step), count, extend != 0);
     }
     
     @FunctionalInterface
@@ -787,7 +739,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("paste-clipboard").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextPasteClipboard",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextPasteClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -797,12 +749,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextPasteClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.PasteClipboardHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)));
     }
     
     @FunctionalInterface
@@ -823,7 +769,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("preedit-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextPreeditChanged",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextPreeditChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -833,12 +779,6 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.PreeditChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)), preedit.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -859,7 +799,7 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
                 handle(),
                 Interop.allocateNativeString("toggle-overwrite").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.class, "__signalTextToggleOverwrite",
+                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextToggleOverwrite",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -871,10 +811,73 @@ public class Text extends Widget implements Accessible, Buildable, ConstraintTar
         }
     }
     
-    public static void __signalTextToggleOverwrite(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Text.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Text(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalTextActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)));
+        }
+        
+        public static void signalTextBackspace(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.BackspaceHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)));
+        }
+        
+        public static void signalTextCopyClipboard(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.CopyClipboardHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)));
+        }
+        
+        public static void signalTextCutClipboard(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.CutClipboardHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)));
+        }
+        
+        public static void signalTextDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)), new DeleteType(type), count);
+        }
+        
+        public static void signalTextInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)), string.getUtf8String(0));
+        }
+        
+        public static void signalTextInsertEmoji(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.InsertEmojiHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)));
+        }
+        
+        public static void signalTextMoveCursor(MemoryAddress source, int step, int count, int extend, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.MoveCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)), new MovementStep(step), count, extend != 0);
+        }
+        
+        public static void signalTextPasteClipboard(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.PasteClipboardHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)));
+        }
+        
+        public static void signalTextPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.PreeditChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)), preedit.getUtf8String(0));
+        }
+        
+        public static void signalTextToggleOverwrite(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Text.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Text(References.get(source)));
+        }
+        
+    }
 }

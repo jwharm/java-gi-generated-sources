@@ -241,7 +241,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("font-activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FontChooser.class, "__signalFontChooserFontActivated",
+                    MethodHandles.lookup().findStatic(FontChooser.Callbacks.class, "signalFontChooserFontActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -253,10 +253,14 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalFontChooserFontActivated(MemoryAddress source, MemoryAddress fontname, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FontChooser.FontActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FontChooser.FontChooserImpl(References.get(source)), fontname.getUtf8String(0));
+    public static class Callbacks {
+    
+        public static void signalFontChooserFontActivated(MemoryAddress source, MemoryAddress fontname, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FontChooser.FontActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FontChooser.FontChooserImpl(References.get(source)), fontname.getUtf8String(0));
+        }
+        
     }
     
     class FontChooserImpl extends org.gtk.gobject.Object implements FontChooser {

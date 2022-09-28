@@ -128,7 +128,7 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
                 handle(),
                 Interop.allocateNativeString("activate-link").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(LinkButton.class, "__signalLinkButtonActivateLink",
+                    MethodHandles.lookup().findStatic(LinkButton.Callbacks.class, "signalLinkButtonActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -140,10 +140,13 @@ public class LinkButton extends Button implements Accessible, Actionable, Builda
         }
     }
     
-    public static boolean __signalLinkButtonActivateLink(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (LinkButton.ActivateLinkHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new LinkButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalLinkButtonActivateLink(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (LinkButton.ActivateLinkHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new LinkButton(References.get(source)));
+        }
+        
+    }
 }

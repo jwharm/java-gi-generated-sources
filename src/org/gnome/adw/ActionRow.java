@@ -193,7 +193,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
                 handle(),
                 Interop.allocateNativeString("activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ActionRow.class, "__signalActionRowActivated",
+                    MethodHandles.lookup().findStatic(ActionRow.Callbacks.class, "signalActionRowActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -205,10 +205,13 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         }
     }
     
-    public static void __signalActionRowActivated(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ActionRow.ActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ActionRow(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalActionRowActivated(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ActionRow.ActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ActionRow(References.get(source)));
+        }
+        
+    }
 }

@@ -192,7 +192,7 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
                 handle(),
                 Interop.allocateNativeString("g-authorize-method").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusInterfaceSkeleton.class, "__signalDBusInterfaceSkeletonGAuthorizeMethod",
+                    MethodHandles.lookup().findStatic(DBusInterfaceSkeleton.Callbacks.class, "signalDBusInterfaceSkeletonGAuthorizeMethod",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -204,10 +204,13 @@ public class DBusInterfaceSkeleton extends org.gtk.gobject.Object implements DBu
         }
     }
     
-    public static boolean __signalDBusInterfaceSkeletonGAuthorizeMethod(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusInterfaceSkeleton.GAuthorizeMethodHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DBusInterfaceSkeleton(References.get(source)), new DBusMethodInvocation(References.get(invocation, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalDBusInterfaceSkeletonGAuthorizeMethod(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusInterfaceSkeleton.GAuthorizeMethodHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DBusInterfaceSkeleton(References.get(source)), new DBusMethodInvocation(References.get(invocation, false)));
+        }
+        
+    }
 }

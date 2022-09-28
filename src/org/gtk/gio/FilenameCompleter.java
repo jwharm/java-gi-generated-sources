@@ -71,7 +71,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("got-completion-data").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FilenameCompleter.class, "__signalFilenameCompleterGotCompletionData",
+                    MethodHandles.lookup().findStatic(FilenameCompleter.Callbacks.class, "signalFilenameCompleterGotCompletionData",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -83,10 +83,13 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalFilenameCompleterGotCompletionData(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FilenameCompleter.GotCompletionDataHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FilenameCompleter(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalFilenameCompleterGotCompletionData(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FilenameCompleter.GotCompletionDataHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FilenameCompleter(References.get(source)));
+        }
+        
+    }
 }

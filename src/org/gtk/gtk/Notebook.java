@@ -562,7 +562,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("change-current-page").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookChangeCurrentPage",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookChangeCurrentPage",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -572,12 +572,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalNotebookChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), object);
     }
     
     @FunctionalInterface
@@ -601,7 +595,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("create-window").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookCreateWindow",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookCreateWindow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -611,12 +605,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalNotebookCreateWindow(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.CreateWindowHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)));
     }
     
     @FunctionalInterface
@@ -630,7 +618,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("focus-tab").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookFocusTab",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookFocusTab",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -640,12 +628,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalNotebookFocusTab(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.FocusTabHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), new NotebookTab(object));
     }
     
     @FunctionalInterface
@@ -659,7 +641,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("move-focus-out").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookMoveFocusOut",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookMoveFocusOut",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -669,12 +651,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalNotebookMoveFocusOut(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object));
     }
     
     @FunctionalInterface
@@ -692,7 +668,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("page-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookPageAdded",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookPageAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -702,12 +678,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalNotebookPageAdded(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.PageAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
     }
     
     @FunctionalInterface
@@ -725,7 +695,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("page-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookPageRemoved",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookPageRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -735,12 +705,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalNotebookPageRemoved(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.PageRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
     }
     
     @FunctionalInterface
@@ -758,7 +722,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("page-reordered").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookPageReordered",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookPageReordered",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -768,12 +732,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalNotebookPageReordered(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.PageReorderedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
     }
     
     @FunctionalInterface
@@ -787,7 +745,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("reorder-tab").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookReorderTab",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookReorderTab",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -797,12 +755,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalNotebookReorderTab(MemoryAddress source, int object, int p0, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.ReorderTabHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object), p0 != 0);
     }
     
     @FunctionalInterface
@@ -816,7 +768,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("select-page").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookSelectPage",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookSelectPage",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -826,12 +778,6 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalNotebookSelectPage(MemoryAddress source, int object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.SelectPageHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Notebook(References.get(source)), object != 0);
     }
     
     @FunctionalInterface
@@ -848,7 +794,7 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("switch-page").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.class, "__signalNotebookSwitchPage",
+                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookSwitchPage",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -860,10 +806,67 @@ public class Notebook extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static void __signalNotebookSwitchPage(MemoryAddress source, MemoryAddress page, int pageNum, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Notebook.SwitchPageHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)), pageNum);
-    }
+    public static class Callbacks {
     
+        public static boolean signalNotebookChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Notebook(References.get(source)), object);
+        }
+        
+        public static void signalNotebookCreateWindow(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.CreateWindowHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)));
+        }
+        
+        public static boolean signalNotebookFocusTab(MemoryAddress source, int object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.FocusTabHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Notebook(References.get(source)), new NotebookTab(object));
+        }
+        
+        public static void signalNotebookMoveFocusOut(MemoryAddress source, int object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object));
+        }
+        
+        public static void signalNotebookPageAdded(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.PageAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
+        }
+        
+        public static void signalNotebookPageRemoved(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.PageRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
+        }
+        
+        public static void signalNotebookPageReordered(MemoryAddress source, MemoryAddress child, int pageNum, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.PageReorderedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(child, false)), pageNum);
+        }
+        
+        public static boolean signalNotebookReorderTab(MemoryAddress source, int object, int p0, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.ReorderTabHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Notebook(References.get(source)), new DirectionType(object), p0 != 0);
+        }
+        
+        public static boolean signalNotebookSelectPage(MemoryAddress source, int object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.SelectPageHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Notebook(References.get(source)), object != 0);
+        }
+        
+        public static void signalNotebookSwitchPage(MemoryAddress source, MemoryAddress page, int pageNum, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Notebook.SwitchPageHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Notebook(References.get(source)), new Widget(References.get(page, false)), pageNum);
+        }
+        
+    }
 }

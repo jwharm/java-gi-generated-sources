@@ -61,7 +61,7 @@ public class GestureRotate extends Gesture {
                 handle(),
                 Interop.allocateNativeString("angle-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureRotate.class, "__signalGestureRotateAngleChanged",
+                    MethodHandles.lookup().findStatic(GestureRotate.Callbacks.class, "signalGestureRotateAngleChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -73,10 +73,13 @@ public class GestureRotate extends Gesture {
         }
     }
     
-    public static void __signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureRotate.AngleChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureRotate(References.get(source)), angle, angleDelta);
-    }
+    public static class Callbacks {
     
+        public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureRotate.AngleChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureRotate(References.get(source)), angle, angleDelta);
+        }
+        
+    }
 }

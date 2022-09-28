@@ -122,7 +122,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("sort-column-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeSortable.class, "__signalTreeSortableSortColumnChanged",
+                    MethodHandles.lookup().findStatic(TreeSortable.Callbacks.class, "signalTreeSortableSortColumnChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -134,10 +134,14 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalTreeSortableSortColumnChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeSortable.SortColumnChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeSortable.TreeSortableImpl(References.get(source)));
+    public static class Callbacks {
+    
+        public static void signalTreeSortableSortColumnChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeSortable.SortColumnChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeSortable.TreeSortableImpl(References.get(source)));
+        }
+        
     }
     
     class TreeSortableImpl extends org.gtk.gobject.Object implements TreeSortable {

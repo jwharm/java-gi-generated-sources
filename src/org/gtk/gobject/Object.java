@@ -868,7 +868,7 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
                 handle(),
                 Interop.allocateNativeString("notify").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Object.class, "__signalObjectNotify",
+                    MethodHandles.lookup().findStatic(Object.Callbacks.class, "signalObjectNotify",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -880,10 +880,13 @@ public class Object extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    public static void __signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Object.NotifyHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Object(References.get(source)), new ParamSpec(References.get(pspec, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalObjectNotify(MemoryAddress source, MemoryAddress pspec, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Object.NotifyHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Object(References.get(source)), new ParamSpec(References.get(pspec, false)));
+        }
+        
+    }
 }

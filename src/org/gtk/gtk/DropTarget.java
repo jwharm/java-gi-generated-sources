@@ -223,7 +223,7 @@ public class DropTarget extends EventController {
                 handle(),
                 Interop.allocateNativeString("accept").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTarget.class, "__signalDropTargetAccept",
+                    MethodHandles.lookup().findStatic(DropTarget.Callbacks.class, "signalDropTargetAccept",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -233,12 +233,6 @@ public class DropTarget extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalDropTargetAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTarget.AcceptHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
     }
     
     @FunctionalInterface
@@ -263,7 +257,7 @@ public class DropTarget extends EventController {
                 handle(),
                 Interop.allocateNativeString("drop").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTarget.class, "__signalDropTargetDrop",
+                    MethodHandles.lookup().findStatic(DropTarget.Callbacks.class, "signalDropTargetDrop",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -273,12 +267,6 @@ public class DropTarget extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalDropTargetDrop(MemoryAddress source, MemoryAddress value, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTarget.DropHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gobject.Value(References.get(value, false)), x, y);
     }
     
     @FunctionalInterface
@@ -297,7 +285,7 @@ public class DropTarget extends EventController {
                 handle(),
                 Interop.allocateNativeString("enter").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTarget.class, "__signalDropTargetEnter",
+                    MethodHandles.lookup().findStatic(DropTarget.Callbacks.class, "signalDropTargetEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -307,12 +295,6 @@ public class DropTarget extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDropTargetEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTarget.EnterHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DropTarget(References.get(source)), x, y);
     }
     
     @FunctionalInterface
@@ -332,7 +314,7 @@ public class DropTarget extends EventController {
                 handle(),
                 Interop.allocateNativeString("leave").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTarget.class, "__signalDropTargetLeave",
+                    MethodHandles.lookup().findStatic(DropTarget.Callbacks.class, "signalDropTargetLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -342,12 +324,6 @@ public class DropTarget extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDropTargetLeave(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTarget.LeaveHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DropTarget(References.get(source)));
     }
     
     @FunctionalInterface
@@ -364,7 +340,7 @@ public class DropTarget extends EventController {
                 handle(),
                 Interop.allocateNativeString("motion").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTarget.class, "__signalDropTargetMotion",
+                    MethodHandles.lookup().findStatic(DropTarget.Callbacks.class, "signalDropTargetMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -376,10 +352,37 @@ public class DropTarget extends EventController {
         }
     }
     
-    public static void __signalDropTargetMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTarget.MotionHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DropTarget(References.get(source)), x, y);
-    }
+    public static class Callbacks {
     
+        public static boolean signalDropTargetAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTarget.AcceptHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
+        }
+        
+        public static boolean signalDropTargetDrop(MemoryAddress source, MemoryAddress value, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTarget.DropHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DropTarget(References.get(source)), new org.gtk.gobject.Value(References.get(value, false)), x, y);
+        }
+        
+        public static void signalDropTargetEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTarget.EnterHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DropTarget(References.get(source)), x, y);
+        }
+        
+        public static void signalDropTargetLeave(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTarget.LeaveHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DropTarget(References.get(source)));
+        }
+        
+        public static void signalDropTargetMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTarget.MotionHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DropTarget(References.get(source)), x, y);
+        }
+        
+    }
 }

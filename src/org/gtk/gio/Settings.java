@@ -1078,7 +1078,7 @@ public class Settings extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("change-event").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Settings.class, "__signalSettingsChangeEvent",
+                    MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsChangeEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1088,12 +1088,6 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalSettingsChangeEvent(MemoryAddress source, MemoryAddress keys, int nKeys, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Settings.ChangeEventHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Settings(References.get(source)), new PointerInteger(keys).iterator(), nKeys);
     }
     
     @FunctionalInterface
@@ -1119,7 +1113,7 @@ public class Settings extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Settings.class, "__signalSettingsChanged",
+                    MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1129,12 +1123,6 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Settings.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -1168,7 +1156,7 @@ public class Settings extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("writable-change-event").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Settings.class, "__signalSettingsWritableChangeEvent",
+                    MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsWritableChangeEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1178,12 +1166,6 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalSettingsWritableChangeEvent(MemoryAddress source, int key, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Settings.WritableChangeEventHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Settings(References.get(source)), key);
     }
     
     @FunctionalInterface
@@ -1206,7 +1188,7 @@ public class Settings extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("writable-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Settings.class, "__signalSettingsWritableChanged",
+                    MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsWritableChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1218,10 +1200,31 @@ public class Settings extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalSettingsWritableChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Settings.WritableChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static boolean signalSettingsChangeEvent(MemoryAddress source, MemoryAddress keys, int nKeys, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Settings.ChangeEventHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Settings(References.get(source)), new PointerInteger(keys).iterator(), nKeys);
+        }
+        
+        public static void signalSettingsChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Settings.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
+        }
+        
+        public static boolean signalSettingsWritableChangeEvent(MemoryAddress source, int key, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Settings.WritableChangeEventHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Settings(References.get(source)), key);
+        }
+        
+        public static void signalSettingsWritableChanged(MemoryAddress source, MemoryAddress key, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Settings.WritableChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Settings(References.get(source)), key.getUtf8String(0));
+        }
+        
+    }
 }

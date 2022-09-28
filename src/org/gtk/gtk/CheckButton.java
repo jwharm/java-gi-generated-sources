@@ -217,7 +217,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CheckButton.class, "__signalCheckButtonActivate",
+                    MethodHandles.lookup().findStatic(CheckButton.Callbacks.class, "signalCheckButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -227,12 +227,6 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalCheckButtonActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CheckButton.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CheckButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -250,7 +244,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
                 handle(),
                 Interop.allocateNativeString("toggled").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CheckButton.class, "__signalCheckButtonToggled",
+                    MethodHandles.lookup().findStatic(CheckButton.Callbacks.class, "signalCheckButtonToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -262,10 +256,19 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         }
     }
     
-    public static void __signalCheckButtonToggled(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CheckButton.ToggledHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CheckButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalCheckButtonActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CheckButton.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CheckButton(References.get(source)));
+        }
+        
+        public static void signalCheckButtonToggled(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CheckButton.ToggledHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CheckButton(References.get(source)));
+        }
+        
+    }
 }

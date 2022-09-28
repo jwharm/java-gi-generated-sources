@@ -320,7 +320,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                 handle(),
                 Interop.allocateNativeString("apply").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.class, "__signalAssistantApply",
+                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantApply",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -330,12 +330,6 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAssistantApply(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Assistant.ApplyHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Assistant(References.get(source)));
     }
     
     @FunctionalInterface
@@ -352,7 +346,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                 handle(),
                 Interop.allocateNativeString("cancel").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.class, "__signalAssistantCancel",
+                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantCancel",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -362,12 +356,6 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAssistantCancel(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Assistant.CancelHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Assistant(References.get(source)));
     }
     
     @FunctionalInterface
@@ -386,7 +374,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                 handle(),
                 Interop.allocateNativeString("close").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.class, "__signalAssistantClose",
+                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -396,12 +384,6 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAssistantClose(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Assistant.CloseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Assistant(References.get(source)));
     }
     
     @FunctionalInterface
@@ -418,7 +400,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                 handle(),
                 Interop.allocateNativeString("escape").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.class, "__signalAssistantEscape",
+                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantEscape",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -428,12 +410,6 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAssistantEscape(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Assistant.EscapeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Assistant(References.get(source)));
     }
     
     @FunctionalInterface
@@ -454,7 +430,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                 handle(),
                 Interop.allocateNativeString("prepare").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.class, "__signalAssistantPrepare",
+                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantPrepare",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -466,10 +442,37 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    public static void __signalAssistantPrepare(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Assistant.PrepareHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Assistant(References.get(source)), new Widget(References.get(page, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalAssistantApply(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Assistant.ApplyHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Assistant(References.get(source)));
+        }
+        
+        public static void signalAssistantCancel(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Assistant.CancelHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Assistant(References.get(source)));
+        }
+        
+        public static void signalAssistantClose(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Assistant.CloseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Assistant(References.get(source)));
+        }
+        
+        public static void signalAssistantEscape(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Assistant.EscapeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Assistant(References.get(source)));
+        }
+        
+        public static void signalAssistantPrepare(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Assistant.PrepareHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Assistant(References.get(source)), new Widget(References.get(page, false)));
+        }
+        
+    }
 }

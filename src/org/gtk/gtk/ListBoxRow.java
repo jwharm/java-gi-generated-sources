@@ -160,7 +160,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBoxRow.class, "__signalListBoxRowActivate",
+                    MethodHandles.lookup().findStatic(ListBoxRow.Callbacks.class, "signalListBoxRowActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -172,10 +172,13 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         }
     }
     
-    public static void __signalListBoxRowActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBoxRow.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBoxRow(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalListBoxRowActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBoxRow.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBoxRow(References.get(source)));
+        }
+        
+    }
 }

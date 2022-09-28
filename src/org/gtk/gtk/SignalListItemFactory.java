@@ -94,7 +94,7 @@ public class SignalListItemFactory extends ListItemFactory {
                 handle(),
                 Interop.allocateNativeString("bind").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SignalListItemFactory.class, "__signalSignalListItemFactoryBind",
+                    MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryBind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -104,12 +104,6 @@ public class SignalListItemFactory extends ListItemFactory {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SignalListItemFactory.BindHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
     }
     
     @FunctionalInterface
@@ -131,7 +125,7 @@ public class SignalListItemFactory extends ListItemFactory {
                 handle(),
                 Interop.allocateNativeString("setup").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SignalListItemFactory.class, "__signalSignalListItemFactorySetup",
+                    MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactorySetup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -141,12 +135,6 @@ public class SignalListItemFactory extends ListItemFactory {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSignalListItemFactorySetup(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SignalListItemFactory.SetupHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
     }
     
     @FunctionalInterface
@@ -168,7 +156,7 @@ public class SignalListItemFactory extends ListItemFactory {
                 handle(),
                 Interop.allocateNativeString("teardown").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SignalListItemFactory.class, "__signalSignalListItemFactoryTeardown",
+                    MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryTeardown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -178,12 +166,6 @@ public class SignalListItemFactory extends ListItemFactory {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSignalListItemFactoryTeardown(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SignalListItemFactory.TeardownHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
     }
     
     @FunctionalInterface
@@ -204,7 +186,7 @@ public class SignalListItemFactory extends ListItemFactory {
                 handle(),
                 Interop.allocateNativeString("unbind").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SignalListItemFactory.class, "__signalSignalListItemFactoryUnbind",
+                    MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryUnbind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -216,10 +198,31 @@ public class SignalListItemFactory extends ListItemFactory {
         }
     }
     
-    public static void __signalSignalListItemFactoryUnbind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SignalListItemFactory.UnbindHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SignalListItemFactory.BindHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+        }
+        
+        public static void signalSignalListItemFactorySetup(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SignalListItemFactory.SetupHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+        }
+        
+        public static void signalSignalListItemFactoryTeardown(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SignalListItemFactory.TeardownHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+        }
+        
+        public static void signalSignalListItemFactoryUnbind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SignalListItemFactory.UnbindHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SignalListItemFactory(References.get(source)), new ListItem(References.get(listitem, false)));
+        }
+        
+    }
 }

@@ -783,7 +783,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                 handle(),
                 Interop.allocateNativeString("add-editable").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellArea.class, "__signalCellAreaAddEditable",
+                    MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaAddEditable",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -793,12 +793,6 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalCellAreaAddEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellArea.AddEditableHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)), new org.gtk.gdk.Rectangle(References.get(cellArea, false)), path.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -815,7 +809,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                 handle(),
                 Interop.allocateNativeString("apply-attributes").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellArea.class, "__signalCellAreaApplyAttributes",
+                    MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaApplyAttributes",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -825,12 +819,6 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalCellAreaApplyAttributes(MemoryAddress source, MemoryAddress model, MemoryAddress iter, int isExpander, int isExpanded, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellArea.ApplyAttributesHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellArea(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)), isExpander != 0, isExpanded != 0);
     }
     
     @FunctionalInterface
@@ -854,7 +842,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                 handle(),
                 Interop.allocateNativeString("focus-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellArea.class, "__signalCellAreaFocusChanged",
+                    MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaFocusChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -864,12 +852,6 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalCellAreaFocusChanged(MemoryAddress source, MemoryAddress renderer, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellArea.FocusChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), path.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -887,7 +869,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                 handle(),
                 Interop.allocateNativeString("remove-editable").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellArea.class, "__signalCellAreaRemoveEditable",
+                    MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaRemoveEditable",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -899,10 +881,31 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    public static void __signalCellAreaRemoveEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellArea.RemoveEditableHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalCellAreaAddEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress cellArea, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellArea.AddEditableHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)), new org.gtk.gdk.Rectangle(References.get(cellArea, false)), path.getUtf8String(0));
+        }
+        
+        public static void signalCellAreaApplyAttributes(MemoryAddress source, MemoryAddress model, MemoryAddress iter, int isExpander, int isExpanded, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellArea.ApplyAttributesHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellArea(References.get(source)), new TreeModel.TreeModelImpl(References.get(model, false)), new TreeIter(References.get(iter, false)), isExpander != 0, isExpanded != 0);
+        }
+        
+        public static void signalCellAreaFocusChanged(MemoryAddress source, MemoryAddress renderer, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellArea.FocusChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), path.getUtf8String(0));
+        }
+        
+        public static void signalCellAreaRemoveEditable(MemoryAddress source, MemoryAddress renderer, MemoryAddress editable, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellArea.RemoveEditableHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellArea(References.get(source)), new CellRenderer(References.get(renderer, false)), new CellEditable.CellEditableImpl(References.get(editable, false)));
+        }
+        
+    }
 }

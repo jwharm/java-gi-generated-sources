@@ -72,7 +72,7 @@ public class CellRendererCombo extends CellRendererText {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellRendererCombo.class, "__signalCellRendererComboChanged",
+                    MethodHandles.lookup().findStatic(CellRendererCombo.Callbacks.class, "signalCellRendererComboChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -84,10 +84,13 @@ public class CellRendererCombo extends CellRendererText {
         }
     }
     
-    public static void __signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellRendererCombo.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellRendererCombo(References.get(source)), pathString.getUtf8String(0), new TreeIter(References.get(newIter, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellRendererCombo.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellRendererCombo(References.get(source)), pathString.getUtf8String(0), new TreeIter(References.get(newIter, false)));
+        }
+        
+    }
 }

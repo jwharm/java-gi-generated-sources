@@ -82,7 +82,7 @@ public class Seat extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("device-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.class, "__signalSeatDeviceAdded",
+                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatDeviceAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -92,12 +92,6 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSeatDeviceAdded(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Seat.DeviceAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Seat(References.get(source)), new Device(References.get(device, false)));
     }
     
     @FunctionalInterface
@@ -114,7 +108,7 @@ public class Seat extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("device-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.class, "__signalSeatDeviceRemoved",
+                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatDeviceRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -124,12 +118,6 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSeatDeviceRemoved(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Seat.DeviceRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Seat(References.get(source)), new Device(References.get(device, false)));
     }
     
     @FunctionalInterface
@@ -152,7 +140,7 @@ public class Seat extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("tool-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.class, "__signalSeatToolAdded",
+                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatToolAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -162,12 +150,6 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSeatToolAdded(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Seat.ToolAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Seat(References.get(source)), new DeviceTool(References.get(tool, false)));
     }
     
     @FunctionalInterface
@@ -184,7 +166,7 @@ public class Seat extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("tool-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.class, "__signalSeatToolRemoved",
+                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatToolRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -196,10 +178,31 @@ public class Seat extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalSeatToolRemoved(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Seat.ToolRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Seat(References.get(source)), new DeviceTool(References.get(tool, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalSeatDeviceAdded(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Seat.DeviceAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Seat(References.get(source)), new Device(References.get(device, false)));
+        }
+        
+        public static void signalSeatDeviceRemoved(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Seat.DeviceRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Seat(References.get(source)), new Device(References.get(device, false)));
+        }
+        
+        public static void signalSeatToolAdded(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Seat.ToolAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Seat(References.get(source)), new DeviceTool(References.get(tool, false)));
+        }
+        
+        public static void signalSeatToolRemoved(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Seat.ToolRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Seat(References.get(source)), new DeviceTool(References.get(tool, false)));
+        }
+        
+    }
 }

@@ -296,7 +296,7 @@ public class SocketListener extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("event").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SocketListener.class, "__signalSocketListenerEvent",
+                    MethodHandles.lookup().findStatic(SocketListener.Callbacks.class, "signalSocketListenerEvent",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -308,10 +308,13 @@ public class SocketListener extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SocketListener.EventHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SocketListener(References.get(source)), new SocketListenerEvent(event), new Socket(References.get(socket, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SocketListener.EventHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SocketListener(References.get(source)), new SocketListenerEvent(event), new Socket(References.get(socket, false)));
+        }
+        
+    }
 }

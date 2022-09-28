@@ -127,7 +127,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
                 handle(),
                 Interop.allocateNativeString("text-popped").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Statusbar.class, "__signalStatusbarTextPopped",
+                    MethodHandles.lookup().findStatic(Statusbar.Callbacks.class, "signalStatusbarTextPopped",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -137,12 +137,6 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalStatusbarTextPopped(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Statusbar.TextPoppedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Statusbar(References.get(source)), contextId, text.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -159,7 +153,7 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
                 handle(),
                 Interop.allocateNativeString("text-pushed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Statusbar.class, "__signalStatusbarTextPushed",
+                    MethodHandles.lookup().findStatic(Statusbar.Callbacks.class, "signalStatusbarTextPushed",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -171,10 +165,19 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    public static void __signalStatusbarTextPushed(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Statusbar.TextPushedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Statusbar(References.get(source)), contextId, text.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalStatusbarTextPopped(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Statusbar.TextPoppedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Statusbar(References.get(source)), contextId, text.getUtf8String(0));
+        }
+        
+        public static void signalStatusbarTextPushed(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Statusbar.TextPushedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Statusbar(References.get(source)), contextId, text.getUtf8String(0));
+        }
+        
+    }
 }

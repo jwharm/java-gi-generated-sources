@@ -274,7 +274,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("offset-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(LevelBar.class, "__signalLevelBarOffsetChanged",
+                    MethodHandles.lookup().findStatic(LevelBar.Callbacks.class, "signalLevelBarOffsetChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -286,10 +286,13 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static void __signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (LevelBar.OffsetChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new LevelBar(References.get(source)), name.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (LevelBar.OffsetChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new LevelBar(References.get(source)), name.getUtf8String(0));
+        }
+        
+    }
 }

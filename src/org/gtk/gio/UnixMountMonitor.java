@@ -49,7 +49,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("mountpoints-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(UnixMountMonitor.class, "__signalUnixMountMonitorMountpointsChanged",
+                    MethodHandles.lookup().findStatic(UnixMountMonitor.Callbacks.class, "signalUnixMountMonitorMountpointsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -59,12 +59,6 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (UnixMountMonitor.MountpointsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new UnixMountMonitor(References.get(source)));
     }
     
     @FunctionalInterface
@@ -81,7 +75,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("mounts-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(UnixMountMonitor.class, "__signalUnixMountMonitorMountsChanged",
+                    MethodHandles.lookup().findStatic(UnixMountMonitor.Callbacks.class, "signalUnixMountMonitorMountsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -93,10 +87,19 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalUnixMountMonitorMountsChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (UnixMountMonitor.MountsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new UnixMountMonitor(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (UnixMountMonitor.MountpointsChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new UnixMountMonitor(References.get(source)));
+        }
+        
+        public static void signalUnixMountMonitorMountsChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (UnixMountMonitor.MountsChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new UnixMountMonitor(References.get(source)));
+        }
+        
+    }
 }

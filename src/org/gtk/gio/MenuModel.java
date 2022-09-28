@@ -260,7 +260,7 @@ public class MenuModel extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("items-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MenuModel.class, "__signalMenuModelItemsChanged",
+                    MethodHandles.lookup().findStatic(MenuModel.Callbacks.class, "signalMenuModelItemsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -272,10 +272,13 @@ public class MenuModel extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalMenuModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MenuModel.ItemsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MenuModel(References.get(source)), position, removed, added);
-    }
+    public static class Callbacks {
     
+        public static void signalMenuModelItemsChanged(MemoryAddress source, int position, int removed, int added, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MenuModel.ItemsChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MenuModel(References.get(source)), position, removed, added);
+        }
+        
+    }
 }

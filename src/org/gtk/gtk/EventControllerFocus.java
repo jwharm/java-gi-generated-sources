@@ -78,7 +78,7 @@ public class EventControllerFocus extends EventController {
                 handle(),
                 Interop.allocateNativeString("enter").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerFocus.class, "__signalEventControllerFocusEnter",
+                    MethodHandles.lookup().findStatic(EventControllerFocus.Callbacks.class, "signalEventControllerFocusEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -88,12 +88,6 @@ public class EventControllerFocus extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEventControllerFocusEnter(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerFocus.EnterHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerFocus(References.get(source)));
     }
     
     @FunctionalInterface
@@ -118,7 +112,7 @@ public class EventControllerFocus extends EventController {
                 handle(),
                 Interop.allocateNativeString("leave").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerFocus.class, "__signalEventControllerFocusLeave",
+                    MethodHandles.lookup().findStatic(EventControllerFocus.Callbacks.class, "signalEventControllerFocusLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -130,10 +124,19 @@ public class EventControllerFocus extends EventController {
         }
     }
     
-    public static void __signalEventControllerFocusLeave(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerFocus.LeaveHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerFocus(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalEventControllerFocusEnter(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerFocus.EnterHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerFocus(References.get(source)));
+        }
+        
+        public static void signalEventControllerFocusLeave(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerFocus.LeaveHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerFocus(References.get(source)));
+        }
+        
+    }
 }

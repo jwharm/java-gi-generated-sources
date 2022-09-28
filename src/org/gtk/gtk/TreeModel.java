@@ -549,7 +549,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("row-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeModel.class, "__signalTreeModelRowChanged",
+                    MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -559,12 +559,6 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeModelRowChanged(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeModel.RowChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
     
     @FunctionalInterface
@@ -588,7 +582,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("row-deleted").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeModel.class, "__signalTreeModelRowDeleted",
+                    MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowDeleted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -598,12 +592,6 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeModelRowDeleted(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeModel.RowDeletedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)));
     }
     
     @FunctionalInterface
@@ -621,7 +609,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("row-has-child-toggled").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeModel.class, "__signalTreeModelRowHasChildToggled",
+                    MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowHasChildToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -631,12 +619,6 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeModelRowHasChildToggled(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeModel.RowHasChildToggledHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
     
     @FunctionalInterface
@@ -658,7 +640,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("row-inserted").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeModel.class, "__signalTreeModelRowInserted",
+                    MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowInserted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -668,12 +650,6 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTreeModelRowInserted(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeModel.RowInsertedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
     }
     
     @FunctionalInterface
@@ -695,7 +671,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("rows-reordered").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeModel.class, "__signalTreeModelRowsReordered",
+                    MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowsReordered",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -707,10 +683,38 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalTreeModelRowsReordered(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TreeModel.RowsReorderedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)), newOrder);
+    public static class Callbacks {
+    
+        public static void signalTreeModelRowChanged(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeModel.RowChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+        }
+        
+        public static void signalTreeModelRowDeleted(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeModel.RowDeletedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)));
+        }
+        
+        public static void signalTreeModelRowHasChildToggled(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeModel.RowHasChildToggledHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+        }
+        
+        public static void signalTreeModelRowInserted(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeModel.RowInsertedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)));
+        }
+        
+        public static void signalTreeModelRowsReordered(MemoryAddress source, MemoryAddress path, MemoryAddress iter, MemoryAddress newOrder, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TreeModel.RowsReorderedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TreeModel.TreeModelImpl(References.get(source)), new TreePath(References.get(path, false)), new TreeIter(References.get(iter, false)), newOrder);
+        }
+        
     }
     
     class TreeModelImpl extends org.gtk.gobject.Object implements TreeModel {

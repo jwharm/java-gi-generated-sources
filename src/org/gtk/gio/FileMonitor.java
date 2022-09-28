@@ -110,7 +110,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileMonitor.class, "__signalFileMonitorChanged",
+                    MethodHandles.lookup().findStatic(FileMonitor.Callbacks.class, "signalFileMonitorChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -122,10 +122,13 @@ public class FileMonitor extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FileMonitor.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FileMonitor(References.get(source)), new File.FileImpl(References.get(file, false)), new File.FileImpl(References.get(otherFile, false)), new FileMonitorEvent(eventType));
-    }
+    public static class Callbacks {
     
+        public static void signalFileMonitorChanged(MemoryAddress source, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FileMonitor.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FileMonitor(References.get(source)), new File.FileImpl(References.get(file, false)), new File.FileImpl(References.get(otherFile, false)), new FileMonitorEvent(eventType));
+        }
+        
+    }
 }

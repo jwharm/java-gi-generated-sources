@@ -68,7 +68,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("editing-done").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellEditable.class, "__signalCellEditableEditingDone",
+                    MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableEditingDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -78,12 +78,6 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalCellEditableEditingDone(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellEditable.EditingDoneHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -111,7 +105,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("remove-widget").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellEditable.class, "__signalCellEditableRemoveWidget",
+                    MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableRemoveWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -123,10 +117,20 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalCellEditableRemoveWidget(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellEditable.RemoveWidgetHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
+    public static class Callbacks {
+    
+        public static void signalCellEditableEditingDone(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellEditable.EditingDoneHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
+        }
+        
+        public static void signalCellEditableRemoveWidget(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellEditable.RemoveWidgetHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellEditable.CellEditableImpl(References.get(source)));
+        }
+        
     }
     
     class CellEditableImpl extends org.gtk.gobject.Object implements CellEditable {

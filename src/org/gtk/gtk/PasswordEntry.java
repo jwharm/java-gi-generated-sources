@@ -113,7 +113,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PasswordEntry.class, "__signalPasswordEntryActivate",
+                    MethodHandles.lookup().findStatic(PasswordEntry.Callbacks.class, "signalPasswordEntryActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -125,10 +125,13 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         }
     }
     
-    public static void __signalPasswordEntryActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PasswordEntry.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PasswordEntry(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalPasswordEntryActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PasswordEntry.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PasswordEntry(References.get(source)));
+        }
+        
+    }
 }

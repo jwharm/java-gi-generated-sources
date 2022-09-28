@@ -66,7 +66,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("interface-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectManager.class, "__signalDBusObjectManagerInterfaceAdded",
+                    MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerInterfaceAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -76,12 +76,6 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDBusObjectManagerInterfaceAdded(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObjectManager.InterfaceAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
     }
     
     @FunctionalInterface
@@ -101,7 +95,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("interface-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectManager.class, "__signalDBusObjectManagerInterfaceRemoved",
+                    MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerInterfaceRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -111,12 +105,6 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDBusObjectManagerInterfaceRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObjectManager.InterfaceRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
     }
     
     @FunctionalInterface
@@ -133,7 +121,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("object-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectManager.class, "__signalDBusObjectManagerObjectAdded",
+                    MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerObjectAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -143,12 +131,6 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDBusObjectManagerObjectAdded(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObjectManager.ObjectAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)));
     }
     
     @FunctionalInterface
@@ -165,7 +147,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("object-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectManager.class, "__signalDBusObjectManagerObjectRemoved",
+                    MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerObjectRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -177,10 +159,32 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalDBusObjectManagerObjectRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObjectManager.ObjectRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)));
+    public static class Callbacks {
+    
+        public static void signalDBusObjectManagerInterfaceAdded(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObjectManager.InterfaceAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+        }
+        
+        public static void signalDBusObjectManagerInterfaceRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress interface_, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObjectManager.InterfaceRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+        }
+        
+        public static void signalDBusObjectManagerObjectAdded(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObjectManager.ObjectAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)));
+        }
+        
+        public static void signalDBusObjectManagerObjectRemoved(MemoryAddress source, MemoryAddress object, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObjectManager.ObjectRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObjectManager.DBusObjectManagerImpl(References.get(source)), new DBusObject.DBusObjectImpl(References.get(object, false)));
+        }
+        
     }
     
     class DBusObjectManagerImpl extends org.gtk.gobject.Object implements DBusObjectManager {

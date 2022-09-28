@@ -197,7 +197,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("selection-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SelectionModel.class, "__signalSelectionModelSelectionChanged",
+                    MethodHandles.lookup().findStatic(SelectionModel.Callbacks.class, "signalSelectionModelSelectionChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -209,10 +209,14 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalSelectionModelSelectionChanged(MemoryAddress source, int position, int nItems, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SelectionModel.SelectionChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SelectionModel.SelectionModelImpl(References.get(source)), position, nItems);
+    public static class Callbacks {
+    
+        public static void signalSelectionModelSelectionChanged(MemoryAddress source, int position, int nItems, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SelectionModel.SelectionChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SelectionModel.SelectionModelImpl(References.get(source)), position, nItems);
+        }
+        
     }
     
     class SelectionModelImpl extends org.gtk.gobject.Object implements SelectionModel {

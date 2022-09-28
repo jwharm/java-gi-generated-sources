@@ -167,7 +167,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("deleted-text").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryBuffer.class, "__signalEntryBufferDeletedText",
+                    MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferDeletedText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -177,12 +177,6 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEntryBufferDeletedText(MemoryAddress source, int position, int nChars, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EntryBuffer.DeletedTextHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EntryBuffer(References.get(source)), position, nChars);
     }
     
     @FunctionalInterface
@@ -199,7 +193,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("inserted-text").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryBuffer.class, "__signalEntryBufferInsertedText",
+                    MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferInsertedText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -211,10 +205,19 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalEntryBufferInsertedText(MemoryAddress source, int position, MemoryAddress chars, int nChars, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EntryBuffer.InsertedTextHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EntryBuffer(References.get(source)), position, chars.getUtf8String(0), nChars);
-    }
+    public static class Callbacks {
     
+        public static void signalEntryBufferDeletedText(MemoryAddress source, int position, int nChars, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EntryBuffer.DeletedTextHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EntryBuffer(References.get(source)), position, nChars);
+        }
+        
+        public static void signalEntryBufferInsertedText(MemoryAddress source, int position, MemoryAddress chars, int nChars, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EntryBuffer.InsertedTextHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EntryBuffer(References.get(source)), position, chars.getUtf8String(0), nChars);
+        }
+        
+    }
 }

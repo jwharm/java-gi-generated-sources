@@ -112,7 +112,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBoxChild.class, "__signalFlowBoxChildActivate",
+                    MethodHandles.lookup().findStatic(FlowBoxChild.Callbacks.class, "signalFlowBoxChildActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -124,10 +124,13 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         }
     }
     
-    public static void __signalFlowBoxChildActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FlowBoxChild.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FlowBoxChild(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalFlowBoxChildActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FlowBoxChild.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FlowBoxChild(References.get(source)));
+        }
+        
+    }
 }

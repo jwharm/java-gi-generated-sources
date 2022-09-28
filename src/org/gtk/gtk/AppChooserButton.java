@@ -176,7 +176,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppChooserButton.class, "__signalAppChooserButtonActivate",
+                    MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -186,12 +186,6 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAppChooserButtonActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppChooserButton.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppChooserButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -208,7 +202,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppChooserButton.class, "__signalAppChooserButtonChanged",
+                    MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -218,12 +212,6 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAppChooserButtonChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppChooserButton.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppChooserButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -243,7 +231,7 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
                 handle(),
                 Interop.allocateNativeString("custom-item-activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppChooserButton.class, "__signalAppChooserButtonCustomItemActivated",
+                    MethodHandles.lookup().findStatic(AppChooserButton.Callbacks.class, "signalAppChooserButtonCustomItemActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -255,10 +243,25 @@ public class AppChooserButton extends Widget implements Accessible, AppChooser, 
         }
     }
     
-    public static void __signalAppChooserButtonCustomItemActivated(MemoryAddress source, MemoryAddress itemName, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppChooserButton.CustomItemActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppChooserButton(References.get(source)), itemName.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalAppChooserButtonActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppChooserButton.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppChooserButton(References.get(source)));
+        }
+        
+        public static void signalAppChooserButtonChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppChooserButton.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppChooserButton(References.get(source)));
+        }
+        
+        public static void signalAppChooserButtonCustomItemActivated(MemoryAddress source, MemoryAddress itemName, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppChooserButton.CustomItemActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppChooserButton(References.get(source)), itemName.getUtf8String(0));
+        }
+        
+    }
 }

@@ -333,7 +333,7 @@ public class Clipboard extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Clipboard.class, "__signalClipboardChanged",
+                    MethodHandles.lookup().findStatic(Clipboard.Callbacks.class, "signalClipboardChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -345,10 +345,13 @@ public class Clipboard extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalClipboardChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Clipboard.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Clipboard(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalClipboardChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Clipboard.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Clipboard(References.get(source)));
+        }
+        
+    }
 }

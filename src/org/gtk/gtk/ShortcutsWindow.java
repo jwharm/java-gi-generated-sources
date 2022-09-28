@@ -77,7 +77,7 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
                 handle(),
                 Interop.allocateNativeString("close").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ShortcutsWindow.class, "__signalShortcutsWindowClose",
+                    MethodHandles.lookup().findStatic(ShortcutsWindow.Callbacks.class, "signalShortcutsWindowClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -87,12 +87,6 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalShortcutsWindowClose(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ShortcutsWindow.CloseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ShortcutsWindow(References.get(source)));
     }
     
     @FunctionalInterface
@@ -113,7 +107,7 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
                 handle(),
                 Interop.allocateNativeString("search").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ShortcutsWindow.class, "__signalShortcutsWindowSearch",
+                    MethodHandles.lookup().findStatic(ShortcutsWindow.Callbacks.class, "signalShortcutsWindowSearch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -125,10 +119,19 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
         }
     }
     
-    public static void __signalShortcutsWindowSearch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ShortcutsWindow.SearchHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ShortcutsWindow(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalShortcutsWindowClose(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ShortcutsWindow.CloseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ShortcutsWindow(References.get(source)));
+        }
+        
+        public static void signalShortcutsWindowSearch(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ShortcutsWindow.SearchHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ShortcutsWindow(References.get(source)));
+        }
+        
+    }
 }

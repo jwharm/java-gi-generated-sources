@@ -751,7 +751,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Entry.class, "__signalEntryActivate",
+                    MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -761,12 +761,6 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEntryActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Entry.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Entry(References.get(source)));
     }
     
     @FunctionalInterface
@@ -783,7 +777,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
                 handle(),
                 Interop.allocateNativeString("icon-press").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Entry.class, "__signalEntryIconPress",
+                    MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconPress",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -793,12 +787,6 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEntryIconPress(MemoryAddress source, int iconPos, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Entry.IconPressHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
     }
     
     @FunctionalInterface
@@ -816,7 +804,7 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
                 handle(),
                 Interop.allocateNativeString("icon-release").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Entry.class, "__signalEntryIconRelease",
+                    MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconRelease",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -828,10 +816,25 @@ public class Entry extends Widget implements Accessible, Buildable, CellEditable
         }
     }
     
-    public static void __signalEntryIconRelease(MemoryAddress source, int iconPos, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Entry.IconReleaseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
-    }
+    public static class Callbacks {
     
+        public static void signalEntryActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Entry.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Entry(References.get(source)));
+        }
+        
+        public static void signalEntryIconPress(MemoryAddress source, int iconPos, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Entry.IconPressHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
+        }
+        
+        public static void signalEntryIconRelease(MemoryAddress source, int iconPos, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Entry.IconReleaseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Entry(References.get(source)), new EntryIconPosition(iconPos));
+        }
+        
+    }
 }

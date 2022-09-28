@@ -138,7 +138,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FontButton.class, "__signalFontButtonActivate",
+                    MethodHandles.lookup().findStatic(FontButton.Callbacks.class, "signalFontButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -148,12 +148,6 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalFontButtonActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FontButton.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FontButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -177,7 +171,7 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
                 handle(),
                 Interop.allocateNativeString("font-set").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FontButton.class, "__signalFontButtonFontSet",
+                    MethodHandles.lookup().findStatic(FontButton.Callbacks.class, "signalFontButtonFontSet",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -189,10 +183,19 @@ public class FontButton extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    public static void __signalFontButtonFontSet(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FontButton.FontSetHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new FontButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalFontButtonActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FontButton.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FontButton(References.get(source)));
+        }
+        
+        public static void signalFontButtonFontSet(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (FontButton.FontSetHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new FontButton(References.get(source)));
+        }
+        
+    }
 }

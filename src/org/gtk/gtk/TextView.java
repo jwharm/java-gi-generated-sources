@@ -910,7 +910,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("backspace").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewBackspace",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewBackspace",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -920,12 +920,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewBackspace(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.BackspaceHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -948,7 +942,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("copy-clipboard").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewCopyClipboard",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewCopyClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -958,12 +952,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewCopyClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.CopyClipboardHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -986,7 +974,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("cut-clipboard").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewCutClipboard",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewCutClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -996,12 +984,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewCutClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.CutClipboardHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1029,7 +1011,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("delete-from-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewDeleteFromCursor",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewDeleteFromCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1039,12 +1021,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), new DeleteType(type), count);
     }
     
     @FunctionalInterface
@@ -1061,7 +1037,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("extend-selection").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewExtendSelection",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewExtendSelection",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1071,12 +1047,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalTextViewExtendSelection(MemoryAddress source, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.ExtendSelectionHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TextView(References.get(source)), new TextExtendSelection(granularity), new TextIter(References.get(location, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
     }
     
     @FunctionalInterface
@@ -1098,7 +1068,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("insert-at-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewInsertAtCursor",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewInsertAtCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1108,12 +1078,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), string.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -1136,7 +1100,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("insert-emoji").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewInsertEmoji",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewInsertEmoji",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1146,12 +1110,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewInsertEmoji(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.InsertEmojiHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1191,7 +1149,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewMoveCursor",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1201,12 +1159,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), new MovementStep(step), count, extendSelection != 0);
     }
     
     @FunctionalInterface
@@ -1230,7 +1182,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("move-viewport").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewMoveViewport",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewMoveViewport",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1240,12 +1192,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewMoveViewport(MemoryAddress source, int step, int count, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.MoveViewportHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), new ScrollStep(step), count);
     }
     
     @FunctionalInterface
@@ -1269,7 +1215,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("paste-clipboard").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewPasteClipboard",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewPasteClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1279,12 +1225,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewPasteClipboard(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.PasteClipboardHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1308,7 +1248,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("preedit-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewPreeditChanged",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewPreeditChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1318,12 +1258,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.PreeditChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), preedit.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -1348,7 +1282,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("select-all").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewSelectAll",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewSelectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1358,12 +1292,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewSelectAll(MemoryAddress source, int select, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.SelectAllHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)), select != 0);
     }
     
     @FunctionalInterface
@@ -1387,7 +1315,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("set-anchor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewSetAnchor",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewSetAnchor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1397,12 +1325,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewSetAnchor(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.SetAnchorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1424,7 +1346,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("toggle-cursor-visible").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewToggleCursorVisible",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewToggleCursorVisible",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1434,12 +1356,6 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalTextViewToggleCursorVisible(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.ToggleCursorVisibleHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
     }
     
     @FunctionalInterface
@@ -1460,7 +1376,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
                 handle(),
                 Interop.allocateNativeString("toggle-overwrite").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.class, "__signalTextViewToggleOverwrite",
+                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewToggleOverwrite",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1472,10 +1388,97 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    public static void __signalTextViewToggleOverwrite(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TextView.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new TextView(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalTextViewBackspace(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.BackspaceHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+        public static void signalTextViewCopyClipboard(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.CopyClipboardHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+        public static void signalTextViewCutClipboard(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.CutClipboardHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+        public static void signalTextViewDeleteFromCursor(MemoryAddress source, int type, int count, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.DeleteFromCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)), new DeleteType(type), count);
+        }
+        
+        public static boolean signalTextViewExtendSelection(MemoryAddress source, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.ExtendSelectionHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TextView(References.get(source)), new TextExtendSelection(granularity), new TextIter(References.get(location, false)), new TextIter(References.get(start, false)), new TextIter(References.get(end, false)));
+        }
+        
+        public static void signalTextViewInsertAtCursor(MemoryAddress source, MemoryAddress string, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.InsertAtCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)), string.getUtf8String(0));
+        }
+        
+        public static void signalTextViewInsertEmoji(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.InsertEmojiHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+        public static void signalTextViewMoveCursor(MemoryAddress source, int step, int count, int extendSelection, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.MoveCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)), new MovementStep(step), count, extendSelection != 0);
+        }
+        
+        public static void signalTextViewMoveViewport(MemoryAddress source, int step, int count, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.MoveViewportHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)), new ScrollStep(step), count);
+        }
+        
+        public static void signalTextViewPasteClipboard(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.PasteClipboardHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+        public static void signalTextViewPreeditChanged(MemoryAddress source, MemoryAddress preedit, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.PreeditChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)), preedit.getUtf8String(0));
+        }
+        
+        public static void signalTextViewSelectAll(MemoryAddress source, int select, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.SelectAllHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)), select != 0);
+        }
+        
+        public static void signalTextViewSetAnchor(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.SetAnchorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+        public static void signalTextViewToggleCursorVisible(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.ToggleCursorVisibleHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+        public static void signalTextViewToggleOverwrite(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TextView.ToggleOverwriteHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new TextView(References.get(source)));
+        }
+        
+    }
 }

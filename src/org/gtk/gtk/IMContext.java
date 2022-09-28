@@ -221,7 +221,7 @@ public class IMContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("commit").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.class, "__signalIMContextCommit",
+                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextCommit",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -231,12 +231,6 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalIMContextCommit(MemoryAddress source, MemoryAddress str, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (IMContext.CommitHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new IMContext(References.get(source)), str.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -254,7 +248,7 @@ public class IMContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("delete-surrounding").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.class, "__signalIMContextDeleteSurrounding",
+                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextDeleteSurrounding",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -264,12 +258,6 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalIMContextDeleteSurrounding(MemoryAddress source, int offset, int nChars, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (IMContext.DeleteSurroundingHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new IMContext(References.get(source)), offset, nChars);
     }
     
     @FunctionalInterface
@@ -290,7 +278,7 @@ public class IMContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("preedit-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.class, "__signalIMContextPreeditChanged",
+                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -300,12 +288,6 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalIMContextPreeditChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (IMContext.PreeditChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new IMContext(References.get(source)));
     }
     
     @FunctionalInterface
@@ -323,7 +305,7 @@ public class IMContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("preedit-end").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.class, "__signalIMContextPreeditEnd",
+                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -333,12 +315,6 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalIMContextPreeditEnd(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (IMContext.PreeditEndHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new IMContext(References.get(source)));
     }
     
     @FunctionalInterface
@@ -356,7 +332,7 @@ public class IMContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("preedit-start").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.class, "__signalIMContextPreeditStart",
+                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditStart",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -366,12 +342,6 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalIMContextPreeditStart(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (IMContext.PreeditStartHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new IMContext(References.get(source)));
     }
     
     @FunctionalInterface
@@ -392,7 +362,7 @@ public class IMContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("retrieve-surrounding").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.class, "__signalIMContextRetrieveSurrounding",
+                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextRetrieveSurrounding",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -404,10 +374,43 @@ public class IMContext extends org.gtk.gobject.Object {
         }
     }
     
-    public static boolean __signalIMContextRetrieveSurrounding(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (IMContext.RetrieveSurroundingHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new IMContext(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalIMContextCommit(MemoryAddress source, MemoryAddress str, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (IMContext.CommitHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new IMContext(References.get(source)), str.getUtf8String(0));
+        }
+        
+        public static boolean signalIMContextDeleteSurrounding(MemoryAddress source, int offset, int nChars, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (IMContext.DeleteSurroundingHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new IMContext(References.get(source)), offset, nChars);
+        }
+        
+        public static void signalIMContextPreeditChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (IMContext.PreeditChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new IMContext(References.get(source)));
+        }
+        
+        public static void signalIMContextPreeditEnd(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (IMContext.PreeditEndHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new IMContext(References.get(source)));
+        }
+        
+        public static void signalIMContextPreeditStart(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (IMContext.PreeditStartHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new IMContext(References.get(source)));
+        }
+        
+        public static boolean signalIMContextRetrieveSurrounding(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (IMContext.RetrieveSurroundingHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new IMContext(References.get(source)));
+        }
+        
+    }
 }

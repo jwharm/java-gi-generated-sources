@@ -135,7 +135,7 @@ public class DropTargetAsync extends EventController {
                 handle(),
                 Interop.allocateNativeString("accept").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTargetAsync.class, "__signalDropTargetAsyncAccept",
+                    MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncAccept",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -145,12 +145,6 @@ public class DropTargetAsync extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalDropTargetAsyncAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTargetAsync.AcceptHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
     }
     
     @FunctionalInterface
@@ -169,7 +163,7 @@ public class DropTargetAsync extends EventController {
                 handle(),
                 Interop.allocateNativeString("drag-enter").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTargetAsync.class, "__signalDropTargetAsyncDragEnter",
+                    MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDragEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -179,12 +173,6 @@ public class DropTargetAsync extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDropTargetAsyncDragEnter(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTargetAsync.DragEnterHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
     }
     
     @FunctionalInterface
@@ -204,7 +192,7 @@ public class DropTargetAsync extends EventController {
                 handle(),
                 Interop.allocateNativeString("drag-leave").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTargetAsync.class, "__signalDropTargetAsyncDragLeave",
+                    MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDragLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -214,12 +202,6 @@ public class DropTargetAsync extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDropTargetAsyncDragLeave(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTargetAsync.DragLeaveHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
     }
     
     @FunctionalInterface
@@ -236,7 +218,7 @@ public class DropTargetAsync extends EventController {
                 handle(),
                 Interop.allocateNativeString("drag-motion").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTargetAsync.class, "__signalDropTargetAsyncDragMotion",
+                    MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDragMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -246,12 +228,6 @@ public class DropTargetAsync extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDropTargetAsyncDragMotion(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTargetAsync.DragMotionHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
     }
     
     @FunctionalInterface
@@ -281,7 +257,7 @@ public class DropTargetAsync extends EventController {
                 handle(),
                 Interop.allocateNativeString("drop").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropTargetAsync.class, "__signalDropTargetAsyncDrop",
+                    MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDrop",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -293,10 +269,37 @@ public class DropTargetAsync extends EventController {
         }
     }
     
-    public static boolean __signalDropTargetAsyncDrop(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DropTargetAsync.DropHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
-    }
+    public static class Callbacks {
     
+        public static boolean signalDropTargetAsyncAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTargetAsync.AcceptHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
+        }
+        
+        public static void signalDropTargetAsyncDragEnter(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTargetAsync.DragEnterHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
+        }
+        
+        public static void signalDropTargetAsyncDragLeave(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTargetAsync.DragLeaveHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)));
+        }
+        
+        public static void signalDropTargetAsyncDragMotion(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTargetAsync.DragMotionHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
+        }
+        
+        public static boolean signalDropTargetAsyncDrop(MemoryAddress source, MemoryAddress drop, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DropTargetAsync.DropHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DropTargetAsync(References.get(source)), new org.gtk.gdk.Drop(References.get(drop, false)), x, y);
+        }
+        
+    }
 }

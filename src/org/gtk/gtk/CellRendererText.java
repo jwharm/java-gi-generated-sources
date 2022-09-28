@@ -74,7 +74,7 @@ public class CellRendererText extends CellRenderer {
                 handle(),
                 Interop.allocateNativeString("edited").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellRendererText.class, "__signalCellRendererTextEdited",
+                    MethodHandles.lookup().findStatic(CellRendererText.Callbacks.class, "signalCellRendererTextEdited",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -86,10 +86,13 @@ public class CellRendererText extends CellRenderer {
         }
     }
     
-    public static void __signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellRendererText.EditedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellRendererText(References.get(source)), path.getUtf8String(0), newText.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellRendererText.EditedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellRendererText(References.get(source)), path.getUtf8String(0), newText.getUtf8String(0));
+        }
+        
+    }
 }

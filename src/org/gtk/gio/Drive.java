@@ -334,7 +334,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.class, "__signalDriveChanged",
+                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -344,12 +344,6 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDriveChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Drive.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -369,7 +363,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("disconnected").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.class, "__signalDriveDisconnected",
+                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveDisconnected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -379,12 +373,6 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDriveDisconnected(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Drive.DisconnectedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -402,7 +390,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("eject-button").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.class, "__signalDriveEjectButton",
+                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveEjectButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -412,12 +400,6 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDriveEjectButton(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Drive.EjectButtonHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drive.DriveImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -435,7 +417,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("stop-button").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.class, "__signalDriveStopButton",
+                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveStopButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -447,10 +429,32 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalDriveStopButton(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Drive.StopButtonHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+    public static class Callbacks {
+    
+        public static void signalDriveChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Drive.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+        }
+        
+        public static void signalDriveDisconnected(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Drive.DisconnectedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+        }
+        
+        public static void signalDriveEjectButton(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Drive.EjectButtonHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+        }
+        
+        public static void signalDriveStopButton(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Drive.StopButtonHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Drive.DriveImpl(References.get(source)));
+        }
+        
     }
     
     class DriveImpl extends org.gtk.gobject.Object implements Drive {

@@ -501,7 +501,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("accept-certificate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DtlsConnection.class, "__signalDtlsConnectionAcceptCertificate",
+                    MethodHandles.lookup().findStatic(DtlsConnection.Callbacks.class, "signalDtlsConnectionAcceptCertificate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -513,10 +513,14 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static boolean __signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DtlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
+    public static class Callbacks {
+    
+        public static boolean signalDtlsConnectionAcceptCertificate(MemoryAddress source, MemoryAddress peerCert, int errors, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DtlsConnection.AcceptCertificateHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DtlsConnection.DtlsConnectionImpl(References.get(source)), new TlsCertificate(References.get(peerCert, false)), new TlsCertificateFlags(errors));
+        }
+        
     }
     
     class DtlsConnectionImpl extends org.gtk.gobject.Object implements DtlsConnection {

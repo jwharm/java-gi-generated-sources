@@ -162,7 +162,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("response").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(NativeDialog.class, "__signalNativeDialogResponse",
+                    MethodHandles.lookup().findStatic(NativeDialog.Callbacks.class, "signalNativeDialogResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -174,10 +174,13 @@ public class NativeDialog extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalNativeDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (NativeDialog.ResponseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new NativeDialog(References.get(source)), responseId);
-    }
+    public static class Callbacks {
     
+        public static void signalNativeDialogResponse(MemoryAddress source, int responseId, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (NativeDialog.ResponseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new NativeDialog(References.get(source)), responseId);
+        }
+        
+    }
 }

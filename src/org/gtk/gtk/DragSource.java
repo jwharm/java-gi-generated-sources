@@ -201,7 +201,7 @@ public class DragSource extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("drag-begin").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.class, "__signalDragSourceDragBegin",
+                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -211,12 +211,6 @@ public class DragSource extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDragSourceDragBegin(MemoryAddress source, MemoryAddress drag, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DragSource.DragBeginHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)));
     }
     
     @FunctionalInterface
@@ -237,7 +231,7 @@ public class DragSource extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("drag-cancel").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.class, "__signalDragSourceDragCancel",
+                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragCancel",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -247,12 +241,6 @@ public class DragSource extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalDragSourceDragCancel(MemoryAddress source, MemoryAddress drag, int reason, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DragSource.DragCancelHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), new org.gtk.gdk.DragCancelReason(reason));
     }
     
     @FunctionalInterface
@@ -273,7 +261,7 @@ public class DragSource extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("drag-end").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.class, "__signalDragSourceDragEnd",
+                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -283,12 +271,6 @@ public class DragSource extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDragSourceDragEnd(MemoryAddress source, MemoryAddress drag, int deleteData, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DragSource.DragEndHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), deleteData != 0);
     }
     
     @FunctionalInterface
@@ -310,7 +292,7 @@ public class DragSource extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("prepare").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.class, "__signalDragSourcePrepare",
+                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourcePrepare",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -322,10 +304,31 @@ public class DragSource extends GestureSingle {
         }
     }
     
-    public static void __signalDragSourcePrepare(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DragSource.PrepareHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DragSource(References.get(source)), x, y);
-    }
+    public static class Callbacks {
     
+        public static void signalDragSourceDragBegin(MemoryAddress source, MemoryAddress drag, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DragSource.DragBeginHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)));
+        }
+        
+        public static boolean signalDragSourceDragCancel(MemoryAddress source, MemoryAddress drag, int reason, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DragSource.DragCancelHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), new org.gtk.gdk.DragCancelReason(reason));
+        }
+        
+        public static void signalDragSourceDragEnd(MemoryAddress source, MemoryAddress drag, int deleteData, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DragSource.DragEndHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DragSource(References.get(source)), new org.gtk.gdk.Drag(References.get(drag, false)), deleteData != 0);
+        }
+        
+        public static void signalDragSourcePrepare(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DragSource.PrepareHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DragSource(References.get(source)), x, y);
+        }
+        
+    }
 }

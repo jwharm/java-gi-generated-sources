@@ -387,7 +387,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("activate-link").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AboutDialog.class, "__signalAboutDialogActivateLink",
+                    MethodHandles.lookup().findStatic(AboutDialog.Callbacks.class, "signalAboutDialogActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -399,10 +399,13 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
         }
     }
     
-    public static boolean __signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AboutDialog.ActivateLinkHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new AboutDialog(References.get(source)), uri.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static boolean signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AboutDialog.ActivateLinkHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new AboutDialog(References.get(source)), uri.getUtf8String(0));
+        }
+        
+    }
 }

@@ -448,7 +448,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Editable.class, "__signalEditableChanged",
+                    MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -458,12 +458,6 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEditableChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Editable.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Editable.EditableImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -488,7 +482,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("delete-text").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Editable.class, "__signalEditableDeleteText",
+                    MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableDeleteText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -498,12 +492,6 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEditableDeleteText(MemoryAddress source, int startPos, int endPos, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Editable.DeleteTextHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Editable.EditableImpl(References.get(source)), startPos, endPos);
     }
     
     @FunctionalInterface
@@ -525,7 +513,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("insert-text").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Editable.class, "__signalEditableInsertText",
+                    MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableInsertText",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -537,10 +525,26 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalEditableInsertText(MemoryAddress source, MemoryAddress text, int length, int position, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Editable.InsertTextHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Editable.EditableImpl(References.get(source)), text.getUtf8String(0), length, position);
+    public static class Callbacks {
+    
+        public static void signalEditableChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Editable.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Editable.EditableImpl(References.get(source)));
+        }
+        
+        public static void signalEditableDeleteText(MemoryAddress source, int startPos, int endPos, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Editable.DeleteTextHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Editable.EditableImpl(References.get(source)), startPos, endPos);
+        }
+        
+        public static void signalEditableInsertText(MemoryAddress source, MemoryAddress text, int length, int position, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Editable.InsertTextHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Editable.EditableImpl(References.get(source)), text.getUtf8String(0), length, position);
+        }
+        
     }
     
     class EditableImpl extends org.gtk.gobject.Object implements Editable {

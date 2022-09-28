@@ -309,7 +309,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("action-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ActionGroup.class, "__signalActionGroupActionAdded",
+                    MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -319,12 +319,6 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ActionGroup.ActionAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -341,7 +335,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("action-enabled-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ActionGroup.class, "__signalActionGroupActionEnabledChanged",
+                    MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionEnabledChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -351,12 +345,6 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, int enabled, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ActionGroup.ActionEnabledChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), enabled != 0);
     }
     
     @FunctionalInterface
@@ -375,7 +363,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("action-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ActionGroup.class, "__signalActionGroupActionRemoved",
+                    MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -385,12 +373,6 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalActionGroupActionRemoved(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ActionGroup.ActionRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -407,7 +389,7 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("action-state-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ActionGroup.class, "__signalActionGroupActionStateChanged",
+                    MethodHandles.lookup().findStatic(ActionGroup.Callbacks.class, "signalActionGroupActionStateChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -419,10 +401,32 @@ public interface ActionGroup extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalActionGroupActionStateChanged(MemoryAddress source, MemoryAddress actionName, MemoryAddress value, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ActionGroup.ActionStateChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
+    public static class Callbacks {
+    
+        public static void signalActionGroupActionAdded(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ActionGroup.ActionAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
+        }
+        
+        public static void signalActionGroupActionEnabledChanged(MemoryAddress source, MemoryAddress actionName, int enabled, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ActionGroup.ActionEnabledChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), enabled != 0);
+        }
+        
+        public static void signalActionGroupActionRemoved(MemoryAddress source, MemoryAddress actionName, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ActionGroup.ActionRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0));
+        }
+        
+        public static void signalActionGroupActionStateChanged(MemoryAddress source, MemoryAddress actionName, MemoryAddress value, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ActionGroup.ActionStateChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ActionGroup.ActionGroupImpl(References.get(source)), actionName.getUtf8String(0), new org.gtk.glib.Variant(References.get(value, false)));
+        }
+        
     }
     
     class ActionGroupImpl extends org.gtk.gobject.Object implements ActionGroup {

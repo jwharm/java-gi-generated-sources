@@ -73,7 +73,7 @@ public class GesturePan extends GestureDrag {
                 handle(),
                 Interop.allocateNativeString("pan").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GesturePan.class, "__signalGesturePanPan",
+                    MethodHandles.lookup().findStatic(GesturePan.Callbacks.class, "signalGesturePanPan",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -85,10 +85,13 @@ public class GesturePan extends GestureDrag {
         }
     }
     
-    public static void __signalGesturePanPan(MemoryAddress source, int direction, double offset, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GesturePan.PanHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GesturePan(References.get(source)), new PanDirection(direction), offset);
-    }
+    public static class Callbacks {
     
+        public static void signalGesturePanPan(MemoryAddress source, int direction, double offset, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GesturePan.PanHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GesturePan(References.get(source)), new PanDirection(direction), offset);
+        }
+        
+    }
 }

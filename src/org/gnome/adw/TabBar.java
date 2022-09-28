@@ -192,7 +192,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
                 handle(),
                 Interop.allocateNativeString("extra-drag-drop").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabBar.class, "__signalTabBarExtraDragDrop",
+                    MethodHandles.lookup().findStatic(TabBar.Callbacks.class, "signalTabBarExtraDragDrop",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -204,10 +204,13 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         }
     }
     
-    public static boolean __signalTabBarExtraDragDrop(MemoryAddress source, MemoryAddress page, MemoryAddress value, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (TabBar.ExtraDragDropHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new TabBar(References.get(source)), new TabPage(References.get(page, false)), new org.gtk.gobject.Value(References.get(value, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalTabBarExtraDragDrop(MemoryAddress source, MemoryAddress page, MemoryAddress value, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (TabBar.ExtraDragDropHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new TabBar(References.get(source)), new TabPage(References.get(page, false)), new org.gtk.gobject.Value(References.get(value, false)));
+        }
+        
+    }
 }

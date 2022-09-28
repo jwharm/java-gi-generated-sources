@@ -210,7 +210,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("resize").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DrawingArea.class, "__signalDrawingAreaResize",
+                    MethodHandles.lookup().findStatic(DrawingArea.Callbacks.class, "signalDrawingAreaResize",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -222,10 +222,13 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    public static void __signalDrawingAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DrawingArea.ResizeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DrawingArea(References.get(source)), width, height);
-    }
+    public static class Callbacks {
     
+        public static void signalDrawingAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DrawingArea.ResizeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DrawingArea(References.get(source)), width, height);
+        }
+        
+    }
 }

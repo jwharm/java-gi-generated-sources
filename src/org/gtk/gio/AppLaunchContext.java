@@ -107,7 +107,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("launch-failed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppLaunchContext.class, "__signalAppLaunchContextLaunchFailed",
+                    MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunchFailed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -117,12 +117,6 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppLaunchContext.LaunchFailedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppLaunchContext(References.get(source)), startupNotifyId.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -152,7 +146,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("launch-started").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppLaunchContext.class, "__signalAppLaunchContextLaunchStarted",
+                    MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunchStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -162,12 +156,6 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppLaunchContext.LaunchStartedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
     }
     
     @FunctionalInterface
@@ -192,7 +180,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("launched").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppLaunchContext.class, "__signalAppLaunchContextLaunched",
+                    MethodHandles.lookup().findStatic(AppLaunchContext.Callbacks.class, "signalAppLaunchContextLaunched",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -204,10 +192,25 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppLaunchContext.LaunchedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppLaunchContext.LaunchFailedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppLaunchContext(References.get(source)), startupNotifyId.getUtf8String(0));
+        }
+        
+        public static void signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppLaunchContext.LaunchStartedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
+        }
+        
+        public static void signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppLaunchContext.LaunchedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppLaunchContext(References.get(source)), new AppInfo.AppInfoImpl(References.get(info, false)), new org.gtk.glib.Variant(References.get(platformData, false)));
+        }
+        
+    }
 }

@@ -293,7 +293,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
                 handle(),
                 Interop.allocateNativeString("editing-canceled").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellRenderer.class, "__signalCellRendererEditingCanceled",
+                    MethodHandles.lookup().findStatic(CellRenderer.Callbacks.class, "signalCellRendererEditingCanceled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -303,12 +303,6 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalCellRendererEditingCanceled(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellRenderer.EditingCanceledHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellRenderer(References.get(source)));
     }
     
     @FunctionalInterface
@@ -353,7 +347,7 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
                 handle(),
                 Interop.allocateNativeString("editing-started").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellRenderer.class, "__signalCellRendererEditingStarted",
+                    MethodHandles.lookup().findStatic(CellRenderer.Callbacks.class, "signalCellRendererEditingStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -365,10 +359,19 @@ public class CellRenderer extends org.gtk.gobject.InitiallyUnowned {
         }
     }
     
-    public static void __signalCellRendererEditingStarted(MemoryAddress source, MemoryAddress editable, MemoryAddress path, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CellRenderer.EditingStartedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CellRenderer(References.get(source)), new CellEditable.CellEditableImpl(References.get(editable, false)), path.getUtf8String(0));
-    }
+    public static class Callbacks {
     
+        public static void signalCellRendererEditingCanceled(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellRenderer.EditingCanceledHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellRenderer(References.get(source)));
+        }
+        
+        public static void signalCellRendererEditingStarted(MemoryAddress source, MemoryAddress editable, MemoryAddress path, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CellRenderer.EditingStartedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CellRenderer(References.get(source)), new CellEditable.CellEditableImpl(References.get(editable, false)), path.getUtf8String(0));
+        }
+        
+    }
 }

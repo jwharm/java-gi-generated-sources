@@ -224,7 +224,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Adjustment.class, "__signalAdjustmentChanged",
+                    MethodHandles.lookup().findStatic(Adjustment.Callbacks.class, "signalAdjustmentChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -234,12 +234,6 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAdjustmentChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Adjustment.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Adjustment(References.get(source)));
     }
     
     @FunctionalInterface
@@ -256,7 +250,7 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
                 handle(),
                 Interop.allocateNativeString("value-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Adjustment.class, "__signalAdjustmentValueChanged",
+                    MethodHandles.lookup().findStatic(Adjustment.Callbacks.class, "signalAdjustmentValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -268,10 +262,19 @@ public class Adjustment extends org.gtk.gobject.InitiallyUnowned {
         }
     }
     
-    public static void __signalAdjustmentValueChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Adjustment.ValueChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Adjustment(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalAdjustmentChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Adjustment.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Adjustment(References.get(source)));
+        }
+        
+        public static void signalAdjustmentValueChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Adjustment.ValueChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Adjustment(References.get(source)));
+        }
+        
+    }
 }

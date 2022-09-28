@@ -489,7 +489,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("activate-cursor-row").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxActivateCursorRow",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxActivateCursorRow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -499,12 +499,6 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.ActivateCursorRowHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -518,7 +512,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("move-cursor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxMoveCursor",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -528,12 +522,6 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalListBoxMoveCursor(MemoryAddress source, int object, int p0, int p1, int p2, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)), new MovementStep(object), p0, p1 != 0, p2 != 0);
     }
     
     @FunctionalInterface
@@ -550,7 +538,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("row-activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxRowActivated",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxRowActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -560,12 +548,6 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalListBoxRowActivated(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.RowActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
     }
     
     @FunctionalInterface
@@ -587,7 +569,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("row-selected").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxRowSelected",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxRowSelected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -597,12 +579,6 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalListBoxRowSelected(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.RowSelectedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
     }
     
     @FunctionalInterface
@@ -624,7 +600,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("select-all").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxSelectAll",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxSelectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -634,12 +610,6 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalListBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.SelectAllHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -656,7 +626,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("selected-rows-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxSelectedRowsChanged",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxSelectedRowsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -666,12 +636,6 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalListBoxSelectedRowsChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.SelectedRowsChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -685,7 +649,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("toggle-cursor-row").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxToggleCursorRow",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxToggleCursorRow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -695,12 +659,6 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalListBoxToggleCursorRow(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)));
     }
     
     @FunctionalInterface
@@ -723,7 +681,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("unselect-all").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListBox.class, "__signalListBoxUnselectAll",
+                    MethodHandles.lookup().findStatic(ListBox.Callbacks.class, "signalListBoxUnselectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -735,10 +693,55 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    public static void __signalListBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListBox(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.ActivateCursorRowHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)));
+        }
+        
+        public static void signalListBoxMoveCursor(MemoryAddress source, int object, int p0, int p1, int p2, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)), new MovementStep(object), p0, p1 != 0, p2 != 0);
+        }
+        
+        public static void signalListBoxRowActivated(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.RowActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
+        }
+        
+        public static void signalListBoxRowSelected(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.RowSelectedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)), new ListBoxRow(References.get(row, false)));
+        }
+        
+        public static void signalListBoxSelectAll(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.SelectAllHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)));
+        }
+        
+        public static void signalListBoxSelectedRowsChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.SelectedRowsChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)));
+        }
+        
+        public static void signalListBoxToggleCursorRow(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)));
+        }
+        
+        public static void signalListBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListBox(References.get(source)));
+        }
+        
+    }
 }

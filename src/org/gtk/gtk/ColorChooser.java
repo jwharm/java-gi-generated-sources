@@ -87,7 +87,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("color-activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorChooser.class, "__signalColorChooserColorActivated",
+                    MethodHandles.lookup().findStatic(ColorChooser.Callbacks.class, "signalColorChooserColorActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -99,10 +99,14 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ColorChooser.ColorActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ColorChooser.ColorChooserImpl(References.get(source)), new org.gtk.gdk.RGBA(References.get(color, false)));
+    public static class Callbacks {
+    
+        public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ColorChooser.ColorActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ColorChooser.ColorChooserImpl(References.get(source)), new org.gtk.gdk.RGBA(References.get(color, false)));
+        }
+        
     }
     
     class ColorChooserImpl extends org.gtk.gobject.Object implements ColorChooser {

@@ -864,7 +864,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("activate-default").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Window.class, "__signalWindowActivateDefault",
+                    MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowActivateDefault",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -874,12 +874,6 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWindowActivateDefault(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Window.ActivateDefaultHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Window(References.get(source)));
     }
     
     @FunctionalInterface
@@ -899,7 +893,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("activate-focus").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Window.class, "__signalWindowActivateFocus",
+                    MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowActivateFocus",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -909,12 +903,6 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalWindowActivateFocus(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Window.ActivateFocusHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Window(References.get(source)));
     }
     
     @FunctionalInterface
@@ -931,7 +919,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("close-request").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Window.class, "__signalWindowCloseRequest",
+                    MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowCloseRequest",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -941,12 +929,6 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalWindowCloseRequest(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Window.CloseRequestHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Window(References.get(source)));
     }
     
     @FunctionalInterface
@@ -972,7 +954,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("enable-debugging").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Window.class, "__signalWindowEnableDebugging",
+                    MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowEnableDebugging",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -982,12 +964,6 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalWindowEnableDebugging(MemoryAddress source, int toggle, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Window.EnableDebuggingHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Window(References.get(source)), toggle != 0);
     }
     
     @FunctionalInterface
@@ -1005,7 +981,7 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
                 handle(),
                 Interop.allocateNativeString("keys-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Window.class, "__signalWindowKeysChanged",
+                    MethodHandles.lookup().findStatic(Window.Callbacks.class, "signalWindowKeysChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1017,10 +993,37 @@ public class Window extends Widget implements Accessible, Buildable, ConstraintT
         }
     }
     
-    public static void __signalWindowKeysChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Window.KeysChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Window(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalWindowActivateDefault(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Window.ActivateDefaultHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Window(References.get(source)));
+        }
+        
+        public static void signalWindowActivateFocus(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Window.ActivateFocusHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Window(References.get(source)));
+        }
+        
+        public static boolean signalWindowCloseRequest(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Window.CloseRequestHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Window(References.get(source)));
+        }
+        
+        public static boolean signalWindowEnableDebugging(MemoryAddress source, int toggle, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Window.EnableDebuggingHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Window(References.get(source)), toggle != 0);
+        }
+        
+        public static void signalWindowKeysChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Window.KeysChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Window(References.get(source)));
+        }
+        
+    }
 }

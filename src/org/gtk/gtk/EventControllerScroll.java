@@ -98,7 +98,7 @@ public class EventControllerScroll extends EventController {
                 handle(),
                 Interop.allocateNativeString("decelerate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.class, "__signalEventControllerScrollDecelerate",
+                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollDecelerate",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -108,12 +108,6 @@ public class EventControllerScroll extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEventControllerScrollDecelerate(MemoryAddress source, double velX, double velY, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerScroll.DecelerateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerScroll(References.get(source)), velX, velY);
     }
     
     @FunctionalInterface
@@ -131,7 +125,7 @@ public class EventControllerScroll extends EventController {
                 handle(),
                 Interop.allocateNativeString("scroll").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.class, "__signalEventControllerScrollScroll",
+                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScroll",
                         MethodType.methodType(boolean.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -141,12 +135,6 @@ public class EventControllerScroll extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalEventControllerScrollScroll(MemoryAddress source, double dx, double dy, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerScroll.ScrollHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new EventControllerScroll(References.get(source)), dx, dy);
     }
     
     @FunctionalInterface
@@ -165,7 +153,7 @@ public class EventControllerScroll extends EventController {
                 handle(),
                 Interop.allocateNativeString("scroll-begin").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.class, "__signalEventControllerScrollScrollBegin",
+                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -175,12 +163,6 @@ public class EventControllerScroll extends EventController {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalEventControllerScrollScrollBegin(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerScroll.ScrollBeginHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerScroll(References.get(source)));
     }
     
     @FunctionalInterface
@@ -199,7 +181,7 @@ public class EventControllerScroll extends EventController {
                 handle(),
                 Interop.allocateNativeString("scroll-end").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.class, "__signalEventControllerScrollScrollEnd",
+                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -211,10 +193,31 @@ public class EventControllerScroll extends EventController {
         }
     }
     
-    public static void __signalEventControllerScrollScrollEnd(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerScroll.ScrollEndHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new EventControllerScroll(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalEventControllerScrollDecelerate(MemoryAddress source, double velX, double velY, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerScroll.DecelerateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerScroll(References.get(source)), velX, velY);
+        }
+        
+        public static boolean signalEventControllerScrollScroll(MemoryAddress source, double dx, double dy, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerScroll.ScrollHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new EventControllerScroll(References.get(source)), dx, dy);
+        }
+        
+        public static void signalEventControllerScrollScrollBegin(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerScroll.ScrollBeginHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerScroll(References.get(source)));
+        }
+        
+        public static void signalEventControllerScrollScrollEnd(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerScroll.ScrollEndHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new EventControllerScroll(References.get(source)));
+        }
+        
+    }
 }

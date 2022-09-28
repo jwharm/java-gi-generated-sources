@@ -225,7 +225,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Button.class, "__signalButtonActivate",
+                    MethodHandles.lookup().findStatic(Button.Callbacks.class, "signalButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -235,12 +235,6 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalButtonActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Button.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Button(References.get(source)));
     }
     
     @FunctionalInterface
@@ -257,7 +251,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
                 handle(),
                 Interop.allocateNativeString("clicked").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Button.class, "__signalButtonClicked",
+                    MethodHandles.lookup().findStatic(Button.Callbacks.class, "signalButtonClicked",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -269,10 +263,19 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         }
     }
     
-    public static void __signalButtonClicked(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Button.ClickedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Button(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalButtonActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Button.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Button(References.get(source)));
+        }
+        
+        public static void signalButtonClicked(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Button.ClickedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Button(References.get(source)));
+        }
+        
+    }
 }

@@ -174,7 +174,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
                 handle(),
                 Interop.allocateNativeString("application-activated").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppChooserWidget.class, "__signalAppChooserWidgetApplicationActivated",
+                    MethodHandles.lookup().findStatic(AppChooserWidget.Callbacks.class, "signalAppChooserWidgetApplicationActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -184,12 +184,6 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalAppChooserWidgetApplicationActivated(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppChooserWidget.ApplicationActivatedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppChooserWidget(References.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(References.get(application, false)));
     }
     
     @FunctionalInterface
@@ -206,7 +200,7 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
                 handle(),
                 Interop.allocateNativeString("application-selected").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppChooserWidget.class, "__signalAppChooserWidgetApplicationSelected",
+                    MethodHandles.lookup().findStatic(AppChooserWidget.Callbacks.class, "signalAppChooserWidgetApplicationSelected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -218,10 +212,19 @@ public class AppChooserWidget extends Widget implements Accessible, AppChooser, 
         }
     }
     
-    public static void __signalAppChooserWidgetApplicationSelected(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AppChooserWidget.ApplicationSelectedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new AppChooserWidget(References.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(References.get(application, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalAppChooserWidgetApplicationActivated(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppChooserWidget.ApplicationActivatedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppChooserWidget(References.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(References.get(application, false)));
+        }
+        
+        public static void signalAppChooserWidgetApplicationSelected(MemoryAddress source, MemoryAddress application, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (AppChooserWidget.ApplicationSelectedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new AppChooserWidget(References.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(References.get(application, false)));
+        }
+        
+    }
 }

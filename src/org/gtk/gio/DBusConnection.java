@@ -1208,7 +1208,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
                 handle(),
                 Interop.allocateNativeString("closed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusConnection.class, "__signalDBusConnectionClosed",
+                    MethodHandles.lookup().findStatic(DBusConnection.Callbacks.class, "signalDBusConnectionClosed",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -1220,10 +1220,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements AsyncInita
         }
     }
     
-    public static void __signalDBusConnectionClosed(MemoryAddress source, int remotePeerVanished, MemoryAddress error, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusConnection.ClosedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusConnection(References.get(source)), remotePeerVanished != 0, new org.gtk.glib.Error(References.get(error, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalDBusConnectionClosed(MemoryAddress source, int remotePeerVanished, MemoryAddress error, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusConnection.ClosedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusConnection(References.get(source)), remotePeerVanished != 0, new org.gtk.glib.Error(References.get(error, false)));
+        }
+        
+    }
 }

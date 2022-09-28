@@ -70,7 +70,7 @@ public class GestureSwipe extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("swipe").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureSwipe.class, "__signalGestureSwipeSwipe",
+                    MethodHandles.lookup().findStatic(GestureSwipe.Callbacks.class, "signalGestureSwipeSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -82,10 +82,13 @@ public class GestureSwipe extends GestureSingle {
         }
     }
     
-    public static void __signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureSwipe.SwipeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureSwipe(References.get(source)), velocityX, velocityY);
-    }
+    public static class Callbacks {
     
+        public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureSwipe.SwipeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureSwipe(References.get(source)), velocityX, velocityY);
+        }
+        
+    }
 }

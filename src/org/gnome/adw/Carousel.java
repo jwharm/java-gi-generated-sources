@@ -244,7 +244,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
                 handle(),
                 Interop.allocateNativeString("page-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Carousel.class, "__signalCarouselPageChanged",
+                    MethodHandles.lookup().findStatic(Carousel.Callbacks.class, "signalCarouselPageChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -256,10 +256,13 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    public static void __signalCarouselPageChanged(MemoryAddress source, int index, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Carousel.PageChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Carousel(References.get(source)), index);
-    }
+    public static class Callbacks {
     
+        public static void signalCarouselPageChanged(MemoryAddress source, int index, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Carousel.PageChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Carousel(References.get(source)), index);
+        }
+        
+    }
 }

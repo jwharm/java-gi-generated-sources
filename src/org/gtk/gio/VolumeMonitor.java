@@ -100,7 +100,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("drive-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorDriveChanged",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -110,12 +110,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorDriveChanged(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.DriveChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
     }
     
     @FunctionalInterface
@@ -132,7 +126,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("drive-connected").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorDriveConnected",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveConnected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -142,12 +136,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorDriveConnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.DriveConnectedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
     }
     
     @FunctionalInterface
@@ -164,7 +152,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("drive-disconnected").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorDriveDisconnected",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveDisconnected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -174,12 +162,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorDriveDisconnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.DriveDisconnectedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
     }
     
     @FunctionalInterface
@@ -196,7 +178,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("drive-eject-button").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorDriveEjectButton",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveEjectButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -206,12 +188,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorDriveEjectButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.DriveEjectButtonHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
     }
     
     @FunctionalInterface
@@ -228,7 +204,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("drive-stop-button").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorDriveStopButton",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveStopButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -238,12 +214,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorDriveStopButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.DriveStopButtonHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
     }
     
     @FunctionalInterface
@@ -260,7 +230,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("mount-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorMountAdded",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -270,12 +240,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorMountAdded(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.MountAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
     }
     
     @FunctionalInterface
@@ -292,7 +256,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("mount-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorMountChanged",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -302,12 +266,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorMountChanged(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.MountChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
     }
     
     @FunctionalInterface
@@ -327,7 +285,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("mount-pre-unmount").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorMountPreUnmount",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountPreUnmount",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -337,12 +295,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorMountPreUnmount(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.MountPreUnmountHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
     }
     
     @FunctionalInterface
@@ -359,7 +311,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("mount-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorMountRemoved",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -369,12 +321,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorMountRemoved(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.MountRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
     }
     
     @FunctionalInterface
@@ -391,7 +337,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("volume-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorVolumeAdded",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorVolumeAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -401,12 +347,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorVolumeAdded(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.VolumeAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
     }
     
     @FunctionalInterface
@@ -423,7 +363,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("volume-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorVolumeChanged",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorVolumeChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -433,12 +373,6 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalVolumeMonitorVolumeChanged(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.VolumeChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
     }
     
     @FunctionalInterface
@@ -455,7 +389,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("volume-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VolumeMonitor.class, "__signalVolumeMonitorVolumeRemoved",
+                    MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorVolumeRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -467,10 +401,79 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalVolumeMonitorVolumeRemoved(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (VolumeMonitor.VolumeRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalVolumeMonitorDriveChanged(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.DriveChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+        }
+        
+        public static void signalVolumeMonitorDriveConnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.DriveConnectedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+        }
+        
+        public static void signalVolumeMonitorDriveDisconnected(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.DriveDisconnectedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+        }
+        
+        public static void signalVolumeMonitorDriveEjectButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.DriveEjectButtonHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+        }
+        
+        public static void signalVolumeMonitorDriveStopButton(MemoryAddress source, MemoryAddress drive, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.DriveStopButtonHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Drive.DriveImpl(References.get(drive, false)));
+        }
+        
+        public static void signalVolumeMonitorMountAdded(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.MountAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+        }
+        
+        public static void signalVolumeMonitorMountChanged(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.MountChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+        }
+        
+        public static void signalVolumeMonitorMountPreUnmount(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.MountPreUnmountHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+        }
+        
+        public static void signalVolumeMonitorMountRemoved(MemoryAddress source, MemoryAddress mount, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.MountRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Mount.MountImpl(References.get(mount, false)));
+        }
+        
+        public static void signalVolumeMonitorVolumeAdded(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.VolumeAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
+        }
+        
+        public static void signalVolumeMonitorVolumeChanged(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.VolumeChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
+        }
+        
+        public static void signalVolumeMonitorVolumeRemoved(MemoryAddress source, MemoryAddress volume, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (VolumeMonitor.VolumeRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new VolumeMonitor(References.get(source)), new Volume.VolumeImpl(References.get(volume, false)));
+        }
+        
+    }
 }

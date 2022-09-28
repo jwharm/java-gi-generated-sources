@@ -382,7 +382,7 @@ public class Surface extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("enter-monitor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Surface.class, "__signalSurfaceEnterMonitor",
+                    MethodHandles.lookup().findStatic(Surface.Callbacks.class, "signalSurfaceEnterMonitor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -392,12 +392,6 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSurfaceEnterMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Surface.EnterMonitorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
     }
     
     @FunctionalInterface
@@ -414,7 +408,7 @@ public class Surface extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("event").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Surface.class, "__signalSurfaceEvent",
+                    MethodHandles.lookup().findStatic(Surface.Callbacks.class, "signalSurfaceEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -424,12 +418,6 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalSurfaceEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Surface.EventHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Surface(References.get(source)), new Event(References.get(event, false)));
     }
     
     @FunctionalInterface
@@ -450,7 +438,7 @@ public class Surface extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("layout").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Surface.class, "__signalSurfaceLayout",
+                    MethodHandles.lookup().findStatic(Surface.Callbacks.class, "signalSurfaceLayout",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -460,12 +448,6 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSurfaceLayout(MemoryAddress source, int width, int height, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Surface.LayoutHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Surface(References.get(source)), width, height);
     }
     
     @FunctionalInterface
@@ -482,7 +464,7 @@ public class Surface extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("leave-monitor").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Surface.class, "__signalSurfaceLeaveMonitor",
+                    MethodHandles.lookup().findStatic(Surface.Callbacks.class, "signalSurfaceLeaveMonitor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -492,12 +474,6 @@ public class Surface extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSurfaceLeaveMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Surface.LeaveMonitorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
     }
     
     @FunctionalInterface
@@ -514,7 +490,7 @@ public class Surface extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("render").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Surface.class, "__signalSurfaceRender",
+                    MethodHandles.lookup().findStatic(Surface.Callbacks.class, "signalSurfaceRender",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -526,10 +502,37 @@ public class Surface extends org.gtk.gobject.Object {
         }
     }
     
-    public static boolean __signalSurfaceRender(MemoryAddress source, MemoryAddress region, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Surface.RenderHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Surface(References.get(source)), new org.cairographics.Region(References.get(region, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalSurfaceEnterMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Surface.EnterMonitorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
+        }
+        
+        public static boolean signalSurfaceEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Surface.EventHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Surface(References.get(source)), new Event(References.get(event, false)));
+        }
+        
+        public static void signalSurfaceLayout(MemoryAddress source, int width, int height, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Surface.LayoutHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Surface(References.get(source)), width, height);
+        }
+        
+        public static void signalSurfaceLeaveMonitor(MemoryAddress source, MemoryAddress monitor, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Surface.LeaveMonitorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Surface(References.get(source)), new Monitor(References.get(monitor, false)));
+        }
+        
+        public static boolean signalSurfaceRender(MemoryAddress source, MemoryAddress region, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Surface.RenderHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Surface(References.get(source)), new org.cairographics.Region(References.get(region, false)));
+        }
+        
+    }
 }

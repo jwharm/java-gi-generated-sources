@@ -121,7 +121,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.class, "__signalSearchEntryActivate",
+                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -131,12 +131,6 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SearchEntry.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SearchEntry(References.get(source)));
     }
     
     @FunctionalInterface
@@ -161,7 +155,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("next-match").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.class, "__signalSearchEntryNextMatch",
+                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryNextMatch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -171,12 +165,6 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SearchEntry.NextMatchHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SearchEntry(References.get(source)));
     }
     
     @FunctionalInterface
@@ -201,7 +189,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("previous-match").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.class, "__signalSearchEntryPreviousMatch",
+                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryPreviousMatch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -211,12 +199,6 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SearchEntry.PreviousMatchHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SearchEntry(References.get(source)));
     }
     
     @FunctionalInterface
@@ -234,7 +216,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("search-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.class, "__signalSearchEntrySearchChanged",
+                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntrySearchChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -244,12 +226,6 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SearchEntry.SearchChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SearchEntry(References.get(source)));
     }
     
     @FunctionalInterface
@@ -266,7 +242,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("search-started").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.class, "__signalSearchEntrySearchStarted",
+                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntrySearchStarted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -276,12 +252,6 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SearchEntry.SearchStartedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SearchEntry(References.get(source)));
     }
     
     @FunctionalInterface
@@ -305,7 +275,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                 handle(),
                 Interop.allocateNativeString("stop-search").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.class, "__signalSearchEntryStopSearch",
+                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryStopSearch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -317,10 +287,43 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    public static void __signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SearchEntry.StopSearchHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SearchEntry(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SearchEntry.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SearchEntry(References.get(source)));
+        }
+        
+        public static void signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SearchEntry.NextMatchHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SearchEntry(References.get(source)));
+        }
+        
+        public static void signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SearchEntry.PreviousMatchHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SearchEntry(References.get(source)));
+        }
+        
+        public static void signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SearchEntry.SearchChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SearchEntry(References.get(source)));
+        }
+        
+        public static void signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SearchEntry.SearchStartedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SearchEntry(References.get(source)));
+        }
+        
+        public static void signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SearchEntry.StopSearchHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SearchEntry(References.get(source)));
+        }
+        
+    }
 }

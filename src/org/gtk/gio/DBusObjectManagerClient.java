@@ -311,7 +311,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
                 handle(),
                 Interop.allocateNativeString("interface-proxy-properties-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectManagerClient.class, "__signalDBusObjectManagerClientInterfaceProxyPropertiesChanged",
+                    MethodHandles.lookup().findStatic(DBusObjectManagerClient.Callbacks.class, "signalDBusObjectManagerClientInterfaceProxyPropertiesChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -321,12 +321,6 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDBusObjectManagerClientInterfaceProxyPropertiesChanged(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObjectManagerClient.InterfaceProxyPropertiesChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObjectManagerClient(References.get(source)), new DBusObjectProxy(References.get(objectProxy, false)), new DBusProxy(References.get(interfaceProxy, false)), new org.gtk.glib.Variant(References.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
     }
     
     @FunctionalInterface
@@ -350,7 +344,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
                 handle(),
                 Interop.allocateNativeString("interface-proxy-signal").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectManagerClient.class, "__signalDBusObjectManagerClientInterfaceProxySignal",
+                    MethodHandles.lookup().findStatic(DBusObjectManagerClient.Callbacks.class, "signalDBusObjectManagerClientInterfaceProxySignal",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -362,10 +356,19 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         }
     }
     
-    public static void __signalDBusObjectManagerClientInterfaceProxySignal(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObjectManagerClient.InterfaceProxySignalHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObjectManagerClient(References.get(source)), new DBusObjectProxy(References.get(objectProxy, false)), new DBusProxy(References.get(interfaceProxy, false)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalDBusObjectManagerClientInterfaceProxyPropertiesChanged(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObjectManagerClient.InterfaceProxyPropertiesChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObjectManagerClient(References.get(source)), new DBusObjectProxy(References.get(objectProxy, false)), new DBusProxy(References.get(interfaceProxy, false)), new org.gtk.glib.Variant(References.get(changedProperties, false)), new PointerString(invalidatedProperties).iterator());
+        }
+        
+        public static void signalDBusObjectManagerClientInterfaceProxySignal(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObjectManagerClient.InterfaceProxySignalHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObjectManagerClient(References.get(source)), new DBusObjectProxy(References.get(objectProxy, false)), new DBusProxy(References.get(interfaceProxy, false)), senderName.getUtf8String(0), signalName.getUtf8String(0), new org.gtk.glib.Variant(References.get(parameters, false)));
+        }
+        
+    }
 }

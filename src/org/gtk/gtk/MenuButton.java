@@ -358,7 +358,7 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MenuButton.class, "__signalMenuButtonActivate",
+                    MethodHandles.lookup().findStatic(MenuButton.Callbacks.class, "signalMenuButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -370,10 +370,13 @@ public class MenuButton extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    public static void __signalMenuButtonActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (MenuButton.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new MenuButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalMenuButtonActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (MenuButton.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new MenuButton(References.get(source)));
+        }
+        
+    }
 }

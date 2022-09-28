@@ -63,7 +63,7 @@ public class GestureZoom extends Gesture {
                 handle(),
                 Interop.allocateNativeString("scale-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureZoom.class, "__signalGestureZoomScaleChanged",
+                    MethodHandles.lookup().findStatic(GestureZoom.Callbacks.class, "signalGestureZoomScaleChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -75,10 +75,13 @@ public class GestureZoom extends Gesture {
         }
     }
     
-    public static void __signalGestureZoomScaleChanged(MemoryAddress source, double scale, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureZoom.ScaleChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureZoom(References.get(source)), scale);
-    }
+    public static class Callbacks {
     
+        public static void signalGestureZoomScaleChanged(MemoryAddress source, double scale, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureZoom.ScaleChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureZoom(References.get(source)), scale);
+        }
+        
+    }
 }

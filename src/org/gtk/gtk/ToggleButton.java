@@ -194,7 +194,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
                 handle(),
                 Interop.allocateNativeString("toggled").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ToggleButton.class, "__signalToggleButtonToggled",
+                    MethodHandles.lookup().findStatic(ToggleButton.Callbacks.class, "signalToggleButtonToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -206,10 +206,13 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         }
     }
     
-    public static void __signalToggleButtonToggled(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ToggleButton.ToggledHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ToggleButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalToggleButtonToggled(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ToggleButton.ToggledHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ToggleButton(References.get(source)));
+        }
+        
+    }
 }

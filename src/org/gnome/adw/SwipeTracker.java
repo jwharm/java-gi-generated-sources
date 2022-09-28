@@ -133,7 +133,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 handle(),
                 Interop.allocateNativeString("begin-swipe").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.class, "__signalSwipeTrackerBeginSwipe",
+                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerBeginSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -143,12 +143,6 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSwipeTrackerBeginSwipe(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SwipeTracker.BeginSwipeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SwipeTracker(References.get(source)));
     }
     
     @FunctionalInterface
@@ -170,7 +164,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 handle(),
                 Interop.allocateNativeString("end-swipe").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.class, "__signalSwipeTrackerEndSwipe",
+                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerEndSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -180,12 +174,6 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSwipeTrackerEndSwipe(MemoryAddress source, double velocity, double to, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SwipeTracker.EndSwipeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SwipeTracker(References.get(source)), velocity, to);
     }
     
     @FunctionalInterface
@@ -205,7 +193,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 handle(),
                 Interop.allocateNativeString("prepare").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.class, "__signalSwipeTrackerPrepare",
+                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerPrepare",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -215,12 +203,6 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SwipeTracker.PrepareHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SwipeTracker(References.get(source)), new NavigationDirection(direction));
     }
     
     @FunctionalInterface
@@ -237,7 +219,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
                 handle(),
                 Interop.allocateNativeString("update-swipe").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.class, "__signalSwipeTrackerUpdateSwipe",
+                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerUpdateSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -249,10 +231,31 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         }
     }
     
-    public static void __signalSwipeTrackerUpdateSwipe(MemoryAddress source, double progress, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SwipeTracker.UpdateSwipeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SwipeTracker(References.get(source)), progress);
-    }
+    public static class Callbacks {
     
+        public static void signalSwipeTrackerBeginSwipe(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SwipeTracker.BeginSwipeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SwipeTracker(References.get(source)));
+        }
+        
+        public static void signalSwipeTrackerEndSwipe(MemoryAddress source, double velocity, double to, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SwipeTracker.EndSwipeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SwipeTracker(References.get(source)), velocity, to);
+        }
+        
+        public static void signalSwipeTrackerPrepare(MemoryAddress source, int direction, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SwipeTracker.PrepareHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SwipeTracker(References.get(source)), new NavigationDirection(direction));
+        }
+        
+        public static void signalSwipeTrackerUpdateSwipe(MemoryAddress source, double progress, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SwipeTracker.UpdateSwipeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SwipeTracker(References.get(source)), progress);
+        }
+        
+    }
 }

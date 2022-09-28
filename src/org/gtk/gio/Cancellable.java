@@ -326,7 +326,7 @@ public class Cancellable extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("cancelled").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Cancellable.class, "__signalCancellableCancelled",
+                    MethodHandles.lookup().findStatic(Cancellable.Callbacks.class, "signalCancellableCancelled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -338,10 +338,13 @@ public class Cancellable extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalCancellableCancelled(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Cancellable.CancelledHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Cancellable(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalCancellableCancelled(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Cancellable.CancelledHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Cancellable(References.get(source)));
+        }
+        
+    }
 }

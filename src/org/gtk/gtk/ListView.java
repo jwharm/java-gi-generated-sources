@@ -235,7 +235,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListView.class, "__signalListViewActivate",
+                    MethodHandles.lookup().findStatic(ListView.Callbacks.class, "signalListViewActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -247,10 +247,13 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         }
     }
     
-    public static void __signalListViewActivate(MemoryAddress source, int position, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ListView.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new ListView(References.get(source)), position);
-    }
+    public static class Callbacks {
     
+        public static void signalListViewActivate(MemoryAddress source, int position, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ListView.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new ListView(References.get(source)), position);
+        }
+        
+    }
 }

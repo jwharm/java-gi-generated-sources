@@ -52,7 +52,7 @@ public class GestureClick extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("pressed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureClick.class, "__signalGestureClickPressed",
+                    MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickPressed",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -62,12 +62,6 @@ public class GestureClick extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureClickPressed(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureClick.PressedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureClick(References.get(source)), nPress, x, y);
     }
     
     @FunctionalInterface
@@ -89,7 +83,7 @@ public class GestureClick extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("released").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureClick.class, "__signalGestureClickReleased",
+                    MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickReleased",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -99,12 +93,6 @@ public class GestureClick extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureClickReleased(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureClick.ReleasedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureClick(References.get(source)), nPress, x, y);
     }
     
     @FunctionalInterface
@@ -121,7 +109,7 @@ public class GestureClick extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("stopped").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureClick.class, "__signalGestureClickStopped",
+                    MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickStopped",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -131,12 +119,6 @@ public class GestureClick extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureClickStopped(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureClick.StoppedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureClick(References.get(source)));
     }
     
     @FunctionalInterface
@@ -158,7 +140,7 @@ public class GestureClick extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("unpaired-release").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureClick.class, "__signalGestureClickUnpairedRelease",
+                    MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickUnpairedRelease",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -170,10 +152,31 @@ public class GestureClick extends GestureSingle {
         }
     }
     
-    public static void __signalGestureClickUnpairedRelease(MemoryAddress source, double x, double y, int button, MemoryAddress sequence, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureClick.UnpairedReleaseHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureClick(References.get(source)), x, y, button, new org.gtk.gdk.EventSequence(References.get(sequence, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalGestureClickPressed(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureClick.PressedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureClick(References.get(source)), nPress, x, y);
+        }
+        
+        public static void signalGestureClickReleased(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureClick.ReleasedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureClick(References.get(source)), nPress, x, y);
+        }
+        
+        public static void signalGestureClickStopped(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureClick.StoppedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureClick(References.get(source)));
+        }
+        
+        public static void signalGestureClickUnpairedRelease(MemoryAddress source, double x, double y, int button, MemoryAddress sequence, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureClick.UnpairedReleaseHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureClick(References.get(source)), x, y, button, new org.gtk.gdk.EventSequence(References.get(sequence, false)));
+        }
+        
+    }
 }

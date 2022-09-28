@@ -282,7 +282,7 @@ public class IconTheme extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconTheme.class, "__signalIconThemeChanged",
+                    MethodHandles.lookup().findStatic(IconTheme.Callbacks.class, "signalIconThemeChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -294,10 +294,13 @@ public class IconTheme extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalIconThemeChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (IconTheme.ChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new IconTheme(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalIconThemeChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (IconTheme.ChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new IconTheme(References.get(source)));
+        }
+        
+    }
 }

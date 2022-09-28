@@ -49,7 +49,7 @@ public class EventControllerLegacy extends EventController {
                 handle(),
                 Interop.allocateNativeString("event").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerLegacy.class, "__signalEventControllerLegacyEvent",
+                    MethodHandles.lookup().findStatic(EventControllerLegacy.Callbacks.class, "signalEventControllerLegacyEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -61,10 +61,13 @@ public class EventControllerLegacy extends EventController {
         }
     }
     
-    public static boolean __signalEventControllerLegacyEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (EventControllerLegacy.EventHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new EventControllerLegacy(References.get(source)), new org.gtk.gdk.Event(References.get(event, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalEventControllerLegacyEvent(MemoryAddress source, MemoryAddress event, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (EventControllerLegacy.EventHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new EventControllerLegacy(References.get(source)), new org.gtk.gdk.Event(References.get(event, false)));
+        }
+        
+    }
 }

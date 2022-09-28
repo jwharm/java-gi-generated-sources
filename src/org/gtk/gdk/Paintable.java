@@ -226,7 +226,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("invalidate-contents").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paintable.class, "__signalPaintableInvalidateContents",
+                    MethodHandles.lookup().findStatic(Paintable.Callbacks.class, "signalPaintableInvalidateContents",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -236,12 +236,6 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPaintableInvalidateContents(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Paintable.InvalidateContentsHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
     }
     
     @FunctionalInterface
@@ -267,7 +261,7 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("invalidate-size").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paintable.class, "__signalPaintableInvalidateSize",
+                    MethodHandles.lookup().findStatic(Paintable.Callbacks.class, "signalPaintableInvalidateSize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -279,10 +273,20 @@ public interface Paintable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalPaintableInvalidateSize(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Paintable.InvalidateSizeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
+    public static class Callbacks {
+    
+        public static void signalPaintableInvalidateContents(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Paintable.InvalidateContentsHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
+        }
+        
+        public static void signalPaintableInvalidateSize(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Paintable.InvalidateSizeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Paintable.PaintableImpl(References.get(source)));
+        }
+        
     }
     
     class PaintableImpl extends org.gtk.gobject.Object implements Paintable {

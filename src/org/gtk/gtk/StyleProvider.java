@@ -29,7 +29,7 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("gtk-private-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(StyleProvider.class, "__signalStyleProviderGtkPrivateChanged",
+                    MethodHandles.lookup().findStatic(StyleProvider.Callbacks.class, "signalStyleProviderGtkPrivateChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -41,10 +41,14 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (StyleProvider.GtkPrivateChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new StyleProvider.StyleProviderImpl(References.get(source)));
+    public static class Callbacks {
+    
+        public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (StyleProvider.GtkPrivateChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new StyleProvider.StyleProviderImpl(References.get(source)));
+        }
+        
     }
     
     class StyleProviderImpl extends org.gtk.gobject.Object implements StyleProvider {

@@ -155,7 +155,7 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
                 handle(),
                 Interop.allocateNativeString("new-connection").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusServer.class, "__signalDBusServerNewConnection",
+                    MethodHandles.lookup().findStatic(DBusServer.Callbacks.class, "signalDBusServerNewConnection",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -167,10 +167,13 @@ public class DBusServer extends org.gtk.gobject.Object implements Initable {
         }
     }
     
-    public static boolean __signalDBusServerNewConnection(MemoryAddress source, MemoryAddress connection, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusServer.NewConnectionHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DBusServer(References.get(source)), new DBusConnection(References.get(connection, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalDBusServerNewConnection(MemoryAddress source, MemoryAddress connection, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusServer.NewConnectionHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DBusServer(References.get(source)), new DBusConnection(References.get(connection, false)));
+        }
+        
+    }
 }

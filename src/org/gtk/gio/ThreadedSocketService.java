@@ -63,7 +63,7 @@ public class ThreadedSocketService extends SocketService {
                 handle(),
                 Interop.allocateNativeString("run").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ThreadedSocketService.class, "__signalThreadedSocketServiceRun",
+                    MethodHandles.lookup().findStatic(ThreadedSocketService.Callbacks.class, "signalThreadedSocketServiceRun",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -75,10 +75,13 @@ public class ThreadedSocketService extends SocketService {
         }
     }
     
-    public static boolean __signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ThreadedSocketService.RunHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new ThreadedSocketService(References.get(source)), new SocketConnection(References.get(connection, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (ThreadedSocketService.RunHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new ThreadedSocketService(References.get(source)), new SocketConnection(References.get(connection, false)), new org.gtk.gobject.Object(References.get(sourceObject, false)));
+        }
+        
+    }
 }

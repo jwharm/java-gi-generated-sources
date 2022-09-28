@@ -68,7 +68,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("got-page-size").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperationPreview.class, "__signalPrintOperationPreviewGotPageSize",
+                    MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewGotPageSize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -78,12 +78,6 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPrintOperationPreviewGotPageSize(MemoryAddress source, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperationPreview.GotPageSizeHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)), new PageSetup(References.get(pageSetup, false)));
     }
     
     @FunctionalInterface
@@ -103,7 +97,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("ready").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperationPreview.class, "__signalPrintOperationPreviewReady",
+                    MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewReady",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -115,10 +109,20 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalPrintOperationPreviewReady(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (PrintOperationPreview.ReadyHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)));
+    public static class Callbacks {
+    
+        public static void signalPrintOperationPreviewGotPageSize(MemoryAddress source, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperationPreview.GotPageSizeHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)), new PageSetup(References.get(pageSetup, false)));
+        }
+        
+        public static void signalPrintOperationPreviewReady(MemoryAddress source, MemoryAddress context, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (PrintOperationPreview.ReadyHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(References.get(source)), new PrintContext(References.get(context, false)));
+        }
+        
     }
     
     class PrintOperationPreviewImpl extends org.gtk.gobject.Object implements PrintOperationPreview {

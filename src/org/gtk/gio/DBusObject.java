@@ -52,7 +52,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("interface-added").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObject.class, "__signalDBusObjectInterfaceAdded",
+                    MethodHandles.lookup().findStatic(DBusObject.Callbacks.class, "signalDBusObjectInterfaceAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -62,12 +62,6 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalDBusObjectInterfaceAdded(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObject.InterfaceAddedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObject.DBusObjectImpl(References.get(source)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
     }
     
     @FunctionalInterface
@@ -84,7 +78,7 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
                 handle(),
                 Interop.allocateNativeString("interface-removed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObject.class, "__signalDBusObjectInterfaceRemoved",
+                    MethodHandles.lookup().findStatic(DBusObject.Callbacks.class, "signalDBusObjectInterfaceRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -96,10 +90,20 @@ public interface DBusObject extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    public static void __signalDBusObjectInterfaceRemoved(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusObject.InterfaceRemovedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new DBusObject.DBusObjectImpl(References.get(source)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+    public static class Callbacks {
+    
+        public static void signalDBusObjectInterfaceAdded(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObject.InterfaceAddedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObject.DBusObjectImpl(References.get(source)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+        }
+        
+        public static void signalDBusObjectInterfaceRemoved(MemoryAddress source, MemoryAddress interface_, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusObject.InterfaceRemovedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new DBusObject.DBusObjectImpl(References.get(source)), new DBusInterface.DBusInterfaceImpl(References.get(interface_, false)));
+        }
+        
     }
     
     class DBusObjectImpl extends org.gtk.gobject.Object implements DBusObject {

@@ -198,7 +198,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
                 handle(),
                 Interop.allocateNativeString("authorize").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DebugControllerDBus.class, "__signalDebugControllerDBusAuthorize",
+                    MethodHandles.lookup().findStatic(DebugControllerDBus.Callbacks.class, "signalDebugControllerDBusAuthorize",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -210,10 +210,13 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
         }
     }
     
-    public static boolean __signalDebugControllerDBusAuthorize(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DebugControllerDBus.AuthorizeHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DebugControllerDBus(References.get(source)), new DBusMethodInvocation(References.get(invocation, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalDebugControllerDBusAuthorize(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DebugControllerDBus.AuthorizeHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DebugControllerDBus(References.get(source)), new DBusMethodInvocation(References.get(invocation, false)));
+        }
+        
+    }
 }

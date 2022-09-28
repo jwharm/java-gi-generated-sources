@@ -310,7 +310,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("activate-default").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Popover.class, "__signalPopoverActivateDefault",
+                    MethodHandles.lookup().findStatic(Popover.Callbacks.class, "signalPopoverActivateDefault",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -320,12 +320,6 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalPopoverActivateDefault(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Popover.ActivateDefaultHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Popover(References.get(source)));
     }
     
     @FunctionalInterface
@@ -342,7 +336,7 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
                 handle(),
                 Interop.allocateNativeString("closed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Popover.class, "__signalPopoverClosed",
+                    MethodHandles.lookup().findStatic(Popover.Callbacks.class, "signalPopoverClosed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -354,10 +348,19 @@ public class Popover extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    public static void __signalPopoverClosed(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Popover.ClosedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Popover(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalPopoverActivateDefault(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Popover.ActivateDefaultHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Popover(References.get(source)));
+        }
+        
+        public static void signalPopoverClosed(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Popover.ClosedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Popover(References.get(source)));
+        }
+        
+    }
 }

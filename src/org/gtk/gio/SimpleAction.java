@@ -120,7 +120,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SimpleAction.class, "__signalSimpleActionActivate",
+                    MethodHandles.lookup().findStatic(SimpleAction.Callbacks.class, "signalSimpleActionActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -130,12 +130,6 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSimpleActionActivate(MemoryAddress source, MemoryAddress parameter, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SimpleAction.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SimpleAction(References.get(source)), new org.gtk.glib.Variant(References.get(parameter, false)));
     }
     
     @FunctionalInterface
@@ -184,7 +178,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
                 handle(),
                 Interop.allocateNativeString("change-state").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SimpleAction.class, "__signalSimpleActionChangeState",
+                    MethodHandles.lookup().findStatic(SimpleAction.Callbacks.class, "signalSimpleActionChangeState",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -196,10 +190,19 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         }
     }
     
-    public static void __signalSimpleActionChangeState(MemoryAddress source, MemoryAddress value, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SimpleAction.ChangeStateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SimpleAction(References.get(source)), new org.gtk.glib.Variant(References.get(value, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalSimpleActionActivate(MemoryAddress source, MemoryAddress parameter, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SimpleAction.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SimpleAction(References.get(source)), new org.gtk.glib.Variant(References.get(parameter, false)));
+        }
+        
+        public static void signalSimpleActionChangeState(MemoryAddress source, MemoryAddress value, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SimpleAction.ChangeStateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SimpleAction(References.get(source)), new org.gtk.glib.Variant(References.get(value, false)));
+        }
+        
+    }
 }

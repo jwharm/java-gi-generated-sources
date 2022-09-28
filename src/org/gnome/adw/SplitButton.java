@@ -205,7 +205,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 handle(),
                 Interop.allocateNativeString("activate").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SplitButton.class, "__signalSplitButtonActivate",
+                    MethodHandles.lookup().findStatic(SplitButton.Callbacks.class, "signalSplitButtonActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -215,12 +215,6 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalSplitButtonActivate(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SplitButton.ActivateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SplitButton(References.get(source)));
     }
     
     @FunctionalInterface
@@ -237,7 +231,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                 handle(),
                 Interop.allocateNativeString("clicked").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SplitButton.class, "__signalSplitButtonClicked",
+                    MethodHandles.lookup().findStatic(SplitButton.Callbacks.class, "signalSplitButtonClicked",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -249,10 +243,19 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
     }
     
-    public static void __signalSplitButtonClicked(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SplitButton.ClickedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SplitButton(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalSplitButtonActivate(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SplitButton.ActivateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SplitButton(References.get(source)));
+        }
+        
+        public static void signalSplitButtonClicked(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SplitButton.ClickedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SplitButton(References.get(source)));
+        }
+        
+    }
 }

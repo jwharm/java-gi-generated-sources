@@ -147,7 +147,7 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
                 handle(),
                 Interop.allocateNativeString("parsing-error").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CssProvider.class, "__signalCssProviderParsingError",
+                    MethodHandles.lookup().findStatic(CssProvider.Callbacks.class, "signalCssProviderParsingError",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -159,10 +159,13 @@ public class CssProvider extends org.gtk.gobject.Object implements StyleProvider
         }
     }
     
-    public static void __signalCssProviderParsingError(MemoryAddress source, MemoryAddress section, MemoryAddress error, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (CssProvider.ParsingErrorHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new CssProvider(References.get(source)), new CssSection(References.get(section, false)), new org.gtk.glib.Error(References.get(error, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalCssProviderParsingError(MemoryAddress source, MemoryAddress section, MemoryAddress error, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (CssProvider.ParsingErrorHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new CssProvider(References.get(source)), new CssSection(References.get(section, false)), new org.gtk.glib.Error(References.get(error, false)));
+        }
+        
+    }
 }

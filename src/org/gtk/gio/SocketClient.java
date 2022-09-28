@@ -602,7 +602,7 @@ public class SocketClient extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("event").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SocketClient.class, "__signalSocketClientEvent",
+                    MethodHandles.lookup().findStatic(SocketClient.Callbacks.class, "signalSocketClientEvent",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -614,10 +614,13 @@ public class SocketClient extends org.gtk.gobject.Object {
         }
     }
     
-    public static void __signalSocketClientEvent(MemoryAddress source, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SocketClient.EventHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new SocketClient(References.get(source)), new SocketClientEvent(event), new SocketConnectable.SocketConnectableImpl(References.get(connectable, false)), new IOStream(References.get(connection, false)));
-    }
+    public static class Callbacks {
     
+        public static void signalSocketClientEvent(MemoryAddress source, int event, MemoryAddress connectable, MemoryAddress connection, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (SocketClient.EventHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new SocketClient(References.get(source)), new SocketClientEvent(event), new SocketConnectable.SocketConnectableImpl(References.get(connectable, false)), new IOStream(References.get(connection, false)));
+        }
+        
+    }
 }

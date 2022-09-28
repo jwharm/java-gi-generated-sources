@@ -77,7 +77,7 @@ public class GestureDrag extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("drag-begin").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureDrag.class, "__signalGestureDragDragBegin",
+                    MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -87,12 +87,6 @@ public class GestureDrag extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureDragDragBegin(MemoryAddress source, double startX, double startY, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureDrag.DragBeginHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureDrag(References.get(source)), startX, startY);
     }
     
     @FunctionalInterface
@@ -109,7 +103,7 @@ public class GestureDrag extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("drag-end").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureDrag.class, "__signalGestureDragDragEnd",
+                    MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -119,12 +113,6 @@ public class GestureDrag extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureDragDragEnd(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureDrag.DragEndHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
     }
     
     @FunctionalInterface
@@ -141,7 +129,7 @@ public class GestureDrag extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("drag-update").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureDrag.class, "__signalGestureDragDragUpdate",
+                    MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragUpdate",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -153,10 +141,25 @@ public class GestureDrag extends GestureSingle {
         }
     }
     
-    public static void __signalGestureDragDragUpdate(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureDrag.DragUpdateHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
-    }
+    public static class Callbacks {
     
+        public static void signalGestureDragDragBegin(MemoryAddress source, double startX, double startY, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureDrag.DragBeginHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureDrag(References.get(source)), startX, startY);
+        }
+        
+        public static void signalGestureDragDragEnd(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureDrag.DragEndHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
+        }
+        
+        public static void signalGestureDragDragUpdate(MemoryAddress source, double offsetX, double offsetY, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureDrag.DragUpdateHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureDrag(References.get(source)), offsetX, offsetY);
+        }
+        
+    }
 }

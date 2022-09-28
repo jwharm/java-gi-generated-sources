@@ -278,7 +278,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("adjust-bounds").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.class, "__signalRangeAdjustBounds",
+                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeAdjustBounds",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -288,12 +288,6 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalRangeAdjustBounds(MemoryAddress source, double value, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Range.AdjustBoundsHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Range(References.get(source)), value);
     }
     
     @FunctionalInterface
@@ -321,7 +315,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("change-value").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.class, "__signalRangeChangeValue",
+                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeChangeValue",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -331,12 +325,6 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalRangeChangeValue(MemoryAddress source, int scroll, double value, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Range.ChangeValueHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new Range(References.get(source)), new ScrollType(scroll), value);
     }
     
     @FunctionalInterface
@@ -355,7 +343,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("move-slider").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.class, "__signalRangeMoveSlider",
+                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeMoveSlider",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -365,12 +353,6 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalRangeMoveSlider(MemoryAddress source, int step, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Range.MoveSliderHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Range(References.get(source)), new ScrollType(step));
     }
     
     @FunctionalInterface
@@ -387,7 +369,7 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
                 handle(),
                 Interop.allocateNativeString("value-changed").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.class, "__signalRangeValueChanged",
+                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeValueChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -399,10 +381,31 @@ public class Range extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    public static void __signalRangeValueChanged(MemoryAddress source, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (Range.ValueChangedHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new Range(References.get(source)));
-    }
+    public static class Callbacks {
     
+        public static void signalRangeAdjustBounds(MemoryAddress source, double value, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Range.AdjustBoundsHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Range(References.get(source)), value);
+        }
+        
+        public static boolean signalRangeChangeValue(MemoryAddress source, int scroll, double value, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Range.ChangeValueHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new Range(References.get(source)), new ScrollType(scroll), value);
+        }
+        
+        public static void signalRangeMoveSlider(MemoryAddress source, int step, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Range.MoveSliderHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Range(References.get(source)), new ScrollType(step));
+        }
+        
+        public static void signalRangeValueChanged(MemoryAddress source, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (Range.ValueChangedHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new Range(References.get(source)));
+        }
+        
+    }
 }

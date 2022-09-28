@@ -122,7 +122,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("allow-mechanism").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusAuthObserver.class, "__signalDBusAuthObserverAllowMechanism",
+                    MethodHandles.lookup().findStatic(DBusAuthObserver.Callbacks.class, "signalDBusAuthObserverAllowMechanism",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -132,12 +132,6 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static boolean __signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusAuthObserver.AllowMechanismHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DBusAuthObserver(References.get(source)), mechanism.getUtf8String(0));
     }
     
     @FunctionalInterface
@@ -155,7 +149,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
                 handle(),
                 Interop.allocateNativeString("authorize-authenticated-peer").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusAuthObserver.class, "__signalDBusAuthObserverAuthorizeAuthenticatedPeer",
+                    MethodHandles.lookup().findStatic(DBusAuthObserver.Callbacks.class, "signalDBusAuthObserverAuthorizeAuthenticatedPeer",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -167,10 +161,19 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         }
     }
     
-    public static boolean __signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress source, MemoryAddress stream, MemoryAddress credentials, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (DBusAuthObserver.AuthorizeAuthenticatedPeerHandler) Interop.signalRegistry.get(hash);
-        return handler.signalReceived(new DBusAuthObserver(References.get(source)), new IOStream(References.get(stream, false)), new Credentials(References.get(credentials, false)));
-    }
+    public static class Callbacks {
     
+        public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusAuthObserver.AllowMechanismHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DBusAuthObserver(References.get(source)), mechanism.getUtf8String(0));
+        }
+        
+        public static boolean signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress source, MemoryAddress stream, MemoryAddress credentials, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (DBusAuthObserver.AuthorizeAuthenticatedPeerHandler) Interop.signalRegistry.get(hash);
+            return handler.signalReceived(new DBusAuthObserver(References.get(source)), new IOStream(References.get(stream, false)), new Credentials(References.get(credentials, false)));
+        }
+        
+    }
 }

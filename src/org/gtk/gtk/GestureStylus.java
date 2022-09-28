@@ -107,7 +107,7 @@ public class GestureStylus extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("down").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureStylus.class, "__signalGestureStylusDown",
+                    MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusDown",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -117,12 +117,6 @@ public class GestureStylus extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureStylusDown(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureStylus.DownHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureStylus(References.get(source)), x, y);
     }
     
     @FunctionalInterface
@@ -139,7 +133,7 @@ public class GestureStylus extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("motion").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureStylus.class, "__signalGestureStylusMotion",
+                    MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -149,12 +143,6 @@ public class GestureStylus extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureStylusMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureStylus.MotionHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureStylus(References.get(source)), x, y);
     }
     
     @FunctionalInterface
@@ -171,7 +159,7 @@ public class GestureStylus extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("proximity").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureStylus.class, "__signalGestureStylusProximity",
+                    MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusProximity",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -181,12 +169,6 @@ public class GestureStylus extends GestureSingle {
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static void __signalGestureStylusProximity(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureStylus.ProximityHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureStylus(References.get(source)), x, y);
     }
     
     @FunctionalInterface
@@ -203,7 +185,7 @@ public class GestureStylus extends GestureSingle {
                 handle(),
                 Interop.allocateNativeString("up").handle(),
                 Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GestureStylus.class, "__signalGestureStylusUp",
+                    MethodHandles.lookup().findStatic(GestureStylus.Callbacks.class, "signalGestureStylusUp",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
@@ -215,10 +197,31 @@ public class GestureStylus extends GestureSingle {
         }
     }
     
-    public static void __signalGestureStylusUp(MemoryAddress source, double x, double y, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (GestureStylus.UpHandler) Interop.signalRegistry.get(hash);
-        handler.signalReceived(new GestureStylus(References.get(source)), x, y);
-    }
+    public static class Callbacks {
     
+        public static void signalGestureStylusDown(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureStylus.DownHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+        }
+        
+        public static void signalGestureStylusMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureStylus.MotionHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+        }
+        
+        public static void signalGestureStylusProximity(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureStylus.ProximityHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+        }
+        
+        public static void signalGestureStylusUp(MemoryAddress source, double x, double y, MemoryAddress data) {
+            int hash = data.get(ValueLayout.JAVA_INT, 0);
+            var handler = (GestureStylus.UpHandler) Interop.signalRegistry.get(hash);
+            handler.signalReceived(new GestureStylus(References.get(source)), x, y);
+        }
+        
+    }
 }
